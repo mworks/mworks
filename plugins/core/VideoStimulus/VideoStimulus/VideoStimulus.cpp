@@ -56,23 +56,9 @@ VideoStimulus::VideoStimulus(const ParameterValueMap &parameters) :
             ended = VariablePtr(parameters[ENDED]);
         }
         
-        player = [[AVPlayer alloc] init];
-        player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
-        
-        NSDictionary *pixelBufferAttributes = @{
-#if TARGET_OS_IPHONE
-            (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA),
-            (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES)
-#else
-            (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32ARGB),
-            (NSString *)kCVPixelBufferOpenGLCompatibilityKey: @(YES)
-#endif
-        };
-        videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBufferAttributes];
-        
         auto observerCallback = [this](NSNotification *note) {
             boost::mutex::scoped_lock locker(stim_lock);
-            if (note.object && note.object == player.currentItem) {
+            if (note.object && player && note.object == player.currentItem) {
                 handleVideoEnded();
             }
         };
@@ -184,12 +170,32 @@ void VideoStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
         
         filePath = pathFromParameterValue(path);
         NSURL *fileURL = [NSURL fileURLWithPath:@(filePath.string().c_str())];
-        AVPlayerItem *item = [AVPlayerItem playerItemWithURL:fileURL];
-        [item addOutput:videoOutput];
-        [player replaceCurrentItemWithPlayerItem:item];
+        player = [[AVPlayer alloc] initWithURL:fileURL];
+        player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
         
-        while (item.status == AVPlayerItemStatusUnknown) {
-            Clock::instance()->sleepMS(100);
+        NSDictionary *pixelBufferAttributes = @{
+#if TARGET_OS_IPHONE
+            (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA),
+            (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES)
+#else
+            (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32ARGB),
+            (NSString *)kCVPixelBufferOpenGLCompatibilityKey: @(YES)
+#endif
+        };
+        videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBufferAttributes];
+        
+        AVPlayerItem *item = player.currentItem;
+        [item addOutput:videoOutput];
+        {
+            auto clock = Clock::instance();
+            auto deadline = clock->getCurrentTimeUS() + 5000000;  // 5s from now
+            while (item.status == AVPlayerItemStatusUnknown) {
+                // Don't loop forever
+                if (clock->getCurrentTimeUS() >= deadline) {
+                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Timeout while waiting for video file to load");
+                }
+                clock->sleepMS(100);
+            }
         }
         if (item.status == AVPlayerItemStatusFailed) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -249,6 +255,17 @@ void VideoStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
         textureCache.reset();
         
         [player replaceCurrentItemWithPlayerItem:nil];
+        
+        // Reusing these AVFoundation objects causes problems, so destroy them and
+        // create new ones when needed
+        [videoOutput release];
+        videoOutput = nil;
+        [player release];
+        player = nil;
+        
+        // Need to reset this to zero, otherwise we won't generate new vertex positions
+        // if we load a new video with the same aspect ratio as the old one
+        aspectRatio = 0.0;
         
         BasicTransformStimulus::destroy(display);
     }
