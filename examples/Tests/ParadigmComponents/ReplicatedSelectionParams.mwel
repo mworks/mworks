@@ -1,0 +1,33 @@
+//
+// A bug caused replicated ListState's to always have default selection
+// parameters.  This test confirms that the user-provided selection
+// parameters are applied correctly during replication.
+//
+
+
+var index (scope = local; default_value = 0)
+var count = 0
+
+
+protocol {
+    count = 0
+
+    range_replicator (
+        variable = index
+        from = 1
+        to = 3
+        step = 1
+    ) {
+        trial (
+            selection = sequential_descending
+            nsamples = 3
+            sampling_method = samples
+        ) {
+            count = count + 1
+            report ('$index: This should print second')
+            report ('$index: This should print first')
+        }
+    }
+
+    assert (count == 3)
+}

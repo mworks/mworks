@@ -159,9 +159,9 @@ public:
 class ListState : public ContainerState, public Selectable {
     
 private:
-    const SelectionType selection_type;
-    const long nsamples;
-    const SampleType sampling_method;
+    SelectionType selection_type;
+    long nsamples;
+    SampleType sampling_method;
     
 protected:
     bool hasMoreChildrenToRun() { return selection && !(selection->isFinished()); }
@@ -169,6 +169,10 @@ protected:
     template <typename T>
     shared_ptr<T> clone() {
         shared_ptr<T> new_state(ContainerState::clone<T>());
+        
+        new_state->selection_type = selection_type;
+        new_state->nsamples = nsamples;
+        new_state->sampling_method = sampling_method;
         
         shared_ptr<Selection> sel = getSelectionClone();
         if (sel) {

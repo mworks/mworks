@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">1: This should print first</message>
+    <message type="starts_with">1: This should print second</message>
+    <message type="starts_with">2: This should print first</message>
+    <message type="starts_with">2: This should print second</message>
+    <message type="starts_with">3: This should print first</message>
+    <message type="starts_with">3: This should print second</message>
+  </expected_messages>
+</marionette_info>
