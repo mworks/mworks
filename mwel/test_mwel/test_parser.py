@@ -619,6 +619,8 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                 self.assertIsInstance(p, ast.AssignmentStmt)
                 self.assertLocation(p, 1, colno)
                 self.assertEqual(varname, p.varname)
+                self.assertEqual((), p.indices)
+                self.assertIsNone(p.op)
                 self.assertEqual(value, p.value)
 
         test_assign('foo = 1', 5, 'foo', self.one)
@@ -638,9 +640,10 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                 self.assertEqual(1, len(p.statements))
                 p = p.statements[0]
 
-                self.assertIsInstance(p, ast.AugmentedAssignmentStmt)
+                self.assertIsInstance(p, ast.AssignmentStmt)
                 self.assertLocation(p, 1, 5)
                 self.assertEqual('foo', p.varname)
+                self.assertEqual((), p.indices)
                 self.assertEqual(op, p.op)
                 self.assertEqual(self.two, p.value)
 
@@ -664,21 +667,28 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                 self.assertEqual(1, len(p.statements))
                 p = p.statements[0]
 
-                self.assertIsInstance(p, ast.IndexAssignmentStmt)
+                self.assertIsInstance(p, ast.AssignmentStmt)
                 self.assertLocation(p, 2, colno)
                 self.assertEqual(varname, p.varname)
                 self.assertIsInstance(p.indices, tuple)
                 self.assertEqual(indices, p.indices)
                 self.assertEqual(value, p.value)
 
-        test_assign('''
-                    foo[1] = 2
-                    ''',
-                    28, 'foo', self.two, self.one)
-        test_assign('''
-                    x[bar][1+foo] = 3
-                    ''',
-                    35, 'x', self.three, self.bar, self.one_plus_foo)
+                return p.op
+
+        # Single index, simple assignment
+        op = test_assign('''
+                         foo[1] = 2
+                         ''',
+                         33, 'foo', self.two, self.one)
+        self.assertIsNone(op)
+
+        # Multiple indices, augmented assignment
+        op = test_assign('''
+                         x[bar][1+foo] *= 3
+                         ''',
+                         40, 'x', self.three, self.bar, self.one_plus_foo)
+        self.assertEqual('*', op)
 
         # Missing index expression
         with self.parse('a[] = 1'):
@@ -690,7 +700,7 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
 
         # Missing =
         with self.parse('a[1]  2'):
-            self.assertExpected('=', got='2')
+            self.assertExpected('assignment operator', got='2')
 
         # Missing value
         with self.parse('''

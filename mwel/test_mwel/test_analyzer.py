@@ -146,7 +146,7 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
     def test_index_assignment_stmt(self):
         with self.analyze('''
                           foo [ 3 ] = 'bar'
-                          blah [x ] [ y][  z ] = 1.5
+                          blah [x ] [ y][  z ] -= 1.5
                           ''') as cmpts:
             self.assertEqual(2, len(cmpts))
             children = self.assertComponent(cmpts[0], 2, 37,
@@ -159,7 +159,7 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
                                             name = 'action',
                                             type = 'assignment',
                                             variable = 'blah[x][y][z]',
-                                            value = '1.5')
+                                            value = 'blah[x][y][z] - 1.5')
             self.assertEqual([], children)
 
     def test_decl_stmt(self):

@@ -177,12 +177,6 @@ class Analyzer(ExpressionAnalyzer):
         elif isinstance(stmt, ast.AssignmentStmt):
             cmpts.append(self._assignment_stmt(stmt))
 
-        elif isinstance(stmt, ast.AugmentedAssignmentStmt):
-            cmpts.append(self._augmented_assignment_stmt(stmt))
-
-        elif isinstance(stmt, ast.IndexAssignmentStmt):
-            cmpts.append(self._index_assignment_stmt(stmt))
-
         elif isinstance(stmt, ast.DeclarationStmt):
             if not self._macro_expansion(stmt, cmpts=cmpts):
                 cmpts.append(self._decl_stmt(stmt))
@@ -200,37 +194,19 @@ class Analyzer(ExpressionAnalyzer):
                                    })
 
     def _assignment_stmt(self, stmt):
-        return self._component(stmt.lineno,
-                               stmt.colno,
-                               name = 'action',
-                               type = 'assignment',
-                               params = {
-                                   'variable': stmt.varname,
-                                   'value': self._expr(stmt.value),
-                                   })
-
-    def _augmented_assignment_stmt(self, stmt):
-        value = ' '.join([stmt.varname, stmt.op, self._expr(stmt.value)])
-        return self._component(stmt.lineno,
-                               stmt.colno,
-                               name = 'action',
-                               type = 'assignment',
-                               params = {
-                                   'variable': stmt.varname,
-                                   'value': value,
-                                   })
-
-    def _index_assignment_stmt(self, stmt):
         variable = stmt.varname
         for index in stmt.indices:
             variable += '[%s]' % self._expr(index)
+        value = self._expr(stmt.value)
+        if stmt.op:
+            value = ' '.join([variable, stmt.op, value])
         return self._component(stmt.lineno,
                                stmt.colno,
                                name = 'action',
                                type = 'assignment',
                                params = {
                                    'variable': variable,
-                                   'value': self._expr(stmt.value),
+                                   'value': value,
                                    })
 
     def _macro_expansion(self, node, cmpts=None):

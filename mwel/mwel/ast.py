@@ -11,6 +11,7 @@ from __future__ import division, print_function, unicode_literals
 class AST(object):
 
     _fields = ()
+    _defaults = {}
 
     @property
     def _name(self):
@@ -20,7 +21,8 @@ class AST(object):
         self.lineno = lineno
         self.colno = colno
         for field in self._fields:
-            setattr(self, field, kwargs.pop(field))
+            setattr(self, field, (kwargs.pop(field) if field in kwargs
+                                  else self._defaults[field]))
         if kwargs:
             raise TypeError('%s has no field %r' %
                             (self._name, kwargs.popitem()[0]))
@@ -61,17 +63,8 @@ class VarStmt(Stmt):
 
 class AssignmentStmt(Stmt):
 
-    _fields = ('varname', 'value')
-
-
-class AugmentedAssignmentStmt(Stmt):
-
-    _fields = ('varname', 'op', 'value')
-
-
-class IndexAssignmentStmt(Stmt):
-
-    _fields = ('varname', 'indices', 'value')
+    _fields = ('varname', 'indices', 'op', 'value')
+    _defaults = {'indices': (), 'op': None}
 
 
 class DeclarationStmt(Stmt):

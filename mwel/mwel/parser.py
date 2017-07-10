@@ -405,14 +405,8 @@ class Parser(ExpressionParser):
                 self.peek('=', depth=2)):
                 stmt = self._var_stmt()
 
-            elif self.peek('='):
+            elif self.peek('=') or self.peek('AUGASSIGN') or self.peek('['):
                 stmt = self._assignment_stmt()
-
-            elif self.peek('AUGASSIGN'):
-                stmt = self._augmented_assignment_stmt()
-
-            elif self.peek('['):
-                stmt = self._index_assignment_stmt()
 
             else:
                 stmt = self._decl_stmt()
@@ -450,40 +444,29 @@ class Parser(ExpressionParser):
 
     def _assignment_stmt(self):
         varname = self.curr.value
-        self.accept()
-        lineno = self.curr.lineno
-        colno = self.curr.colno
-        value = self.expr()
-        return ast.AssignmentStmt(lineno, colno, varname=varname, value=value)
 
-    def _augmented_assignment_stmt(self):
-        varname = self.curr.value
-        self.accept()
-        lineno = self.curr.lineno
-        colno = self.curr.colno
-        op = self.curr.value[0]
-        value = self.expr()
-        return ast.AugmentedAssignmentStmt(lineno,
-                                           colno,
-                                           varname = varname,
-                                           op = op,
-                                           value = value)
-
-    def _index_assignment_stmt(self):
-        varname = self.curr.value
         indices = []
         while self.accept('['):
             indices.append(self.expr())
             self.expect(']')
-        self.expect('=')
+
+        if self.accept('AUGASSIGN'):
+            op = self.curr.value[0]
+        else:
+            op = None
+            if not self.accept('='):
+                self.unexpected_token('assignment operator')
         lineno = self.curr.lineno
         colno = self.curr.colno
+
         value = self.expr()
-        return ast.IndexAssignmentStmt(lineno,
-                                       colno,
-                                       varname = varname,
-                                       indices = tuple(indices),
-                                       value = value)
+
+        return ast.AssignmentStmt(lineno,
+                                  colno,
+                                  varname = varname,
+                                  indices = tuple(indices),
+                                  op = op,
+                                  value = value)
 
     def _decl_stmt(self):
         lineno = self.curr.lineno
