@@ -631,6 +631,32 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                         '''):
             self.assertError('Line ended unexpectedly', token='\n', lineno=2)
 
+    def test_augmented_assignment_stmt(self):
+        def test_assign(op):
+            with self.parse('foo %s= 2' % op) as p:
+                self.assertIsInstance(p, ast.Module)
+                self.assertEqual(1, len(p.statements))
+                p = p.statements[0]
+
+                self.assertIsInstance(p, ast.AugmentedAssignmentStmt)
+                self.assertLocation(p, 1, 5)
+                self.assertEqual('foo', p.varname)
+                self.assertEqual(op, p.op)
+                self.assertEqual(self.two, p.value)
+
+        test_assign('+')
+        test_assign('-')
+        test_assign('*')
+        test_assign('/')
+        test_assign('%')
+
+        # Missing value
+        with self.parse('''
+                        foo +=
+                        bar -= 2
+                        '''):
+            self.assertError('Line ended unexpectedly', token='\n', lineno=2)
+
     def test_index_assignment_stmt(self):
         def test_assign(src, colno, varname, value, *indices):
             with self.parse(src) as p:

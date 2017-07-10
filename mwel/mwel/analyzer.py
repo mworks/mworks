@@ -177,6 +177,9 @@ class Analyzer(ExpressionAnalyzer):
         elif isinstance(stmt, ast.AssignmentStmt):
             cmpts.append(self._assignment_stmt(stmt))
 
+        elif isinstance(stmt, ast.AugmentedAssignmentStmt):
+            cmpts.append(self._augmented_assignment_stmt(stmt))
+
         elif isinstance(stmt, ast.IndexAssignmentStmt):
             cmpts.append(self._index_assignment_stmt(stmt))
 
@@ -204,6 +207,17 @@ class Analyzer(ExpressionAnalyzer):
                                params = {
                                    'variable': stmt.varname,
                                    'value': self._expr(stmt.value),
+                                   })
+
+    def _augmented_assignment_stmt(self, stmt):
+        value = ' '.join([stmt.varname, stmt.op, self._expr(stmt.value)])
+        return self._component(stmt.lineno,
+                               stmt.colno,
+                               name = 'action',
+                               type = 'assignment',
+                               params = {
+                                   'variable': stmt.varname,
+                                   'value': value,
                                    })
 
     def _index_assignment_stmt(self, stmt):

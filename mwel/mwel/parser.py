@@ -408,6 +408,9 @@ class Parser(ExpressionParser):
             elif self.peek('='):
                 stmt = self._assignment_stmt()
 
+            elif self.peek('AUGASSIGN'):
+                stmt = self._augmented_assignment_stmt()
+
             elif self.peek('['):
                 stmt = self._index_assignment_stmt()
 
@@ -452,6 +455,19 @@ class Parser(ExpressionParser):
         colno = self.curr.colno
         value = self.expr()
         return ast.AssignmentStmt(lineno, colno, varname=varname, value=value)
+
+    def _augmented_assignment_stmt(self):
+        varname = self.curr.value
+        self.accept()
+        lineno = self.curr.lineno
+        colno = self.curr.colno
+        op = self.curr.value[0]
+        value = self.expr()
+        return ast.AugmentedAssignmentStmt(lineno,
+                                           colno,
+                                           varname = varname,
+                                           op = op,
+                                           value = value)
 
     def _index_assignment_stmt(self):
         varname = self.curr.value

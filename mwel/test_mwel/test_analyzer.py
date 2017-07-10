@@ -131,6 +131,18 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
                                             value = "'bar'")
             self.assertEqual([], children)
 
+    def test_augmented_assignment_stmt(self):
+        with self.analyze('''
+                          foo += 'bar'
+                          ''') as cmpts:
+            self.assertEqual(1, len(cmpts))
+            children = self.assertComponent(cmpts[0], 2, 31,
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'foo',
+                                            value = "foo + 'bar'")
+            self.assertEqual([], children)
+
     def test_index_assignment_stmt(self):
         with self.analyze('''
                           foo [ 3 ] = 'bar'

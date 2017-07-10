@@ -64,6 +64,11 @@ class AssignmentStmt(Stmt):
     _fields = ('varname', 'value')
 
 
+class AugmentedAssignmentStmt(Stmt):
+
+    _fields = ('varname', 'op', 'value')
+
+
 class IndexAssignmentStmt(Stmt):
 
     _fields = ('varname', 'indices', 'value')

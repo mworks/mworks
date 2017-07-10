@@ -58,6 +58,7 @@ class Lexer(object):
 
     t_ADDITIVEOP = r'\+|-'
     t_AND = r'&&|\#AND'
+    t_AUGASSIGN = r'\+=|-=|\*=|/=|%='
     t_COMPARISONOP = r'==|!=|<=|=<|\#LE|<|\#LT|>=|=>|\#GE|>|\#GT'
     t_OR = r'\|\||\#OR'
 

@@ -169,6 +169,25 @@ class TestLexer(unittest.TestCase):
                 self.assertError('#')
                 self.assertIdentifier(ident)
 
+        # Augmented assignment
+        with self.input('''
+                        +=
+                        -=
+                        *=
+                        /=
+                        %=
+
+                        // Can't have spaces between characters
+                        + =
+                        '''):
+            self.assertToken('AUGASSIGN', '+=')
+            self.assertToken('AUGASSIGN', '-=')
+            self.assertToken('AUGASSIGN', '*=')
+            self.assertToken('AUGASSIGN', '/=')
+            self.assertToken('AUGASSIGN', '%=')
+            self.assertToken('ADDITIVEOP', '+')
+            self.assertToken('=')
+
         # Other
         with self.input('''
                         =
