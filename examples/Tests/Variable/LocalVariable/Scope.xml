@@ -1,4 +1,4 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
@@ -20,7 +20,7 @@
                     <action type="assignment" tag="Assign Variable" variable="x" value="2"></action>
                 </action>
                 <action type="assert" tag="Assert" condition="x == 2" message="" stop_on_failure="0"></action>
-                <trial tag="Nested" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <trial tag="Nested A" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
                     <action type="assert" tag="Assert" condition="x == 2" message="" stop_on_failure="0"></action>
                 </trial>
             </block>
@@ -30,7 +30,7 @@
                     <action type="assignment" tag="Assign Variable" variable="x" value="3"></action>
                 </action>
                 <action type="assert" tag="Assert" condition="x == 3" message="" stop_on_failure="0"></action>
-                <trial tag="Nested" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <trial tag="Nested B" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
                     <action type="assert" tag="Assert" condition="x == 3" message="" stop_on_failure="0"></action>
                 </trial>
             </block>
@@ -41,7 +41,7 @@
                         <action type="assignment" tag="Assign Variable" variable="x" value="index"></action>
                     </action>
                     <action type="assert" tag="Assert" condition="x == index" message="" stop_on_failure="0"></action>
-                    <trial tag="Nested" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                    <trial tag="Nested C" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
                         <action type="assert" tag="Assert" condition="x == index" message="" stop_on_failure="0"></action>
                     </trial>
                 </block>
