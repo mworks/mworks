@@ -7,6 +7,7 @@ Contents:
    :maxdepth: 1
 
    components/index
+   expressions/index
 
 
 
