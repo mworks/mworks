@@ -17,7 +17,7 @@ The expression parser recognizes literal values for a variety of data types.
    * - Data Type
      - Examples
      - Notes
-   * - boolean
+   * - Boolean
      - ::
 
          true
@@ -26,7 +26,7 @@ The expression parser recognizes literal values for a variety of data types.
          NO
 
      - Not case-sensitive
-   * - integer
+   * - Integer
      - ::
 
          1
@@ -34,7 +34,7 @@ The expression parser recognizes literal values for a variety of data types.
          -4567
 
      -
-   * - floating point
+   * - Floating point
      - ::
 
          1.0
@@ -45,7 +45,7 @@ The expression parser recognizes literal values for a variety of data types.
          1.2e10
 
      -
-   * - string
+   * - String
      - ::
 
          ''
@@ -54,7 +54,7 @@ The expression parser recognizes literal values for a variety of data types.
          "Hello, world!"
 
      - Supports some C/C++ `escape sequences <http://en.cppreference.com/w/cpp/language/escape>`_
-   * - list
+   * - List
      - ::
 
          []
@@ -64,7 +64,7 @@ The expression parser recognizes literal values for a variety of data types.
          [1,2,3:6,7,8:10]
 
      -
-   * - dictionary
+   * - Dictionary
      - ::
 
          {}

@@ -159,7 +159,7 @@ def process_group(info):
 
 
 write_index('index',
-            'Component Reference',
+            'Components',
             [info['basename'] for info in groups.values()])
 
 for info in groups.values():
@@ -236,12 +236,14 @@ def write_entry(title, info):
             print('\n', file=fp)
             write_header(fp, 'Signature', '-')
             print('``%s``' % info['signature'], file=fp)
-            if 'alias' in info:
+            if ('alias' in info) or ('mwel_alias' in info):
                 print(file=fp)
-                alias = info['alias']
-                print(('Aliases:' if len(alias) > 1 else 'Alias:'),
-                      ', '.join(('``%s``' % a) for a in alias),
-                      file=fp)
+                aliases = [('``%s``' % a) for a in info.get('alias', [])]
+                aliases.extend([('``%s`` *(MWEL only)*' % a)
+                                for a in info.get('mwel_alias', [])])
+                aliases.sort()
+                for a in aliases:
+                    print(':Alias:', a, file=fp)
         
         if 'parameters' in info:
             required = []
