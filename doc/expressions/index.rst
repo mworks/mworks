@@ -82,26 +82,26 @@ The expression parser supports a number of mathematical, logical, comparison, an
 =====================  ============  ===================  ==========
 Description            Operator      Alternative Form(s)  Precedence
 =====================  ============  ===================  ==========
-*Unit operators (postfix)*
+**Unit operators (postfix)**
 --------------------------------------------------------------------
 Microseconds           ``us``                             1
 Milliseconds           ``ms``                             1
 Seconds                ``s``                              1
-*Element access operators*
+**Element access operators**
 --------------------------------------------------------------------
 Subscript              ``[]``                             2
-*Unary operators (prefix)*
+**Unary operators (prefix)**
 --------------------------------------------------------------------
 Positive               ``+``                              3
 Negative               ``-``                              3
 Logical "not"          ``!``         ``not``              3
-*Type conversion operators (prefix)*
+**Type conversion operators (prefix)**
 --------------------------------------------------------------------
 Boolean                ``(bool)``                         4
 Integer                ``(int)``     ``(integer)``        4
 Floating point         ``(float)``   ``(double)``         4
 String                 ``(string)``                       4
-*Binary operators*
+**Binary operators**
 --------------------------------------------------------------------
 Multiplication         ``*``                              5
 Division               ``/``                              5
