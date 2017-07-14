@@ -278,7 +278,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 					;
 					
 					range_expr
-					= expr >> root_node_d[ch_p(':')] >> expr
+					= expr >> root_node_d[ch_p(':')] >> expr >> !( discard_node_d[ch_p(':')] >> expr )
 					;
 					
 					exprlist
@@ -1316,22 +1316,26 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 			};
 		
-		/// Parse tree node representing a range expression. This node has two children.
+		/// Parse tree node representing a range expression. This node has three children.
 		class PNRangeExpr : public ParseNode
 			{
 			private:
-				/// Pointer to the first of the two child parse trees.
+				/// Pointer to the first of the three child parse trees.
 				const ParseNode *start;
 				
-				/// Pointer to the second of the two child parse trees.
+				/// Pointer to the second of the three child parse trees.
 				const ParseNode	*stop;
+                
+                /// Pointer to the third of the three child parse trees.
+                const ParseNode	*step;
 				
 			public:
 				/// Constructor from the parser
 				PNRangeExpr(const ParseNode* _start,
-                            const ParseNode* _stop)
+                            const ParseNode* _stop,
+                            const ParseNode* _step)
 				: ParseNode(),
-				start(_start), stop(_stop)
+				start(_start), stop(_stop), step(_step)
 				{ }
 				
 				/// Recursively delete parse tree.
@@ -1339,6 +1343,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				{
 					delete start;
 					delete stop;
+                    delete step;
 				}
 				
 				/// Always throws, because a range expression can't be treated as a single scalar value
@@ -1357,15 +1362,26 @@ namespace stx MW_SYMBOL_PUBLIC {
                         throw ExpressionParserException("start and stop values of range expression must be integers");
                     }
                     
+                    Datum delta(1);
+                    if (step) {
+                        delta = step->evaluate(st);
+                        if (!(delta.isInteger() && delta.getInteger() > 0)) {
+                            throw ExpressionParserException("step value of range expression must be a positive integer");
+                        }
+                    }
+                    
                     const long long firstValue = first.getInteger();
                     const long long lastValue = last.getInteger();
-                    const long long delta = ((firstValue <= lastValue) ? 1 : -1);
+                    const long long deltaValue = delta.getInteger();
                     
-                    for (long long currentValue = firstValue;
-                         currentValue != (lastValue + delta);
-                         currentValue += delta)
-                    {
-                        values.emplace_back(currentValue);
+                    if (firstValue <= lastValue) {
+                        for (auto currentValue = firstValue; currentValue <= lastValue; currentValue += deltaValue) {
+                            values.emplace_back(currentValue);
+                        }
+                    } else {
+                        for (auto currentValue = firstValue; currentValue >= lastValue; currentValue -= deltaValue) {
+                            values.emplace_back(currentValue);
+                        }
                     }
 				}
 				
@@ -1375,10 +1391,14 @@ namespace stx MW_SYMBOL_PUBLIC {
 					return false;
 				}
 				
-				/// String representing (operandA : operandB)
+				/// String representing (operandA : operandB : operandC)
 				virtual std::string toString() const
 				{
-					return start->toString() + " : " + stop->toString();
+                    auto result = start->toString() + " : " + stop->toString();
+                    if (step) {
+                        result += " : " + step->toString();
+                    }
+                    return result;
 				}
 			};
 		
@@ -1756,13 +1776,17 @@ namespace stx MW_SYMBOL_PUBLIC {
 
 				case range_expr_id:
 				{
-					assert(i->children.size() == 2);
+					assert(i->children.size() >= 2 && i->children.size() <= 3);
 					
 					// auto_ptr needed because of possible parse exceptions in build_expr.
 					std::auto_ptr<const ParseNode> start( build_expr(i->children.begin()) );
 					std::auto_ptr<const ParseNode> stop( build_expr(i->children.begin()+1) );
+                    std::auto_ptr<const ParseNode> step;
+                    if (i->children.size() > 2) {
+                        step.reset( build_expr(i->children.begin()+2) );
+                    }
                     
-                    return new PNRangeExpr(start.release(), stop.release());
+                    return new PNRangeExpr(start.release(), stop.release(), step.release());
 				}
 					
 				default:

@@ -432,12 +432,35 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
     CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1.1:3", values), FatalParserException);
     CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1:3.3", values), FatalParserException);
     
+    // Step must be a positive integer
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1:2:3.3", values), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1:2:0", values), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1:2:-3", values), FatalParserException);
+    
     // start < stop
     ParsedExpressionVariable::evaluateExpressionList("1:3", values);
     CPPUNIT_ASSERT_EQUAL(3, int(values.size()));
     for (valueList::size_type i = 0; i < values.size(); i++) {
         CPPUNIT_ASSERT( values[i].isInteger() );
         CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getInteger());
+    }
+    
+    // start < stop, with step (stop included in result)
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("1:5:2", values);
+    CPPUNIT_ASSERT_EQUAL(3, int(values.size()));
+    for (valueList::size_type i = 0; i < values.size(); i++) {
+        CPPUNIT_ASSERT( values[i].isInteger() );
+        CPPUNIT_ASSERT_EQUAL((long long)(2*i+1), values[i].getInteger());
+    }
+    
+    // start < stop, with step (stop *not* included in result)
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("1:5:3", values);
+    CPPUNIT_ASSERT_EQUAL(2, int(values.size()));
+    for (valueList::size_type i = 0; i < values.size(); i++) {
+        CPPUNIT_ASSERT( values[i].isInteger() );
+        CPPUNIT_ASSERT_EQUAL((long long)(3*i+1), values[i].getInteger());
     }
     
     // start > stop
@@ -449,9 +472,34 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
         CPPUNIT_ASSERT_EQUAL((long long)(5) - (long long)(i), values[i].getInteger());
     }
     
+    // start > stop, with step (stop included in result)
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("5:-1:2", values);
+    CPPUNIT_ASSERT_EQUAL(4, int(values.size()));
+    for (valueList::size_type i = 0; i < values.size(); i++) {
+        CPPUNIT_ASSERT( values[i].isInteger() );
+        CPPUNIT_ASSERT_EQUAL((long long)(5) - (long long)(2*i), values[i].getInteger());
+    }
+    
+    // start > stop, with step (stop *not* included in result)
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("5:-2:3", values);
+    CPPUNIT_ASSERT_EQUAL(3, int(values.size()));
+    for (valueList::size_type i = 0; i < values.size(); i++) {
+        CPPUNIT_ASSERT( values[i].isInteger() );
+        CPPUNIT_ASSERT_EQUAL((long long)(5) - (long long)(3*i), values[i].getInteger());
+    }
+    
     // start == stop
     values.clear();
     ParsedExpressionVariable::evaluateExpressionList("2:2", values);
+    CPPUNIT_ASSERT_EQUAL(1, int(values.size()));
+    CPPUNIT_ASSERT( values[0].isInteger() );
+    CPPUNIT_ASSERT_EQUAL((long long)(2), values[0].getInteger());
+    
+    // start == stop, with step
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("2:2:2", values);
     CPPUNIT_ASSERT_EQUAL(1, int(values.size()));
     CPPUNIT_ASSERT( values[0].isInteger() );
     CPPUNIT_ASSERT_EQUAL((long long)(2), values[0].getInteger());
@@ -465,6 +513,15 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
         CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getInteger());
     }
     
+    // Mixed expression list, with steps
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("1,3:7:2,9,11:13:2,15,17:17,19", values);
+    CPPUNIT_ASSERT_EQUAL(10, int(values.size()));
+    for (valueList::size_type i = 0; i < values.size(); i++) {
+        CPPUNIT_ASSERT( values[i].isInteger() );
+        CPPUNIT_ASSERT_EQUAL((long long)(2*i+1), values[i].getInteger());
+    }
+    
     // Single-value list (not a range expr, but we should verify that it still works)
     values.clear();
     ParsedExpressionVariable::evaluateExpressionList("2", values);
@@ -472,14 +529,14 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
     CPPUNIT_ASSERT( values[0].isInteger() );
     CPPUNIT_ASSERT_EQUAL((long long)(2), values[0].getInteger());
     
-    // More complex expressions for start and stop
+    // More complex expressions for start, stop, and step
     createGlobalVariable("x", Datum(1L));
     values.clear();
-    ParsedExpressionVariable::evaluateExpressionList("x:x+2", values);
+    ParsedExpressionVariable::evaluateExpressionList("x:x+4:x+1", values);
     CPPUNIT_ASSERT_EQUAL(3, int(values.size()));
     for (valueList::size_type i = 0; i < values.size(); i++) {
         CPPUNIT_ASSERT( values[i].isInteger() );
-        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getInteger());
+        CPPUNIT_ASSERT_EQUAL((long long)(2*i+1), values[i].getInteger());
     }
 }
 
