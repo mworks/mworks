@@ -90,6 +90,14 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
         with self.parse('[1 2]'):
             self.assertExpected(']', got='2')
 
+        # Missing range stop
+        with self.parse('[1:]'):
+            self.assertError(token=']')
+
+        # Missing range step
+        with self.parse('[1:2:]'):
+            self.assertError(token=']')
+
         # Embedded newlines and range expressions
         test_list('[ \n  \n\n  \n ]')
         with self.parse('''\
@@ -99,7 +107,7 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
                               2
                               ,
                             foo,
-                            foo:bar
+                            foo:bar:2
                         ]\
                         ''') as p:
             self.assertIsInstance(p, ast.ListLiteralExpr)
@@ -113,12 +121,14 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
             self.assertLocation(p, 3, 31)
             self.assertEqual(self.one, p.start)
             self.assertEqual(self.two, p.stop)
+            self.assertIsNone(p.step)
 
             p = items[3]
             self.assertIsInstance(p, ast.RangeExpr)
             self.assertLocation(p, 7, 32)
             self.assertEqual(self.foo, p.start)
             self.assertEqual(self.bar, p.stop)
+            self.assertEqual(self.two, p.step)
 
     def test_dict_literal_expr(self):
         def test_dict(expr, *items):
@@ -199,6 +209,14 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
         with self.parse('foo(1 2)'):
             self.assertExpected(')', got='2')
 
+        # Missing range stop
+        with self.parse('foo(1:)'):
+            self.assertError(token=')')
+
+        # Missing range step
+        with self.parse('foo(1:2:)'):
+            self.assertError(token=')')
+
         # Embedded newlines and range expressions
         test_call('foo( \n  \n\n  \n )', 4, 'foo')
         with self.parse('''\
@@ -214,7 +232,8 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
 
 
                             foo
-                            : bar
+                            : bar :
+                              2
 
                         )''') as p:
             self.assertIsInstance(p, ast.FunctionCallExpr)
@@ -229,12 +248,14 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
             self.assertLocation(p, 5, 31)
             self.assertEqual(self.one, p.start)
             self.assertEqual(self.two, p.stop)
+            self.assertIsNone(p.step)
 
             p = args[3]
             self.assertIsInstance(p, ast.RangeExpr)
             self.assertLocation(p, 13, 29)
             self.assertEqual(self.foo, p.start)
             self.assertEqual(self.bar, p.stop)
+            self.assertEqual(self.two, p.step)
 
     def test_parenthetic_expr(self):
         def test_parens(src, expr):

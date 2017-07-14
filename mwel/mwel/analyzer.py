@@ -58,7 +58,9 @@ class ExpressionAnalyzer(object):
                           else self._expr(e)) for e in items)
 
     def _range_expr(self, expr):
-        return '%s:%s' % (self._expr(expr.start), self._expr(expr.stop))
+        return '%s:%s%s' % (self._expr(expr.start),
+                            self._expr(expr.stop),
+                            (':' + self._expr(expr.step) if expr.step else ''))
 
 
 class StringLiteralExprValue(type('')):

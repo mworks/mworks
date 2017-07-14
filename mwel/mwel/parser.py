@@ -134,10 +134,17 @@ class ExpressionParser(object):
             if self.accept(':'):
                 lineno = self.curr.lineno
                 colno = self.curr.colno
+                start = expr
+                stop = self.expr()
+                if self.accept(':'):
+                    step = self.expr()
+                else:
+                    step = None
                 expr = ast.RangeExpr(lineno,
                                      colno,
-                                     start = expr,
-                                     stop = self.expr())
+                                     start = start,
+                                     stop = stop,
+                                     step = step)
             items.append(expr)
             if not self.accept(','):
                 break

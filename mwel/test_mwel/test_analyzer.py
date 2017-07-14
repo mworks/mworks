@@ -60,8 +60,8 @@ class TestExpressionAnalyzer(AnalyzerTestMixin, unittest.TestCase):
     def test_list_literal_and_range_expr(self):
         with self.analyze('[   ]') as s:
             self.assertEqual('[]', s)
-        with self.analyze('[ 1,  2 :4,"foo" ]') as s:
-            self.assertEqual('[1, 2:4, "foo"]', s)
+        with self.analyze('[ 1,  2 :4,"foo" , a :  b    : c]') as s:
+            self.assertEqual('[1, 2:4, "foo", a:b:c]', s)
 
     def test_dict_literal_expr(self):
         with self.analyze('{  }') as s:
@@ -201,7 +201,6 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
                                             ham = '',
                                             blam = 'spam')
             self.assertEqual([], children)
-
 
         # With params and children
         with self.analyze('''

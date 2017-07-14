@@ -100,7 +100,8 @@ class ExprList(AST):
 
 class RangeExpr(AST):
 
-    _fields = ('start', 'stop')
+    _fields = ('start', 'stop', 'step')
+    _defaults = {'step': None}
 
 
 class Expr(AST):
