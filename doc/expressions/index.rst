@@ -63,7 +63,7 @@ The expression parser recognizes literal values for a variety of data types.
          [1:10]
          [1,2,3:6,7,8:10]
 
-     -
+     - Can include :ref:`range expressions <Range Expressions>`
    * - Dictionary
      - ::
 
@@ -141,6 +141,44 @@ Precedence
 The above table lists the operators from highest precedence (1) to lowest precedence (9).  Operator precedence determines the order of operations in expressions, as higher-precedence operations are evaluated before lower-precedence ones.
 
 The order of operations can be altered by wrapping sub-expressions in parentheses, which have higher precedence than all other operators.  For example, ``*`` has higher precedence than ``+``, so ``1+2*3`` evaluates to 7, but ``(1+2)*3`` evaluates to 9.
+
+
+.. _Range Expressions:
+
+Ranges
+------
+
+A range expression is a compact representation of an evenly-spaced, ordered sequence of integers.
+
+The general form of a range expression is *start:stop:step*, where *start*, *stop*, and *step* are expressions that evaluate to integers.  *step* is optional.  If provided, it must evaluate to a non-negative integer; if omitted, it defaults to 1.  If *start* is less than *stop*, the sequence will be increasing; otherwise, it will be decreasing.  *start* is always included in the sequence.  If *start* and *stop* are separated by a multiple of *step*, *stop* will be included as well.
+
+List literals, function calls, and `selection variable <Selection Variable>` value lists can all incorporate range expressions.  In all cases, range expressions can be mixed with other expressions, so long as all items are separated by commas.
+
+The following table shows some examples of range expression usage, with equivalent, range-expression-free versions shown alongside.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Expression
+     - Equivalent
+
+   * - ``[1:5]``
+     - ``[1,2,3,4,5]``
+
+   * - ``f(2:-1)``
+     - ``f(2,1,0,-1)``
+
+   * - ``3:10:2``
+     - ``3,5,7,9``
+
+   * - ``[9:0:3]``
+     - ``[9,6,3,0]``
+
+   * - ``f(3:3)``
+     - ``f(3)``
+
+   * - ``7,2:4,-5,9:5:2,1``
+     - ``7,2,3,4,-5,9,7,5,1``
 
 
 Variables

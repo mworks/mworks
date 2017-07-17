@@ -235,7 +235,7 @@ parameters:
     required: yes
     description: >
         Comma-separated list of values from which the variable's current value
-        is drawn
+        is drawn.  May include :ref:`range expressions <Range Expressions>`.
   - 
     name: advance_on_accept
     default: 'NO'
