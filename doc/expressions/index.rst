@@ -151,6 +151,20 @@ MWorks variables can be incorporated into expressions by referencing each variab
 Variable names are case-sensitive, so ``myvar``, ``MYVAR``, and ``MyVar`` all refer to different variables.
 
 
+Selection
+^^^^^^^^^
+
+When used in an expression, a `selection variable <Selection Variable>` evaluates to the currently-selected value.  If no selections have been made on the variable, the first one is made automatically, and its value is returned.
+
+
+Timer
+^^^^^
+
+MWorks `timers <Start Timer>` are implemented as variables.  When used in an expression, the name of a timer evaluates to true if the timer has expired, false otherwise.
+
+*Note*: ``timer_expired`` (see `Time-Related`_ functions below) actually just passes its input value unchanged.  However, using it may help to clarify the intent of an expression.
+
+
 Functions
 ---------
 
