@@ -160,7 +160,13 @@ def process_group(info):
 
 write_index('index',
             'Components',
-            [info['basename'] for info in groups.values()])
+            [info['basename'] for info in groups.values()],
+            '''\
+Components are the building blocks of MWorks experiments.  Variables,
+input/output devices, visual stimuli, sounds, control-flow constructs, and more
+are all components.  To create an experiment, one must select, configure, and
+connect the required components.
+''')
 
 for info in groups.values():
     process_group(info)
