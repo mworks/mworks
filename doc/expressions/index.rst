@@ -79,44 +79,44 @@ Operators
 
 The expression parser supports a number of mathematical, logical, comparison, and other operators.
 
-=====================  ============  ===================  ==========
-Description            Operator      Alternative Form(s)  Precedence
-=====================  ============  ===================  ==========
+=====================  ============  ===================  ==============  ==========
+Description            Operator      Alternative Form(s)  Example         Precedence
+=====================  ============  ===================  ==============  ==========
 **Unit operators (postfix)**
---------------------------------------------------------------------
-Microseconds           ``us``                             1
-Milliseconds           ``ms``                             1
-Seconds                ``s``                              1
+------------------------------------------------------------------------------------
+Microseconds           ``us``                             ``2000us``      1
+Milliseconds           ``ms``                             ``100ms``       1
+Seconds                ``s``                              ``1.5s``        1
 **Element access operators**
---------------------------------------------------------------------
-Subscript              ``[]``                             2
+------------------------------------------------------------------------------------
+Subscript              ``[]``                             ``{1:'a'}[1]``  2
 **Unary operators (prefix)**
---------------------------------------------------------------------
-Positive               ``+``                              3
-Negative               ``-``                              3
-Logical "not"          ``!``         ``not``              3
+------------------------------------------------------------------------------------
+Positive               ``+``                               ``+3``         3
+Negative               ``-``                               ``-1.7``       3
+Logical "not"          ``!``         ``not``               ``!true``      3
 **Type conversion operators (prefix)**
---------------------------------------------------------------------
-Boolean                ``(bool)``                         4
-Integer                ``(int)``     ``(integer)``        4
-Floating point         ``(float)``   ``(double)``         4
-String                 ``(string)``                       4
+------------------------------------------------------------------------------------
+Boolean                ``(bool)``                          ``(bool)3``    4
+Integer                ``(int)``     ``(integer)``         ``(int)2.7``   4
+Floating point         ``(float)``   ``(double)``          ``(float)5``   4
+String                 ``(string)``                        ``(string)4``  4
 **Binary operators**
---------------------------------------------------------------------
-Multiplication         ``*``                              5
-Division               ``/``                              5
-Modulus (remainder)    ``%``                              5
-Addition               ``+``                              6
-Subtraction            ``-``                              6
-Equality               ``==``        ``=``                7
-Inequality             ``!=``                             7
-Less than              ``<``         ``#LT``              7
-Less than or equal     ``<=``        ``=<`` ``#LE``       7
-Greater than           ``>``         ``#GT``              7
-Greater than or equal  ``>=``        ``=>`` ``#GE``       7
-Logical "and"          ``&&``        ``and`` ``#AND``     8
-Logical "or"           ``||``        ``or`` ``#OR``       9
-=====================  ============  ===================  ==========
+------------------------------------------------------------------------------------
+Multiplication         ``*``                               ``1 * 2``      5
+Division               ``/``                               ``1 / 2``      5
+Modulus (remainder)    ``%``                               ``1 % 2``      5
+Addition               ``+``                               ``1 + 2``      6
+Subtraction            ``-``                               ``1 - 2``      6
+Equality               ``==``        ``=``                 ``1 == 2``     7
+Inequality             ``!=``                              ``1 != 2``     7
+Less than              ``<``         ``#LT``               ``1 < 2``      7
+Less than or equal     ``<=``        ``=<`` ``#LE``        ``1 <= 2``     7
+Greater than           ``>``         ``#GT``               ``1 > 2``      7
+Greater than or equal  ``>=``        ``=>`` ``#GE``        ``1 >= 2``     7
+Logical "and"          ``&&``        ``and`` ``#AND``      ``1 && 2``     8
+Logical "or"           ``||``        ``or`` ``#OR``        ``1 || 2``     9
+=====================  ============  ===================  ==============  ==========
 
 Note that the unit operators and the plain-English logical operators (``not``, ``and``, and ``or``) are not case-sensitive.  However, the type-conversion operators and all operators that begin with ``#`` (``#LT``, ``#AND``, etc.) *are* case-sensitive.
 
