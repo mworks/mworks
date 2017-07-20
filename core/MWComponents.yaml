@@ -797,8 +797,8 @@ allowed_parent:
   - List
   - Task System State
   - Variable
-  - Conditionally Execute Actions
-  - Repeat Actions
+  - Conditionally Execute Actions (if)
+  - Repeat Actions (while)
   - Schedule Actions
 
 
@@ -925,10 +925,10 @@ parameters:
 ---
 
 
-name: Conditionally Execute Actions
+name: Conditionally Execute Actions (if)
 signature: action/if
 isa: Action
-allowed_parent: Conditional Branching (If/Else)
+allowed_parent: Conditional Branching (if/else)
 description: Execute a list of actions if a condition is true
 parameters: 
   - 
@@ -940,11 +940,11 @@ parameters:
 ---
 
 
-name: Conditional Branching (If/Else)
+name: Conditional Branching (if/else)
 signature: action/if_else
 isa: Action
 description: >
-    Given a list of `Conditionally Execute Actions` ("if") actions, executes the
+    Given a list of `Conditionally Execute Actions (if)` actions, executes the
     first one whose condition is true, or none if all conditions are false.  To
     implement an unconditional "else" action, add a conditional with an
     always-true condition at the end of the list.
@@ -953,7 +953,7 @@ description: >
 ---
 
 
-name: Repeat Actions
+name: Repeat Actions (while)
 signature: action/while
 isa: Action
 description: Execute a list of actions repeatedly while a condition is true
