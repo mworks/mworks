@@ -120,6 +120,8 @@ Logical "or"           ``||``        ``or`` ``#OR``        ``1 || 2``     9
 
 Note that the unit operators and the plain-English logical operators (``not``, ``and``, and ``or``) are not case-sensitive.  However, the type-conversion operators and all operators that begin with ``#`` (``#LT``, ``#AND``, etc.) *are* case-sensitive.
 
+Also, be aware that the division operator (``/``) always produces a floating-point result, even if both of its operands are integers.  For example, ``1/2`` evaluates to 0.5, not 0 (as it does in some programming languages).
+
 
 Units
 ^^^^^
