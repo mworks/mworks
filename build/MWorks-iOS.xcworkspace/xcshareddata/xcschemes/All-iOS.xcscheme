@@ -112,6 +112,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E110E7951F27D6CC00F62C1B"
+               BuildableName = "EasyEye.plugin"
+               BlueprintName = "EasyEye-iOS"
+               ReferencedContainer = "container:../plugins/core/EasyEye/EasyEye.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1D54BA11EA699450073D938"
                BuildableName = "Firmata.plugin"
                BlueprintName = "Firmata-iOS"

@@ -1,0 +1,24 @@
+//
+//  EasyEye-Prefix.pch
+//  EasyEye
+//
+//  Created by Christopher Stawarz on 7/25/17.
+//  Copyright © 2017 The MWorks Project. All rights reserved.
+//
+
+#ifndef EasyEye_Prefix_pch
+#define EasyEye_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <thread>
+
+#include <MWorksCore/IODevice.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardComponentFactory.h>
+#include <MWorksCore/ZeroMQSocket.hpp>
+#include <MWorksCore/ZeroMQUtilities.hpp>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* EasyEye_Prefix_pch */

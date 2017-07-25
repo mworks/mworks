@@ -1,0 +1,417 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E110E7771F2785C600F62C1B /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E110E7781F2785C600F62C1B /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E110E77C1F2785E900F62C1B /* CopyFiles */,
+			);
+			dependencies = (
+				E110E77B1F2785E500F62C1B /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E110E77E1F27861300F62C1B /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E110E77F1F27861300F62C1B /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E110E7821F27861600F62C1B /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E110E7761F27853700F62C1B /* EasyEyePlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E110E7751F27853700F62C1B /* EasyEyePlugin.cpp */; };
+		E110E77D1F2785F300F62C1B /* EasyEye.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E110E7681F27843500F62C1B /* EasyEye.bundle */; };
+		E110E7871F27889600F62C1B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E110E7861F27889600F62C1B /* MWorksCore.framework */; };
+		E110E7891F2788DB00F62C1B /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E110E7881F2788DB00F62C1B /* libboost_system.a */; };
+		E110E78C1F278A4E00F62C1B /* EasyEyeDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E110E78A1F278A4E00F62C1B /* EasyEyeDevice.cpp */; };
+		E110E78E1F27CD3100F62C1B /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E110E78D1F27CD3100F62C1B /* MWLibrary.xml */; };
+		E110E7901F27CFB800F62C1B /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E110E78F1F27CFB800F62C1B /* MWComponents.yaml */; };
+		E110E79D1F27D93500F62C1B /* EasyEyeDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E110E78A1F278A4E00F62C1B /* EasyEyeDevice.cpp */; };
+		E110E79E1F27D93800F62C1B /* EasyEyePlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E110E7751F27853700F62C1B /* EasyEyePlugin.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E110E77A1F2785E500F62C1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E110E7601F27843500F62C1B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E110E7671F27843500F62C1B;
+			remoteInfo = EasyEye;
+		};
+		E110E7811F27861600F62C1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E110E7601F27843500F62C1B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E110E7771F2785C600F62C1B;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E110E77C1F2785E900F62C1B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E110E77D1F2785F300F62C1B /* EasyEye.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E110E7681F27843500F62C1B /* EasyEye.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyEye.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E110E76B1F27843500F62C1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E110E7721F2784D000F62C1B /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E110E7731F2784D000F62C1B /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E110E7741F2784D000F62C1B /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E110E7751F27853700F62C1B /* EasyEyePlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EasyEyePlugin.cpp; sourceTree = "<group>"; };
+		E110E7841F2787F500F62C1B /* EasyEye-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EasyEye-Prefix.pch"; sourceTree = "<group>"; };
+		E110E7861F27889600F62C1B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E110E7881F2788DB00F62C1B /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E110E78A1F278A4E00F62C1B /* EasyEyeDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EasyEyeDevice.cpp; sourceTree = "<group>"; };
+		E110E78B1F278A4E00F62C1B /* EasyEyeDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EasyEyeDevice.hpp; sourceTree = "<group>"; };
+		E110E78D1F27CD3100F62C1B /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		E110E78F1F27CFB800F62C1B /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E110E7961F27D6CC00F62C1B /* EasyEye.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EasyEye.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E110E7991F27D6CD00F62C1B /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E110E7651F27843500F62C1B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E110E7891F2788DB00F62C1B /* libboost_system.a in Frameworks */,
+				E110E7871F27889600F62C1B /* MWorksCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E110E7921F27D6CC00F62C1B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E110E75F1F27843500F62C1B = {
+			isa = PBXGroup;
+			children = (
+				E110E7711F27849D00F62C1B /* External Config */,
+				E110E76A1F27843500F62C1B /* EasyEye */,
+				E110E7851F27886900F62C1B /* Frameworks */,
+				E110E7691F27843500F62C1B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E110E7691F27843500F62C1B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E110E7681F27843500F62C1B /* EasyEye.bundle */,
+				E110E7961F27D6CC00F62C1B /* EasyEye.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E110E76A1F27843500F62C1B /* EasyEye */ = {
+			isa = PBXGroup;
+			children = (
+				E110E78B1F278A4E00F62C1B /* EasyEyeDevice.hpp */,
+				E110E78A1F278A4E00F62C1B /* EasyEyeDevice.cpp */,
+				E110E7751F27853700F62C1B /* EasyEyePlugin.cpp */,
+				E110E7831F2787AE00F62C1B /* Supporting Files */,
+			);
+			path = EasyEye;
+			sourceTree = "<group>";
+		};
+		E110E7711F27849D00F62C1B /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E110E7741F2784D000F62C1B /* macOS.xcconfig */,
+				E110E7731F2784D000F62C1B /* macOS_Plugin.xcconfig */,
+				E110E7721F2784D000F62C1B /* iOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E110E7831F2787AE00F62C1B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E110E76B1F27843500F62C1B /* Info.plist */,
+				E110E7991F27D6CD00F62C1B /* Info-iOS.plist */,
+				E110E7841F2787F500F62C1B /* EasyEye-Prefix.pch */,
+				E110E78F1F27CFB800F62C1B /* MWComponents.yaml */,
+				E110E78D1F27CD3100F62C1B /* MWLibrary.xml */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E110E7851F27886900F62C1B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E110E7861F27889600F62C1B /* MWorksCore.framework */,
+				E110E7881F2788DB00F62C1B /* libboost_system.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E110E7931F27D6CC00F62C1B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E110E7671F27843500F62C1B /* EasyEye */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E110E76E1F27843500F62C1B /* Build configuration list for PBXNativeTarget "EasyEye" */;
+			buildPhases = (
+				E110E7641F27843500F62C1B /* Sources */,
+				E110E7651F27843500F62C1B /* Frameworks */,
+				E110E7661F27843500F62C1B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EasyEye;
+			productName = EasyEye;
+			productReference = E110E7681F27843500F62C1B /* EasyEye.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		E110E7951F27D6CC00F62C1B /* EasyEye-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E110E79C1F27D6CD00F62C1B /* Build configuration list for PBXNativeTarget "EasyEye-iOS" */;
+			buildPhases = (
+				E110E7911F27D6CC00F62C1B /* Sources */,
+				E110E7921F27D6CC00F62C1B /* Frameworks */,
+				E110E7931F27D6CC00F62C1B /* Headers */,
+				E110E7941F27D6CC00F62C1B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "EasyEye-iOS";
+			productName = "EasyEye-iOS";
+			productReference = E110E7961F27D6CC00F62C1B /* EasyEye.plugin */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E110E7601F27843500F62C1B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E110E7671F27843500F62C1B = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					E110E7771F2785C600F62C1B = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					E110E77E1F27861300F62C1B = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					E110E7951F27D6CC00F62C1B = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E110E7631F27843500F62C1B /* Build configuration list for PBXProject "EasyEye" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E110E75F1F27843500F62C1B;
+			productRefGroup = E110E7691F27843500F62C1B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E110E7671F27843500F62C1B /* EasyEye */,
+				E110E7771F2785C600F62C1B /* Install */,
+				E110E77E1F27861300F62C1B /* Everything */,
+				E110E7951F27D6CC00F62C1B /* EasyEye-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E110E7661F27843500F62C1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E110E7901F27CFB800F62C1B /* MWComponents.yaml in Resources */,
+				E110E78E1F27CD3100F62C1B /* MWLibrary.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E110E7941F27D6CC00F62C1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E110E7641F27843500F62C1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E110E7761F27853700F62C1B /* EasyEyePlugin.cpp in Sources */,
+				E110E78C1F278A4E00F62C1B /* EasyEyeDevice.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E110E7911F27D6CC00F62C1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E110E79E1F27D93800F62C1B /* EasyEyePlugin.cpp in Sources */,
+				E110E79D1F27D93500F62C1B /* EasyEyeDevice.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E110E77B1F2785E500F62C1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E110E7671F27843500F62C1B /* EasyEye */;
+			targetProxy = E110E77A1F2785E500F62C1B /* PBXContainerItemProxy */;
+		};
+		E110E7821F27861600F62C1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E110E7771F2785C600F62C1B /* Install */;
+			targetProxy = E110E7811F27861600F62C1B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E110E76C1F27843500F62C1B /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E110E76F1F27843500F62C1B /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E110E7731F2784D000F62C1B /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EasyEye/EasyEye-Prefix.pch";
+				INFOPLIST_FILE = EasyEye/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.EasyEye";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E110E7791F2785C600F62C1B /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E110E7741F2784D000F62C1B /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E110E7801F27861300F62C1B /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E110E7741F2784D000F62C1B /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E110E79B1F27D6CD00F62C1B /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E110E7721F2784D000F62C1B /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EasyEye/EasyEye-Prefix.pch";
+				INFOPLIST_FILE = "EasyEye/Info-iOS.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.EasyEye-iOS";
+				PRODUCT_NAME = EasyEye;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E110E7631F27843500F62C1B /* Build configuration list for PBXProject "EasyEye" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E110E76C1F27843500F62C1B /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E110E76E1F27843500F62C1B /* Build configuration list for PBXNativeTarget "EasyEye" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E110E76F1F27843500F62C1B /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E110E7781F2785C600F62C1B /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E110E7791F2785C600F62C1B /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E110E77F1F27861300F62C1B /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E110E7801F27861300F62C1B /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E110E79C1F27D6CD00F62C1B /* Build configuration list for PBXNativeTarget "EasyEye-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E110E79B1F27D6CD00F62C1B /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E110E7601F27843500F62C1B /* Project object */;
+}

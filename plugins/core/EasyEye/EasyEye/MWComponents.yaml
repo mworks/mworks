@@ -1,0 +1,31 @@
+---
+
+
+name: EasyEye Device
+signature: iodevice/easy_eye
+isa: IODevice
+description: Interface to an EasyEye eye tracker
+parameters: 
+  - 
+    name: address
+    required: yes
+    example:
+      - localhost
+      - '"mytracker.mylab.net"'
+      - '18.9.22.69'
+    description: Tracker host name or IP address
+  - 
+    name: port
+    required: yes
+    example: 5204
+    description: Tracker listening port
+  - 
+    name: eye_x
+    required: yes
+    description: Variable in which to store horizontal eye position
+  - 
+    name: eye_y
+    required: yes
+    description: Variable in which to store vertical eye position
+
+
