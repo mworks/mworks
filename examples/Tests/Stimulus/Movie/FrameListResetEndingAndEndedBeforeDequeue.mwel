@@ -1,0 +1,75 @@
+//
+// This test confirms that the frame list stimulus sets "ending" and "ended"
+// only once in a given play-through
+//
+
+
+var ending = false
+var ended = false
+
+frame_list fl (
+    stimulus_group = frames
+    repeats = 10
+    ending = ending
+    ended = ended
+    autoplay = true
+)
+
+stimulus_group frames {
+    rectangle (
+        x_size = 10
+        y_size = 10
+    )
+}
+
+
+protocol {
+    trial (nsamples = 100) {
+        task {
+            state {
+                ending = false
+                ended = false
+
+                queue_stimulus (fl)
+                update_display ()
+
+                goto (
+                    target = 'Ending'
+                    when = ending
+                )
+            }
+
+            state 'Ending' {
+                ending = false
+
+                goto (
+                    target = 'Ended'
+                    when = ended
+                )
+            }
+
+            state 'Ended' {
+                ended = false
+                assert (
+                    condition = !ending
+                    stop_on_failure = true
+                )
+                wait (100ms)
+
+                goto ('Finish')
+            }
+
+            state 'Finish' {
+                assert (
+                    condition = !ended
+                    stop_on_failure = true
+                )
+
+                dequeue_stimulus (fl)
+                update_display ()
+
+                yield ()
+            }
+        }
+    }
+}

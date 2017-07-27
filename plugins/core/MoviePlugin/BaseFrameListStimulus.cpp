@@ -29,7 +29,10 @@ void BaseFrameListStimulus::describeComponent(ComponentInfo &info) {
 BaseFrameListStimulus::BaseFrameListStimulus(const ParameterValueMap &parameters) :
     StandardDynamicStimulus(parameters),
     loop(registerVariable(parameters[LOOP])),
-    repeats(registerVariable(parameters[REPEATS]))
+    repeats(registerVariable(parameters[REPEATS])),
+    lastFrameDrawn(-1),
+    didSetEnding(false),
+    didSetEnded(false)
 {
     // We need to use find() because "ending" isn't a valid parameter for all BaseFrameListStimulus
     // subclasses, meaning it won't always have a default value
@@ -107,6 +110,8 @@ Datum BaseFrameListStimulus::getCurrentAnnounceDrawData() {
 
 void BaseFrameListStimulus::startPlaying() {
     lastFrameDrawn = -1;
+    didSetEnding = false;
+    didSetEnded = false;
     StandardDynamicStimulus::startPlaying();
 }
 
@@ -134,10 +139,21 @@ int BaseFrameListStimulus::getFrameNumber() {
         frameNumber %= numFrames;
     }
     
+    //
+    // This method can be called multiple times during the drawing cycle.  Therefore, we use
+    // didSetEnding and didSetEnded to ensure that ending and ended are set only once during
+    // a given play-through.
+    //
     if ((frameNumber == numFrames - 1) && (ending != NULL) && (ending->getValue().getInteger() == 0)) {
-        ending->setValue(true);
+        if (!didSetEnding) {
+            ending->setValue(true);
+            didSetEnding = true;
+        }
     } else if ((frameNumber >= numFrames) && (ended != NULL) && (ended->getValue().getInteger() == 0)) {
-        ended->setValue(true);
+        if (!didSetEnded) {
+            ended->setValue(true);
+            didSetEnded = true;
+        }
     }
     
     return frameNumber;

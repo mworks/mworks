@@ -50,6 +50,8 @@ private:
     shared_ptr<Variable> repeats;
     
     int lastFrameDrawn;
+    bool didSetEnding;
+    bool didSetEnded;
     
 };
 
