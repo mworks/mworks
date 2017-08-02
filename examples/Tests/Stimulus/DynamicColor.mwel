@@ -1,0 +1,37 @@
+var start_time = 0
+var red_period = 1
+var green_period = 1
+var blue_period = 1
+
+%define color(period) (
+    0.5 * cos(2 * pi() * (next_frame_time() - start_time) / period) + 0.5
+    )
+
+%define size = 10
+
+frame_list stim (
+    stimulus_group = frames
+    loop = true
+    autoplay = true
+    )
+
+stimulus_group frames {
+    circle (
+        color = color(red_period), color(green_period), color(blue_period)
+        x_size = size
+        y_size = size
+        )
+}
+
+
+protocol {
+    red_period = rand(1s, 2s)
+    green_period = rand(3s, 4s)
+    blue_period = rand(5s, 6s)
+
+    live_queue_stimulus (stim)
+    start_time = now()
+    update_display ()
+
+    wait (30s)
+}

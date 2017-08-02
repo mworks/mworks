@@ -12,8 +12,6 @@
 
 #include <string>
 
-#include <boost/regex.hpp>
-
 #include "ComponentRegistry.h"
 #include "GenericVariable.h"
 
@@ -44,8 +42,6 @@ public:
     double getBlueValue() const { return b->getValue().getFloat(); }
 
 private:
-    static const boost::regex color_regex;
-
     VariablePtr r;
     VariablePtr g;
     VariablePtr b;

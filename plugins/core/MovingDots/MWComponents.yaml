@@ -31,9 +31,8 @@ parameters:
     default: '1.0,1.0,1.0'
     description: >
         Dot color, expressed as a comma-separated list of red, green, and blue
-        components with values between 0 and 1 (inclusive).  The list can
-        include variable names in place of explicit values, in which case the
-        corresponding component value will be read from the named variable.
+        components.  Each component may be described by any valid expression,
+        but the expression must result in a value between 0 and 1 (inclusive).
   - 
     name: alpha_multiplier
     default: 1.0

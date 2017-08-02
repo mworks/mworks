@@ -1349,7 +1349,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// Always throws, because a range expression can't be treated as a single scalar value
 				Datum evaluate(const class SymbolTable &st) const override
 				{
-                    throw ExpressionParserException("Internal error: range expression cannot be evaluated as a scalar");
+                    throw ExpressionParserException("range expression cannot be evaluated as a scalar");
 				}
 				
 				/// Evaluates and returns the full range of values

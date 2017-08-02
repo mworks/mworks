@@ -395,9 +395,9 @@ parameters:
     default: 0.5,0.5,0.5
     description: >
         The fill color, expressed as a comma-separated list of red, green, and
-        blue components with values between 0 and 1 (inclusive).  The list can
-        include variable names in place of explicit values, in which case the
-        corresponding component value will be read from the named variable.
+        blue components.  Each component may be described by any valid
+        expression, but the expression must result in a value between 0 and 1
+        (inclusive).
 
 
 ---
@@ -412,10 +412,9 @@ parameters:
     default: 1.0,1.0,1.0
     description: >
         The color of the stimulus, expressed as a comma-separated list of red,
-        green, and blue components with values between 0 and 1 (inclusive).  The
-        list can include variable names in place of explicit values, in which
-        case the corresponding component value will be read from the named
-        variable.
+        green, and blue components.  Each component may be described by any
+        valid expression, but the expression must result in a value between 0
+        and 1 (inclusive).
 
 
 ---
@@ -1713,7 +1712,9 @@ parameters:
     example: 0.5,0.5,0.5
     description: >
         The background color, expressed as a comma-separated list of red, green,
-        and blue components with values between 0 and 1 (inclusive)
+        and blue components.  Each component may be described by any valid
+        expression, but the expression must result in a value between 0 and 1
+        (inclusive).
   - 
     name: announce_stimuli_on_implicit_updates
     default: 'YES'

@@ -12,7 +12,6 @@
 #include "StandardVariables.h"
 #include "ComponentFactory.h"
 #include <boost/regex.hpp>
-#include "ParsedColorTrio.h"
 #include "ComponentInfo.h"
 #include "ParameterValue.h"
 
