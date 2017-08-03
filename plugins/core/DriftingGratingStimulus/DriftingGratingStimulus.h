@@ -29,6 +29,7 @@ public:
     static const std::string INVERTED;
     static const std::string STD_DEV;
     static const std::string MEAN;
+    static const std::string NORMALIZED;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -76,20 +77,24 @@ private:
     const boost::shared_ptr<Variable> inverted;
     const boost::shared_ptr<Variable> std_dev;
     const boost::shared_ptr<Variable> mean;
+    const boost::shared_ptr<Variable> normalized;
     
     double current_direction_in_degrees, current_starting_phase, current_spatial_frequency, current_speed;
     bool current_inverted;
     double current_std_dev, current_mean;
+    bool current_normalized;
     
     double last_direction_in_degrees, last_starting_phase, last_spatial_frequency, last_speed;
     bool last_inverted;
     double last_std_dev, last_mean;
+    bool last_normalized;
     
     double last_phase;
     
     GLint invertedUniformLocation = -1;
     GLint stdDevUniformLocation = -1;
     GLint meanUniformLocation = -1;
+    GLint normalizedUniformLocation = -1;
     GLuint gratingCoordBuffer = 0;
     GLuint maskCoordsBuffer = 0;
     

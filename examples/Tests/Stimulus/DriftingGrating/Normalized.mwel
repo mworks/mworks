@@ -1,0 +1,45 @@
+//
+// This test displays two static, all-white "gratings" with Gaussian masks.
+// The one on the left is normalized; consequently, it has a circle of constant,
+// unit alpha at its center, as the mask value is greater than one in this
+// region but gets clipped to [0,1].  The one on the right is not normalized
+// and has no such circle.
+//
+
+
+%define size = 15
+
+%define grating(x_pos, normalized)
+    drifting_grating (
+        x_size = size
+        y_size = size
+        x_position = x_pos
+        spatial_frequency = 0.0001
+        speed = 0
+        grating_type = square
+        mask = gaussian
+        std_dev = 0.3
+        normalized = normalized
+        autoplay = true
+        )
+%end
+
+
+stimulus_group gratings {
+    grating (
+        x_pos = -size / 2
+        normalized = true
+        )
+    grating (
+        x_pos = size / 2
+        normalized = false
+        )
+}
+
+
+protocol {
+    queue_stimulus (gratings[0])
+    queue_stimulus (gratings[1])
+    update_display ()
+    wait (20s)
+}

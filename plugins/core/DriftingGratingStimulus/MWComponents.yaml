@@ -17,7 +17,7 @@ parameters:
   - 
     name: spatial_frequency
     required: yes
-    example: 0
+    example: 1
     description: Spatial frequency (cycles per degree)
   - 
     name: speed
@@ -46,6 +46,18 @@ parameters:
   - 
     name: mean
     default: 0.0
-    description: Mean of Gaussian mask
+    description: |
+        Mean of Gaussian mask.
+
+        This value determines the radial offset of the Gaussian peak from the
+        center of the grating.  If non-zero, the peak will be a circle, rather
+        than a point, and luminance will decrease both inside and outside the
+        circle, producing a toroidal stimulus.
+  -
+    name: normalized
+    default: 'YES'
+    description: >
+        If ``YES``, the Gaussian mask includes a multiplicative normalization
+        term (``1/(std_dev*sqrt(2*pi))``).  If ``NO``, this term is omitted.
 
 

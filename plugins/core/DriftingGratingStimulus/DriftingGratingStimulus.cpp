@@ -22,6 +22,7 @@ const std::string DriftingGratingStimulus::MASK("mask");
 const std::string DriftingGratingStimulus::INVERTED("inverted");
 const std::string DriftingGratingStimulus::STD_DEV("std_dev");
 const std::string DriftingGratingStimulus::MEAN("mean");
+const std::string DriftingGratingStimulus::NORMALIZED("normalized");
 
 
 void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
@@ -38,6 +39,7 @@ void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(INVERTED, "NO");
     info.addParameter(STD_DEV, "1.0");
     info.addParameter(MEAN, "0.0");
+    info.addParameter(NORMALIZED, "YES");
     
     // This is no longer used but may be present in old experiments
     info.addIgnoredParameter("grating_sample_rate");
@@ -82,7 +84,8 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
     maskType(maskTypeFromName(maskTypeName)),
     inverted(registerVariable(parameters[INVERTED])),
     std_dev(registerVariable(parameters[STD_DEV])),
-    mean(registerVariable(parameters[MEAN]))
+    mean(registerVariable(parameters[MEAN])),
+    normalized(registerVariable(parameters[NORMALIZED]))
 { }
 
 
@@ -107,6 +110,7 @@ Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
     if (maskType == MaskType::gaussian) {
         announceData.addElement(STD_DEV, last_std_dev);
         announceData.addElement(MEAN, last_mean);
+        announceData.addElement(NORMALIZED, last_normalized);
     }
     
     return announceData;
@@ -158,6 +162,7 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
      uniform bool inverted;
      uniform float stdDev;
      uniform float mean;
+     uniform bool normalized;
      
      in float gratingVaryingCoord;
      in vec2 maskVaryingCoords;
@@ -195,8 +200,10 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
                  
              case gaussianMask:
                  dist = distance(maskVaryingCoords, maskCenter) / maskRadius;
-                 maskValue = ((1.0 / (stdDev * sqrt(2.0 * pi))) *
-                              exp(-1.0 * (dist - mean) * (dist - mean) / (2.0 * stdDev * stdDev)));
+                 maskValue = exp(-1.0 * (dist - mean) * (dist - mean) / (2.0 * stdDev * stdDev));
+                 if (normalized) {
+                     maskValue /= stdDev * sqrt(2.0 * pi);
+                 }
                  break;
          }
          
@@ -270,6 +277,7 @@ void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &
     invertedUniformLocation = glGetUniformLocation(program, "inverted");
     stdDevUniformLocation = glGetUniformLocation(program, "stdDev");
     meanUniformLocation = glGetUniformLocation(program, "mean");
+    normalizedUniformLocation = glGetUniformLocation(program, "normalized");
     
     glGenBuffers(1, &gratingCoordBuffer);
     gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingCoordBuffer);
@@ -301,6 +309,7 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     glUniform1i(invertedUniformLocation, current_inverted);
     glUniform1f(stdDevUniformLocation, current_std_dev);
     glUniform1f(meanUniformLocation, current_mean);
+    glUniform1f(normalizedUniformLocation, current_normalized);
     
     // here's the description of this equation
     // starting_phase is in degrees ->  degrees*pi/180 = radians
@@ -370,6 +379,7 @@ void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> displ
     current_inverted = inverted->getValue().getBool();
     current_std_dev = std_dev->getValue().getFloat();
     current_mean = mean->getValue().getFloat();
+    current_normalized = normalized->getValue().getBool();
     
     ColoredTransformStimulus::draw(display);
     
@@ -380,6 +390,7 @@ void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> displ
     last_inverted = current_inverted;
     last_std_dev = current_std_dev;
     last_mean = current_mean;
+    last_normalized = current_normalized;
 }
 
 
