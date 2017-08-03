@@ -284,9 +284,11 @@ void FirmataBluetoothLEConnection::disconnect() {
     unique_lock lock(mutex);
     @autoreleasepool {
         if (delegate) {
-            [delegate.centralManager cancelPeripheralConnection:delegate.peripheral];
-            if (!wait(lock)) {
-                merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot disconnect from Bluetooth device");
+            if (delegate.peripheral) {
+                [delegate.centralManager cancelPeripheralConnection:delegate.peripheral];
+                if (!wait(lock)) {
+                    merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot disconnect from Bluetooth device");
+                }
             }
             [delegate release];
             delegate = nil;
