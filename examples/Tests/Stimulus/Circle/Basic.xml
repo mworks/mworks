@@ -14,7 +14,7 @@
     </variables>
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli">
-        <stimulus type="circle" tag="circle" color="red, green, blue" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="rotation" alpha_multiplier="alpha"></stimulus>
+        <stimulus type="ellipse" tag="circle" color="red, green, blue" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="rotation" alpha_multiplier="alpha"></stimulus>
     </stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>

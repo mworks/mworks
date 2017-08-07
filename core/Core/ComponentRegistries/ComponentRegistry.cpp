@@ -130,6 +130,7 @@ ComponentRegistry::ComponentRegistry() :
     registerFactory<StandardStimulusFactory, ImageStimulus>();
     registerFactory<StandardStimulusFactory, RectangleStimulus>();
     registerFactory<StandardStimulusFactory, CircleStimulus>();
+    registerFactoryAlias<CircleStimulus>("stimulus/ellipse");
     registerFactory<StandardStimulusFactory, FixationPoint>();
     registerFactory<StandardStimulusFactory, CircularFixationPoint>();
     registerFactory<StandardComponentFactory, StimulusGroup>();

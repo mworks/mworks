@@ -431,6 +431,7 @@ description: A rectangle stimulus
 
 name: Ellipse Stimulus
 signature: stimulus/circle
+alias: stimulus/ellipse
 isa: Colored Transform Stimulus
 description: An ellipse stimulus
 
