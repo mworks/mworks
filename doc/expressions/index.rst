@@ -311,4 +311,7 @@ Other
    Takes the name of a selection variable (as a string) and an integer *n* and returns the *n*-th tentative (i.e. non-accepted) selection on the variable
 
 ``size(x)``
-   Size of *x*: number of characters in a string, number of elements in a list or dictionary, -1 otherwise
+   Size of *x*: number of characters in a string, number of elements in a list or dictionary, 0 otherwise
+
+``type(x)``
+   Data type of *x* as a string ("boolean", "integer", "float", "string", "list", or "dictionary")

@@ -2255,6 +2255,11 @@ namespace stx MW_SYMBOL_PUBLIC {
         return Datum( filenames );
     }
     
+    Datum BasicSymbolTable::funcTYPE(const paramlist_type &paramlist)
+    {
+        return Datum( paramlist[0].getDataTypeName() );
+    }
+    
     Datum BasicSymbolTable::funcSELECTION(const paramlist_type& paramlist)
     {
         if (!(paramlist[0].isString())) {
@@ -2480,6 +2485,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("FORMAT", -1, funcFORMAT);
         setFunction("OSNAME", 0, funcOSNAME);
         setFunction("FILENAMES", 1, funcFILENAMES);
+        setFunction("TYPE", 1, funcTYPE);
         
         // We now prefer to separate the words in long function names with underscores.  However, the
         // following functions originally had underscore-free names, so we still accept those names

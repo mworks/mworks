@@ -1,0 +1,8 @@
+protocol {
+    assert (type(1) == 'integer')
+    assert (type(1.0) == 'float')
+    assert (type(true) == 'boolean')
+    assert (type('') == 'string')
+    assert (type([]) == 'list')
+    assert (type({}) == 'dictionary')
+}
