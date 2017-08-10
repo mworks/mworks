@@ -381,17 +381,9 @@ class TestMWKFileSelection(MWKFileTestMixin, unittest.TestCase):
         self.assertRaises(TypeError, self.select, codes=('a', 'c', 'e'))
 
 
-def skipUnlessFileExists(filename):
-    if not os.path.exists(filename):
-        return unittest.skip('Required file %r not found' % filename)
-    def filename_setter(test):
-        test.filename = filename
-        return test
-    return filename_setter
-
-
-@skipUnlessFileExists('data.mwk')
 class TestRealMWKFile(unittest.TestCase):
+
+    filename = 'data.mwk'
 
     @classmethod
     def setUpClass(cls):
