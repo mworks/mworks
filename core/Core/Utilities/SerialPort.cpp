@@ -21,6 +21,7 @@
 #include <IOKit/serial/ioss.h>
 #include <IOKit/IOBSD.h>
 
+#include <boost/filesystem.hpp>
 #include <boost/scope_exit.hpp>
 
 #include "CFObjectPtr.h"
@@ -199,6 +200,13 @@ bool SerialPort::validatePath(std::string &path) {
     }
     
     if (!path.empty()) {
+        // Try to canonicalize the path (make absolute, resolve symbolic links, etc.)
+        boost::system::error_code ec;
+        auto canonPath = boost::filesystem::canonical(boost::filesystem::path(path), ec);
+        if (!ec) {
+            path = canonPath.string();
+        }
+        
         if (std::find(devicePaths.begin(), devicePaths.end(), path) != devicePaths.end()) {
             // Requested path exists and is a serial device
             return true;
