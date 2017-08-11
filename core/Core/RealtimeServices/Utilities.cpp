@@ -20,44 +20,48 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include <boost/scope_exit.hpp>
 #include <boost/thread/locks.hpp>
 #include <boost/thread/mutex.hpp>
-
-#include "Timer.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
-	// system messages are going to be limited to 1024 characters.
-
-#define MSG_BUFFER_SIZE 2048
 	MessageOrigin GlobalMessageOrigin = M_UNKNOWN_MESSAGE_ORIGIN;
-	
-	bool egg_timer_initialized = false;
-	Timer *egg_timer;
-	
-	static bool timer_has_expired;
-	void *expireTimer(void *);
-    
-    static boost::mutex globalMessageVariableMutex;
-	
-	void _makeString(const std::string &format, va_list ap, 
-					 MessageType type, 
-					 MessageDomain domain = M_GENERIC_MESSAGE_DOMAIN) {
-		char buffer[MSG_BUFFER_SIZE];// = { '\0' };
-		int length = vsnprintf(buffer, MSG_BUFFER_SIZE, format.c_str(), ap);
+
+
+	static void _makeString(const std::string &format, va_list ap,
+                            MessageType type,
+                            MessageDomain domain = M_GENERIC_MESSAGE_DOMAIN)
+    {
+        static boost::mutex globalMessageVariableMutex;
+        
+        char *buffer = nullptr;
+        BOOST_SCOPE_EXIT(&buffer) {
+            free(buffer);
+        } BOOST_SCOPE_EXIT_END
+        
+        if (-1 == vasprintf(&buffer, format.c_str(), ap)) {
+            return;
+        }
         
         // If the message is a warning or an error, append line number information (if available)
-        if (type >= M_WARNING_MESSAGE &&
-            length < MSG_BUFFER_SIZE - 1)
-        {
+        if (type >= M_WARNING_MESSAGE) {
             boost::shared_ptr<StateSystem> stateSystem = StateSystem::instance(false);
             boost::shared_ptr<State> currentState;
             if (stateSystem && (currentState = stateSystem->getCurrentState().lock())) {
-                auto currentLocation = currentState->getLocation();
+                auto &currentLocation = currentState->getLocation();
                 if (!currentLocation.empty()) {
-                    snprintf(buffer + length, MSG_BUFFER_SIZE - length, " [%s]", currentLocation.c_str());
+                    char *oldBuffer = buffer;
+                    buffer = nullptr;
+                    BOOST_SCOPE_EXIT(&oldBuffer) {
+                        free(oldBuffer);
+                    } BOOST_SCOPE_EXIT_END
+                    
+                    if (-1 == asprintf(&buffer, "%s [%s]", oldBuffer, currentLocation.c_str())) {
+                        return;
+                    }
                 }
             }
         }
@@ -80,10 +84,9 @@ BEGIN_NAMESPACE_MW
         
         // For debugging:  If the environment variable MWORKS_WRITE_MESSAGES_TO_STDERR is set,
         // write the message to standard error
-        static int echo_to_stderr = -1;
-        if (echo_to_stderr < 0) {
-            echo_to_stderr = (NULL != getenv("MWORKS_WRITE_MESSAGES_TO_STDERR"));
-        }
+        static const bool echo_to_stderr = []() {
+            return (nullptr != getenv("MWORKS_WRITE_MESSAGES_TO_STDERR"));
+        }();
         if (echo_to_stderr) {
             fprintf(stderr, "%s\n", buffer);
         }
@@ -182,6 +185,7 @@ BEGIN_NAMESPACE_MW
 	
 	void mdebug(const char* format, ...) {
 #if MONKEYWORKS_DEBUG_MODE
+#define MSG_BUFFER_SIZE 2048
 		va_list ap;
 		va_start(ap, format);
 		char buffer[MSG_BUFFER_SIZE];// = { '\0' };
@@ -190,39 +194,6 @@ BEGIN_NAMESPACE_MW
 		fprintf(stderr, "MDEBUG: %s\n", buffer); fflush(stderr);
 #endif
 	}
-	
-	void tick() {
-		
-	}
-	
-	long tock() {
-		return 0L;
-	}
-	
-	void startEggTimer(MWTime howlongus) {
-		if(!egg_timer_initialized){
-			egg_timer = new Timer();
-			egg_timer_initialized = true;
-		}
-		
-		//mprintf("setting egg timer for %lld us", howlongus);
-		
-		egg_timer->startUS(howlongus);
-		
-		//timer_has_expired  = false;
-		//schedule(howlongms, 0, 1, expireTimer, NULL);
-	}
-	
-	bool hasTimerExpired() {
-		return egg_timer->hasExpired();
-		//return timer_has_expired;
-	}
-	
-	
-	void *expireTimer(void *) {
-		timer_has_expired = true;
-		return NULL;
-	}
-	
+
 
 END_NAMESPACE_MW

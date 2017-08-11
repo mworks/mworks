@@ -1,0 +1,18 @@
+%define MSG_BUFFER_SIZE = 2048  // Size of old, fixed-length message buffer
+
+var msg = ''
+
+protocol {
+    msg = ''
+    while (size(msg) < MSG_BUFFER_SIZE) {
+        msg += 'x'
+    }
+
+    // Normal message
+    msg += 'This is the important part'
+    report ('$msg')
+
+    // Error message
+    msg += 'This is the REALLY important part'
+    assert (condition = false; message = '$msg')
+}
