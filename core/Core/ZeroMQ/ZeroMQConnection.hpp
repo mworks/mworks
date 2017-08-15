@@ -18,18 +18,14 @@
 BEGIN_NAMESPACE_MW
 
 
-class ZeroMQConnection {
+class ZeroMQConnectionBase {
     
 public:
-    ZeroMQConnection(ZeroMQSocket &socket, const boost::shared_ptr<EventBuffer> &eventBuffer);
-    virtual ~ZeroMQConnection();
-    
-    void start();
-    void stop();
-    
-    bool isRunning() const {
-        return running;
-    }
+    ZeroMQConnectionBase(ZeroMQSocket &socket, const boost::shared_ptr<EventBuffer> &eventBuffer) :
+        socket(socket),
+        eventBuffer(eventBuffer),
+        running(false)
+    { }
     
 protected:
     static constexpr int receiveTimeoutMS = 500;
@@ -40,38 +36,75 @@ protected:
     static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
     std::atomic_bool running;
     
-private:
-    virtual void prepare() { }
-    virtual void handleEvents() = 0;
+};
+
+
+class ZeroMQIncomingConnectionBase : public ZeroMQConnectionBase {
     
+public:
+    using ZeroMQConnectionBase::ZeroMQConnectionBase;
+    
+protected:
+    std::thread startEventHandlerThread();
+    
+private:
+    void handleEvents();
+    
+};
+
+
+class ZeroMQOutgoingConnectionBase : public ZeroMQConnectionBase {
+    
+public:
+    using ZeroMQConnectionBase::ZeroMQConnectionBase;
+    
+protected:
+    std::thread startEventHandlerThread();
+    
+private:
+    void handleEvents();
+    
+    std::unique_ptr<EventBufferReader> eventBufferReader;
+    
+};
+
+
+template <typename Base>
+class ZeroMQConnection : private Base {
+    
+public:
+    using Base::Base;
+    
+    ~ZeroMQConnection() {
+        stop();
+    }
+    
+    void start() {
+        if (!eventHandlerThread.joinable()) {
+            Base::running = true;
+            eventHandlerThread = Base::startEventHandlerThread();
+        }
+    }
+    
+    void stop() {
+        if (eventHandlerThread.joinable()) {
+            Base::running = false;
+            eventHandlerThread.join();
+        }
+    }
+    
+    bool isRunning() const {
+        return Base::running;
+    }
+    
+private:
     std::thread eventHandlerThread;
     
 };
 
 
-class ZeroMQIncomingConnection : public ZeroMQConnection {
-    
-public:
-    using ZeroMQConnection::ZeroMQConnection;
-    
-private:
-    void handleEvents() override;
-    
-};
-
-
-class ZeroMQOutgoingConnection : public ZeroMQConnection {
-    
-public:
-    using ZeroMQConnection::ZeroMQConnection;
-    
-private:
-    void prepare() override;
-    void handleEvents() override;
-    
-    std::unique_ptr<EventBufferReader> eventBufferReader;
-    
-};
+using ZeroMQIncomingConnection = ZeroMQConnection<ZeroMQIncomingConnectionBase>;
+using ZeroMQOutgoingConnection = ZeroMQConnection<ZeroMQOutgoingConnectionBase>;
 
 
 END_NAMESPACE_MW

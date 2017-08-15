@@ -16,36 +16,12 @@
 BEGIN_NAMESPACE_MW
 
 
-ZeroMQConnection::ZeroMQConnection(ZeroMQSocket &socket, const boost::shared_ptr<EventBuffer> &eventBuffer) :
-    socket(socket),
-    eventBuffer(eventBuffer),
-    running(false)
-{ }
-
-
-ZeroMQConnection::~ZeroMQConnection() {
-    stop();
+std::thread ZeroMQIncomingConnectionBase::startEventHandlerThread() {
+    return std::thread([this]() { handleEvents(); });
 }
 
 
-void ZeroMQConnection::start() {
-    if (!eventHandlerThread.joinable()) {
-        prepare();
-        running = true;
-        eventHandlerThread = std::thread([this]() { handleEvents(); });
-    }
-}
-
-
-void ZeroMQConnection::stop() {
-    if (eventHandlerThread.joinable()) {
-        running = false;
-        eventHandlerThread.join();
-    }
-}
-
-
-void ZeroMQIncomingConnection::handleEvents() {
+void ZeroMQIncomingConnectionBase::handleEvents() {
     if (!socket.setOption(ZMQ_RCVTIMEO, receiveTimeoutMS)) {
         return;
     }
@@ -69,14 +45,15 @@ void ZeroMQIncomingConnection::handleEvents() {
 }
 
 
-void ZeroMQOutgoingConnection::prepare() {
+std::thread ZeroMQOutgoingConnectionBase::startEventHandlerThread() {
     // Create the buffer reader here, so that we don't miss any events added to the
-    // buffer between the call to start() and the beginning of handleEvents()
+    // buffer between the call to this method and the beginning of handleEvents()
     eventBufferReader.reset(new EventBufferReader(eventBuffer));
+    return std::thread([this]() { handleEvents(); });
 }
 
 
-void ZeroMQOutgoingConnection::handleEvents() {
+void ZeroMQOutgoingConnectionBase::handleEvents() {
     if (!socket.setOption(ZMQ_SNDTIMEO, sendTimeoutMS)) {
         return;
     }
