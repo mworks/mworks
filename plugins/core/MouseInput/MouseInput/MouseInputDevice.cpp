@@ -155,9 +155,7 @@ void MouseInputDevice::postMouseLocation(NSPoint location) const {
     if (!success) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to convert mouse location from window to eye coordinates");
     } else {
-        MWTime time = Clock::instance()->getCurrentTimeUS();
-        posX->setValue(locationInDegrees.v[0], time);
-        posY->setValue(locationInDegrees.v[1], time);
+        updateMousePosition(locationInDegrees.v[0], locationInDegrees.v[1]);
     }
 }
 
@@ -166,6 +164,48 @@ void MouseInputDevice::postMouseState(bool isDown) const {
     if (started && down) {
         down->setValue(isDown, Clock::instance()->getCurrentTimeUS());
     }
+}
+
+
+void MouseInputDevice::moveMouseCursor(double xPos, double yPos) const {
+    @autoreleasepool {
+        GLKVector3 locationInPixels = GLKMathProject(GLKVector3Make(xPos, yPos, 0.0),
+                                                     GLKMatrix4Identity,
+                                                     projectionMatrix,
+                                                     const_cast<GLint *>(viewport.data()));
+        __block CGError error = kCGErrorSuccess;
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            NSPoint location = [targetView convertPointFromBacking:NSMakePoint(locationInPixels.v[0],
+                                                                               locationInPixels.v[1])];
+            NSWindow *targetWindow = targetView.window;
+            location = [targetWindow convertRectToScreen:NSMakeRect(location.x, location.y, 0, 0)].origin;
+            
+            // Cocoa screen coordinates have the origin in the lower left, but Quartz screen coordinates put it in the
+            // upper left.  Hence, we need to convert location.y before passing it to CGWarpMouseCursorPosition.
+            NSScreen *targetScreen = targetWindow.screen;
+            NSRect nsFrame = targetScreen.frame;
+            CGRect cgFrame = CGDisplayBounds(((NSNumber *)(targetScreen.deviceDescription[@"NSScreenNumber"])).intValue);
+            location.y = cgFrame.origin.y + cgFrame.size.height + nsFrame.origin.y - location.y;
+            
+            error = CGWarpMouseCursorPosition(location);
+        });
+        
+        if (error != kCGErrorSuccess) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to move mouse cursor (error = %d)", error);
+        } else {
+            // CGWarpMouseCursorPosition doesn't generate a mouse-motion event, so we need to update posX and
+            // posY ourselves
+            updateMousePosition(xPos, yPos);
+        }
+    }
+}
+
+
+void MouseInputDevice::updateMousePosition(double x, double y) const {
+    MWTime time = Clock::instance()->getCurrentTimeUS();
+    posX->setValue(x, time);
+    posY->setValue(y, time);
 }
 
 

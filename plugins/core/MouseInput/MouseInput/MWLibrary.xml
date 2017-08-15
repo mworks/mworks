@@ -21,4 +21,21 @@ Interface to the system mouse or other pointing device
                 />
     </code>
   </MWElement>
+    <MWElement name="Move Mouse Cursor">
+        <match_signature>action[@type="move_mouse_cursor"]</match_signature>
+
+        <isa>Action</isa>
+        
+        <description>
+Move the mouse cursor to the specified position on the stimulus display
+        </description>
+        
+        <code>
+            <action type="move_mouse_cursor"
+                    tag="Move Mouse Cursor"
+                    device=""
+                    x_position=""
+                    y_position=""/>
+        </code>
+    </MWElement>
 </MWElements>

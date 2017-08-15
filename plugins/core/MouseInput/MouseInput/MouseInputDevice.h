@@ -35,8 +35,11 @@ public:
     
     void postMouseLocation(NSPoint location) const;
     void postMouseState(bool isDown) const;
+    void moveMouseCursor(double xPos, double yPos) const;
     
 private:
+    void updateMousePosition(double x, double y) const;
+    
     VariablePtr posX;
     VariablePtr posY;
     VariablePtr down;

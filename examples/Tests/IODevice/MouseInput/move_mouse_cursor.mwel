@@ -1,0 +1,49 @@
+var pos_x = 0
+var pos_y = 0
+
+mouse_input mouse (
+    mouse_position_x = pos_x
+    mouse_position_y = pos_y
+    autostart = true
+    )
+
+
+%define dot_size = 1
+
+frame_list dot (
+    stimulus_group = dot_frames
+    loop = true
+    autoplay = true
+    )
+
+stimulus_group dot_frames {
+    circle (
+        x_size = dot_size
+        y_size = dot_size
+        x_position = pos_x
+        y_position = pos_y
+        )
+}
+
+
+%define move_cursor(x, y)
+    move_mouse_cursor (
+        device = mouse
+        x_position = x
+        y_position = y
+        )
+    wait (5s)
+%end
+
+protocol {
+    report ('The mouse cursor should stay on the dot as it moves')
+
+    live_queue_stimulus (dot)
+    update_display ()
+    wait (2s)
+
+    move_cursor (x = -5; y = -5)
+    move_cursor (x = -5; y = 5)
+    move_cursor (x = 5; y = 5)
+    move_cursor (x = 5; y = -5)
+}

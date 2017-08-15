@@ -7,6 +7,7 @@
 //
 
 #include "MouseInputDevice.h"
+#include "MoveMouseCursorAction.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -15,6 +16,7 @@ BEGIN_NAMESPACE_MW
 class MouseInputPlugin : public Plugin {
     void registerComponents(boost::shared_ptr<ComponentRegistry> registry) MW_OVERRIDE {
         registry->registerFactory<StandardComponentFactory, MouseInputDevice>();
+        registry->registerFactory<StandardComponentFactory, MoveMouseCursorAction>();
     }
 };
 

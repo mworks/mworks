@@ -33,6 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E10632F11F422DE500DFA3B1 /* MoveMouseCursorAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E10632EF1F422DE500DFA3B1 /* MoveMouseCursorAction.cpp */; };
 		E1620C9C17563F350068BCF6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1620C9A17563F350068BCF6 /* InfoPlist.strings */; };
 		E1620CA517563FBE0068BCF6 /* MouseInputPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1620CA317563FBE0068BCF6 /* MouseInputPlugin.cpp */; };
 		E1620CAF175641A30068BCF6 /* MouseInput.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1620C8E17563F350068BCF6 /* MouseInput.bundle */; };
@@ -78,6 +79,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E10632EF1F422DE500DFA3B1 /* MoveMouseCursorAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoveMouseCursorAction.cpp; sourceTree = "<group>"; };
+		E10632F01F422DE500DFA3B1 /* MoveMouseCursorAction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MoveMouseCursorAction.hpp; sourceTree = "<group>"; };
 		E1620C8E17563F350068BCF6 /* MouseInput.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MouseInput.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1620C9417563F350068BCF6 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1620C9917563F350068BCF6 /* MouseInput-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MouseInput-Info.plist"; sourceTree = "<group>"; };
@@ -151,6 +154,8 @@
 				E1620CBD17564B4A0068BCF6 /* MouseTracker.m */,
 				E1620CBA175644330068BCF6 /* MouseInputDevice.h */,
 				E1620CB9175644330068BCF6 /* MouseInputDevice.cpp */,
+				E10632F01F422DE500DFA3B1 /* MoveMouseCursorAction.hpp */,
+				E10632EF1F422DE500DFA3B1 /* MoveMouseCursorAction.cpp */,
 				E1620CA317563FBE0068BCF6 /* MouseInputPlugin.cpp */,
 				E1620C9817563F350068BCF6 /* Supporting Files */,
 			);
@@ -247,6 +252,7 @@
 			files = (
 				E1620CA517563FBE0068BCF6 /* MouseInputPlugin.cpp in Sources */,
 				E1620CBB175644330068BCF6 /* MouseInputDevice.cpp in Sources */,
+				E10632F11F422DE500DFA3B1 /* MoveMouseCursorAction.cpp in Sources */,
 				E1620CBE17564B4A0068BCF6 /* MouseTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -37,3 +37,29 @@ parameters:
         main stimulus display window
 
 
+---
+
+
+name: Move Mouse Cursor
+signature: action/move_mouse_cursor
+isa: Action
+platform: macos
+description: >
+    Move the mouse cursor to the specified position on the stimulus display
+parameters: 
+  - 
+    name: device
+    required: yes
+    description: Name of a `Mouse Input Device`
+  - 
+    name: x_position
+    required: yes
+    description: >
+        Horizontal position (in degrees) to which to move the mouse cursor
+  - 
+    name: y_position
+    required: yes
+    description: >
+        Vertical position (in degrees) to which to move the mouse cursor
+
+
