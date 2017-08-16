@@ -35,7 +35,9 @@ BEGIN_NAMESPACE_MW
                             MessageType type,
                             MessageDomain domain = M_GENERIC_MESSAGE_DOMAIN)
     {
-        static boost::mutex globalMessageVariableMutex;
+        // Allocate the mutex on the heap to ensure that it's never destructed.  This prevents potential crashes
+        // at application shutdown, caused by a thread trying to acquire the mutex after it's been destructed.
+        static boost::mutex * const globalMessageVariableMutex = new boost::mutex;
         
         char *buffer = nullptr;
         BOOST_SCOPE_EXIT(&buffer) {
@@ -77,7 +79,7 @@ BEGIN_NAMESPACE_MW
             messageDatum.addElement(M_MESSAGE_ORIGIN, Datum(M_INTEGER, GlobalMessageOrigin));
             
             // Use a mutex to ensure that the set and reset happen atomically
-            boost::lock_guard<boost::mutex> lock(globalMessageVariableMutex);
+            boost::lock_guard<boost::mutex> lock(*globalMessageVariableMutex);
             messageVar->setValue(messageDatum);
             messageVar->setSilentValue(0L);
 		}
