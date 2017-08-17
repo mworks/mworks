@@ -18,78 +18,43 @@
 BEGIN_NAMESPACE_MW
 
 
-static PyObject * getvar(PyObject *self, PyObject *args) {
-    const char *name;
-    if (!PyArg_ParseTuple(args, "s:getvar", &name)) {
-        return nullptr;
+BEGIN_NAMESPACE()
+
+
+boost::python::object getvar(const std::string &name) {
+    boost::shared_ptr<Variable> var = global_variable_registry->getVariable(name);
+    if (!var) {
+        throw UnknownVariableException(name);
     }
-    
-    try {
-        
-        boost::shared_ptr<Variable> var = global_variable_registry->getVariable(name);
-        if (!var) {
-            throw UnknownVariableException(name);
-        }
-        
-        boost::python::object value = convert_datum_to_python(var->getValue());
-        
-        PyObject *result = value.ptr();
-        Py_INCREF(result);
-        return result;
-        
-    } catch (const boost::python::error_already_set &) {
-        // Python error is already set
-    } catch (const std::exception &e) {
-        PyErr_SetString(PyExc_RuntimeError, e.what());
-    } catch (...) {
-        PyErr_SetString(PyExc_RuntimeError, "An unknown error occurred");
-    }
-    
-    return nullptr;
+    return convert_datum_to_python(var->getValue());
 }
 
 
-static PyObject * setvar(PyObject *self, PyObject *args) {
-    const char *name;
-    PyObject *value;
-    if (!PyArg_ParseTuple(args, "sO:setvar", &name, &value)) {
-        return nullptr;
+void setvar(const std::string &name, const boost::python::object &value) {
+    boost::shared_ptr<Variable> var = global_variable_registry->getVariable(name);
+    if (!var) {
+        throw UnknownVariableException(name);
     }
-    
-    try {
-        
-        boost::shared_ptr<Variable> var = global_variable_registry->getVariable(name);
-        if (!var) {
-            throw UnknownVariableException(name);
-        }
-        
-        Datum val = convert_python_to_datum(manageBorrowedRef(value));
-        {
-            // setValue can perform an arbitrary number of notifications, some of which
-            // may trigger blocking I/O operations, so temporarily release the GIL
-            ScopedGILRelease sgr;
-            var->setValue(val);
-        }
-        
-        Py_RETURN_NONE;
-        
-    } catch (const boost::python::error_already_set &) {
-        // Python error is already set
-    } catch (const std::exception &e) {
-        PyErr_SetString(PyExc_RuntimeError, e.what());
-    } catch (...) {
-        PyErr_SetString(PyExc_RuntimeError, "An unknown error occurred");
+    Datum val = convert_python_to_datum(value);
+    {
+        // setValue can perform an arbitrary number of notifications, some of which
+        // may trigger blocking I/O operations, so temporarily release the GIL
+        ScopedGILRelease sgr;
+        var->setValue(val);
     }
-    
-    return nullptr;
 }
 
 
-static PyMethodDef methods[] = {
-    { "getvar", getvar, METH_VARARGS, nullptr },
-    { "setvar", setvar, METH_VARARGS, nullptr },
-    {NULL, NULL, 0, NULL}
-};
+void init_mworkscore() {
+    auto module = manageBorrowedRef( Py_InitModule("mworkscore", nullptr) );
+    boost::python::scope moduleScope(module);
+    
+    def("getvar", getvar);
+    def("setvar", setvar);
+}
+
+
+END_NAMESPACE()
 
 
 PyObject * RunPythonAction::globalsDict = nullptr;
@@ -135,7 +100,7 @@ RunPythonAction::RunPythonAction(const ParameterValueMap &parameters) :
         //
         // Create mworkscore module and import its functions into __main__
         //
-        Py_InitModule("mworkscore", methods);
+        init_mworkscore();
         PyObject *result = PyRun_String("from mworkscore import *", Py_single_input, globalsDict, globalsDict);
         if (!result) {
             throw PythonException("Unable to import mworkscore methods into Python __main__ module");
