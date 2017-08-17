@@ -25,7 +25,7 @@ protected:
     PyCodeObject *codeObject;
     
 private:
-    static PyObject *globalsDict;
+    PyObject * const globalsDict;
     
 };
 

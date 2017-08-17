@@ -48,6 +48,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E14266631F45E47500F4CA05 /* PythonSetup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E14266611F45E47500F4CA05 /* PythonSetup.cpp */; };
 		E18951C11892C8F600804C10 /* PythonAppHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18951BF1892C8F600804C10 /* PythonAppHelpers.cpp */; };
 		E18D3BA216553B5900D472D0 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
 		E18D3BB8165541B900D472D0 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BB7165541B900D472D0 /* MWorksCore.framework */; };
@@ -136,6 +137,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E14266611F45E47500F4CA05 /* PythonSetup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonSetup.cpp; sourceTree = "<group>"; };
+		E14266621F45E47500F4CA05 /* PythonSetup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PythonSetup.hpp; sourceTree = "<group>"; };
 		E18951BF1892C8F600804C10 /* PythonAppHelpers.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PythonAppHelpers.cpp; sourceTree = "<group>"; };
 		E18951C01892C8F600804C10 /* PythonAppHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonAppHelpers.h; sourceTree = "<group>"; };
 		E18D3B79165537A300D472D0 /* _mworks.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = _mworks.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -334,6 +337,8 @@
 				E1D645871B31CDCC0092C428 /* Actions */,
 				E19C4CB91B1E21BE005380F0 /* PythonException.h */,
 				E19C4CB81B1E21BE005380F0 /* PythonException.cpp */,
+				E14266621F45E47500F4CA05 /* PythonSetup.hpp */,
+				E14266611F45E47500F4CA05 /* PythonSetup.cpp */,
 				E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */,
 				E1E603A01B1904D2009BA19D /* Supporting Files */,
 			);
@@ -491,6 +496,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E14266631F45E47500F4CA05 /* PythonSetup.cpp in Sources */,
 				E1D3CAA91B1CDD4100E94A2C /* PythonDataHelpers.cpp in Sources */,
 				E1D645831B31C1ED0092C428 /* RunPythonAction.cpp in Sources */,
 				E19C4CBA1B1E21BE005380F0 /* PythonException.cpp in Sources */,
