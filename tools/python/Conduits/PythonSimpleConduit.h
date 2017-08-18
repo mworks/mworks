@@ -12,8 +12,6 @@
 #include "GILHelpers.h"
 #include "PythonDataHelpers.h"
 
-using namespace boost::python;
-
 
 BEGIN_NAMESPACE_MW
 
@@ -40,7 +38,7 @@ public:
         ScopedGILAcquire sga;
         try {
             (*function_object)(evt);
-        } catch (const error_already_set &) {
+        } catch (const boost::python::error_already_set &) {
             PyErr_Print();
         }
     }
@@ -221,16 +219,6 @@ public:
                                             EventTransport::client_event_transport)
     { }
 };
-
-
-inline boost::python::object extractEventTime(const Event &e) {
-    return convert_longlong_to_python(e.getTime());
-}
-
-
-inline boost::python::object extractEventData(const Event &e) {
-    return convert_datum_to_python(e.getData());
-}
 
 
 END_NAMESPACE_MW

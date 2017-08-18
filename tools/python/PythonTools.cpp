@@ -14,6 +14,8 @@
 
 #include <numpy/arrayobject.h>
 
+using namespace boost::python;
+
 
 BEGIN_NAMESPACE_MW
 

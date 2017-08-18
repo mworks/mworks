@@ -14,6 +14,8 @@
 #include "PythonDataHelpers.h"
 #include "PythonException.h"
 
+using namespace boost::python;
+
 
 BEGIN_NAMESPACE_MW
 BEGIN_NAMESPACE(python)
@@ -64,13 +66,110 @@ void setvar(const std::string &name, const boost::python::object &value) {
 }
 
 
+class EventCallback {
+    
+public:
+    ~EventCallback() {
+        ScopedGILAcquire sga;
+        delete callback;
+    }
+    
+    explicit EventCallback(const boost::python::object &cb) {
+        // The caller already holds the GIL, so we don't need to acquire it
+        callback = new boost::python::object(cb);
+    }
+    
+    // Copy constructor
+    EventCallback(const EventCallback &other) {
+        ScopedGILAcquire sga;
+        callback = new boost::python::object(*other.callback);
+    }
+    
+    // No move construction, copy assignment, or move assignment
+    EventCallback(EventCallback &&other) = delete;
+    EventCallback& operator=(const EventCallback &other) = delete;
+    EventCallback& operator=(EventCallback &&other) = delete;
+    
+    void operator()(boost::shared_ptr<Event> evt) {
+        ScopedGILAcquire sga;
+        try {
+            (*callback)(evt);
+        } catch (const boost::python::error_already_set &) {
+            PythonException::logError("Python event callback failed");
+        }
+    }
+    
+private:
+    // Use a pointer so that we can ensure that the GIL is held when the callback is destroyed
+    boost::python::object *callback = nullptr;
+    
+};
+
+
+const std::string callbacksKey("<PythonPlugin:mworkscore.register_event_callback>");
+
+
+//
+// Before registering or unregistering event callbacks, we always release the GIL.  This
+// prevents potential deadlocks due to lock acquisition order.
+//
+// For example, when a Python event callback is invoked, the event handler first acquires
+// EventCallbackHandler::callbacks_lock and then the GIL.  If a Python event-registration
+// function were invoked simultaneously, it would be holding the GIL first and then acquire
+// callbacks_lock, thereby potenially creating a situation where each thread was waiting
+// for the lock held by the other (i.e. deadlock).
+//
+// Note, however, that we must create EventCallback instances *before* we release the GIL.
+//
+
+
+void register_event_callback(const boost::python::object &callback) {
+    EventCallback cb(callback);
+    ScopedGILRelease sgr;
+    getCore()->registerCallback(cb, callbacksKey);
+}
+
+
+void register_event_callback_for_name(const std::string &name, const boost::python::object &callback) {
+    EventCallback cb(callback);
+    ScopedGILRelease sgr;
+    getCore()->registerCallback(name, cb, callbacksKey);
+}
+
+
+void register_event_callback_for_code(int code, const boost::python::object &callback) {
+    EventCallback cb(callback);
+    ScopedGILRelease sgr;
+    getCore()->registerCallback(code, cb, callbacksKey);
+}
+
+
+void unregister_event_callbacks() {
+    ScopedGILRelease sgr;
+    getCore()->unregisterCallbacks(callbacksKey);
+}
+
+
 void init_mworkscore() {
     auto module = manageBorrowedRef( Py_InitModule("mworkscore", nullptr) );
     boost::python::scope moduleScope(module);
     
+    class_<Event>("Event", no_init)
+    .add_property("code", &Event::getEventCode)
+    .add_property("time", extractEventTime)
+    .add_property("data", extractEventData)
+    ;
+    
+    register_ptr_to_python<boost::shared_ptr<Event>>();
+    
     def("getcodec", getcodec);
     def("getvar", getvar);
     def("setvar", setvar);
+    
+    def("register_event_callback", register_event_callback);
+    def("register_event_callback", register_event_callback_for_name);
+    def("register_event_callback", register_event_callback_for_code);
+    def("unregister_event_callbacks", unregister_event_callbacks);
 }
 
 

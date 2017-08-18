@@ -33,7 +33,7 @@ namespace mw {
             
             try {
                 (*function_object)(evts_list);
-            } catch (const error_already_set &) {
+            } catch (const boost::python::error_already_set &) {
                 PyErr_Print();
             }
         }

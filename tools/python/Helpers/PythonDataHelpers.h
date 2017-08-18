@@ -40,7 +40,44 @@ boost::python::object convert_datum_to_python(const Datum &datum);
 boost::python::object convert_longlong_to_python(long long ll_val);
 
 
+inline boost::python::object extractEventTime(const Event &e) {
+    return convert_longlong_to_python(e.getTime());
+}
+
+
+inline boost::python::object extractEventData(const Event &e) {
+    return convert_datum_to_python(e.getData());
+}
+
+
 END_NAMESPACE_MW
 
 
 #endif /* !defined(PythonDataHelpers_h_) */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

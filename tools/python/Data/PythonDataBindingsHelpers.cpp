@@ -75,7 +75,7 @@ MWTime PythonDataFile::maximum_time() const {
 }
 
 
-void PythonDataFile::select_events(const bp::list &codes, MWTime lower_bound, MWTime upper_bound)
+void PythonDataFile::select_events(const boost::python::list &codes, MWTime lower_bound, MWTime upper_bound)
 {
     requireValidIndexer();
     
@@ -83,7 +83,7 @@ void PythonDataFile::select_events(const bp::list &codes, MWTime lower_bound, MW
     int n = len(codes);
         
     for(int i = 0; i < n; i++){
-        event_codes.insert(bp::extract<unsigned int>(codes[i]));
+        event_codes.insert(boost::python::extract<unsigned int>(codes[i]));
     }
     
     eventsIterator.reset(new DataFileIndexer::EventsIterator(indexer->getEventsIterator(event_codes, lower_bound, upper_bound)));

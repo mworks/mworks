@@ -9,9 +9,6 @@
 #ifndef PYTHON_DATA_BINDINGS_HELPERS_H_
 #define PYTHON_DATA_BINDINGS_HELPERS_H_
 
-using namespace boost;
-namespace bp = boost::python;
-
 
 BEGIN_NAMESPACE_MW
 
@@ -36,7 +33,7 @@ public:
     MWTime minimum_time() const;
     MWTime maximum_time() const;
     
-    void select_events(const bp::list &codes, MWTime lower_bound, MWTime upper_bound);
+    void select_events(const boost::python::list &codes, MWTime lower_bound, MWTime upper_bound);
     EventWrapper get_next_event();
     std::vector<EventWrapper> get_events();
     

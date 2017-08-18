@@ -1,0 +1,34 @@
+var foo = 0
+var bar = 0
+
+protocol {
+    // Define and register Python event callbacks
+    run_python_file ('register_event_callback.py')
+
+    // Generate some events
+    foo = 1
+    bar = 2
+    foo = 3
+    bar = 4
+
+    // Give event handler thread a little time, so that all callbacks
+    // will be dispatched
+    wait (500ms)
+
+    // If the Python event callbacks were invoked correctly, all the
+    // expected-event lists should be empty
+    run_python_string ('assert not all_expected')
+    run_python_string ('assert not foo_expected')
+    run_python_string ('assert not bar_expected')
+
+    // Unregister Python event callbacks
+    run_python_string ('unregister_event_callbacks()')
+
+    // If the Python event callbacks were not unregistered, they will
+    // raise exceptions when trying to process these events
+    foo = 5
+    bar = 6
+
+    // Again, wait for callbacks to be dispatched
+    wait (500ms)
+}
