@@ -1,0 +1,6 @@
+var foo = 1
+var bar = 2
+
+protocol {
+    run_python_file ('getcodec.py')
+}

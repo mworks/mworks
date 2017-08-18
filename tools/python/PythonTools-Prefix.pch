@@ -30,6 +30,7 @@
 #include <MWorksCore/GenericData.h>
 #include <MWorksCore/IPCEventTransport.h>
 #include <MWorksCore/Plugin.h>
+#include <MWorksCore/Server.h>
 #include <MWorksCore/StandardComponentFactory.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
 #include <MWorksCore/TrialBuildingBlocks.h>

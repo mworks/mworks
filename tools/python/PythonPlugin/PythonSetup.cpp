@@ -22,8 +22,26 @@ BEGIN_NAMESPACE(python)
 BEGIN_NAMESPACE()
 
 
+inline boost::shared_ptr<RegistryAwareEventStreamInterface> getCore() {
+    return Server::instance();
+}
+
+
+boost::python::object getcodec() {
+    auto core = getCore();
+    boost::python::dict codec;
+    for (auto &name : core->getVariableTagNames()) {
+        auto code = core->lookupCodeForTag(name);
+        if (code >= 0) {
+            codec[code] = name;
+        }
+    }
+    return codec;
+}
+
+
 boost::python::object getvar(const std::string &name) {
-    boost::shared_ptr<Variable> var = global_variable_registry->getVariable(name);
+    auto var = getCore()->getVariable(name);
     if (!var) {
         throw UnknownVariableException(name);
     }
@@ -32,7 +50,7 @@ boost::python::object getvar(const std::string &name) {
 
 
 void setvar(const std::string &name, const boost::python::object &value) {
-    boost::shared_ptr<Variable> var = global_variable_registry->getVariable(name);
+    auto var = getCore()->getVariable(name);
     if (!var) {
         throw UnknownVariableException(name);
     }
@@ -50,6 +68,7 @@ void init_mworkscore() {
     auto module = manageBorrowedRef( Py_InitModule("mworkscore", nullptr) );
     boost::python::scope moduleScope(module);
     
+    def("getcodec", getcodec);
     def("getvar", getvar);
     def("setvar", setvar);
 }
