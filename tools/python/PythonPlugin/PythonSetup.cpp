@@ -42,6 +42,19 @@ boost::python::object getcodec() {
 }
 
 
+boost::python::object get_reverse_codec() {
+    auto core = getCore();
+    boost::python::dict reverse_codec;
+    for (auto &name : core->getVariableTagNames()) {
+        auto code = core->lookupCodeForTag(name);
+        if (code >= 0) {
+            reverse_codec[name] = code;
+        }
+    }
+    return reverse_codec;
+}
+
+
 boost::python::object getvar(const std::string &name) {
     auto var = getCore()->getVariable(name);
     if (!var) {
@@ -163,6 +176,7 @@ void init_mworkscore() {
     register_ptr_to_python<boost::shared_ptr<Event>>();
     
     def("getcodec", getcodec);
+    def("get_reverse_codec", get_reverse_codec);
     def("getvar", getvar);
     def("setvar", setvar);
     

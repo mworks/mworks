@@ -1,8 +1,7 @@
 from collections import deque
 
 
-codec = getcodec()
-reverse_codec = dict((n, c) for c, n in codec.items())
+reverse_codec = get_reverse_codec()
 
 
 all_expected = deque([('foo', 1), ('bar', 2), ('foo', 3), ('bar', 4)])
