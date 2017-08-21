@@ -13,6 +13,7 @@ Execute the specified file as Python source code
       <action type="run_python_file"
               tag="Run Python File"
               path=""
+              stop_on_failure="NO"
               />
     </code>
   </MWElement>
@@ -30,6 +31,7 @@ Execute the given string as Python source code
       <action type="run_python_string"
               tag="Run Python String"
               code=""
+              stop_on_failure="NO"
               />
     </code>
   </MWElement>

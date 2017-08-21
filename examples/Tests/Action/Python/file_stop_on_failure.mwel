@@ -1,0 +1,18 @@
+var x = 123
+
+protocol {
+    // This should not stop the experiment
+    run_python_file ('file_basics_failure.py')
+
+    // This *should* stop the experiment
+    run_python_file (
+        path = 'file_basics_failure.py'
+        stop_on_failure = true
+        )
+
+    // This should never execute
+    assert (
+        condition = false
+        message = "You shouldn't be seeing this message!"
+        )
+}

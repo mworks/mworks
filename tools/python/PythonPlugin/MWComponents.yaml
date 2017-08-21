@@ -1,10 +1,25 @@
 ---
 
 
-name: Run Python File
-signature: action/run_python_file
+name: Run Python Action
+abstract: yes
 isa: Action
 platform: macos
+parameters: 
+  - 
+    name: stop_on_failure
+    default: 'NO'
+    description: >
+        If ``YES``, the experiment will stop automatically if Python execution
+        fails
+
+
+---
+
+
+name: Run Python File
+signature: action/run_python_file
+isa: Run Python Action
 description: |
     Execute the specified file as `Python <https://www.python.org>`_ source
     code.
@@ -28,8 +43,7 @@ parameters:
 
 name: Run Python String
 signature: action/run_python_string
-isa: Action
-platform: macos
+isa: Run Python Action
 description: |
     Execute the given string as `Python <https://www.python.org>`_ source code.
 

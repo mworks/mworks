@@ -1,0 +1,18 @@
+// Padding to match line numbers in file_stop_on_failure.mwel
+//
+protocol {
+    // This should not stop the experiment
+    run_python_string ('x = 1/0')
+
+    // This *should* stop the experiment
+    run_python_string (
+        code = 'x = 1/0'
+        stop_on_failure = true
+        )
+
+    // This should never execute
+    assert (
+        condition = false
+        message = "You shouldn't be seeing this message!"
+        )
+}

@@ -16,10 +16,20 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string RunPythonAction::STOP_ON_FAILURE("stop_on_failure");
+
+
+void RunPythonAction::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.addParameter(STOP_ON_FAILURE, "NO");
+}
+
+
 RunPythonAction::RunPythonAction(const ParameterValueMap &parameters) :
     Action(parameters),
     codeObject(nullptr),
-    globalsDict(python::getGlobalsDict())
+    globalsDict(python::getGlobalsDict()),
+    stopOnFailure(parameters[STOP_ON_FAILURE])
 { }
 
 
@@ -35,11 +45,15 @@ bool RunPythonAction::execute() {
     assert(codeObject);  // codeObject must be created by subclasses
     
     PyObject *result = PyEval_EvalCode(codeObject, globalsDict, globalsDict);
-    if (!result) {
+    if (result) {
+        Py_DECREF(result);
+    } else {
         PythonException::logError("Python execution failed");
-        return false;
+        if (stopOnFailure) {
+            merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to failed Python execution");
+            StateSystem::instance()->stop();
+        }
     }
-    Py_DECREF(result);
     
     return true;
 }

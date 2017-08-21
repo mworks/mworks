@@ -16,6 +16,10 @@ BEGIN_NAMESPACE_MW
 class RunPythonAction : public Action, boost::noncopyable {
     
 public:
+    static const std::string STOP_ON_FAILURE;
+    
+    static void describeComponent(ComponentInfo &info);
+    
     explicit RunPythonAction(const ParameterValueMap &parameters);
     ~RunPythonAction();
     
@@ -26,6 +30,7 @@ protected:
     
 private:
     PyObject * const globalsDict;
+    const bool stopOnFailure;
     
 };
 
