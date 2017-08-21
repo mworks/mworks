@@ -226,12 +226,20 @@ PyObject * getGlobalsDict() {
         Py_INCREF(globalsDict);  // Upgrade to owned ref
         
         //
-        // Create mworkscore module and import its functions into __main__
+        // Create mworkscore module
         //
-        init_mworkscore();
+        try {
+            init_mworkscore();
+        } catch (const boost::python::error_already_set &) {
+            throw PythonException("Unable to create Python mworkscore module");
+        }
+        
+        //
+        // Import mworkscore contents into __main__
+        //
         PyObject *result = PyRun_String("from mworkscore import *", Py_single_input, globalsDict, globalsDict);
         if (!result) {
-            throw PythonException("Unable to import mworkscore methods into Python __main__ module");
+            throw PythonException("Unable to import mworkscore contents into Python __main__ module");
         }
         Py_DECREF(result);
     });
