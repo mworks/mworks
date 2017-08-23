@@ -1,0 +1,7 @@
+resource ('working_directory.txt')
+
+protocol {
+    // If the current working directory is not set to the experiment
+    // working directory, Python won't be able to find the file
+    run_python_string ("assert open('working_directory.txt').read() == 'Hello, Python!\n'")
+}
