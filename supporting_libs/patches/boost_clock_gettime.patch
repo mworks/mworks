@@ -1,15 +1,12 @@
-diff -ur boost_1_61_0/boost/interprocess/detail/os_thread_functions.hpp boost/boost/interprocess/detail/os_thread_functions.hpp
---- boost_1_61_0/boost/interprocess/detail/os_thread_functions.hpp	2016-05-05 17:12:20.000000000 -0400
-+++ boost/boost/interprocess/detail/os_thread_functions.hpp	2016-09-14 10:29:12.000000000 -0400
-@@ -67,6 +67,11 @@
- #  else
- #     error "No high resolution steady clock in your system, please provide a patch"
- #  endif
-+#  ifdef BOOST_INTERPROCESS_CLOCK_MONOTONIC
-+#    undef BOOST_INTERPROCESS_CLOCK_MONOTONIC
-+#    include <mach/mach_time.h>
-+#    define BOOST_INTERPROCESS_MATCH_ABSOLUTE_TIME
-+#  endif
- #endif
+diff -ur boost_1_65_0/boost/thread/pthread/timespec.hpp boost/boost/thread/pthread/timespec.hpp
+--- boost_1_65_0/boost/thread/pthread/timespec.hpp	2017-08-19 12:49:49.000000000 -0400
++++ boost/boost/thread/pthread/timespec.hpp	2017-08-23 15:03:58.000000000 -0400
+@@ -75,7 +75,7 @@
+     {
+       timespec ts;
  
- namespace boost {
+-#if defined CLOCK_MONOTONIC && defined BOOST_THREAD_USEFIXES_TIMESPEC
++#if 0 && defined CLOCK_MONOTONIC && defined BOOST_THREAD_USEFIXES_TIMESPEC
+       if ( ::clock_gettime( CLOCK_MONOTONIC, &ts ) )
+       {
+         ts.tv_sec = 0;

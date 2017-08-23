@@ -255,7 +255,7 @@ def run_configure_and_make(
 
 @builder
 def boost(ios=True):
-    version = '1.64.0'
+    version = '1.65.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -332,7 +332,7 @@ def zeromq(ios=True):
 
 @builder
 def msgpack(ios=True):
-    version = '2.1.3'
+    version = '2.1.5'
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
 
