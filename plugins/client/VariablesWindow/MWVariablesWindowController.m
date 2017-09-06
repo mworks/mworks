@@ -205,6 +205,12 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     } else {
         
         NSInteger row = [self.outlineView rowForView:textField];
+        if (-1 == row) {
+            // The text field is not in the outline view, possibly because the outline view is currently
+            // executing reloadData (and ending editing as a consequence).  Discard the edits.
+            return;
+        }
+        
         MWVariableDisplayItem *item = [self.outlineView itemAtRow:row];
         if (!(item.isGroup)) {
             [self setValue:textField.stringValue forVariable:item.name];
