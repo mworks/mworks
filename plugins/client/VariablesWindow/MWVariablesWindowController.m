@@ -339,7 +339,10 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     } catch (const mw::SimpleException &) {
         val.setString(valueUTF8);
     }
-    if ([variables valueForVariable:name] != val) {
+    mw::Datum oldVal = [variables valueForVariable:name];
+    if (oldVal != val ||
+        oldVal.getDataType() != val.getDataType() /* Support data type change, e.g. int->bool */)
+    {
         [variables setValue:val forVariable:name];
     }
 }
