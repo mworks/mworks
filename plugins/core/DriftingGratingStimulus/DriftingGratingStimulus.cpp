@@ -56,7 +56,8 @@ auto DriftingGratingStimulus::gratingTypeFromName(const std::string &name) -> Gr
     } else if (name == "sawtooth") {
         return GratingType::sawtooth;
     }
-    throw SimpleException("Invalid grating type", name);
+    merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid grating type: %s", name.c_str());
+    return GratingType::sinusoid;
 };
 
 
@@ -68,7 +69,8 @@ auto DriftingGratingStimulus::maskTypeFromName(const std::string &name) -> MaskT
     } else if (name == "gaussian") {
         return MaskType::gaussian;
     }
-    throw SimpleException("Invalid mask type", name);
+    merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid mask type: %s", name.c_str());
+    return MaskType::rectangle;
 };
 
 
@@ -78,10 +80,8 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
     starting_phase(registerVariable(parameters[STARTING_PHASE])),
     spatial_frequency(registerVariable(parameters[FREQUENCY])),
     speed(registerVariable(parameters[SPEED])),
-    gratingTypeName(parameters[GRATING_TYPE].str()),
-    gratingType(gratingTypeFromName(gratingTypeName)),
-    maskTypeName(parameters[MASK].str()),
-    maskType(maskTypeFromName(maskTypeName)),
+    gratingTypeName(registerVariable(variableOrText(parameters[GRATING_TYPE]))),
+    maskTypeName(registerVariable(variableOrText(parameters[MASK]))),
     inverted(registerVariable(parameters[INVERTED])),
     std_dev(registerVariable(parameters[STD_DEV])),
     mean(registerVariable(parameters[MEAN])),
@@ -100,14 +100,14 @@ Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement("current_phase", last_phase);
     announceData.addElement(FREQUENCY, last_spatial_frequency);
     announceData.addElement(SPEED, last_speed);
-    announceData.addElement(GRATING_TYPE, gratingTypeName);
-    announceData.addElement(MASK, maskTypeName);
+    announceData.addElement(GRATING_TYPE, last_grating_type_name);
+    announceData.addElement(MASK, last_mask_type_name);
     
-    if (gratingType == GratingType::sawtooth) {
+    if (last_grating_type == GratingType::sawtooth) {
         announceData.addElement(INVERTED, last_inverted);
     }
     
-    if (maskType == MaskType::gaussian) {
+    if (last_mask_type == MaskType::gaussian) {
         announceData.addElement(STD_DEV, last_std_dev);
         announceData.addElement(MEAN, last_mean);
         announceData.addElement(NORMALIZED, last_normalized);
@@ -271,9 +271,8 @@ void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &
     
     ColoredTransformStimulus::prepare(display);
     
-    glUniform1i(glGetUniformLocation(program, "gratingType"), int(gratingType));
-    glUniform1i(glGetUniformLocation(program, "maskType"), int(maskType));
-    
+    gratingTypeUniformLocation = glGetUniformLocation(program, "gratingType");
+    maskTypeUniformLocation = glGetUniformLocation(program, "maskType");
     invertedUniformLocation = glGetUniformLocation(program, "inverted");
     stdDevUniformLocation = glGetUniformLocation(program, "stdDev");
     meanUniformLocation = glGetUniformLocation(program, "mean");
@@ -306,6 +305,8 @@ void DriftingGratingStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &
 void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     ColoredTransformStimulus::preDraw(display);
     
+    glUniform1i(gratingTypeUniformLocation, int(current_grating_type));
+    glUniform1i(maskTypeUniformLocation, int(current_mask_type));
     glUniform1i(invertedUniformLocation, current_inverted);
     glUniform1f(stdDevUniformLocation, current_std_dev);
     glUniform1f(meanUniformLocation, current_mean);
@@ -376,6 +377,10 @@ void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> displ
     current_starting_phase = starting_phase->getValue().getFloat();
     current_spatial_frequency = spatial_frequency->getValue().getFloat();
     current_speed = speed->getValue().getFloat();
+    current_grating_type_name = gratingTypeName->getValue().getString();
+    current_grating_type = gratingTypeFromName(current_grating_type_name);
+    current_mask_type_name = maskTypeName->getValue().getString();
+    current_mask_type = maskTypeFromName(current_mask_type_name);
     current_inverted = inverted->getValue().getBool();
     current_std_dev = std_dev->getValue().getFloat();
     current_mean = mean->getValue().getFloat();
@@ -387,6 +392,10 @@ void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> displ
     last_starting_phase = current_starting_phase;
     last_spatial_frequency = current_spatial_frequency;
     last_speed = current_speed;
+    last_grating_type_name = current_grating_type_name;
+    last_grating_type = current_grating_type;
+    last_mask_type_name = current_mask_type_name;
+    last_mask_type = current_mask_type;
     last_inverted = current_inverted;
     last_std_dev = current_std_dev;
     last_mean = current_mean;

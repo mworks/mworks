@@ -70,27 +70,35 @@ private:
     const boost::shared_ptr<Variable> starting_phase;
     const boost::shared_ptr<Variable> spatial_frequency;
     const boost::shared_ptr<Variable> speed;
-    const std::string gratingTypeName;
-    const GratingType gratingType;
-    const std::string maskTypeName;
-    const MaskType maskType;
+    const boost::shared_ptr<Variable> gratingTypeName;
+    const boost::shared_ptr<Variable> maskTypeName;
     const boost::shared_ptr<Variable> inverted;
     const boost::shared_ptr<Variable> std_dev;
     const boost::shared_ptr<Variable> mean;
     const boost::shared_ptr<Variable> normalized;
     
     double current_direction_in_degrees, current_starting_phase, current_spatial_frequency, current_speed;
+    std::string current_grating_type_name;
+    GratingType current_grating_type;
+    std::string current_mask_type_name;
+    MaskType current_mask_type;
     bool current_inverted;
     double current_std_dev, current_mean;
     bool current_normalized;
     
     double last_direction_in_degrees, last_starting_phase, last_spatial_frequency, last_speed;
+    std::string last_grating_type_name;
+    GratingType last_grating_type;
+    std::string last_mask_type_name;
+    MaskType last_mask_type;
     bool last_inverted;
     double last_std_dev, last_mean;
     bool last_normalized;
     
     double last_phase;
     
+    GLint gratingTypeUniformLocation = -1;
+    GLint maskTypeUniformLocation = -1;
     GLint invertedUniformLocation = -1;
     GLint stdDevUniformLocation = -1;
     GLint meanUniformLocation = -1;

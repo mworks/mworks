@@ -15,6 +15,8 @@
         <variable tag="starting_phase" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
         <variable tag="spatial_frequency" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0.5" type="any"></variable>
         <variable tag="speed" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0.5" type="any"></variable>
+        <variable tag="grating_type" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="'sinusoid'" type="any"></variable>
+        <variable tag="mask" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="'rectangle'" type="any"></variable>
         <variable tag="inverted" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="false" type="any"></variable>
         <variable tag="std_dev" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0.35" type="any"></variable>
         <variable tag="mean" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
@@ -22,7 +24,7 @@
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli">
         <stimulus type="rectangle" tag="rect" color="1,0,0" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="rotation" alpha_multiplier="1"></stimulus>
-        <stimulus type="drifting_grating" tag="grating" direction="direction" starting_phase="starting_phase" spatial_frequency="spatial_frequency" speed="speed" grating_type="sawtooth" mask="gaussian" inverted="inverted" std_dev="std_dev" mean="mean" color="red,green,blue" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="rotation" alpha_multiplier="alpha" autoplay="YES"></stimulus>
+        <stimulus type="drifting_grating" tag="grating" direction="direction" starting_phase="starting_phase" spatial_frequency="spatial_frequency" speed="speed" grating_type="grating_type" mask="mask" inverted="inverted" std_dev="std_dev" mean="mean" color="red,green,blue" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="rotation" alpha_multiplier="alpha" autoplay="YES"></stimulus>
     </stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>
@@ -31,6 +33,16 @@
             <action tag="Live queue rect" type="live_queue_stimulus" stimulus="rect"></action>
             <action tag="Live queue grating" type="live_queue_stimulus" stimulus="grating"></action>
             <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change grating_type" variable="grating_type" value="'square'"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change grating_type" variable="grating_type" value="'triangle'"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change grating_type" variable="grating_type" value="'sawtooth'"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change mask" variable="mask" value="'ellipse'"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change mask" variable="mask" value="'gaussian'"></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
             <action type="assignment" tag="Change direction" variable="direction" value="90"></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
