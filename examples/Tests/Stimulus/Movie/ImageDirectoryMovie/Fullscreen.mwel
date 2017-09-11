@@ -1,0 +1,20 @@
+var ended = false
+
+image_directory_movie stim (
+    directory_path = images
+    frames_per_second = 1
+    ended = ended
+    fullscreen = true
+    autoplay = true
+    )
+
+protocol {
+    ended = false
+    queue_stimulus (stim)
+    update_display ()
+    report ('Note: Every image except the last includes a gray border')
+    wait_for_condition (
+        condition = ended
+        timeout = 10s
+        )
+}

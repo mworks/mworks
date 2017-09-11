@@ -372,7 +372,12 @@ bool VideoStimulus::checkForNewPixelBuffer(const boost::shared_ptr<StimulusDispl
                                      double(CVPixelBufferGetHeight(pixelBuffer.get())));
         if (newAspectRatio != aspectRatio) {
             aspectRatio = newAspectRatio;
-            auto vertexPositions = ImageStimulus::getVertexPositions(aspectRatio);
+            VertexPositionArray vertexPositions;
+            if (fullscreen) {
+                vertexPositions = BasicTransformStimulus::getVertexPositions();
+            } else {
+                vertexPositions = ImageStimulus::getVertexPositions(aspectRatio);
+            }
             gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
             glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions.data(), GL_STATIC_DRAW);
         }

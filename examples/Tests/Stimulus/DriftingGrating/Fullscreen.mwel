@@ -1,0 +1,53 @@
+var spatial_frequency = 0.25
+var direction = 0
+
+drifting_grating stim (
+    grating_type = square
+    mask = rectangle
+    spatial_frequency = spatial_frequency
+    speed = 0.5
+    direction = direction
+    fullscreen = true
+    autoplay = true
+    )
+
+rectangle square (
+    x_size = 0.5 / spatial_frequency
+    rotation = direction
+    color = 0,0,1
+    alpha_multiplier = 0.5
+    )
+
+var msg = ''
+
+protocol {
+    msg = (
+        'At all times, the bands of the grating should have the same width ' +
+        'as the blue square, and the direction of motion of the grating ' +
+        'should match the rotation of the square'
+        )
+    report ('$msg')
+
+    spatial_frequency = 0.25
+    direction = 0
+    live_queue_stimulus (stim)
+    live_queue_stimulus (square)
+    update_display ()
+    wait (10s)
+
+    spatial_frequency = 0.5
+    direction = 30
+    wait (10s)
+
+    spatial_frequency = 0.75
+    direction = 60
+    wait (10s)
+
+    spatial_frequency = 1.0
+    direction = 90
+    wait (10s)
+
+    spatial_frequency = 1.25
+    direction = 45
+    wait (10s)
+}

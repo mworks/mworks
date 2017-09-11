@@ -53,17 +53,11 @@ public:
     static const std::string Y_POSITION;
     static const std::string ROTATION;
     static const std::string ALPHA_MULTIPLIER;
+    static const std::string FULLSCREEN;
     
     static void describeComponent(ComponentInfo &info);
     
     explicit BasicTransformStimulus(const Map<ParameterValue> &parameters);
-    BasicTransformStimulus(const std::string &_tag,
-                           const shared_ptr<Variable> &_xoffset,
-                           const shared_ptr<Variable> &_yoffset,
-                           const shared_ptr<Variable> &_xscale,
-                           const shared_ptr<Variable> &_yscale,
-                           const shared_ptr<Variable> &_rot,
-                           const shared_ptr<Variable> &_alpha);
     
     void load(shared_ptr<StimulusDisplay> display) override;
     void unload(shared_ptr<StimulusDisplay> display) override;
@@ -89,11 +83,13 @@ protected:
     const shared_ptr<Variable> xoffset;
     const shared_ptr<Variable> yoffset;
     
-    const shared_ptr<Variable> xscale;
-    const shared_ptr<Variable> yscale;
+    shared_ptr<Variable> xscale;
+    shared_ptr<Variable> yscale;
     
     const shared_ptr<Variable> rotation;
     const shared_ptr<Variable> alpha_multiplier;
+    
+    const bool fullscreen;
     
     float current_posx, current_posy, current_sizex, current_sizey, current_rot, current_alpha;
     float last_posx, last_posy, last_sizex, last_sizey, last_rot, last_alpha;

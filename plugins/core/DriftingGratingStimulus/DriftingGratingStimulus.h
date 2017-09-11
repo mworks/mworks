@@ -97,6 +97,8 @@ private:
     
     double last_phase;
     
+    double displayWidth, displayHeight;
+    
     GLint gratingTypeUniformLocation = -1;
     GLint maskTypeUniformLocation = -1;
     GLint invertedUniformLocation = -1;

@@ -48,6 +48,8 @@ TextStimulus::TextStimulus(const ParameterValueMap &parameters) :
     text(registerVariable(variableOrText(parameters[TEXT]))),
     fontName(registerVariable(variableOrText(parameters[FONT_NAME]))),
     fontSize(registerVariable(parameters[FONT_SIZE])),
+    viewportWidth(0),
+    viewportHeight(0),
     pixelsPerDegree(0.0),
     pointsPerPixel(0.0)
 { }
@@ -115,10 +117,9 @@ void TextStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
         displaySizeInPoints = displayView.frame.size;
     });
     
-    GLint width, height;
-    display->getCurrentViewportSize(width, height);
-    pixelsPerDegree = double(width) / (xMax - xMin);
-    pointsPerPixel = displaySizeInPoints.width / double(width);
+    display->getCurrentViewportSize(viewportWidth, viewportHeight);
+    pixelsPerDegree = double(viewportWidth) / (xMax - xMin);
+    pointsPerPixel = displaySizeInPoints.width / double(viewportWidth);
     texture = 0;
     
     glUniform1i(glGetUniformLocation(program, "textTexture"), 0);
@@ -164,8 +165,7 @@ void TextStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
 
 void TextStimulus::bindTexture() {
     if (texture &&
-        current_sizex == last_sizex &&
-        current_sizey == last_sizey &&
+        (fullscreen || (current_sizex == last_sizex && current_sizey == last_sizey)) &&
         currentText == lastText &&
         currentFontName == lastFontName &&
         currentFontSize == lastFontSize)
@@ -177,8 +177,8 @@ void TextStimulus::bindTexture() {
     }
     
     // Create a bitmap context
-    const std::size_t bitmapWidth = current_sizex * pixelsPerDegree;
-    const std::size_t bitmapHeight = current_sizey * pixelsPerDegree;
+    const std::size_t bitmapWidth = (fullscreen ? viewportWidth : (current_sizex * pixelsPerDegree));
+    const std::size_t bitmapHeight = (fullscreen ? viewportHeight : (current_sizey * pixelsPerDegree));
     auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
     auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
                                                                               bitmapWidth,

@@ -85,7 +85,9 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
     inverted(registerVariable(parameters[INVERTED])),
     std_dev(registerVariable(parameters[STD_DEV])),
     mean(registerVariable(parameters[MEAN])),
-    normalized(registerVariable(parameters[NORMALIZED]))
+    normalized(registerVariable(parameters[NORMALIZED])),
+    displayWidth(0.0),
+    displayHeight(0.0)
 { }
 
 
@@ -259,8 +261,11 @@ auto DriftingGratingStimulus::getVertexPositions() const -> VertexPositionArray 
 
 
 GLKMatrix4 DriftingGratingStimulus::getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const {
-    auto currentMVPMatrix = GLKMatrix4Translate(projectionMatrix, current_posx, current_posy, 0.0);
-    currentMVPMatrix = GLKMatrix4Rotate(currentMVPMatrix, GLKMathDegreesToRadians(current_rot), 0.0, 0.0, 1.0);
+    auto currentMVPMatrix = projectionMatrix;
+    if (!fullscreen) {
+        currentMVPMatrix = GLKMatrix4Translate(currentMVPMatrix, current_posx, current_posy, 0.0);
+        currentMVPMatrix = GLKMatrix4Rotate(currentMVPMatrix, GLKMathDegreesToRadians(current_rot), 0.0, 0.0, 1.0);
+    }
     auto scale_size = std::max(current_sizex, current_sizey);
     return GLKMatrix4Scale(currentMVPMatrix, scale_size, scale_size, 1.0);
 }
@@ -270,6 +275,13 @@ void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &
     boost::mutex::scoped_lock locker(stim_lock);
     
     ColoredTransformStimulus::prepare(display);
+    
+    if (fullscreen) {
+        double xMin, xMax, yMin, yMax;
+        display->getDisplayBounds(xMin, xMax, yMin, yMax);
+        displayWidth = xMax - xMin;
+        displayHeight = yMax - yMin;
+    }
     
     gratingTypeUniformLocation = glGetUniformLocation(program, "gratingType");
     maskTypeUniformLocation = glGetUniformLocation(program, "maskType");
@@ -385,6 +397,11 @@ void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> displ
     current_std_dev = std_dev->getValue().getFloat();
     current_mean = mean->getValue().getFloat();
     current_normalized = normalized->getValue().getBool();
+    
+    if (fullscreen) {
+        current_sizex = displayWidth;
+        current_sizey = displayHeight;
+    }
     
     ColoredTransformStimulus::draw(display);
     

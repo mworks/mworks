@@ -1,0 +1,9 @@
+circle stim (
+    fullscreen = true
+    )
+
+protocol {
+    queue_stimulus (stim)
+    update_display ()
+    wait (10s)
+}

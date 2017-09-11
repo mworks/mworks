@@ -1,0 +1,18 @@
+var ended = false
+
+video stim (
+    path = 'slide.mp4'
+    fullscreen = true
+    ended = ended
+    autoplay = true
+    )
+
+protocol {
+    ended = false
+    queue_stimulus (stim)
+    update_display ()
+    wait_for_condition (
+        condition = ended
+        timeout = 6s
+        )
+}

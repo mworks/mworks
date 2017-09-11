@@ -84,16 +84,18 @@ const std::string BasicTransformStimulus::X_POSITION("x_position");
 const std::string BasicTransformStimulus::Y_POSITION("y_position");
 const std::string BasicTransformStimulus::ROTATION("rotation");
 const std::string BasicTransformStimulus::ALPHA_MULTIPLIER("alpha_multiplier");
+const std::string BasicTransformStimulus::FULLSCREEN("fullscreen");
 
 
 void BasicTransformStimulus::describeComponent(ComponentInfo &info) {
     Stimulus::describeComponent(info);
-    info.addParameter(X_SIZE);
-    info.addParameter(Y_SIZE);
+    info.addParameter(X_SIZE, false);
+    info.addParameter(Y_SIZE, false);
     info.addParameter(X_POSITION, "0.0");
     info.addParameter(Y_POSITION, "0.0");
     info.addParameter(ROTATION, "0.0");
     info.addParameter(ALPHA_MULTIPLIER, "1.0");
+    info.addParameter(FULLSCREEN, "NO");
 }
 
 
@@ -101,28 +103,20 @@ BasicTransformStimulus::BasicTransformStimulus(const ParameterValueMap &paramete
     Stimulus(parameters),
     xoffset(registerVariable(parameters[X_POSITION])),
     yoffset(registerVariable(parameters[Y_POSITION])),
-    xscale(registerVariable(parameters[X_SIZE])),
-    yscale(registerVariable(parameters[Y_SIZE])),
     rotation(registerVariable(parameters[ROTATION])),
-    alpha_multiplier(registerVariable(parameters[ALPHA_MULTIPLIER]))
-{ }
-
-
-BasicTransformStimulus::BasicTransformStimulus(const std::string &_tag,
-                                               const shared_ptr<Variable> &_xoffset,
-                                               const shared_ptr<Variable> &_yoffset,
-                                               const shared_ptr<Variable> &_xscale,
-                                               const shared_ptr<Variable> &_yscale,
-                                               const shared_ptr<Variable> &_rot,
-                                               const shared_ptr<Variable> &_alpha) :
-    Stimulus(_tag),
-    xoffset(registerVariable(_xoffset)),
-    yoffset(registerVariable(_yoffset)),
-    xscale(registerVariable(_xscale)),
-    yscale(registerVariable(_yscale)),
-    rotation(registerVariable(_rot)),
-    alpha_multiplier(registerVariable(_alpha))
-{ }
+    alpha_multiplier(registerVariable(parameters[ALPHA_MULTIPLIER])),
+    fullscreen(parameters[FULLSCREEN])
+{
+    if (!(parameters[X_SIZE].empty())) {
+        xscale = registerVariable(parameters[X_SIZE]);
+    }
+    if (!(parameters[Y_SIZE].empty())) {
+        yscale = registerVariable(parameters[Y_SIZE]);
+    }
+    if (!(xscale || yscale || fullscreen)) {
+        throw SimpleException("Either x_size or y_size must be specified");
+    }
+}
 
 
 void BasicTransformStimulus::load(shared_ptr<StimulusDisplay> display) {
@@ -172,11 +166,23 @@ void BasicTransformStimulus::unload(shared_ptr<StimulusDisplay> display) {
 
 
 void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
-    current_posx = *xoffset;
-    current_posy = *yoffset;
-    current_sizex = *xscale;
-    current_sizey = *yscale;
-    current_rot = *rotation;
+    if (!fullscreen) {
+        current_posx = *xoffset;
+        current_posy = *yoffset;
+        if (xscale) {
+            current_sizex = *xscale;
+            if (!yscale) {
+                current_sizey = current_sizex;
+            }
+        }
+        if (yscale) {
+            current_sizey = *yscale;
+            if (!xscale) {
+                current_sizex = current_sizey;
+            }
+        }
+        current_rot = *rotation;
+    }
     current_alpha = *alpha_multiplier;
     
     gl::ProgramUsage programUsage(program);
@@ -191,11 +197,13 @@ void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
     
     postDraw(display);
     
-    last_posx = current_posx;
-    last_posy = current_posy;
-    last_sizex = current_sizex;
-    last_sizey = current_sizey;
-    last_rot = current_rot;
+    if (!fullscreen) {
+        last_posx = current_posx;
+        last_posy = current_posy;
+        last_sizex = current_sizex;
+        last_sizey = current_sizey;
+        last_rot = current_rot;
+    }
     last_alpha = current_alpha;
 }
 
@@ -204,11 +212,15 @@ Datum BasicTransformStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = Stimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE,STIM_TYPE_BASICTRANSFORM);
-    announceData.addElement(STIM_POSX,last_posx);  
-    announceData.addElement(STIM_POSY,last_posy);  
-    announceData.addElement(STIM_SIZEX,last_sizex);  
-    announceData.addElement(STIM_SIZEY,last_sizey);  
-    announceData.addElement(STIM_ROT,last_rot);  
+    if (fullscreen) {
+        announceData.addElement(STIM_FULLSCREEN, true);
+    } else {
+        announceData.addElement(STIM_POSX,last_posx);
+        announceData.addElement(STIM_POSY,last_posy);
+        announceData.addElement(STIM_SIZEX,last_sizex);
+        announceData.addElement(STIM_SIZEY,last_sizey);
+        announceData.addElement(STIM_ROT,last_rot);
+    }
     announceData.addElement(STIM_ALPHA,last_alpha);
     
     return announceData;
@@ -226,9 +238,16 @@ auto BasicTransformStimulus::getVertexPositions() const -> VertexPositionArray {
 
 
 GLKMatrix4 BasicTransformStimulus::getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const {
-    auto currentMVPMatrix = GLKMatrix4Translate(projectionMatrix, current_posx, current_posy, 0.0);
-    currentMVPMatrix = GLKMatrix4Rotate(currentMVPMatrix, GLKMathDegreesToRadians(current_rot), 0.0, 0.0, 1.0);
-    currentMVPMatrix = GLKMatrix4Scale(currentMVPMatrix, current_sizex, current_sizey, 1.0);
+    GLKMatrix4 currentMVPMatrix;
+    
+    if (fullscreen) {
+        currentMVPMatrix = GLKMatrix4MakeScale(2.0, 2.0, 1.0);
+    } else {
+        currentMVPMatrix = GLKMatrix4Translate(projectionMatrix, current_posx, current_posy, 0.0);
+        currentMVPMatrix = GLKMatrix4Rotate(currentMVPMatrix, GLKMathDegreesToRadians(current_rot), 0.0, 0.0, 1.0);
+        currentMVPMatrix = GLKMatrix4Scale(currentMVPMatrix, current_sizex, current_sizey, 1.0);
+    }
+    
     return GLKMatrix4Translate(currentMVPMatrix, -0.5, -0.5, 0.0);
 }
 
@@ -489,6 +508,9 @@ gl::Shader ImageStimulus::getFragmentShader() const {
 
 
 auto ImageStimulus::getVertexPositions() const -> VertexPositionArray {
+    if (fullscreen) {
+        return BasicTransformStimulus::getVertexPositions();
+    }
     return getVertexPositions(aspectRatio);
 }
 

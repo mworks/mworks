@@ -329,14 +329,20 @@ isa: Stimulus
 parameters: 
   - 
     name: x_size
-    required: yes
     example: 5.0
-    description: Horizontal size (degrees)
+    description: |
+        Horizontal size (degrees).
+
+        If omitted, the value of `y_size`_ is used.  It is an error to omit both
+        x_size and y_size (unless `fullscreen`_ is ``YES``).
   - 
     name: y_size
-    required: yes
     example: 5.0
-    description: Vertical size (degrees)
+    description: |
+        Vertical size (degrees).
+
+        If omitted, the value of `x_size`_ is used.  It is an error to omit both
+        x_size and y_size (unless `fullscreen`_ is ``YES``).
   - 
     name: x_position
     default: 0.0
@@ -355,6 +361,13 @@ parameters:
     description: >
         Controls the transparency of the stimulus.  ``1.0`` is fully opaque,
         while ``0.0`` is fully tranparent.
+  - 
+    name: fullscreen
+    default: 'NO'
+    description: >
+        If ``YES``, the stimulus is sized to fill the display.  In this mode,
+        `x_size`_, `y_size`_, `x_position`_, `y_position`_, and `rotation`_ are
+        ignored.
 
 
 ---

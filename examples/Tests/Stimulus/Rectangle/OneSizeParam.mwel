@@ -1,0 +1,17 @@
+rectangle x_size_only (
+    x_size = 5
+    x_position = -5
+    )
+
+rectangle y_size_only (
+    y_size = 7
+    x_position = 5
+    )
+
+protocol {
+    queue_stimulus (x_size_only)
+    queue_stimulus (y_size_only)
+    update_display ()
+    report ('Both stimuli should be squares.  The right one should be larger.')
+    wait (10s)
+}

@@ -43,6 +43,7 @@ private:
     const VariablePtr fontName;
     const VariablePtr fontSize;
     
+    GLint viewportWidth, viewportHeight;
     double pixelsPerDegree;
     double pointsPerPixel;
     GLuint texture = 0;

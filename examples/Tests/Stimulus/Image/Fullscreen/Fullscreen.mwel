@@ -1,0 +1,11 @@
+image_file stim (
+    path = 'red_border.png'
+    fullscreen = true
+    )
+
+protocol {
+    queue_stimulus (stim)
+    update_display ()
+    report ('A thin, red border should be visible around all edges of the display')
+    wait (10s)
+}

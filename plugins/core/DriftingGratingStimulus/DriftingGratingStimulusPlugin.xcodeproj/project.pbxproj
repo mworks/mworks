@@ -40,6 +40,7 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		E12D98A116BC1FBA004FEF79 /* DriftingGratingStimulusPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */; };
 		E12D98A516BC205E004FEF79 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E12D98A416BC205E004FEF79 /* OpenGL.framework */; };
+		E184ED2B1F6824D100050F69 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E184ED2A1F6824D100050F69 /* GLKit.framework */; };
 		E1B11F1A1E69DEA3009D877C /* DriftingGratingStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E287D2F0E64A5CD005BE396 /* DriftingGratingStimulus.cpp */; };
 		E1B11F1B1E69DEAA009D877C /* DriftingGratingStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp */; };
 		E1DB979E16C1A904001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979D16C1A904001481E9 /* libboost_system.a */; };
@@ -87,6 +88,7 @@
 		8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DriftingGratingStimulusPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E12D98A416BC205E004FEF79 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		E184ED2A1F6824D100050F69 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E1B11F051E69CED1009D877C /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1B11F061E69CED1009D877C /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1B11F071E69CED1009D877C /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
+				E184ED2B1F6824D100050F69 /* GLKit.framework in Frameworks */,
 				E12D98A516BC205E004FEF79 /* OpenGL.framework in Frameworks */,
 				E1DB979E16C1A904001481E9 /* libboost_system.a in Frameworks */,
 			);
@@ -134,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
+				E184ED2A1F6824D100050F69 /* GLKit.framework */,
 				E12D98A416BC205E004FEF79 /* OpenGL.framework */,
 				E1DB979D16C1A904001481E9 /* libboost_system.a */,
 			);
@@ -399,6 +403,8 @@
 				INFOPLIST_FILE = "Info-iOS.plist";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-framework",
+					GLKit,
 					"-framework",
 					OpenGLES,
 				);

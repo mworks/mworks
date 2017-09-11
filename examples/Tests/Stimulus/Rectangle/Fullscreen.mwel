@@ -1,0 +1,10 @@
+rectangle stim (
+    color = 1,0,0
+    fullscreen = true
+    )
+
+protocol {
+    queue_stimulus (stim)
+    update_display ()
+    wait (10s)
+}

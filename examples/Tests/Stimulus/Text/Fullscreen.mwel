@@ -1,0 +1,20 @@
+var message = ''
+var index = 0
+
+text stim (
+    text = message
+    font_name = Courier
+    font_size = {'macos': 96, 'ios': 64}[osname()]
+    fullscreen = true
+    )
+
+protocol {
+    while (index < 1000) {
+        message += 'Hi! '
+        index += 1
+    }
+    queue_stimulus (stim)
+    update_display ()
+    report ('The display should be filled with repetitions of "Hi!"')
+    wait (10s)
+}
