@@ -403,6 +403,18 @@ private:
 };
 
 
+class ClearStimulusDisplay : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit ClearStimulusDisplay(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
+};
+
+
 class PlaySound : public Action {
 	
 protected:

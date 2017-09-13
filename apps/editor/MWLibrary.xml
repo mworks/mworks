@@ -1250,6 +1250,21 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		</code>
 	</MWElement>
 
+	<MWElement name="Clear Stimulus Display">
+		<match_signature>action[@type='clear_stimulus_display']</match_signature>
+		<isa>Action</isa>
+		
+		<belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		
+		<description>
+Remove all stimuli from the display queue, and trigger a redraw of the stimulus display.  On the next display refresh, only the default background will be drawn.
+		</description>
+		
+		<code>
+			<action tag="Clear Stimulus Display" type="clear_stimulus_display"/>
+		</code>
+	</MWElement>
+
 	<MWElement name="Play Sound">
 		<match_signature>action[@type='play_sound']</match_signature>
 		<isa>Action</isa>

@@ -1228,6 +1228,19 @@ parameters:
 ---
 
 
+name: Clear Stimulus Display
+signature: action/clear_stimulus_display
+alias: action/clear_display
+isa: Action
+description: >
+    Remove all stimuli from the display queue, and trigger a redraw of the
+    stimulus display.  On the next display refresh, only the default background
+    will be drawn.
+
+
+---
+
+
 name: Play Sound
 signature: action/play_sound
 isa: Action

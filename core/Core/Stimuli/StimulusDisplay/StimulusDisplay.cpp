@@ -406,10 +406,9 @@ void StimulusDisplay::refreshMirrorDisplay(int contextIndex) const {
 void StimulusDisplay::clearDisplay() {
     unique_lock lock(display_lock);
     
-    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
-    while(node) {
-        node->setVisible(false);
-        node = node->getNext();
+    // Remove all stimuli from the display stack
+    while (auto node = display_stack->getFrontmost()) {
+        node->remove();
     }
 	
     needDraw = true;

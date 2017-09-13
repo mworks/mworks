@@ -1,0 +1,25 @@
+rectangle rect (
+    color = 1,0,0
+    x_size = 5
+    x_position = -5
+    )
+
+circle circ (
+    color = 0,1,0
+    x_size = 5
+    x_position = 5
+    )
+
+protocol {
+    trial (nsamples = 3) {
+        queue_stimulus (rect)
+        queue_stimulus (circ)
+        update_display ()
+        report ('Stimuli should be visible')
+        wait (2s)
+
+        clear_display ()
+        report ('Stimuli should be hidden')
+        wait (2s)
+    }
+}

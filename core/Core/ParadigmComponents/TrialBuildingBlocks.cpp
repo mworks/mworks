@@ -920,6 +920,30 @@ bool UpdateStimulusDisplay::execute() {
 
 
 /****************************************************************
+ *                 ClearStimulusDisplay Methods
+ ****************************************************************/
+
+
+void ClearStimulusDisplay::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/clear_stimulus_display");
+}
+
+
+ClearStimulusDisplay::ClearStimulusDisplay(const ParameterValueMap &parameters) :
+    Action(parameters)
+{
+    setName("ClearStimulusDisplay");
+}
+
+
+bool ClearStimulusDisplay::execute() {
+    StimulusDisplay::getCurrentStimulusDisplay()->clearDisplay();
+    return true;
+}
+
+
+/****************************************************************
  *                 PlaySound Methods
  ****************************************************************/
 shared_ptr<mw::Component> PlaySoundFactory::createObject(std::map<std::string, std::string> parameters,

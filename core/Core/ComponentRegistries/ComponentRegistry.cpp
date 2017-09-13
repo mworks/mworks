@@ -81,6 +81,8 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/send_stimulus_to_back", new SendStimulusToBackFactory());
     registerFactory<StandardComponentFactory, UpdateStimulusDisplay>();
     registerFactoryAlias<UpdateStimulusDisplay>("action/update_display");
+    registerFactory<StandardComponentFactory, ClearStimulusDisplay>();
+    registerFactoryAlias<ClearStimulusDisplay>("action/clear_display");
 	registerFactory("action/play_sound", new PlaySoundFactory());
 	registerFactory("action/stop_sound", new StopSoundFactory());
 	registerFactory("action/pause_sound", new PauseSoundFactory());
