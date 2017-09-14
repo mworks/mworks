@@ -2,6 +2,11 @@ var foo = 0
 var bar = 0
 
 protocol {
+    // Wait for the event queue to clear out.  If we don't do this, our
+    // callbacks are sometimes invoked on the default-value announcements
+    // for foo and bar.
+    wait (1s)
+
     // Define and register Python event callbacks
     run_python_file ('register_event_callback.py')
 
