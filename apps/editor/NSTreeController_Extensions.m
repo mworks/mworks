@@ -232,17 +232,17 @@
 
 - (NSTreeNode *)arrangedRoot
 {
-	return [[[self arrangedObjects] nodeAtIndexPath: [NSIndexPath indexPathWithIndex: 0]] parentNode];
+	return [[(NSTreeControllerTreeNode *)[self arrangedObjects] nodeAtIndexPath: [NSIndexPath indexPathWithIndex: 0]] parentNode];
 }
 
 - (id)objectAtArrangedIndexPath:(NSIndexPath *)path;
 {
-	return [[self arrangedObjects] objectAtIndexPath: path];
+	return [(NSTreeControllerTreeNode *)[self arrangedObjects] objectAtIndexPath: path];
 }
 
 - (NSArray *)siblingsAtArrangedIndexPath:(NSIndexPath *)path;
 {
-	NSArray	 *siblingPaths = [[[self arrangedObjects] nodeAtIndexPath: path] siblingIndexPaths];
+	NSArray	 *siblingPaths = [[(NSTreeControllerTreeNode *)[self arrangedObjects] nodeAtIndexPath: path] siblingIndexPaths];
 	
 	if ( siblingPaths ) {
 		unsigned int    i, count = [siblingPaths count];
@@ -261,7 +261,7 @@
 
 - (NSIndexPath *)arrangedIndexPathForObject:(id)object startingAt:(NSIndexPath *)parent;
 {
-	NSTreeControllerTreeNode *node = parent ? [[self arrangedObjects] nodeAtIndexPath: parent] : [self arrangedRoot];
+	NSTreeControllerTreeNode *node = parent ? [(NSTreeControllerTreeNode *)[self arrangedObjects] nodeAtIndexPath: parent] : [self arrangedRoot];
 	return [node arrangedIndexPathForObject: object startingAt: parent];
 }
 
@@ -309,7 +309,7 @@
 
 - (id)outlineItemForArrangedIndexPath:(NSIndexPath *)path;
 {
-	return [[self arrangedObjects] nodeAtIndexPath: path];
+	return [(NSTreeControllerTreeNode *)[self arrangedObjects] nodeAtIndexPath: path];
 }
 
 + (NSIndexPath *)arrangedIndexPathForOutlineItem:(id)item;
@@ -324,7 +324,7 @@
 	NSIndexPath		*path;
 	
 	while ( path = [enumerator nextObject] )
-		[outlineItems addObject: [[self arrangedObjects] nodeAtIndexPath: path]];
+		[outlineItems addObject: [(NSTreeControllerTreeNode *)[self arrangedObjects] nodeAtIndexPath: path]];
 	
 	return outlineItems;	
 }
@@ -336,7 +336,7 @@
 
 - (NSArray *)childObjectsByDepthFirstSearchStartingAt:(NSIndexPath *)parent
 {
-	NSTreeControllerTreeNode	*node = parent ? [[self arrangedObjects] nodeAtIndexPath: parent] : [self arrangedRoot];
+	NSTreeControllerTreeNode	*node = parent ? [(NSTreeControllerTreeNode *)[self arrangedObjects] nodeAtIndexPath: parent] : [self arrangedRoot];
 	NSArray						*items = [node childrenByDepthFirstSearch];
 	
 	if ( items ) {

@@ -78,7 +78,7 @@
 #if TARGET_OS_IPHONE
     if (central.state == CBManagerStatePoweredOn)
 #else
-    if (central.state == CBCentralManagerStatePoweredOn)
+    if (central.state == static_cast<NSInteger>(CBCentralManagerStatePoweredOn))
 #endif
     {
         notifyCallback(connection);
