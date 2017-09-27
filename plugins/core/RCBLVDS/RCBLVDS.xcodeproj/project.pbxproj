@@ -1,0 +1,426 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E12DAD761F69A94D004FF673 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12DAD771F69A94D004FF673 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E12DAD7E1F69A97B004FF673 /* CopyFiles */,
+			);
+			dependencies = (
+				E12DAD7D1F69A976004FF673 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E12DAD791F69A95A004FF673 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12DAD7A1F69A95A004FF673 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E12DAD811F69AB86004FF673 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E110FE791F7BE78500E9BBB9 /* RCBLVDSDigitalInputChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18A60331F795349002886A6 /* RCBLVDSDigitalInputChannel.cpp */; };
+		E110FE7A1F7BE78900E9BBB9 /* RCBLVDSDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12DAD891F69B0BF004FF673 /* RCBLVDSDevice.cpp */; };
+		E110FE7B1F7BE78B00E9BBB9 /* RCBLVDSPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12DAD701F69A868004FF673 /* RCBLVDSPlugin.cpp */; };
+		E12DAD711F69A868004FF673 /* RCBLVDSPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12DAD701F69A868004FF673 /* RCBLVDSPlugin.cpp */; };
+		E12DAD7F1F69A985004FF673 /* RCBLVDS.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E12DAD671F69A6E2004FF673 /* RCBLVDS.bundle */; };
+		E12DAD861F69AEE4004FF673 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E12DAD851F69AEE4004FF673 /* MWorksCore.framework */; };
+		E12DAD881F69AF24004FF673 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E12DAD871F69AF24004FF673 /* libboost_system.a */; };
+		E12DAD8B1F69B0C0004FF673 /* RCBLVDSDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12DAD891F69B0BF004FF673 /* RCBLVDSDevice.cpp */; };
+		E16F5B951F7AAA13003556D8 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E16F5B941F7AAA13003556D8 /* MWLibrary.xml */; };
+		E16F5B971F7AABFE003556D8 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E16F5B961F7AABFE003556D8 /* MWComponents.yaml */; };
+		E18A60351F795349002886A6 /* RCBLVDSDigitalInputChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18A60331F795349002886A6 /* RCBLVDSDigitalInputChannel.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E12DAD7C1F69A976004FF673 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E12DAD5F1F69A6E2004FF673 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12DAD661F69A6E2004FF673;
+			remoteInfo = RCBLVDS;
+		};
+		E12DAD801F69AB86004FF673 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E12DAD5F1F69A6E2004FF673 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12DAD761F69A94D004FF673;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E12DAD7E1F69A97B004FF673 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E12DAD7F1F69A985004FF673 /* RCBLVDS.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E110FE721F7BE3E700E9BBB9 /* RCBLVDS.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RCBLVDS.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E110FE751F7BE3E700E9BBB9 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
+		E12DAD671F69A6E2004FF673 /* RCBLVDS.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RCBLVDS.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E12DAD6A1F69A6E2004FF673 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E12DAD701F69A868004FF673 /* RCBLVDSPlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = RCBLVDSPlugin.cpp; sourceTree = "<group>"; };
+		E12DAD731F69A8C7004FF673 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E12DAD741F69A8C7004FF673 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E12DAD751F69A8C7004FF673 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E12DAD831F69AE43004FF673 /* RCBLVDS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCBLVDS-Prefix.pch"; sourceTree = "<group>"; };
+		E12DAD851F69AEE4004FF673 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E12DAD871F69AF24004FF673 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E12DAD891F69B0BF004FF673 /* RCBLVDSDevice.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = RCBLVDSDevice.cpp; sourceTree = "<group>"; };
+		E12DAD8A1F69B0C0004FF673 /* RCBLVDSDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RCBLVDSDevice.hpp; sourceTree = "<group>"; };
+		E16F5B941F7AAA13003556D8 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		E16F5B961F7AABFE003556D8 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E18A60331F795349002886A6 /* RCBLVDSDigitalInputChannel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RCBLVDSDigitalInputChannel.cpp; sourceTree = "<group>"; };
+		E18A60341F795349002886A6 /* RCBLVDSDigitalInputChannel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RCBLVDSDigitalInputChannel.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E110FE6E1F7BE3E700E9BBB9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E12DAD641F69A6E2004FF673 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E12DAD861F69AEE4004FF673 /* MWorksCore.framework in Frameworks */,
+				E12DAD881F69AF24004FF673 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E12DAD5E1F69A6E2004FF673 = {
+			isa = PBXGroup;
+			children = (
+				E12DAD721F69A892004FF673 /* External Config */,
+				E12DAD691F69A6E2004FF673 /* RCBLVDS */,
+				E12DAD841F69AEE3004FF673 /* Frameworks */,
+				E12DAD681F69A6E2004FF673 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E12DAD681F69A6E2004FF673 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E12DAD671F69A6E2004FF673 /* RCBLVDS.bundle */,
+				E110FE721F7BE3E700E9BBB9 /* RCBLVDS.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E12DAD691F69A6E2004FF673 /* RCBLVDS */ = {
+			isa = PBXGroup;
+			children = (
+				E18A60341F795349002886A6 /* RCBLVDSDigitalInputChannel.hpp */,
+				E18A60331F795349002886A6 /* RCBLVDSDigitalInputChannel.cpp */,
+				E12DAD8A1F69B0C0004FF673 /* RCBLVDSDevice.hpp */,
+				E12DAD891F69B0BF004FF673 /* RCBLVDSDevice.cpp */,
+				E12DAD701F69A868004FF673 /* RCBLVDSPlugin.cpp */,
+				E12DAD821F69ADFA004FF673 /* Supporting Files */,
+			);
+			path = RCBLVDS;
+			sourceTree = "<group>";
+		};
+		E12DAD721F69A892004FF673 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E12DAD751F69A8C7004FF673 /* macOS.xcconfig */,
+				E12DAD741F69A8C7004FF673 /* macOS_Plugin.xcconfig */,
+				E12DAD731F69A8C7004FF673 /* iOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E12DAD821F69ADFA004FF673 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E12DAD6A1F69A6E2004FF673 /* Info.plist */,
+				E110FE751F7BE3E700E9BBB9 /* Info-iOS.plist */,
+				E12DAD831F69AE43004FF673 /* RCBLVDS-Prefix.pch */,
+				E16F5B961F7AABFE003556D8 /* MWComponents.yaml */,
+				E16F5B941F7AAA13003556D8 /* MWLibrary.xml */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E12DAD841F69AEE3004FF673 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E12DAD851F69AEE4004FF673 /* MWorksCore.framework */,
+				E12DAD871F69AF24004FF673 /* libboost_system.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E110FE6F1F7BE3E700E9BBB9 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E110FE711F7BE3E700E9BBB9 /* RCBLVDS-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E110FE781F7BE3E700E9BBB9 /* Build configuration list for PBXNativeTarget "RCBLVDS-iOS" */;
+			buildPhases = (
+				E110FE6D1F7BE3E700E9BBB9 /* Sources */,
+				E110FE6E1F7BE3E700E9BBB9 /* Frameworks */,
+				E110FE6F1F7BE3E700E9BBB9 /* Headers */,
+				E110FE701F7BE3E700E9BBB9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RCBLVDS-iOS";
+			productName = "RCBLVDS-iOS";
+			productReference = E110FE721F7BE3E700E9BBB9 /* RCBLVDS.plugin */;
+			productType = "com.apple.product-type.framework";
+		};
+		E12DAD661F69A6E2004FF673 /* RCBLVDS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E12DAD6D1F69A6E2004FF673 /* Build configuration list for PBXNativeTarget "RCBLVDS" */;
+			buildPhases = (
+				E12DAD631F69A6E2004FF673 /* Sources */,
+				E12DAD641F69A6E2004FF673 /* Frameworks */,
+				E12DAD651F69A6E2004FF673 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RCBLVDS;
+			productName = RCBLVDS;
+			productReference = E12DAD671F69A6E2004FF673 /* RCBLVDS.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E12DAD5F1F69A6E2004FF673 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E110FE711F7BE3E700E9BBB9 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
+					E12DAD661F69A6E2004FF673 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					E12DAD761F69A94D004FF673 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					E12DAD791F69A95A004FF673 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E12DAD621F69A6E2004FF673 /* Build configuration list for PBXProject "RCBLVDS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E12DAD5E1F69A6E2004FF673;
+			productRefGroup = E12DAD681F69A6E2004FF673 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E12DAD661F69A6E2004FF673 /* RCBLVDS */,
+				E12DAD761F69A94D004FF673 /* Install */,
+				E12DAD791F69A95A004FF673 /* Everything */,
+				E110FE711F7BE3E700E9BBB9 /* RCBLVDS-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E110FE701F7BE3E700E9BBB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E12DAD651F69A6E2004FF673 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E16F5B971F7AABFE003556D8 /* MWComponents.yaml in Resources */,
+				E16F5B951F7AAA13003556D8 /* MWLibrary.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E110FE6D1F7BE3E700E9BBB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E110FE7A1F7BE78900E9BBB9 /* RCBLVDSDevice.cpp in Sources */,
+				E110FE7B1F7BE78B00E9BBB9 /* RCBLVDSPlugin.cpp in Sources */,
+				E110FE791F7BE78500E9BBB9 /* RCBLVDSDigitalInputChannel.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E12DAD631F69A6E2004FF673 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E12DAD8B1F69B0C0004FF673 /* RCBLVDSDevice.cpp in Sources */,
+				E18A60351F795349002886A6 /* RCBLVDSDigitalInputChannel.cpp in Sources */,
+				E12DAD711F69A868004FF673 /* RCBLVDSPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E12DAD7D1F69A976004FF673 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12DAD661F69A6E2004FF673 /* RCBLVDS */;
+			targetProxy = E12DAD7C1F69A976004FF673 /* PBXContainerItemProxy */;
+		};
+		E12DAD811F69AB86004FF673 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12DAD761F69A94D004FF673 /* Install */;
+			targetProxy = E12DAD801F69AB86004FF673 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E110FE771F7BE3E700E9BBB9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E12DAD731F69A8C7004FF673 /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RCBLVDS/RCBLVDS-Prefix.pch";
+				INFOPLIST_FILE = "RCBLVDS/Info-iOS.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.RCBLVDS-iOS";
+				PRODUCT_NAME = RCBLVDS;
+			};
+			name = Development;
+		};
+		E12DAD6B1F69A6E2004FF673 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E12DAD6E1F69A6E2004FF673 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E12DAD741F69A8C7004FF673 /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RCBLVDS/RCBLVDS-Prefix.pch";
+				INFOPLIST_FILE = RCBLVDS/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.RCBLVDS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E12DAD781F69A94D004FF673 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E12DAD751F69A8C7004FF673 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E12DAD7B1F69A95A004FF673 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E12DAD751F69A8C7004FF673 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E110FE781F7BE3E700E9BBB9 /* Build configuration list for PBXNativeTarget "RCBLVDS-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E110FE771F7BE3E700E9BBB9 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E12DAD621F69A6E2004FF673 /* Build configuration list for PBXProject "RCBLVDS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12DAD6B1F69A6E2004FF673 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E12DAD6D1F69A6E2004FF673 /* Build configuration list for PBXNativeTarget "RCBLVDS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12DAD6E1F69A6E2004FF673 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E12DAD771F69A94D004FF673 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12DAD781F69A94D004FF673 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E12DAD7A1F69A95A004FF673 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12DAD7B1F69A95A004FF673 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E12DAD5F1F69A6E2004FF673 /* Project object */;
+}

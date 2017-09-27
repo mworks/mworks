@@ -1,0 +1,23 @@
+//
+//  RCBLVDS-Prefix.pch
+//  RCBLVDS
+//
+//  Created by Christopher Stawarz on 9/13/17.
+//  Copyright © 2017 The MWorks Project. All rights reserved.
+//
+
+#ifndef RCBLVDS_Prefix_pch
+#define RCBLVDS_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <future>
+
+#include <MWorksCore/ExpressionVariable.h>
+#include <MWorksCore/IODevice.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardComponentFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* RCBLVDS_Prefix_pch */

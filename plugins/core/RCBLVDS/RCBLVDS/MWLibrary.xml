@@ -1,0 +1,41 @@
+<MWElements>
+  <MWElement name="RCB-LVDS Device">
+    <match_signature>iodevice[@type="rcb_lvds"]</match_signature>
+    
+    <isa>IODevice</isa>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Interface to a DSP Wireless RCB-LVDS module
+    </description>
+    
+    <code>
+      <iodevice type="rcb_lvds"
+                tag="RCB-LVDS Device"
+                address=""
+                />
+    </code>
+  </MWElement>
+   
+  <MWElement name="RCB-LVDS Digital Input Channel">
+    <match_signature>iochannel[@type="rcb_lvds_digital_input"]</match_signature>
+    
+    <isa>IOChannel</isa>
+    <allowed_parent>RCB-LVDS Device</allowed_parent>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Digital input channel on a RCB-LVDS device
+    </description>
+    
+    <code>
+      <iochannel type="rcb_lvds_digital_input"
+                 tag="RCB-LVDS Digital Input Channel"
+                 channel=""
+                 value=""
+             />
+    </code>
+  </MWElement>
+</MWElements>

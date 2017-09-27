@@ -1,0 +1,10 @@
+var value = 0
+
+rcb_lvds rcb_lvds (
+    address = localhost
+    ) {
+    rcb_lvds_digital_input (
+        channel = 128
+        value = value
+        )
+}

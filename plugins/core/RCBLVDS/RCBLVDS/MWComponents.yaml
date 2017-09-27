@@ -1,0 +1,53 @@
+---
+
+
+name: RCB-LVDS Device
+signature: iodevice/rcb_lvds
+isa: IODevice
+description: >
+    Interface to a DSP Wireless `RCB-LVDS module <http://www.dspwi.com/wifi-
+    interfaces-for-ephys.html>`_
+parameters: 
+  - 
+    name: address
+    required: yes
+    example: [192.168.1.93, '"10.0.1.93"']
+    description: Network address (hostname or IP address) of the module
+
+
+---
+
+
+name: RCB-LVDS Digital Input Channel
+signature: iochannel/rcb_lvds_digital_input
+isa: IOChannel
+allowed_parent: RCB-LVDS Device
+description: |
+    Digital input channel on a `RCB-LVDS Device`.
+
+    *Note*: RCB-LVDS digital channels are inputs from the perspective of the
+    device, in that their values are recorded along with the amplifier channel
+    data and streamed to the recording software.  However, from MWorks'
+    perspective, they function as outputs and can be used to add time stamps or
+    other information to the RCB-LVDS data stream.
+parameters: 
+  - 
+    name: channel
+    required: yes
+    example: [3, '0,2,6', '1:4', '7,11:13,15']
+    description: >
+        Channel number(s) to control via assignment to the variable provided in
+        `value`_.  Each channel number must be between 0 and 15 (inclusive).
+  - 
+    name: value
+    required: yes
+    description: |
+        Variable from which to read channel state.  `Assigning <Assign
+        Variable>` a value to the variable causes the channel state to be
+        changed immediately.
+
+        The state value is treated as a multi-bit word.  The least significant
+        bit controls the state of the first channel specified in `channel`_ (0
+        for low, 1 for high), the next bit controls the second channel, etc.
+
+

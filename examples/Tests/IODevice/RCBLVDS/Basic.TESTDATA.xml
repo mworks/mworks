@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <requirements>
+    <feature name="rcb_lvds"/>
+  </requirements>
+  <expected_messages>
+    <message type="starts_with">RCB-LVDS device "rcb_lvds" returned the following status info:</message>
+    <message type="whole_message">WARNING: RCB-LVDS digital input channel value (3) contains too many set bits; the full value cannot be sent to the device [line 47, column 10]</message>
+  </expected_messages>
+</marionette_info>

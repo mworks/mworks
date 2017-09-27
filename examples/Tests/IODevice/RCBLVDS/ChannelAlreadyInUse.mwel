@@ -1,0 +1,20 @@
+var val1 = 0
+var val2 = 0
+var val3 = 0
+
+rcb_lvds rcb_lvds (
+    address = localhost
+    ) {
+    rcb_lvds_digital_input (
+        channel = 1
+        value = val1
+        )
+    rcb_lvds_digital_input (
+        channel = 8
+        value = val2
+        )
+    rcb_lvds_digital_input (
+        channel = 0:4
+        value = val3
+        )
+}
