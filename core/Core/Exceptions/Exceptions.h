@@ -68,6 +68,15 @@ class SimpleException : public std::exception, public boost::exception {
 															message(_message + ": " + _subject){
 			domain = _domain;
 		}
+    
+        SimpleException(const boost::format &fmt) :
+            SimpleException(M_GENERIC_MESSAGE_DOMAIN, fmt)
+        { }
+    
+        SimpleException(MessageDomain domain, const boost::format &fmt) :
+            message(fmt.str()),
+            domain(domain)
+        { }
 		
 		//SimpleException(const SimpleException& e){
 //			domain = e.domain;
