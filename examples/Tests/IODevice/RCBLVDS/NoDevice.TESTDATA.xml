@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="whole_message">ERROR: Request to RCB-LVDS device failed: Could not connect to the server.</message>
+    <message type="starts_with">ERROR: Request to RCB-LVDS device failed: </message>
     <message type="whole_message">ERROR: Cannot obtain status of RCB-LVDS device</message>
     <message type="starts_with">ERROR: Can't start iodevice (rcb_lvds) and no alt tag specified</message>
     <message type="starts_with">ERROR: Failed to parse experiment</message>
