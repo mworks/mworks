@@ -157,7 +157,7 @@ var y = 7
         self.assertEqual(1, self.toxml('my_script', src_path))
         self.assertOutput(stderr='''\
 Cannot infer parameter name for component 'floop' [line 2, column 1]
-Component 'Assign Variable' is not allowed at the top level [line 3, column 3]
+Component 'action/assignment' is not allowed at the top level [line 3, column 3]
 ''')
 
     def test_success(self):

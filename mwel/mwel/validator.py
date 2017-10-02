@@ -12,6 +12,8 @@ class Validator(object):
         self._signature_to_name = dict((info['signature'], info['name'])
                                        for info in self._component_info.values()
                                        if not info.get('abstract', False))
+        self._name_to_signature = dict((name, sig) for (sig, name) in
+                                       self._signature_to_name.items())
         self._parents = []
 
     def validate(self, cmpts):
@@ -53,8 +55,10 @@ class Validator(object):
             info = self._component_info[name]
             for parent in reversed(self._parents):
                 if parent not in info['allowed_parent']:
+                    parent_sig = self._name_to_signature.get(parent, parent)
                     self.error_logger("Component '%s' is not allowed inside "
-                                      "component '%s'" % (name, parent),
+                                      "component '%s'" %
+                                      (signature, parent_sig),
                                       lineno = c.lineno,
                                       colno = c.colno,
                                       filename = c.filename)
@@ -68,7 +72,7 @@ class Validator(object):
                 # the experiment component before completing validation
                 if not (signature == 'protocol' or info.get('toplevel', False)):
                     self.error_logger("Component '%s' is not allowed at "
-                                      "the top level" % name,
+                                      "the top level" % signature,
                                       lineno = c.lineno,
                                       colno = c.colno,
                                       filename = c.filename)

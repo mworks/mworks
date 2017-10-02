@@ -165,7 +165,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                             default_value = '1')
             self.assertEqual(0, len(children))
 
-            self.assertError("Component 'Assign Variable' is not allowed "
+            self.assertError("Component 'action/assignment' is not allowed "
                              "at the top level",
                              lineno = 6,
                              colno = 30)
@@ -218,7 +218,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                          values = '4, 5')
             self.assertEqual(2, len(cmpts))
 
-            self.assertError("Component 'Block' is not allowed "
+            self.assertError("Component 'block' is not allowed "
                              "at the top level",
                              lineno = 8,
                              colno = 36)
@@ -261,8 +261,8 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                             tag = 'bg')
             self.assertEqual(0, len(children))
 
-            self.assertError("Component 'Variable' is not allowed inside "
-                             "component 'Stimulus Group'",
+            self.assertError("Component 'variable' is not allowed inside "
+                             "component 'stimulus_group'",
                              lineno = 7,
                              colno = 32)
             children = self.assertComponent(cmpts[1], 7, 32,
@@ -275,7 +275,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                          name = 'floop')
             self.assertEqual(1, len(cmpts))
 
-            self.assertError("Component 'Blank Fullscreen Stimulus' is not "
+            self.assertError("Component 'stimulus/blank_screen' is not "
                              "allowed inside component 'floop'",
                              lineno = 12,
                              colno = 36)
@@ -328,8 +328,8 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                          values = '4:5')
             self.assertEqual(2, len(cmpts))
 
-            self.assertError("Component 'Block' is not allowed inside "
-                             "component 'Stimulus Group'",
+            self.assertError("Component 'block' is not allowed inside "
+                             "component 'stimulus_group'",
                              lineno = 9,
                              colno = 40)
             children = self.assertComponent(cmpts[0], 9, 40,
@@ -370,7 +370,7 @@ x = 2
         include3_path = self.write_file('include3.mwel', include3_src)
 
         with self.validate(base_src, self.tmpdir):
-            self.assertError("Component 'Assign Variable' is not allowed "
+            self.assertError("Component 'action/assignment' is not allowed "
                              "at the top level",
                              lineno = 1,
                              colno = 3,
@@ -380,8 +380,8 @@ x = 2
                              lineno = 2,
                              colno = 1,
                              filename = include2_path)
-            self.assertError("Component 'Variable' is not allowed inside "
-                             "component 'Protocol'",
+            self.assertError("Component 'variable' is not allowed inside "
+                             "component 'protocol'",
                              lineno = 3,
                              colno = 5,
                              filename = include1_path)
