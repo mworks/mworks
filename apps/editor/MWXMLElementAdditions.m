@@ -8,6 +8,8 @@
 
 #import "MWXMLElementAdditions.h"
 
+#define FALLBACK_ICON_NAME @"actionIcon"
+
 
 @implementation NSXMLElement (MWXMLElementAdditions)
 
@@ -47,15 +49,18 @@
 }
 
 - (id)valueForKey:(NSString *)key{
+    BOOL wantIcon = ([key isEqualToString:@"icon"] || [key isEqualToString:@"_icon"]);
+    
 	NSXMLNode *att = [self attributeForName:key];
-	if(att == Nil){
+	if (!att && !wantIcon) {
 		return [super valueForKey:key];
 	}
 
-	NSString *returnval;
-	
-	returnval = [att stringValue];
-	
+    NSString *returnval = (att ? att.stringValue : @"");
+    if (wantIcon && returnval.length == 0) {
+        returnval = FALLBACK_ICON_NAME;
+    }
+
 	return returnval;
 }
 
