@@ -276,11 +276,6 @@ class Analyzer(ExpressionAnalyzer):
                                    ('s' if len(params) != 1 else '')),
                                   lineno = node.lineno,
                                   colno = node.colno)
-            elif isinstance(node, ast.DeclarationStmt) and node.children:
-                self.error_logger('Macro expansion cannot include child '
-                                  'components',
-                                  lineno = node.lineno,
-                                  colno = node.colno)
             else:
                 # Need to process arguments here, where the arguments to
                 # the enclosing macro (if any) are still visible
@@ -299,6 +294,40 @@ class Analyzer(ExpressionAnalyzer):
                                 self._stmt(stmt, expansion)
                         for c in expansion:
                             self._add_backtrace(c, node)
+                        if node.tag or node.children:
+                            if len(expansion) != 1:
+                                self.error_logger(
+                                    ("Macro body declares %d components, so "
+                                     "invocation cannot include tag or child "
+                                     "components" % len(expansion)),
+                                    lineno = node.lineno,
+                                    colno = node.colno,
+                                    )
+                                return
+                            c = expansion[0]
+                            if node.tag:
+                                if c.tag:
+                                    self.error_logger(
+                                        "Macro body contains a tag, so "
+                                        "invocation cannot include one",
+                                        lineno = node.lineno,
+                                        colno = node.colno,
+                                        )
+                                    return
+                                c.tag = node.tag
+                            if node.children:
+                                if c.children:
+                                    self.error_logger(
+                                        "Macro body contains children, so "
+                                        "invocation cannot include them",
+                                        lineno = node.lineno,
+                                        colno = node.colno,
+                                        )
+                                    return
+                                children = []
+                                for stmt in node.children:
+                                    self._stmt(stmt, children)
+                                c.children = children
                         cmpts.extend(expansion)
                         return True
                 finally:

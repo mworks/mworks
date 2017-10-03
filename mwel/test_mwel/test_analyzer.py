@@ -862,13 +862,8 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
                           %define inc_and_announce()
                               x = x+2
                           %end
-
-                          // With children
-                          inc_and_announce() {
-                              y = 2
-                          }
                           ''') as cmpts:
-            self.assertEqual(8, len(cmpts))
+            self.assertEqual(7, len(cmpts))
 
             children = self.assertComponent(cmpts[0], 7, 27,
                                             name = 'variable',
@@ -931,19 +926,6 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
             self.assertError("Macro 'inc_and_announce' is already defined",
                              lineno = 16,
                              colno = 28)
-
-            self.assertError("Macro expansion cannot include child components",
-                             lineno = 21,
-                             colno = 27)
-            children = self.assertComponent(cmpts[7], 21, 27,
-                                            name = 'inc_and_announce')
-            self.assertEqual(1, len(children))
-            children = self.assertComponent(children[0], 22, 33,
-                                            name = 'action',
-                                            type = 'assignment',
-                                            variable = 'y',
-                                            value = '2')
-            self.assertEqual([], children)
 
     def test_single_arg(self):
         with self.analyze('''
@@ -1334,4 +1316,162 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
                                             name = 'variable',
                                             tag = 'foo',
                                             default_value = '3')
+            self.assertEqual([], children)
+
+    def test_tag_and_children(self):
+        with self.analyze('''
+                          %define multiple_components()
+                              block ()
+                              trial ()
+                          %end
+
+                          %define has_tag()
+                              block my_block ()
+                          %end
+
+                          %define has_children()
+                              block {
+                                  x = 1
+                              }
+                          %end
+
+                          %define no_tag_or_children()
+                              block ()
+                          %end
+
+                          multiple_components foo ()
+                          multiple_components {
+                              x = 3
+                          }
+
+                          has_tag bar ()
+                          has_tag {
+                              y = 7
+                          }
+
+                          has_children blah ()
+                          has_children {
+                              y = 12
+                          }
+
+                          no_tag_or_children florp ()
+                          no_tag_or_children {
+                              x = 5
+                          }
+                          no_tag_or_children blorp {
+                              x = 6
+                          }
+                          ''') as cmpts:
+            self.assertEqual(9, len(cmpts))
+
+            self.assertError("Macro body declares 2 components, so invocation "
+                             "cannot include tag or child components",
+                             lineno = 21,
+                             colno = 27)
+            children = self.assertComponent(cmpts[0], 21, 27,
+                                            name = 'multiple_components',
+                                            tag = 'foo')
+            self.assertEqual([], children)
+
+            self.assertError("Macro body declares 2 components, so invocation "
+                             "cannot include tag or child components",
+                             lineno = 22,
+                             colno = 27)
+            children = self.assertComponent(cmpts[1], 22, 27,
+                                            name = 'multiple_components')
+            self.assertEqual(1, len(children))
+            children = self.assertComponent(children[0], 23, 33,
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'x',
+                                            value = '3')
+            self.assertEqual([], children)
+
+            self.assertError("Macro body contains a tag, so invocation cannot "
+                             "include one",
+                             lineno = 26,
+                             colno = 27)
+            children = self.assertComponent(cmpts[2], 26, 27,
+                                            name = 'has_tag',
+                                            tag = 'bar')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[3],
+                                            (8, 27),
+                                            (31, 27),
+                                            filename = ('', ''),
+                                            name = 'block',
+                                            tag = 'my_block')
+            self.assertEqual(1, len(children))
+            children = self.assertComponent(children[0], 28, 33,
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'y',
+                                            value = '7')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[4],
+                                            (12, 31),
+                                            (31, 27),
+                                            filename = ('', ''),
+                                            name = 'block',
+                                            tag = 'blah')
+            self.assertEqual(1, len(children))
+            children = self.assertComponent(children[0],
+                                            (13, 31),
+                                            (37, 27),
+                                            filename = ('', ''),
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'x',
+                                            value = '1')
+            self.assertEqual([], children)
+
+            self.assertError("Macro body contains children, so invocation "
+                             "cannot include them",
+                             lineno = 32,
+                             colno = 27)
+            children = self.assertComponent(cmpts[5], 32, 27,
+                                            name = 'has_children')
+            self.assertEqual(1, len(children))
+            children = self.assertComponent(children[0], 33, 33,
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'y',
+                                            value = '12')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[6],
+                                            (18, 36),
+                                            (31, 27),
+                                            filename = ('', ''),
+                                            name = 'block',
+                                            tag = 'florp')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[7],
+                                            (18, 37),
+                                            (31, 27),
+                                            filename = ('', ''),
+                                            name = 'block')
+            self.assertEqual(1, len(children))
+            children = self.assertComponent(children[0], 38, 33,
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'x',
+                                            value = '5')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[8],
+                                            (18, 40),
+                                            (31, 27),
+                                            filename = ('', ''),
+                                            name = 'block',
+                                            tag = 'blorp')
+            self.assertEqual(1, len(children))
+            children = self.assertComponent(children[0], 41, 33,
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'x',
+                                            value = '6')
             self.assertEqual([], children)

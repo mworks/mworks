@@ -346,6 +346,28 @@ Once defined, a statement macro is invoked using :ref:`component declaration <co
         ...
     }
 
+A statement macro invocation can include a tag and/or children only if
+
+1. the macro body declares exactly one component, and
+2. the component declaration in the macro body does not include a tag (if the invocation includes a tag) and/or children (if the invocation includes children).
+
+For example::
+
+    %define reported_var (default_value, message)
+        var (default_value) {
+            report (message)
+        }
+    %end
+
+    // OK: invocation includes a tag, macro body does not
+    reported_var x (default_value = 3; message = 'x = $x')
+
+    // Not OK: invocation and macro body both include children
+    reported_var y (default_value = 3; message = 'y = $y') {
+        z = 2*y
+    }
+
+
 
 Whitespace
 ----------

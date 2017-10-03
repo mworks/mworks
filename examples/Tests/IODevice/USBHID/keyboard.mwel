@@ -1,0 +1,104 @@
+//
+// Macros
+//
+// These provide a more user-friendly way to create a keyboard interface.
+// Something like them might be included in a shared library of MWEL macros.
+//
+
+%define keyboard_device ()
+    iodevice/usbhid_generic (
+        usage_page = 1
+        usage = 6
+        )
+%end
+
+%define key_name_to_usage = {
+    'a': 4,
+    'b': 5,
+    'spacebar': 44
+}
+
+%define keyboard_channel (key, value)
+    iochannel/usbhid_generic_input_channel (
+        usage_page = 7
+        usage = key_name_to_usage[key]
+        value = value
+        )
+%end
+
+
+//
+// Keyboard interface
+//
+
+var a_pressed (false) {
+    report ('a_pressed = $a_pressed')
+}
+
+var b_pressed (false) {
+    report ('b_pressed = $b_pressed')
+}
+
+var spacebar_pressed (false) {
+    report ('spacebar_pressed = $spacebar_pressed')
+}
+
+keyboard_device keyboard {
+    keyboard_channel (
+        key = 'a'
+        value = a_pressed
+        )
+    keyboard_channel (
+        key = 'b'
+        value = b_pressed
+        )
+    keyboard_channel (
+        key = 'spacebar'
+        value = spacebar_pressed
+        )
+}
+
+
+//
+// Protocol
+//
+
+var timeout_seconds = 10
+var done = false
+
+protocol {
+    task {
+        state Begin {
+            done = false
+            start_io_device (keyboard)
+            report ('Test will stop automatically unless spacebar is pressed in the next $timeout_seconds seconds')
+            start_timer (
+                timer = MyTimer
+                duration = timeout_seconds
+                duration_units = s
+                )
+
+            goto (
+                target = Run
+                when = spacebar_pressed
+                )
+            goto (
+                target = End
+                when = timer_expired(MyTimer)
+                )
+        }
+
+        state Run {
+            report ('Beginning test')
+            goto (
+                target = End
+                when = done
+                )
+        }
+
+        state End {
+            stop_io_device (keyboard)
+            yield ()
+        }
+    }
+}
