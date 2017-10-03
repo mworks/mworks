@@ -6,6 +6,37 @@ from .analyzer import Component
 
 class Validator(object):
 
+    # Only type signatures with one of the following roots are handled in
+    # MWParserTransformation.xsl.  Component declarations with any other
+    # signature root are just stripped out by the XSLT transformation, which
+    # can lead to confusing errors.  Therefore, we insist that all component
+    # declarations have a type signature that starts with one of these roots.
+    _valid_signature_roots = (
+        'action',
+        'bias_monitor',
+        'block',
+        'calibrator',
+        'experiment',
+        'filter',
+        'folder',
+        'iochannel',
+        'iodevice',
+        'list',
+        'list_replicator',
+        'protocol',
+        'range_replicator',
+        'resource',
+        'sound',
+        'staircase',
+        'stimulus',
+        'stimulus_group',
+        'task_system',
+        'task_system_state',
+        'transition',
+        'trial',
+        'variable',
+        )
+
     def __init__(self, error_logger):
         self.error_logger = error_logger
         self._component_info = get_component_info()
@@ -49,8 +80,14 @@ class Validator(object):
 
     def _validate(self, c):
         signature = c.name + ('/' + c.type if c.type else '')
-        name = self._signature_to_name.get(signature)
+        if c.name not in self._valid_signature_roots:
+            self.error_logger("'%s' is not a valid component type signature" %
+                              signature,
+                              lineno = c.lineno,
+                              colno = c.colno,
+                              filename = c.filename)
 
+        name = self._signature_to_name.get(signature)
         if name:
             info = self._component_info[name]
             for parent in reversed(self._parents):

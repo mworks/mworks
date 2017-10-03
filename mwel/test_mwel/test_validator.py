@@ -146,6 +146,20 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                              lineno = 3,
                              colno = 28)
 
+    def test_invalid_signature(self):
+        with self.validate('''
+                           action/floop ()  // OK
+                           floop ()         // Not OK
+                           floop/list ()    // Not OK
+                           '''):
+            self.assertError("'floop' is not a valid component type signature",
+                             lineno = 3,
+                             colno = 28)
+            self.assertError("'floop/list' is not a valid component type "
+                             'signature',
+                             lineno = 4,
+                             colno = 28)
+
     def test_toplevel(self):
         with self.validate('''
                            // Allowed
@@ -155,7 +169,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                            x = 2
 
                            // Unknown
-                           floop {}
+                           action/floop {}
                            ''') as cmpts:
             self.assertEqual(4, len(cmpts))
 
@@ -177,7 +191,8 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
             self.assertEqual(0, len(children))
 
             children = self.assertComponent(cmpts[2], 9, 28,
-                                            name = 'floop')
+                                            name = 'action',
+                                            type = 'floop')
             self.assertEqual(0, len(children))
 
             self.assertDefaultExperimentAndProtocol(cmpts)
@@ -193,7 +208,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                    block 'A Block' {}
 
                                    // Unknown
-                                   floop {}
+                                   action/floop {}
                                }
                            }
                            ''') as cmpts:
@@ -228,7 +243,8 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
             self.assertEqual(0, len(children))
 
             children = self.assertComponent(cmpts[1], 11, 36,
-                                            name = 'floop')
+                                            name = 'action',
+                                            type = 'floop')
             self.assertEqual(0, len(children))
 
     def test_parent(self):
@@ -241,7 +257,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                var x = 3
 
                                // Unknown
-                               floop {
+                               action/floop {
                                    // Not allowed (unknown parent)
                                    stimulus/blank_screen bg2 {}
                                }
@@ -272,11 +288,12 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
             self.assertEqual(0, len(children))
 
             cmpts = self.assertComponent(cmpts[2], 10, 32,
-                                         name = 'floop')
+                                         name = 'action',
+                                         type = 'floop')
             self.assertEqual(1, len(cmpts))
 
             self.assertError("Component 'stimulus/blank_screen' is not "
-                             "allowed inside component 'floop'",
+                             "allowed inside component 'action/floop'",
                              lineno = 12,
                              colno = 36)
             children = self.assertComponent(cmpts[0], 12, 36,
@@ -297,7 +314,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                        block 'A Block' {}
 
                                        // Unknown
-                                       floop {}
+                                       action/floop {}
                                    }
                                }
                            }
@@ -338,7 +355,8 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
             self.assertEqual(0, len(children))
 
             children = self.assertComponent(cmpts[1], 12, 40,
-                                            name = 'floop')
+                                            name = 'action',
+                                            type = 'floop')
             self.assertEqual(0, len(children))
 
 
@@ -365,14 +383,24 @@ experiment bar {}
         include2_path = self.write_file('include2.mwel', include2_src)
 
         include3_src = '''\
+%include include4
 x = 2
 '''
         include3_path = self.write_file('include3.mwel', include3_src)
 
+        include4_src = '''\
+floop ()
+'''
+        include4_path = self.write_file('include4.mwel', include4_src)
+
         with self.validate(base_src, self.tmpdir):
+            self.assertError("'floop' is not a valid component type signature",
+                             lineno = 1,
+                             colno = 1,
+                             filename = include4_path)
             self.assertError("Component 'action/assignment' is not allowed "
                              "at the top level",
-                             lineno = 1,
+                             lineno = 2,
                              colno = 3,
                              filename = include3_path)
             self.assertError('Experiment cannot contain more than one '

@@ -148,7 +148,7 @@ Line ended unexpectedly [line 1, column 12]
     def test_analyzer_and_validator_errors(self):
         src = '''\
 var x = 1
-floop (3)  // Flagged by analyzer
+action/floop (3)  // Flagged by analyzer
 x = 4      // Flagged by validator
 var y = 7
 '''
@@ -156,7 +156,7 @@ var y = 7
 
         self.assertEqual(1, self.toxml('my_script', src_path))
         self.assertOutput(stderr='''\
-Cannot infer parameter name for component 'floop' [line 2, column 1]
+Cannot infer parameter name for component 'action/floop' [line 2, column 1]
 Component 'action/assignment' is not allowed at the top level [line 3, column 3]
 ''')
 
