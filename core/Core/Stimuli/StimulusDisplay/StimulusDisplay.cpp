@@ -305,6 +305,17 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
 }
 
 
+void StimulusDisplay::bindDefaultFramebuffer(int contextIndex) {
+    if (contextIndex == 0) {
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+        const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
+        glDrawBuffers(1, &drawBuffer);
+    } else {
+        opengl_context_manager->bindDefaultFramebuffer(context_ids.at(contextIndex));
+    }
+}
+
+
 void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
     unique_lock lock(display_lock);
     
@@ -373,9 +384,7 @@ void StimulusDisplay::refreshMainDisplay() {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_id);
     
     if (needDraw) {
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
-        const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
-        glDrawBuffers(1, &drawBuffer);
+        bindDefaultFramebuffer(contextIndex);
         
         current_context_index = contextIndex;
         drawDisplayStack();

@@ -31,30 +31,33 @@ public:
 private:
     static constexpr GLint numVertices = 4;
     static constexpr GLint componentsPerVertex = 2;
-    static constexpr GLint componentsPerPixel = 4;
     using VertexPositionArray = std::array<GLfloat, numVertices*componentsPerVertex>;
     
-    void updateTexture();
+    void createProgram(GLuint &program, const gl::Shader &vertexShader, const std::string &fragmentShaderSource);
+    void createTexture(GLuint &texture, const std::vector<GLuint> &pixels);
+    void runProgram(GLuint program, GLuint texture);
     
     static const std::string vertexShaderSource;
-    static const std::string fragmentShaderSource;
+    static const std::string sharedFragmentShaderSource;
+    static const std::string noiseGenFragmentShaderSource;
+    static const std::string noiseRenderFragmentShaderSource;
     static const VertexPositionArray vertexPositions;
     static const VertexPositionArray texCoords;
     
     GLint width, height;
-
-    std::vector<GLuint> pixels;
-    boost::mutex pixelsMutex;
-
-    boost::rand48 randGen;
-    boost::uniform_int<GLubyte> randDist;
     
-    GLuint program = 0;
-    GLuint vertexArray = 0;
+    static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
+    std::atomic_bool shouldRandomizePixels;
+    
     GLuint vertexPositionBuffer = 0;
     GLuint texCoordsBuffer = 0;
-    GLuint texture = 0;
-
+    GLuint noiseGenProgram = 0;
+    GLuint noiseRenderProgram = 0;
+    std::map<GLuint, GLuint> vertexArrays;  // Maps program to vertex array
+    GLuint seedTexture = 0;
+    GLuint noiseTexture = 0;
+    std::map<GLuint, GLuint> framebuffers;  // Maps texture to framebuffer
+    
 };
 
 

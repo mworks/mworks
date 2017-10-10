@@ -4,8 +4,7 @@
 
 #ifdef __cplusplus
 
-#include <boost/random/linear_congruential.hpp>
-#include <boost/random/uniform_int.hpp>
+#include <random>
 
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardStimulusFactory.h>

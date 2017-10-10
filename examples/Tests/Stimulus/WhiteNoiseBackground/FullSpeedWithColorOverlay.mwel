@@ -1,8 +1,3 @@
-var start = 0
-var stop = 0
-var elapsed = 0
-
-
 white_noise_background bg ()
 
 image_file img (
@@ -17,11 +12,7 @@ protocol {
     queue_stimulus (bg)
     queue_stimulus (img)
     trial (nsamples = 1000) {
-        start = now()
         randomize_background (bg)
-        stop = now()
-        elapsed = (stop - start) / 1000
-        report ('Randomization took $elapsed ms')
         update_stimulus_display ()
     }
 }

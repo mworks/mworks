@@ -135,6 +135,7 @@ BEGIN_NAMESPACE_MW
 		int getCurrentContextIndex() { return current_context_index; }
         
         void getCurrentViewportSize(GLint &width, GLint &height);
+        void bindDefaultFramebuffer(int contextIndex);
 		
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
