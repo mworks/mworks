@@ -13,16 +13,30 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string WhiteNoiseBackground::RAND_SEED("rand_seed");
+
+
 void WhiteNoiseBackground::describeComponent(ComponentInfo &info) {
     Stimulus::describeComponent(info);
+    
     info.setSignature("stimulus/white_noise_background");
+    
+    info.addParameter(RAND_SEED, false);
 }
 
 
 WhiteNoiseBackground::WhiteNoiseBackground(const ParameterValueMap &parameters) :
     Stimulus(parameters),
-    shouldRandomizePixels(false)
-{ }
+    randSeed(0),
+    randCount(0),
+    shouldRandomize(false)
+{
+    if (parameters[RAND_SEED].empty()) {
+        randSeed = Clock::instance()->getSystemTimeNS();
+    } else {
+        randSeed = MWTime(parameters[RAND_SEED]);
+    }
+}
 
 
 void WhiteNoiseBackground::load(shared_ptr<StimulusDisplay> display) {
@@ -53,25 +67,23 @@ void WhiteNoiseBackground::load(shared_ptr<StimulusDisplay> display) {
     
     // Create textures
     {
-        std::vector<GLuint> pixels(width * height);
-        std::minstd_rand randGen;
-        for (auto &pix : pixels) {
-            pix = randGen();
+        std::vector<GLuint> data(width * height);
+        {
+            //
+            // Generate a seed for each noise texel.
+            //
+            // Although we use a linear congruential generator (LCG) on the GPU to update the texels, we use the
+            // Mersenne Twister to generate the per-texel seeds.  If we used the same generator in both places,
+            // then texel n at iteration i+1 would have the same value as texel n+1 at iteration i.
+            //
+            std::mt19937 seedGen(randSeed);
+            std::uniform_int_distribution<GLuint> seedDist(std::minstd_rand::min(), std::minstd_rand::max());
+            for (auto &value : data) {
+                value = seedDist(seedGen);
+            }
         }
-        
-#if !MWORKS_OPENGL_ES
-        glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
-        glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
-#endif
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-        glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
-        glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-        glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-        glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
-        glPixelStorei(GL_UNPACK_ALIGNMENT, alignof(GLuint));
-        
-        createTexture(seedTexture, pixels);
-        createTexture(noiseTexture, pixels);
+        createTexture(seedTexture, data);
+        createTexture(noiseTexture, data);
     }
     
     Stimulus::load(display);
@@ -102,7 +114,7 @@ void WhiteNoiseBackground::unload(shared_ptr<StimulusDisplay> display) {
 
 
 void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
-    if (shouldRandomizePixels.exchange(false)) {
+    if (shouldRandomize.exchange(false)) {
         // Previous noise values become current seeds
         std::swap(seedTexture, noiseTexture);
         
@@ -113,6 +125,7 @@ void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
         runProgram(noiseGenProgram, seedTexture);
         
         display->bindDefaultFramebuffer(display->getCurrentContextIndex());
+        randCount++;
     }
     
     runProgram(noiseRenderProgram, noiseTexture);
@@ -121,13 +134,15 @@ void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
 
 Datum WhiteNoiseBackground::getCurrentAnnounceDrawData() {
     Datum announceData = Stimulus::getCurrentAnnounceDrawData();
-	announceData.addElement(STIM_TYPE, "white_noise_background");
+    announceData.addElement(STIM_TYPE, "white_noise_background");
+    announceData.addElement(RAND_SEED, randSeed);
+    announceData.addElement("rand_count", static_cast<long long>(randCount));
     return announceData;
 }
 
 
-void WhiteNoiseBackground::randomizePixels() {
-    shouldRandomizePixels = true;
+void WhiteNoiseBackground::randomize() {
+    shouldRandomize = true;
 }
 
 
@@ -157,9 +172,20 @@ void WhiteNoiseBackground::createProgram(GLuint &program,
 }
 
 
-void WhiteNoiseBackground::createTexture(GLuint &texture, const std::vector<GLuint> &pixels) {
+void WhiteNoiseBackground::createTexture(GLuint &texture, const std::vector<GLuint> &data) {
     glGenTextures(1, &texture);
     gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
+    
+#if !MWORKS_OPENGL_ES
+    glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
+    glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+#endif
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
+    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+    glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, alignof(GLuint));
     
     glTexImage2D(GL_TEXTURE_2D,
                  0,
@@ -169,7 +195,7 @@ void WhiteNoiseBackground::createTexture(GLuint &texture, const std::vector<GLui
                  0,
                  GL_RED_INTEGER,
                  GL_UNSIGNED_INT,
-                 pixels.data());
+                 data.data());
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

@@ -17,6 +17,8 @@ BEGIN_NAMESPACE_MW
 class WhiteNoiseBackground : public Stimulus, boost::noncopyable {
 
 public:
+    static const std::string RAND_SEED;
+    
     static void describeComponent(ComponentInfo &info);
     
     explicit WhiteNoiseBackground(const ParameterValueMap &parameters);
@@ -26,7 +28,7 @@ public:
     void draw(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
-    void randomizePixels();
+    void randomize();
     
 private:
     static constexpr GLint numVertices = 4;
@@ -34,7 +36,7 @@ private:
     using VertexPositionArray = std::array<GLfloat, numVertices*componentsPerVertex>;
     
     void createProgram(GLuint &program, const gl::Shader &vertexShader, const std::string &fragmentShaderSource);
-    void createTexture(GLuint &texture, const std::vector<GLuint> &pixels);
+    void createTexture(GLuint &texture, const std::vector<GLuint> &data);
     void runProgram(GLuint program, GLuint texture);
     
     static const std::string vertexShaderSource;
@@ -44,11 +46,13 @@ private:
     static const VertexPositionArray vertexPositions;
     static const VertexPositionArray texCoords;
     
-    GLint width, height;
-    
+    MWTime randSeed;
+    std::size_t randCount;
     static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
-    std::atomic_bool shouldRandomizePixels;
+    std::atomic_bool shouldRandomize;
     
+    GLint width, height;
+
     GLuint vertexPositionBuffer = 0;
     GLuint texCoordsBuffer = 0;
     GLuint noiseGenProgram = 0;

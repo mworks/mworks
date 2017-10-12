@@ -41,7 +41,7 @@ bool RandomizeBackground::execute() {
         return false;
     }
     
-    background->randomizePixels();
+    background->randomize();
     return true;
 }
 

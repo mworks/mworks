@@ -1,0 +1,72 @@
+%define seed = 12345678
+
+white_noise_background bg1 (
+    rand_seed = seed
+    )
+
+white_noise_background bg2 (
+    rand_seed = seed
+    )
+
+white_noise_background bg3 (
+    rand_seed = seed + 1
+    )
+
+
+%define cue_size = 1
+
+circle cue1 (
+    x_size = cue_size
+    x_position = -1.5 * cue_size
+    color = 0,1,0
+    )
+
+circle cue2 (
+    x_size = cue_size
+    x_position = 0
+    color = 0,1,0
+    )
+
+circle cue3 (
+    x_size = cue_size
+    x_position = 1.5 * cue_size
+    color = 1,0,0
+    )
+
+
+protocol {
+    queue_stimulus (bg3)
+    queue_stimulus (bg2)
+    queue_stimulus (bg1)
+
+    block (nsamples = 3) {
+        send_stimulus_to_back (bg3)
+        queue_stimulus (cue1)
+        update_display ()
+        report ('New background')
+        wait (1s)
+
+        send_stimulus_to_back (bg1)
+        queue_stimulus (cue2)
+        update_display ()
+        report ('Same background')
+        wait (1s)
+
+        send_stimulus_to_back (bg2)
+        queue_stimulus (cue3)
+        update_display ()
+        report ('New background')
+        wait (1s)
+
+        dequeue_stimulus (cue1)
+        dequeue_stimulus (cue2)
+        dequeue_stimulus (cue3)
+        update_display()
+
+        randomize_background (bg1)
+        randomize_background (bg2)
+        randomize_background (bg3)
+
+        wait (1s)
+    }
+}

@@ -9,7 +9,10 @@
         </description>
         
         <code>
-            <stimulus type="white_noise_background" tag="White Noise Background"/>
+            <stimulus type="white_noise_background"
+                      tag="White Noise Background"
+                      rand_seed=""
+                      />
         </code>
     </MWElement>
     <MWElement name="Randomize Background">

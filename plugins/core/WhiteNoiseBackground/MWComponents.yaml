@@ -8,8 +8,14 @@ description: |
     White noise background stimulus.
 
     Fills every pixel on the display with a random grayscale value (drawn from a
-    uniform distribution).  The experiment must explicitly initialize and update
-    the pixel values via the `Randomize White Noise Background` action.
+    uniform distribution).  The experiment can update the pixel values via the
+    `Randomize White Noise Background` action.
+parameters: 
+  - 
+    name: rand_seed
+    description: >
+        Seed value for the random number generator.  If omitted, the current
+        system time in nanoseconds is used.
 
 
 ---
@@ -19,8 +25,7 @@ name: Randomize White Noise Background
 signature: action/randomize_background
 isa: Action
 description: >
-    Initialize or update the random pixel values of a `White Noise Background`
-    stimulus
+    Update the random pixel values of a `White Noise Background` stimulus
 parameters: 
   - 
     name: stimulus

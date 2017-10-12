@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<marionette_info>
+    <expected_events>
+        <!-- First iteration -->
+        <event variable="#announceStimulus">
+            <value>
+                <dictionary>
+                    <dictionary_element>
+                        <key>action</key>
+                        <value type="string">draw</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>type</key>
+                        <value type="string">white_noise_background</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>name</key>
+                        <value type="string">bg3</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_seed</key>
+                        <value type="integer">12345679</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_count</key>
+                        <value type="integer">0</value>
+                    </dictionary_element>
+                </dictionary>
+            </value>
+        </event>
+        <event variable="#announceStimulus">
+            <value>
+                <dictionary>
+                    <dictionary_element>
+                        <key>action</key>
+                        <value type="string">draw</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>type</key>
+                        <value type="string">white_noise_background</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>name</key>
+                        <value type="string">bg2</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_seed</key>
+                        <value type="integer">12345678</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_count</key>
+                        <value type="integer">0</value>
+                    </dictionary_element>
+                </dictionary>
+            </value>
+        </event>
+        <event variable="#announceStimulus">
+            <value>
+                <dictionary>
+                    <dictionary_element>
+                        <key>action</key>
+                        <value type="string">draw</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>type</key>
+                        <value type="string">white_noise_background</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>name</key>
+                        <value type="string">bg1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_seed</key>
+                        <value type="integer">12345678</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_count</key>
+                        <value type="integer">0</value>
+                    </dictionary_element>
+                </dictionary>
+            </value>
+        </event>
+        <!-- Second iteration -->
+        <event variable="#announceStimulus">
+            <value>
+                <dictionary>
+                    <dictionary_element>
+                        <key>action</key>
+                        <value type="string">draw</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>type</key>
+                        <value type="string">white_noise_background</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>name</key>
+                        <value type="string">bg3</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_seed</key>
+                        <value type="integer">12345679</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_count</key>
+                        <value type="integer">1</value>
+                    </dictionary_element>
+                </dictionary>
+            </value>
+        </event>
+        <event variable="#announceStimulus">
+            <value>
+                <dictionary>
+                    <dictionary_element>
+                        <key>action</key>
+                        <value type="string">draw</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>type</key>
+                        <value type="string">white_noise_background</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>name</key>
+                        <value type="string">bg2</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_seed</key>
+                        <value type="integer">12345678</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_count</key>
+                        <value type="integer">1</value>
+                    </dictionary_element>
+                </dictionary>
+            </value>
+        </event>
+        <event variable="#announceStimulus">
+            <value>
+                <dictionary>
+                    <dictionary_element>
+                        <key>action</key>
+                        <value type="string">draw</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>type</key>
+                        <value type="string">white_noise_background</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>name</key>
+                        <value type="string">bg1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_seed</key>
+                        <value type="integer">12345678</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_count</key>
+                        <value type="integer">1</value>
+                    </dictionary_element>
+                </dictionary>
+            </value>
+        </event>
+        <!-- Third iteration -->
+        <event variable="#announceStimulus">
+            <value>
+                <dictionary>
+                    <dictionary_element>
+                        <key>action</key>
+                        <value type="string">draw</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>type</key>
+                        <value type="string">white_noise_background</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>name</key>
+                        <value type="string">bg3</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_seed</key>
+                        <value type="integer">12345679</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_count</key>
+                        <value type="integer">2</value>
+                    </dictionary_element>
+                </dictionary>
+            </value>
+        </event>
+        <event variable="#announceStimulus">
+            <value>
+                <dictionary>
+                    <dictionary_element>
+                        <key>action</key>
+                        <value type="string">draw</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>type</key>
+                        <value type="string">white_noise_background</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>name</key>
+                        <value type="string">bg2</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_seed</key>
+                        <value type="integer">12345678</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_count</key>
+                        <value type="integer">2</value>
+                    </dictionary_element>
+                </dictionary>
+            </value>
+        </event>
+        <event variable="#announceStimulus">
+            <value>
+                <dictionary>
+                    <dictionary_element>
+                        <key>action</key>
+                        <value type="string">draw</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>type</key>
+                        <value type="string">white_noise_background</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>name</key>
+                        <value type="string">bg1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_seed</key>
+                        <value type="integer">12345678</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>rand_count</key>
+                        <value type="integer">2</value>
+                    </dictionary_element>
+                </dictionary>
+            </value>
+        </event>
+    </expected_events>
+</marionette_info>
