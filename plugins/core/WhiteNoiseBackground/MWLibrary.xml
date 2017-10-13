@@ -11,6 +11,7 @@
         <code>
             <stimulus type="white_noise_background"
                       tag="White Noise Background"
+                      grayscale="YES"
                       rand_seed=""
                       randomize_on_draw="NO"
                       />

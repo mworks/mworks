@@ -17,6 +17,7 @@ BEGIN_NAMESPACE_MW
 class WhiteNoiseBackground : public Stimulus, boost::noncopyable {
 
 public:
+    static const std::string GRAYSCALE;
     static const std::string RAND_SEED;
     static const std::string RANDOMIZE_ON_DRAW;
     
@@ -38,15 +39,15 @@ private:
     
     void createProgram(GLuint &program, const gl::Shader &vertexShader, const std::string &fragmentShaderSource);
     void createTexture(GLuint &texture, const std::vector<GLuint> &data);
-    void runProgram(GLuint program, GLuint texture);
     
     static const std::string vertexShaderSource;
-    static const std::string sharedFragmentShaderSource;
     static const std::string noiseGenFragmentShaderSource;
     static const std::string noiseRenderFragmentShaderSource;
     static const VertexPositionArray vertexPositions;
     static const VertexPositionArray texCoords;
     
+    const bool grayscale;
+    const int numChannels;
     MWTime randSeed;
     std::size_t randCount;
     const bool randomizeOnDraw;
@@ -54,14 +55,14 @@ private:
     std::atomic_bool shouldRandomize;
     
     GLint width, height;
-
+    
     GLuint vertexPositionBuffer = 0;
     GLuint texCoordsBuffer = 0;
     GLuint noiseGenProgram = 0;
     GLuint noiseRenderProgram = 0;
     std::map<GLuint, GLuint> vertexArrays;  // Maps program to vertex array
-    GLuint seedTexture = 0;
-    GLuint noiseTexture = 0;
+    std::vector<GLuint> seedTextures;
+    std::vector<GLuint> noiseTextures;
     std::map<GLuint, GLuint> framebuffers;  // Maps texture to framebuffer
     
 };

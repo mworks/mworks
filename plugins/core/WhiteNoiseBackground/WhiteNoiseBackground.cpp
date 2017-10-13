@@ -13,6 +13,7 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string WhiteNoiseBackground::GRAYSCALE("grayscale");
 const std::string WhiteNoiseBackground::RAND_SEED("rand_seed");
 const std::string WhiteNoiseBackground::RANDOMIZE_ON_DRAW("randomize_on_draw");
 
@@ -22,6 +23,7 @@ void WhiteNoiseBackground::describeComponent(ComponentInfo &info) {
     
     info.setSignature("stimulus/white_noise_background");
     
+    info.addParameter(GRAYSCALE, "YES");
     info.addParameter(RAND_SEED, false);
     info.addParameter(RANDOMIZE_ON_DRAW, "NO");
 }
@@ -29,10 +31,14 @@ void WhiteNoiseBackground::describeComponent(ComponentInfo &info) {
 
 WhiteNoiseBackground::WhiteNoiseBackground(const ParameterValueMap &parameters) :
     Stimulus(parameters),
+    grayscale(parameters[GRAYSCALE]),
+    numChannels(grayscale ? 1 : 3),
     randSeed(0),
     randCount(0),
     randomizeOnDraw(parameters[RANDOMIZE_ON_DRAW]),
-    shouldRandomize(false)
+    shouldRandomize(false),
+    seedTextures(numChannels, 0),
+    noiseTextures(numChannels, 0)
 {
     if (parameters[RAND_SEED].empty()) {
         randSeed = Clock::instance()->getSystemTimeNS();
@@ -64,14 +70,29 @@ void WhiteNoiseBackground::load(shared_ptr<StimulusDisplay> display) {
     // Create programs
     {
         auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
-        createProgram(noiseGenProgram, vertexShader, noiseGenFragmentShaderSource);
-        createProgram(noiseRenderProgram, vertexShader, noiseRenderFragmentShaderSource);
+        
+        {
+            createProgram(noiseGenProgram, vertexShader, noiseGenFragmentShaderSource);
+            gl::ProgramUsage programUsage(noiseGenProgram);
+            glUniform1i(glGetUniformLocation(noiseGenProgram, "noiseTexture"), 0);
+        }
+        
+        {
+            createProgram(noiseRenderProgram, vertexShader, noiseRenderFragmentShaderSource);
+            gl::ProgramUsage programUsage(noiseRenderProgram);
+            glUniform1i(glGetUniformLocation(noiseRenderProgram, "redNoiseTexture"), 0);
+            glUniform1i(glGetUniformLocation(noiseRenderProgram, "greenNoiseTexture"), 1);
+            glUniform1i(glGetUniformLocation(noiseRenderProgram, "blueNoiseTexture"), 2);
+            glUniform1i(glGetUniformLocation(noiseRenderProgram, "grayscale"), grayscale);
+        }
     }
     
     // Create textures
     {
         std::vector<GLuint> data(width * height);
-        {
+        std::mt19937 seedGen(randSeed);
+        std::uniform_int_distribution<GLuint> seedDist(std::minstd_rand::min(), std::minstd_rand::max());
+        for (int i = 0; i < numChannels; i++) {
             //
             // Generate a seed for each noise texel.
             //
@@ -79,14 +100,12 @@ void WhiteNoiseBackground::load(shared_ptr<StimulusDisplay> display) {
             // Mersenne Twister to generate the per-texel seeds.  If we used the same generator in both places,
             // then texel n at iteration i+1 would have the same value as texel n+1 at iteration i.
             //
-            std::mt19937 seedGen(randSeed);
-            std::uniform_int_distribution<GLuint> seedDist(std::minstd_rand::min(), std::minstd_rand::max());
             for (auto &value : data) {
                 value = seedDist(seedGen);
             }
+            createTexture(seedTextures.at(i), data);
+            createTexture(noiseTextures.at(i), data);
         }
-        createTexture(seedTexture, data);
-        createTexture(noiseTexture, data);
     }
     
     Stimulus::load(display);
@@ -102,8 +121,8 @@ void WhiteNoiseBackground::unload(shared_ptr<StimulusDisplay> display) {
     for (auto &item : framebuffers) {
         glDeleteFramebuffers(1, &(item.second));
     }
-    glDeleteTextures(1, &noiseTexture);
-    glDeleteTextures(1, &seedTexture);
+    glDeleteTextures(noiseTextures.size(), noiseTextures.data());
+    glDeleteTextures(seedTextures.size(), seedTextures.data());
     for (auto &item : vertexArrays) {
         glDeleteVertexArrays(1, &(item.second));
     }
@@ -119,25 +138,51 @@ void WhiteNoiseBackground::unload(shared_ptr<StimulusDisplay> display) {
 void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
     if (randomizeOnDraw || shouldRandomize.exchange(false)) {
         // Previous noise values become current seeds
-        std::swap(seedTexture, noiseTexture);
+        std::swap(seedTextures, noiseTextures);
         
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffers.at(noiseTexture));
-        const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
-        glDrawBuffers(1, &drawBuffer);
+        glUseProgram(noiseGenProgram);
+        glBindVertexArray(vertexArrays.at(noiseGenProgram));
         
-        runProgram(noiseGenProgram, seedTexture);
+        for (int i = 0; i < numChannels; i++) {
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffers.at(noiseTextures.at(i)));
+            const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
+            glDrawBuffers(1, &drawBuffer);
+            
+            glBindTexture(GL_TEXTURE_2D, seedTextures.at(i));
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
+        }
         
         display->bindDefaultFramebuffer(display->getCurrentContextIndex());
         randCount++;
     }
     
-    runProgram(noiseRenderProgram, noiseTexture);
+    gl::ProgramUsage programUsage(noiseRenderProgram);
+    gl::VertexArrayBinding vertexArrayBinding(vertexArrays.at(noiseRenderProgram));
+    
+    glBindTexture(GL_TEXTURE_2D, noiseTextures.at(0));
+    if (numChannels == 3) {
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, noiseTextures.at(1));
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, noiseTextures.at(2));
+    }
+    
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
+    
+    if (numChannels == 3) {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glActiveTexture(GL_TEXTURE0);
+    }
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
 Datum WhiteNoiseBackground::getCurrentAnnounceDrawData() {
     Datum announceData = Stimulus::getCurrentAnnounceDrawData();
     announceData.addElement(STIM_TYPE, "white_noise_background");
+    announceData.addElement(GRAYSCALE, grayscale);
     announceData.addElement(RAND_SEED, randSeed);
     announceData.addElement("rand_count", static_cast<long long>(randCount));
     announceData.addElement(RANDOMIZE_ON_DRAW, randomizeOnDraw);
@@ -154,11 +199,8 @@ void WhiteNoiseBackground::createProgram(GLuint &program,
                                          const gl::Shader &vertexShader,
                                          const std::string &fragmentShaderSource)
 {
-    auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, sharedFragmentShaderSource + fragmentShaderSource);
+    auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
     program = gl::createProgram({ vertexShader.get(), fragmentShader.get() }).release();
-    gl::ProgramUsage programUsage(program);
-    
-    glUniform1i(glGetUniformLocation(program, "noiseTexture"), 0);
     
     auto &vertexArray = vertexArrays[program];
     glGenVertexArrays(1, &vertexArray);
@@ -216,14 +258,6 @@ void WhiteNoiseBackground::createTexture(GLuint &texture, const std::vector<GLui
 }
 
 
-void WhiteNoiseBackground::runProgram(GLuint program, GLuint texture) {
-    gl::ProgramUsage programUsage(program);
-    gl::VertexArrayBinding vertexArrayBinding(vertexArrays.at(program));
-    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
-}
-
-
 const std::string WhiteNoiseBackground::vertexShaderSource
 (R"(
  in vec4 vertexPosition;
@@ -237,7 +271,7 @@ const std::string WhiteNoiseBackground::vertexShaderSource
  )");
 
 
-const std::string WhiteNoiseBackground::sharedFragmentShaderSource
+const std::string WhiteNoiseBackground::noiseGenFragmentShaderSource
 (R"(
  precision highp int;
  
@@ -246,15 +280,9 @@ const std::string WhiteNoiseBackground::sharedFragmentShaderSource
  const uint c = 0u;
  const uint m = 2147483647u;
  
- const float noiseMax = float(m - 1u);
- 
  uniform highp usampler2D noiseTexture;
+ 
  in vec2 varyingTexCoords;
- )");
-
-
-const std::string WhiteNoiseBackground::noiseGenFragmentShaderSource
-(R"(
  out uint noiseVal;
  
  void main() {
@@ -266,11 +294,30 @@ const std::string WhiteNoiseBackground::noiseGenFragmentShaderSource
 
 const std::string WhiteNoiseBackground::noiseRenderFragmentShaderSource
 (R"(
+ const float noiseMax = 2147483646.0;  // m-1
+ 
+ uniform highp usampler2D redNoiseTexture;
+ uniform highp usampler2D greenNoiseTexture;
+ uniform highp usampler2D blueNoiseTexture;
+ uniform bool grayscale;
+ 
+ in vec2 varyingTexCoords;
  out vec4 fragColor;
  
+ float normNoise(highp usampler2D noiseTexture) {
+     return float(texture(noiseTexture, varyingTexCoords).r) / noiseMax;
+ }
+ 
  void main() {
-     float noiseVal = float(texture(noiseTexture, varyingTexCoords).r) / noiseMax;
-     fragColor = vec4(noiseVal, noiseVal, noiseVal, 1.0);
+     if (grayscale) {
+         float noiseVal = normNoise(redNoiseTexture);
+         fragColor = vec4(noiseVal, noiseVal, noiseVal, 1.0);
+     } else {
+         fragColor = vec4(normNoise(redNoiseTexture),
+                          normNoise(greenNoiseTexture),
+                          normNoise(blueNoiseTexture),
+                          1.0);
+     }
  }
  )");
 

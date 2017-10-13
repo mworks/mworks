@@ -18,6 +18,10 @@
                         <value type="string">bg3</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grayscale</key>
+                        <value type="boolean">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345679</value>
                     </dictionary_element>
@@ -48,6 +52,10 @@
                         <value type="string">bg2</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grayscale</key>
+                        <value type="boolean">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345678</value>
                     </dictionary_element>
@@ -76,6 +84,10 @@
                     <dictionary_element>
                         <key>name</key>
                         <value type="string">bg1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>grayscale</key>
+                        <value type="boolean">1</value>
                     </dictionary_element>
                     <dictionary_element>
                         <key>rand_seed</key>
@@ -109,6 +121,10 @@
                         <value type="string">bg3</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grayscale</key>
+                        <value type="boolean">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345679</value>
                     </dictionary_element>
@@ -139,6 +155,10 @@
                         <value type="string">bg2</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grayscale</key>
+                        <value type="boolean">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345678</value>
                     </dictionary_element>
@@ -167,6 +187,10 @@
                     <dictionary_element>
                         <key>name</key>
                         <value type="string">bg1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>grayscale</key>
+                        <value type="boolean">1</value>
                     </dictionary_element>
                     <dictionary_element>
                         <key>rand_seed</key>
@@ -200,6 +224,10 @@
                         <value type="string">bg3</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grayscale</key>
+                        <value type="boolean">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345679</value>
                     </dictionary_element>
@@ -230,6 +258,10 @@
                         <value type="string">bg2</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grayscale</key>
+                        <value type="boolean">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345678</value>
                     </dictionary_element>
@@ -258,6 +290,10 @@
                     <dictionary_element>
                         <key>name</key>
                         <value type="string">bg1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>grayscale</key>
+                        <value type="boolean">1</value>
                     </dictionary_element>
                     <dictionary_element>
                         <key>rand_seed</key>

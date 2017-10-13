@@ -1,0 +1,36 @@
+frame_list dynamic_bg (
+    stimulus_group = dynamic_bg_frames
+    loop = true
+    autoplay = true
+    )
+
+stimulus_group dynamic_bg_frames {
+    white_noise_background bg (
+        grayscale = false
+        randomize_on_draw = true
+        )
+}
+
+image_file img (
+    path = 'flamingos.jpg'
+    x_size = 20
+    y_size = 20
+    alpha_multiplier = 0.5
+)
+
+
+protocol {
+    queue_stimulus (bg)
+
+    block (nsamples = 5) {
+        update_display ()
+        wait (2s)
+    }
+
+    dequeue_stimulus (bg)
+    queue_stimulus (dynamic_bg)
+    queue_stimulus (img)
+
+    update_display ()
+    wait (10s)
+}

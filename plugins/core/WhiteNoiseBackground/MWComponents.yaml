@@ -12,6 +12,14 @@ description: |
     `Randomize White Noise Background` action.
 parameters: 
   - 
+    name: grayscale
+    default: 'YES'
+    description: >
+        If ``YES``, all three color channels (red, green, and blue) of a given
+        pixel will be assigned the same random value.  If ``NO``, each color
+        channel will be set to an independent random value, thereby producing
+        colored noise.
+  - 
     name: rand_seed
     description: >
         Seed value for the random number generator.  If omitted, the current
