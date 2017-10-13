@@ -12,6 +12,7 @@
             <stimulus type="white_noise_background"
                       tag="White Noise Background"
                       rand_seed=""
+                      randomize_on_draw="NO"
                       />
         </code>
     </MWElement>

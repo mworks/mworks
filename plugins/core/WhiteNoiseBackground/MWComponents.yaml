@@ -16,6 +16,29 @@ parameters:
     description: >
         Seed value for the random number generator.  If omitted, the current
         system time in nanoseconds is used.
+  - 
+    name: randomize_on_draw
+    default: 'NO'
+    description: |
+        If ``YES``, the stimulus will re-randomize itself every time it draws.
+        Drawing may be triggered either explicitly (via an `Update Stimulus
+        Display` action) or implicitly (e.g. at the request of a running dynamic
+        stimulus).
+
+        To generate dynamic white noise that updates on every display refresh,
+        use this parameter in conjuction with a `Frame List Stimulus`::
+
+            frame_list dynamic_noise (
+                stimulus_group = dynamic_noise_frames
+                loop = true
+                autoplay = true
+                )
+
+            stimulus_group dynamic_noise_frames {
+                white_noise_background (
+                    randomize_on_draw = true
+                    )
+            }
 
 
 ---

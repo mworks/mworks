@@ -25,6 +25,10 @@
                         <key>rand_count</key>
                         <value type="integer">0</value>
                     </dictionary_element>
+                    <dictionary_element>
+                        <key>randomize_on_draw</key>
+                        <value type="boolean">0</value>
+                    </dictionary_element>
                 </dictionary>
             </value>
         </event>
@@ -51,6 +55,10 @@
                         <key>rand_count</key>
                         <value type="integer">0</value>
                     </dictionary_element>
+                    <dictionary_element>
+                        <key>randomize_on_draw</key>
+                        <value type="boolean">0</value>
+                    </dictionary_element>
                 </dictionary>
             </value>
         </event>
@@ -76,6 +84,10 @@
                     <dictionary_element>
                         <key>rand_count</key>
                         <value type="integer">0</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>randomize_on_draw</key>
+                        <value type="boolean">0</value>
                     </dictionary_element>
                 </dictionary>
             </value>
@@ -104,6 +116,10 @@
                         <key>rand_count</key>
                         <value type="integer">1</value>
                     </dictionary_element>
+                    <dictionary_element>
+                        <key>randomize_on_draw</key>
+                        <value type="boolean">0</value>
+                    </dictionary_element>
                 </dictionary>
             </value>
         </event>
@@ -130,6 +146,10 @@
                         <key>rand_count</key>
                         <value type="integer">1</value>
                     </dictionary_element>
+                    <dictionary_element>
+                        <key>randomize_on_draw</key>
+                        <value type="boolean">0</value>
+                    </dictionary_element>
                 </dictionary>
             </value>
         </event>
@@ -155,6 +175,10 @@
                     <dictionary_element>
                         <key>rand_count</key>
                         <value type="integer">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>randomize_on_draw</key>
+                        <value type="boolean">0</value>
                     </dictionary_element>
                 </dictionary>
             </value>
@@ -183,6 +207,10 @@
                         <key>rand_count</key>
                         <value type="integer">2</value>
                     </dictionary_element>
+                    <dictionary_element>
+                        <key>randomize_on_draw</key>
+                        <value type="boolean">0</value>
+                    </dictionary_element>
                 </dictionary>
             </value>
         </event>
@@ -209,6 +237,10 @@
                         <key>rand_count</key>
                         <value type="integer">2</value>
                     </dictionary_element>
+                    <dictionary_element>
+                        <key>randomize_on_draw</key>
+                        <value type="boolean">0</value>
+                    </dictionary_element>
                 </dictionary>
             </value>
         </event>
@@ -234,6 +266,10 @@
                     <dictionary_element>
                         <key>rand_count</key>
                         <value type="integer">2</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>randomize_on_draw</key>
+                        <value type="boolean">0</value>
                     </dictionary_element>
                 </dictionary>
             </value>

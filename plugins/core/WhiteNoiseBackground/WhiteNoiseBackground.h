@@ -18,6 +18,7 @@ class WhiteNoiseBackground : public Stimulus, boost::noncopyable {
 
 public:
     static const std::string RAND_SEED;
+    static const std::string RANDOMIZE_ON_DRAW;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -48,6 +49,7 @@ private:
     
     MWTime randSeed;
     std::size_t randCount;
+    const bool randomizeOnDraw;
     static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
     std::atomic_bool shouldRandomize;
     

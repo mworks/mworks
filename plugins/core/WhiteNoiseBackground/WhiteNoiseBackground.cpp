@@ -14,6 +14,7 @@ BEGIN_NAMESPACE_MW
 
 
 const std::string WhiteNoiseBackground::RAND_SEED("rand_seed");
+const std::string WhiteNoiseBackground::RANDOMIZE_ON_DRAW("randomize_on_draw");
 
 
 void WhiteNoiseBackground::describeComponent(ComponentInfo &info) {
@@ -22,6 +23,7 @@ void WhiteNoiseBackground::describeComponent(ComponentInfo &info) {
     info.setSignature("stimulus/white_noise_background");
     
     info.addParameter(RAND_SEED, false);
+    info.addParameter(RANDOMIZE_ON_DRAW, "NO");
 }
 
 
@@ -29,6 +31,7 @@ WhiteNoiseBackground::WhiteNoiseBackground(const ParameterValueMap &parameters) 
     Stimulus(parameters),
     randSeed(0),
     randCount(0),
+    randomizeOnDraw(parameters[RANDOMIZE_ON_DRAW]),
     shouldRandomize(false)
 {
     if (parameters[RAND_SEED].empty()) {
@@ -114,7 +117,7 @@ void WhiteNoiseBackground::unload(shared_ptr<StimulusDisplay> display) {
 
 
 void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
-    if (shouldRandomize.exchange(false)) {
+    if (randomizeOnDraw || shouldRandomize.exchange(false)) {
         // Previous noise values become current seeds
         std::swap(seedTexture, noiseTexture);
         
@@ -137,6 +140,7 @@ Datum WhiteNoiseBackground::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_TYPE, "white_noise_background");
     announceData.addElement(RAND_SEED, randSeed);
     announceData.addElement("rand_count", static_cast<long long>(randCount));
+    announceData.addElement(RANDOMIZE_ON_DRAW, randomizeOnDraw);
     return announceData;
 }
 
