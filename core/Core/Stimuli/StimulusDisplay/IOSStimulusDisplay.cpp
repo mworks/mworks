@@ -81,7 +81,7 @@ IOSStimulusDisplay::~IOSStimulusDisplay() {
 
 
 void IOSStimulusDisplay::prepareContext(int contextIndex) {
-    @autoreleasepool {
+    dispatch_sync(dispatch_get_main_queue(), ^{
         auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
         auto view = glcm->getView(context_ids.at(contextIndex));
         auto screen = view.window.screen;
@@ -98,19 +98,19 @@ void IOSStimulusDisplay::prepareContext(int contextIndex) {
         // of the display, so there's no need to set its preferredFramesPerSecond property
         //NSCAssert(displayLink.preferredFramesPerSecond == screen.maximumFramesPerSecond,
         //          @"Unexpected preferredFramesPerSecond on CADisplayLink");
-        
-        StimulusDisplay::prepareContext(contextIndex);
-    }
+    });
+    
+    StimulusDisplay::prepareContext(contextIndex);
 }
 
 
 void IOSStimulusDisplay::setMainDisplayRefreshRate() {
-    @autoreleasepool {
+    dispatch_sync(dispatch_get_main_queue(), ^{
         auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
         auto view = glcm->getView(context_ids.at(0));
         auto screen = view.window.screen;
         mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
-    }
+    });
 }
 
 
@@ -127,7 +127,7 @@ void IOSStimulusDisplay::startDisplayUpdates() {
                     [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
                     
                     // The display link callback will call CFRunLoopStop when display updates stop,
-                    // see we can run continuously here
+                    // so we can run continuously here
                     CFRunLoopRun();
                     
                     [displayLink removeFromRunLoop:runLoop forMode:NSDefaultRunLoopMode];
