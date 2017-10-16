@@ -14,6 +14,7 @@ BEGIN_NAMESPACE_MW
 
 
 const std::string WhiteNoiseBackground::GRAYSCALE("grayscale");
+const std::string WhiteNoiseBackground::GRAIN_SIZE("grain_size");
 const std::string WhiteNoiseBackground::RAND_SEED("rand_seed");
 const std::string WhiteNoiseBackground::RANDOMIZE_ON_DRAW("randomize_on_draw");
 
@@ -24,6 +25,7 @@ void WhiteNoiseBackground::describeComponent(ComponentInfo &info) {
     info.setSignature("stimulus/white_noise_background");
     
     info.addParameter(GRAYSCALE, "YES");
+    info.addParameter(GRAIN_SIZE, "0.0");
     info.addParameter(RAND_SEED, false);
     info.addParameter(RANDOMIZE_ON_DRAW, "NO");
 }
@@ -33,10 +35,12 @@ WhiteNoiseBackground::WhiteNoiseBackground(const ParameterValueMap &parameters) 
     Stimulus(parameters),
     grayscale(parameters[GRAYSCALE]),
     numChannels(grayscale ? 1 : 3),
+    grainSize(parameters[GRAIN_SIZE]),
     randSeed(0),
     randCount(0),
     randomizeOnDraw(parameters[RANDOMIZE_ON_DRAW]),
     shouldRandomize(false),
+    defaultViewport({0, 0, 0, 0}),
     seedTextures(numChannels, 0),
     noiseTextures(numChannels, 0)
 {
@@ -54,7 +58,23 @@ void WhiteNoiseBackground::load(shared_ptr<StimulusDisplay> display) {
     
     auto ctxLock = display->setCurrent(0);
     
-    display->getCurrentViewportSize(width, height);
+    // Determine texture dimensions
+    {
+        glGetIntegerv(GL_VIEWPORT, defaultViewport.data());
+        auto displayWidthPixels = defaultViewport.at(2);
+        auto displayHeightPixels = defaultViewport.at(3);
+        if (grainSize <= 0.0) {
+            textureWidth = displayWidthPixels;
+            textureHeight = displayHeightPixels;
+        } else {
+            double left, right, bottom, top;
+            display->getDisplayBounds(left, right, bottom, top);
+            const double pixelsPerDegree = displayWidthPixels / (right - left);
+            const double grainSizePixels = std::max(1.0, grainSize * pixelsPerDegree);
+            textureWidth = std::max(1.0, std::round(displayWidthPixels / grainSizePixels));
+            textureHeight = std::max(1.0, std::round(displayHeightPixels / grainSizePixels));
+        }
+    }
     
     // Create vertex attribute buffers
     {
@@ -89,7 +109,7 @@ void WhiteNoiseBackground::load(shared_ptr<StimulusDisplay> display) {
     
     // Create textures
     {
-        std::vector<GLuint> data(width * height);
+        std::vector<GLuint> data(textureWidth * textureHeight);
         std::mt19937 seedGen(randSeed);
         std::uniform_int_distribution<GLuint> seedDist(std::minstd_rand::min(), std::minstd_rand::max());
         for (int i = 0; i < numChannels; i++) {
@@ -142,6 +162,7 @@ void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
         
         glUseProgram(noiseGenProgram);
         glBindVertexArray(vertexArrays.at(noiseGenProgram));
+        glViewport(0, 0, textureWidth, textureHeight);
         
         for (int i = 0; i < numChannels; i++) {
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffers.at(noiseTextures.at(i)));
@@ -152,7 +173,9 @@ void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
             glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
         }
         
+        glViewport(defaultViewport.at(0), defaultViewport.at(1), defaultViewport.at(2), defaultViewport.at(3));
         display->bindDefaultFramebuffer(display->getCurrentContextIndex());
+        
         randCount++;
     }
     
@@ -183,6 +206,7 @@ Datum WhiteNoiseBackground::getCurrentAnnounceDrawData() {
     Datum announceData = Stimulus::getCurrentAnnounceDrawData();
     announceData.addElement(STIM_TYPE, "white_noise_background");
     announceData.addElement(GRAYSCALE, grayscale);
+    announceData.addElement(GRAIN_SIZE, grainSize);
     announceData.addElement(RAND_SEED, randSeed);
     announceData.addElement("rand_count", static_cast<long long>(randCount));
     announceData.addElement(RANDOMIZE_ON_DRAW, randomizeOnDraw);
@@ -236,8 +260,8 @@ void WhiteNoiseBackground::createTexture(GLuint &texture, const std::vector<GLui
     glTexImage2D(GL_TEXTURE_2D,
                  0,
                  GL_R32UI,
-                 width,
-                 height,
+                 textureWidth,
+                 textureHeight,
                  0,
                  GL_RED_INTEGER,
                  GL_UNSIGNED_INT,
@@ -245,6 +269,8 @@ void WhiteNoiseBackground::createTexture(GLuint &texture, const std::vector<GLui
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
     auto &framebuffer = framebuffers[texture];
     glGenFramebuffers(1, &framebuffer);

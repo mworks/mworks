@@ -12,6 +12,7 @@
             <stimulus type="white_noise_background"
                       tag="White Noise Background"
                       grayscale="YES"
+                      grain_size="0.0"
                       rand_seed=""
                       randomize_on_draw="NO"
                       />
@@ -23,7 +24,7 @@
 		<isa>Action</isa>
 		
 		<description>
-			Randomize a white noise background stimulus
+			Re-randomize a white noise background stimulus
         </description>
 		
 		<code>

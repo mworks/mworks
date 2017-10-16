@@ -7,18 +7,28 @@ isa: Stimulus
 description: |
     White noise background stimulus.
 
-    Fills every pixel on the display with a random grayscale value (drawn from a
-    uniform distribution).  The experiment can update the pixel values via the
-    `Randomize White Noise Background` action.
+    Fills the display with random noise drawn from a uniform distribution.  The
+    experiment can re-randomize the noise via the `Randomize White Noise
+    Background` action.
+
 parameters: 
   - 
     name: grayscale
     default: 'YES'
     description: >
         If ``YES``, all three color channels (red, green, and blue) of a given
-        pixel will be assigned the same random value.  If ``NO``, each color
-        channel will be set to an independent random value, thereby producing
-        colored noise.
+        noise grain will be assigned the same random value.  If ``NO``, each
+        color channel will be set to an independent random value, thereby
+        producing colored noise.
+  - 
+    name: grain_size
+    default: 0.0
+    description: |
+        Noise grain size (degrees).
+
+        The number of grains in each dimension is rounded to the nearest
+        integer.  Grain sizes less than or equal to the size of one pixel will
+        result in per-pixel randomization.
   - 
     name: rand_seed
     description: >
@@ -56,7 +66,7 @@ name: Randomize White Noise Background
 signature: action/randomize_background
 isa: Action
 description: >
-    Update the random pixel values of a `White Noise Background` stimulus
+    Re-randomize a `White Noise Background` stimulus
 parameters: 
   - 
     name: stimulus

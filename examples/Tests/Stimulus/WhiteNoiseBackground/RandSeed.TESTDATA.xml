@@ -22,6 +22,10 @@
                         <value type="boolean">1</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grain_size</key>
+                        <value type="float">0.0</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345679</value>
                     </dictionary_element>
@@ -56,6 +60,10 @@
                         <value type="boolean">1</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grain_size</key>
+                        <value type="float">0.0</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345678</value>
                     </dictionary_element>
@@ -88,6 +96,10 @@
                     <dictionary_element>
                         <key>grayscale</key>
                         <value type="boolean">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>grain_size</key>
+                        <value type="float">0.0</value>
                     </dictionary_element>
                     <dictionary_element>
                         <key>rand_seed</key>
@@ -125,6 +137,10 @@
                         <value type="boolean">1</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grain_size</key>
+                        <value type="float">0.0</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345679</value>
                     </dictionary_element>
@@ -159,6 +175,10 @@
                         <value type="boolean">1</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grain_size</key>
+                        <value type="float">0.0</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345678</value>
                     </dictionary_element>
@@ -191,6 +211,10 @@
                     <dictionary_element>
                         <key>grayscale</key>
                         <value type="boolean">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>grain_size</key>
+                        <value type="float">0.0</value>
                     </dictionary_element>
                     <dictionary_element>
                         <key>rand_seed</key>
@@ -228,6 +252,10 @@
                         <value type="boolean">1</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grain_size</key>
+                        <value type="float">0.0</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345679</value>
                     </dictionary_element>
@@ -262,6 +290,10 @@
                         <value type="boolean">1</value>
                     </dictionary_element>
                     <dictionary_element>
+                        <key>grain_size</key>
+                        <value type="float">0.0</value>
+                    </dictionary_element>
+                    <dictionary_element>
                         <key>rand_seed</key>
                         <value type="integer">12345678</value>
                     </dictionary_element>
@@ -294,6 +326,10 @@
                     <dictionary_element>
                         <key>grayscale</key>
                         <value type="boolean">1</value>
+                    </dictionary_element>
+                    <dictionary_element>
+                        <key>grain_size</key>
+                        <value type="float">0.0</value>
                     </dictionary_element>
                     <dictionary_element>
                         <key>rand_seed</key>

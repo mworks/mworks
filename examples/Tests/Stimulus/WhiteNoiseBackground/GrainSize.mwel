@@ -1,0 +1,42 @@
+%define bg (grain_size)
+    white_noise_background (
+        grayscale = false
+        grain_size = grain_size
+        )
+%end
+
+stimulus_group backgrounds {
+    bg (0.01)
+    bg (0.1)
+    bg (1)
+    bg (10)
+    bg (100)
+}
+
+image_file img (
+    path = 'flamingos.jpg'
+    x_size = 20
+    y_size = 20
+    alpha_multiplier = 0.5
+)
+
+%define show_bg(index)
+    queue_stimulus (backgrounds[index])
+    bring_stimulus_to_front (img)
+    list (nsamples = 5) {
+        update_display ()
+        wait (1s)
+        randomize_background (backgrounds[index])
+    }
+    dequeue_stimulus (backgrounds[index])
+%end
+
+
+protocol {
+    queue_stimulus (img)
+    show_bg (0)
+    show_bg (1)
+    show_bg (2)
+    show_bg (3)
+    show_bg (4)
+}

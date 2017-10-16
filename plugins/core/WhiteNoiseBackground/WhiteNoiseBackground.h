@@ -18,6 +18,7 @@ class WhiteNoiseBackground : public Stimulus, boost::noncopyable {
 
 public:
     static const std::string GRAYSCALE;
+    static const std::string GRAIN_SIZE;
     static const std::string RAND_SEED;
     static const std::string RANDOMIZE_ON_DRAW;
     
@@ -48,13 +49,16 @@ private:
     
     const bool grayscale;
     const int numChannels;
+    const double grainSize;
     MWTime randSeed;
     std::size_t randCount;
     const bool randomizeOnDraw;
     static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
     std::atomic_bool shouldRandomize;
     
-    GLint width, height;
+    std::array<GLint, 4> defaultViewport;
+    GLsizei textureWidth = 0;
+    GLsizei textureHeight = 0;
     
     GLuint vertexPositionBuffer = 0;
     GLuint texCoordsBuffer = 0;
