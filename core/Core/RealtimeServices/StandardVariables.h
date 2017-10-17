@@ -173,6 +173,9 @@ extern shared_ptr<Variable> mainDisplayInfo;
 #define WARN_ON_SKIPPED_REFRESH_TAGNAME "#warnOnSkippedRefresh"
 extern shared_ptr<Variable> warnOnSkippedRefresh;
 
+#define STOP_ON_ERROR_TAGNAME "#stopOnError"
+extern shared_ptr<Variable> stopOnError;
+
 #define ALT_FAILOVER_TAGNAME "#allowAltFailover"
 extern shared_ptr<Variable> alt_failover;
 

@@ -20,6 +20,7 @@
 #define DISPLAY_DISTANCE_PREFERENCE @"display_distance_preference"
 #define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
 #define WARN_ON_SKIPPED_REFRESH_PREFERENCE @"warn_on_skipped_refresh_preference"
+#define STOP_ON_ERROR_PREFERENCE @"stop_on_error_preference"
 
 
 @implementation AppDelegate {
@@ -33,7 +34,8 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
       LISTENING_PORT_PREFERENCE: @(19989),
       ALLOW_ALT_FAILOVER_PREFERENCE: @(YES),
       ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
-      WARN_ON_SKIPPED_REFRESH_PREFERENCE: @(YES)
+      WARN_ON_SKIPPED_REFRESH_PREFERENCE: @(YES),
+      STOP_ON_ERROR_PREFERENCE: @(NO)
       };
     [userDefaults registerDefaults:defaultSettings];
 }
@@ -73,6 +75,7 @@ static void initializeSetupVariables(NSUserDefaults *userDefaults,
     setupVariablesController.announceIndividualStimuli = [userDefaults boolForKey:ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE];
     setupVariablesController.warnOnSkippedRefresh = [userDefaults boolForKey:WARN_ON_SKIPPED_REFRESH_PREFERENCE];
     
+    setupVariablesController.stopOnError = [userDefaults boolForKey:STOP_ON_ERROR_PREFERENCE];
     setupVariablesController.allowAltFailover = [userDefaults boolForKey:ALLOW_ALT_FAILOVER_PREFERENCE];
 }
 

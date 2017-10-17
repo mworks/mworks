@@ -45,6 +45,7 @@
         }
         
         _warnOnSkippedRefresh = (BOOL)(mw::warnOnSkippedRefresh->getValue().getBool());
+        _stopOnError = (BOOL)(mw::stopOnError->getValue().getBool());
         _allowAltFailover = (BOOL)(mw::alt_failover->getValue().getBool());
     }
     
@@ -145,6 +146,12 @@
 }
 
 
+- (void)setStopOnError:(BOOL)stopOnError {
+    _stopOnError = stopOnError;
+    [self updateVariable:mw::stopOnError value:bool(stopOnError)];
+}
+
+
 - (void)setAllowAltFailover:(BOOL)allowAltFailover {
     _allowAltFailover = allowAltFailover;
     [self updateVariable:mw::alt_failover value:bool(allowAltFailover)];
@@ -184,6 +191,7 @@
                 mw::serverName,
                 mw::mainDisplayInfo,
                 mw::warnOnSkippedRefresh,
+                mw::stopOnError,
                 mw::alt_failover,
                 mw::realtimeComponents,
             }, setupVariablesFile);

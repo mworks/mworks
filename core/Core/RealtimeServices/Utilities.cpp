@@ -84,6 +84,17 @@ BEGIN_NAMESPACE_MW
             messageVar->setSilentValue(0L);
 		}
         
+        // If the message is an error, and #stopOnError is set to true, stop the experiment
+        if (type >= M_ERROR_MESSAGE) {
+            if (auto soe = stopOnError) {
+                if (soe->getValue().getBool()) {
+                    if (auto stateSystem = StateSystem::instance(false)) {
+                        stateSystem->stop();
+                    }
+                }
+            }
+        }
+        
         // For debugging:  If the environment variable MWORKS_WRITE_MESSAGES_TO_STDERR is set,
         // write the message to standard error
         static const bool echo_to_stderr = []() {

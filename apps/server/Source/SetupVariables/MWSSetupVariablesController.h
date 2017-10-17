@@ -22,6 +22,7 @@
 @property(nonatomic, strong) NSNumber *mirrorWindowBaseHeight;
 @property(nonatomic) BOOL announceIndividualStimuli;
 @property(nonatomic) BOOL warnOnSkippedRefresh;
+@property(nonatomic) BOOL stopOnError;
 @property(nonatomic) BOOL allowAltFailover;
 
 @end

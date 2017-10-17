@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <!-- Load-time error -->
+    <message type="whole_message">ERROR: Division by zero</message>
+    <message type="starts_with">Just a regular, non-error message</message>
+    <!-- Run-time error -->
+    <message type="whole_message">ERROR: Division by zero [at line 16]</message>
+  </expected_messages>
+</marionette_info>

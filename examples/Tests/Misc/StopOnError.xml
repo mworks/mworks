@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="quotient" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="divisor" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <resources tag="Resources"></resources>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="report" tag="Report" message="Just a regular, non-error message"></action>
+            <action type="assignment" tag="Assign Variable" variable="quotient" value="1/divisor"></action>
+            <action type="assert" tag="Assert" condition="false" message="This should never execute!" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+    <variable_assignments>
+        <variable_assignment variable="#stopOnError" type="boolean" value="true"/>
+    </variable_assignments>
+</monkeyml>

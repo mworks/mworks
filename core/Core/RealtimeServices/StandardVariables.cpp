@@ -27,6 +27,7 @@ BEGIN_NAMESPACE_MW
 	shared_ptr<Variable> stimDisplayUpdate;   // JJD added June 2006
 	shared_ptr<Variable> mainDisplayInfo;
     shared_ptr<Variable> warnOnSkippedRefresh;
+    shared_ptr<Variable> stopOnError;
     shared_ptr<Variable> realtimeComponents;
 	shared_ptr<Variable> currentState;
 	
@@ -240,6 +241,13 @@ BEGIN_NAMESPACE_MW
                                                                                      PRIVATE_SYSTEM_VARIABLES));
 		
 		
+        stopOnError = registry->createGlobalVariable(VariableProperties(Datum(false),
+                                                                        STOP_ON_ERROR_TAGNAME,
+                                                                        M_WHEN_CHANGED,
+                                                                        false,
+                                                                        PRIVATE_SYSTEM_VARIABLES));
+        
+        
         Datum defaultRealtimeComponents(M_DICTIONARY, 0);
         realtimeComponents = registry->createGlobalVariable(VariableProperties(defaultRealtimeComponents,
                                                                                    "#realtimeComponents",
