@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <requirements>
+    <feature name="macos"/>
+  </requirements>
+  <expected_messages>
+    <message type="contains"><![CDATA[z = x / y
+ZeroDivisionError: integer division or modulo by zero]]></message>
+    <message type="contains">Python file execution failed</message>
+    <message type="starts_with">ERROR: Failed to parse experiment </message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't load, so we don't expect the normal state-system events -->
+  </expected_events>
+</marionette_info>

@@ -1,5 +1,22 @@
 <MWElements>
 
+  <MWElement name="Python File Resource">
+    <match_signature>resource[@type="python_file"]</match_signature>
+
+    <isa>Resource</isa>
+
+    <description>
+A special type of resource file that contains Python source code.  The file is executed when the experiment loads.
+    </description>
+
+    <code>
+      <resource type="python_file"
+                tag="Python File Resource"
+                path=""
+              />
+    </code>
+  </MWElement>
+
   <MWElement name="Run Python File">
     <match_signature>action[@type="run_python_file"]</match_signature>
 

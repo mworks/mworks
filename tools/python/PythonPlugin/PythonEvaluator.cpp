@@ -1,12 +1,12 @@
 //
-//  PythonSetup.cpp
-//  PythonTools
+//  PythonEvaluator.cpp
+//  PythonPlugin
 //
-//  Created by Christopher Stawarz on 8/17/17.
+//  Created by Christopher Stawarz on 10/18/17.
 //  Copyright © 2017 MWorks Project. All rights reserved.
 //
 
-#include "PythonSetup.hpp"
+#include "PythonEvaluator.hpp"
 
 #include <numpy/arrayobject.h>
 
@@ -18,7 +18,6 @@ using namespace boost::python;
 
 
 BEGIN_NAMESPACE_MW
-BEGIN_NAMESPACE(python)
 
 
 BEGIN_NAMESPACE()
@@ -187,9 +186,6 @@ void init_mworkscore() {
 }
 
 
-END_NAMESPACE()
-
-
 PyObject * getGlobalsDict() {
     static PyObject *globalsDict = nullptr;
     
@@ -248,15 +244,117 @@ PyObject * getGlobalsDict() {
 }
 
 
-END_NAMESPACE(python)
+PyCodeObject * compile(const boost::filesystem::path &path) {
+    const auto filename = path.string();
+    
+    std::FILE *fp = std::fopen(filename.c_str(), "r");
+    if (!fp) {
+        throw SimpleException(M_FILE_MESSAGE_DOMAIN, "Unable to open Python file", strerror(errno));
+    }
+    BOOST_SCOPE_EXIT(fp) {
+        std::fclose(fp);
+    } BOOST_SCOPE_EXIT_END
+    
+    ScopedGILAcquire sga;
+    
+    struct _node *node = PyParser_SimpleParseFile(fp, filename.c_str(), Py_file_input);
+    BOOST_SCOPE_EXIT(node) {
+        PyNode_Free(node);
+    } BOOST_SCOPE_EXIT_END
+    
+    PyCodeObject *codeObject = nullptr;
+    if (!node ||
+        !(codeObject = PyNode_Compile(node, filename.c_str())))
+    {
+        throw PythonException("Python compilation failed");
+    }
+    
+    return codeObject;
+}
+
+
+PyCodeObject * compile(const std::string &code) {
+    ScopedGILAcquire sga;
+    
+    struct _node *node = PyParser_SimpleParseString(code.c_str(), Py_file_input);
+    BOOST_SCOPE_EXIT(node) {
+        PyNode_Free(node);
+    } BOOST_SCOPE_EXIT_END
+    
+    PyCodeObject *codeObject = nullptr;
+    if (!node ||
+        !(codeObject = PyNode_Compile(node, "<string>")))
+    {
+        throw PythonException("Python compilation failed");
+    }
+    
+    return codeObject;
+}
+
+
+END_NAMESPACE()
+
+
+PythonEvaluator::PythonEvaluator(const boost::filesystem::path &filePath) :
+    globalsDict(getGlobalsDict()),
+    codeObject(compile(filePath))
+{ }
+
+
+PythonEvaluator::PythonEvaluator(const std::string &code) :
+    globalsDict(getGlobalsDict()),
+    codeObject(compile(code))
+{ }
+
+
+PythonEvaluator::~PythonEvaluator() {
+    ScopedGILAcquire sga;
+    Py_DECREF(codeObject);
+}
+
+
+bool PythonEvaluator::eval() {
+    //
+    // Save and (on exit) restore the current working directory
+    //
+    auto cwdfd = open(".", O_RDONLY);
+    if (-1 == cwdfd) {
+        merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to open current working directory: %s", strerror(errno));
+    }
+    BOOST_SCOPE_EXIT( &cwdfd ) {
+        if (-1 != cwdfd) {
+            (void)fchdir(cwdfd);
+            (void)close(cwdfd);
+        }
+    } BOOST_SCOPE_EXIT_END
+    
+    //
+    // Change the current working directory to the experiment's working path, so that Python code can
+    // use relative paths to resource files
+    //
+    if (auto experiment = GlobalCurrentExperiment) {
+        auto &workingPath = experiment->getWorkingPath();
+        if (!(workingPath.empty())) {
+            if (-1 == chdir(workingPath.c_str())) {
+                merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to change directory: %s", strerror(errno));
+            }
+        }
+    }
+    
+    ScopedGILAcquire sga;
+    
+    PyObject *result = PyEval_EvalCode(codeObject, globalsDict, globalsDict);
+    if (result) {
+        Py_DECREF(result);
+        return true;
+    }
+    
+    PythonException::logError("Python execution failed");
+    return false;
+}
+
+
 END_NAMESPACE_MW
-
-
-
-
-
-
-
 
 
 

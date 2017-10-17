@@ -1,6 +1,29 @@
 ---
 
 
+name: Python File Resource
+signature: resource/python_file
+isa: Resource
+platform: macos
+description: |
+    A special type of `resource file <Resources>` that contains Python source
+    code.
+
+    The file is executed when the experiment loads.  The execution takes place
+    after all experiment-defined `variables <Variables>` have been created, but
+    before any other components are created.  Therefore, the Python code can set
+    variable values or perform additional initialization tasks, and other
+    components can make use of the results.
+parameters: 
+  - 
+    name: path
+    required: yes
+    description: Filesystem path to the Python source file
+
+
+---
+
+
 name: Run Python Action
 abstract: yes
 isa: Action

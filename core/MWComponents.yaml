@@ -89,8 +89,15 @@ description: >
 
 name: Resources
 is_group: yes
-description: >
-    Resource files (images, scripts, etc.) needed by an experiment
+description: |
+    Resource files (images, scripts, etc.) needed by an experiment.
+
+    *Note*:  In the absence of resource declarations, the MWorks parser
+    infers the required resources from the ``path`` and ``directory_path``
+    attributes of other components.  However, if the experiment declares
+    any resources, then this inference step is skipped.  Hence, an experiment
+    that declares any resources must include *all* required files in its
+    resource declarations.
 
 
 ---
@@ -1905,13 +1912,13 @@ parameters:
   - 
     name: saccade_entry_speed
     required: yes
-    description: > 
+    description: >
         A computed eye speed greater than this speed denotes a saccade
         (units per second)
   - 
     name: saccade_exit_speed
     required: yes
-    description: > 
+    description: >
         A computed eye speed less than or equal to this speed indicates
         fixation (units per second)
 
@@ -2052,21 +2059,22 @@ parameters:
 
 
 name: Resource
-signature: resource
+abstract: yes
 group: Resources
 toplevel: yes
 allowed_parent: Folder
-description: |
+
+
+---
+
+
+name: File Resource
+signature: resource
+isa: Resource
+description: >
     A file or set of files required by an experiment.  All resource files are
     copied, along with the experiment file itself, to the system running
     MWServer.
-
-    *Note*:  In the absence of resource declarations, the MWorks parser
-    infers the required resources from the ``path`` and ``directory_path``
-    attributes of other components.  However, if the experiment declares
-    any resources, then this inference step is skipped.  Hence, an experiment
-    that declares any resources must include *all* required files in its
-    resource declarations.
 parameters: 
   - 
     name: path

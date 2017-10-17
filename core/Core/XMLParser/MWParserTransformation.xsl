@@ -12,6 +12,8 @@
                  so that expressions in selection variable parameters will evaluate as expected -->
 			<xsl:apply-templates mode="selection_variable_create"/>
 			
+			<xsl:apply-templates mode="resource_create"/>
+			
 			<xsl:apply-templates mode="iodevice_create"/>
 			<xsl:apply-templates mode="iochannel_create"/>
 			
@@ -156,6 +158,17 @@
 	</xsl:template>
 
 	<xsl:template match="text()" mode = "variable_create"/>
+
+	<!-- Resource -->
+	<!-- Resources with no "type" attribute exist only to identify files the
+	     experiment requires.  They get used before this stylesheet is applied,
+	     so we don't need to propagate them further. -->
+	<xsl:template match="//resource[@type]" mode="resource_create">
+		<xsl:call-template name="generic_create"/>
+		<xsl:apply-templates select="node()" mode="resource_create"/>
+	</xsl:template>
+
+	<xsl:template match="text()" mode = "resource_create"/>
 
 	<!-- Stimulus -->
 	<xsl:template match="//stimulus" mode="stimulus_create">

@@ -48,7 +48,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		E14266631F45E47500F4CA05 /* PythonSetup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E14266611F45E47500F4CA05 /* PythonSetup.cpp */; };
 		E18951C11892C8F600804C10 /* PythonAppHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18951BF1892C8F600804C10 /* PythonAppHelpers.cpp */; };
 		E18D3BA216553B5900D472D0 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
 		E18D3BB8165541B900D472D0 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BB7165541B900D472D0 /* MWorksCore.framework */; };
@@ -61,6 +60,8 @@
 		E18D3BE816554EE600D472D0 /* conduit.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BDA16554D7D00D472D0 /* conduit.py */; };
 		E18D3BE916554EE800D472D0 /* data.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BDB16554D7D00D472D0 /* data.py */; };
 		E19C4CBA1B1E21BE005380F0 /* PythonException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19C4CB81B1E21BE005380F0 /* PythonException.cpp */; };
+		E1CF55501F97A30700F65009 /* PythonFileResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CF554E1F97A30700F65009 /* PythonFileResource.cpp */; };
+		E1CF55531F97CB8000F65009 /* PythonEvaluator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CF55511F97CB8000F65009 /* PythonEvaluator.cpp */; };
 		E1D3CAA01B1CB5E700E94A2C /* PythonPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */; };
 		E1D3CAA11B1CB7F700E94A2C /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BB7165541B900D472D0 /* MWorksCore.framework */; };
 		E1D3CAA21B1CB7FC00E94A2C /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979116C19843001481E9 /* libboost_system.a */; };
@@ -137,8 +138,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E14266611F45E47500F4CA05 /* PythonSetup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonSetup.cpp; sourceTree = "<group>"; };
-		E14266621F45E47500F4CA05 /* PythonSetup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PythonSetup.hpp; sourceTree = "<group>"; };
 		E18951BF1892C8F600804C10 /* PythonAppHelpers.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PythonAppHelpers.cpp; sourceTree = "<group>"; };
 		E18951C01892C8F600804C10 /* PythonAppHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonAppHelpers.h; sourceTree = "<group>"; };
 		E18D3B79165537A300D472D0 /* _mworks.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = _mworks.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +160,10 @@
 		E195639E168208D100C9F863 /* PythonTools-Exports.exp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.exports; path = "PythonTools-Exports.exp"; sourceTree = SOURCE_ROOT; };
 		E19C4CB81B1E21BE005380F0 /* PythonException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonException.cpp; sourceTree = "<group>"; };
 		E19C4CB91B1E21BE005380F0 /* PythonException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonException.h; sourceTree = "<group>"; };
+		E1CF554E1F97A30700F65009 /* PythonFileResource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PythonFileResource.cpp; sourceTree = "<group>"; };
+		E1CF554F1F97A30700F65009 /* PythonFileResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PythonFileResource.hpp; sourceTree = "<group>"; };
+		E1CF55511F97CB8000F65009 /* PythonEvaluator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PythonEvaluator.cpp; sourceTree = "<group>"; };
+		E1CF55521F97CB8000F65009 /* PythonEvaluator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PythonEvaluator.hpp; sourceTree = "<group>"; };
 		E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonPlugin.cpp; sourceTree = "<group>"; };
 		E1D3CAA51B1CCE3400E94A2C /* RunPythonFileAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunPythonFileAction.cpp; sourceTree = "<group>"; };
 		E1D3CAA61B1CCE3400E94A2C /* RunPythonFileAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunPythonFileAction.h; sourceTree = "<group>"; };
@@ -240,7 +243,6 @@
 				E195639E168208D100C9F863 /* PythonTools-Exports.exp */,
 			);
 			name = "Extension Module";
-			path = PythonTools;
 			sourceTree = "<group>";
 		};
 		E18D3B7C165537A300D472D0 /* Supporting Files */ = {
@@ -249,7 +251,6 @@
 				E18D3B7D165537A300D472D0 /* PythonTools-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			path = PythonTools;
 			sourceTree = "<group>";
 		};
 		E18D3B97165538D600D472D0 /* External Config */ = {
@@ -259,7 +260,6 @@
 				E18D3B991655390600D472D0 /* WARNING.txt */,
 			);
 			name = "External Config";
-			path = PythonTools;
 			sourceTree = "<group>";
 		};
 		E18D3B9A16553B5900D472D0 /* Conduits */ = {
@@ -295,7 +295,6 @@
 				E1DB979316C19859001481E9 /* libscarab.a */,
 			);
 			name = "Frameworks & Libraries";
-			path = PythonTools;
 			sourceTree = "<group>";
 		};
 		E18D3BCD1655489C00D472D0 /* Data */ = {
@@ -315,7 +314,6 @@
 				E18D3BDB16554D7D00D472D0 /* data.py */,
 			);
 			name = "Python Modules";
-			path = PythonTools;
 			sourceTree = "<group>";
 		};
 		E1D645871B31CDCC0092C428 /* Actions */ = {
@@ -337,8 +335,10 @@
 				E1D645871B31CDCC0092C428 /* Actions */,
 				E19C4CB91B1E21BE005380F0 /* PythonException.h */,
 				E19C4CB81B1E21BE005380F0 /* PythonException.cpp */,
-				E14266621F45E47500F4CA05 /* PythonSetup.hpp */,
-				E14266611F45E47500F4CA05 /* PythonSetup.cpp */,
+				E1CF55521F97CB8000F65009 /* PythonEvaluator.hpp */,
+				E1CF55511F97CB8000F65009 /* PythonEvaluator.cpp */,
+				E1CF554F1F97A30700F65009 /* PythonFileResource.hpp */,
+				E1CF554E1F97A30700F65009 /* PythonFileResource.cpp */,
 				E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */,
 				E1E603A01B1904D2009BA19D /* Supporting Files */,
 			);
@@ -411,8 +411,21 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "MWorks Project";
 				TargetAttributes = {
+					E134E8F6165BF5C600B159A1 = {
+						ProvisioningStyle = Automatic;
+					};
+					E18D3B78165537A300D472D0 = {
+						ProvisioningStyle = Automatic;
+					};
+					E18D3BDC16554E9C00D472D0 = {
+						ProvisioningStyle = Automatic;
+					};
+					E18D3BEB1655580000D472D0 = {
+						ProvisioningStyle = Automatic;
+					};
 					E1E6039D1B1904D2009BA19D = {
 						CreatedOnToolsVersion = 6.3.2;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -496,7 +509,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E14266631F45E47500F4CA05 /* PythonSetup.cpp in Sources */,
+				E1CF55531F97CB8000F65009 /* PythonEvaluator.cpp in Sources */,
+				E1CF55501F97A30700F65009 /* PythonFileResource.cpp in Sources */,
 				E1D3CAA91B1CDD4100E94A2C /* PythonDataHelpers.cpp in Sources */,
 				E1D645831B31C1ED0092C428 /* RunPythonAction.cpp in Sources */,
 				E19C4CBA1B1E21BE005380F0 /* PythonException.cpp in Sources */,

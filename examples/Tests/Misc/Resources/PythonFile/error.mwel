@@ -1,0 +1,9 @@
+python_file ('error.py')
+
+
+protocol {
+    assert (
+        condition = false
+        message = 'This should never run!'
+        )
+}

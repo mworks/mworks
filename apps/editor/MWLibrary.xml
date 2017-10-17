@@ -2092,18 +2092,23 @@ A transition that goes to the target state either unconditionally or, if "when" 
 	<!-- Resource Definitions -->
 	<!-- ********************** -->
 	
-	<MWElement name="Resource">
-		<match_signature>resource</match_signature>
-		
+	<MWElement name="Resource" hidden="1">
+		<match_signature>dummy</match_signature>
 		<allowed_parent>Resources</allowed_parent>
 		<belongs_to_group>Resources</belongs_to_group>
+	</MWElement>
+	
+	<MWElement name="File Resource">
+		<match_signature>resource</match_signature>
+
+		<isa>Resource</isa>
 		
 		<description>
 A file or set of files required by an experiment.  All resource files are copied, along with the experiment file itself, to the system running MWServer.
 		</description>
 		
 		<code>
-			<resource tag="New Resource" path=""/>
+			<resource tag="New File Resource" path=""/>
 		</code>
 	</MWElement>
 

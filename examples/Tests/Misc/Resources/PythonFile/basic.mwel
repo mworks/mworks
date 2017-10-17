@@ -1,0 +1,15 @@
+var a = 2
+var b = 3
+var nsamples = 1
+var count = 0
+
+python_file ('basic.py')
+
+
+protocol {
+    count = 0
+    block (nsamples = nsamples) {
+        count += 1
+    }
+    assert (count == 5)
+}

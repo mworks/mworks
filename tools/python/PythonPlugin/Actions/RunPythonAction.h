@@ -9,27 +9,26 @@
 #ifndef __PythonTools__RunPythonAction__
 #define __PythonTools__RunPythonAction__
 
+#include "PythonEvaluator.hpp"
+
 
 BEGIN_NAMESPACE_MW
 
 
-class RunPythonAction : public Action, boost::noncopyable {
+class RunPythonAction : public Action {
     
 public:
     static const std::string STOP_ON_FAILURE;
     
     static void describeComponent(ComponentInfo &info);
     
-    explicit RunPythonAction(const ParameterValueMap &parameters);
-    ~RunPythonAction();
+    RunPythonAction(const ParameterValueMap &parameters, const boost::filesystem::path &filePath);
+    RunPythonAction(const ParameterValueMap &parameters, const std::string &code);
     
     bool execute() override;
     
-protected:
-    PyCodeObject *codeObject;
-    
 private:
-    PyObject * const globalsDict;
+    PythonEvaluator evaluator;
     const bool stopOnFailure;
     
 };
@@ -39,3 +38,22 @@ END_NAMESPACE_MW
 
 
 #endif /* !defined(__PythonTools__RunPythonAction__) */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
