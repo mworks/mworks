@@ -17,12 +17,18 @@ class PythonEvaluator : boost::noncopyable {
     
 public:
     explicit PythonEvaluator(const boost::filesystem::path &filePath);
-    explicit PythonEvaluator(const std::string &code);
+    explicit PythonEvaluator(const std::string &code, bool isExpr = false);
     ~PythonEvaluator();
     
-    bool eval();
+    bool exec();
+    bool eval(Datum &result);
+    
+    using ArgIter = const std::vector<Datum>::const_iterator;
+    bool call(Datum &result, ArgIter first, ArgIter last);
     
 private:
+    PyObject * eval();
+    
     PyObject * const globalsDict;
     PyCodeObject * const codeObject;
     

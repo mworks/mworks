@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <requirements>
+    <feature name="macos"/>
+  </requirements>
+  <expected_messages>
+    <message type="contains"><![CDATA[File "<string>", line 1, in <module>
+TypeError: unsupported operand type(s) for +: 'int' and 'str']]></message>
+    <message type="contains"><![CDATA[TypeError: Cannot convert object of type builtin_function_or_method]]></message>
+  </expected_messages>
+</marionette_info>

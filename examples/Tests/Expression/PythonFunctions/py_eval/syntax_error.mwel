@@ -1,0 +1,5 @@
+var result = 0
+
+protocol {
+    result = py_eval('a = 3')  // Not an expression
+}

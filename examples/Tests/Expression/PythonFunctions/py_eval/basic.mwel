@@ -1,0 +1,17 @@
+python_file ('basic.py')
+
+protocol {
+    // Simple expression
+    assert (py_eval('1+2') == 3)
+
+    // Expression using names created in basic.py
+    assert (py_eval('a+b') == 9)
+
+    // Evaluation error
+    run_python_string ('b = "five"')
+    assert (py_eval('a+b') == 0)
+
+    // Type conversion error
+    run_python_string('a = dir')
+    assert (py_eval('a') == 0)
+}

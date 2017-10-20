@@ -29,7 +29,7 @@ PythonFileResource::PythonFileResource(const ParameterValueMap &parameters) :
     path(parameters[PATH])
 {
     PythonEvaluator evaluator(path);
-    if (!(evaluator.eval())) {
+    if (!(evaluator.exec())) {
         throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Python file execution failed");
     }
 }

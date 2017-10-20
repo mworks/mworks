@@ -36,7 +36,7 @@ RunPythonAction::RunPythonAction(const ParameterValueMap &parameters, const std:
 
 
 bool RunPythonAction::execute() {
-    if (!(evaluator.eval())) {
+    if (!(evaluator.exec())) {
         if (stopOnFailure) {
             merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to failed Python execution");
             StateSystem::instance()->stop();

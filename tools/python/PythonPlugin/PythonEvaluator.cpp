@@ -273,10 +273,10 @@ PyCodeObject * compile(const boost::filesystem::path &path) {
 }
 
 
-PyCodeObject * compile(const std::string &code) {
+PyCodeObject * compile(const std::string &code, bool isExpr) {
     ScopedGILAcquire sga;
     
-    struct _node *node = PyParser_SimpleParseString(code.c_str(), Py_file_input);
+    struct _node *node = PyParser_SimpleParseString(code.c_str(), (isExpr ? Py_eval_input : Py_file_input));
     BOOST_SCOPE_EXIT(node) {
         PyNode_Free(node);
     } BOOST_SCOPE_EXIT_END
@@ -292,6 +292,50 @@ PyCodeObject * compile(const std::string &code) {
 }
 
 
+class EvalState : boost::noncopyable {
+    
+public:
+    EvalState() :
+        //
+        // Save the current working directory
+        //
+        cwdfd(open(".", O_RDONLY))
+    {
+        if (-1 == cwdfd) {
+            merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to open current working directory: %s", strerror(errno));
+        }
+        
+        //
+        // Change the current working directory to the experiment's working path, so that Python code can
+        // use relative paths to resource files
+        //
+        if (auto experiment = GlobalCurrentExperiment) {
+            auto &workingPath = experiment->getWorkingPath();
+            if (!(workingPath.empty())) {
+                if (-1 == chdir(workingPath.c_str())) {
+                    merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to change directory: %s", strerror(errno));
+                }
+            }
+        }
+    }
+    
+    ~EvalState() {
+        //
+        // Restore the current working directory
+        //
+        if (-1 != cwdfd) {
+            (void)fchdir(cwdfd);
+            (void)close(cwdfd);
+        }
+    }
+    
+private:
+    ScopedGILAcquire sga;
+    const int cwdfd;
+    
+};
+
+
 END_NAMESPACE()
 
 
@@ -301,9 +345,9 @@ PythonEvaluator::PythonEvaluator(const boost::filesystem::path &filePath) :
 { }
 
 
-PythonEvaluator::PythonEvaluator(const std::string &code) :
+PythonEvaluator::PythonEvaluator(const std::string &code, bool isExpr) :
     globalsDict(getGlobalsDict()),
-    codeObject(compile(code))
+    codeObject(compile(code, isExpr))
 { }
 
 
@@ -313,44 +357,56 @@ PythonEvaluator::~PythonEvaluator() {
 }
 
 
-bool PythonEvaluator::eval() {
-    //
-    // Save and (on exit) restore the current working directory
-    //
-    auto cwdfd = open(".", O_RDONLY);
-    if (-1 == cwdfd) {
-        merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to open current working directory: %s", strerror(errno));
-    }
-    BOOST_SCOPE_EXIT( &cwdfd ) {
-        if (-1 != cwdfd) {
-            (void)fchdir(cwdfd);
-            (void)close(cwdfd);
-        }
-    } BOOST_SCOPE_EXIT_END
-    
-    //
-    // Change the current working directory to the experiment's working path, so that Python code can
-    // use relative paths to resource files
-    //
-    if (auto experiment = GlobalCurrentExperiment) {
-        auto &workingPath = experiment->getWorkingPath();
-        if (!(workingPath.empty())) {
-            if (-1 == chdir(workingPath.c_str())) {
-                merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to change directory: %s", strerror(errno));
-            }
-        }
-    }
-    
-    ScopedGILAcquire sga;
-    
-    PyObject *result = PyEval_EvalCode(codeObject, globalsDict, globalsDict);
-    if (result) {
+bool PythonEvaluator::exec() {
+    EvalState es;
+    if (PyObject *result = eval()) {
         Py_DECREF(result);
         return true;
     }
-    
     PythonException::logError("Python execution failed");
     return false;
+}
+
+
+bool PythonEvaluator::eval(Datum &result) {
+    EvalState es;
+    try {
+        result = convert_python_to_datum(manageNewRef(eval()));
+        return true;
+    } catch (const boost::python::error_already_set &) {
+        PythonException::logError("Python evaluation failed");
+        return false;
+    }
+}
+
+
+bool PythonEvaluator::call(Datum &result, ArgIter first, ArgIter last) {
+    EvalState es;
+    try {
+        auto callable = manageNewRef(eval());
+        
+        const Py_ssize_t numArgs = last - first;
+        auto args = manageNewRef(PyTuple_New(numArgs));
+        for (Py_ssize_t argNum = 0; argNum < numArgs; argNum++) {
+            auto arg = convert_datum_to_python(*(first + argNum));
+            // PyTuple_SetItem "steals" the item reference, so we need to INCREF it
+            Py_INCREF(arg.ptr());
+            if (PyTuple_SetItem(args.ptr(), argNum, arg.ptr())) {
+                throw_error_already_set();
+            }
+        }
+        
+        result = convert_python_to_datum(manageNewRef(PyObject_CallObject(callable.ptr(), args.ptr())));
+        return true;
+    } catch (const boost::python::error_already_set &) {
+        PythonException::logError("Python call failed");
+        return false;
+    }
+}
+
+
+inline PyObject * PythonEvaluator::eval() {
+    return PyEval_EvalCode(codeObject, globalsDict, globalsDict);
 }
 
 

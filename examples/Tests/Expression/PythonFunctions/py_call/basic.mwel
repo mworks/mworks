@@ -1,0 +1,27 @@
+python_file ('basic.py')
+
+protocol {
+    // No args
+    assert (py_call('dict') == {})
+
+    // One arg
+    assert (py_call('int', '123') == 123)
+
+    // Multiple args
+    assert (py_call('max', 1.5, 3) == 3)
+
+    // Using name defined in basic.py
+    assert (py_call('sum3', 1, 2, 3) == 6)
+
+    // Callable evaluation error
+    run_python_string ('del one')
+    assert (py_call('one') == 0)
+
+    // Call error
+    run_python_string ('x = "three"')
+    assert (py_call('add_x', 4) == 0)
+
+    // Type conversion error
+    run_python_string ('y = min')
+    assert (py_call('get_y') == 0)
+}
