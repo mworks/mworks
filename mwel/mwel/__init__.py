@@ -86,6 +86,22 @@ class ErrorLogger(object):
         return location
 
 
+def readfile(filepath, error_logger, lineno=None, colno=None):
+    try:
+        with open(filepath, 'rb') as fp:
+            return fp.read().decode('utf-8')
+    except IOError as e:
+        error_logger(("Failed to open file '%s': %s" %
+                      (filepath, e.strerror)),
+                     lineno = lineno,
+                     colno = colno)
+    except UnicodeDecodeError:
+        error_logger(("File '%s' does not contain valid UTF-8 encoded text" %
+                      filepath),
+                     lineno = lineno,
+                     colno = colno)
+
+
 def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     from .analyzer import Analyzer
     from .generator import XMLGenerator
@@ -99,19 +115,13 @@ def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     error_logger = ErrorLogger()
 
     filepath = argv[1]
-    try:
-        with open(filepath) as fp:
-            src = fp.read()
-    except IOError as e:
-        print("Failed to open file '%s': %s" % (filepath, e.strerror),
-              file = stderr)
-        return 1
-
-    parser = Parser(error_logger)
-    ast = parser.parse(src, os.path.dirname(filepath))
-    if ast:
-        cmpts = Analyzer(error_logger).analyze(ast)
-        cmpts = Validator(error_logger).validate(cmpts)
+    src = readfile(filepath, error_logger)
+    if src is not None:
+        parser = Parser(error_logger)
+        ast = parser.parse(src, os.path.dirname(filepath))
+        if ast:
+            cmpts = Analyzer(error_logger).analyze(ast)
+            cmpts = Validator(error_logger).validate(cmpts)
 
     if error_logger.errors:
         error_logger.print_errors(stderr)

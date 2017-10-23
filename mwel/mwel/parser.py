@@ -3,7 +3,7 @@ import collections
 from contextlib import contextmanager
 import os
 
-from . import ast
+from . import ast, readfile
 from .lexer import Lexer
 
 
@@ -383,17 +383,11 @@ class Parser(ExpressionParser):
             self._basepaths.pop()
 
     def parse_file(self, filepath, _lineno=None, _colno=None):
-        try:
-            with open(filepath) as fp:
-                src = fp.read()
+        src = readfile(filepath, self.error_logger, _lineno, _colno)
+        if src is not None:
             self.included_files[filepath] = src
             with self.error_logger.filename(filepath):
                 return self.parse(src, os.path.dirname(filepath))
-        except IOError as e:
-            self.error_logger(("Failed to open file '%s': %s" %
-                               (filepath, e.strerror)),
-                              lineno = _lineno,
-                              colno = _colno)
 
     def start(self):
         return self.module()

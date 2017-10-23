@@ -63,11 +63,11 @@ class TempFilesMixin(object):
         shutil.rmtree(self.tmpdir)
         super(TempFilesMixin, self).tearDown()
 
-    def write_file(self, filepath, src):
+    def write_file(self, filepath, src, encoding='utf-8'):
         filepath = os.path.join(self.tmpdir, filepath)
         dirpath = os.path.dirname(filepath)
         if not os.path.isdir(dirpath):
             os.makedirs(dirpath)
-        with open(filepath, 'w') as fp:
-            fp.write(src)
+        with open(filepath, 'wb') as fp:
+            fp.write(src.encode(encoding))
         return filepath

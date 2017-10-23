@@ -1,5 +1,7 @@
+# coding=utf-8
 from __future__ import division, print_function, unicode_literals
 import io
+import sys
 import unittest
 
 from mwel import ErrorLogger, toxml
@@ -328,3 +330,55 @@ protocol 'Test Protocol' {
   </variable_assignments>
 </monkeyml>
 ''' % (experiment_path, protocol_path))
+
+    def test_unicode(self):
+        experiment_src = '''\
+// ¡Buenos días, amigos!
+%include inc
+'''
+        include_src = '''\
+// ¡Y tu también!
+var 😊 = 1
+'''
+
+        #
+        # Both files UTF-8
+        #
+
+        experiment_path = self.write_file('exp.mwel', experiment_src)
+        self.write_file('inc.mwel', include_src)
+
+        self.assertEqual(1, self.toxml('my_script', experiment_path))
+
+        if sys.version_info[0] < 3:
+            expected_stderr = '''\
+Illegal character: u'\\ud83d' [inc.mwel: line 2, column 5]
+Illegal character: u'\\ude0a' [inc.mwel: line 2, column 6]
+Component 'action/assignment' is not allowed at the top level [inc.mwel: line 2, column 8]
+'''
+        else:
+            expected_stderr = '''\
+Illegal character: '😊' [inc.mwel: line 2, column 5]
+Component 'action/assignment' is not allowed at the top level [inc.mwel: line 2, column 7]
+'''
+        self.assertOutput(stderr=expected_stderr)
+
+        #
+        # Include not UTF-8
+        #
+
+        include_path = self.write_file('inc.mwel', include_src, 'utf-16')
+        self.assertEqual(1, self.toxml('my_script', experiment_path))
+        self.assertOutput(stderr='''\
+File '%s' does not contain valid UTF-8 encoded text [line 2, column 2]
+''' % include_path)
+
+        #
+        # Experiment not UTF-8
+        #
+
+        experiment_path = self.write_file('exp.mwel', experiment_src, 'utf-16')
+        self.assertEqual(1, self.toxml('my_script', experiment_path))
+        self.assertOutput(stderr='''\
+File '%s' does not contain valid UTF-8 encoded text
+''' % experiment_path)
