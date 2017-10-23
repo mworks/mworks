@@ -195,6 +195,7 @@ Resource files (images, scripts, etc.) needed by an experiment
         <allowed_parent>Stimuli</allowed_parent>
         <allowed_parent>Sounds</allowed_parent>
         <allowed_parent>Calibrators</allowed_parent>
+        <allowed_parent>Resources</allowed_parent>
 
         <belongs_to_group>Variables</belongs_to_group>
         
@@ -2095,6 +2096,7 @@ A transition that goes to the target state either unconditionally or, if "when" 
 	<MWElement name="Resource" hidden="1">
 		<match_signature>dummy</match_signature>
 		<allowed_parent>Resources</allowed_parent>
+		<allowed_parent>Folder</allowed_parent>
 		<belongs_to_group>Resources</belongs_to_group>
 	</MWElement>
 	

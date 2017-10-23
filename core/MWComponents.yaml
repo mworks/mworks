@@ -112,6 +112,7 @@ description: |
 
 name: Folder
 signature: folder
+mwel_alias: group
 group: Variables
 transient: yes
 toplevel: yes
