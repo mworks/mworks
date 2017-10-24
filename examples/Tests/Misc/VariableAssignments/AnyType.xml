@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="any_value" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="any_body" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="one" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
+        <variable tag="two" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="2" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <resources tag="Resources"></resources>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assert" tag="Assert" condition="any_value == {'a': 1, 'b': 2}" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert" condition="any_body == [1, 2, 3]" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+    <variable_assignments>
+        <variable_assignment variable="any_value" type="any" value="{'a': one, 'b': two}"/>
+        <variable_assignment variable="any_body" type="any">[1, 1+one, 1+two]</variable_assignment>
+    </variable_assignments>
+</monkeyml>

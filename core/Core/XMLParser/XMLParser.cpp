@@ -10,6 +10,7 @@
 #include "XMLParser.h"
 #include "States.h"
 #include "Experiment.h"
+#include "ExpressionVariable.h"
 
 #include <algorithm>
 #include <stdlib.h>
@@ -1158,10 +1159,13 @@ Datum XMLParser::_parseDataValue(xmlNode *node){
 		reference_id = "unknown";
 	}
 	
+    bool anyType = false;
 	GenericDataType type = M_UNDEFINED;
 	
 	// TODO standardize this
-	if(type_string == "integer"){
+    if (type_string == "any") {
+        anyType = true;
+    } else if(type_string == "integer"){
 		type = M_INTEGER;
 	} else if(type_string == "float"){
 		type = M_FLOAT;
@@ -1173,7 +1177,9 @@ Datum XMLParser::_parseDataValue(xmlNode *node){
 	
 	if(value_field_contents.empty() == false){
 		
-		if(type == M_STRING){
+        if (anyType) {
+            return ParsedExpressionVariable::evaluateExpression(value_field_contents);
+        } else if(type == M_STRING){
 			return Datum(value_field_contents);
 		} else if(type != M_UNDEFINED){
 			return registry->getNumber(value_field_contents, type);
@@ -1186,7 +1192,9 @@ Datum XMLParser::_parseDataValue(xmlNode *node){
 	vector<xmlNode *> children = _getChildren(node);
 	
 	if(children.size() == 0){
-		if(type != M_UNDEFINED && type != M_STRING){
+        if (anyType) {
+            return ParsedExpressionVariable::evaluateExpression(_getContent(node));
+        } else if(type != M_UNDEFINED && type != M_STRING){
 			return registry->getNumber(_getContent(node), type);
 		} else {
 			return Datum(_getContent(node));
