@@ -578,8 +578,8 @@ namespace stx MW_SYMBOL_PUBLIC {
                 
                 for(unsigned int i = 0; i < itemlist.size(); ++i)
                 {
-                    Datum itemKey = itemlist[i].first->evaluate();
-                    Datum itemValue = itemlist[i].second->evaluate();
+                    Datum itemKey = itemlist[i].first->evaluate(st);
+                    Datum itemValue = itemlist[i].second->evaluate(st);
                     value.addElement(itemKey, itemValue);
                 }
                 

@@ -316,11 +316,11 @@ public:
 
     /// Function to recursively evaluate the contained parse tree and retrieve
     /// the calculated scalar value based on the given symbol table.
-    virtual Datum evaluate(const class SymbolTable &st = BasicSymbolTable()) const = 0;
+    virtual Datum evaluate(const class SymbolTable &st) const = 0;
     
     /// Function to recursively evaluate the contained parse tree and retrieve
     /// *all* calculated scalar values based on the given symbol table.
-    virtual void evaluate(std::vector<Datum> &values, const class SymbolTable &st = BasicSymbolTable()) const
+    virtual void evaluate(std::vector<Datum> &values, const class SymbolTable &st) const
     {
         values.push_back(evaluate(st));
     }
@@ -368,7 +368,7 @@ public:
 
     /// Function to recursively evaluate the contained parse tree and retrieve
     /// the calculated scalar value based on the given symbol table.
-    Datum	evaluate(const class SymbolTable &st = BasicSymbolTable()) const
+    Datum	evaluate(const class SymbolTable &st) const
     {
 		assert(rootnode.get() != NULL);
 		return rootnode->evaluate(st);
@@ -376,7 +376,7 @@ public:
     
     /// Function to recursively evaluate the contained parse tree and retrieve
     /// *all* calculated scalar values based on the given symbol table.
-    void evaluate(std::vector<Datum> &values, const class SymbolTable &st = BasicSymbolTable()) const
+    void evaluate(std::vector<Datum> &values, const class SymbolTable &st) const
     {
 		assert(rootnode.get() != NULL);
 		return rootnode->evaluate(values, st);
@@ -410,7 +410,7 @@ protected:
 public:
     /// Function to recursively evaluate all the contained parse trees and
     /// retrieve each calculated scalar value for the given symbol table.
-    void evaluate(std::vector<Datum> &values, const class SymbolTable &st = BasicSymbolTable()) const;
+    void evaluate(std::vector<Datum> &values, const class SymbolTable &st) const;
 
     /// Return the list of parsed expression as a string, which can be parsed
     /// again.

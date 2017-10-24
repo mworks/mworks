@@ -562,7 +562,9 @@ void ParsedExpressionVariableTestFixture::testListLiteral() {
     
     // Multiple-element list
     {
-        Datum d = ParsedExpressionVariable::evaluateExpression("[1, 2.5, 'foo']");
+        createGlobalVariable("x", Datum(2.5));
+        
+        Datum d = ParsedExpressionVariable::evaluateExpression("[1, x, 'foo']");
         CPPUNIT_ASSERT( d.isList() );
         CPPUNIT_ASSERT_EQUAL( 3, d.getNElements() );
         
@@ -627,7 +629,10 @@ void ParsedExpressionVariableTestFixture::testDictionaryLiteral() {
     
     // Multiple-element dict
     {
-        Datum d = ParsedExpressionVariable::evaluateExpression("{'a': 1, true: 2.5, 3.5: 'foo'}");
+        createGlobalVariable("x", Datum(2.5));
+        createGlobalVariable("y", Datum(3.5));
+
+        Datum d = ParsedExpressionVariable::evaluateExpression("{'a': 1, true: x, y: 'foo'}");
         CPPUNIT_ASSERT( d.isDictionary() );
         CPPUNIT_ASSERT_EQUAL( 3, d.getNElements() );
         
