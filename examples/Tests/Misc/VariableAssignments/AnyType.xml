@@ -18,8 +18,6 @@
             <action type="assert" tag="Assert" condition="any_body == [1, 2, 3]" message="" stop_on_failure="0"></action>
         </protocol>
     </experiment>
-    <variable_assignments>
-        <variable_assignment variable="any_value" type="any" value="{'a': one, 'b': two}"/>
-        <variable_assignment variable="any_body" type="any">[1, 1+one, 1+two]</variable_assignment>
-    </variable_assignments>
+    <variable_assignment variable="any_value" type="any" value="{'a': one, 'b': two}"/>
+    <variable_assignment variable="any_body" type="any">[1, 1+one, 1+two]</variable_assignment>
 </monkeyml>

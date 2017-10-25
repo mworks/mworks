@@ -267,6 +267,44 @@ parameters:
 ---
 
 
+name: Variable Assignment
+signature: variable_assignment
+group: Variables
+toplevel: yes
+description: |
+    Assigns a value to a variable.
+
+    Variable assignments differ from `Assign Variable` actions in two key ways:
+
+    1. They are allowed only at the top level of an experiment. They cannot be
+       declared inside a `Protocol` or other component.
+
+    2. They are executed when the experiment loads, instead of at run time.  The
+       assignment takes place after `regular variables <Variable>` are created,
+       but before the creation of `selection variables <Selection Variable>` or
+       other components.
+parameters: 
+  - 
+    name: variable
+    required: yes
+    description: Variable name
+  - 
+    name: value
+    required: yes
+    description: Value to assign
+  - 
+    name: type
+    options: [any, boolean, integer, float, string]
+    default: string
+    description: >
+        Controls how the content of `value`_ is interpreted.  When set to
+        ``any`` (recommended), the value is parsed like a normal expression, and
+        the parser infers its type.
+
+
+---
+
+
 ###############################################################################
 #
 # Stimuli

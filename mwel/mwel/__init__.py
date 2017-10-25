@@ -135,7 +135,7 @@ def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     sources = collections.OrderedDict()
     sources[filepath] = src
     sources.update(parser.included_files)
-    va_node = ET.SubElement(ET.SubElement(root, 'variable_assignments'),
+    va_node = ET.SubElement(root,
                             'variable_assignment',
                             variable = '#loadedExperiment')
     dict_node = ET.SubElement(va_node, 'dictionary')

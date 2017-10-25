@@ -630,7 +630,7 @@
 	<!-- Variable assignments -->
 	<!-- ********************* -->
 	
-	<xsl:template match="//variable_assignments/variable_assignment" mode = "variable_assignment">
+	<xsl:template match="//variable_assignment" mode = "variable_assignment">
 			<xsl:copy-of select="."/>
 			<xsl:apply-templates select="node()" mode="variable_assignment"/>
 	</xsl:template>

@@ -35,6 +35,7 @@ class Validator(object):
         'transition',
         'trial',
         'variable',
+        'variable_assignment',
         )
 
     def __init__(self, error_logger):

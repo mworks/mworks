@@ -203,12 +203,11 @@ experiment 'My Experiment' {}
       <action _location="line 14, column 5" message="x = $x" type="report" />
     </protocol>
   </experiment>
-  <variable_assignments>
-    <variable_assignment variable="#loadedExperiment">
-      <dictionary>
-        <dictionary_element>
-          <key>%s</key>
-          <value type="string">var x = 2
+  <variable_assignment variable="#loadedExperiment">
+    <dictionary>
+      <dictionary_element>
+        <key>%s</key>
+        <value type="string">var x = 2
 
 folder 'Other Vars' {
     var foo = 12
@@ -226,10 +225,9 @@ protocol 'Test Protocol' {
 
 experiment 'My Experiment' {}
 </value>
-        </dictionary_element>
-      </dictionary>
-    </variable_assignment>
-  </variable_assignments>
+      </dictionary_element>
+    </dictionary>
+  </variable_assignment>
 </monkeyml>
 ''' % src_path)
 
@@ -289,12 +287,11 @@ protocol 'Test Protocol' {
       <action _location="protocol.mwel: line 2, column 7; via line 14, column 5" type="assignment" value="'bar'" variable="x" />
     </protocol>
   </experiment>
-  <variable_assignments>
-    <variable_assignment variable="#loadedExperiment">
-      <dictionary>
-        <dictionary_element>
-          <key>%s</key>
-          <value type="string">var x = 2
+  <variable_assignment variable="#loadedExperiment">
+    <dictionary>
+      <dictionary_element>
+        <key>%s</key>
+        <value type="string">var x = 2
 
 folder 'Other Vars' {
     var foo = 12
@@ -310,10 +307,10 @@ protocol 'Another Protocol' {
     set_x('bar')
 }
 </value>
-        </dictionary_element>
-        <dictionary_element>
-          <key>%s</key>
-          <value type="string">%%define set_x(value)
+      </dictionary_element>
+      <dictionary_element>
+        <key>%s</key>
+        <value type="string">%%define set_x(value)
     x = value
 %%end
 protocol 'Test Protocol' {
@@ -324,10 +321,9 @@ protocol 'Test Protocol' {
     report ('x = $x')
 }
 </value>
-        </dictionary_element>
-      </dictionary>
-    </variable_assignment>
-  </variable_assignments>
+      </dictionary_element>
+    </dictionary>
+  </variable_assignment>
 </monkeyml>
 ''' % (experiment_path, protocol_path))
 
