@@ -656,6 +656,10 @@
 		E1A401B41D4FBE4C005B1C35 /* ZeroMQServer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1A401B21D4FBE4C005B1C35 /* ZeroMQServer.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1A911F21D64B74000DF4AAC /* SimpleClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */; };
 		E1ADE3B31BDE8F8B0055642F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */; };
+		E1B43C581FA3858B00CB6A97 /* VariableAssignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B43C561FA3858B00CB6A97 /* VariableAssignment.cpp */; };
+		E1B43C591FA3858B00CB6A97 /* VariableAssignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B43C561FA3858B00CB6A97 /* VariableAssignment.cpp */; };
+		E1B43C5A1FA3858B00CB6A97 /* VariableAssignment.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B43C571FA3858B00CB6A97 /* VariableAssignment.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1B43C5B1FA3858B00CB6A97 /* VariableAssignment.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B43C571FA3858B00CB6A97 /* VariableAssignment.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1B6373F1D4A4B0700116BB3 /* MessageTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B6373D1D4A4B0700116BB3 /* MessageTestFixture.cpp */; };
 		E1B637401D4A4B0700116BB3 /* MessageTestFixture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B6373E1D4A4B0700116BB3 /* MessageTestFixture.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1B637441D4A96C900116BB3 /* MessagePackAdaptors.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B637421D4A96C900116BB3 /* MessagePackAdaptors.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1305,6 +1309,8 @@
 		E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleClock.cpp; sourceTree = "<group>"; };
 		E1A911F11D64B74000DF4AAC /* SimpleClock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SimpleClock.hpp; sourceTree = "<group>"; };
 		E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		E1B43C561FA3858B00CB6A97 /* VariableAssignment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = VariableAssignment.cpp; path = Core/Variables/VariableAssignment.cpp; sourceTree = "<group>"; };
+		E1B43C571FA3858B00CB6A97 /* VariableAssignment.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableAssignment.hpp; path = Core/Variables/VariableAssignment.hpp; sourceTree = "<group>"; };
 		E1B6373D1D4A4B0700116BB3 /* MessageTestFixture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageTestFixture.cpp; sourceTree = "<group>"; };
 		E1B6373E1D4A4B0700116BB3 /* MessageTestFixture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessageTestFixture.hpp; sourceTree = "<group>"; };
 		E1B637421D4A96C900116BB3 /* MessagePackAdaptors.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessagePackAdaptors.hpp; sourceTree = "<group>"; };
@@ -2121,6 +2127,8 @@
 				DA2CE1E407E9F97F00C68AEF /* VariableProperties.cpp */,
 				5C18E25408A167BE00AA734D /* VariableNotification.h */,
 				5C18E25508A167BE00AA734D /* VariableNotification.cpp */,
+				E1B43C571FA3858B00CB6A97 /* VariableAssignment.hpp */,
+				E1B43C561FA3858B00CB6A97 /* VariableAssignment.cpp */,
 				5C71CD6909AA507700EAD886 /* GlobalVariable.h */,
 				5C71CD6809AA507700EAD886 /* GlobalVariable.cpp */,
 				5C2B511F0BB6838200928E03 /* ScopedVariable.h */,
@@ -2609,6 +2617,7 @@
 				5C0B04AC0BB8A46500FD57B9 /* ScopedVariableEnvironment.h in Headers */,
 				5C7CEFE30BC5D7AB00434931 /* LegacyBuffers.h in Headers */,
 				5C7CF4EF0BC6B48D00434931 /* LinkedList.h in Headers */,
+				E1B43C5A1FA3858B00CB6A97 /* VariableAssignment.hpp in Headers */,
 				5C76674F0C1BB28C00B1203C /* StimulusNode.h in Headers */,
 				5C7667540C1BB30A00B1203C /* StimulusDisplay.h in Headers */,
 				686059630C91CD5A00CD0D16 /* EventListener.h in Headers */,
@@ -2683,6 +2692,7 @@
 				E17916E51E4E51DE00528B91 /* LegacyBuffers.h in Headers */,
 				E17917471E4E54F000528B91 /* Utilities.h in Headers */,
 				E17916D31E4E515F00528B91 /* SelectionVariable.h in Headers */,
+				E1B43C5B1FA3858B00CB6A97 /* VariableAssignment.hpp in Headers */,
 				E17917491E4E54FA00528B91 /* RegisteredSingleton.h in Headers */,
 				E17916DB1E4E51B500528B91 /* EventBuffer.h in Headers */,
 				E17917161E4E539000528B91 /* LoadingUtilities.h in Headers */,
@@ -3048,8 +3058,39 @@
 			attributes = {
 				LastUpgradeCheck = 0410;
 				TargetAttributes = {
+					0E8014110E422E2A00D6DE20 = {
+						ProvisioningStyle = Automatic;
+					};
+					5C0E756F09D1A886002295FB = {
+						ProvisioningStyle = Automatic;
+					};
+					5C488A160F4E27CD00C5A526 = {
+						ProvisioningStyle = Automatic;
+					};
+					5C4D232409DC59410082BF9F = {
+						ProvisioningStyle = Automatic;
+					};
+					5C4D239B09DC83930082BF9F = {
+						ProvisioningStyle = Automatic;
+					};
+					5CF73C6008625E1800F453C3 = {
+						ProvisioningStyle = Automatic;
+					};
+					5CF73C7E086260E900F453C3 = {
+						ProvisioningStyle = Automatic;
+					};
+					DA1368DC07EA27C7001BA98B = {
+						ProvisioningStyle = Automatic;
+					};
+					DA2CE0D307E9F68100C68AEF = {
+						ProvisioningStyle = Automatic;
+					};
 					E106CF0B1CA42EDC001A0928 = {
 						CreatedOnToolsVersion = 7.3;
+						ProvisioningStyle = Automatic;
+					};
+					E11542041193460300DDE09D = {
+						ProvisioningStyle = Automatic;
 					};
 					E148A4361E4B7106002DFB1C = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -3065,6 +3106,12 @@
 					};
 					E16A20F51E5770DF00C48E10 = {
 						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+					E1CBF63A16BAF3090057CE48 = {
+						ProvisioningStyle = Automatic;
+					};
+					E1CBF65216BAFA240057CE48 = {
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -3328,6 +3375,7 @@
 				DA2CE1B207E9F95600C68AEF /* Lockable.cpp in Sources */,
 				DA2CE1B607E9F95600C68AEF /* Scheduler.cpp in Sources */,
 				DA2CE1B807E9F95600C68AEF /* StandardVariables.cpp in Sources */,
+				E1B43C581FA3858B00CB6A97 /* VariableAssignment.cpp in Sources */,
 				DA2CE1BA07E9F95600C68AEF /* StateSystem.cpp in Sources */,
 				DA2CE1BC07E9F95600C68AEF /* Timer.cpp in Sources */,
 				E17916A21E4E416C00528B91 /* MacOSStimulusDisplay.cpp in Sources */,
@@ -3509,6 +3557,7 @@
 				E17917671E4E55E500528B91 /* LegacyIODevice.cpp in Sources */,
 				E17916DA1E4E517F00528B91 /* FreezableVariableContainer.cpp in Sources */,
 				E17917561E4E556400528B91 /* EyeMonitors.cpp in Sources */,
+				E1B43C591FA3858B00CB6A97 /* VariableAssignment.cpp in Sources */,
 				E17917141E4E535A00528B91 /* PluginServices.cpp in Sources */,
 				E17916FB1E4E52A600528B91 /* StandardServerCoreBuilder.cpp in Sources */,
 				E17916A51E4E505300528B91 /* ExpandableList.cpp in Sources */,

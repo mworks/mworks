@@ -1,18 +1,27 @@
-var a = 0
-var b = 0
-
 // Implicit variable_assignment
+var a = 0
 a = 1 + 0.5
 
 // Explicit variable_assignment
+var b = 0
 variable_assignment (
     variable = b
     type = string
     value = floof
     )
 
+// Augmented assignment
+var c = 2
+c += 2.5 - 1
+
+// Index assignment
+var d = [1, [0, 3]]
+d[(int)a][0] = 2 / 1
+
 
 protocol {
     assert (a == 1.5)
     assert (b == 'floof')
+    assert (c == 3.5)
+    assert (d == [1, [2, 3]])
 }

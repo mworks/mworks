@@ -28,6 +28,7 @@
 #include "ComponentRegistry.h"
 #include "ComponentInfo.h"
 #include "ParameterValue.h"
+#include "VariableAssignment.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -80,8 +81,7 @@ public:
     bool execute() override;
     
 private:
-    VariablePtr var;
-    stx::ParseTreeList indexExprs;
+    const VariableAssignment assignment;
     const VariablePtr value;
     
 };

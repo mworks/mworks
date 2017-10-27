@@ -11,6 +11,7 @@
 #include "States.h"
 #include "Experiment.h"
 #include "ExpressionVariable.h"
+#include "VariableAssignment.hpp"
 
 #include <algorithm>
 #include <stdlib.h>
@@ -1318,18 +1319,12 @@ void XMLParser::_processVariableAssignment(xmlNode *node){
         throw FatalParserException("Variable assignment without 'variable' field detected");
     }
     
-    shared_ptr<Variable> variable;
     try {
-        variable = registry->getVariable(variable_name);
+        VariableAssignment(variable_name, registry.get()).assign(_parseDataValue(node));
     } catch (UnknownVariableException &e) {
         // If the variable doesn't exist, alert the user and continue parsing
         merror(e.getDomain(), "%s", e.what());
-        return;
     }
-	
-    Datum value = _parseDataValue(node);
-	
-	variable->setValue(value);
 }
 
 

@@ -92,35 +92,15 @@ void Assignment::describeComponent(ComponentInfo &info) {
 
 Assignment::Assignment(const ParameterValueMap &parameters) :
     Action(parameters),
+    assignment(parameters[VARIABLE]),
     value(parameters[VALUE])
 {
     setName("Assignment");
-    
-    auto &varParam = parameters[VARIABLE];
-    auto &varStr = varParam.str();
-    std::string varName;
-    
-    if (varStr.find_first_of('[') == std::string::npos) {
-        varName = varStr;
-    } else {
-        indexExprs = ParsedExpressionVariable::parseVarnameWithSubscripts(varStr, varName);
-    }
-    
-    var = varParam.getRegistry()->getVariable(varName);
-    if (!var->isWritable()) {
-        throw ComponentFactoryException("Assignment target is not writable");
-    }
-    
-    if (!indexExprs.empty()) {
-        // Try evaluating the index expressions, hopefully catching any critical errors
-        std::vector<Datum> indexOrKeyPath;
-        ParsedExpressionVariable::evaluateParseTreeList(indexExprs, indexOrKeyPath);
-    }
 }
 
 
 Assignment::Assignment(const VariablePtr &var, const VariablePtr &value) :
-    var(var),
+    assignment(var),
     value(value)
 {
     setName("Assignment");
@@ -128,13 +108,7 @@ Assignment::Assignment(const VariablePtr &var, const VariablePtr &value) :
 
 
 bool Assignment::execute() {
-    if (indexExprs.empty()) {
-        var->setValue(value->getValue());
-    } else {
-        std::vector<Datum> indexOrKeyPath;
-        ParsedExpressionVariable::evaluateParseTreeList(indexExprs, indexOrKeyPath);
-        var->setValue(indexOrKeyPath, value->getValue());
-    }
+    assignment.assign(value->getValue());
     return true;
 }
 
