@@ -283,6 +283,9 @@ description: |
        assignment takes place after `regular variables <Variable>` are created,
        but before the creation of `selection variables <Selection Variable>` or
        other components.
+
+    In MWEL, top-level `assignments <assignments>` are automatically converted
+    into variable assignments.
 parameters: 
   - 
     name: variable
@@ -296,10 +299,11 @@ parameters:
     name: type
     options: [any, boolean, integer, float, string]
     default: string
+    recommended: any
     description: >
         Controls how the content of `value`_ is interpreted.  When set to
-        ``any`` (recommended), the value is parsed like a normal expression, and
-        the parser infers its type.
+        ``any``, the value is parsed like a normal expression, and the parser
+        infers its type.
 
 
 ---

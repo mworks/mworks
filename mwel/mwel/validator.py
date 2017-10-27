@@ -105,10 +105,16 @@ class Validator(object):
                 if not parent_info.get('transient', False):
                     break
             else:
-                # Protocols aren't really allowed at the top level, but we
-                # accept them there out of convenience, and move them in to
-                # the experiment component before completing validation
-                if not (signature == 'protocol' or info.get('toplevel', False)):
+                if signature == 'action/assignment':
+                    # Convert top-level action/assignment into
+                    # variable_assignment
+                    c.name = 'variable_assignment'
+                    c.type = 'any'
+                elif not (signature == 'protocol' or
+                          info.get('toplevel', False)):
+                    # Protocols aren't really allowed at the top level, but we
+                    # accept them there out of convenience, and move them in to
+                    # the experiment component before completing validation
                     self.error_logger("Component '%s' is not allowed at "
                                       "the top level" % signature,
                                       lineno = c.lineno,

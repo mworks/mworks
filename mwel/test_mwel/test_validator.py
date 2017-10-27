@@ -164,14 +164,15 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
         with self.validate('''
                            // Allowed
                            var x = 1
+                           x = 2
 
                            // Not allowed
-                           x = 2
+                           block {}
 
                            // Unknown
                            action/floop {}
                            ''') as cmpts:
-            self.assertEqual(4, len(cmpts))
+            self.assertEqual(5, len(cmpts))
 
             children = self.assertComponent(cmpts[0], 3, 28,
                                             name = 'variable',
@@ -179,18 +180,22 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                             default_value = '1')
             self.assertEqual(0, len(children))
 
-            self.assertError("Component 'action/assignment' is not allowed "
-                             "at the top level",
-                             lineno = 6,
-                             colno = 30)
-            children = self.assertComponent(cmpts[1], 6, 30,
-                                            name = 'action',
-                                            type = 'assignment',
+            children = self.assertComponent(cmpts[1], 4, 30,
+                                            name = 'variable_assignment',
                                             variable = 'x',
-                                            value = '2')
+                                            value = '2',
+                                            type = 'any')
             self.assertEqual(0, len(children))
 
-            children = self.assertComponent(cmpts[2], 9, 28,
+            self.assertError("Component 'block' is not allowed "
+                             "at the top level",
+                             lineno = 7,
+                             colno = 28)
+            children = self.assertComponent(cmpts[2], 7, 28,
+                                            name = 'block')
+            self.assertEqual(0, len(children))
+
+            children = self.assertComponent(cmpts[3], 10, 28,
                                             name = 'action',
                                             type = 'floop')
             self.assertEqual(0, len(children))
@@ -384,7 +389,7 @@ experiment bar {}
 
         include3_src = '''\
 %include include4
-x = 2
+block {}
 '''
         include3_path = self.write_file('include3.mwel', include3_src)
 
@@ -398,10 +403,10 @@ floop ()
                              lineno = 1,
                              colno = 1,
                              filename = include4_path)
-            self.assertError("Component 'action/assignment' is not allowed "
+            self.assertError("Component 'block' is not allowed "
                              "at the top level",
                              lineno = 2,
-                             colno = 3,
+                             colno = 1,
                              filename = include3_path)
             self.assertError('Experiment cannot contain more than one '
                              "'experiment' component",

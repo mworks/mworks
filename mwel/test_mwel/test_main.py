@@ -151,7 +151,7 @@ Line ended unexpectedly [line 1, column 12]
         src = '''\
 var x = 1
 action/floop (3)  // Flagged by analyzer
-x = 4      // Flagged by validator
+block {}          // Flagged by validator
 var y = 7
 '''
         src_path = self.write_file('experiment.mwel', src)
@@ -159,7 +159,7 @@ var y = 7
         self.assertEqual(1, self.toxml('my_script', src_path))
         self.assertOutput(stderr='''\
 Cannot infer parameter name for component 'action/floop' [line 2, column 1]
-Component 'action/assignment' is not allowed at the top level [line 3, column 3]
+Component 'block' is not allowed at the top level [line 3, column 1]
 ''')
 
     def test_success(self):
@@ -350,12 +350,10 @@ var 😊 = 1
             expected_stderr = '''\
 Illegal character: u'\\ud83d' [inc.mwel: line 2, column 5]
 Illegal character: u'\\ude0a' [inc.mwel: line 2, column 6]
-Component 'action/assignment' is not allowed at the top level [inc.mwel: line 2, column 8]
 '''
         else:
             expected_stderr = '''\
 Illegal character: '😊' [inc.mwel: line 2, column 5]
-Component 'action/assignment' is not allowed at the top level [inc.mwel: line 2, column 7]
 '''
         self.assertOutput(stderr=expected_stderr)
 

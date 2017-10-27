@@ -1,0 +1,18 @@
+var a = 0
+var b = 0
+
+// Implicit variable_assignment
+a = 1 + 0.5
+
+// Explicit variable_assignment
+variable_assignment (
+    variable = b
+    type = string
+    value = floof
+    )
+
+
+protocol {
+    assert (a == 1.5)
+    assert (b == 'floof')
+}
