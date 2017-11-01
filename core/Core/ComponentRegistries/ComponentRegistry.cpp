@@ -56,7 +56,7 @@ ComponentRegistry::ComponentRegistry() :
 	
 	
     registerFactory<StandardComponentFactory, ScheduledActions>();
-	registerFactory("action/if", new IfFactory());
+    registerFactory<StandardComponentFactory, If>();
     registerFactory<StandardComponentFactory, IfElse>();
     registerFactory<StandardComponentFactory, While>();
 	

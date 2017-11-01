@@ -626,22 +626,26 @@ class RejectSelectionsFactory : public ComponentFactory{
 
 
 class If : public Action {
-protected:
-	shared_ptr<Variable> condition;
-	ExpandableList<Action> actionlist;
+    
 public:
-	If(shared_ptr<Variable> v1);
-	virtual ~If();
-	void addAction(shared_ptr<Action> act);
-	void addChild(std::map<std::string, std::string> parameters,
-					ComponentRegistry *reg,
-					shared_ptr<mw::Component> child);
-	virtual bool execute();
-};
-
-class IfFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+    static const std::string CONDITION;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit If(const ParameterValueMap &parameters);
+    explicit If(const VariablePtr &condition);
+    
+    void addAction(const boost::shared_ptr<Action> &action);
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  boost::shared_ptr<Component> child) override;
+    
+    bool execute() override;
+    
+private:
+    const VariablePtr condition;
+    std::vector<boost::shared_ptr<Action>> actions;
+    
 };
 
 

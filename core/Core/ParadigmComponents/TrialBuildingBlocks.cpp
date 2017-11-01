@@ -1113,53 +1113,57 @@ shared_ptr<mw::Component> RejectSelectionsFactory::createObject(std::map<std::st
 /****************************************************************
  *                 If Methods
  ****************************************************************/
-If::If(shared_ptr<Variable> v1) {
-	condition = v1;
-	setName("If");
+
+
+const std::string If::CONDITION("condition");
+
+
+void If::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/if");
+    info.addParameter(CONDITION);
 }
 
-If::~If() { }
 
-void If::addAction(shared_ptr<Action> act) {
-    act->setParent(getParent());
-	actionlist.addReference(act);
+If::If(const ParameterValueMap &parameters) :
+    Action(parameters),
+    condition(parameters[CONDITION])
+{ }
+
+
+If::If(const VariablePtr &condition) :
+    condition(condition)
+{ }
+
+
+void If::addAction(const boost::shared_ptr<Action> &action) {
+    action->setParent(getParent());
+    actions.push_back(action);
 }
+
 
 void If::addChild(std::map<std::string, std::string> parameters,
-					ComponentRegistry *reg,
-					shared_ptr<mw::Component> child){
-	shared_ptr<Action> act = boost::dynamic_pointer_cast<Action,mw::Component>(child);
-	if(act == 0) {
-		throw SimpleException("Attempting to add illegal object (" + child->getTag() + ") to conditional (if) action (" + this->getTag() + ")");
-	}
-	
-	addAction(act);
+                  ComponentRegistry *reg,
+                  boost::shared_ptr<mw::Component> child)
+{
+    auto action = boost::dynamic_pointer_cast<Action>(child);
+    if (!action) {
+        throw SimpleException("if can only contain actions");
+    }
+    addAction(action);
 }
 
+
 bool If::execute() {
-    bool shouldExecute = bool(*condition);
-    
+    bool shouldExecute = condition->getValue().getBool();
+
     if (shouldExecute) {
-        for(int i=0; i < actionlist.getNElements(); i++) {
-            actionlist[i]->execute();
+        for (auto &action : actions) {
+            action->execute();
         }
     }
     
     return shouldExecute;
-}
-
-shared_ptr<mw::Component> IfFactory::createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, "condition");
-	shared_ptr<Variable> condition = reg->getVariable(parameters.find("condition")->second);
-	
-	checkAttribute(condition, parameters["reference_id"], "condition", parameters.find("condition")->second);		
-	
-	
-	// TODO ... needs more work here, possibly done in connection phase
-	
-	shared_ptr <mw::Component> newIfAction = shared_ptr<mw::Component>(new If(condition));
-	return newIfAction;			
 }
 
 
