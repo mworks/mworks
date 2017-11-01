@@ -116,6 +116,18 @@ mwel_alias: group
 group: Variables
 transient: yes
 toplevel: yes
+allowed_child:
+  - Calibrator
+  - Filter
+  - IODevice
+  - Optimizer
+  - Replicator
+  - Resource
+  - Selection Variable
+  - Sound Stimulus
+  - Stimulus
+  - Stimulus Group
+  - Variable
 description: >
     A folder for (purely) organizational purposes.  Variables defined in a
     folder will be displayed as an expandable group in MWClient's variables
@@ -130,7 +142,7 @@ signature: variable
 mwel_alias: var
 group: Variables
 toplevel: yes
-allowed_parent: Folder
+allowed_child: Action
 description: >
     A general-purpose variable, used to store experiment parameters, collect
     results, and mediate the transfer of data between components
@@ -231,7 +243,6 @@ signature: variable/selection
 isa: Selectable
 group: Variables
 toplevel: yes
-allowed_parent: Folder
 description: >
     A variable whose current value is drawn from a list of possible values.  The
     order and number of selected values are determined by `selection`_,
@@ -320,11 +331,6 @@ name: Stimulus
 abstract: yes
 group: Stimuli
 toplevel: yes
-allowed_parent: 
-  - Range Replicator
-  - List Replicator
-  - Stimulus Group
-  - Folder
 parameters:
   - 
     name: deferred
@@ -362,11 +368,10 @@ name: Stimulus Group
 signature: stimulus_group
 group: Stimuli
 toplevel: yes
-allowed_parent: 
-  - Range Replicator
-  - List Replicator
+allowed_child:
+  - Replicator
+  - Stimulus
   - Stimulus Group
-  - Folder
 description: An indexable group of stimuli
 
 
@@ -579,7 +584,6 @@ name: Sound Stimulus
 signature: sound/wav_file
 group: Stimuli
 toplevel: yes
-allowed_parent: Folder
 description: >
     A simple `WAV <https://en.wikipedia.org/wiki/WAV>`_ file based sound
     stimulus
@@ -613,6 +617,9 @@ name: Experiment
 signature: experiment
 group: Paradigm Components
 toplevel: yes
+allowed_child:
+  - Protocol
+  - Replicator
 description: >
     Top-level container for all `protocols <Protocol>` in an experiment
 
@@ -620,21 +627,24 @@ description: >
 ---
 
 
-name: Range Replicator
-signature: range_replicator
+name: Replicator
+abstract: yes
 group: Paradigm Components
 transient: yes
 toplevel: yes
-allowed_parent: 
-  - Experiment
-  - Protocol
-  - Block
-  - Trial
-  - List
-  - Range Replicator
-  - List Replicator
+allowed_child:
+  - List State
+  - Replicator
+  - Stimulus
   - Stimulus Group
-  - Folder
+
+
+---
+
+
+name: Range Replicator
+signature: range_replicator
+isa: Replicator
 description: >
     A construct that replicates its contents (textually) at parse time.  Each
     replication assigns a different, sequential value to the specified
@@ -671,19 +681,7 @@ parameters:
 
 name: List Replicator
 signature: list_replicator
-group: Paradigm Components
-transient: yes
-toplevel: yes
-allowed_parent: 
-  - Experiment
-  - Protocol
-  - Block
-  - Trial
-  - List
-  - Range Replicator
-  - List Replicator
-  - Stimulus Group
-  - Folder
+isa: Replicator
 description: >
     A construct that replicates its contents (textually) at parse time.  Each
     replication assigns a different value from a user-provided list to the
@@ -728,9 +726,13 @@ parameters:
 name: List State
 abstract: yes
 isa: [Container State, Selectable]
-allowed_parent: 
-  - Range Replicator
-  - List Replicator
+allowed_child:
+  - Action
+  - Block
+  - List
+  - Replicator
+  - Task System
+  - Trial
 
 
 ---
@@ -739,7 +741,6 @@ allowed_parent:
 name: Protocol
 signature: protocol
 isa: List State
-allowed_parent: Experiment
 description: |
     A top-level paradigm component that contains other sub-components.
 
@@ -756,11 +757,6 @@ description: |
 name: Block
 signature: block
 isa: List State
-allowed_parent: 
-  - Protocol
-  - Block
-  - Trial
-  - List
 description: |
     A container paradigm component.
 
@@ -774,11 +770,6 @@ description: |
 name: Trial
 signature: trial
 isa: List State
-allowed_parent: 
-  - Protocol
-  - Block
-  - Trial
-  - List
 description: |
     A container paradigm component.
 
@@ -792,11 +783,6 @@ description: |
 name: List
 signature: list
 isa: List State
-allowed_parent: 
-  - Protocol
-  - Block
-  - Trial
-  - List
 description: |
     A container paradigm component.
 
@@ -811,11 +797,7 @@ name: Task System
 signature: task_system
 mwel_alias: task
 isa: Container State
-allowed_parent: 
-  - Protocol
-  - Block
-  - Trial
-  - List
+allowed_child: Task System State
 description: >
     A paradigm component defining a `finite state machine
     <https://en.wikipedia.org/wiki/Finite-state_machine>`_.  It contains `Task
@@ -831,7 +813,9 @@ name: Task System State
 signature: task_system_state
 mwel_alias: state
 isa: Container State
-allowed_parent: Task System
+allowed_child:
+  - Action
+  - Transition
 description: >
     A paradigm component defining a state within a `finite state machine
     <https://en.wikipedia.org/wiki/Finite-state_machine>`_. It is contained
@@ -853,16 +837,6 @@ description: >
 name: Action
 abstract: yes
 group: Actions
-allowed_parent: 
-  - Protocol
-  - Block
-  - Trial
-  - List
-  - Task System State
-  - Variable
-  - Conditionally Execute Actions (if)
-  - Repeat Actions (while)
-  - Schedule Actions
 
 
 ---
@@ -957,6 +931,7 @@ parameters:
 name: Schedule Actions
 signature: action/schedule
 isa: Action
+allowed_child: Action
 description: >
     Schedule the execution of a list of contained actions.  These actions can be
     scheduled to occur after a user-defined delay and can be repeated multiple
@@ -991,7 +966,7 @@ parameters:
 name: Conditionally Execute Actions (if)
 signature: action/if
 isa: Action
-allowed_parent: Conditional Branching (if/else)
+allowed_child: Action
 description: Execute a list of actions if a condition is true
 parameters: 
   - 
@@ -1006,6 +981,7 @@ parameters:
 name: Conditional Branching (if/else)
 signature: action/if_else
 isa: Action
+allowed_child: Conditionally Execute Actions (if)
 description: >
     Given a list of `Conditionally Execute Actions (if)` actions, executes the
     first one whose condition is true, or none if all conditions are false.  To
@@ -1019,6 +995,7 @@ description: >
 name: Repeat Actions (while)
 signature: action/while
 isa: Action
+allowed_child: Action
 description: Execute a list of actions repeatedly while a condition is true
 parameters: 
   - 
@@ -1640,7 +1617,6 @@ parameters:
 name: Transition
 abstract: yes
 group: Transitions
-allowed_parent: Task System State
 
 
 ---
@@ -1744,7 +1720,6 @@ name: IODevice
 abstract: yes
 group: Input/Output
 toplevel: yes
-allowed_parent: Folder
 parameters:
   - 
     name: autostart
@@ -1819,7 +1794,6 @@ name: Calibrator
 abstract: yes
 group: Filters
 toplevel: yes
-allowed_parent: Folder
 
 
 ---
@@ -1884,7 +1858,6 @@ name: Filter
 abstract: yes
 group: Filters
 toplevel: yes
-allowed_parent: Folder
 
 
 ---
@@ -1980,7 +1953,6 @@ name: Optimizer
 abstract: yes
 group: Optimizers and Variable Monitors
 toplevel: yes
-allowed_parent: Folder
 
 
 ---
@@ -2105,7 +2077,6 @@ name: Resource
 abstract: yes
 group: Resources
 toplevel: yes
-allowed_parent: Folder
 
 
 ---

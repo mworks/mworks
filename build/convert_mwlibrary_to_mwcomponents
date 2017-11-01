@@ -79,7 +79,6 @@ def extract_element_info(elem):
     sig = extract_signature(ib)
     ib.addtext('isa')
     ib.addtext('group', 'belongs_to_group', allow_list=True)
-    ib.addtext('allowed_parent', allow_list=True)
     ib.addtext('description')
     extract_parameters(ib, sig)
 

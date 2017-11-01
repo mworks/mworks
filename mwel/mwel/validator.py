@@ -40,13 +40,10 @@ class Validator(object):
 
     def __init__(self, error_logger):
         self.error_logger = error_logger
-        self._component_info = get_component_info()
-        self._signature_to_name = dict((info['signature'], info['name'])
-                                       for info in self._component_info.values()
-                                       if not info.get('abstract', False))
-        self._name_to_signature = dict((name, sig) for (sig, name) in
-                                       self._signature_to_name.items())
-        self._parents = []
+        self._component_info = dict((info['signature'], info)
+                                    for info in get_component_info().values()
+                                    if not info.get('abstract', False))
+        self._parent_infos = []
 
     def validate(self, cmpts):
         experiment = None
@@ -88,20 +85,22 @@ class Validator(object):
                               colno = c.colno,
                               filename = c.filename)
 
-        name = self._signature_to_name.get(signature)
-        if name:
-            info = self._component_info[name]
-            for parent in reversed(self._parents):
-                if parent not in info['allowed_parent']:
-                    parent_sig = self._name_to_signature.get(parent, parent)
+        info = self._component_info.get(signature, {})
+        if info:
+            for parent_info in reversed(self._parent_infos):
+                if not parent_info:
+                    # We don't have any info for the component's parent, so we
+                    # can't validate its placement
+                    break
+                if not any ((n in parent_info['allowed_child'])
+                            for n in info['isa']):
                     self.error_logger("Component '%s' is not allowed inside "
                                       "component '%s'" %
-                                      (signature, parent_sig),
+                                      (signature, parent_info['signature']),
                                       lineno = c.lineno,
                                       colno = c.colno,
                                       filename = c.filename)
                     break
-                parent_info = self._component_info.get(parent, {})
                 if not parent_info.get('transient', False):
                     break
             else:
@@ -121,13 +120,13 @@ class Validator(object):
                                       colno = c.colno,
                                       filename = c.filename)
         else:
-            # If we don't have any info for the given component, we can't
-            # validate its parent
+            # We don't have any info for the given component, so we can't
+            # validate its placement
             pass
 
-        self._parents.append(name or signature)
+        self._parent_infos.append(info)
         try:
             for child in c.children:
                 self._validate(child)
         finally:
-            self._parents.pop()
+            self._parent_infos.pop()

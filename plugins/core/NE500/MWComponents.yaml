@@ -5,6 +5,7 @@ name: NE-500 Syringe Pump Network
 signature: iodevice/ne500
 isa: IODevice
 platform: macos
+allowed_child: NE-500 Syringe Pump
 description: >
     Used for interfacing to a network of `NE-500 syringe pumps
     <http://www.syringepump.com/oem.php#aa>`_, accessed via a serial-to-ethernet
@@ -50,7 +51,6 @@ name: NE-500 Syringe Pump
 signature: iochannel/ne500
 isa: IOChannel
 platform: macos
-allowed_parent: NE-500 Syringe Pump Network
 description: >
     Used for interfacing to a specific pump within a `NE-500 Syringe Pump
     Network`

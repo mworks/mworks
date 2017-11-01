@@ -164,12 +164,12 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
         with self.validate('''
                            // Allowed
                            var x = 1
-                           x = 2
+                           x = 2  // Converted to variable_assignment
 
                            // Not allowed
                            block {}
 
-                           // Unknown
+                           // Allowed (unknown)
                            action/floop {}
                            ''') as cmpts:
             self.assertEqual(5, len(cmpts))
@@ -212,7 +212,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                    // Not allowed
                                    block 'A Block' {}
 
-                                   // Unknown
+                                   // Allowed (unknown)
                                    action/floop {}
                                }
                            }
@@ -261,9 +261,9 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                // Not allowed
                                var x = 3
 
-                               // Unknown
+                               // Allowed (unknown)
                                action/floop {
-                                   // Not allowed (unknown parent)
+                                   // Allowed (unknown parent)
                                    stimulus/blank_screen bg2 {}
                                }
                            }
@@ -297,10 +297,6 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                          type = 'floop')
             self.assertEqual(1, len(cmpts))
 
-            self.assertError("Component 'stimulus/blank_screen' is not "
-                             "allowed inside component 'action/floop'",
-                             lineno = 12,
-                             colno = 36)
             children = self.assertComponent(cmpts[0], 12, 36,
                                             name = 'stimulus',
                                             type = 'blank_screen',
@@ -318,7 +314,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                        // Not allowed
                                        block 'A Block' {}
 
-                                       // Unknown
+                                       // Allowed (unknown)
                                        action/floop {}
                                    }
                                }

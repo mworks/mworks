@@ -59,25 +59,28 @@ def register_element(info):
         if mwel_alias:
             info['mwel_alias'] = mwel_alias
         group = set(str_or_list(info.get('group', [])))
-        allowed_parent = set(str_or_list(info.get('allowed_parent', [])))
+        isa = set([name])
+        allowed_child = set(str_or_list(info.get('allowed_child', [])))
         platform = list(str_or_list(info.get('platform', [])))
         parameters = info.get('parameters', [])
         param_names = set(p['name'] for p in parameters)
         for ancestor in str_or_list(info.get('isa', [])):
             ancestor = components[ancestor]
             group.update(ancestor['group'])
+            isa.update(ancestor['isa'])
             if ('transient' not in info) and ('transient' in ancestor):
                 info['transient'] = ancestor['transient']
             if ('toplevel' not in info) and ('toplevel' in ancestor):
                 info['toplevel'] = ancestor['toplevel']
-            allowed_parent.update(ancestor['allowed_parent'])
+            allowed_child.update(ancestor['allowed_child'])
             platform = ancestor.get('platform', []) + platform
             for p in ancestor.get('parameters', []):
                 if p['name'] not in param_names:
                     parameters.append(p)
                     param_names.add(p['name'])
         info['group'] = list(group)  # json.dump chokes on set
-        info['allowed_parent'] = list(allowed_parent)
+        info['isa'] = list(isa)
+        info['allowed_child'] = list(allowed_child)
         if platform:
             info['platform'] = platform
         if parameters:

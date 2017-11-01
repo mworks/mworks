@@ -4,6 +4,7 @@
 name: RCB-LVDS Device
 signature: iodevice/rcb_lvds
 isa: IODevice
+allowed_child: RCB-LVDS Digital Input Channel
 description: >
     Interface to a DSP Wireless `RCB-LVDS module <http://www.dspwi.com/wifi-
     interfaces-for-ephys.html>`_
@@ -21,7 +22,6 @@ parameters:
 name: RCB-LVDS Digital Input Channel
 signature: iochannel/rcb_lvds_digital_input
 isa: IOChannel
-allowed_parent: RCB-LVDS Device
 description: |
     Digital input channel on a `RCB-LVDS Device`.
 
