@@ -793,6 +793,7 @@ A circular fixation point stimulus
 		<allowed_parent>List</allowed_parent>
 		<allowed_parent>Protocol</allowed_parent>
 		<allowed_parent>Conditionally Execute Actions (if)</allowed_parent>
+		<allowed_parent>Unconditionally Execute Actions (else)</allowed_parent>
 		<allowed_parent>Repeat Actions (while)</allowed_parent>
 		<allowed_parent>Schedule Actions</allowed_parent>
 		<allowed_parent>Folder</allowed_parent>
@@ -958,6 +959,27 @@ A circular fixation point stimulus
 		</code>
 	</MWElement>
 
+	<MWElement name="Unconditionally Execute Actions (else)">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='else']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Placement rules -->
+		<allowed_parent>Conditional Branching (if/else)</allowed_parent>
+		
+		<!-- Information for display in the GUI -->
+		<description>
+Execute a list of actions unconditionally.  Useful only in conjunction with conditional branching (if/else).
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="else" tag="Unconditionally Execute Actions"/>
+		</code>
+	</MWElement>
+
 	<MWElement name="Conditional Branching (if/else)">
 		<!-- XPath 2.0 expression defining nodes of this type -->
 		<match_signature>action[@type="if_else"]</match_signature>
@@ -967,7 +989,7 @@ A circular fixation point stimulus
 		
 		<!-- Information for display in the GUI -->
 		<description>
-Given a list of conditional (if) actions, executes the first one whose condition is true, or none if all conditions are false.  To implement an unconditional "else" action, add a conditional with an always-true condition at the end of the list.
+Given a list of conditional (if) actions, executes the first one whose condition is true, or none if all conditions are false.  The list may include a single unconditional (else) action, which will be executed only if all the conditions are false.
 		</description>
 		
 		<!-- Payload -->

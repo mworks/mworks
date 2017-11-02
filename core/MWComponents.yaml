@@ -978,15 +978,29 @@ parameters:
 ---
 
 
+name: Unconditionally Execute Actions (else)
+signature: action/else
+isa: Action
+allowed_child: Action
+description: >
+    Execute a list of actions unconditionally.  Useful only in conjunction with
+    `Conditional Branching (if/else)`.
+
+
+---
+
+
 name: Conditional Branching (if/else)
 signature: action/if_else
 isa: Action
-allowed_child: Conditionally Execute Actions (if)
+allowed_child:
+  - Conditionally Execute Actions (if)
+  - Unconditionally Execute Actions (else)
 description: >
     Given a list of `Conditionally Execute Actions (if)` actions, executes the
-    first one whose condition is true, or none if all conditions are false.  To
-    implement an unconditional "else" action, add a conditional with an
-    always-true condition at the end of the list.
+    first one whose condition is true, or none if all conditions are false.  The
+    list may include a single `Unconditionally Execute Actions (else)` action,
+    which will be executed only if all the conditions are false.
 
 
 ---

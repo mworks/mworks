@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="starts_with">ERROR: if/else can contain only conditional (if) and unconditional (else) actions</message>
+    <message type="starts_with">ERROR: if/else can contain only one unconditional (else) action</message>
     <message type="starts_with">ERROR: Failed to parse experiment</message>
   </expected_messages>
   <expected_events>

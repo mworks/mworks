@@ -1168,6 +1168,43 @@ bool If::execute() {
 
 
 /****************************************************************
+ *                 Else Methods
+ ****************************************************************/
+
+
+void Else::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/else");
+}
+
+
+Else::Else(const ParameterValueMap &parameters) :
+    Action(parameters)
+{ }
+
+
+void Else::addChild(std::map<std::string, std::string> parameters,
+                    ComponentRegistry *reg,
+                    boost::shared_ptr<mw::Component> child)
+{
+    auto action = boost::dynamic_pointer_cast<Action>(child);
+    if (!action) {
+        throw SimpleException("else can only contain actions");
+    }
+    action->setParent(getParent());
+    actions.push_back(action);
+}
+
+
+bool Else::execute() {
+    for (auto &action : actions) {
+        action->execute();
+    }
+    return true;
+}
+
+
+/****************************************************************
  *                 IfElse Methods
  ****************************************************************/
 
@@ -1185,26 +1222,34 @@ IfElse::IfElse(const ParameterValueMap &parameters) :
 
 void IfElse::addChild(std::map<std::string, std::string> parameters,
                       ComponentRegistry *reg,
-                      shared_ptr<Component> child)
+                      boost::shared_ptr<Component> child)
 {
-    shared_ptr<If> cond = boost::dynamic_pointer_cast<If>(child);
-    if (!cond) {
-        throw SimpleException("if/else can contain only conditional (if) actions");
+    if (auto cond = boost::dynamic_pointer_cast<If>(child)) {
+        conditionals.push_back(cond);
+    } else if (auto uncond = boost::dynamic_pointer_cast<Else>(child)) {
+        if (unconditional) {
+            throw SimpleException("if/else can contain only one unconditional (else) action");
+        }
+        unconditional = uncond;
+    } else {
+        throw SimpleException("if/else can contain only conditional (if) and unconditional (else) actions");
     }
-    conditionals.push_back(cond);
 }
 
 
 bool IfElse::execute() {
     if (conditionals.empty()) {
         mwarning(M_PARADIGM_MESSAGE_DOMAIN, "if/else contains no conditional (if) actions");
-        return false;
     }
     
-    BOOST_FOREACH( const shared_ptr<If> &cond, conditionals ) {
+    for (auto &cond : conditionals) {
         if (cond->execute()) {
             return true;
         }
+    }
+    
+    if (unconditional) {
+        unconditional->execute();
     }
     
     return false;

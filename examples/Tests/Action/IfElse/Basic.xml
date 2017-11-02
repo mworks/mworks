@@ -1,4 +1,4 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
@@ -15,20 +15,20 @@
             <action type="assignment" tag="Reset n" variable="n" value="0"></action>
             <block tag="New Block" nsamples="4" sampling_method="cycles" selection="sequential" interruptible="YES">
                 <action type="if_else" tag="If/Else">
-                    <action type="if" tag="If x >= 3" condition="x >= 3">
-                        <action type="report" tag="Report" message="x >= 3"></action>
+                    <action type="if" tag="If x &gt;= 3" condition="x &gt;= 3">
+                        <action type="report" tag="Report" message="x &gt;= 3"></action>
                         <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
                     </action>
-                    <action type="if" tag="If x >= 2" condition="x >= 2">
-                        <action type="report" tag="Report" message="x >= 2"></action>
+                    <action type="if" tag="If x &gt;= 2" condition="x &gt;= 2">
+                        <action type="report" tag="Report" message="x &gt;= 2"></action>
                         <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
                     </action>
-                    <action type="if" tag="If x >= 1" condition="x >= 1">
-                        <action type="report" tag="Report" message="x >= 1"></action>
-                        <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
-                    </action>
-                    <action type="if" tag="Else" condition="1">
+                    <action type="else" tag="Else (always last)">
                         <action type="report" tag="Report" message="x == $x"></action>
+                        <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
+                    </action>
+                    <action type="if" tag="If x &gt;= 1" condition="x &gt;= 1">
+                        <action type="report" tag="Report" message="x &gt;= 1"></action>
                         <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
                     </action>
                 </action>

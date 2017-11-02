@@ -649,6 +649,25 @@ private:
 };
 
 
+class Else : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit Else(const ParameterValueMap &parameters);
+    
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  boost::shared_ptr<Component> child) override;
+    
+    bool execute() override;
+    
+private:
+    std::vector<boost::shared_ptr<Action>> actions;
+    
+};
+
+
 class IfElse : public Action {
     
 public:
@@ -658,12 +677,13 @@ public:
     
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg,
-                  shared_ptr<Component> child) MW_OVERRIDE;
+                  boost::shared_ptr<Component> child) override;
     
-    bool execute() MW_OVERRIDE;
+    bool execute() override;
     
 private:
-    std::vector< shared_ptr<If> > conditionals;
+    std::vector<boost::shared_ptr<If>> conditionals;
+    boost::shared_ptr<Else> unconditional;
     
 };
 
