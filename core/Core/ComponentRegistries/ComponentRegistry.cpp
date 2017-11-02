@@ -57,8 +57,11 @@ ComponentRegistry::ComponentRegistry() :
 	
     registerFactory<StandardComponentFactory, ScheduledActions>();
     registerFactory<StandardComponentFactory, If>();
+    registerFactoryAlias<If>("action/when");
     registerFactory<StandardComponentFactory, Else>();
+    registerFactoryAlias<Else>("action/otherwise");
     registerFactory<StandardComponentFactory, IfElse>();
+    registerFactoryAlias<IfElse>("action/choose");
     registerFactory<StandardComponentFactory, While>();
 	
 	

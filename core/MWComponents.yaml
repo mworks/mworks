@@ -965,6 +965,7 @@ parameters:
 
 name: Conditionally Execute Actions (if)
 signature: action/if
+alias: action/when
 isa: Action
 allowed_child: Action
 description: Execute a list of actions if a condition is true
@@ -980,6 +981,7 @@ parameters:
 
 name: Unconditionally Execute Actions (else)
 signature: action/else
+alias: action/otherwise
 isa: Action
 allowed_child: Action
 description: >
@@ -992,6 +994,7 @@ description: >
 
 name: Conditional Branching (if/else)
 signature: action/if_else
+alias: action/choose
 isa: Action
 allowed_child:
   - Conditionally Execute Actions (if)

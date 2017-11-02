@@ -1,0 +1,31 @@
+var x = 0
+var n = 0
+
+protocol {
+    x = 0
+    n = 0
+
+    block (nsamples = 4) {
+        choose {
+            when (x >= 3) {
+                report ('x >= 3')
+                n += 1
+            }
+            when (x >= 2) {
+                report ('x >= 2')
+                n += 1
+            }
+            when (x >= 1) {
+                report ('x >= 1')
+                n += 1
+            }
+            otherwise {
+                report ('x == $x')
+                n += 1
+            }
+        }
+        x += 1
+    }
+
+    assert (n == 4)
+}
