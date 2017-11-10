@@ -20,7 +20,7 @@
 #define DEFAULTS_AUTO_OPEN_CONSOLE @"autoOpenConsole"
 
 #define MWORKS_DOC_PATH @"/Library/Application Support/MWorks/Documentation/index.html"
-#define MWORKS_HELP_URL @"http://help.mworks-project.org/"
+#define MWORKS_HELP_URL @"https://mworks.tenderapp.com/"
 
 
 @implementation MWSServer {
