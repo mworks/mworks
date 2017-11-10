@@ -11,6 +11,7 @@
 #include "FirmataAnalogOutputChannel.hpp"
 #include "FirmataDigitalInputChannel.hpp"
 #include "FirmataDigitalOutputChannel.hpp"
+#include "FirmataServoChannel.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -23,6 +24,7 @@ class FirmataPlugin : public Plugin {
         registry->registerFactory<StandardComponentFactory, FirmataAnalogOutputChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataDigitalInputChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataDigitalOutputChannel>();
+        registry->registerFactory<StandardComponentFactory, FirmataServoChannel>();
     }
 };
 

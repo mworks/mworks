@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <requirements>
+    <feature name="firmata"/>
+  </requirements>
+  <expected_messages>
+    <message type="whole_message">ERROR: Firmata servo value must be between 0 and 180; -0.1 is not valid [Servo.inc: line 40, column 11]</message>
+    <message type="whole_message">ERROR: Firmata servo value must be between 0 and 180; 180.1 is not valid [Servo.inc: line 41, column 11]</message>
+  </expected_messages>
+</marionette_info>

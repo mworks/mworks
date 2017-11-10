@@ -103,4 +103,27 @@ Digital output channel on a Firmata device
              />
     </code>
   </MWElement>
+   
+  <MWElement name="Firmata Servo Channel">
+    <match_signature>iochannel[@type="firmata_servo"]</match_signature>
+    
+    <isa>IOChannel</isa>
+    <allowed_parent>Firmata Device</allowed_parent>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Servo channel on a Firmata device
+    </description>
+    
+    <code>
+      <iochannel type="firmata_servo"
+                 tag="Firmata Servo Channel"
+                 pin_number=""
+                 value=""
+                 min_pulse_width="544"
+                 max_pulse_width="2400"
+             />
+    </code>
+  </MWElement>
 </MWElements>

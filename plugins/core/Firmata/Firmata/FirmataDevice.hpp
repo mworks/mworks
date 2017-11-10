@@ -59,6 +59,8 @@ private:
     double getMaximumValueForPinMode(int pinNumber, int pinMode) const;
     bool setAnalogOutput(int pinNumber, double value);
     bool setDigitalOutput(int pinNumber, bool value);
+    bool setServo(int pinNumber, double value);
+    bool sendExtendedAnalogMessage(int pinNumber, int pinMode, int value);
     bool sendData(const std::vector<std::uint8_t> &data);
     void receiveData();
     

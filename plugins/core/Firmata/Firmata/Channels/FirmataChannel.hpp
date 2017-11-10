@@ -16,8 +16,8 @@ BEGIN_NAMESPACE_MW
 class FirmataChannel : public Component {
     
 public:
-    enum class Type { Analog = 2, Digital = 0 };
-    enum class Direction { Input = 0, Output = 1 };
+    enum class Type { Analog = 3, Digital = 1, Servo = 4 };
+    enum class Direction { Input = 1, Output = 0 };
     
     static const std::string PIN_NUMBER;
     static const std::string VALUE;
@@ -40,7 +40,7 @@ public:
     bool isInput() const { return getDirection() == Direction::Input; }
     bool isOutput() const { return getDirection() == Direction::Output; }
     
-    int getPinMode() const { return (int(getType()) + int(getDirection())); }
+    int getPinMode() const { return (int(getType()) - int(getDirection())); }
     
 private:
     static constexpr int minPinNumber = 0;

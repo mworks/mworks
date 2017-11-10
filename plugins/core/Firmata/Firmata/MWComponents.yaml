@@ -142,3 +142,37 @@ parameters:
         changed immediately.
 
 
+---
+
+
+name: Firmata Servo Channel
+signature: iochannel/firmata_servo
+isa: Firmata Channel
+description: Servo channel on a `Firmata Device`
+parameters: 
+  - 
+    name: pin_number
+    required: yes
+    example: 8
+    description: Pin number
+  - 
+    name: value
+    required: yes
+    description: >
+        Variable from which to read servo values.  The value must be between 0
+        and 180 (inclusive) and indicates the desired shaft angle or speed of
+        the servo.
+  - 
+    name: min_pulse_width
+    default: 544
+    description: >
+        Pulse width (in microseconds) corresponding to the minimum (0-degree)
+        angle on the servo
+  - 
+    name: max_pulse_width
+    default: 2400
+    description: >
+        Pulse width (in microseconds) corresponding to the maximum (180-degree)
+        angle on the servo
+
+

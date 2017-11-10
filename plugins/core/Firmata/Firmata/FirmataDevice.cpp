@@ -8,7 +8,7 @@
 
 #include "FirmataDevice.hpp"
 
-#include "FirmataChannel.hpp"
+#include "FirmataServoChannel.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -33,6 +33,7 @@ enum {
     START_SYSEX             = 0xF0, // start a MIDI Sysex message
     END_SYSEX               = 0xF7, // end a MIDI Sysex message
     
+    SERVO_CONFIG            = 0x70, // set minPulse, maxPulse
     REPORT_FIRMWARE         = 0x79, // report name and version of the firmware
     EXTENDED_ANALOG         = 0x6F, // analog write (PWM, Servo, etc) to any pin
     CAPABILITY_QUERY        = 0x6B, // ask for supported modes and resolution of all pins
@@ -51,7 +52,8 @@ enum {
     PIN_MODE_INPUT  = 0x00, // same as INPUT defined in Arduino.h
     PIN_MODE_OUTPUT = 0x01, // same as OUTPUT defined in Arduino.h
     PIN_MODE_ANALOG = 0x02, // analog pin in analogInput mode
-    PIN_MODE_PWM    = 0x03  // digital pin in PWM output mode
+    PIN_MODE_PWM    = 0x03, // digital pin in PWM output mode
+    PIN_MODE_SERVO  = 0x04  // digital pin in Servo output mode
 };
 
 
@@ -290,6 +292,26 @@ bool FirmataDevice::configurePins() {
             if (channel) {
                 const auto pinNumber = channel->getPinNumber();
                 
+                if (auto servoChannel = boost::dynamic_pointer_cast<FirmataServoChannel>(channel)) {
+                    const auto minPulseWidth = servoChannel->getMinPulseWidth();
+                    const auto maxPulseWidth = servoChannel->getMaxPulseWidth();
+                    if (!sendData({ START_SYSEX,
+                                    SERVO_CONFIG,
+                                    std::uint8_t(pinNumber),
+                                    std::uint8_t((minPulseWidth >> 0) & 0x7F),  // minPulseWidth LSB
+                                    std::uint8_t((minPulseWidth >> 7) & 0x7F),  // minPulseWidth MSB
+                                    std::uint8_t((maxPulseWidth >> 0) & 0x7F),  // maxPulseWidth LSB
+                                    std::uint8_t((maxPulseWidth >> 7) & 0x7F),  // maxPulseWidth MSB
+                                    END_SYSEX }))
+                    {
+                        merror(M_IODEVICE_MESSAGE_DOMAIN,
+                               "Cannot set servo configuration on pin %d of Firmata device \"%s\"",
+                               pinNumber,
+                               getTag().c_str());
+                        return false;
+                    }
+                }
+                
                 if (!sendData({ SET_PIN_MODE, std::uint8_t(pinNumber), std::uint8_t(channel->getPinMode()) })) {
                     merror(M_IODEVICE_MESSAGE_DOMAIN,
                            "Cannot set mode of pin %d on Firmata device \"%s\"",
@@ -306,7 +328,9 @@ bool FirmataDevice::configurePins() {
                             callback = [weakThis, pinNumber](const Datum &data, MWTime time) {
                                 if (auto sharedThis = weakThis.lock()) {
                                     unique_lock lock(sharedThis->mutex);
-                                    sharedThis->setAnalogOutput(pinNumber, data.getFloat());
+                                    if (sharedThis->running) {
+                                        sharedThis->setAnalogOutput(pinNumber, data.getFloat());
+                                    }
                                 }
                             };
                             break;
@@ -315,7 +339,20 @@ bool FirmataDevice::configurePins() {
                             callback = [weakThis, pinNumber](const Datum &data, MWTime time) {
                                 if (auto sharedThis = weakThis.lock()) {
                                     unique_lock lock(sharedThis->mutex);
-                                    sharedThis->setDigitalOutput(pinNumber, data.getBool());
+                                    if (sharedThis->running) {
+                                        sharedThis->setDigitalOutput(pinNumber, data.getBool());
+                                    }
+                                }
+                            };
+                            break;
+                            
+                        case FirmataChannel::Type::Servo:
+                            callback = [weakThis, pinNumber](const Datum &data, MWTime time) {
+                                if (auto sharedThis = weakThis.lock()) {
+                                    unique_lock lock(sharedThis->mutex);
+                                    if (sharedThis->running) {
+                                        sharedThis->setServo(pinNumber, data.getFloat());
+                                    }
                                 }
                             };
                             break;
@@ -377,6 +414,17 @@ bool FirmataDevice::startIO() {
                                 portHasDigitalOutputs = true;
                                 portState.at(bitNum / 7) |= (channel->getValueVariable()->getValue().getBool() << (bitNum % 7));
                                 break;
+                        }
+                        break;
+                    }
+                        
+                    case FirmataChannel::Type::Servo: {
+                        if (channel->isOutput()) {
+                            if (!setServo(channel->getPinNumber(),
+                                          channel->getValueVariable()->getValue().getFloat()))
+                            {
+                                return false;
+                            }
                         }
                         break;
                     }
@@ -451,6 +499,12 @@ bool FirmataDevice::stopIO() {
                         }
                         break;
                     }
+                        
+                    case FirmataChannel::Type::Servo: {
+                        // We don't really know what the "ground" state is for a servo, so just
+                        // leave it where it is
+                        break;
+                    }
                 }
             }
         }
@@ -496,21 +550,9 @@ bool FirmataDevice::setAnalogOutput(int pinNumber, double value) {
         return false;
     }
     
-    const int numBits = getResolutionForPinMode(pinNumber, PIN_MODE_PWM);
     int intValue = std::round(value * getMaximumValueForPinMode(pinNumber, PIN_MODE_PWM));
-    std::vector<std::uint8_t> data = { START_SYSEX, EXTENDED_ANALOG, std::uint8_t(pinNumber) };
     
-    for (std::size_t bitNum = 0; bitNum < numBits; bitNum++) {
-        if (bitNum % 7 == 0) {
-            data.push_back(0);
-        }
-        data.back() |= (intValue & 1) << (bitNum % 7);
-        intValue >>= 1;
-    }
-    
-    data.push_back(END_SYSEX);
-    
-    if (running && !sendData(data)) {
+    if (!sendExtendedAnalogMessage(pinNumber, PIN_MODE_PWM, intValue)) {
         merror(M_IODEVICE_MESSAGE_DOMAIN,
                "Cannot set analog output value on pin %d of Firmata device \"%s\"",
                pinNumber,
@@ -523,13 +565,53 @@ bool FirmataDevice::setAnalogOutput(int pinNumber, double value) {
 
 
 bool FirmataDevice::setDigitalOutput(int pinNumber, bool value) {
-    if (running &&
-        !sendData({ SET_DIGITAL_PIN_VALUE, std::uint8_t(pinNumber), value }))
-    {
+    if (!sendData({ SET_DIGITAL_PIN_VALUE, std::uint8_t(pinNumber), value })) {
         merror(M_IODEVICE_MESSAGE_DOMAIN,
                "Cannot set digital output value on pin %d of Firmata device \"%s\"",
                pinNumber,
                getTag().c_str());
+        return false;
+    }
+    
+    return true;
+}
+
+
+bool FirmataDevice::setServo(int pinNumber, double value) {
+    if (value < 0.0 || value > 180.0) {
+        merror(M_IODEVICE_MESSAGE_DOMAIN,
+               "Firmata servo value must be between 0 and 180; %g is not valid",
+               value);
+        return false;
+    }
+    
+    if (!sendExtendedAnalogMessage(pinNumber, PIN_MODE_SERVO, std::round(value))) {
+        merror(M_IODEVICE_MESSAGE_DOMAIN,
+               "Cannot set servo value on pin %d of Firmata device \"%s\"",
+               pinNumber,
+               getTag().c_str());
+        return false;
+    }
+    
+    return true;
+}
+
+
+bool FirmataDevice::sendExtendedAnalogMessage(int pinNumber, int pinMode, int value) {
+    const int numBits = getResolutionForPinMode(pinNumber, pinMode);
+    std::vector<std::uint8_t> data = { START_SYSEX, EXTENDED_ANALOG, std::uint8_t(pinNumber) };
+    
+    for (std::size_t bitNum = 0; bitNum < numBits; bitNum++) {
+        if (bitNum % 7 == 0) {
+            data.push_back(0);
+        }
+        data.back() |= (value & 1) << (bitNum % 7);
+        value >>= 1;
+    }
+    
+    data.push_back(END_SYSEX);
+    
+    if (!sendData(data)) {
         return false;
     }
     

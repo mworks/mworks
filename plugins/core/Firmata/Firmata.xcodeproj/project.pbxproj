@@ -35,6 +35,8 @@
 /* Begin PBXBuildFile section */
 		E109F4FF1D148E7800854E47 /* FirmataDigitalInputChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E109F4FD1D148E7800854E47 /* FirmataDigitalInputChannel.cpp */; };
 		E12A9A661E96D92D007C3661 /* FirmataChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12A9A641E96D92D007C3661 /* FirmataChannel.cpp */; };
+		E13972061FB6075000FF5ECD /* FirmataServoChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13972041FB6075000FF5ECD /* FirmataServoChannel.cpp */; };
+		E13972071FB6075000FF5ECD /* FirmataServoChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13972041FB6075000FF5ECD /* FirmataServoChannel.cpp */; };
 		E155FD861E97D85100C3C7F3 /* FirmataAnalogChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E155FD841E97D85100C3C7F3 /* FirmataAnalogChannel.cpp */; };
 		E155FD891E97D99B00C3C7F3 /* FirmataAnalogInputChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E155FD871E97D99B00C3C7F3 /* FirmataAnalogInputChannel.cpp */; };
 		E18A24CD1E9FFC8B0021F560 /* FirmataConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18A24CB1E9FFC8B0021F560 /* FirmataConnection.cpp */; };
@@ -100,6 +102,8 @@
 		E109F4FE1D148E7800854E47 /* FirmataDigitalInputChannel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataDigitalInputChannel.hpp; sourceTree = "<group>"; };
 		E12A9A641E96D92D007C3661 /* FirmataChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataChannel.cpp; sourceTree = "<group>"; };
 		E12A9A651E96D92D007C3661 /* FirmataChannel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataChannel.hpp; sourceTree = "<group>"; };
+		E13972041FB6075000FF5ECD /* FirmataServoChannel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataServoChannel.cpp; sourceTree = "<group>"; };
+		E13972051FB6075000FF5ECD /* FirmataServoChannel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FirmataServoChannel.hpp; sourceTree = "<group>"; };
 		E155FD841E97D85100C3C7F3 /* FirmataAnalogChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataAnalogChannel.cpp; sourceTree = "<group>"; };
 		E155FD851E97D85100C3C7F3 /* FirmataAnalogChannel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataAnalogChannel.hpp; sourceTree = "<group>"; };
 		E155FD871E97D99B00C3C7F3 /* FirmataAnalogInputChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataAnalogInputChannel.cpp; sourceTree = "<group>"; };
@@ -157,6 +161,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E13972031FB606D200FF5ECD /* Servo */ = {
+			isa = PBXGroup;
+			children = (
+				E13972051FB6075000FF5ECD /* FirmataServoChannel.hpp */,
+				E13972041FB6075000FF5ECD /* FirmataServoChannel.cpp */,
+			);
+			path = Servo;
+			sourceTree = "<group>";
+		};
 		E155FD831E97D7E600C3C7F3 /* Analog */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +203,7 @@
 				E12A9A641E96D92D007C3661 /* FirmataChannel.cpp */,
 				E155FD831E97D7E600C3C7F3 /* Analog */,
 				E18B6D371D0F196800087249 /* Digital */,
+				E13972031FB606D200FF5ECD /* Servo */,
 			);
 			path = Channels;
 			sourceTree = "<group>";
@@ -336,12 +350,15 @@
 					};
 					E1E84AF31D0B2B4200F45D54 = {
 						CreatedOnToolsVersion = 7.3.1;
+						ProvisioningStyle = Automatic;
 					};
 					E1E84B051D0B2D1200F45D54 = {
 						CreatedOnToolsVersion = 7.3.1;
+						ProvisioningStyle = Automatic;
 					};
 					E1E84B0C1D0B2D4600F45D54 = {
 						CreatedOnToolsVersion = 7.3.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -397,6 +414,7 @@
 				E1D54BB41EA69D2F0073D938 /* FirmataPlugin.cpp in Sources */,
 				E1D54BAC1EA69D0F0073D938 /* FirmataChannel.cpp in Sources */,
 				E1D54BAB1EA69D0B0073D938 /* FirmataBluetoothLEConnection.cpp in Sources */,
+				E13972071FB6075000FF5ECD /* FirmataServoChannel.cpp in Sources */,
 				E1D54BA91EA69CFF0073D938 /* FirmataConnection.cpp in Sources */,
 				E1D54BAE1EA69D190073D938 /* FirmataAnalogInputChannel.cpp in Sources */,
 				E1D54BB01EA69D200073D938 /* FirmataDigitalChannel.cpp in Sources */,
@@ -407,6 +425,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E13972061FB6075000FF5ECD /* FirmataServoChannel.cpp in Sources */,
 				E12A9A661E96D92D007C3661 /* FirmataChannel.cpp in Sources */,
 				E1C0E1E51E9D436400918349 /* FirmataAnalogOutputChannel.cpp in Sources */,
 				E18A24CD1E9FFC8B0021F560 /* FirmataConnection.cpp in Sources */,
