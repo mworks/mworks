@@ -1,9 +1,13 @@
 from collections import defaultdict
-from itertools import izip
 import math
 import os
 import random
+import tempfile
 import warnings
+try:
+    long
+except NameError:
+    long = int  # Python 3
 
 import numpy
 
@@ -37,7 +41,7 @@ class MWKStreamTestMixin(DataTestMixin):
     def create_file():
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', RuntimeWarning)
-            filename = os.tempnam()
+            filename = tempfile.mktemp()
         fp = MWKStream._create_file(filename)
         return filename, fp
 
@@ -59,7 +63,7 @@ class MWKStreamTestMixin(DataTestMixin):
     def read(self):
         try:
             return self.instream._read()
-        except Exception, e:
+        except Exception as e:
             return e
 
     send = write
@@ -91,8 +95,8 @@ class TestMWKStreamTypeConversion(MWKStreamTestMixin,
     # terminal NUL to identify text strings.
     #
 
-    def test_str_with_trailing_nul(self):
-        self.assertReceivedEqualsSent('foo\0', 'foo')
+    def test_bytes_with_trailing_nul(self):
+        self.assertReceivedEqualsSent(b'foo\0', 'foo')
 
     def test_unicode_with_trailing_nul(self):
         self.assertReceivedEqualsSent(u'foo\0', 'foo')
@@ -199,7 +203,7 @@ class MWKFileTestMixin(DataTestMixin):
     def setUp(self):
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', RuntimeWarning)
-            self.filename = os.tempnam() + '.mwk'
+            self.filename = tempfile.mktemp(suffix='.mwk')
         self.fp = MWKFile(self.filename)
 
     def tearDown(self):
@@ -236,7 +240,7 @@ class TestMWKFileBasics(MWKFileTestMixin, unittest.TestCase):
         self.assertRaises(IOError, (lambda: self.fp.codec))
         self.assertRaises(IOError, (lambda: self.fp.reverse_codec))
 
-        self.assertRaises(IOError, self.fp.get_events_iter().next)
+        self.assertRaises(IOError, next, self.fp.get_events_iter())
         self.assertRaises(IOError, self.fp.get_events)
         self.assertRaises(IOError, self.fp.reindex)
         self.assertRaises(IOError, self.fp.unindex)
@@ -303,7 +307,7 @@ class TestMWKFileBasics(MWKFileTestMixin, unittest.TestCase):
 
         self.assertEqual(len(events)-1, self.fp.num_events)
 
-        for i, evt in izip((0, 1, 3), self.fp.get_events_iter()):
+        for i, evt in zip((0, 1, 3), self.fp.get_events_iter()):
             self.assertEvent(evt, *events[i])
 
 
@@ -326,7 +330,7 @@ class TestMWKFileSelection(MWKFileTestMixin, unittest.TestCase):
         selected = self.select(codes, min_time, max_time)
 
         self.assertEqual(len(indices), len(selected))
-        for evt, values in izip(selected, expected):
+        for evt, values in zip(selected, expected):
             self.assertEvent(evt, *values)
 
     def select(self, codes=(), min_time=None, max_time=None):
@@ -437,13 +441,13 @@ class TestRealMWKFile(unittest.TestCase):
         self.assertIsInstance(reverse_codec, dict)
         self.assertEqual(len(reverse_codec), len(codec))
 
-        for code, tagname in codec.iteritems():
+        for code, tagname in codec.items():
             self.assertEqual(code, reverse_codec[tagname])
 
     def test_select_by_code(self):
         total_count = 0
 
-        for code, expected_count in self.event_counts.iteritems():
+        for code, expected_count in self.event_counts.items():
             count = self.count(codes=[code])
             self.assertEqual(expected_count, count)
             total_count += count
@@ -453,7 +457,7 @@ class TestRealMWKFile(unittest.TestCase):
     def test_select_by_tag(self):
         total_count = 0
 
-        for code, tag in self.fp.codec.iteritems():
+        for code, tag in self.fp.codec.items():
             count = self.count(codes=[tag])
             self.assertEqual(self.event_counts[code], count)
             total_count += count

@@ -3,6 +3,7 @@
 //
 
 #include <Python.h>
+#include <bytesobject.h>
 #include <node.h>
 
 #include <Scarab/scarab.h>

@@ -1,7 +1,7 @@
-from _mworks import (_IPCClientConduit,
-                     _IPCServerConduit,
-                     _IPCAccumulatingClientConduit,
-                     _IPCAccumulatingServerConduit)
+from ._mworks import (_IPCClientConduit,
+                      _IPCServerConduit,
+                      _IPCAccumulatingClientConduit,
+                      _IPCAccumulatingServerConduit)
 
 
 class IPCClientConduit(_IPCClientConduit):

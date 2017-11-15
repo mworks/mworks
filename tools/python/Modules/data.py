@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from _mworks import ReservedEventCode, _MWKFile, _MWKStream
+from ._mworks import ReservedEventCode, _MWKFile, _MWKStream
 
 
 class IndexingException(IOError):
@@ -82,7 +82,7 @@ class MWKFile(_MWKFile):
         if self._reverse_codec is not None:
             return self._reverse_codec
     
-        rc = dict((v, k) for k, v in self.codec.iteritems())
+        rc = dict((v, k) for k, v in self.codec.items())
 
         self._reverse_codec = rc
         return rc

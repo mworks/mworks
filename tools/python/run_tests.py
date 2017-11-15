@@ -1,10 +1,8 @@
+from __future__ import print_function
 from glob import iglob
 import os
 import sys
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest
 
 
 def main():
@@ -12,7 +10,7 @@ def main():
     # sometimes cause tests to fail spuriously
     for path in iglob('/tmp/boost_interprocess/mworks_conduit_test_*'):
         if os.path.isfile(path):
-            print >>sys.stderr, 'Removing', path
+            print('Removing', path, file=sys.stderr)
             os.remove(path)
 
     if len(sys.argv) == 1:

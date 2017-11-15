@@ -23,7 +23,10 @@ BEGIN_NAMESPACE_MW
 BOOST_PYTHON_MODULE(_mworks)
 {
     
-    import_array();
+    if (_import_array() < 0) {
+        PyErr_SetString(PyExc_ImportError, "Unable to import NumPy C API");
+        throw_error_already_set();
+    }
     
     if (scarab_init(0) != 0) {
         PyErr_SetString(PyExc_RuntimeError, "Scarab initialization failed");

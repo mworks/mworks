@@ -1,4 +1,7 @@
-from Queue import Queue
+try:
+    from Queue import Queue
+except ImportError:
+    from queue import Queue  # Python 3
 import random
 
 from mworks.conduit import IPCClientConduit, IPCServerConduit
@@ -47,7 +50,7 @@ class TestConduitTypeConversion(ConduitTestMixin,
     def event_callback(cls, event):
         try:
             data = event.data
-        except Exception, e:
+        except Exception as e:
             data = e
         cls.queue.put(data, block=False)
 

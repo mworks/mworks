@@ -4,6 +4,10 @@ import os
 import sys
 import unittest
 import warnings
+try:
+    long
+except NameError:
+    long = int  # Python 3
 
 import numpy
 
@@ -69,9 +73,9 @@ class TypeConversionTestMixin(object):
         self.assertReceivedEqualsSent(int_info.min)
 
     def test_long(self):
-        self.assertReceivedEqualsSent(0L, int)
-        self.assertReceivedEqualsSent(1L, int)
-        self.assertReceivedEqualsSent(-2L, int)
+        self.assertReceivedEqualsSent(long(0), int)
+        self.assertReceivedEqualsSent(long(1), int)
+        self.assertReceivedEqualsSent(long(-2), int)
 
         # mw::Datum stores integers as long long's, so we should be
         # able to send the full range of long long values, but not
@@ -96,35 +100,38 @@ class TypeConversionTestMixin(object):
         self.assertIsInstance(received, float)
         self.assertTrue(math.isnan(received))
 
-    def test_str(self):
-        self.assertReceivedEqualsSent('')
-        self.assertReceivedEqualsSent('foo')
-        self.assertReceivedEqualsSent(' Foo \n Bar ')
-        self.assertReceivedEqualsSent('foo\0bar')  # Embedded NUL
+    def test_bytes(self):
+        self.assertReceivedEqualsSent(b'', '')
+        self.assertReceivedEqualsSent(b'foo', 'foo')
+        self.assertReceivedEqualsSent(b' Foo \n Bar ', ' Foo \n Bar ')
+        self.assertReceivedEqualsSent(b'foo\0bar')  # Embedded NUL
 
-    def test_str_with_trailing_nul(self):
-        self.assertReceivedEqualsSent('foo\0')
+    def test_bytes_with_trailing_nul(self):
+        self.assertReceivedEqualsSent(b'foo\0')
 
     def test_unicode(self):
         self.assertReceivedEqualsSent(u'', str)
         self.assertReceivedEqualsSent(u'foo', str)
         self.assertReceivedEqualsSent(u' Foo \n Bar ', str)
-        self.assertReceivedEqualsSent(u'foo\0bar', str)  # Embedded NUL
+        self.assertReceivedEqualsSent(u'foo\0bar', b'foo\0bar')  # Embedded NUL
 
         # Try some real Unicode
         sent = u'a\U0001d11eb'  # U+1D11E is the G clef character
         self.send(sent)
         received = self.receive()
         self.assertIsInstance(received, str)
-        sent_encoded = sent.encode('utf-8')
-        with warnings.catch_warnings():
-            warnings.simplefilter('ignore', UnicodeWarning)
-            self.assertNotEqual(sent, sent_encoded)
-        self.assertEqual(sent_encoded, received)
-        self.assertEqual(sent, received.decode('utf-8'))
+        if sys.version_info >= (3,):
+            self.assertEqual(sent, received)
+        else:
+            sent_encoded = sent.encode('utf-8')
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore', UnicodeWarning)
+                self.assertNotEqual(sent, sent_encoded)
+            self.assertEqual(sent_encoded, received)
+            self.assertEqual(sent, received.decode('utf-8'))
 
     def test_unicode_with_trailing_nul(self):
-        self.assertReceivedEqualsSent(u'foo\0', str)
+        self.assertReceivedEqualsSent(u'foo\0', b'foo\0')
 
     def _test_sequence(self, seq_type):
         def test(list_val):
@@ -275,7 +282,6 @@ class TypeConversionTestMixin(object):
                                           float(float_info.min))
             self.assertReceivedIsInf(ftype(float_info.min) * 2.0)
 
-    @unittest.skipUnless(hasattr(numpy, 'half'), 'numpy.half not found')
     def test_numpy_half(self):
         self._test_numpy_floating(numpy.half)
 
@@ -288,8 +294,8 @@ class TypeConversionTestMixin(object):
     def test_numpy_longfloat(self):
         self._test_numpy_floating(numpy.longfloat)
 
-    def test_numpy_str_(self):
-        self.assertReceivedEqualsSent(numpy.str_('foo'), str)
+    def test_numpy_bytes_(self):
+        self.assertReceivedEqualsSent(numpy.bytes_(b'foo'), 'foo')
 
     def test_numpy_unicode_(self):
         self.assertReceivedEqualsSent(numpy.unicode_(u'foo'), str)
@@ -298,6 +304,6 @@ class TypeConversionTestMixin(object):
         self.assertReceivedEqualsSent(numpy.array([]), [])
         self.assertReceivedEqualsSent(numpy.array([], dtype=numpy.single), [])
         self.assertReceivedEqualsSent(numpy.arange(10, dtype=numpy.ushort),
-                                      range(10))
+                                      list(range(10)))
         self.assertReceivedEqualsSent(numpy.arange(10, dtype=numpy.single),
-                                      [float(x) for x in xrange(10)])
+                                      [float(x) for x in range(10)])
