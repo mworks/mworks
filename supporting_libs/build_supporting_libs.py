@@ -2,6 +2,7 @@ from contextlib import contextmanager
 import inspect
 import multiprocessing
 import os
+import shutil
 import subprocess
 import sys
 import urllib
@@ -28,7 +29,6 @@ assert os.environ['GCC_VERSION'] == 'com.apple.compilers.llvm.clang.1_0'
 cc = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/clang'
 cxx = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/clang++'
 make = os.environ['DEVELOPER_DIR'] + '/usr/bin/make'
-python = '/usr/bin/python' + os.environ['MW_PYTHON_VERSION']
 rsync = '/usr/bin/rsync'
 xcodebuild = os.environ['DEVELOPER_DIR'] + '/usr/bin/xcodebuild'
 
@@ -192,6 +192,33 @@ def get_clean_env():
     return env
 
 
+def run_b2(libraries, clean=False):
+    b2_args = [
+        './b2',
+        #'-d', '2',  # Show actual commands run,
+        '-j', num_cores,
+        '--build-dir=' + builddir,
+        'variant=release',
+        'optimization=space',
+        'debug-symbols=on',
+        'link=static',
+        'threading=multi',
+        'define=boost=mworks_boost',
+        # Unfortunately, Boost.Python won't compile against Python 3.2+ with
+        # Py_LIMITED_API defined
+        #'define=Py_LIMITED_API',
+        'cflags=' + compile_flags,
+        'cxxflags=' + cxxflags,
+        'linkflags=' + link_flags,
+        ]
+    b2_args += ['--with-' + l for l in libraries]
+    if clean:
+        b2_args.append('--clean')
+    else:
+        b2_args.append('install')
+    check_call(b2_args)
+
+
 def get_updated_env(
     extra_compile_flags = '',
     extra_cflags = '',
@@ -260,6 +287,9 @@ def boost(ios=True):
     tarfile = srcdir + '.tar.bz2'
 
     with done_file(srcdir):
+        project_config_jam = 'project-config.jam'
+        project_config_jam_orig = project_config_jam + '.orig'
+
         if not os.path.isdir(srcdir):
             download_archive_from_sf('boost/boost', version, tarfile)
             unpack_tarfile(tarfile, srcdir)
@@ -268,38 +298,37 @@ def boost(ios=True):
                 apply_patch('boost_clock_gettime.patch')
                 check_call([
                     './bootstrap.sh',
+                    '--prefix=' + prefix,
+                    '--includedir=' + includedir,
+                    '--libdir=' + libdir,
                     '--with-toolset=clang',
                     '--without-icu',
-                    '--with-python=' + python,
+                    '--without-libraries=python',  # Configure python manually
                     ],
                     env = get_clean_env(),
                     )
+                shutil.move(project_config_jam, project_config_jam_orig)
             
         with workdir(srcdir):
-            b2_args = [
-                './b2',
-                #'-d', '2',  # Show actual commands run,
-                '-j', num_cores,
-                '--build-dir=' + builddir,
-                '--prefix=' + prefix,
-                '--includedir=' + includedir,
-                '--libdir=' + libdir,
-                'variant=release',
-                'optimization=space',
-                'debug-symbols=on',
-                'link=static',
-                'threading=multi',
-                'define=boost=mworks_boost',
-                'cflags=' + compile_flags,
-                'cxxflags=' + cxxflags,
-                'linkflags=' + link_flags,
-                ]
+            shutil.copy(project_config_jam_orig, project_config_jam)
             libraries = ['filesystem', 'random', 'regex', 'system', 'thread']
             if not building_for_ios:
-                libraries += ['python', 'serialization']
-            b2_args += ['--with-' + l for l in libraries]
-            b2_args.append('install')
-            check_call(b2_args)
+                libraries += ['serialization']
+            run_b2(libraries)
+
+            if not building_for_ios:
+                for tag in ('', '_3'):
+                    shutil.copy(project_config_jam_orig, project_config_jam)
+                    with open(project_config_jam, 'a') as fp:
+                        fp.write('\nusing python : %s : %s : %s : %s ;\n' %
+                                 (os.environ['MW_PYTHON%s_VERSION' % tag],
+                                  os.environ['MW_PYTHON%s' % tag],
+                                  os.environ['MW_PYTHON%s_INCLUDEDIR' % tag],
+                                  os.environ['MW_PYTHON%s_LIBDIR' % tag]))
+                    libraries = ['python']
+                    # Remove previous build products before building again
+                    run_b2(libraries, clean=True)
+                    run_b2(libraries)
 
         with workdir(includedir):
             if not os.path.islink('mworks_boost'):
@@ -416,7 +445,7 @@ def numpy():
             env['NPY_NUM_BUILD_JOBS'] = num_cores
 
             check_call([
-                python,
+                os.environ['MW_PYTHON'],
                 'setup.py',
                 'install',
                 '--install-lib=install',
