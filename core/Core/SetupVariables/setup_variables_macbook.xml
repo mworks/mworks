@@ -37,6 +37,10 @@
                     <key>announce_individual_stimuli</key>
                     <value type="integer">1</value>
                 </dictionary_element>    
+                <dictionary_element>
+                    <key>render_at_full_resolution</key>
+                    <value type="integer">1</value>
+                </dictionary_element>
             </dictionary>
         </variable_assignment>
         <variable_assignment variable="#warnOnSkippedRefresh" type="integer" value="1"/>

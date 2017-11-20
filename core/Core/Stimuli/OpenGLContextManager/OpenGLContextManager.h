@@ -21,11 +21,11 @@ public:
     static boost::shared_ptr<OpenGLContextManager> createPlatformOpenGLContextManager();
     
     // Create a fullscreen context on a particular display
-    virtual int newFullscreenContext(int screen_number) = 0;
+    virtual int newFullscreenContext(int screen_number, bool render_at_full_resolution) = 0;
     
     // Create a "mirror" window (smaller, movable window that displays whatever
     // is on the "main" display) and return its context index
-    virtual int newMirrorContext() = 0;
+    virtual int newMirrorContext(bool render_at_full_resolution) = 0;
     
     // Release all contexts and associated resources
     virtual void releaseContexts() = 0;

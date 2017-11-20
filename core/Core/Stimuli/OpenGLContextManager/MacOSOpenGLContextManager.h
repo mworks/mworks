@@ -22,8 +22,8 @@ public:
     MacOSOpenGLContextManager();
     ~MacOSOpenGLContextManager();
     
-    int newFullscreenContext(int screen_number) override;
-    int newMirrorContext() override;
+    int newFullscreenContext(int screen_number, bool render_at_full_resolution) override;
+    int newMirrorContext(bool render_at_full_resolution) override;
     
     void releaseContexts() override;
     

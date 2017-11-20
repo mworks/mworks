@@ -58,6 +58,16 @@
 		</dict>
 		<dict>
 			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Stop experiment on error</string>
+			<key>Key</key>
+			<string>stop_on_error_preference</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Stimulus Display</string>
@@ -114,6 +124,16 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>Render at full resolution</string>
+			<key>Key</key>
+			<string>render_at_full_resolution_preference</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>Announce stimuli individually</string>
 			<key>Key</key>
 			<string>announce_individual_stimuli_preference</string>
@@ -129,16 +149,6 @@
 			<string>warn_on_skipped_refresh_preference</string>
 			<key>DefaultValue</key>
 			<true/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Stop experiment on error</string>
-			<key>Key</key>
-			<string>stop_on_error_preference</string>
-			<key>DefaultValue</key>
-			<false/>
 		</dict>
 	</array>
 </dict>

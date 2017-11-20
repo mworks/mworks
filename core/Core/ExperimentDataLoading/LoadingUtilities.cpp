@@ -271,6 +271,7 @@ BEGIN_NAMESPACE_MW
 		bool always_display_mirror_window = 0;
 		int display_to_use = 0;
         bool announce_individual_stimuli = true;
+        bool render_at_full_resolution = true;
         
 		if(main_screen_info != NULL){
 			
@@ -286,6 +287,10 @@ BEGIN_NAMESPACE_MW
 			if(val.hasKey(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY)){
 				announce_individual_stimuli = (bool)val.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY);
 			}
+            
+            if(val.hasKey(M_RENDER_AT_FULL_RESOLUTION)){
+                render_at_full_resolution = (bool)val.getElement(M_RENDER_AT_FULL_RESOLUTION);
+            }
 		}
 		
         auto stimdisplay = StimulusDisplay::createPlatformStimulusDisplay(announce_individual_stimuli);
@@ -303,16 +308,16 @@ BEGIN_NAMESPACE_MW
 				display_to_use = 1;						   			
 			}
 			
-			new_context = opengl_context_manager->newFullscreenContext(display_to_use);
+			new_context = opengl_context_manager->newFullscreenContext(display_to_use, render_at_full_resolution);
 			stimdisplay->addContext(new_context);
 			
 			if(always_display_mirror_window){
-				int auxilliary_context = opengl_context_manager->newMirrorContext();
+				int auxilliary_context = opengl_context_manager->newMirrorContext(render_at_full_resolution);
 				stimdisplay->addContext(auxilliary_context);
 			}
 			
 		} else {
-			new_context = opengl_context_manager->newMirrorContext();
+			new_context = opengl_context_manager->newMirrorContext(render_at_full_resolution);
 			stimdisplay->addContext(new_context);		
 		}
 		

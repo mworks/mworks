@@ -130,7 +130,7 @@ IOSOpenGLContextManager::~IOSOpenGLContextManager() {
 }
 
 
-int IOSOpenGLContextManager::newFullscreenContext(int screen_number) {
+int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render_at_full_resolution) {
     @autoreleasepool {
         if (screen_number < 0 || screen_number >= getNumDisplays()) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -159,7 +159,7 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number) {
                     
                     if (MWKEAGLView *view = [[MWKEAGLView alloc] initWithFrame:window.bounds context:context]) {
                         viewController.view = view;
-                        view.contentScaleFactor = screen.scale;  // Render at full resolution of display
+                        view.contentScaleFactor = (render_at_full_resolution ? screen.scale : 1.0);
                         [EAGLContext setCurrentContext:context];
                         
                         if ([view prepareGL]) {
@@ -194,7 +194,7 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number) {
 }
 
 
-int IOSOpenGLContextManager::newMirrorContext() {
+int IOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) {
     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Mirror windows are not supported on this OS");
 }
 

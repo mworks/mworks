@@ -19,6 +19,7 @@
 #define DISPLAY_HEIGHT_PREFERENCE @"display_height_preference"
 #define DISPLAY_DISTANCE_PREFERENCE @"display_distance_preference"
 #define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
+#define RENDER_AT_FULL_RESOLUTION_PREFERENCE @"render_at_full_resolution_preference"
 #define WARN_ON_SKIPPED_REFRESH_PREFERENCE @"warn_on_skipped_refresh_preference"
 #define STOP_ON_ERROR_PREFERENCE @"stop_on_error_preference"
 
@@ -34,6 +35,7 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
       LISTENING_PORT_PREFERENCE: @(19989),
       ALLOW_ALT_FAILOVER_PREFERENCE: @(YES),
       ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
+      RENDER_AT_FULL_RESOLUTION_PREFERENCE: @(YES),
       WARN_ON_SKIPPED_REFRESH_PREFERENCE: @(YES),
       STOP_ON_ERROR_PREFERENCE: @(NO)
       };
@@ -73,6 +75,7 @@ static void initializeSetupVariables(NSUserDefaults *userDefaults,
     setupVariablesController.alwaysDisplayMirrorWindow = NO;
     setupVariablesController.mirrorWindowBaseHeight = @(0);
     setupVariablesController.announceIndividualStimuli = [userDefaults boolForKey:ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE];
+    setupVariablesController.renderAtFullResolution = [userDefaults boolForKey:RENDER_AT_FULL_RESOLUTION_PREFERENCE];
     setupVariablesController.warnOnSkippedRefresh = [userDefaults boolForKey:WARN_ON_SKIPPED_REFRESH_PREFERENCE];
     
     setupVariablesController.stopOnError = [userDefaults boolForKey:STOP_ON_ERROR_PREFERENCE];

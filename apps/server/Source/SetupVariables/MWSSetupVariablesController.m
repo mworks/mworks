@@ -41,6 +41,7 @@
                 _alwaysDisplayMirrorWindow = mdi.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).getBool();
                 _mirrorWindowBaseHeight = @(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat());
                 _announceIndividualStimuli = mdi.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY).getBool();
+                _renderAtFullResolution = mdi.getElement(M_RENDER_AT_FULL_RESOLUTION).getBool();
             }
         }
         
@@ -137,6 +138,14 @@
     [self updateVariable:mw::mainDisplayInfo
                      key:M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY
                    value:bool(announceIndividualStimuli)];
+}
+
+
+- (void)setRenderAtFullResolution:(BOOL)renderAtFullResolution {
+    _renderAtFullResolution = renderAtFullResolution;
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_RENDER_AT_FULL_RESOLUTION
+                   value:bool(renderAtFullResolution)];
 }
 
 
