@@ -169,6 +169,7 @@ extern shared_ptr<Variable> loadedExperiment;
 #define M_REFRESH_RATE_KEY					"refresh_rate_hz"
 #define M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY	"announce_individual_stimuli"
 #define M_RENDER_AT_FULL_RESOLUTION         "render_at_full_resolution"
+#define M_USE_COLOR_MANAGEMENT              "use_color_management"
 extern shared_ptr<Variable> mainDisplayInfo;		
 
 #define WARN_ON_SKIPPED_REFRESH_TAGNAME "#warnOnSkippedRefresh"

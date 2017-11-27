@@ -1,0 +1,18 @@
+//
+// The image used in this test is borrowed from
+// https://petapixel.com/2012/06/25/is-your-browser-color-managed/
+//
+
+
+image_file car (
+    path = 'images/S2fzq.jpg'
+    x_size = 20
+    )
+
+
+protocol {
+    queue_stimulus (car)
+    update_display ()
+    report ('The car should be yellow, NOT purple.')
+    wait (20s)
+}

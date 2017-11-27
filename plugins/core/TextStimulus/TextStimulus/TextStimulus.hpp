@@ -35,7 +35,7 @@ private:
     void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     
-    void bindTexture();
+    void bindTexture(const boost::shared_ptr<StimulusDisplay> &display);
     
     static const VertexPositionArray texCoords;
     

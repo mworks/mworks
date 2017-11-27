@@ -49,7 +49,7 @@ private:
     void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
     
     bool checkForNewPixelBuffer(const boost::shared_ptr<StimulusDisplay> &display);
-    bool bindTexture();
+    bool bindTexture(const boost::shared_ptr<StimulusDisplay> &display);
     void handleVideoEnded();
     
     const VariablePtr path;
@@ -60,6 +60,7 @@ private:
     
     boost::filesystem::path filePath;
     AVPlayer *player;
+    NSDictionary *pixelBufferAttributes;
     AVPlayerItemVideoOutput *videoOutput;
     double lastVolume;
     CMTime lastOutputItemTime;
@@ -68,32 +69,20 @@ private:
     bool videoEnded;
     bool didDrawAfterEnding;
     
-#if TARGET_OS_IPHONE
-    using TextureCachePtr = cf::ObjectPtr<CVOpenGLESTextureCacheRef>;
-#else
-    using TextureCachePtr = cf::ObjectPtr<CVOpenGLTextureCacheRef>;
-#endif
-    TextureCachePtr textureCache;
-    
     using PixelBufferPtr = cf::ObjectPtr<CVPixelBufferRef>;
     PixelBufferPtr pixelBuffer;
+    std::size_t pixelBufferWidth;
+    std::size_t pixelBufferHeight;
     double aspectRatio;
+    bool textureReady;
     
 #if TARGET_OS_IPHONE
-    using TexturePtr = cf::ObjectPtr<CVOpenGLESTextureRef>;
+    static constexpr GLenum textureTarget = GL_TEXTURE_2D;
 #else
-    using TexturePtr = cf::ObjectPtr<CVOpenGLTextureRef>;
+    static constexpr GLenum textureTarget = GL_TEXTURE_RECTANGLE;
 #endif
-    TexturePtr texture;
-    GLenum textureTarget;
-    GLuint textureName;
-    
+    GLuint texture = 0;
     GLint alphaUniformLocation = -1;
-#if !MWORKS_OPENGL_ES
-    GLint videoTextureUniformLocation = -1;
-    GLint videoTextureRectUniformLocation = -1;
-    GLint useTextureRectUniformLocation = -1;
-#endif
     GLuint texCoordsBuffer = 0;
     
 };

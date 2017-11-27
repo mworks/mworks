@@ -9,6 +9,8 @@
 #ifndef OpenGLUtilities_hpp
 #define OpenGLUtilities_hpp
 
+#include <unordered_set>
+
 #include <GLKit/GLKMath.h>
 
 #if TARGET_OS_IPHONE
@@ -171,6 +173,11 @@ struct VertexArrayBinding : boost::noncopyable {
     void bind(GLuint array) { glBindVertexArray(array); }
     
 };
+
+
+std::unordered_set<std::string> getSupportedExtensions();
+void logErrors();
+void resetPixelStorageUnpackParameters(GLint alignment = 4);
 
 
 END_NAMESPACE(gl)

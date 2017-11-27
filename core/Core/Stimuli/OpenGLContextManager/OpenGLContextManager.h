@@ -38,6 +38,8 @@ public:
     virtual void bindDefaultFramebuffer(int context_id) = 0;
     virtual void flush(int context_id) = 0;
     
+    virtual std::vector<float> getColorConversionLUTData(int context_id, int numGridPoints) = 0;
+    
     REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
     
 };

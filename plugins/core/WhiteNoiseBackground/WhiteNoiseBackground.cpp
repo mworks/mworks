@@ -246,16 +246,7 @@ void WhiteNoiseBackground::createTexture(GLuint &texture, const std::vector<GLui
     glGenTextures(1, &texture);
     gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
     
-#if !MWORKS_OPENGL_ES
-    glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
-    glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
-#endif
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
-    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-    glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, alignof(GLuint));
+    gl::resetPixelStorageUnpackParameters(alignof(GLuint));
     
     glTexImage2D(GL_TEXTURE_2D,
                  0,

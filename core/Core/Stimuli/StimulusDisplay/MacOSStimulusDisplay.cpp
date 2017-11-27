@@ -19,8 +19,8 @@
 BEGIN_NAMESPACE_MW
 
 
-MacOSStimulusDisplay::MacOSStimulusDisplay(bool announceIndividualStimuli) :
-    StimulusDisplay(announceIndividualStimuli)
+MacOSStimulusDisplay::MacOSStimulusDisplay(bool announceIndividualStimuli, bool useColorManagement) :
+    StimulusDisplay(announceIndividualStimuli, useColorManagement)
 {
     std::memset(&currentOutputTimeStamp, 0, sizeof(currentOutputTimeStamp));
 }
@@ -173,8 +173,10 @@ CVReturn MacOSStimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink
 }
 
 
-boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(bool announceIndividualStimuli) {
-    return boost::make_shared<MacOSStimulusDisplay>(announceIndividualStimuli);
+boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(bool announceIndividualStimuli,
+                                                                                  bool useColorManagement)
+{
+    return boost::make_shared<MacOSStimulusDisplay>(announceIndividualStimuli, useColorManagement);
 }
 
 

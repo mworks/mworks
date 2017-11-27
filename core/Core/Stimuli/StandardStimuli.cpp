@@ -564,7 +564,15 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
             auto height = CGImageGetHeight(image.get());
             aspectRatio = double(width) / double(height);
             
-            auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
+            cf::ObjectPtr<CGColorSpaceRef> colorSpace;
+            if (display->getUseColorManagement()) {
+                // If we're using color management, convert the image to sRGB
+                colorSpace = decltype(colorSpace)::created(CGColorSpaceCreateWithName(kCGColorSpaceSRGB));
+            } else {
+                // Otherwise, draw the image in its current colorspace, so that the color values
+                // are left unchanged
+                colorSpace = decltype(colorSpace)::borrowed(CGImageGetColorSpace(image.get()));
+            }
             
             auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
                                                                                       width,
@@ -589,20 +597,11 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
             glGenTextures(1, &texture);
             gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
             
-#if !MWORKS_OPENGL_ES
-            glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
-            glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
-#endif
-            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-            glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
-            glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-            glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-            glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
-            glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+            gl::resetPixelStorageUnpackParameters();
             
             glTexImage2D(GL_TEXTURE_2D,
                          0,
-                         GL_RGBA8,
+                         (display->getUseColorManagement() ? GL_SRGB8_ALPHA8 : GL_RGBA8),
                          width,
                          height,
                          0,

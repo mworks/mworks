@@ -35,6 +35,8 @@ public:
     void bindDefaultFramebuffer(int context_id) override;
     void flush(int context_id) override;
     
+    std::vector<float> getColorConversionLUTData(int context_id, int numGridPoints) override;
+    
 };
 
 

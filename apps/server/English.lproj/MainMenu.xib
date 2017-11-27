@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -404,6 +404,17 @@
                                                 <binding destination="Npj-AL-FRl" name="value" keyPath="selection.stopOnError" id="bN3-Hx-1Ia"/>
                                             </connections>
                                         </button>
+                                        <button misplaced="YES" id="Szr-er-QIl">
+                                            <rect key="frame" x="15" y="138" width="399" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Warn if stimulus presentation skips a display refresh cycle" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="L6X-mi-44v">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="Npj-AL-FRl" name="value" keyPath="selection.warnOnSkippedRefresh" id="GJs-1G-tAC"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>
@@ -548,17 +559,6 @@
                                                 <binding destination="Npj-AL-FRl" name="value" keyPath="selection.announceIndividualStimuli" id="neG-Gc-uKD"/>
                                             </connections>
                                         </button>
-                                        <button toolTip="Changes take effect immediately." misplaced="YES" id="8tg-3i-kl8">
-                                            <rect key="frame" x="15" y="52" width="399" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Warn if stimulus presentation skips a display refresh cycle" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="f5t-xE-cYk">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <binding destination="Npj-AL-FRl" name="value" keyPath="selection.warnOnSkippedRefresh" id="add-Bo-KwG"/>
-                                            </connections>
-                                        </button>
                                         <popUpButton verticalHuggingPriority="750" id="1Vq-ag-saf">
                                             <rect key="frame" x="142" y="254" width="159" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -590,7 +590,7 @@
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="jqi-Xl-o3N">
                                             <rect key="frame" x="15" y="17" width="348" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Except as noted, changes will affect the next experiment loaded." id="gHx-iP-JeH">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Changes will affect the next experiment loaded." id="gHx-iP-JeH">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -605,6 +605,17 @@
                                             </buttonCell>
                                             <connections>
                                                 <binding destination="Npj-AL-FRl" name="value" keyPath="selection.renderAtFullResolution" id="Dhz-QV-Yxn"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" misplaced="YES" id="Mfp-Mu-vcR">
+                                            <rect key="frame" x="15" y="52" width="163" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Use color management" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ilf-7j-xdr">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="Npj-AL-FRl" name="value" keyPath="selection.useColorManagement" id="pYM-k3-y1q"/>
                                             </connections>
                                         </button>
                                     </subviews>

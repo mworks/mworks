@@ -1,0 +1,46 @@
+//
+// The images used in this test are borrowed from
+// https://ninedegreesbelow.com/photography/linear-gamma-blur-normal-blend.html
+//
+
+
+%define size = 8
+
+
+image_file dandelion (
+    path = 'images/dandelion.jpg'
+    x_size = size
+    )
+
+
+image_file sprig_sky (
+    path = 'images/sprig-sky.jpg'
+    x_size = size
+    alpha_multiplier = 0.5
+    )
+
+
+image_file static_linear (
+    path = 'images/linear-sprig-sky-over-dandelion.jpg'
+    x_size = size
+    x_position = -10
+    )
+
+
+image_file static_nonlinear (
+    path = 'images/regular-sprig-sky-over-dandelion.jpg'
+    x_size = size
+    x_position = 10
+    )
+
+
+protocol {
+    queue_stimulus (static_linear)
+    queue_stimulus (static_nonlinear)
+    queue_stimulus (dandelion)
+    queue_stimulus (sprig_sky)
+    update_display ()
+    report ('The colors in the left and center images should match.')
+    report ('The colors in the right image should look darker than the others.')
+    wait (20s)
+}

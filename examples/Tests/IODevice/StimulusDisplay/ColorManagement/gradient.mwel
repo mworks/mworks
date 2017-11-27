@@ -1,0 +1,43 @@
+//
+// The static images used in this test are borrowed from
+// http://scanline.ca/gradients/
+//
+
+
+%define size = 20
+
+
+image_file static_linear (
+    path = 'images/blackwhite-linear.png'
+    x_size = size
+    y_position = 7
+    )
+
+
+image_file static_nonlinear (
+    path = 'images/blackwhite-nonlinear.png'
+    x_size = size
+    y_position = -7
+    )
+
+
+drifting_grating dynamic (
+    spatial_frequency = 1 / size
+    speed = 0
+    grating_type = sawtooth
+    mask = rectangle
+    x_size = size
+    y_size = 4
+    autoplay = true
+    )
+
+
+protocol {
+    queue_stimulus (static_linear)
+    queue_stimulus (static_nonlinear)
+    queue_stimulus (dynamic)
+    update_display ()
+    report ('The top and middle gradients should match.')
+    report ('The bottom gradient should be darker than the others.')
+    wait (20s)
+}

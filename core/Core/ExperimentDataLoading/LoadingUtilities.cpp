@@ -272,6 +272,7 @@ BEGIN_NAMESPACE_MW
 		int display_to_use = 0;
         bool announce_individual_stimuli = true;
         bool render_at_full_resolution = true;
+        bool use_color_management = true;
         
 		if(main_screen_info != NULL){
 			
@@ -291,9 +292,14 @@ BEGIN_NAMESPACE_MW
             if(val.hasKey(M_RENDER_AT_FULL_RESOLUTION)){
                 render_at_full_resolution = (bool)val.getElement(M_RENDER_AT_FULL_RESOLUTION);
             }
+            
+            if(val.hasKey(M_USE_COLOR_MANAGEMENT)){
+                use_color_management = (bool)val.getElement(M_USE_COLOR_MANAGEMENT);
+            }
 		}
 		
-        auto stimdisplay = StimulusDisplay::createPlatformStimulusDisplay(announce_individual_stimuli);
+        auto stimdisplay = StimulusDisplay::createPlatformStimulusDisplay(announce_individual_stimuli,
+                                                                          use_color_management);
 		int new_context = -1;
         
         

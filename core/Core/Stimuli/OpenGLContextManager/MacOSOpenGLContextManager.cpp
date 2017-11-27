@@ -278,6 +278,119 @@ void MacOSOpenGLContextManager::flush(int context_id) {
 }
 
 
+std::vector<float> MacOSOpenGLContextManager::getColorConversionLUTData(int context_id, int numGridPoints) {
+    @autoreleasepool {
+        std::vector<float> lutData;
+        
+        if (auto view = getView(context_id)) {
+            auto srcProfile = ColorSyncProfilePtr::created(ColorSyncProfileCreateWithName(kColorSyncSRGBProfile));
+            
+            __block ColorSyncProfilePtr dstProfile;
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                dstProfile = ColorSyncProfilePtr::borrowed(static_cast<ColorSyncProfileRef>(view.window.colorSpace.colorSyncProfile));
+            });
+            
+            auto transform = createColorSyncTransform(srcProfile, dstProfile);
+            getColorConversionLUTData(transform, lutData, numGridPoints);
+        }
+        
+        return lutData;
+    }
+}
+
+
+auto MacOSOpenGLContextManager::createColorSyncTransform(const ColorSyncProfilePtr &srcProfile,
+                                                         const ColorSyncProfilePtr &dstProfile)
+    -> ColorSyncTransformPtr
+{
+    std::array<CFTypeRef, 3> keys { kColorSyncProfile, kColorSyncRenderingIntent, kColorSyncTransformTag };
+    std::array<CFTypeRef, 3> srcVals { srcProfile.get(), kColorSyncRenderingIntentUseProfileHeader, kColorSyncTransformDeviceToPCS };
+    std::array<CFTypeRef, 3> dstVals { dstProfile.get(), kColorSyncRenderingIntentUseProfileHeader, kColorSyncTransformPCSToDevice };
+    
+    auto srcDict = cf::DictionaryPtr::created(CFDictionaryCreate(kCFAllocatorDefault,
+                                                                 keys.data(),
+                                                                 srcVals.data(),
+                                                                 srcVals.size(),
+                                                                 &kCFTypeDictionaryKeyCallBacks,
+                                                                 &kCFTypeDictionaryValueCallBacks));
+    
+    auto dstDict = cf::DictionaryPtr::created(CFDictionaryCreate(kCFAllocatorDefault,
+                                                                 keys.data(),
+                                                                 dstVals.data(),
+                                                                 dstVals.size(),
+                                                                 &kCFTypeDictionaryKeyCallBacks,
+                                                                 &kCFTypeDictionaryValueCallBacks));
+    
+    std::array<CFTypeRef, 2>  arrayVals { srcDict.get(), dstDict.get() };
+    auto profileSequence = cf::ArrayPtr::created(CFArrayCreate(kCFAllocatorDefault,
+                                                               arrayVals.data(),
+                                                               arrayVals.size(),
+                                                               &kCFTypeArrayCallBacks));
+    
+    auto transform = ColorSyncTransformPtr::owned(ColorSyncTransformCreate(profileSequence.get(), nullptr));
+    if (!transform) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Unable to create ColorSync transform");
+    }
+    
+    return transform;
+}
+
+
+void MacOSOpenGLContextManager::getColorConversionLUTData(const ColorSyncTransformPtr &transform,
+                                                          std::vector<float> &lutData,
+                                                          int numGridPoints)
+{
+    auto gridPoints = cf::NumberPtr::created(CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &numGridPoints));
+    std::array<CFTypeRef, 1> optKeys { kColorSyncConversionGridPoints };
+    std::array<CFTypeRef, 1> optVals { gridPoints.get() };
+    auto options = cf::DictionaryPtr::created(CFDictionaryCreate(kCFAllocatorDefault,
+                                                                 optKeys.data(),
+                                                                 optVals.data(),
+                                                                 optVals.size(),
+                                                                 &kCFTypeDictionaryKeyCallBacks,
+                                                                 &kCFTypeDictionaryValueCallBacks));
+    
+    auto properties = cf::ArrayPtr::owned
+    (static_cast<CFArrayRef>(ColorSyncTransformCopyProperty(transform.get(),
+                                                            kColorSyncTransformSimplifiedConversionData,
+                                                            options.get())));
+    cf::DictionaryPtr prop;
+    cf::DataPtr data;
+    
+    if (!properties ||
+        CFArrayGetCount(properties.get()) != 1 ||
+        !(prop = cf::DictionaryPtr::borrowed(static_cast<CFDictionaryRef>(CFArrayGetValueAtIndex(properties.get(), 0)))) ||
+        !(data = cf::DataPtr::borrowed(static_cast<CFDataRef>(CFDictionaryGetValue(prop.get(), kColorSyncConversion3DLut)))))
+    {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Unable to obtain color conversion lookup table data");
+    }
+    
+    //
+    // The data returned by ColorSyncTransformCopyProperty is ordered such that the blue channel varies fastest.
+    // However, OpenGL expects red to vary fastest, so we need to reorder the grid points.
+    //
+    
+    constexpr std::size_t numComponents = 3;
+    lutData.resize(numGridPoints * numGridPoints * numGridPoints * numComponents);
+    
+    auto srcPtr = reinterpret_cast<const std::uint16_t *>(CFDataGetBytePtr(data.get()));
+    auto dstPtr = lutData.data();
+    
+    for (int rr = 0; rr < numGridPoints; rr++) {
+        for (int gg = 0; gg < numGridPoints; gg++) {
+            for (int bb = 0; bb < numGridPoints; bb++) {
+                std::ptrdiff_t srcOffset = (rr*numGridPoints*numGridPoints + gg*numGridPoints + bb) * numComponents;
+                std::ptrdiff_t dstOffset = (bb*numGridPoints*numGridPoints + gg*numGridPoints + rr) * numComponents;
+                for (std::size_t i = 0; i < numComponents; i++) {
+                    *(dstPtr + dstOffset + i) = (float(*(srcPtr + srcOffset + i)) /
+                                                 float(std::numeric_limits<std::uint16_t>::max()));
+                }
+            }
+        }
+    }
+}
+
+
 boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
     return boost::make_shared<MacOSOpenGLContextManager>();
 }

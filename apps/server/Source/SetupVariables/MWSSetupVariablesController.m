@@ -45,6 +45,7 @@
                 _mirrorWindowBaseHeight = @(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat());
                 _announceIndividualStimuli = getValueWithDefault(mdi, M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY, true).getBool();
                 _renderAtFullResolution = getValueWithDefault(mdi, M_RENDER_AT_FULL_RESOLUTION, true).getBool();
+                _useColorManagement = getValueWithDefault(mdi, M_USE_COLOR_MANAGEMENT, true).getBool();
             }
         }
         
@@ -157,6 +158,14 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
     [self updateVariable:mw::mainDisplayInfo
                      key:M_RENDER_AT_FULL_RESOLUTION
                    value:bool(renderAtFullResolution)];
+}
+
+
+- (void)setUseColorManagement:(BOOL)useColorManagement {
+    _useColorManagement = useColorManagement;
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_USE_COLOR_MANAGEMENT
+                   value:bool(useColorManagement)];
 }
 
 

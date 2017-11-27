@@ -117,6 +117,44 @@ Program createProgram(const std::vector<GLuint> &shaders) {
 }
 
 
+std::unordered_set<std::string> getSupportedExtensions() {
+    std::unordered_set<std::string> supportedExtensions;
+    
+    GLint numExtensions;
+    glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
+    for (GLuint i = 0; i < numExtensions; i++) {
+        supportedExtensions.emplace(reinterpret_cast<const char *>(glGetStringi(GL_EXTENSIONS, i)));
+    }
+    
+    return supportedExtensions;
+}
+
+
+void logErrors() {
+    GLenum error;
+    while (GL_NO_ERROR != (error = glGetError())) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "GL error = 0x%04X", error);
+    }
+}
+
+
+void resetPixelStorageUnpackParameters(GLint alignment) {
+    //
+    // Set all pixel unpacking parameters to their default values (possibly excluding GL_UNPACK_ALIGNMENT)
+    //
+#if !MWORKS_OPENGL_ES
+    glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
+    glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+#endif
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
+    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+    glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
+}
+
+
 END_NAMESPACE(gl)
 
 

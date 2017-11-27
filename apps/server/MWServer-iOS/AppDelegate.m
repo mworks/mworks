@@ -15,13 +15,14 @@
 #define SERVER_NAME_PREFERENCE @"server_name_preference"
 #define LISTENING_PORT_PREFERENCE @"listening_port_preference"
 #define ALLOW_ALT_FAILOVER_PREFERENCE @"allow_alt_failover_preference"
+#define STOP_ON_ERROR_PREFERENCE @"stop_on_error_preference"
+#define WARN_ON_SKIPPED_REFRESH_PREFERENCE @"warn_on_skipped_refresh_preference"
 #define DISPLAY_WIDTH_PREFERENCE @"display_width_preference"
 #define DISPLAY_HEIGHT_PREFERENCE @"display_height_preference"
 #define DISPLAY_DISTANCE_PREFERENCE @"display_distance_preference"
-#define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
 #define RENDER_AT_FULL_RESOLUTION_PREFERENCE @"render_at_full_resolution_preference"
-#define WARN_ON_SKIPPED_REFRESH_PREFERENCE @"warn_on_skipped_refresh_preference"
-#define STOP_ON_ERROR_PREFERENCE @"stop_on_error_preference"
+#define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
+#define USE_COLOR_MANAGEMENT_PREFERENCE @"use_color_management_preference"
 
 
 @implementation AppDelegate {
@@ -34,10 +35,11 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
     @{
       LISTENING_PORT_PREFERENCE: @(19989),
       ALLOW_ALT_FAILOVER_PREFERENCE: @(YES),
-      ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
-      RENDER_AT_FULL_RESOLUTION_PREFERENCE: @(YES),
+      STOP_ON_ERROR_PREFERENCE: @(NO),
       WARN_ON_SKIPPED_REFRESH_PREFERENCE: @(YES),
-      STOP_ON_ERROR_PREFERENCE: @(NO)
+      RENDER_AT_FULL_RESOLUTION_PREFERENCE: @(YES),
+      ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
+      USE_COLOR_MANAGEMENT_PREFERENCE: @(YES)
       };
     [userDefaults registerDefaults:defaultSettings];
 }
@@ -76,8 +78,9 @@ static void initializeSetupVariables(NSUserDefaults *userDefaults,
     setupVariablesController.mirrorWindowBaseHeight = @(0);
     setupVariablesController.announceIndividualStimuli = [userDefaults boolForKey:ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE];
     setupVariablesController.renderAtFullResolution = [userDefaults boolForKey:RENDER_AT_FULL_RESOLUTION_PREFERENCE];
-    setupVariablesController.warnOnSkippedRefresh = [userDefaults boolForKey:WARN_ON_SKIPPED_REFRESH_PREFERENCE];
+    setupVariablesController.useColorManagement = [userDefaults boolForKey:USE_COLOR_MANAGEMENT_PREFERENCE];
     
+    setupVariablesController.warnOnSkippedRefresh = [userDefaults boolForKey:WARN_ON_SKIPPED_REFRESH_PREFERENCE];
     setupVariablesController.stopOnError = [userDefaults boolForKey:STOP_ON_ERROR_PREFERENCE];
     setupVariablesController.allowAltFailover = [userDefaults boolForKey:ALLOW_ALT_FAILOVER_PREFERENCE];
 }

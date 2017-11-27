@@ -27,14 +27,15 @@
 BEGIN_NAMESPACE_MW
 
 
-StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
+StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli, bool useColorManagement) :
     current_context_index(-1),
     projectionMatrix(GLKMatrix4Identity),
     displayUpdatesStarted(false),
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     announceIndividualStimuli(announceIndividualStimuli),
-    announceStimuliOnImplicitUpdates(true)
+    announceStimuliOnImplicitUpdates(true),
+    useColorManagement(useColorManagement)
 {
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
@@ -183,7 +184,7 @@ namespace {
      )");
     
     
-    const std::string fragmentShaderSource
+    const std::string basicFragmentShaderSource
     (R"(
      uniform sampler2D framebufferTexture;
      
@@ -197,8 +198,54 @@ namespace {
      )");
     
     
+    //
+    // The technique we use for color conversion is adapted from Chapter 24, "Using Lookup Tables to Accelerate
+    // Color Transformations", in "GPU Gems 2":
+    //
+    // https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter24.html
+    //
+    
+    const std::string colorManagedFragmentShaderSource
+    (R"(
+     uniform sampler2D framebufferTexture;
+     
+     uniform highp sampler3D colorLUT;
+     uniform float colorScale;
+     uniform float colorOffset;
+     uniform bool shouldConvertColors;
+     
+     in vec2 varyingTexCoords;
+     
+     out vec4 fragColor;
+     
+     vec3 linearToSRGB(vec3 linear) {
+         vec3 srgb = mix(12.92 * linear,
+                         1.055 * pow(linear, vec3(0.41666)) - 0.055,
+                         vec3(greaterThanEqual(linear, vec3(0.0031308))));
+         // To fully reverse the sRGB-to-linear conversion performed by the GPU, we must first map the
+         // floating-point sRGB color components we just computed back to integers in the range [0, 255],
+         // and then re-normalize them to [0.0, 1.0].  Counterintuitively, this rounding process
+         // results in better-looking output, with less visible banding in grayscale gradients, than using
+         // non-rounded values.  Also, it matches the output we get when we turn off the sRGB-to-linear
+         // conversion using the GL_EXT_texture_sRGB_decode extension.
+         return round(srgb * 255.0) / 255.0;
+     }
+     
+     void main() {
+         vec4 rawColor = texture(framebufferTexture, varyingTexCoords);
+         if (shouldConvertColors) {
+             fragColor.rgb = texture(colorLUT, linearToSRGB(rawColor.rgb) * colorScale + colorOffset).rgb;
+         } else {
+             fragColor.rgb = linearToSRGB(rawColor.rgb);
+         }
+         fragColor.a = rawColor.a;
+     }
+     )");
+    
+    
     constexpr GLint numVertices = 4;
     constexpr GLint componentsPerVertex = 2;
+    constexpr GLint numGridPoints = 32;
     
     
     const std::array<GLfloat, numVertices*componentsPerVertex> vertexPositions
@@ -222,7 +269,9 @@ namespace {
 
 void StimulusDisplay::prepareContext(int contextIndex) {
     auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
-    auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+    auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, (useColorManagement ?
+                                                                colorManagedFragmentShaderSource :
+                                                                basicFragmentShaderSource));
     
     auto &program = programs[contextIndex];
     program = gl::createProgram({ vertexShader.get(), fragmentShader.get() }).release();
@@ -249,6 +298,13 @@ void StimulusDisplay::prepareContext(int contextIndex) {
     GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
     glEnableVertexAttribArray(texCoordsAttribLocation);
     glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+    
+    if (useColorManagement) {
+        glUniform1i(glGetUniformLocation(program, "colorLUT"), 1);
+        glUniform1f(glGetUniformLocation(program, "colorScale"), (GLfloat(numGridPoints) - 1.0f) / GLfloat(numGridPoints));
+        glUniform1f(glGetUniformLocation(program, "colorOffset"), 1.0f / (2.0f * GLfloat(numGridPoints)));
+        glUniform1i(glGetUniformLocation(program, "shouldConvertColors"), createColorConversionLUT(contextIndex));
+    }
 }
 
 
@@ -264,7 +320,7 @@ void StimulusDisplay::allocateFramebufferStorage() {
     
     glTexImage2D(GL_TEXTURE_2D,
                  0,
-                 GL_RGBA8,
+                 (useColorManagement ? GL_SRGB8_ALPHA8 : GL_RGBA8),
                  viewportWidth,
                  viewportHeight,
                  0,
@@ -288,12 +344,60 @@ void StimulusDisplay::allocateFramebufferStorage() {
 }
 
 
+bool StimulusDisplay::createColorConversionLUT(int contextIndex) {
+    auto lutData = opengl_context_manager->getColorConversionLUTData(context_ids.at(contextIndex), numGridPoints);
+    auto &colorConversionLUT = colorConversionLUTs[contextIndex];
+
+    if (lutData.empty()) {
+        // No LUT data means no conversion is required
+        colorConversionLUT = 0;
+        return false;
+    }
+    
+    if (lutData.size() != (numGridPoints * numGridPoints * numGridPoints * 3)) {
+        throw SimpleException("Wrong number of elements in color conversion lookup table data");
+    }
+    
+    glGenTextures(1, &colorConversionLUT);
+    gl::TextureBinding<GL_TEXTURE_3D> colorConversionLUTBinding(colorConversionLUT);
+    
+    gl::resetPixelStorageUnpackParameters(alignof(decltype(lutData)::value_type));
+    
+    glTexImage3D(GL_TEXTURE_3D,
+                 0,
+                 GL_RGB16F,
+                 numGridPoints,
+                 numGridPoints,
+                 numGridPoints,
+                 0,
+                 GL_RGB,
+                 GL_FLOAT,
+                 lutData.data());
+    
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    return true;
+}
+
+
 void StimulusDisplay::drawStoredFramebuffer(int contextIndex) const {
     gl::ProgramUsage programUsage(programs.at(contextIndex));
     gl::VertexArrayBinding vertexArrayBinding(vertexArrays.at(contextIndex));
-    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
+    
+    glBindTexture(GL_TEXTURE_2D, framebufferTexture);
+    if (useColorManagement) {
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_3D, colorConversionLUTs.at(contextIndex));
+    }
     
     glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
+    
+    if (useColorManagement) {
+        glBindTexture(GL_TEXTURE_3D, 0);
+        glActiveTexture(GL_TEXTURE0);
+    }
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
@@ -425,22 +529,21 @@ void StimulusDisplay::clearDisplay() {
 }
 
 
-void StimulusDisplay::glInit() {
+void StimulusDisplay::drawDisplayStack() {
+#if !MWORKS_OPENGL_ES
+    // This has no effect on non-sRGB framebuffers, so we can enable it unconditionally
+    gl::Enabled<GL_FRAMEBUFFER_SRGB> framebufferSRGBEnabled;
+#endif
+    
     glDisable(GL_BLEND);
     glDisable(GL_DITHER);
     
     glClearColor(backgroundRed, backgroundGreen, backgroundBlue, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
-}
-
-
-void StimulusDisplay::drawDisplayStack() {
-    // OpenGL setup
-
-    glInit();
     
+    //
     // Draw all of the stimuli in the chain, back to front
-
+    //
     shared_ptr<StimulusNode> node = display_stack->getBackmost();
     while (node) {
         if (node->isVisible()) {

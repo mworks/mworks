@@ -28,6 +28,7 @@
 #ifdef __OBJC__
 
 #import <AVFoundation/AVFoundation.h>
+#import <CoreImage/CoreImage.h>
 
 #endif /* defined(__OBJC__) */
 

@@ -89,16 +89,17 @@ BEGIN_NAMESPACE_MW
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
         
-        std::map<int, GLuint> programs, vertexArrays;
+        const bool useColorManagement;
+        std::map<int, GLuint> programs, vertexArrays, colorConversionLUTs;
         GLuint framebuffer = 0;
         GLuint framebufferTexture = 0;
         
         virtual void prepareContext(int contextIndex);
         virtual void setMainDisplayRefreshRate() = 0;
         void allocateFramebufferStorage();
+        bool createColorConversionLUT(int contextIndex);
         void drawStoredFramebuffer(int contextIndex) const;
 		
-        void glInit();
 		void setDisplayBounds();
         void refreshMainDisplay();
         void refreshMirrorDisplay(int contextIndex) const;
@@ -123,7 +124,7 @@ BEGIN_NAMESPACE_MW
                                      double &bottom,
                                      double &top);
 		
-		explicit StimulusDisplay(bool announceIndividualStimuli);
+        StimulusDisplay(bool announceIndividualStimuli, bool useColorManagement);
 		virtual ~StimulusDisplay();
 		
 		void addContext(int _context_id);
@@ -142,6 +143,7 @@ BEGIN_NAMESPACE_MW
 		
         void setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue);
         void setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates);
+        bool getUseColorManagement() const { return useColorManagement; }
 		MWTime updateDisplay();
 		void clearDisplay();
         void getDisplayBounds(double &left, double &right, double &bottom, double &top);
@@ -149,7 +151,8 @@ BEGIN_NAMESPACE_MW
         double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
         MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
         
-        static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool announceIndividualStimuli);
+        static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool announceIndividualStimuli,
+                                                                                bool useColorManagement);
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
 	};
 

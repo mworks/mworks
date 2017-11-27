@@ -148,7 +148,7 @@ void TextStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     currentFontName = fontName->getValue().getString();
     currentFontSize = fontSize->getValue().getFloat();
     
-    bindTexture();
+    bindTexture(display);
 }
 
 
@@ -163,7 +163,7 @@ void TextStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
 }
 
 
-void TextStimulus::bindTexture() {
+void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display) {
     if (texture &&
         (fullscreen || (current_sizex == last_sizex && current_sizey == last_sizey)) &&
         currentText == lastText &&
@@ -179,7 +179,9 @@ void TextStimulus::bindTexture() {
     // Create a bitmap context
     const std::size_t bitmapWidth = (fullscreen ? viewportWidth : (current_sizex * pixelsPerDegree));
     const std::size_t bitmapHeight = (fullscreen ? viewportHeight : (current_sizey * pixelsPerDegree));
-    auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
+    auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(display->getUseColorManagement() ?
+                                                              CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
+                                                              CGColorSpaceCreateDeviceRGB());
     auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
                                                                               bitmapWidth,
                                                                               bitmapHeight,
@@ -201,14 +203,12 @@ void TextStimulus::bindTexture() {
     auto attrString = cf::ObjectPtr<CFMutableAttributedStringRef>::created(CFAttributedStringCreateMutable(kCFAllocatorDefault, 0));
     CFAttributedStringReplaceString(attrString.get(), CFRangeMake(0, 0), createCFString(currentText).get());
     const auto fullRange = CFRangeMake(0, CFAttributedStringGetLength(attrString.get()));
+    const std::array<CGFloat, 4> colorComponents { 1.0, 1.0, 1.0, 1.0 };
+    auto color = cf::ObjectPtr<CGColorRef>::created(CGColorCreate(colorSpace.get(), colorComponents.data()));
     CFAttributedStringSetAttribute(attrString.get(),
                                    fullRange,
                                    kCTForegroundColorAttributeName,
-#if TARGET_OS_IPHONE
-                                   UIColor.whiteColor.CGColor);
-#else
-                                   CGColorGetConstantColor(kCGColorWhite));
-#endif
+                                   color.get());
     auto font = cf::ObjectPtr<CTFontRef>::created(CTFontCreateWithName(createCFString(currentFontName).get(),
                                                                        currentFontSize,
                                                                        nullptr));
@@ -244,20 +244,11 @@ void TextStimulus::bindTexture() {
     }
     glBindTexture(GL_TEXTURE_2D, texture);
     
-#if !MWORKS_OPENGL_ES
-    glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
-    glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
-#endif
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
-    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-    glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    gl::resetPixelStorageUnpackParameters();
     
     glTexImage2D(GL_TEXTURE_2D,
                  0,
-                 GL_RGBA8,
+                 (display->getUseColorManagement() ? GL_SRGB8_ALPHA8 : GL_RGBA8),
                  bitmapWidth,
                  bitmapHeight,
                  0,

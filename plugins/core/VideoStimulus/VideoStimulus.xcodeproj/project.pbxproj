@@ -44,6 +44,8 @@
 		E15C72F51E6DFF9D001CE0C0 /* VideoStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */; };
 		E1738F3B1DAD5BDA00B72222 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1738F391DAD5BDA00B72222 /* MWComponents.yaml */; };
 		E1738F3C1DAD5BDA00B72222 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */; };
+		E17B66801FD9966700941E70 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17B667F1FD9966700941E70 /* CoreImage.framework */; };
+		E17B66821FD9972400941E70 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17B66811FD9972400941E70 /* CoreGraphics.framework */; };
 		E1E780101D9D7CC400A04814 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */; };
 		E1FAA1A31D9977A100BA5D9B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FAA1A21D9977A100BA5D9B /* OpenGL.framework */; };
 		E1FAA1A51D99BB9400BA5D9B /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FAA1A41D99BB9400BA5D9B /* libboost_filesystem.a */; };
@@ -97,6 +99,8 @@
 		E15C72F01E6DFE43001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1738F391DAD5BDA00B72222 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		E17B667F1FD9966700941E70 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		E17B66811FD9972400941E70 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E1FAA1A21D9977A100BA5D9B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E1FAA1A41D99BB9400BA5D9B /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
@@ -109,6 +113,8 @@
 			files = (
 				E1556E1A1D945F6000AE70F9 /* MWorksCore.framework in Frameworks */,
 				E14D7C531D95AEBE00748503 /* AVFoundation.framework in Frameworks */,
+				E17B66821FD9972400941E70 /* CoreGraphics.framework in Frameworks */,
+				E17B66801FD9966700941E70 /* CoreImage.framework in Frameworks */,
 				E1E780101D9D7CC400A04814 /* CoreMedia.framework in Frameworks */,
 				E14D7C551D95B1C200748503 /* CoreVideo.framework in Frameworks */,
 				E1FAA1A31D9977A100BA5D9B /* OpenGL.framework in Frameworks */,
@@ -185,6 +191,8 @@
 			children = (
 				E1556E191D945F6000AE70F9 /* MWorksCore.framework */,
 				E14D7C521D95AEBE00748503 /* AVFoundation.framework */,
+				E17B66811FD9972400941E70 /* CoreGraphics.framework */,
+				E17B667F1FD9966700941E70 /* CoreImage.framework */,
 				E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */,
 				E14D7C541D95B1C200748503 /* CoreVideo.framework */,
 				E1FAA1A21D9977A100BA5D9B /* OpenGL.framework */,
@@ -390,6 +398,10 @@
 					"$(inherited)",
 					"-framework",
 					AVFoundation,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CoreImage,
 					"-framework",
 					CoreMedia,
 					"-framework",

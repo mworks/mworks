@@ -68,6 +68,16 @@
 		</dict>
 		<dict>
 			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Warn on skipped refreshes</string>
+			<key>Key</key>
+			<string>warn_on_skipped_refresh_preference</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Stimulus Display</string>
@@ -144,9 +154,9 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Warn on skipped refreshes</string>
+			<string>Use color management</string>
 			<key>Key</key>
-			<string>warn_on_skipped_refresh_preference</string>
+			<string>use_color_management_preference</string>
 			<key>DefaultValue</key>
 			<true/>
 		</dict>

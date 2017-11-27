@@ -11,6 +11,7 @@
 #include <IOKit/pwr_mgt/IOPMLib.h>
 
 #include "AppleOpenGLContextManager.hpp"
+#include "CFObjectPtr.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -35,7 +36,18 @@ public:
     void bindDefaultFramebuffer(int context_id) override;
     void flush(int context_id) override;
     
+    std::vector<float> getColorConversionLUTData(int context_id, int numGridPoints) override;
+    
 private:
+    using ColorSyncProfilePtr = cf::ObjectPtr<ColorSyncProfileRef>;
+    using ColorSyncTransformPtr = cf::ObjectPtr<ColorSyncTransformRef>;
+    
+    static ColorSyncTransformPtr createColorSyncTransform(const ColorSyncProfilePtr &srcProfile,
+                                                          const ColorSyncProfilePtr &dstProfile);
+    static void getColorConversionLUTData(const ColorSyncTransformPtr &transform,
+                                          std::vector<float> &lutData,
+                                          int numGridPoints);
+    
     IOPMAssertionID display_sleep_block;
     
 };
