@@ -297,6 +297,13 @@ const std::string WhiteNoiseBackground::vertexShaderSource
  )");
 
 
+//
+// The technique we use to generate noise on the GPU is adapted from Chapter 37, "Efficient Random Number
+// Generation and Application Using CUDA", in "GPU Gems 3":
+//
+// https://developer.nvidia.com/gpugems/GPUGems3/gpugems3_ch37.html
+//
+
 const std::string WhiteNoiseBackground::noiseGenFragmentShaderSource
 (R"(
  precision highp int;
