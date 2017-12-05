@@ -33,19 +33,18 @@
         {
             mw::Datum mdi = mw::mainDisplayInfo->getValue();
             if (mdi.isDictionary()) {
-                _displayToUse = [[NSNumber alloc] initWithLong:(setDefaultAndGetValue(mdi, M_DISPLAY_TO_USE_KEY, -1).getInteger() + 1)];
+                // NOTE: The default values used with getValueWithDefault are chosen to match the defaults used
+                // in mw::prepareStimulusDisplay.  If the defaults in prepareStimulusDisplay change, the defaults
+                // used here need to change, too.
+                _displayToUse = [[NSNumber alloc] initWithLong:(getValueWithDefault(mdi, M_DISPLAY_TO_USE_KEY, 0).getInteger() + 1)];
                 _displayWidth = @(mdi.getElement(M_DISPLAY_WIDTH_KEY).getFloat());
                 _displayHeight = @(mdi.getElement(M_DISPLAY_HEIGHT_KEY).getFloat());
                 _displayDistance = @(mdi.getElement(M_DISPLAY_DISTANCE_KEY).getFloat());
                 _displayRefreshRateHz = @(mdi.getElement(M_REFRESH_RATE_KEY).getFloat());
-                _alwaysDisplayMirrorWindow = setDefaultAndGetValue(mdi, M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, false).getBool();
+                _alwaysDisplayMirrorWindow = getValueWithDefault(mdi, M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, false).getBool();
                 _mirrorWindowBaseHeight = @(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat());
-                _announceIndividualStimuli = setDefaultAndGetValue(mdi, M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY, true).getBool();
-                _renderAtFullResolution = setDefaultAndGetValue(mdi, M_RENDER_AT_FULL_RESOLUTION, true).getBool();
-                
-                // Save any defaults we added.  Note that we need to serialize the changes, because
-                // setup_variables.xml is re-read from disk when an experiment is loaded.
-                [self updateVariable:mw::mainDisplayInfo value:mdi];
+                _announceIndividualStimuli = getValueWithDefault(mdi, M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY, true).getBool();
+                _renderAtFullResolution = getValueWithDefault(mdi, M_RENDER_AT_FULL_RESOLUTION, true).getBool();
             }
         }
         
@@ -58,11 +57,10 @@
 }
 
 
-static mw::Datum setDefaultAndGetValue(mw::Datum &dict, const char *key, const mw::Datum &defaultValue) {
+static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, const mw::Datum &defaultValue) {
     if (dict.hasKey(key)) {
         return dict.getElement(key);
     }
-    dict.addElement(key, defaultValue);
     return defaultValue;
 }
 
