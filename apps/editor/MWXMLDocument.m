@@ -88,7 +88,10 @@
 			
 			if(xmlPluginPath != nil) {
                 //NSLog(@"Loading %@", pluginName);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 				NSXMLNode *library_url_node = [NSXMLNode elementWithName:@"url" stringValue:[NSString stringWithString:[xmlPluginPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
+#pragma clang diagnostic pop
 				[root addChild:library_url_node];
 			}
 		}

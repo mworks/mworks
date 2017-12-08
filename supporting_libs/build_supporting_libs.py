@@ -428,9 +428,9 @@ def numpy():
     # NOTE: We need to use the version of numpy that's distributed with
     # MACOSX_DEPLOYMENT_TARGET
     version = {
-        '10.10': '1.8.0',
         '10.11': '1.8.0',
         '10.12': '1.8.0',
+        '10.13': '1.8.0',
         }[os.environ['MACOSX_DEPLOYMENT_TARGET']]
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
