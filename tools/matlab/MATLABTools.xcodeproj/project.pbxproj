@@ -225,7 +225,6 @@
 				E1523D7816766AE400069B10 /* WARNING.txt */,
 			);
 			name = "External Config";
-			path = MATLABTools;
 			sourceTree = "<group>";
 		};
 		E1523DA216767C7F00069B10 /* Helpers */ = {
@@ -291,6 +290,23 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "MWorks Project";
+				TargetAttributes = {
+					E12F1A631678E19F007F0ECE = {
+						ProvisioningStyle = Automatic;
+					};
+					E12F1A681678E53E007F0ECE = {
+						ProvisioningStyle = Automatic;
+					};
+					E1523D61167669BF00069B10 = {
+						ProvisioningStyle = Automatic;
+					};
+					E1CEE14C16CA9F39000BCB71 = {
+						ProvisioningStyle = Automatic;
+					};
+					E1D2C0EF167B9A710030EF33 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = E1523D5C167669BF00069B10 /* Build configuration list for PBXProject "MATLABTools" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -401,7 +417,7 @@
 				MATLAB_ARCH_x86_64 = maci64;
 				MATLAB_DIR = "/Applications/MATLAB_$(MW_MATLAB_VERSION).app";
 				MW_MATLAB_DIR = "$(MW_SCRIPTING_DIR)/Matlab";
-				MW_MATLAB_VERSION = R2014b;
+				MW_MATLAB_VERSION = R2015b;
 			};
 			name = Development;
 		};
