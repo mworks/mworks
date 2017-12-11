@@ -209,7 +209,13 @@ def main():
     check_call(['/bin/cp', '../../LICENSE.txt', dmg_contents_dir])
 
     output_file = os.path.join(installer_root, '%s-%s.dmg' % (installer_name, installer_version))
-    check_call(['/usr/bin/hdiutil', 'create', '-srcfolder', dmg_contents_dir, output_file])
+    check_call([
+        '/usr/bin/hdiutil',
+        'create',
+        '-fs', 'HFS+',
+        '-srcfolder', dmg_contents_dir,
+        output_file,
+        ])
     if signing_name:
         codesign(signing_name, output_file)
 
