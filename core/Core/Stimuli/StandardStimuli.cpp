@@ -564,15 +564,11 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
             auto height = CGImageGetHeight(image.get());
             aspectRatio = double(width) / double(height);
             
-            cf::ObjectPtr<CGColorSpaceRef> colorSpace;
-            if (display->getUseColorManagement()) {
-                // If we're using color management, convert the image to sRGB
-                colorSpace = decltype(colorSpace)::created(CGColorSpaceCreateWithName(kCGColorSpaceSRGB));
-            } else {
-                // Otherwise, draw the image in its current colorspace, so that the color values
-                // are left unchanged
-                colorSpace = decltype(colorSpace)::borrowed(CGImageGetColorSpace(image.get()));
-            }
+            // If we're using color management, convert the image to sRGB.  Otherwise, draw it in the
+            // device-dependent RGB color space.
+            auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(display->getUseColorManagement() ?
+                                                                      CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
+                                                                      CGColorSpaceCreateDeviceRGB());
             
             auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
                                                                                       width,

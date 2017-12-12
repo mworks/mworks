@@ -5,7 +5,7 @@
 
 
 image_file car (
-    path = 'images/S2fzq.jpg'
+    path = 'S2fzq.jpg'
     x_size = 20
     )
 
