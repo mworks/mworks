@@ -56,7 +56,8 @@ VideoStimulus::VideoStimulus(const ParameterValueMap &parameters) :
     pixelBufferWidth(0),
     pixelBufferHeight(0),
     aspectRatio(0.0),
-    textureReady(false)
+    textureReady(false),
+    colorConversionContext(nil)
 {
     @autoreleasepool {
         if (!(parameters[ENDED].empty())) {
@@ -84,12 +85,15 @@ VideoStimulus::VideoStimulus(const ParameterValueMap &parameters) :
                                                                                 object:nil
                                                                                  queue:nullptr
                                                                             usingBlock:observerCallback];
+        
+        colorConversionContext = [[CIContext context] retain];
     }
 }
 
 
 VideoStimulus::~VideoStimulus() {
     @autoreleasepool {
+        [colorConversionContext release];
         [[NSNotificationCenter defaultCenter] removeObserver:playedToEndObserver];
         [videoOutput release];
         [pixelBufferAttributes release];
@@ -233,6 +237,8 @@ void VideoStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
         
         glDeleteBuffers(1, &texCoordsBuffer);
         glDeleteTextures(1, &texture);
+        
+        convertedPixelBuffer.reset();
         pixelBuffer.reset();
         
         [player replaceCurrentItemWithPlayerItem:nil];
@@ -353,26 +359,27 @@ bool VideoStimulus::checkForNewPixelBuffer(const boost::shared_ptr<StimulusDispl
         // If the stimulus display is color managed, use CoreImage to convert the new pixel buffer to sRGB
         //
         if (display->getUseColorManagement()) {
-            CVPixelBufferRef _convertedPixelBuffer = nullptr;
-            auto status = CVPixelBufferCreate(kCFAllocatorDefault,
-                                              newWidth,
-                                              newHeight,
-                                              kCVPixelFormatType_32BGRA,
-                                              (CFDictionaryRef)pixelBufferAttributes,
-                                              &_convertedPixelBuffer);
-            if (status != kCVReturnSuccess) {
-                merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create pixel buffer (error = %d)", status);
-                return false;
+            if (newWidth != pixelBufferWidth || newHeight != pixelBufferHeight) {
+                CVPixelBufferRef _convertedPixelBuffer = nullptr;
+                auto status = CVPixelBufferCreate(kCFAllocatorDefault,
+                                                  newWidth,
+                                                  newHeight,
+                                                  kCVPixelFormatType_32BGRA,
+                                                  (CFDictionaryRef)pixelBufferAttributes,
+                                                  &_convertedPixelBuffer);
+                if (status != kCVReturnSuccess) {
+                    merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create pixel buffer (error = %d)", status);
+                    return false;
+                }
+                convertedPixelBuffer = PixelBufferPtr::owned(_convertedPixelBuffer);
             }
-            auto convertedPixelBuffer = PixelBufferPtr::owned(_convertedPixelBuffer);
             
-            CIContext *context = [CIContext context];
             CIImage *image = [CIImage imageWithCVPixelBuffer:newPixelBuffer.get()];
             auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateWithName(kCGColorSpaceSRGB));
-            [context render:image
-            toCVPixelBuffer:convertedPixelBuffer.get()
-                     bounds:CGRectMake(0, 0, newWidth, newHeight)
-                 colorSpace:colorSpace.get()];
+            [colorConversionContext render:image
+                           toCVPixelBuffer:convertedPixelBuffer.get()
+                                    bounds:CGRectMake(0, 0, newWidth, newHeight)
+                                colorSpace:colorSpace.get()];
             
             newPixelBuffer = convertedPixelBuffer;
         }

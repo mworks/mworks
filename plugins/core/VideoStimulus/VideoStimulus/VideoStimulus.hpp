@@ -71,10 +71,13 @@ private:
     
     using PixelBufferPtr = cf::ObjectPtr<CVPixelBufferRef>;
     PixelBufferPtr pixelBuffer;
+    PixelBufferPtr convertedPixelBuffer;
     std::size_t pixelBufferWidth;
     std::size_t pixelBufferHeight;
     double aspectRatio;
     bool textureReady;
+    
+    CIContext *colorConversionContext;
     
 #if TARGET_OS_IPHONE
     static constexpr GLenum textureTarget = GL_TEXTURE_2D;
