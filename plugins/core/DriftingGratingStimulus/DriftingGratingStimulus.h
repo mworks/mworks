@@ -24,6 +24,7 @@ public:
     static const std::string STARTING_PHASE;
     static const std::string FREQUENCY;
     static const std::string SPEED;
+    static const std::string COMPUTE_PHASE_INCREMENTALLY;
     static const std::string GRATING_TYPE;
     static const std::string MASK;
     static const std::string INVERTED;
@@ -65,11 +66,13 @@ private:
     void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     
     void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
+    void stopPlaying() override;
     
     const boost::shared_ptr<Variable> direction_in_degrees;
     const boost::shared_ptr<Variable> starting_phase;
     const boost::shared_ptr<Variable> spatial_frequency;
     const boost::shared_ptr<Variable> speed;
+    const bool computePhaseIncrementally;
     const boost::shared_ptr<Variable> gratingTypeName;
     const boost::shared_ptr<Variable> maskTypeName;
     const boost::shared_ptr<Variable> inverted;
@@ -95,6 +98,7 @@ private:
     double last_std_dev, last_mean;
     bool last_normalized;
     
+    double lastElapsedSeconds;
     double last_phase;
     
     double displayWidth, displayHeight;

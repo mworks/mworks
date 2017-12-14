@@ -17,6 +17,7 @@ const std::string DriftingGratingStimulus::DIRECTION("direction");
 const std::string DriftingGratingStimulus::STARTING_PHASE("starting_phase");
 const std::string DriftingGratingStimulus::FREQUENCY("spatial_frequency");
 const std::string DriftingGratingStimulus::SPEED("speed");
+const std::string DriftingGratingStimulus::COMPUTE_PHASE_INCREMENTALLY("compute_phase_incrementally");
 const std::string DriftingGratingStimulus::GRATING_TYPE("grating_type");
 const std::string DriftingGratingStimulus::MASK("mask");
 const std::string DriftingGratingStimulus::INVERTED("inverted");
@@ -34,6 +35,7 @@ void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(STARTING_PHASE, "0.0");
     info.addParameter(FREQUENCY);
     info.addParameter(SPEED);
+    info.addParameter(COMPUTE_PHASE_INCREMENTALLY, "NO");
     info.addParameter(GRATING_TYPE);
     info.addParameter(MASK);
     info.addParameter(INVERTED, "NO");
@@ -80,12 +82,14 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
     starting_phase(registerVariable(parameters[STARTING_PHASE])),
     spatial_frequency(registerVariable(parameters[FREQUENCY])),
     speed(registerVariable(parameters[SPEED])),
+    computePhaseIncrementally(parameters[COMPUTE_PHASE_INCREMENTALLY]),
     gratingTypeName(registerVariable(variableOrText(parameters[GRATING_TYPE]))),
     maskTypeName(registerVariable(variableOrText(parameters[MASK]))),
     inverted(registerVariable(parameters[INVERTED])),
     std_dev(registerVariable(parameters[STD_DEV])),
     mean(registerVariable(parameters[MEAN])),
     normalized(registerVariable(parameters[NORMALIZED])),
+    lastElapsedSeconds(-1.0),
     displayWidth(0.0),
     displayHeight(0.0)
 { }
@@ -99,7 +103,7 @@ Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_TYPE, "drifting_grating");
     announceData.addElement(DIRECTION, last_direction_in_degrees);
     announceData.addElement(STARTING_PHASE, last_starting_phase);
-    announceData.addElement("current_phase", last_phase);
+    announceData.addElement("current_phase", last_phase*(180/M_PI));
     announceData.addElement(FREQUENCY, last_spatial_frequency);
     announceData.addElement(SPEED, last_speed);
     announceData.addElement(GRATING_TYPE, last_grating_type_name);
@@ -337,11 +341,15 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     //    s      degree   1000000 us   180 degrees
     //
     // multiply by -1 so it the grating goes in the correct direction
-    MWTime elapsed_time = getElapsedTime();
-    double elapsed_seconds = (double)elapsed_time /  (double)1000000;
-    const double phase = -1*(current_starting_phase*(M_PI/180.) + current_speed*current_spatial_frequency*(2.*M_PI)*elapsed_seconds);
-    const double direction_in_radians = current_direction_in_degrees*(M_PI/180.);
+    const double elapsed_seconds = double(getElapsedTime()) / 1000000.0;
+    double phase = 2.0 * M_PI * current_speed * current_spatial_frequency;
+    if (!computePhaseIncrementally || (lastElapsedSeconds <= 0.0)) {
+        phase = -((M_PI / 180.0) * current_starting_phase + phase * elapsed_seconds);
+    } else {
+        phase = last_phase - phase * (elapsed_seconds - lastElapsedSeconds);
+    }
     
+    const double direction_in_radians = current_direction_in_degrees*(M_PI/180.);
     const float f = std::cos(direction_in_radians);
     const float g = std::sin(direction_in_radians);
     const float d = ((f+g)-1)/2;
@@ -380,7 +388,8 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     arrayBufferBinding.bind(maskCoordsBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(maskCoords), maskCoords.data(), GL_STREAM_DRAW);
     
-    last_phase = phase*(180/M_PI);
+    lastElapsedSeconds = elapsed_seconds;
+    last_phase = phase;
 }
 
 
@@ -417,6 +426,12 @@ void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> displ
     last_std_dev = current_std_dev;
     last_mean = current_mean;
     last_normalized = current_normalized;
+}
+
+
+void DriftingGratingStimulus::stopPlaying() {
+    DriftingGratingStimulusBase::stopPlaying();
+    lastElapsedSeconds = -1.0;
 }
 
 

@@ -1,0 +1,55 @@
+var starting_phase (0) {
+    report ('starting_phase = $starting_phase')
+}
+var speed (1) {
+    report ('speed = $speed')
+}
+
+
+%define test_grating (y_position, compute_phase_incrementally)
+    drifting_grating (
+        starting_phase = starting_phase
+        spatial_frequency = 0.5
+        speed = speed
+        compute_phase_incrementally = compute_phase_incrementally
+        grating_type = square
+        mask = rectangle
+        x_size = 20
+        y_size = 8
+        y_position = y_position
+        autoplay = true
+        )
+%end
+
+
+test_grating dg1 (
+    y_position = 5
+    compute_phase_incrementally = false
+    )
+
+
+test_grating dg2 (
+    y_position = -5
+    compute_phase_incrementally = true
+    )
+
+
+protocol {
+    live_queue_stimulus (dg1)
+    live_queue_stimulus (dg2)
+    update_display ()
+
+    report ('The phase of the top grating should jump when the parameters change.')
+    report ('The phase of the bottom grating should not jump.')
+
+    block (nsamples = 4) {
+        starting_phase = 0
+        wait (2s)
+        starting_phase = 180
+        wait (2s)
+        speed = 3.75
+        wait (2s)
+        speed = 1
+        wait (2s)
+    }
+}

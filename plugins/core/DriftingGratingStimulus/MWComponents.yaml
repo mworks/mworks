@@ -25,6 +25,24 @@ parameters:
     example: 1
     description: Drift speed (degrees per second)
   - 
+    name: compute_phase_incrementally
+    default: 'NO'
+    description: |
+        If ``NO``, the current phase of the grating is computed from
+        `starting_phase`_, `spatial_frequency`_, `speed`_, and the total time
+        elapsed  since the stimulus started playing.
+
+        If ``YES``, the current phase is computed from the previous phase (i.e.
+        the phase when the stimulus was last drawn), `spatial_frequency`_,
+        `speed`_, and the time elapsed since the previous phase was computed.
+
+        This parameter is relevant only when the stimulus is `live queued <Live
+        Queue Stimulus>` and the values of `starting_phase`_,
+        `spatial_frequency`_, and/or `speed`_ are changed while the stimulus is
+        playing.  Most notably, if the parameter's value is ``NO``, then changes
+        to `speed`_ will cause a discontinuous jump in phase.  If the value is
+        ``YES``, then changes to `speed`_ will be smooth, with no phase jump.
+  - 
     name: grating_type
     required: yes
     options: [sinusoid, square, triangle, sawtooth]
