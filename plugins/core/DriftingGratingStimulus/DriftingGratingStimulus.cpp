@@ -106,6 +106,7 @@ Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement("current_phase", last_phase*(180/M_PI));
     announceData.addElement(FREQUENCY, last_spatial_frequency);
     announceData.addElement(SPEED, last_speed);
+    announceData.addElement(COMPUTE_PHASE_INCREMENTALLY, computePhaseIncrementally);
     announceData.addElement(GRATING_TYPE, last_grating_type_name);
     announceData.addElement(MASK, last_mask_type_name);
     
