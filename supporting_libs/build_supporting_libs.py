@@ -282,7 +282,7 @@ def run_configure_and_make(
 
 @builder
 def boost(ios=True):
-    version = '1.65.1'
+    version = '1.66.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -291,11 +291,10 @@ def boost(ios=True):
         project_config_jam_orig = project_config_jam + '.orig'
 
         if not os.path.isdir(srcdir):
-            download_archive_from_sf('boost/boost', version, tarfile)
+            download_archive('https://dl.bintray.com/boostorg/release/%s/source/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 os.symlink('boost', 'mworks_boost')
-                apply_patch('boost_clock_gettime.patch')
                 check_call([
                     './bootstrap.sh',
                     '--prefix=' + prefix,
