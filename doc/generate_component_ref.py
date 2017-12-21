@@ -39,6 +39,17 @@ all_basenames = set()
 groups = {}
 components = {}
 group_members = defaultdict(set)
+abstract_to_concrete = defaultdict(set)
+abstract_to_group = {
+    'Action': 'Actions',
+    'Calibrator': 'Filters',
+    'Filter': 'Filters',
+    'IODevice': 'Input/Output',
+    'Optimizer': 'Optimizers and Variable Monitors',
+    'Resource': 'Resources',
+    'Stimulus': 'Stimuli',
+    'Transition': 'Transitions',
+}
 
 
 def register_element(info):
@@ -86,6 +97,13 @@ def register_element(info):
         if parameters:
             info['parameters'] = parameters
         abstract = info.get('abstract', False)
+        if not abstract:
+            for ancestor_name in isa:
+                if ancestor_name == name:
+                    continue
+                ancestor_info = components[ancestor_name]
+                if ancestor_info.get('abstract', False):
+                    abstract_to_concrete[ancestor_name].add(name)
         assert group or abstract, 'No groups for %r' % name
         for g in group:
             if not abstract:
@@ -102,6 +120,11 @@ for filename in yaml_files:
     with open(filename) as fp:
         for info in yaml.safe_load_all(fp):
             register_element(info)
+
+allowed_parents = defaultdict(set)
+for name, info in components.items():
+    for child_name in info['allowed_child']:
+        allowed_parents[child_name].add(name)
 
 # Serialize the components map for use by other tools
 if not os.path.isdir(doc_dir):
@@ -210,6 +233,16 @@ def write_parameters(fp, kind, params):
         print(file=fp)
 
 
+def add_relation(name, relations):
+    info = components[name]
+    if not info.get('abstract', False):
+        relations.add(name)
+    elif name not in abstract_to_group:
+        relations.update(abstract_to_concrete[name])
+    else:
+        relations.add('%s <%s>' % (name, abstract_to_group[name]))
+
+
 def write_entry(title, info):
     with write_if_needed(info['basename'] + '.rst') as fp:
         write_warning(fp)
@@ -271,6 +304,34 @@ def write_entry(title, info):
                 write_parameters(fp, 'Optional', optional)
             if deprecated:
                 write_parameters(fp, 'Deprecated', deprecated)
+
+        print('\n', file=fp)
+        write_header(fp, 'Placement', '-')
+        print('''.. list-table::
+   :widths: auto
+   :stub-columns: 1
+''', file=fp)
+        print('   * - Allowed at top level:', file=fp)
+        print('     -',
+              ('Yes' if info.get('toplevel', False) else 'No'),
+              file=fp)
+        allowed_parent = set()
+        for ancestor_name in info['isa']:
+            for parent_name in allowed_parents[ancestor_name]:
+                add_relation(parent_name, allowed_parent)
+        if allowed_parent:
+            print('   * - Allowed parent:', file=fp)
+            print('     -',
+                  ', '.join(('`%s`' % c) for c in sorted(allowed_parent)),
+                  file=fp)
+        allowed_children = set()
+        for child_name in info['allowed_child']:
+            add_relation(child_name, allowed_children)
+        if allowed_children:
+            print('   * - Allowed children:', file=fp)
+            print('     -',
+                  ', '.join(('`%s`' % c) for c in sorted(allowed_children)),
+                  file=fp)
 
 
 for name, info in components.items():
