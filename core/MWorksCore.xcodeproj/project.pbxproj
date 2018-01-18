@@ -235,8 +235,6 @@
 		5CE30A500CFA49D600BEB3E3 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE30A4E0CFA49D600BEB3E3 /* Component.cpp */; };
 		5CE65B9B0B619FF70060AB37 /* LinkedListTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE65B930B619C930060AB37 /* LinkedListTest.h */; };
 		5CE65B9C0B619FFA0060AB37 /* LinkedListTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE65B940B619C930060AB37 /* LinkedListTest.cpp */; };
-		5CEDF6650D84E5E60044D738 /* Debugging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF6630D84E5E60044D738 /* Debugging.cpp */; };
-		5CEDF6660D84E5E60044D738 /* Debugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CEDF6640D84E5E60044D738 /* Debugging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CEFD82C0D4D1D6200EA9950 /* Exceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CEFD82A0D4D1D6200EA9950 /* Exceptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CEFD82D0D4D1D6200EA9950 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CEFD82B0D4D1D6200EA9950 /* Exceptions.cpp */; };
 		5CF73C6408625E4D00F453C3 /* ZenScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF73BCD0862537E00F453C3 /* ZenScheduler.cpp */; };
@@ -551,8 +549,6 @@
 		E17917311E4E541F00528B91 /* RandomWithReplacementSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 682A94B50CA9AB61001DE3E2 /* RandomWithReplacementSelection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917321E4E542500528B91 /* RandomWithReplacementSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 682A94B60CA9AB61001DE3E2 /* RandomWithReplacementSelection.cpp */; };
 		E17917331E4E543700528B91 /* PulseAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC71620EDBB14000FFABA8 /* PulseAction.cpp */; };
-		E17917341E4E546C00528B91 /* Debugging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF6630D84E5E60044D738 /* Debugging.cpp */; };
-		E17917351E4E546F00528B91 /* Debugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CEDF6640D84E5E60044D738 /* Debugging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917361E4E547400528B91 /* Clock.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1A107E9F95600C68AEF /* Clock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917371E4E547900528B91 /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1A007E9F95600C68AEF /* Clock.cpp */; };
 		E17917381E4E547D00528B91 /* Announcers.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E28B5FA0A6C317E00DA6287 /* Announcers.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1106,8 +1102,6 @@
 		5CE30A4E0CFA49D600BEB3E3 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Component.cpp; path = Core/PluginServices/Component.cpp; sourceTree = "<group>"; };
 		5CE65B930B619C930060AB37 /* LinkedListTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedListTest.h; sourceTree = "<group>"; };
 		5CE65B940B619C930060AB37 /* LinkedListTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LinkedListTest.cpp; sourceTree = "<group>"; };
-		5CEDF6630D84E5E60044D738 /* Debugging.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Debugging.cpp; path = Core/RealtimeServices/Debugging.cpp; sourceTree = "<group>"; };
-		5CEDF6640D84E5E60044D738 /* Debugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Debugging.h; path = Core/RealtimeServices/Debugging.h; sourceTree = "<group>"; };
 		5CEFD82A0D4D1D6200EA9950 /* Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Exceptions.h; path = Core/Exceptions/Exceptions.h; sourceTree = "<group>"; };
 		5CEFD82B0D4D1D6200EA9950 /* Exceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Exceptions.cpp; path = Core/Exceptions/Exceptions.cpp; sourceTree = "<group>"; };
 		5CF73BCC0862535B00F453C3 /* ZenSchedulerPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenSchedulerPlugin-Info.plist"; sourceTree = "<group>"; };
@@ -2211,8 +2205,6 @@
 			isa = PBXGroup;
 			children = (
 				5C4D254D09DCBB830082BF9F /* tests */,
-				5CEDF6630D84E5E60044D738 /* Debugging.cpp */,
-				5CEDF6640D84E5E60044D738 /* Debugging.h */,
 				DA2CE1A107E9F95600C68AEF /* Clock.h */,
 				DA2CE1A007E9F95600C68AEF /* Clock.cpp */,
 				8E28B5FA0A6C317E00DA6287 /* Announcers.h */,
@@ -2633,7 +2625,6 @@
 				5CEFD82C0D4D1D6200EA9950 /* Exceptions.h in Headers */,
 				5C643EA10D501E99004A8BD2 /* UnresolvedReferenceVariable.h in Headers */,
 				5C8D03C40D56B1AE00454461 /* DummyIODevice.h in Headers */,
-				5CEDF6660D84E5E60044D738 /* Debugging.h in Headers */,
 				5C38FBC40DF045F600FA6A18 /* XMLVariableWriter.h in Headers */,
 				5C9186130E3548FA00B64213 /* BiasMonitor.h in Headers */,
 				5CCA2B5A0E8F1F9A007BDA56 /* Conduit.h in Headers */,
@@ -2721,7 +2712,6 @@
 				E17916B91E4E50DB00528B91 /* ZeroMQUtilities.hpp in Headers */,
 				E179177C1E4E56C500528B91 /* Stimulus.h in Headers */,
 				E17917871E4E573400528B91 /* StandardSounds.h in Headers */,
-				E17917351E4E546F00528B91 /* Debugging.h in Headers */,
 				E179170A1E4E532C00528B91 /* ComponentRegistry.h in Headers */,
 				E17916F41E4E528800528B91 /* AbstractCoreBuilder.h in Headers */,
 				E17917531E4E555500528B91 /* FilterTransforms.h in Headers */,
@@ -3443,7 +3433,6 @@
 				E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */,
 				5C643EA20D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp in Sources */,
 				5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */,
-				5CEDF6650D84E5E60044D738 /* Debugging.cpp in Sources */,
 				5C38FBC50DF045F600FA6A18 /* XMLVariableWriter.cpp in Sources */,
 				5C9186140E3548FA00B64213 /* BiasMonitor.cpp in Sources */,
 				5CCA2B590E8F1F99007BDA56 /* Conduit.cpp in Sources */,
@@ -3542,7 +3531,6 @@
 				E179176D1E4E561D00528B91 /* DataFileManager.cpp in Sources */,
 				E17917011E4E52E200528B91 /* ParsedColorTrio.cpp in Sources */,
 				E17916FF1E4E52DA00528B91 /* ExpressionParser.cc in Sources */,
-				E17917341E4E546C00528B91 /* Debugging.cpp in Sources */,
 				E17916F91E4E529E00528B91 /* StandardClientCoreBuilder.cpp in Sources */,
 				E179175C1E4E558000528B91 /* Averagers.cpp in Sources */,
 				E179177A1E4E56BB00528B91 /* StandardStimuli.cpp in Sources */,

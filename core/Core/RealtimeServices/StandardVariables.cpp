@@ -15,8 +15,6 @@
 
 #include "Announcers.h"
 
-#include "Debugging.h"
-
 
 BEGIN_NAMESPACE_MW
 
@@ -37,11 +35,7 @@ BEGIN_NAMESPACE_MW
 	shared_ptr<Variable> assertionFailure;
 	
 	shared_ptr<Variable> serverName;
-	
-	shared_ptr<Variable> debuggerActive;
-	shared_ptr<Variable> debuggerRunning;
-	shared_ptr<Variable> debuggerStep;
-	
+
 	shared_ptr<Variable> experimentLoadProgress;
     shared_ptr<Variable> loadedExperiment;
 
@@ -255,37 +249,6 @@ BEGIN_NAMESPACE_MW
                                                                                    "Used to select clock, scheduler, and state system components",
                                                                                    M_WHEN_CHANGED, M_WHEN_CHANGED, true, false, M_STRUCTURED,
                                                                                    PRIVATE_SYSTEM_VARIABLES));
-		
-		
-		debuggerActive = registry->createGlobalVariable(VariableProperties(Datum(0L),
-																				DEBUGGER_ACTIVE_TAGNAME, 
-																				"Debugger Active",
-																				"When true, engages state system debugger",
-																				M_WHEN_CHANGED, M_WHEN_CHANGED, true, false, M_INTEGER_INFINITE,
-																				PRIVATE_SYSTEM_VARIABLES));
-		
-		shared_ptr<VariableNotification> active_note(new DebuggerActiveNotification());
-		debuggerActive->addNotification(active_note);
-		
-		
-		debuggerRunning = registry->createGlobalVariable(
-														 VariableProperties(
-																				 Datum(1L),
-																				 DEBUGGER_RUNNING_TAGNAME, 
-																				 "Debugger Running",
-																				 "When true, allows the state system to move freely",
-																				 M_WHEN_CHANGED, M_WHEN_CHANGED, true, false, M_INTEGER_INFINITE,
-																				 PRIVATE_SYSTEM_VARIABLES));
-		
-		debuggerStep = registry->createGlobalVariable(
-													  VariableProperties(
-																			  Datum(0L),
-																			  DEBUGGER_STEP_TAGNAME, 
-																			  "Debugger Step",
-																			  "When non-zero, allows state system to move.  Each state "
-																			  "allowed to move decrements this variable's value",
-																			  M_WHEN_CHANGED, M_WHEN_CHANGED, true, false, M_INTEGER_INFINITE,
-																			  PRIVATE_SYSTEM_VARIABLES));
 		
 		
 	}

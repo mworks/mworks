@@ -15,7 +15,6 @@
 #include "MWorksCore/Scheduler.h"
 #include "MWorksCore/StateSystem.h"
 #include "MWorksCore/StandardVariables.h"
-#include "MWorksCore/Debugging.h"
 
 #include "MachUtilities.h"
 
@@ -206,12 +205,6 @@ void StandardStateSystem::run() {
                 continue;
             }
         }
-       
-		// this is a global bool; it is set a by a listener to the variable
-		// debuggerActive
-		if(!in_action && !in_transition && debugger_enabled){
-			debuggerCheck();
-		}
 		
 		//mprintf("State system main loop, current state = %d", current_state);
 		if (!in_transition) {

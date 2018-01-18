@@ -186,16 +186,6 @@ extern shared_ptr<Variable> alt_failover;
 #define M_REALTIME_STATE_SYSTEM_KEY "state_system"
 extern shared_ptr<Variable> realtimeComponents;
 
-// Debugger variables
-#define DEBUGGER_ACTIVE_TAGNAME "debuggerActive"
-extern shared_ptr<Variable> debuggerActive;
-
-#define DEBUGGER_RUNNING_TAGNAME "debuggerRunning"
-extern shared_ptr<Variable> debuggerRunning;
-
-#define DEBUGGER_STEP_TAGNAME "debuggerStep"
-extern shared_ptr<Variable> debuggerStep;
-
         
 void initializeStandardVariables(shared_ptr<VariableRegistry> registry);
 
