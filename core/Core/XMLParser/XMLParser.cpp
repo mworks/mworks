@@ -309,11 +309,11 @@ void XMLParser::parse(bool announce_progress){
 	
 	int counter = 0;
 	while(child != NULL){
+		_processNode(child);
+		counter++;
         if (announce_progress) {
             experimentLoadProgress->setValue((double)counter / (double)n_nodes);
         }
-		_processNode(child);
-		counter++;
 		child = child->next;
 	}
   
