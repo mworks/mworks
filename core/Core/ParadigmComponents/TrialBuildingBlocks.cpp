@@ -1597,7 +1597,7 @@ weak_ptr<State> TaskSystemState::next() {
     
     weak_ptr<State> trans;
 	if(transition_list->size() == 0) {
-		mprintf("Error: no valid transitions. Ending experiment");
+		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "No valid transitions.  Ending experiment.");
 		trans = weak_ptr<State>(GlobalCurrentExperiment);
 		return trans;
 	}			
