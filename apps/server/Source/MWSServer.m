@@ -40,7 +40,7 @@
     if (self == [MWSServer class]) {
         NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
         
-        defaultValues[LISTENING_ADDRESS_KEY] = @"127.0.0.1";
+        defaultValues[LISTENING_ADDRESS_KEY] = @"localhost";
         defaultValues[LISTENING_PORT_KEY] = @19989;
         defaultValues[DEFAULTS_AUTO_OPEN_CLIENT] = @NO;
         defaultValues[DEFAULTS_AUTO_OPEN_CONSOLE] = @NO;

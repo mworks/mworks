@@ -982,7 +982,7 @@
                 <textField verticalHuggingPriority="750" id="388">
                     <rect key="frame" x="60" y="137" width="114" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="127.0.0.1" allowsEditingTextAttributes="YES" id="389">
+                    <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="localhost" allowsEditingTextAttributes="YES" id="389">
                         <font key="font" metaFont="systemBold" size="21"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1191,12 +1191,12 @@
                     <comboBox verticalHuggingPriority="750" id="631">
                         <rect key="frame" x="57" y="88" width="144" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="127.0.0.1" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="642">
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="localhost" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="642">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             <objectValues>
-                                <string>127.0.0.1</string>
+                                <string>localhost</string>
                             </objectValues>
                         </comboBoxCell>
                         <connections>
