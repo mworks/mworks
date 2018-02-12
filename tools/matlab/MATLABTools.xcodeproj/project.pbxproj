@@ -59,6 +59,8 @@
 /* Begin PBXBuildFile section */
 		E10D38661695F7560043CB93 /* getCodecs.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E10D38641695F7410043CB93 /* getCodecs.m */; };
 		E10E3C8C168104DE00C3B4DF /* getEvents.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E10E3C8B1681047A00C3B4DF /* getEvents.m */; };
+		E121697220322271005E04E6 /* getCodec.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E12169702032225B005E04E6 /* getCodec.m */; };
+		E121697320322274005E04E6 /* getReverseCodec.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E12169712032225B005E04E6 /* getReverseCodec.m */; };
 		E150375E167F8B4200CF3AEC /* MEXInputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E150375C167F8B4200CF3AEC /* MEXInputs.cpp */; };
 		E1503762167F98F800CF3AEC /* getEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1503760167F98F700CF3AEC /* getEvents.cpp */; };
 		E1503766167FA84D00CF3AEC /* MEXOutputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1503764167FA84D00CF3AEC /* MEXOutputs.cpp */; };
@@ -116,6 +118,8 @@
 			files = (
 				E10E3C8C168104DE00C3B4DF /* getEvents.m in CopyFiles */,
 				E10D38661695F7560043CB93 /* getCodecs.m in CopyFiles */,
+				E121697220322271005E04E6 /* getCodec.m in CopyFiles */,
+				E121697320322274005E04E6 /* getReverseCodec.m in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +128,8 @@
 /* Begin PBXFileReference section */
 		E10D38641695F7410043CB93 /* getCodecs.m */ = {isa = PBXFileReference; explicitFileType = text; path = getCodecs.m; sourceTree = "<group>"; };
 		E10E3C8B1681047A00C3B4DF /* getEvents.m */ = {isa = PBXFileReference; explicitFileType = text; path = getEvents.m; sourceTree = "<group>"; };
+		E12169702032225B005E04E6 /* getCodec.m */ = {isa = PBXFileReference; explicitFileType = text; path = getCodec.m; sourceTree = "<group>"; };
+		E12169712032225B005E04E6 /* getReverseCodec.m */ = {isa = PBXFileReference; explicitFileType = text; path = getReverseCodec.m; sourceTree = "<group>"; };
 		E150375C167F8B4200CF3AEC /* MEXInputs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MEXInputs.cpp; sourceTree = "<group>"; };
 		E150375D167F8B4200CF3AEC /* MEXInputs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEXInputs.h; sourceTree = "<group>"; };
 		E1503760167F98F700CF3AEC /* getEvents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = getEvents.cpp; sourceTree = "<group>"; };
@@ -170,6 +176,8 @@
 			children = (
 				E10E3C8B1681047A00C3B4DF /* getEvents.m */,
 				E10D38641695F7410043CB93 /* getCodecs.m */,
+				E12169702032225B005E04E6 /* getCodec.m */,
+				E12169712032225B005E04E6 /* getReverseCodec.m */,
 			);
 			name = "MATLAB Functions";
 			sourceTree = "<group>";
