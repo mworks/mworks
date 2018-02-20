@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		5C488A160F4E27CD00C5A526 /* Set Version String */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 5C488A2D0F4E281F00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */;
-			buildPhases = (
-				5C488A150F4E27CD00C5A526 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "Set Version String";
-			productName = "Set Version String";
-		};
 		DA1368DC07EA27C7001BA98B /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5C0E8502086D85D400B3EE7C /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -713,13 +702,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5C488A180F4E27D400C5A526 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C488A160F4E27CD00C5A526;
-			remoteInfo = "Set Version String";
-		};
 		5C4D24C109DC95550082BF9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
@@ -761,13 +743,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = E11542041193460300DDE09D;
 			remoteInfo = test_mworks;
-		};
-		E148A43E1E4B754B002DFB1C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C488A160F4E27CD00C5A526;
-			remoteInfo = "Set Version String";
 		};
 		E16A21031E5788FD00C48E10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1033,7 +1008,6 @@
 		5C524E870CAA02C60063B1DC /* TimerTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TimerTest.h; sourceTree = "<group>"; };
 		5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnresolvedReferenceVariable.h; path = Core/Variables/UnresolvedReferenceVariable.h; sourceTree = "<group>"; };
 		5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UnresolvedReferenceVariable.cpp; path = Core/Variables/UnresolvedReferenceVariable.cpp; sourceTree = "<group>"; };
-		5C6616C10F4C9B6900C8FD71 /* MWorksCore-Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MWorksCore-Info.template.plist"; sourceTree = "<group>"; };
 		5C71CD6809AA507700EAD886 /* GlobalVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalVariable.cpp; path = Core/Variables/GlobalVariable.cpp; sourceTree = "<group>"; };
 		5C71CD6909AA507700EAD886 /* GlobalVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GlobalVariable.h; path = Core/Variables/GlobalVariable.h; sourceTree = "<group>"; };
 		5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionVariable.cpp; path = Core/Variables/ExpressionVariable.cpp; sourceTree = SOURCE_ROOT; };
@@ -1821,7 +1795,6 @@
 			children = (
 				E186EB651C1F511100FD7F32 /* MWComponents.yaml */,
 				0E1AE9910EF1A9EE00C224F1 /* SetupVariables */,
-				5C6616C10F4C9B6900C8FD71 /* MWorksCore-Info.template.plist */,
 				DA2CE0D607E9F68100C68AEF /* MWorksCore-Info.plist */,
 			);
 			name = Resources;
@@ -2939,7 +2912,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				5C488A190F4E27D400C5A526 /* PBXTargetDependency */,
 			);
 			name = MWorksCore;
 			productName = MWorksCore;
@@ -2976,7 +2948,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E148A43F1E4B754B002DFB1C /* PBXTargetDependency */,
 			);
 			name = "MWorksCore-iOS";
 			productName = "MWorksCore-iOS";
@@ -3054,9 +3025,6 @@
 					5C0E756F09D1A886002295FB = {
 						ProvisioningStyle = Automatic;
 					};
-					5C488A160F4E27CD00C5A526 = {
-						ProvisioningStyle = Automatic;
-					};
 					5C4D232409DC59410082BF9F = {
 						ProvisioningStyle = Automatic;
 					};
@@ -3121,7 +3089,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5C488A160F4E27CD00C5A526 /* Set Version String */,
 				DA2CE0D307E9F68100C68AEF /* MWorksCore */,
 				E1CBF63A16BAF3090057CE48 /* Install MWorksCore */,
 				E106CF0B1CA42EDC001A0928 /* HighPrecisionClock */,
@@ -3231,23 +3198,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		5C488A150F4E27CD00C5A526 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "version_string=$(/usr/bin/xcrun git log -n1 --pretty=format:%H)\nplist_file=MWorksCore-Info.plist\n\nif [[ -f $plist_file ]]; then\n  old_version_string=$(/usr/bin/python -c \"import plistlib ; print plistlib.readPlist('$plist_file')['CFBundleVersion']\")\n  if [[ $old_version_string == $version_string ]]; then\n    # Version is already up to date\n    exit 0\n  fi\nfi\n\necho $version_string\n\n/usr/bin/sed \\\n  s/_VERSION_STRING_/${version_string}/  \\\n  MWorksCore-Info.template.plist > MWorksCore-Info.plist";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0E80140F0E422E2A00D6DE20 /* Sources */ = {
@@ -3619,11 +3569,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5C488A190F4E27D400C5A526 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C488A160F4E27CD00C5A526 /* Set Version String */;
-			targetProxy = 5C488A180F4E27D400C5A526 /* PBXContainerItemProxy */;
-		};
 		5C4D24C209DC95550082BF9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5C4D239B09DC83930082BF9F /* MWorksCoreTest */;
@@ -3653,11 +3598,6 @@
 			isa = PBXTargetDependency;
 			target = E11542041193460300DDE09D /* Install Testing Tools */;
 			targetProxy = E115421B1193475D00DDE09D /* PBXContainerItemProxy */;
-		};
-		E148A43F1E4B754B002DFB1C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C488A160F4E27CD00C5A526 /* Set Version String */;
-			targetProxy = E148A43E1E4B754B002DFB1C /* PBXContainerItemProxy */;
 		};
 		E16A21041E5788FD00C48E10 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3808,14 +3748,6 @@
 		5C0E850F086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-			};
-			name = Development;
-		};
-		5C488A170F4E27CD00C5A526 /* Development */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
-			buildSettings = {
-				PRODUCT_NAME = "Set Version String";
 			};
 			name = Development;
 		};
@@ -4007,14 +3939,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E850F086D85D400B3EE7C /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		5C488A2D0F4E281F00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C488A170F4E27CD00C5A526 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
