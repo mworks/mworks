@@ -15,7 +15,7 @@ firmata arduino (
     bluetooth_local_name = bluetooth_local_name
     ) {
     firmata_servo (
-        pin_number = 8
+        pin_number = 10
         value = value
         min_pulse_width = 900
         max_pulse_width = 2100

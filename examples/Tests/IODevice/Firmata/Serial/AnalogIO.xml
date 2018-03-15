@@ -2,8 +2,8 @@
 <monkeyml version="1.0">
     <io_devices tag="IO Devices">
         <iodevice type="firmata" tag="firmata" serial_port="" data_interval="sampling_interval">
-            <iochannel type="firmata_analog_output" tag="pin_3" pin_number="3" value="source"></iochannel>
-            <iochannel type="firmata_analog_input" tag="pin_a3" pin_number="a3" value="sink"></iochannel>
+            <iochannel type="firmata_analog_output" tag="pin_9" pin_number="9" value="source"></iochannel>
+            <iochannel type="firmata_analog_input" tag="pin_a5" pin_number="a5" value="sink"></iochannel>
         </iodevice>
     </io_devices>
     <variables tag="Variables">
