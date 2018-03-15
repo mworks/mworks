@@ -320,45 +320,65 @@ bool FirmataDevice::configurePins() {
                     return false;
                 }
                 
-                if (channel->isOutput()) {
-                    boost::function<void(const Datum &, MWTime)> callback;
-                    
-                    switch (channel->getType()) {
-                        case FirmataChannel::Type::Analog:
-                            callback = [weakThis, pinNumber](const Datum &data, MWTime time) {
-                                if (auto sharedThis = weakThis.lock()) {
-                                    unique_lock lock(sharedThis->mutex);
-                                    if (sharedThis->running) {
-                                        sharedThis->setAnalogOutput(pinNumber, data.getFloat());
-                                    }
-                                }
-                            };
-                            break;
-                            
-                        case FirmataChannel::Type::Digital:
-                            callback = [weakThis, pinNumber](const Datum &data, MWTime time) {
-                                if (auto sharedThis = weakThis.lock()) {
-                                    unique_lock lock(sharedThis->mutex);
-                                    if (sharedThis->running) {
-                                        sharedThis->setDigitalOutput(pinNumber, data.getBool());
-                                    }
-                                }
-                            };
-                            break;
-                            
-                        case FirmataChannel::Type::Servo:
-                            callback = [weakThis, pinNumber](const Datum &data, MWTime time) {
-                                if (auto sharedThis = weakThis.lock()) {
-                                    unique_lock lock(sharedThis->mutex);
-                                    if (sharedThis->running) {
-                                        sharedThis->setServo(pinNumber, data.getFloat());
-                                    }
-                                }
-                            };
-                            break;
+                switch (channel->getDirection()) {
+                    case FirmataChannel::Direction::Input: {
+                        if (channel->isAnalog()) {
+                            // StandardFirmata automatically enables reporting of pins in mode PIN_MODE_ANALOG.
+                            // Since we don't want reporting to begin until startIO() is invoked, we must disable
+                            // reporting of these pins.
+                            const auto channelNumber = channel->getAnalogChannelNumber();
+                            if (!sendData({ std::uint8_t(REPORT_ANALOG | channelNumber), 0 })) {
+                                merror(M_IODEVICE_MESSAGE_DOMAIN,
+                                       "Cannot disable reporting of analog input channel %d on Firmata device \"%s\"",
+                                       channelNumber,
+                                       getTag().c_str());
+                                return false;
+                            }
+                        }
+                        break;
                     }
-                    
-                    channel->getValueVariable()->addNotification(boost::make_shared<VariableCallbackNotification>(callback));
+                        
+                    case FirmataChannel::Direction::Output: {
+                        boost::function<void(const Datum &, MWTime)> callback;
+                        
+                        switch (channel->getType()) {
+                            case FirmataChannel::Type::Analog:
+                                callback = [weakThis, pinNumber](const Datum &data, MWTime time) {
+                                    if (auto sharedThis = weakThis.lock()) {
+                                        unique_lock lock(sharedThis->mutex);
+                                        if (sharedThis->running) {
+                                            sharedThis->setAnalogOutput(pinNumber, data.getFloat());
+                                        }
+                                    }
+                                };
+                                break;
+                                
+                            case FirmataChannel::Type::Digital:
+                                callback = [weakThis, pinNumber](const Datum &data, MWTime time) {
+                                    if (auto sharedThis = weakThis.lock()) {
+                                        unique_lock lock(sharedThis->mutex);
+                                        if (sharedThis->running) {
+                                            sharedThis->setDigitalOutput(pinNumber, data.getBool());
+                                        }
+                                    }
+                                };
+                                break;
+                                
+                            case FirmataChannel::Type::Servo:
+                                callback = [weakThis, pinNumber](const Datum &data, MWTime time) {
+                                    if (auto sharedThis = weakThis.lock()) {
+                                        unique_lock lock(sharedThis->mutex);
+                                        if (sharedThis->running) {
+                                            sharedThis->setServo(pinNumber, data.getFloat());
+                                        }
+                                    }
+                                };
+                                break;
+                        }
+                        
+                        channel->getValueVariable()->addNotification(boost::make_shared<VariableCallbackNotification>(callback));
+                        break;
+                    }
                 }
             }
         }
