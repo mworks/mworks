@@ -29,6 +29,9 @@ BEGIN_NAMESPACE_MW
 
 StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli, bool useColorManagement) :
     current_context_index(-1),
+    waitingForRefresh(false),
+    needDraw(false),
+    redrawOnEveryRefresh(false),
     projectionMatrix(GLKMatrix4Identity),
     displayUpdatesStarted(false),
     mainDisplayRefreshRate(0.0),
@@ -45,9 +48,6 @@ StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli, bool useColorMa
 
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
-
-    waitingForRefresh = false;
-    needDraw = false;
     
     auto callback = [this](const Datum &data, MWorksTime time) {
         stateSystemCallback(data, time);
@@ -149,6 +149,10 @@ void StimulusDisplay::setBackgroundColor(GLclampf red, GLclampf green, GLclampf 
     backgroundRed = red;
     backgroundGreen = green;
     backgroundBlue = blue;
+}
+
+void StimulusDisplay::setRedrawOnEveryRefresh(bool redrawOnEveryRefresh) {
+    this->redrawOnEveryRefresh = redrawOnEveryRefresh;
 }
 
 void StimulusDisplay::setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates) {
@@ -466,6 +470,7 @@ void StimulusDisplay::refreshMainDisplay() {
     //
     
     const bool updateIsExplicit = needDraw;
+    needDraw = needDraw || redrawOnEveryRefresh;
     
     if (!needDraw) {
         shared_ptr<StimulusNode> node = display_stack->getFrontmost();

@@ -1,0 +1,41 @@
+stimulus_display (
+    background_color = 0.5, 0.5, 0.5
+    redraw_on_every_refresh = true
+    )
+
+
+var size = 3
+var offset_y = 3
+
+var amplitude = 10
+var period = 2.5s
+var start_time = 0
+%define offset_x = amplitude * sin(2 * pi() * (next_frame_time() - start_time) / period)
+
+circle circle1 (
+    color = 1,0,0
+    x_size = size
+    x_position = offset_x
+    y_position = offset_y
+    )
+
+circle circle2 (
+    color = 0,0,1
+    x_size = size
+    x_position = offset_x
+    y_position = -offset_y
+    )
+
+
+protocol {
+    start_time = next_frame_time()
+
+    // Not animated, because not live queued
+    queue_stimulus (circle1)
+
+    // Animated
+    live_queue_stimulus (circle2)
+
+    update_display ()
+    wait (4 * period)
+}

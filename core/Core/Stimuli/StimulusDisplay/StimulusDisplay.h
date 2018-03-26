@@ -74,6 +74,7 @@ BEGIN_NAMESPACE_MW
         bool waitingForRefresh;
 
         bool needDraw;
+        bool redrawOnEveryRefresh;
 		
 		double left, right, top, bottom; // display bounds
         GLKMatrix4 projectionMatrix;
@@ -142,6 +143,7 @@ BEGIN_NAMESPACE_MW
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
 		
         void setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue);
+        void setRedrawOnEveryRefresh(bool redrawOnEveryRefresh);
         void setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates);
         bool getUseColorManagement() const { return useColorManagement; }
 		MWTime updateDisplay();

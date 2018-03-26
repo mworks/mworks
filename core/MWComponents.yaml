@@ -1785,6 +1785,13 @@ parameters:
         expression, but the expression must result in a value between 0 and 1
         (inclusive).
   - 
+    name: redraw_on_every_refresh
+    default: 'NO'
+    description: >
+        If ``YES``, the display will be redrawn during every refresh cycle.  If
+        ``NO``, the display will be redrawn only when needed or when explicitly
+        requested via `Update Stimulus Display`.
+  - 
     name: announce_stimuli_on_implicit_updates
     default: 'YES'
     description: >
