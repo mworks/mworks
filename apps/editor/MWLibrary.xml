@@ -1867,6 +1867,7 @@ A transition that goes to the target state either unconditionally or, if "when" 
 			<iodevice type="stimulus_display"
                       tag="Stimulus Display"
                       background_color="0, 0, 0"
+                      redraw_on_every_refresh="NO"
                       announce_stimuli_on_implicit_updates="YES"
                       />
 		</code>
