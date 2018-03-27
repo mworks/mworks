@@ -1,0 +1,5 @@
+var bounds = 0
+
+protocol {
+    bounds = display_bounds(3)
+}

@@ -1,0 +1,20 @@
+var bounds = {'left': 0, 'right': 0, 'bottom': 0, 'top': 0}
+
+protocol {
+    bounds = display_bounds()
+
+    assert (size(bounds) == 4)
+
+    assert (bounds['left'] < 0)
+    assert (bounds['right'] > 0)
+    assert (bounds['left'] == -bounds['right'])
+
+    assert (bounds['bottom'] < 0)
+    assert (bounds['top'] > 0)
+    assert (bounds['bottom'] == -bounds['top'])
+
+    assert (display_bounds('left') == bounds['left'])
+    assert (display_bounds('right') == bounds['right'])
+    assert (display_bounds('bottom') == bounds['bottom'])
+    assert (display_bounds('top') == bounds['top'])
+}

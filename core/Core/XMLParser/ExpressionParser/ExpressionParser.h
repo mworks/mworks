@@ -250,6 +250,8 @@ protected:
 	static Datum	funcREFRESH_RATE(const paramlist_type& paramlist);
 	static Datum	funcNEXT_FRAME_TIME(const paramlist_type& paramlist);
     
+    static Datum    funcDISPLAY_BOUNDS(const paramlist_type& paramlist);
+    
     static Datum	funcSELECTION(const paramlist_type& paramlist);
     static Datum	funcNUMACCEPTED(const paramlist_type& paramlist);
     

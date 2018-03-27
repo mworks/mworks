@@ -2203,7 +2203,47 @@ namespace stx MW_SYMBOL_PUBLIC {
         boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
         return Datum( display->getCurrentOutputTimeUS() );
     }
-	
+    
+    Datum BasicSymbolTable::funcDISPLAY_BOUNDS(const paramlist_type &paramlist)
+    {
+        if (paramlist.size() > 1) {
+            throw BadFunctionCallException("Function DISPLAY_BOUNDS() requires 0 or 1 parameters");
+        }
+        if (!(paramlist.empty() || paramlist[0].isString())) {
+            throw BadFunctionCallException("Parameter to function DISPLAY_BOUNDS() must be a string");
+        }
+        
+        const auto display = mw::StimulusDisplay::getCurrentStimulusDisplay();
+        double left, right, bottom, top;
+        display->getDisplayBounds(left, right, bottom, top);
+        
+        if (paramlist.empty()) {
+            return Datum( Datum::dict_value_type {
+                { Datum("left"), Datum(left) },
+                { Datum("right"), Datum(right) },
+                { Datum("bottom"), Datum(bottom) },
+                { Datum("top"), Datum(top) }
+            } );
+        }
+        
+        auto &boundaryName = paramlist[0].getString();
+        double value = 0.0;
+        if (boundaryName == "left") {
+            value = left;
+        } else if (boundaryName == "right") {
+            value = right;
+        } else if (boundaryName == "bottom") {
+            value = bottom;
+        } else if (boundaryName == "top") {
+            value = top;
+        } else {
+            throw BadFunctionCallException("Parameter to function DISPLAY_BOUNDS() must be one of "
+                                           "\"left\", \"right\", \"bottom\", or \"top\"");
+        }
+        
+        return Datum( value );
+    }
+
 	Datum BasicSymbolTable::funcFORMAT(const paramlist_type &paramlist)
 	{
         if (paramlist.size() < 1) {
@@ -2478,6 +2518,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("TIMER_EXPIRED", 1, funcTIMER_EXPIRED);
 		setFunction("REFRESH_RATE", 0, funcREFRESH_RATE);
 		setFunction("NEXT_FRAME_TIME", 0, funcNEXT_FRAME_TIME);
+        
+        setFunction("DISPLAY_BOUNDS", -1, funcDISPLAY_BOUNDS);
         
         setFunction("SELECTION", 2, funcSELECTION);
         setFunction("NUM_ACCEPTED", 1, funcNUMACCEPTED);

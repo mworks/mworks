@@ -295,6 +295,12 @@ Time-Related
 Other
 ^^^^^
 
+``display_bounds()``
+  Returns a dictionary containing the bounds (in degrees) of the main display.  The keys in the dictionary are the strings "left", "right", "bottom", and "top".
+
+``display_bounds(edge)``
+  Given one of the strings "left", "right", "bottom", or "top", returns the corresponding boundary (in degrees) of the main display
+
 ``filenames(glob_expr)``
    Given *glob_expr*, a string containing a `shell-style file name pattern <http://tomecat.com/jeffy/tttt/glob.html>`_, returns a list of strings containing the names of all matching files (or any empty list, if no files match)
 
