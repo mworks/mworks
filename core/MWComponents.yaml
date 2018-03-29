@@ -44,7 +44,15 @@ description: >
 
 name: Stimuli
 is_group: yes
-description: Visual and auditory stimuli
+description: Visual stimuli
+
+
+---
+
+
+name: Sounds
+is_group: yes
+description: Auditory stimuli
 
 
 ---
@@ -56,6 +64,18 @@ description: >
     Paradigm components provide structure to an experiment and determine the
     flow of its execution.  They contain `Actions` and other paradigm
     components.
+
+
+---
+
+
+name: Replicators
+is_group: yes
+description: >
+    Replicators are not run-time components.  Instead, they are constructs that
+    replicate, at *parse time*, the components contained within them.  They
+    provide a way to generate a set of related components from a parameterized
+    "template".
 
 
 ---
@@ -90,7 +110,9 @@ description: >
 name: Resources
 is_group: yes
 description: |
-    Resource files (images, scripts, etc.) needed by an experiment.
+    Resource files (images, scripts, etc.) needed by an experiment.  At run
+    time, all resource files are copied, along with the experiment file itself,
+    to the system running MWServer.
 
     *Note*:  In the absence of resource declarations, the MWorks parser
     infers the required resources from the ``path`` and ``directory_path``
@@ -582,7 +604,7 @@ parameters:
 
 name: Sound Stimulus
 signature: sound/wav_file
-group: Stimuli
+group: Sounds
 toplevel: yes
 description: >
     A simple `WAV <https://en.wikipedia.org/wiki/WAV>`_ file based sound
@@ -622,85 +644,6 @@ allowed_child:
   - Replicator
 description: >
     Top-level container for all `protocols <Protocol>` in an experiment
-
-
----
-
-
-name: Replicator
-abstract: yes
-group: Paradigm Components
-transient: yes
-toplevel: yes
-allowed_child:
-  - List State
-  - Replicator
-  - Stimulus
-  - Stimulus Group
-
-
----
-
-
-name: Range Replicator
-signature: range_replicator
-isa: Replicator
-description: >
-    A construct that replicates its contents (textually) at parse time.  Each
-    replication assigns a different, sequential value to the specified
-    `variable`_ (similar to a `for loop
-    <https://en.wikipedia.org/wiki/For_loop>`_). This can be used, for example,
-    to generate a separate `Trial` for each element in a `Stimulus Group` by
-    using the replicator variable as the index in to the group.
-parameters: 
-  - 
-    name: variable
-    required: yes
-    description: >
-        Replicator variable.  The variable must have local scope.
-  - 
-    name: from
-    required: yes
-    description: >
-        First value assigned to `variable`_
-  - 
-    name: to
-    required: yes
-    description: >
-        Replication stops when `variable`_ is greater than this value
-  - 
-    name: step
-    required: yes
-    description: >
-        Amount by which to increment the value of `variable`_ after each
-        replication.  Must be greater than zero.
-
-
----
-
-
-name: List Replicator
-signature: list_replicator
-isa: Replicator
-description: >
-    A construct that replicates its contents (textually) at parse time.  Each
-    replication assigns a different value from a user-provided list to the
-    specified `variable`_ (similar to a `foreach loop
-    <https://en.wikipedia.org/wiki/Foreach_loop>`_). This can be used, for
-    example, to generate a `Stimulus Group` of `images <Image Stimulus>` by
-    using the replicator variable as the path to each image file.
-parameters: 
-  - 
-    name: variable
-    required: yes
-    description: >
-        Replicator variable.  The variable must have local scope.
-  - 
-    name: values
-    required: yes
-    description: >
-        Comma-separated list of values to assign to `variable`_, one per
-        replication
 
 
 ---
@@ -829,6 +772,92 @@ description: >
 
 ###############################################################################
 #
+# Replicators
+#
+###############################################################################
+
+
+name: Replicator
+abstract: yes
+group: Replicators
+transient: yes
+toplevel: yes
+allowed_child:
+  - List State
+  - Replicator
+  - Stimulus
+  - Stimulus Group
+
+
+---
+
+
+name: Range Replicator
+signature: range_replicator
+isa: Replicator
+description: >
+    A construct that replicates its contents (textually) at parse time.  Each
+    replication assigns a different, sequential value to the specified
+    `variable`_ (similar to a `for loop
+    <https://en.wikipedia.org/wiki/For_loop>`_). This can be used, for example,
+    to generate a separate `Trial` for each element in a `Stimulus Group` by
+    using the replicator variable as the index in to the group.
+parameters: 
+  - 
+    name: variable
+    required: yes
+    description: >
+        Replicator variable.  The variable must have local scope.
+  - 
+    name: from
+    required: yes
+    description: >
+        First value assigned to `variable`_
+  - 
+    name: to
+    required: yes
+    description: >
+        Replication stops when `variable`_ is greater than this value
+  - 
+    name: step
+    required: yes
+    description: >
+        Amount by which to increment the value of `variable`_ after each
+        replication.  Must be greater than zero.
+
+
+---
+
+
+name: List Replicator
+signature: list_replicator
+isa: Replicator
+description: >
+    A construct that replicates its contents (textually) at parse time.  Each
+    replication assigns a different value from a user-provided list to the
+    specified `variable`_ (similar to a `foreach loop
+    <https://en.wikipedia.org/wiki/Foreach_loop>`_). This can be used, for
+    example, to generate a `Stimulus Group` of `images <Image Stimulus>` by
+    using the replicator variable as the path to each image file.
+parameters: 
+  - 
+    name: variable
+    required: yes
+    description: >
+        Replicator variable.  The variable must have local scope.
+  - 
+    name: values
+    required: yes
+    description: >
+        Comma-separated list of values to assign to `variable`_, one per
+        replication
+
+
+---
+
+
+###############################################################################
+#
 # Actions
 #
 ###############################################################################
@@ -861,12 +890,25 @@ parameters:
 name: Assign Variable
 signature: action/assignment
 isa: Action
-description: Assign a value to a variable
+description: |
+    Assign a value to a variable.
+
+    If the target variable's current value is a list or dictionary, you can
+    assign a new value to one of its elements by including one or more
+    square-bracket-enclosed indices in `variable`_.
+
+    In MWEL, `assignments <assignments>` are automatically converted into Assign
+    Variable actions (except for top-level assignments, which are converted into
+    `Variable Assignment` instances).
 parameters: 
   - 
     name: variable
     required: yes
-    description: Variable name
+    example:
+      - my_var
+      - my_var[2]
+      - my_var[x][y]['b']
+    description: Variable name.  May include one or more index expressions.
   - 
     name: value
     required: yes
@@ -932,10 +974,14 @@ name: Schedule Actions
 signature: action/schedule
 isa: Action
 allowed_child: Action
-description: >
+description: |
     Schedule the execution of a list of contained actions.  These actions can be
     scheduled to occur after a user-defined delay and can be repeated multiple
     times with a user-defined inter-execution interval.
+
+    The actions will execute in a separate `thread
+    <https://en.wikipedia.org/wiki/Thread_(computing)>`_, independent of (and in
+    parallel with) the main state system.
 parameters: 
   - 
     name: delay
@@ -1502,8 +1548,9 @@ name: Clear Calibration
 signature: action/clear_calibration
 isa: Action
 description: >
-    Prompt a calibrator object to "forget" all previously collected
-    calibration samples
+    Prompt a calibrator object to "forget" all previously collected calibration
+    samples.  A sufficient number of new samples must be obtained before a new
+    calibration can be computed.
 parameters: 
   - 
     name: calibrator
@@ -1517,9 +1564,20 @@ parameters:
 name: Begin Averaged Calibration Sample
 signature: action/begin_calibration_average
 isa: Action
-description: >
+description: |
     Instruct a calibrator object to start computing an average of its input
-    value(s)
+    value(s).
+
+    The purpose of this action is to allow the user to calibrate against a time
+    average over each of the input values, rather than against just the values
+    at a particular instant in time.  This action prompts the specified
+    calibrator to start averaging over its inputs.
+
+    The averaging must be stopped with either of the `End Averaged Calibration
+    Sample` or `End Averaged Calibration and Ignore` actions.  Thus, the total
+    time to average is at the user's discretion and is generally based on either
+    a sufficient time or the fact that another condition has arisen (e.g.
+    fixation broken for eye calibrators).
 parameters: 
   - 
     name: calibrator
@@ -2110,9 +2168,7 @@ name: File Resource
 signature: resource
 isa: Resource
 description: >
-    A file or set of files required by an experiment.  All resource files are
-    copied, along with the experiment file itself, to the system running
-    MWServer.
+    A file or set of files required by an experiment
 parameters: 
   - 
     name: path

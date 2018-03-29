@@ -305,13 +305,23 @@ Other
    Given *glob_expr*, a string containing a `shell-style file name pattern <http://tomecat.com/jeffy/tttt/glob.html>`_, returns a list of strings containing the names of all matching files (or any empty list, if no files match)
 
 ``format(fmt,...)``
-   `printf-style <http://www.boost.org/doc/libs/1_64_0/libs/format/doc/format.html#printf_directives>`_ string formatting.  *fmt* is the format string, and any subsequent arguments are items to be formatted.
+   `printf-style <http://www.boost.org/doc/libs/1_66_0/libs/format/doc/format.html#printf_directives>`_ string formatting.  *fmt* is the format string, and any subsequent arguments are items to be formatted.
 
 ``num_accepted('sel')``
    Takes the name of a selectable object (as a string) and returns the number of accepted selections that have been made on it
 
 ``osname()``
    Name of the current operating system as a string (e.g. "macos", "ios")
+
+``py_call(expr,...)``
+   *Available on macOS*
+
+   Evaluates *expr* as a Python expression, calls the resulting Python object with the remaining arguments, and returns the result.  If a Python error occurs, logs the error message and returns 0.
+
+``py_eval(expr)``
+   *Available on macOS*
+
+   Evaluates *expr* as a Python expression and returns the result.  If a Python error occurs, logs the error message and returns 0.
 
 ``selection('sel',n)``
    Takes the name of a selection variable (as a string) and an integer *n* and returns the *n*-th tentative (i.e. non-accepted) selection on the variable

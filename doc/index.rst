@@ -1,19 +1,10 @@
-MWorks User Manual
+Welcome to MWorks!
 ==================
-
-Contents:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   components/index
-   mwel/index
-   expressions/index
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
+   intro
+   guide/index
+   reference/index
+   glossary

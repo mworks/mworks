@@ -213,19 +213,22 @@ def write_parameters(fp, kind, params):
             print(':Recommended: ``%s``' % p['recommended'], file=fp)
 
         if 'options' in p:
-            options = ', '.join(('``%s``' % c) for c in p['options'])
-            print(':Options: ' + options, file=fp)
+            options = p['options']
+            print(':Options: | ``%s``' % options[0], file=fp)
+            for o in options[1:]:
+                print('          | ``%s``' % o, file=fp)
 
         if 'default' in p:
             print(':Default: ``%s``' % p['default'], file=fp)
 
         if 'example' in p:
             example = p['example']
-            if isinstance(example, list):
-                example = ', '.join(('``%s``' % e) for e in example)
-                print(':Examples: ' + example, file=fp)
-            else:
+            if not isinstance(example, list):
                 print(':Example: ``%s``' % example, file=fp)
+            else:
+                print(':Examples: | ``%s``' % example[0], file=fp)
+                for e in example[1:]:
+                    print('           | ``%s``' % e, file=fp)
 
         if 'description' in p:
             print('\n%s' % p['description'], file=fp)

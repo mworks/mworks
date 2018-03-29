@@ -1,0 +1,149 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// Protocol #1: The most basic MWorks "Hello, world"
+//
+// The message is displayed on the MWServer console window.  If you're
+// streaming data to a file, the message will be recorded there, too.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+protocol 'Hello World' {
+    report ('Hello, world!')
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Protocol #2: Almost as simple, but graphical
+//
+// The message is displayed on the stimulus display via a text stimulus
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+var message = 'Hello, world!'
+
+
+text greeting_or_prompt (
+    text = message
+    font_name = 'Helvetica Neue'
+    font_size = 48
+    x_size = 15.0
+    y_size = 10.0
+    )
+
+
+protocol 'Hello World 2' {
+    queue_stimulus (greeting_or_prompt)
+    update_display ()
+    wait (5s)
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Protocol #3: Much more sophisticated
+//
+// Includes an I/O device (the keyboard), a task system (i.e. state machine),
+// and multiple trials
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+%include '../includes/keyboard_device'
+
+var y_pressed = 0
+var n_pressed = 0
+
+keyboard_device keyboard {
+    keyboard_channel (key = 'y'; value = y_pressed)
+    keyboard_channel (key = 'n'; value = n_pressed)
+}
+
+
+%define show_message (msg)
+    dequeue_stimulus (greeting_or_prompt)
+    update_display ()
+    message = msg
+    queue_stimulus (greeting_or_prompt)
+    update_display ()
+%end
+
+
+var my_name = ''
+
+
+protocol 'Hello World 3' {
+    start_io_device (keyboard)
+
+    // Perform three trials
+    trial (nsamples = 3) {
+        report ('Starting new trial')
+
+        task {
+            state 'Ask for name' {
+                my_name = ''
+                show_message ('Please enter your name in the variable "my_name"')
+                start_timer (timer = input_timer; duration = 20s)
+    
+                goto (
+                    target = 'Invalid name'
+                    when = type(my_name) != 'string'
+                    )
+                goto (
+                    target = 'Display greeting'
+                    when = size(my_name) > 0
+                    )
+                goto (
+                    target = 'Timeout'
+                    when = timer_expired(input_timer)
+                    )
+            }
+
+            state 'Invalid name' {
+                show_message ('Name must be a string!')
+                wait (2s)
+
+                goto ('Ask for name')
+            }
+    
+            state 'Display greeting' {
+                show_message ('Hello, ' + my_name + '!')
+                wait (2s)
+    
+                goto ('Offer another greeting')
+            }
+    
+            state 'Offer another greeting' {
+                show_message ('Would you like another greeting?  Press y or n')
+                start_timer (timer = input_timer; duration = 5s)
+    
+                goto (
+                    target = 'Display greeting'
+                    when = y_pressed
+                    )
+                goto (
+                    target = 'Done'
+                    when = n_pressed or timer_expired(input_timer)
+                    )
+            }
+
+            state 'Timeout' {
+                show_message ('Sorry, you ran out of time!')
+                wait (2s)
+    
+                goto ('Done')
+            }
+    
+            state 'Done' {
+                // Exit the state machine
+                yield ()
+            }
+        }
+
+        report ('Trial complete')
+    }
+
+    stop_io_device (keyboard)
+}
