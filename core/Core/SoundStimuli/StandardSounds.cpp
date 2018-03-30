@@ -167,10 +167,7 @@ WavFileSound::WavFileSound(const ParameterValueMap &parameters) :
 WavFileSound::~WavFileSound(){
 	alutInternalUnloadWAV(format, data, size, freq);
 	if ((error = alGetError()) != AL_NO_ERROR) { 
-		throw SimpleException(
-			(boost::format("Failed to unload wavfile for sound stimulus (error code %d)") %
-			   error).str());
-		return; 
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Failed to unload wavfile for sound stimulus (error code %d)", error);
 	}
 
 }

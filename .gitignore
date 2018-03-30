@@ -2,4 +2,5 @@
 *.xccheckout
 *.xcscmblueprint
 .DS_Store
+IDEWorkspaceChecks.plist
 xcuserdata/
