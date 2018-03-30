@@ -1,0 +1,590 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// Input/output
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+var spike_rate = 25  // Spikes per second
+var spikes = 0
+var eye_h_raw = 0
+var eye_v_raw = 0
+
+fake_monkey eye_tracker (spike_rate = spike_rate) {
+    iochannel/spike (variable = spikes)
+    iochannel/eye_movement (
+        eye_h = eye_h_raw
+        eye_v = eye_v_raw
+        data_interval = 1ms
+        update_interval = 10ms
+        )
+}
+
+%define simulate_fixation (duration)
+    // 10% of the time, fake monkey ignores fixation
+    if (rand() > 0.1) {
+        fake_monkey_saccade_and_fixate (
+            fake_monkey = eye_tracker
+            h = fixation_pos_x
+            v = fixation_pos_y
+            // 20% of the time, fake monkey breaks fixation
+            duration = rand(0.9, 1.4) * duration
+            )
+    }
+%end
+
+var reward_duration = 100ms
+var reward_line = false  // e.g. a TTL channel
+var reward (0) {
+    if (reward > 0) {
+        play_sound (reward_sound)
+        reward_line = true
+        wait (reward)
+        reward_line = false
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Eye monitoring
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+var eye_h_calibrated = 0
+var eye_v_calibrated = 0
+
+standard_eye_calibrator eye_calibrator (
+    eyeh_raw = eye_h_raw
+    eyev_raw = eye_v_raw
+    eyeh_calibrated = eye_h_calibrated
+    eyev_calibrated = eye_v_calibrated
+    )
+
+var eye_h = 0
+var eye_v = 0
+
+boxcar_filter_1d (
+    in1 = eye_h_calibrated
+    out1 = eye_h
+    width_samples = 5
+    )
+
+boxcar_filter_1d (
+    in1 = eye_v_calibrated
+    out1 = eye_v
+    width_samples = 5
+    )
+
+var fixation_width = 2
+var fixation_point_size = 0.4
+var fixation_pos_x = 0
+var fixation_pos_y = 0
+var eye_in_window = false
+
+circular_fixation_point fixation_point (
+    trigger_width = fixation_width
+    trigger_watch_x = eye_h
+    trigger_watch_y = eye_v
+    trigger_flag = eye_in_window
+    color = 1,0,0
+    x_size = fixation_point_size
+    x_position = fixation_pos_x
+    y_position = fixation_pos_y
+    )
+
+var saccade = false
+
+basic_eye_monitor (
+    eyeh_calibrated = eye_h
+    eyev_calibrated = eye_v
+    eye_state = saccade
+    width_samples = 5
+    saccade_entry_speed = 60
+    saccade_exit_speed = 20
+    )
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Images
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+%define image_set_size = 100
+var image_set_repetitions = 2
+var images_per_trial = 6
+
+var image_size = 5.4
+var image_pos_x = 0
+var image_pos_y = 5
+
+stimulus_group RSVP_images {
+    range_replicator (
+        variable = RSVP_stim_counter
+        from = 1
+        to = image_set_size
+        step = 1
+        ) {
+        image_file OSImage_${RSVP_stim_counter} (
+            path = 'images/RSVP_images/OSImage_${RSVP_stim_counter}.png'
+            x_size = image_size
+            x_position = image_pos_x
+            y_position = image_pos_y
+            )
+    }
+}
+
+selection RSVP_test_stim_index (
+    values = 0 : image_set_size - 1
+    selection = random_without_replacement
+    )
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Sounds
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+wav_file stim_on_sound ('sounds/stm_on.wav')
+wav_file acquire_sound ('sounds/acquire.wav')
+wav_file reward_sound ('sounds/reward.wav')
+wav_file failure_sound ('sounds/failure.wav')
+wav_file complete_sound ('sounds/complete.wav')
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// RSVP protocol
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+var inter_trial_interval = 500us
+var stim_on_delay = 160ms
+var stim_on_time = 100ms
+var stim_off_time = 100ms
+var ignore_time = 2s
+
+var images_shown = 0
+var image_set_repeat_count = 0
+
+var num_stims_shown = 0
+var miss_count = 0
+var success = 0
+var failure = 0
+var ignore = 0
+
+var sync = 0
+
+protocol 'RSVP' {
+    fixation_point_size = 0.2
+    fixation_pos_x = 0
+    fixation_pos_y = 0
+
+    reset_selection (RSVP_test_stim_index)
+    images_shown = 0
+    image_set_repeat_count = 0
+
+    start_io_device (eye_tracker)
+
+    task {
+        state 'RSVP start' {
+            wait (inter_trial_interval)
+
+            sync = 1
+            report ('********** RSVP Trial Started **********')
+            play_sound (stim_on_sound)
+
+            num_stims_shown = 0
+            live_queue_stimulus (fixation_point)
+            update_display ()
+
+            start_timer (
+                timer = rsvp_timer
+                duration = ignore_time
+                )
+
+            simulate_fixation (stim_on_delay + (stim_on_time + stim_off_time) * images_per_trial)
+
+            goto (
+                target = 'RSVP wait'
+                when = eye_in_window and (not saccade)
+                )
+            goto (
+                target = 'RSVP ignore'
+                when = timer_expired(rsvp_timer)
+                )
+        }
+
+        state 'RSVP wait' {
+            play_sound (acquire_sound)
+            start_timer (
+                timer = rsvp_timer
+                duration = stim_on_delay
+                )
+
+            goto (
+                target = 'RSVP failure'
+                when = (not eye_in_window) and (not saccade)
+                )
+            goto (
+                target = 'RSVP stim on'
+                when = timer_expired(rsvp_timer)
+                )
+        }
+
+        state 'RSVP stim on' {
+            queue_stimulus (RSVP_images[RSVP_test_stim_index])
+            bring_stimulus_to_front (fixation_point)
+            update_display ()
+
+            start_timer (
+                timer = rsvp_timer
+                duration = stim_on_time
+                )
+
+            // If the image is at index 7, increase fake monkey spiking rate
+            if (RSVP_test_stim_index == 7) {
+                spike_rate = 400
+            }
+
+            goto (
+                target = 'RSVP stim reject'
+                when = (not eye_in_window) and (not saccade)
+                )
+            goto (
+                target = 'RSVP stim off'
+                when = timer_expired(rsvp_timer)
+                )
+        }
+
+        state 'RSVP stim off' {
+            dequeue_stimulus (RSVP_images[RSVP_test_stim_index])
+            update_display ()
+
+            start_timer (
+                timer = rsvp_timer
+                duration = stim_off_time
+                )
+
+            spike_rate = 25
+
+            goto (
+                target = 'RSVP stim reject'
+                when = (not eye_in_window) and (not saccade)
+                )
+            goto (
+                target = 'RSVP stim accept'
+                when = timer_expired(rsvp_timer)
+                )
+        }
+
+        state 'RSVP stim accept' {
+            accept_selections (RSVP_test_stim_index)
+            num_stims_shown += 1
+            images_shown += 1
+
+            choose {
+                when (images_shown < image_set_size) {
+                    next_selection (RSVP_test_stim_index)
+                }
+                otherwise {
+                    reset_selection (RSVP_test_stim_index)
+                    image_set_repeat_count += 1
+                    images_shown = 0
+                }
+            }
+
+            goto (
+                target = 'RSVP success'
+                when = num_stims_shown >= images_per_trial
+                )
+            goto ('RSVP stim on')
+        }
+
+        state 'RSVP stim reject' {
+            dequeue_stimulus (RSVP_images[RSVP_test_stim_index])
+            update_display ()
+            spike_rate = 25
+            reject_selections (RSVP_test_stim_index)
+
+            goto ('RSVP failure')
+        }
+
+        state 'RSVP success' {
+            wait (500ms)
+
+            report ('*********** RSVP Success!!!! ***********')
+            reward = reward_duration
+            success += 1
+            miss_count = 0
+
+            goto ('RSVP pause')
+        }
+
+        state 'RSVP failure' {
+            report ('*********** RSVP Failure!!!! ***********')
+            play_sound (failure_sound)
+            failure += 1
+            miss_count += 1
+
+            goto ('RSVP pause')
+        }
+
+        state 'RSVP ignore' {
+            report ('*********** RSVP Ignored!!!! ***********')
+            ignore += 1
+            miss_count += 1
+
+            goto ('RSVP pause')
+        }
+
+        state 'RSVP pause' {
+            dequeue_stimulus (fixation_point)
+            update_display ()
+            start_timer (
+                timer = rsvp_timer
+                duration = 500ms
+                )
+
+            goto (
+                target = 'RSVP break'
+                when = miss_count == 5
+                )
+            goto (
+                target = 'RSVP complete'
+                when = timer_expired(rsvp_timer)
+                )
+        }
+
+        state 'RSVP break' {
+            play_sound (failure_sound)
+            miss_count = 0
+            wait(2500ms)
+
+            goto ('RSVP complete')
+        }
+
+        state 'RSVP complete' {
+            report ('********* RSVP Trial Completed *********')
+            sync = 0
+
+            goto (
+                target = 'RSVP start'
+                when = image_set_repeat_count < image_set_repetitions
+                )
+            yield ()
+        }
+    }
+
+    stop_io_device (eye_tracker)
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Eye calibration protocol
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+var cal_fixation_duration = 800ms
+var cal_fix_pos_x (scope = local; default_value = 0)
+var cal_fix_pos_y (scope = local; default_value = 0)
+
+protocol 'Eye Calibration' {
+    report ('******** STARTING CALIBRATION ********')
+
+    start_io_device (eye_tracker)
+    clear_calibration (eye_calibrator)
+
+    num_stims_shown = 0
+    miss_count = 0
+
+    list calibration_list (selection = random_without_replacement) {
+        range_replicator (
+            variable = cal_fix_pos_x
+            from = -15
+            to = 15
+            step = 5
+        ) {
+            range_replicator (
+                variable = cal_fix_pos_y
+                from = -15
+                to = 15
+                step = 5
+            ) {
+                trial {
+                    task {
+                        state 'cal wait' {
+                            wait (1000ms)
+
+                            fixation_pos_x = cal_fix_pos_x
+                            fixation_pos_y = cal_fix_pos_y
+                            fixation_point_size = 0
+                            live_queue_stimulus (fixation_point)
+                            update_display ()
+
+                            goto (
+                                target = 'cal prefixation'
+                                when = not eye_in_window
+                                )
+                        }
+
+                        state 'cal prefixation' {
+                            play_sound (stim_on_sound)
+                            fixation_point_size = 0.4
+                            update_display ()
+
+                            start_timer (
+                                timer = cal_timer
+                                duration = 1500ms
+                                )
+
+                            simulate_fixation (cal_fixation_duration)
+
+                            goto (
+                                target = 'cal ignore'
+                                when = timer_expired(cal_timer)
+                                )
+                            goto (
+                                target = 'cal acquire'
+                                when = eye_in_window and (not saccade)
+                                )
+                        }
+
+                        state 'cal acquire' {
+                            play_sound (acquire_sound)
+                            start_timer (
+                                timer = cal_timer
+                                duration = cal_fixation_duration
+                                )
+
+                            goto ('cal fixation')
+                        }
+
+                        state 'cal fixation' {
+                            begin_calibration_average (eye_calibrator)
+
+                            goto (
+                                target = 'cal failure'
+                                when = not eye_in_window
+                                )
+                            goto (
+                                target = 'cal fixation monitor'
+                                when = saccade
+                                )
+                            goto (
+                                target = 'cal pre reward'
+                                when = timer_expired(cal_timer)
+                                )
+                        }
+
+                        state 'cal fixation monitor' {
+                            end_calibration_average_and_ignore (eye_calibrator)
+
+                            goto (
+                                target = 'cal fixation'
+                                when = eye_in_window and (not saccade)
+                                )
+                            goto (
+                                target = 'cal failure'
+                                when = (not eye_in_window) and (not saccade)
+                                )
+                        }
+
+                        state 'cal pre reward' {
+                            start_timer (
+                                timer = cal_timer
+                                duration = 30ms
+                                )
+
+                            goto (
+                                target = 'cal success'
+                                when = saccade or timer_expired(cal_timer)
+                                )
+                        }
+
+                        state 'cal success' {
+                            report ('************** HIT!!!!! **************')
+
+                            end_calibration_average_and_take_sample (
+                                calibrator = eye_calibrator
+                                calibratable_object = fixation_point
+                                )
+
+                            success += 1
+                            dequeue_stimulus (fixation_point)
+                            update_display ()
+
+                            reward = reward_duration
+
+                            num_stims_shown += 1
+                            miss_count = 0
+                            accept_selections (calibration_list)
+
+                            yield ()
+                        }
+
+                        state 'cal failure' {
+                            report ('************** MISS!!!! **************')
+
+                            end_calibration_average_and_ignore (eye_calibrator)
+                            play_sound (failure_sound)
+                            wait (500ms)
+
+                            dequeue_stimulus (fixation_point)
+                            update_display ()
+
+                            failure += 1
+                            miss_count += 1
+                            reject_selections (calibration_list)
+
+                            goto (
+                                target = 'cal break'
+                                when = miss_count == 7
+                                )
+                            yield ()
+                        }
+
+                        state 'cal ignore' {
+                            report ('************* IGNORE!!!! *************')
+
+                            dequeue_stimulus (fixation_point)
+                            update_display ()
+
+                            ignore += 1
+                            miss_count += 1
+                            reject_selections (calibration_list)
+
+                            goto (
+                                target = 'cal break'
+                                when = miss_count == 7
+                                )
+                            yield ()
+                        }
+
+                        state 'cal break' {
+                            miss_count = 0
+                            wait (20s)
+                            yield ()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    report ('******** CALIBRATION FINISHED ********')
+
+    play_sound (complete_sound)
+    update_calibration (eye_calibrator)
+    stop_io_device (eye_tracker)
+
+    wait (3s)  // Let completion sound finish playing
+}
