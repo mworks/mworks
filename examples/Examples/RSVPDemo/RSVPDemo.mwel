@@ -5,13 +5,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-var spike_rate = 25  // Spikes per second
-var spikes = 0
 var eye_h_raw = 0
 var eye_v_raw = 0
 
-fake_monkey eye_tracker (spike_rate = spike_rate) {
-    iochannel/spike (variable = spikes)
+fake_monkey eye_tracker {
     iochannel/eye_movement (
         eye_h = eye_h_raw
         eye_v = eye_v_raw
@@ -248,11 +245,6 @@ protocol 'RSVP' {
                 duration = stim_on_time
                 )
 
-            // If the image is at index 7, increase fake monkey spiking rate
-            if (RSVP_test_stim_index == 7) {
-                spike_rate = 400
-            }
-
             goto (
                 target = 'RSVP stim reject'
                 when = (not eye_in_window) and (not saccade)
@@ -271,8 +263,6 @@ protocol 'RSVP' {
                 timer = rsvp_timer
                 duration = stim_off_time
                 )
-
-            spike_rate = 25
 
             goto (
                 target = 'RSVP stim reject'
@@ -310,7 +300,6 @@ protocol 'RSVP' {
         state 'RSVP stim reject' {
             dequeue_stimulus (RSVP_images[RSVP_test_stim_index])
             update_display ()
-            spike_rate = 25
             reject_selections (RSVP_test_stim_index)
 
             goto ('RSVP failure')
