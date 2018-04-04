@@ -56,7 +56,7 @@
     if (recentServers && ([recentServers count] > 0)) {
         serverURL = [[recentServers objectAtIndex:0] copy];
     } else {
-        serverURL = @"127.0.0.1";
+        serverURL = @"localhost";
     }
     
 	serverPort = [NSNumber numberWithInteger:19989];
