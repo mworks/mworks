@@ -140,6 +140,10 @@ class Lexer(object):
 
     def t_ANY_error(self, t):
         bad_char = t.value[0]
+        try:
+            bad_char = str(bad_char)
+        except UnicodeEncodeError:
+            pass
         self.log_error('Illegal character: %r' % bad_char,
                        bad_char,
                        t.lexer.lineno,

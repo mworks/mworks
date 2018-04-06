@@ -357,3 +357,13 @@ class TestLexer(unittest.TestCase):
             self.assertError('$')
             self.assertToken('{')
             self.assertIdentifier('xyz')
+
+    def test_illegal_char_message(self):
+        with self.input('a.b'):
+            self.assertIdentifier('a')
+
+            self.assertTrue(self.errors)
+            e = self.errors.popleft()
+            self.assertEqual("Illegal character: '.'", e[0])
+
+            self.assertIdentifier('b')
