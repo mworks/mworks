@@ -26,5 +26,10 @@ parameters:
     required: yes
     example: 24
     description: Font size (points)
+  - 
+    name: text_alignment
+    options: [left, right, center]
+    default: left
+    description: Text alignment
 
 

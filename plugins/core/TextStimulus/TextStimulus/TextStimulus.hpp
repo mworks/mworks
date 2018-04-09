@@ -19,6 +19,7 @@ public:
     static const std::string TEXT;
     static const std::string FONT_NAME;
     static const std::string FONT_SIZE;
+    static const std::string TEXT_ALIGNMENT;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -42,6 +43,7 @@ private:
     const VariablePtr text;
     const VariablePtr fontName;
     const VariablePtr fontSize;
+    const VariablePtr textAlignment;
     
     GLint viewportWidth, viewportHeight;
     double pixelsPerDegree;
@@ -52,6 +54,7 @@ private:
     std::string currentText, lastText;
     std::string currentFontName, lastFontName;
     CGFloat currentFontSize, lastFontSize;
+    std::string currentTextAlignment, lastTextAlignment;
     
 };
 

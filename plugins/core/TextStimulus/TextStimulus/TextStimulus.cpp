@@ -24,12 +24,26 @@ inline cf::StringPtr createCFString(const std::string &bytesUTF8) {
 }
 
 
+CTTextAlignment textAlignmentFromName(const std::string &name) {
+    if (name == "left") {
+        return kCTTextAlignmentLeft;
+    } else if (name == "right") {
+        return kCTTextAlignmentRight;
+    } else if (name == "center") {
+        return kCTTextAlignmentCenter;
+    }
+    merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid text alignment: \"%s\"", name.c_str());
+    return kCTTextAlignmentLeft;
+}
+
+
 END_NAMESPACE()
 
 
 const std::string TextStimulus::TEXT("text");
 const std::string TextStimulus::FONT_NAME("font_name");
 const std::string TextStimulus::FONT_SIZE("font_size");
+const std::string TextStimulus::TEXT_ALIGNMENT("text_alignment");
 
 
 void TextStimulus::describeComponent(ComponentInfo &info) {
@@ -40,6 +54,7 @@ void TextStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(TEXT);
     info.addParameter(FONT_NAME);
     info.addParameter(FONT_SIZE);
+    info.addParameter(TEXT_ALIGNMENT, "left");
 }
 
 
@@ -48,6 +63,7 @@ TextStimulus::TextStimulus(const ParameterValueMap &parameters) :
     text(registerVariable(variableOrText(parameters[TEXT]))),
     fontName(registerVariable(variableOrText(parameters[FONT_NAME]))),
     fontSize(registerVariable(parameters[FONT_SIZE])),
+    textAlignment(registerVariable(variableOrText(parameters[TEXT_ALIGNMENT]))),
     viewportWidth(0),
     viewportHeight(0),
     pixelsPerDegree(0.0),
@@ -62,6 +78,7 @@ Datum TextStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(TEXT, lastText);
     announceData.addElement(FONT_NAME, lastFontName);
     announceData.addElement(FONT_SIZE, lastFontSize);
+    announceData.addElement(TEXT_ALIGNMENT, lastTextAlignment);
     
     return announceData;
 }
@@ -147,6 +164,7 @@ void TextStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     currentText = text->getValue().getString();
     currentFontName = fontName->getValue().getString();
     currentFontSize = fontSize->getValue().getFloat();
+    currentTextAlignment = textAlignment->getValue().getString();
     
     bindTexture(display);
 }
@@ -158,6 +176,7 @@ void TextStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     lastText = currentText;
     lastFontName = currentFontName;
     lastFontSize = currentFontSize;
+    lastTextAlignment = currentTextAlignment;
     
     ColoredTransformStimulus::postDraw(display);
 }
@@ -168,7 +187,8 @@ void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display
         (fullscreen || (current_sizex == last_sizex && current_sizey == last_sizey)) &&
         currentText == lastText &&
         currentFontName == lastFontName &&
-        currentFontSize == lastFontSize)
+        currentFontSize == lastFontSize &&
+        currentTextAlignment == lastTextAlignment)
     {
         // No relevant parameters have changed since we last generated the texture, so use
         // the existing one
@@ -199,21 +219,35 @@ void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display
     CGContextTranslateCTM(context.get(), 0, bitmapHeight);
     CGContextScaleCTM(context.get(), 1.0 / pointsPerPixel, -1.0 / pointsPerPixel);
     
-    // Create the text string with the requested font applied
+    // Create the text string
     auto attrString = cf::ObjectPtr<CFMutableAttributedStringRef>::created(CFAttributedStringCreateMutable(kCFAllocatorDefault, 0));
     CFAttributedStringReplaceString(attrString.get(), CFRangeMake(0, 0), createCFString(currentText).get());
     const auto fullRange = CFRangeMake(0, CFAttributedStringGetLength(attrString.get()));
+    
+    // Set the color to white and fully opaque.  (The user-specified color and alpha multiplier are applied
+    // in the fragment shader.)
     const std::array<CGFloat, 4> colorComponents { 1.0, 1.0, 1.0, 1.0 };
     auto color = cf::ObjectPtr<CGColorRef>::created(CGColorCreate(colorSpace.get(), colorComponents.data()));
     CFAttributedStringSetAttribute(attrString.get(),
                                    fullRange,
                                    kCTForegroundColorAttributeName,
                                    color.get());
+    
+    // Set the font
     auto font = cf::ObjectPtr<CTFontRef>::created(CTFontCreateWithName(createCFString(currentFontName).get(),
                                                                        currentFontSize,
                                                                        nullptr));
     CFAttributedStringSetAttribute(attrString.get(), fullRange, kCTFontAttributeName, font.get());
     
+    // Set the text alignment
+    const CTTextAlignment alignment = textAlignmentFromName(currentTextAlignment);
+    const std::array<CTParagraphStyleSetting, 1> paragraphStyleSettings {
+        { kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment }
+    };
+    auto paragraphStyle = cf::ObjectPtr<CTParagraphStyleRef>::created(CTParagraphStyleCreate(paragraphStyleSettings.data(),
+                                                                                             paragraphStyleSettings.size()));
+    CFAttributedStringSetAttribute(attrString.get(), fullRange, kCTParagraphStyleAttributeName, paragraphStyle.get());
+
     // Generate a Core Text frame
     auto framesetter = cf::ObjectPtr<CTFramesetterRef>::created(CTFramesetterCreateWithAttributedString(attrString.get()));
     auto path = cf::ObjectPtr<CGPathRef>::created(CGPathCreateWithRect(CGRectMake(0,

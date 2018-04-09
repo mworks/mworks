@@ -1,0 +1,56 @@
+%define text_test (text, alignment, y_position)
+    text (
+        text = text
+        font_name = 'Helvetica'
+        font_size = 32
+        text_alignment = alignment
+        color = 0,0,0
+        x_size = 20
+        y_size = 5
+        y_position = y_position
+        )
+%end
+
+
+text_test default (
+    text = 'Default'
+    alignment = ''
+    y_position = 10
+    )
+
+text_test left (
+    text = 'Left'
+    alignment = left
+    y_position = 5
+    )
+
+text_test right (
+    text = 'Right'
+    alignment = right
+    y_position = 0
+    )
+
+text_test center (
+    text = 'Center'
+    alignment = center
+    y_position = -5
+    )
+
+text_test invalid (
+    text = 'Invalid'
+    alignment = middle
+    y_position = -10
+    )
+
+
+protocol {
+    queue_stimulus (default)
+    queue_stimulus (left)
+    queue_stimulus (right)
+    queue_stimulus (center)
+    queue_stimulus (invalid)
+
+    update_display ()
+
+    wait (10s)
+}

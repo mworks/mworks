@@ -15,6 +15,7 @@ A stimulus that renders user-specified text within a rectangular region
           text=""
           font_name=""
           font_size=""
+          text_alignment="left"
           color="1,1,1"
           x_size=""
           y_size=""

@@ -1,6 +1,7 @@
 var text = "Hello, world! How y'all doing?"
 var font_name = 'MarkerFelt-Thin'
 var font_size = {'macos': 24, 'ios': 16}[osname()]
+var text_alignment = 'right'
 var red = 1
 var green = 1
 var blue = 1
@@ -25,6 +26,7 @@ text text (
     text = text
     font_name = font_name
     font_size = font_size
+    text_alignment = text_alignment
     color = red, green, blue
     x_size = x_size
     y_size = y_size
@@ -56,6 +58,10 @@ protocol {
 
     // Change font size
     font_size = 2 * font_size
+    update_and_wait ()
+
+    // Change text alignment
+    text_alignment = 'left'
     update_and_wait ()
 
     // Change red
