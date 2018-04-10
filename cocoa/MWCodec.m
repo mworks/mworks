@@ -247,9 +247,11 @@
 - (void)setValue:(const mw::Datum &)setval forVariable:(NSString *)key {
     @synchronized (clientInstance) {
         int code = core->lookupCodeForTag([key cStringUsingEncoding:NSASCIIStringEncoding]);
-        [self willChangeValueForKey:key];
-        core->updateValue(code, setval);
-        [self didChangeValueForKey:key];
+        if (code >= 0) {
+            [self willChangeValueForKey:key];
+            core->updateValue(code, setval);
+            [self didChangeValueForKey:key];
+        }
     }
 }
 
