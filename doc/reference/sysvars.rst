@@ -67,7 +67,7 @@ The ``width``, ``height``, and ``distance`` values are used to compute the angul
 
     Display bounds set to (-26.4631 left, 26.4631 right, 16.5394 top, -16.5394 bottom)
 
-Visual stimuli are drawn within these bounds, with their position and size given in degrees.
+Within an experiment, the bounds can be obtained via the ``display_bounds`` function.  Visual stimuli are drawn within these bounds, with their position and size given in degrees.
 
 Changes to this variable affect the next experiment loaded.
 

@@ -832,13 +832,32 @@ parameters:
 name: List Replicator
 signature: list_replicator
 isa: Replicator
-description: >
+description: |
     A construct that replicates its contents (textually) at parse time.  Each
     replication assigns a different value from a user-provided list to the
     specified `variable`_ (similar to a `foreach loop
     <https://en.wikipedia.org/wiki/Foreach_loop>`_). This can be used, for
     example, to generate a `Stimulus Group` of `images <Image Stimulus>` by
     using the replicator variable as the path to each image file.
+
+    .. rubric:: Filenames Directive
+
+    The value list can include one or more items of the form
+    ``filenames(glob_pat)``, where ``glob_pat`` is a `glob pattern
+    <https://en.wikipedia.org/wiki/Glob_(programming)>`_, similar to those used
+    in Unix shell commands.  The glob pattern must match the names of one or
+    more files.  Both absolute and relative paths are acceptable.  If the
+    pattern matches no files, the parser raises an error.
+
+    When the replicator is evaluated, each ``filenames`` directive is expanded
+    into a comma-separated list of matching file names.  For example, if you
+    have five image files named ``img1.png`` to ``img5.png``, then the following
+    value lists are all equivalent:
+
+    * ``img1.png, img2.png, img3.png, img4.png, img5.png``
+    * ``filenames(*.png)``
+    * ``filenames(img?.png)``
+    * ``filenames(img[12].png), img3.png, filenames(img[!1-3].png)``
 parameters: 
   - 
     name: variable
@@ -1098,12 +1117,7 @@ parameters:
 name: Wait
 signature: action/wait
 isa: Timer Action
-description: |
-    Pause for a specified amount of time.
-
-    *Note*: This action is not intended for precise coordination of timed
-    events. For a greater degree of temporal control, use a `Task System` with a
-    timer object and a `Timer Expired Transition`.
+description: Pause for a specified amount of time
 
 
 ---

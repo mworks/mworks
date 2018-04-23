@@ -316,6 +316,8 @@ By combining queue and dequeue actions, you can both add and remove stimuli in a
     update_display ()
 
 
+.. _Understanding Display Updates:
+
 Understanding Display Updates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -364,7 +366,99 @@ Variable-attached actions are a powerful tool that enable a form of `event-drive
 Replicators
 ^^^^^^^^^^^
 
-*Coming soon!*
+`Replicators` are confusing, difficult to use correctly, and should be avoided whenever possible.  However, a few experiment-construction tasks would be difficult or impossible to accomplish without replicators, so you should know the basics of how they work.
+
+Most commonly, replicators are employed in the declaration of related stimuli.  For example, suppose you are implementing an experiment in which you will present 100 `image stimuli <Image Stimulus>`, all of the same size and at the same on-screen position.  In the absence of replicators, your experiment would include a large list of nearly-identical stimulus declarations, one for each image file::
+
+    var img_size = 5
+    var img_pos_x = 0
+    var img_pos_y = 0
+
+    stimulus_group images {
+        image_file image1 (
+            path = 'images/img1.png'
+            x_size = img_size
+            x_position = img_pos_x
+            y_position = img_pos_y
+            )
+
+        image_file image2 (
+            path = 'images/img2.png'
+            x_size = img_size
+            x_position = img_pos_x
+            y_position = img_pos_y
+            )
+
+        ...
+
+        image_file image100 (
+            path = 'images/img100.png'
+            x_size = img_size
+            x_position = img_pos_x
+            y_position = img_pos_y
+            )
+    }
+
+Because each declaration differs only in the numeric index of the image, you can replace this long, redundant list with a single image declaration contained in a `range replicator <Range Replicator>`::
+
+    var index (scope = local; default_value = 0)
+
+    stimulus_group images {
+        range_replicator (
+            variable = index
+            from = 1
+            to = 100
+            step = 1
+            ) {
+            image_file image${index} (
+                path = 'images/img${index}.png'
+                x_size = img_size
+                x_position = img_pos_x
+                y_position = img_pos_y
+                )
+        }
+    }
+
+There are two important points to note here:
+
+1. The replicator variable, ``index``, includes ``scope=local`` in its declaration.
+2. Inside the replicator, the text ``${index}`` is replaced with the value of ``index`` for the current iteration.
+
+Alternatively, to avoid the requirement that your image files be named with ascending numeric indices, you can use a `list replicator <List Replicator>` with a ``filenames`` directive::
+
+    var filename (scope = local; type = string; default_value = not_a_file)
+
+    stimulus_group images {
+        list_replicator (
+            variable = filename
+            values = 'filenames(images/*.png)'
+            ) {
+            image_file ${filename} (
+                path = '${filename}'
+                x_size = img_size
+                x_position = img_pos_x
+                y_position = img_pos_y
+                )
+        }
+    }
+
+Replicators can also be used to create sets of related `protocols <Protocol>`, `blocks <Block>`, `trials <Trial>`, and `lists <List>`.  For example, suppose you want your experiment to contain 100 trials.  The trials will be identical, except each will present a different image.  You can avoid having a separate declaration for each trial by using a replicator::
+
+    protocol {
+        range_replicator (
+            variable = index
+            from = 0
+            to = 99
+            step = 1
+            ) {
+            trial {
+                queue_stimulus (images[index])
+                ...
+            }
+        }
+    }
+
+Notice that, in this case, the replicator variable is referred to simply by name (``index``) and *not* like it is in the image declaration (``${index}``).  In fact, if you try to use the latter syntax, you will get an "unknown variable" error at run time.  This is but one of many quirks and limitations that make replicators difficult to understand and use.
 
 
 .. _selection:
@@ -372,10 +466,182 @@ Replicators
 Selection
 ^^^^^^^^^
 
-*Coming soon!*
+In MWorks, *selection* is a mechanism for controlling the ordering and repetition of experimental tasks and parameters.  A *selectable object* is a container from which items are drawn ("selected") in sequential or random order.  After being drawn, selected items can be *accepted* (removed from the container permanently) or *rejected* (placed back in the container to be selected again).
+
+
+Selection Parameters
+""""""""""""""""""""
+
+The behavior of selectable objects is controlled by three parameters:
+
+selection
+    The selection method, which controls the order in which samples are drawn.  Allowed values are ``sequential`` (aka ``sequential_ascending``), ``sequential_descending``, ``random_without_replacement``, and ``random_with_replacement``.
+
+nsamples
+    The number of samples that may be drawn before the selectable object is exhausted
+
+sampling_method
+    Determines what constitutes a sample.  ``cycles`` means that *all* possible selections must be made to complete one sample, whereas ``samples`` indicates that each individual selection counts as a sample.
+
+`Protocols <Protocol>`, `blocks <Block>`, `trials <Trial>`, and `lists <List>` are all selectable objects.  The items that they contain and offer for selection are their immediate child components (i.e. `actions <Actions>` and other `paradigm components <Paradigm Components>`).  This is easiest to understand via an example.
+
+Consider a block that contains three assignments to variable ``x``, whose initial value is 0::
+
+    block {
+        x = 10*x + 1
+        x = 10*x + 2
+        x = 10*x + 3
+    }
+
+When the block executes, it will perform each assignment exactly once, in order of appearance, after which the value of ``x`` will be 123.  This execution behavior results from the default values used for the block's selection parameters, which we can also specify explicitly::
+
+    block (
+        selection = sequential
+        nsamples = 1
+        sampling_method = cycles
+        ) {
+        ...
+    }
+
+Now, consider how the final value of ``x`` changes as we alter each selection parameter is turn.  Suppose we change the value of ``selection`` from ``sequential`` to ``sequential_descending``::
+
+    block (
+        selection = sequential_descending
+        nsamples = 1
+        sampling_method = cycles
+        ) {
+        ...
+    }
+
+This reverses the order in which the block executes its child actions, giving ``x`` a final value of 321.
+
+Next, suppose we change ``sampling_method`` from ``cycles`` to ``samples``::
+
+    block (
+        selection = sequential_descending
+        nsamples = 1
+        sampling_method = samples
+        ) {
+        ...
+    }
+
+Execution of a single child action now constitutes a sample.  Because ``nsamples`` is 1, the block will perform just one action, after which all selections will be exhausted, and its execution will terminate.  Hence, the final value of ``x`` will be 3.
+
+Finally, suppose we change ``nsamples`` to 5::
+
+    block (
+        selection = sequential_descending
+        nsamples = 5
+        sampling_method = samples
+        ) {
+        ...
+    }
+
+Now, the block will draw five samples from its child components.  Because the number of samples is greater than the number of children, after reaching the end of its child list, the block will loop back to the beginning.  The final value of ``x`` will be 32132.
+
+
+Accepting and Rejecting Samples
+"""""""""""""""""""""""""""""""
+
+While the examples in the previous section illustrate the meaning of the different selection parameters, they are not typical of real experiments.  Most commonly, selection is used to exercise a set of experimental conditions, in random order, with each condition having associated acceptance criteria.
+
+The example experiment ``RSVPDemo.mwel`` contains a protocol named "Eye Calibration", which calibrates the eye positions received from an eye tracker.  The protocol requires the subject to fixate on 49 different points on screen, which are presented in random order.  It is implemented with a `list <List>` (``calibration_list``), whose ``selection`` parameter is set to ``random_without_replacement``.  The list contains 49 `trials <Trial>`, generated with two nested `range replicators <Range Replicator>`, each of which presents the fixation point at a different location::
+
+    list calibration_list (selection = random_without_replacement) {
+        range_replicator (
+            variable = cal_fix_pos_x
+            from = -15
+            to = 15
+            step = 5
+        ) {
+            range_replicator (
+                variable = cal_fix_pos_y
+                from = -15
+                to = 15
+                step = 5
+            ) {
+                trial {
+                    ...
+                }
+            }
+        }
+    }
+
+Each trial requires the subject to fixate on the relevant point for a specified length of time.  If the subject never fixates or breaks fixation early, the trial must be repeated.  This is accomplished via the `Reject Selections` action::
+
+    reject_selections (calibration_list)
+
+This action tells the selectable object (``calibration_list``) to put the current selection (the executing trial) back in the sample pool, ready to be chosen (and, hence, executed) again on a later draw.
+
+Conversely, if the subject does successfully fixate for the desired length of time, then the trial takes a calibration sample for the current screen location.  After this, there's no need for the trial to execute again, so it removes itself from the sample pool with the `Accept Selections` action::
+
+    accept_selections (calibration_list)
+
+The list will continue to execute, choosing trials at random from its pool of non-accepted children, until all trials have been accepted.
+
+
+Selection Variables
+"""""""""""""""""""
+
+In all of the selection examples so far, the selectable object has been a `paradigm component <Paradigm Components>`.  However, MWorks also provides another, more flexible type of selectable object: the `Selection Variable`.
+
+A selection variable is essentially a bag of user-specified values, to which MWorks' selection machinery is applied.  Unlike selection-capable paradigm components, selection variables do not advance through their sample lists automatically.  Instead, each subsequent selection must be made explicitly, via the `Next Selection` action.  Within expressions, selection variables can be referred to by name, like regular variables, and evaluate to their currently-selected value.
+
+For a demonstration of selection variables in action, see the "RSVP" protocol in ``RSVPDemo.mwel``, which uses a selection variable (``RSVP_test_stim_index``) to draw images in random order from a `stimulus group <Stimulus Group>`.
 
 
 Stimulus Animation
 ^^^^^^^^^^^^^^^^^^
 
-*Coming soon!*
+Although some of MWorks' visual stimuli (such as `videos <Video Stimulus>` and `drifting gratings <Drifting Grating Stimulus>`) are inherently dynamic, most are  designed for static display, with changes to their color, size, position, etc. being made explicitly by the experiment.  However, with a little work, these normally-static stimuli can be animated, opening the door to user-defined dynamic stimulus presentations.
+
+Animating a non-dynamic stimulus involves three steps:
+
+1. Writing the stimulus parameters that you want to animate as time-varying expressions,
+2. Arranging for the stimulus display to redraw itself on every display refesh, and
+3. Ensuring that the stimulus' parameters are re-evaluated every time the stimulus is drawn.
+
+Consider the following `circle stimulus <Ellipse Stimulus>` declaration::
+
+    var start_time = 0
+
+    circle ball (
+        color = 1,0,0
+        x_size = 5
+        x_position = -15 * cos(2*pi() * (next_frame_time() - start_time) / 3s)
+        )
+
+The ``color`` and ``x_size`` parameters have simple, constant values.  However, the value of ``x_position`` is an expression that depends on ``next_frame_time``.  This function returns the predicted output time of the frame that the stimulus display is currently rendering.  (For more information, see `Understanding Display Updates`_.)  Every time the expression is evaluated, it will return a different value, varying sinusoidally with a period of three seconds.  (Including the ``start_time`` variable in the expression for ``x_position`` allows us to control the initial position of the ball.  While not really necessary in this example, the starting time is a crucial parameter in most real-world stimulus animations, so we illustrate its use here.)
+
+Now that we have a stimulus parameter with a time-varying value (step 1), we must force the stimulus display to redraw during every refresh cycle (step 2).  There are two ways to accomplish this.  The first is to include a `Stimulus Display` device declaration in your experiment, and set its ``redraw_on_every_refresh`` parameter to ``true``::
+
+    stimulus_display (
+        background_color = 0,0,0
+        redraw_on_every_refresh = true
+        )
+
+The second method entails "wrapping" the stimulus you want to animate in a `frame list <Frame List Stimulus>` that is configured to loop indefinitely::
+
+    frame_list ball (
+        stimulus_group = ball_frames
+        loop = true
+        autoplay = true
+        )
+
+    stimulus_group ball_frames {
+        circle (
+            color = 1,0,0
+            x_size = 5
+            x_position = -15 * cos(2*pi() * (next_frame_time() - start_time) / 3s)
+            )
+    }
+
+This method is more complicated, but it has the advantage that the display is forced to refresh *only* while the animated stimulus is on screen.
+
+Finally, to ensure that the stimulus' parameters are re-evaluated every time it is drawn (step 3), we simply `live queue <Live Queue Stimulus>` the stimulus::
+
+    start_time = next_frame_time ()
+    live_queue_stimulus (ball)
+    update_display ()
+
+For a demonstration of more complex stimulus animation, see the example experiment ``BouncingBall.mwel``.
