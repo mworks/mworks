@@ -152,7 +152,7 @@ Ranges
 
 A range expression is a compact representation of an evenly-spaced, ordered sequence of integers.
 
-The general form of a range expression is *start:stop:step*, where *start*, *stop*, and *step* are expressions that evaluate to integers.  *step* is optional.  If provided, it must evaluate to a non-negative integer; if omitted, it defaults to 1.  If *start* is less than *stop*, the sequence will be increasing; otherwise, it will be decreasing.  *start* is always included in the sequence.  If *start* and *stop* are separated by a multiple of *step*, *stop* will be included as well.
+The general form of a range expression is *start:stop:step*, where *start*, *stop*, and *step* are expressions that evaluate to integers.  *step* is optional.  If provided, it must evaluate to a positive integer; if omitted, it defaults to 1.  If *start* is less than *stop*, the sequence will be increasing; otherwise, it will be decreasing.  *start* is always included in the sequence.  If *start* and *stop* are separated by a multiple of *step*, *stop* will be included as well.
 
 List literals, function calls, and `selection variable <Selection Variable>` value lists can all incorporate range expressions.  In all cases, range expressions can be mixed with other expressions, so long as all items are separated by commas.
 
