@@ -55,4 +55,4 @@ VERSION_INFO_PREFIX = $(inherited)
 VERSIONING_SYSTEM = $(inherited)
 WARNING_CFLAGS = $(inherited) -Wno-inconsistent-missing-override -Wpartial-availability -Wreorder
 
-MW_VERSION = 0.8.dev
+MW_VERSION = 0.9.dev
