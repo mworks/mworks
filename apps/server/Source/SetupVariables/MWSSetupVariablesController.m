@@ -44,8 +44,8 @@
                 _alwaysDisplayMirrorWindow = getValueWithDefault(mdi, M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, false).getBool();
                 _mirrorWindowBaseHeight = @(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat());
                 _announceIndividualStimuli = getValueWithDefault(mdi, M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY, true).getBool();
-                _renderAtFullResolution = getValueWithDefault(mdi, M_RENDER_AT_FULL_RESOLUTION, true).getBool();
-                _useColorManagement = getValueWithDefault(mdi, M_USE_COLOR_MANAGEMENT, true).getBool();
+                _renderAtFullResolution = getValueWithDefault(mdi, M_RENDER_AT_FULL_RESOLUTION_KEY, true).getBool();
+                _useColorManagement = getValueWithDefault(mdi, M_USE_COLOR_MANAGEMENT_KEY, true).getBool();
             }
         }
         
@@ -156,7 +156,7 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
 - (void)setRenderAtFullResolution:(BOOL)renderAtFullResolution {
     _renderAtFullResolution = renderAtFullResolution;
     [self updateVariable:mw::mainDisplayInfo
-                     key:M_RENDER_AT_FULL_RESOLUTION
+                     key:M_RENDER_AT_FULL_RESOLUTION_KEY
                    value:bool(renderAtFullResolution)];
 }
 
@@ -164,7 +164,7 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
 - (void)setUseColorManagement:(BOOL)useColorManagement {
     _useColorManagement = useColorManagement;
     [self updateVariable:mw::mainDisplayInfo
-                     key:M_USE_COLOR_MANAGEMENT
+                     key:M_USE_COLOR_MANAGEMENT_KEY
                    value:bool(useColorManagement)];
 }
 

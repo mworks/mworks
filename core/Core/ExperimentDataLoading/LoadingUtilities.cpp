@@ -289,12 +289,12 @@ BEGIN_NAMESPACE_MW
 				announce_individual_stimuli = (bool)val.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY);
 			}
             
-            if(val.hasKey(M_RENDER_AT_FULL_RESOLUTION)){
-                render_at_full_resolution = (bool)val.getElement(M_RENDER_AT_FULL_RESOLUTION);
+            if(val.hasKey(M_RENDER_AT_FULL_RESOLUTION_KEY)){
+                render_at_full_resolution = (bool)val.getElement(M_RENDER_AT_FULL_RESOLUTION_KEY);
             }
             
-            if(val.hasKey(M_USE_COLOR_MANAGEMENT)){
-                use_color_management = (bool)val.getElement(M_USE_COLOR_MANAGEMENT);
+            if(val.hasKey(M_USE_COLOR_MANAGEMENT_KEY)){
+                use_color_management = (bool)val.getElement(M_USE_COLOR_MANAGEMENT_KEY);
             }
 		}
 		
