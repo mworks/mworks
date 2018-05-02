@@ -1068,6 +1068,12 @@ namespace stx MW_SYMBOL_PUBLIC {
 				: ParseNode(),
 				left(_left), right(_right), opstr(_op)
 				{
+                    //
+                    // Trim operator string to work around the following issue in Boost 1.67.0:
+                    // https://github.com/boostorg/spirit/pull/336#issuecomment-382006265
+                    //
+                    boost::algorithm::trim(_op);
+                    
 					if (_op == "==" || _op == "=")
 						op = EQUAL;
 					else if (_op == "!=")
@@ -1081,7 +1087,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 					else if (_op == ">=" || _op == "=>" || _op == "#GE")
 						op = GREATEREQUAL;
 					else
-						throw(BadSyntaxException("Program Error: invalid binary comparision operator."));
+						throw(BadSyntaxException("Program Error: invalid binary comparison operator: " + _op));
 				}
 				
 				/// Recursively delete parse tree.
