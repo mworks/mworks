@@ -560,6 +560,30 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
             }
             
             auto image = cf::ObjectPtr<CGImageRef>::created(CGImageSourceCreateImageAtIndex(imageSource.get(), 0, nullptr));
+            
+            // If we're not using color management, replace the image's color space with an appropriate
+            // device-dependent one, so that its color values are not altered in any way
+            if (!display->getUseColorManagement()) {
+                cf::ObjectPtr<CGColorSpaceRef> imageColorSpace;
+                
+                switch (CGColorSpaceGetModel(CGImageGetColorSpace(image.get()))) {
+                    case kCGColorSpaceModelMonochrome:
+                        imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceGray());
+                        break;
+                    case kCGColorSpaceModelRGB:
+                        imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
+                        break;
+                    case kCGColorSpaceModelCMYK:
+                        imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceCMYK());
+                        break;
+                    default:
+                        throw SimpleException("Image uses an unsupported color model");
+                }
+                
+                image = cf::ObjectPtr<CGImageRef>::created(CGImageCreateCopyWithColorSpace(image.get(),
+                                                                                           imageColorSpace.get()));
+            }
+            
             auto width = CGImageGetWidth(image.get());
             auto height = CGImageGetHeight(image.get());
             aspectRatio = double(width) / double(height);
