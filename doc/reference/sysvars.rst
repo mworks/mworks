@@ -51,7 +51,7 @@ The following keys are recognized.  If a key is omitted, the default value is us
      - True or false, indicating whether the stimulus display mirror window should be enabled or disabled.  When enabled, the mirror window "mirrors" the main stimulus display, allowing you to observe the stimulus presentation even if the main display is in another room or otherwise not visible.
      - ``false``
    * - ``mirror_window_base_height``
-     - Height of the mirror window in pixels.  The width is chosen to match the aspect ratio specified by ``width`` and ``height``.
+     - Height of the mirror window in `points <https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CocoaDrawingGuide/Transforms/Transforms.html#//apple_ref/doc/uid/TP40003290-CH204-SW5>`_.  The width is chosen to match the aspect ratio specified by ``width`` and ``height``.
      - 
    * - ``render_at_full_resolution``
      - If true, stimuli are rendered at the full, native resolution of the display.  Otherwise, stimuli are rendered at a resolution where one pixel is equal to one "point", as defined by the operating system; depending on the pixel density of the display, this resolution may be lower than the display's native resolution.
