@@ -170,7 +170,11 @@ extern shared_ptr<Variable> loadedExperiment;
 #define M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY	"announce_individual_stimuli"
 #define M_RENDER_AT_FULL_RESOLUTION_KEY     "render_at_full_resolution"
 #define M_USE_COLOR_MANAGEMENT_KEY          "use_color_management"
-extern shared_ptr<Variable> mainDisplayInfo;		
+#define M_SET_DISPLAY_GAMMA_KEY             "set_display_gamma"
+#define M_DISPLAY_GAMMA_RED_KEY             "red_gamma"
+#define M_DISPLAY_GAMMA_GREEN_KEY           "green_gamma"
+#define M_DISPLAY_GAMMA_BLUE_KEY            "blue_gamma"
+extern shared_ptr<Variable> mainDisplayInfo;
 
 #define WARN_ON_SKIPPED_REFRESH_TAGNAME "#warnOnSkippedRefresh"
 extern shared_ptr<Variable> warnOnSkippedRefresh;

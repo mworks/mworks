@@ -13,6 +13,8 @@
 #include <CoreAudio/HostTime.h>
 
 #include "AppleOpenGLContextManager.hpp"
+#include "ComponentRegistry.h"
+#include "StandardVariables.h"
 #include "Utilities.h"
 
 
@@ -20,13 +22,17 @@ BEGIN_NAMESPACE_MW
 
 
 MacOSStimulusDisplay::MacOSStimulusDisplay(bool announceIndividualStimuli, bool useColorManagement) :
-    StimulusDisplay(announceIndividualStimuli, useColorManagement)
+    StimulusDisplay(announceIndividualStimuli, useColorManagement),
+    didSetDisplayGamma(false)
 {
     std::memset(&currentOutputTimeStamp, 0, sizeof(currentOutputTimeStamp));
 }
 
 
 MacOSStimulusDisplay::~MacOSStimulusDisplay() {
+    if (didSetDisplayGamma) {
+        CGDisplayRestoreColorSyncSettings();
+    }
     for (auto dl : displayLinks) {
         CVDisplayLinkRelease(dl);
     }
@@ -60,7 +66,52 @@ void MacOSStimulusDisplay::prepareContext(int contextIndex) {
         }
     }
     
+    if (0 == contextIndex && !useColorManagement) {
+        auto reg = ComponentRegistry::getSharedRegistry();
+        auto displayInfo = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME)->getValue();
+        if (displayInfo.hasKey(M_SET_DISPLAY_GAMMA_KEY) &&
+            displayInfo.getElement(M_SET_DISPLAY_GAMMA_KEY).getBool())
+        {
+            setDisplayGamma(displayInfo);
+        }
+    }
+    
     StimulusDisplay::prepareContext(contextIndex);
+}
+
+
+void MacOSStimulusDisplay::setDisplayGamma(const Datum &displayInfo) {
+    CGGammaValue redGamma = displayInfo.getElement(M_DISPLAY_GAMMA_RED_KEY).getFloat();
+    CGGammaValue greenGamma = displayInfo.getElement(M_DISPLAY_GAMMA_GREEN_KEY).getFloat();
+    CGGammaValue blueGamma = displayInfo.getElement(M_DISPLAY_GAMMA_BLUE_KEY).getFloat();
+    
+    if (redGamma <= 0.0 || greenGamma <= 0.0 || blueGamma <= 0.0) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "Invalid display gamma values: red = %g, green = %g, blue = %g",
+               redGamma,
+               greenGamma,
+               blueGamma);
+        return;
+    }
+    
+    __block CGDirectDisplayID displayID;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
+        NSOpenGLView *view = glcm->getView(context_ids.at(0));
+        NSNumber *screenNumber = view.window.screen.deviceDescription[@"NSScreenNumber"];
+        displayID = screenNumber.unsignedIntValue;
+    });
+    
+    auto error = CGSetDisplayTransferByFormula(displayID,
+                                               0.0, 1.0, 1.0 / redGamma,
+                                               0.0, 1.0, 1.0 / greenGamma,
+                                               0.0, 1.0, 1.0 / blueGamma);
+    if (kCGErrorSuccess != error) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to change display gamma (error = %d)", error);
+        return;
+    }
+    
+    didSetDisplayGamma = true;
 }
 
 

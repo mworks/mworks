@@ -53,15 +53,27 @@ The following keys are recognized.  If a key is omitted, the default value is us
    * - ``mirror_window_base_height``
      - Height of the mirror window in `points <https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CocoaDrawingGuide/Transforms/Transforms.html#//apple_ref/doc/uid/TP40003290-CH204-SW5>`_.  The width is chosen to match the aspect ratio specified by ``width`` and ``height``.
      - 
-   * - ``render_at_full_resolution``
-     - If true, stimuli are rendered at the full, native resolution of the display.  Otherwise, stimuli are rendered at a resolution where one pixel is equal to one "point", as defined by the operating system; depending on the pixel density of the display, this resolution may be lower than the display's native resolution.
-     - ``true``
    * - ``announce_individual_stimuli``
      - True or false, indicating whether stimuli should be announced individually when presented (via `#announceStimulus`_ events), in addition to being announced in `#stimDisplayUpdate`_ events
+     - ``true``
+   * - ``render_at_full_resolution``
+     - If true, stimuli are rendered at the full, native resolution of the display.  Otherwise, stimuli are rendered at a resolution where one pixel is equal to one "point", as defined by the operating system; depending on the pixel density of the display, this resolution may be lower than the display's native resolution.
      - ``true``
    * - ``use_color_management``
      - True or false, indicating whether the stimulus display pipeline should perform `color management <https://en.wikipedia.org/wiki/Color_management>`_.  If color management is enabled, stimuli are rendered in a "linearized" `sRGB color space <https://en.wikipedia.org/wiki/SRGB>`_, and each frame is converted to the target display's color space before being presented.  Otherwise, rendering takes place in the (typically non-linear) color space of the display, and no color conversion is performed.
      - ``true``
+   * - ``set_display_gamma``
+     - True or false, indicating if the display's `gamma function <https://en.wikipedia.org/wiki/Gamma_correction>`_ should be set using the values specified by ``red_gamma``, ``green_gamma``, and ``blue_gamma``.  Applies only when ``use_color_management`` is false.
+     - ``false``
+   * - ``red_gamma``
+     - Inverse of red channel gamma (must be greater than zero)
+     - 
+   * - ``green_gamma``
+     - Inverse of green channel gamma (must be greater than zero)
+     - 
+   * - ``blue_gamma``
+     - Inverse of blue channel gamma (must be greater than zero)
+     - 
 
 The ``width``, ``height``, and ``distance`` values are used to compute the angular field of view covered by the main display.  The bounds of the field of view (in degrees) are reported by MWorks when the experiment is loaded, e.g.::
 

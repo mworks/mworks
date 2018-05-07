@@ -46,6 +46,10 @@
                 _announceIndividualStimuli = getValueWithDefault(mdi, M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY, true).getBool();
                 _renderAtFullResolution = getValueWithDefault(mdi, M_RENDER_AT_FULL_RESOLUTION_KEY, true).getBool();
                 _useColorManagement = getValueWithDefault(mdi, M_USE_COLOR_MANAGEMENT_KEY, true).getBool();
+                _setDisplayGamma = getValueWithDefault(mdi, M_SET_DISPLAY_GAMMA_KEY, false).getBool();
+                _redGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_RED_KEY, 0.0).getFloat());
+                _greenGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_GREEN_KEY, 0.0).getFloat());
+                _blueGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_BLUE_KEY, 0.0).getFloat());
             }
         }
         
@@ -166,6 +170,38 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
     [self updateVariable:mw::mainDisplayInfo
                      key:M_USE_COLOR_MANAGEMENT_KEY
                    value:bool(useColorManagement)];
+}
+
+
+- (void)setSetDisplayGamma:(BOOL)setDisplayGamma {
+    _setDisplayGamma = setDisplayGamma;
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_SET_DISPLAY_GAMMA_KEY
+                   value:bool(setDisplayGamma)];
+}
+
+
+- (void)setRedGamma:(NSNumber *)redGamma {
+    _redGamma = redGamma;
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_DISPLAY_GAMMA_RED_KEY
+                   value:redGamma.doubleValue];
+}
+
+
+- (void)setGreenGamma:(NSNumber *)greenGamma {
+    _greenGamma = greenGamma;
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_DISPLAY_GAMMA_GREEN_KEY
+                   value:greenGamma.doubleValue];
+}
+
+
+- (void)setBlueGamma:(NSNumber *)blueGamma {
+    _blueGamma = blueGamma;
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_DISPLAY_GAMMA_BLUE_KEY
+                   value:blueGamma.doubleValue];
 }
 
 

@@ -23,8 +23,32 @@
 @property(nonatomic) BOOL announceIndividualStimuli;
 @property(nonatomic) BOOL renderAtFullResolution;
 @property(nonatomic) BOOL useColorManagement;
+@property(nonatomic) BOOL setDisplayGamma;
+@property(nonatomic, strong) NSNumber *redGamma;
+@property(nonatomic, strong) NSNumber *greenGamma;
+@property(nonatomic, strong) NSNumber *blueGamma;
 @property(nonatomic) BOOL warnOnSkippedRefresh;
 @property(nonatomic) BOOL stopOnError;
 @property(nonatomic) BOOL allowAltFailover;
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

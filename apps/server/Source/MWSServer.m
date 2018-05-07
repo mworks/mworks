@@ -118,6 +118,16 @@
 }
 
 
+- (IBAction)showAdvancedDisplayPreferences:(id)sender {
+    [self.preferencesWindow beginSheet:self.advancedDisplayPreferencesWindow completionHandler:NULL];
+}
+
+
+- (IBAction)hideAdvancedDisplayPreferences:(id)sender {
+    [self.preferencesWindow endSheet:self.advancedDisplayPreferencesWindow];
+}
+
+
 - (IBAction)toggleConsole:(id)sender {
 	if (cc.window.visible) {
 		[cc close];

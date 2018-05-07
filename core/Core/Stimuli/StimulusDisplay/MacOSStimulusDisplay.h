@@ -35,6 +35,7 @@ private:
                                         void *_context);
     
     void prepareContext(int contextIndex) override;
+    void setDisplayGamma(const Datum &displayInfo);
     void setMainDisplayRefreshRate() override;
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;
@@ -44,6 +45,8 @@ private:
     std::vector<std::unique_ptr<DisplayLinkContext>> displayLinkContexts;
     int64_t lastFrameTime;
     CVTimeStamp currentOutputTimeStamp;
+    
+    bool didSetDisplayGamma;
     
 };
 

@@ -15,11 +15,14 @@
 @interface MWSServer : NSObject <NSApplicationDelegate, MWClientServerBase>
 
 @property(nonatomic, weak) IBOutlet NSWindow *preferencesWindow;
+@property(nonatomic, weak) IBOutlet NSWindow *advancedDisplayPreferencesWindow;
 
 - (IBAction)launchDocs:(id)sender;
 - (IBAction)launchHelp:(id)sender;
 
 - (IBAction)togglePreferences:(id)sender;
+- (IBAction)showAdvancedDisplayPreferences:(id)sender;
+- (IBAction)hideAdvancedDisplayPreferences:(id)sender;
 - (IBAction)toggleConsole:(id)sender;
 
 @end
