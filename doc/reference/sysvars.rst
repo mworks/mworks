@@ -18,6 +18,8 @@ Configuration
 Controls MWorks' behavior when an `I/O device <Input/Output>` fails to initialize but specifies an alternative, "failover" device in its ``alt`` parameter.  If this variable is set to a true value (e.g ``1`` or ``true``), MWorks will attempt to use the failover device in place of the failed one.  Otherwise, the failover device is ignored.
 
 
+.. _mainScreenInfo var:
+
 #mainScreenInfo
 ^^^^^^^^^^^^^^^
 
@@ -74,6 +76,9 @@ The following keys are recognized.  If a key is omitted, the default value is us
    * - ``blue_gamma``
      - Inverse of blue channel gamma (must be greater than zero)
      - 
+   * - ``make_window_opaque``
+     - True or false, indicating whether the stimulus display window should be opaque.  If the window is not opaque, and the experiment includes a `Stimulus Display` device whose ``background_alpha_multiplier`` parameter is less than 1, then the display background and/or application windows beneath the stimulus window will show through it.  Does not apply to the mirror window.
+     - ``true``
 
 The ``width``, ``height``, and ``distance`` values are used to compute the angular field of view covered by the main display.  The bounds of the field of view (in degrees) are reported by MWorks when the experiment is loaded, e.g.::
 

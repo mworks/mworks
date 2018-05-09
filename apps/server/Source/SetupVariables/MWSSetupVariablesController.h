@@ -27,6 +27,7 @@
 @property(nonatomic, strong) NSNumber *redGamma;
 @property(nonatomic, strong) NSNumber *greenGamma;
 @property(nonatomic, strong) NSNumber *blueGamma;
+@property(nonatomic) BOOL makeWindowOpaque;
 @property(nonatomic) BOOL warnOnSkippedRefresh;
 @property(nonatomic) BOOL stopOnError;
 @property(nonatomic) BOOL allowAltFailover;

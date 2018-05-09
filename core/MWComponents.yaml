@@ -1845,7 +1845,8 @@ description: >
     A stimulus display device.  At present, MWorks always creates one (and
     only one) of these per experiment, regardless of whether the experiment
     file defines one.  By including a definition in your experiment file,
-    you can change the display's default background color.
+    you can change the display's default background color and configure its
+    run-time behavior.
 parameters: 
   - 
     name: background_color
@@ -1856,6 +1857,17 @@ parameters:
         and blue components.  Each component may be described by any valid
         expression, but the expression must result in a value between 0 and 1
         (inclusive).
+  - 
+    name: background_alpha_multiplier
+    default: 1.0
+    description: |
+        Controls the transparency of the background.  ``1.0`` is fully opaque,
+        while ``0.0`` is fully tranparent.
+
+        *Note*: To enable background transparency, you must set `mainScreenInfo
+        var`'s  ``make_window_opaque`` key to ``false``.  To make the stimulus
+        display window fully transparent, set this parameter and all components
+        of `background_color`_ to 0.
   - 
     name: redraw_on_every_refresh
     default: 'NO'

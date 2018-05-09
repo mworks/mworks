@@ -273,6 +273,7 @@ BEGIN_NAMESPACE_MW
         bool announce_individual_stimuli = true;
         bool render_at_full_resolution = true;
         bool use_color_management = true;
+        bool make_window_opaque = true;
         
 		if(main_screen_info != NULL){
 			
@@ -296,6 +297,10 @@ BEGIN_NAMESPACE_MW
             if(val.hasKey(M_USE_COLOR_MANAGEMENT_KEY)){
                 use_color_management = (bool)val.getElement(M_USE_COLOR_MANAGEMENT_KEY);
             }
+            
+            if(val.hasKey(M_MAKE_WINDOW_OPAQUE_KEY)){
+                make_window_opaque = (bool)val.getElement(M_MAKE_WINDOW_OPAQUE_KEY);
+            }
 		}
 		
         auto stimdisplay = StimulusDisplay::createPlatformStimulusDisplay(announce_individual_stimuli,
@@ -314,7 +319,9 @@ BEGIN_NAMESPACE_MW
 				display_to_use = 1;						   			
 			}
 			
-			new_context = opengl_context_manager->newFullscreenContext(display_to_use, render_at_full_resolution);
+			new_context = opengl_context_manager->newFullscreenContext(display_to_use,
+                                                                       render_at_full_resolution,
+                                                                       make_window_opaque);
 			stimdisplay->addContext(new_context);
 			
 			if(always_display_mirror_window){

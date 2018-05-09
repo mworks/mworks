@@ -669,14 +669,14 @@
         <window title="Advanced Display Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="jSI-LS-Lh6">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="207" width="420" height="171"/>
+            <rect key="contentRect" x="196" y="207" width="420" height="197"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" misplaced="YES" id="otP-Fu-No7">
-                <rect key="frame" x="0.0" y="0.0" width="420" height="171"/>
+                <rect key="frame" x="0.0" y="0.0" width="420" height="197"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button toolTip="Irrespective of this setting, stimulus announcements are included in #stimDisplayUpdate events." misplaced="YES" id="lft-Ks-oNf">
-                        <rect key="frame" x="18" y="135" width="404" height="18"/>
+                        <rect key="frame" x="18" y="161" width="404" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Announce stimuli individually via #announceStimulus events" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Df5-Ly-yHO">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -687,7 +687,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" misplaced="YES" id="Mfp-Mu-vcR">
-                        <rect key="frame" x="18" y="95" width="263" height="18"/>
+                        <rect key="frame" x="18" y="121" width="263" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use color management (recommended)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ilf-7j-xdr">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -698,7 +698,7 @@
                         </connections>
                     </button>
                     <button toolTip="Applies only when color management is disabled" verticalHuggingPriority="750" misplaced="YES" id="pZb-7T-ark">
-                        <rect key="frame" x="18" y="75" width="137" height="18"/>
+                        <rect key="frame" x="18" y="101" width="137" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Set display gamma" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qpM-HF-aui">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -714,7 +714,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="eLK-oh-qbt">
-                        <rect key="frame" x="18" y="52" width="38" height="17"/>
+                        <rect key="frame" x="18" y="78" width="38" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1/red:" id="gCm-oY-xbQ">
                             <font key="font" metaFont="system"/>
@@ -723,7 +723,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" misplaced="YES" id="DGU-fH-ZJb">
-                        <rect key="frame" x="62" y="49" width="61" height="22"/>
+                        <rect key="frame" x="62" y="75" width="61" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Vou-Yc-5Hy">
                             <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="7X3-DP-NvF"/>
@@ -749,7 +749,7 @@
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="X3y-H3-eIb">
-                        <rect key="frame" x="129" y="52" width="53" height="17"/>
+                        <rect key="frame" x="129" y="78" width="53" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1/green:" id="bQx-M3-1KG">
                             <font key="font" metaFont="system"/>
@@ -758,7 +758,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" misplaced="YES" id="MBA-hz-ufN">
-                        <rect key="frame" x="188" y="49" width="61" height="22"/>
+                        <rect key="frame" x="188" y="75" width="61" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="pV1-hj-hUJ">
                             <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="iiS-FI-ZvW"/>
@@ -784,7 +784,7 @@
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="z0F-Tv-kjA">
-                        <rect key="frame" x="255" y="52" width="44" height="17"/>
+                        <rect key="frame" x="255" y="78" width="44" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1/blue:" id="LBf-Ax-1rr">
                             <font key="font" metaFont="system"/>
@@ -793,7 +793,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" misplaced="YES" id="tHA-wB-uvp">
-                        <rect key="frame" x="305" y="49" width="61" height="22"/>
+                        <rect key="frame" x="305" y="75" width="61" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="V1c-jH-K9z">
                             <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="GQq-zg-a4F"/>
@@ -818,6 +818,28 @@
                             </binding>
                         </connections>
                     </textField>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="tD3-1S-4VL">
+                        <rect key="frame" x="18" y="141" width="229" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Render at full resolution of display" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="10l-lt-zwz">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="Npj-AL-FRl" name="value" keyPath="selection.renderAtFullResolution" id="Dhz-QV-Yxn"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Does not apply to the mirror window" verticalHuggingPriority="750" misplaced="YES" id="Ti1-Fa-8L0">
+                        <rect key="frame" x="18" y="51" width="254" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Make stimulus display window opaque" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4NU-UY-ca0">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="Npj-AL-FRl" name="value" keyPath="selection.makeWindowOpaque" id="tFA-4b-BB2"/>
+                        </connections>
+                    </button>
                     <button verticalHuggingPriority="750" misplaced="YES" id="blB-tc-MtU">
                         <rect key="frame" x="334" y="13" width="72" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -832,20 +854,9 @@ DQ
                             <action selector="hideAdvancedDisplayPreferences:" target="206" id="hrt-Yz-NG5"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="tD3-1S-4VL">
-                        <rect key="frame" x="18" y="115" width="229" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Render at full resolution of display" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="10l-lt-zwz">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <binding destination="Npj-AL-FRl" name="value" keyPath="selection.renderAtFullResolution" id="Dhz-QV-Yxn"/>
-                        </connections>
-                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="110" y="463.5"/>
+            <point key="canvasLocation" x="110" y="476.5"/>
         </window>
     </objects>
     <resources>

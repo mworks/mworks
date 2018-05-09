@@ -174,6 +174,7 @@ extern shared_ptr<Variable> loadedExperiment;
 #define M_DISPLAY_GAMMA_RED_KEY             "red_gamma"
 #define M_DISPLAY_GAMMA_GREEN_KEY           "green_gamma"
 #define M_DISPLAY_GAMMA_BLUE_KEY            "blue_gamma"
+#define M_MAKE_WINDOW_OPAQUE_KEY            "make_window_opaque"
 extern shared_ptr<Variable> mainDisplayInfo;
 
 #define WARN_ON_SKIPPED_REFRESH_TAGNAME "#warnOnSkippedRefresh"

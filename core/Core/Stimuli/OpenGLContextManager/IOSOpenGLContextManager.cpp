@@ -130,7 +130,11 @@ IOSOpenGLContextManager::~IOSOpenGLContextManager() {
 }
 
 
-int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render_at_full_resolution) {
+int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render_at_full_resolution, bool opaque) {
+    //
+    // NOTE: We always make iOS windows opaque, as there's nothing to show through them from behind
+    //
+    
     @autoreleasepool {
         if (screen_number < 0 || screen_number >= getNumDisplays()) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,

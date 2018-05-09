@@ -19,6 +19,7 @@ class StimulusDisplayDevice : public IODevice {
     
 public:
     static const std::string BACKGROUND_COLOR;
+    static const std::string BACKGROUND_ALPHA_MULTIPLIER;
     static const std::string REDRAW_ON_EVERY_REFRESH;
     static const std::string ANNOUNCE_STIMULI_ON_IMPLICIT_UPDATES;
     

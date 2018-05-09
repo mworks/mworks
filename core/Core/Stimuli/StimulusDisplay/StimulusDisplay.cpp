@@ -44,7 +44,7 @@ StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli, bool useColorMa
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
     
 	setDisplayBounds();
-    setBackgroundColor(0.5, 0.5, 0.5);
+    setBackgroundColor(0.5, 0.5, 0.5, 1.0);
 
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
@@ -145,10 +145,11 @@ void StimulusDisplay::getDisplayBounds(double &left, double &right, double &bott
     top = this->top;
 }
 
-void StimulusDisplay::setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue) {
+void StimulusDisplay::setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     backgroundRed = red;
     backgroundGreen = green;
     backgroundBlue = blue;
+    backgroundAlpha = alpha;
 }
 
 void StimulusDisplay::setRedrawOnEveryRefresh(bool redrawOnEveryRefresh) {
@@ -543,7 +544,7 @@ void StimulusDisplay::drawDisplayStack() {
     glDisable(GL_BLEND);
     glDisable(GL_DITHER);
     
-    glClearColor(backgroundRed, backgroundGreen, backgroundBlue, 1.0);
+    glClearColor(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
     glClear(GL_COLOR_BUFFER_BIT);
     
     //

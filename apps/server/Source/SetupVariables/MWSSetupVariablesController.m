@@ -50,6 +50,7 @@
                 _redGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_RED_KEY, 0.0).getFloat());
                 _greenGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_GREEN_KEY, 0.0).getFloat());
                 _blueGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_BLUE_KEY, 0.0).getFloat());
+                _makeWindowOpaque = getValueWithDefault(mdi, M_MAKE_WINDOW_OPAQUE_KEY, true).getBool();
             }
         }
         
@@ -202,6 +203,14 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_GAMMA_BLUE_KEY
                    value:blueGamma.doubleValue];
+}
+
+
+- (void)setMakeWindowOpaque:(BOOL)makeWindowOpaque {
+    _makeWindowOpaque = makeWindowOpaque;
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_MAKE_WINDOW_OPAQUE_KEY
+                   value:bool(makeWindowOpaque)];
 }
 
 

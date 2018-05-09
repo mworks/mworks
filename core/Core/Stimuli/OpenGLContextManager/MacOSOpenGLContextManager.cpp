@@ -11,11 +11,38 @@
 #include "OpenGLUtilities.hpp"
 
 
-@interface MWKOpenGLView : NSOpenGLView
+@interface MWKOpenGLView : NSOpenGLView {
+    BOOL _opaque;
+}
+
+@property(getter=isOpaque) BOOL opaque;
+
 @end
 
 
 @implementation MWKOpenGLView
+
+
+- (instancetype)initWithFrame:(NSRect)frameRect pixelFormat:(NSOpenGLPixelFormat *)format
+{
+    self = [super initWithFrame:frameRect pixelFormat:format];
+    if (self) {
+        _opaque = YES;
+    }
+    return self;
+}
+
+
+- (BOOL)isOpaque
+{
+    return _opaque;
+}
+
+
+- (void)setOpaque:(BOOL)opaque
+{
+    _opaque = opaque;
+}
 
 
 - (void)update
@@ -45,7 +72,7 @@ MacOSOpenGLContextManager::~MacOSOpenGLContextManager() {
 }
 
 
-int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render_at_full_resolution) {
+int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render_at_full_resolution, bool opaque) {
     @autoreleasepool {
         if (screen_number < 0 || screen_number >= getNumDisplays()) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -75,6 +102,11 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool rend
         GLint swap_int = 1;
         [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
         
+        if (!opaque) {
+            GLint opacity = 0;
+            [opengl_context setValues:&opacity forParameter:NSOpenGLCPSurfaceOpacity];
+        }
+        
         // Crash on calls to functions removed from the core profile
         CGLEnable(opengl_context.CGLContextObj, kCGLCECrashOnRemovedFunctions);
         
@@ -88,7 +120,10 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool rend
             
             [fullscreen_window setLevel:NSMainMenuWindowLevel+1];
             
-            [fullscreen_window setOpaque:YES];
+            [fullscreen_window setOpaque:opaque];
+            if (!opaque) {
+                fullscreen_window.backgroundColor = NSColor.clearColor;
+            }
             [fullscreen_window setHidesOnDeactivate:NO];
             
             NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
@@ -97,6 +132,7 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool rend
             if (render_at_full_resolution) {
                 fullscreen_view.wantsBestResolutionOpenGLSurface = YES;
             }
+            fullscreen_view.opaque = opaque;
             [fullscreen_window setContentView:fullscreen_view];
             [fullscreen_view setOpenGLContext:opengl_context];
             [opengl_context setView:fullscreen_view];

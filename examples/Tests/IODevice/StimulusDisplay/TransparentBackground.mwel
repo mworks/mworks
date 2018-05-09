@@ -1,0 +1,24 @@
+//
+// If #mainScreenInfo’s make_window_opaque key is set to false, this experiment
+// will display a translucent circle over the desktop background
+//
+
+
+stimulus_display (
+    background_color = 0,0,0
+    background_alpha_multiplier = 0
+    )
+
+
+circle circle (
+    color = 1,0,0
+    x_size = 20
+    alpha_multiplier = 0.5
+    )
+
+
+protocol {
+    queue_stimulus (circle)
+    update_display ()
+    wait (10s)
+}

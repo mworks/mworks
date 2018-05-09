@@ -78,7 +78,7 @@ BEGIN_NAMESPACE_MW
 		
 		double left, right, top, bottom; // display bounds
         GLKMatrix4 projectionMatrix;
-        GLclampf backgroundRed, backgroundGreen, backgroundBlue;  // background color
+        GLclampf backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha;  // background color
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
         std::atomic_bool displayUpdatesStarted;
@@ -142,7 +142,7 @@ BEGIN_NAMESPACE_MW
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
 		
-        void setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue);
+        void setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
         void setRedrawOnEveryRefresh(bool redrawOnEveryRefresh);
         void setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates);
         bool getUseColorManagement() const { return useColorManagement; }
