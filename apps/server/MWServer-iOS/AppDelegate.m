@@ -20,8 +20,8 @@
 #define DISPLAY_WIDTH_PREFERENCE @"display_width_preference"
 #define DISPLAY_HEIGHT_PREFERENCE @"display_height_preference"
 #define DISPLAY_DISTANCE_PREFERENCE @"display_distance_preference"
-#define RENDER_AT_FULL_RESOLUTION_PREFERENCE @"render_at_full_resolution_preference"
 #define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
+#define RENDER_AT_FULL_RESOLUTION_PREFERENCE @"render_at_full_resolution_preference"
 #define USE_COLOR_MANAGEMENT_PREFERENCE @"use_color_management_preference"
 
 
@@ -37,8 +37,8 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
       ALLOW_ALT_FAILOVER_PREFERENCE: @(YES),
       STOP_ON_ERROR_PREFERENCE: @(NO),
       WARN_ON_SKIPPED_REFRESH_PREFERENCE: @(YES),
-      RENDER_AT_FULL_RESOLUTION_PREFERENCE: @(YES),
       ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
+      RENDER_AT_FULL_RESOLUTION_PREFERENCE: @(YES),
       USE_COLOR_MANAGEMENT_PREFERENCE: @(YES)
       };
     [userDefaults registerDefaults:defaultSettings];
