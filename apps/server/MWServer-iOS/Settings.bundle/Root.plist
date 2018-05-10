@@ -134,9 +134,9 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Render at full resolution</string>
+			<string>Announce stimuli individually</string>
 			<key>Key</key>
-			<string>render_at_full_resolution_preference</string>
+			<string>announce_individual_stimuli_preference</string>
 			<key>DefaultValue</key>
 			<true/>
 		</dict>
@@ -144,9 +144,9 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Announce stimuli individually</string>
+			<string>Render at full resolution</string>
 			<key>Key</key>
-			<string>announce_individual_stimuli_preference</string>
+			<string>render_at_full_resolution_preference</string>
 			<key>DefaultValue</key>
 			<true/>
 		</dict>
