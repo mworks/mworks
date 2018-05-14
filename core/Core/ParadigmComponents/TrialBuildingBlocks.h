@@ -540,23 +540,20 @@ class StopDeviceIOFactory : public ComponentFactory{
 class ResetSelection : public Action {
 	
 protected:
-	shared_ptr<Selectable> selectable;
+	boost::weak_ptr<Selectable> weakSelectable;
 	
 public:
 	
 	ResetSelection(shared_ptr<Selectable> sel){
-		selectable = sel;
+        setName("ResetSelections");
+		weakSelectable = sel;
 	}
 	
 	
 	virtual bool execute(){
-		if(selectable == shared_ptr<Selectable>()){
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-					 "Attempt to reset a NULL selectable object.");
-			return false;
-			setName("ResetSelections");
+		if (auto selectable = weakSelectable.lock()) {
+            selectable->resetSelections();
 		}
-		selectable->resetSelections();
 		return true;
 	}
 };
@@ -569,23 +566,20 @@ class ResetSelectionFactory : public ComponentFactory{
 class AcceptSelections : public Action {
 	
 protected:
-	shared_ptr<Selectable> selectable;
+    boost::weak_ptr<Selectable> weakSelectable;
 	
 public:
 	
 	AcceptSelections(shared_ptr<Selectable> sel){
 		setName("AcceptSelections");
-		selectable = sel;
+		weakSelectable = sel;
 	}
 	
 	
 	virtual bool execute(){
-		if(selectable == shared_ptr<Selectable>()){
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-					 "Attempt to accept selections on a NULL selectable object.");
-			return false;
+		if (auto selectable = weakSelectable.lock()) {
+            selectable->acceptSelections();
 		}
-		selectable->acceptSelections();
 		return true;
 	}
 };
@@ -599,22 +593,19 @@ class AcceptSelectionsFactory : public ComponentFactory{
 class RejectSelections : public Action {
 	
 protected:
-	shared_ptr<Selectable> selectable;
+	boost::weak_ptr<Selectable> weakSelectable;
 	
 public:
 	
 	RejectSelections(shared_ptr<Selectable> sel){
 		setName("RejectSelections");
-		selectable = sel;
+		weakSelectable = sel;
 	}
 	
 	virtual bool execute(){
-		if(selectable == shared_ptr<Selectable>()){
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-					 "Attempt to reject selections on a NULL selectable object.");
-			return false;
+		if (auto selectable = weakSelectable.lock()) {
+            selectable->rejectSelections();
 		}
-		selectable->rejectSelections();
 		return true;
 	}
 };
