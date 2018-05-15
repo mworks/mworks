@@ -11,6 +11,7 @@
 #include <MWorksCore/CoreBuilderForeman.h>
 #include <MWorksCore/Server.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
+#include <MWorksCore/ZeroMQUtilities.hpp>
 
 #define SERVER_NAME_PREFERENCE @"server_name_preference"
 #define LISTENING_PORT_PREFERENCE @"listening_port_preference"
@@ -117,7 +118,13 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         _listeningAddress = @"localhost";
         core->setHostname(self.listeningAddress.UTF8String);
 #else
-        _listeningAddress = NSProcessInfo.processInfo.hostName;
+        std::string hostname;
+        if (mw::zeromq::getHostname(hostname)) {
+            _listeningAddress = @(hostname.c_str());
+        } else {
+            // This is less reliable than zeromq::getHostname, so use it only as a fallback
+            _listeningAddress = NSProcessInfo.processInfo.hostName;
+        }
 #endif
         
         _listeningPort = @([userDefaults integerForKey:LISTENING_PORT_PREFERENCE]);

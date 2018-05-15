@@ -22,6 +22,13 @@ void ZeroMQUtilityTests::testFormatTCPEndpoint() {
 }
 
 
+void ZeroMQUtilityTests::testGetHostname() {
+    std::string hostname;
+    CPPUNIT_ASSERT( zeromq::getHostname(hostname) );
+    CPPUNIT_ASSERT( !hostname.empty() );
+}
+
+
 void ZeroMQUtilityTests::testResolveHostname() {
     std::string address;
     

@@ -10,6 +10,8 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <net/if.h>
+#include <ifaddrs.h>
 #include <netdb.h>
 
 #include <boost/format.hpp>
@@ -27,6 +29,45 @@ std::string formatTCPEndpoint(const std::string &hostname, int port) {
 }
 
 
+bool getHostname(std::string &hostname) {
+    struct ifaddrs *interfaces = nullptr;
+    if (0 != getifaddrs(&interfaces)) {
+        merror(M_NETWORK_MESSAGE_DOMAIN, "Cannot get network interface addresses: %s", strerror(errno));
+    } else {
+        BOOST_SCOPE_EXIT(&interfaces) {
+            freeifaddrs(interfaces);
+        } BOOST_SCOPE_EXIT_END
+        
+        for (auto ifa = interfaces; ifa; ifa = ifa->ifa_next) {
+            if ((ifa->ifa_flags & IFF_UP) &&
+                !(ifa->ifa_flags & IFF_LOOPBACK) &&
+                ifa->ifa_addr)
+            {
+                auto addr = ifa->ifa_addr;
+                if ((addr->sa_family == AF_INET &&
+                     !IN_LINKLOCAL(reinterpret_cast<struct sockaddr_in *>(addr)->sin_addr.s_addr)) ||
+                    (addr->sa_family == AF_INET6 &&
+                     !IN6_IS_ADDR_LINKLOCAL(&(reinterpret_cast<struct sockaddr_in6 *>(addr)->sin6_addr))))
+                {
+                    std::array<char, NI_MAXHOST> host;
+                    auto error = getnameinfo(addr, addr->sa_len, host.data(), host.size(), nullptr, 0, 0);
+                    if (0 == error) {
+                        hostname = host.data();
+                        return true;
+                    }
+                    merror(M_NETWORK_MESSAGE_DOMAIN,
+                           "Cannot convert socket address to host name: %s",
+                           gai_strerror(error));
+                }
+            }
+        }
+    }
+    
+    merror(M_NETWORK_MESSAGE_DOMAIN, "Cannot determine system hostname");
+    return false;
+}
+
+
 bool resolveHostname(const std::string &hostname, std::string &address) {
     const struct addrinfo hints = {
         AI_DEFAULT,
@@ -39,38 +80,33 @@ bool resolveHostname(const std::string &hostname, std::string &address) {
         nullptr
     };
     
-    struct addrinfo *ai = nullptr;
-    BOOST_SCOPE_EXIT(&ai) {
-        if (ai) {
-            freeaddrinfo(ai);
-        }
-    } BOOST_SCOPE_EXIT_END
-    
-    std::array<char, NI_MAXHOST> host;
-    int error;
-    if (0 == (error = getaddrinfo(hostname.c_str(), nullptr, &hints, &ai))) {
-        // Convert the first returned IPv4 or IPv6 address structure into numeric (text) form
-        do {
-            if (ai->ai_family == PF_INET || ai->ai_family == PF_INET6) {
-                error = getnameinfo(ai->ai_addr, ai->ai_addrlen, host.data(), host.size(), nullptr, 0, NI_NUMERICHOST);
-                break;
-            }
-            ai = ai->ai_next;
-        } while (ai);
-    }
-    
+    struct addrinfo *addresses = nullptr;
+    auto error = getaddrinfo(hostname.c_str(), nullptr, &hints, &addresses);
     if (0 != error) {
         merror(M_NETWORK_MESSAGE_DOMAIN, "Cannot resolve hostname \"%s\": %s", hostname.c_str(), gai_strerror(error));
         return false;
     }
-    if (!ai) {
-        merror(M_NETWORK_MESSAGE_DOMAIN, "Cannot convert hostname \"%s\" to a usable address", hostname.c_str());
-        return false;
+    BOOST_SCOPE_EXIT(&addresses) {
+        freeaddrinfo(addresses);
+    } BOOST_SCOPE_EXIT_END
+    
+    // Convert the first returned IPv4 or IPv6 address structure into numeric (text) form
+    for (auto ai = addresses; ai; ai = ai->ai_next) {
+        if (ai->ai_family == PF_INET || ai->ai_family == PF_INET6) {
+            std::array<char, NI_MAXHOST> host;
+            error = getnameinfo(ai->ai_addr, ai->ai_addrlen, host.data(), host.size(), nullptr, 0, NI_NUMERICHOST);
+            if (0 == error) {
+                address = host.data();
+                return true;
+            }
+            merror(M_NETWORK_MESSAGE_DOMAIN,
+                   "Cannot convert socket address to numeric form: %s",
+                   gai_strerror(error));
+        }
     }
     
-    address = host.data();
-    
-    return true;
+    merror(M_NETWORK_MESSAGE_DOMAIN, "Cannot convert hostname \"%s\" to a usable address", hostname.c_str());
+    return false;
 }
 
 
