@@ -19,6 +19,7 @@ BEGIN_NAMESPACE(zeromq)
 
 
 std::string formatTCPEndpoint(const std::string &hostname, int port);
+bool getHostname(std::string &hostname);
 bool resolveHostname(const std::string &hostname, std::string &address);
 
 

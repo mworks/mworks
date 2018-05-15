@@ -20,12 +20,14 @@ class ZeroMQUtilityTests : public MessageTestFixture {
     CPPUNIT_TEST_SUITE( ZeroMQUtilityTests );
     
     CPPUNIT_TEST( testFormatTCPEndpoint );
+    CPPUNIT_TEST( testGetHostname );
     CPPUNIT_TEST( testResolveHostname );
     
     CPPUNIT_TEST_SUITE_END();
     
 public:
     void testFormatTCPEndpoint();
+    void testGetHostname();
     void testResolveHostname();
     
 };
