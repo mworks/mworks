@@ -148,16 +148,12 @@ BEGIN_NAMESPACE_MW
 		} catch(SimpleException& e){
             // This is the "main" catch block for parsing
 			display_extended_error_information(e);
-			GlobalCurrentExperiment = shared_ptr<Experiment>();
-			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
-			return false;
+            unloadExperiment(false);
 		} catch(std::exception& e){
             merror(M_PARSER_MESSAGE_DOMAIN, 
                   "An unanticipated error occurred.  This is probably a bug, and someone will want to run this in a debugger.  Error message was: \"%s\"",
                   e.what());
-            GlobalCurrentExperiment = shared_ptr<Experiment>();
-			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
-            return false;
+            unloadExperiment(false);
         }
 		
 		if(GlobalCurrentExperiment == NULL) {
