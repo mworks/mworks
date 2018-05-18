@@ -116,6 +116,7 @@
 		5C6615620F4C91CC00C8FD71 /* Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.template.plist; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E13A098720AF1674003A678F /* MWServer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MWServer.entitlements; sourceTree = "<group>"; };
 		E14742A8193F9BFF00A82D91 /* MWSSetupVariablesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSSetupVariablesController.h; sourceTree = "<group>"; };
 		E14742A9193F9BFF00A82D91 /* MWSSetupVariablesController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWSSetupVariablesController.m; sourceTree = "<group>"; };
 		E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
@@ -269,6 +270,7 @@
 				E16A212C1E57A49100C48E10 /* LaunchScreen.storyboard */,
 				E1CCE03E1E5CD13E00614060 /* Settings.bundle */,
 				E16A212F1E57A49100C48E10 /* Info.plist */,
+				E13A098720AF1674003A678F /* MWServer.entitlements */,
 				E16A211E1E57A49100C48E10 /* Supporting Files */,
 			);
 			path = "MWServer-iOS";
@@ -330,9 +332,26 @@
 			attributes = {
 				LastUpgradeCheck = 0410;
 				TargetAttributes = {
+					5C488A6F0F4E291200C5A526 = {
+						ProvisioningStyle = Automatic;
+					};
+					5C77F4B110E969C600919719 = {
+						ProvisioningStyle = Automatic;
+					};
+					8D1107260486CEB800E47090 = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D995916BC3B24004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
 					E16A211B1E57A49100C48E10 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -544,7 +563,9 @@
 			baseConfigurationReference = E16A21151E579D0F00C48E10 /* iOS_App.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "MWServer-iOS/MWServer.entitlements";
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				HEADER_SEARCH_PATHS = (
