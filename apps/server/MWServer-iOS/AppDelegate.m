@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 
+#include <MWorksCore/AppleOpenGLContextManager.hpp>
 #include <MWorksCore/CoreBuilderForeman.h>
 #include <MWorksCore/Server.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
@@ -24,6 +25,8 @@
 #define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
 #define RENDER_AT_FULL_RESOLUTION_PREFERENCE @"render_at_full_resolution_preference"
 #define USE_COLOR_MANAGEMENT_PREFERENCE @"use_color_management_preference"
+
+#define EVENT_CALLBACK_KEY "<MWServer-iOS/AppDelegate>"
 
 
 @implementation AppDelegate {
@@ -147,14 +150,117 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         try {
             core->stopServer();
         } catch (const std::exception &e) {
-            NSLog(@"Exception in stopServer: %s", e.what());
+            NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
         } catch (...) {
-            NSLog(@"Unknown exception in stopServer");
+            NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
         }
     }
     
     // Re-enable system sleep
     application.idleTimerDisabled = NO;
+}
+
+
+- (void)openExperiment:(NSString *)path completionHandler:(void (^)(BOOL success))completionHandler {
+    try {
+        boost::weak_ptr<mw::Server> weakCore(core);
+        auto systemEventCallback = [weakCore, completionHandler](const boost::shared_ptr<mw::Event> &event) {
+            auto &data = event->getData();
+            if (data.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == mw::M_EXPERIMENT_STATE) {
+                if (auto core = weakCore.lock()) {
+                    core->unregisterCallbacks(EVENT_CALLBACK_KEY);
+                }
+                auto success = data.getElement(M_SYSTEM_PAYLOAD).getElement(M_LOADED).getBool();
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionHandler(success);
+                    if (success) {
+                        [APP_DELEGATE openExperimentRunCloseSheetWithTitle:@"Experiment ready"
+                                                                 runAction:@"Run"];
+                    }
+                });
+            }
+        };
+        core->registerCallback(mw::RESERVED_SYSTEM_EVENT_CODE, systemEventCallback, EVENT_CALLBACK_KEY);
+        if (!core->openExperiment(path.UTF8String)) {
+            core->unregisterCallbacks(EVENT_CALLBACK_KEY);
+            completionHandler(NO);
+        }
+    } catch (const std::exception &e) {
+        NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
+    } catch (...) {
+        NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
+    }
+}
+
+
+- (void)openExperimentRunCloseSheetWithTitle:(NSString *)title runAction:(NSString *)runAction {
+    try {
+        auto glcm = boost::dynamic_pointer_cast<mw::AppleOpenGLContextManager>(mw::OpenGLContextManager::instance());
+        UIViewController *fullscreenViewController = glcm->getFullscreenView().window.rootViewController;
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:runAction
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction *action) {
+                                                    [fullscreenViewController dismissViewControllerAnimated:YES completion:nil];
+                                                    [self runExperiment];
+                                                }]];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"Close"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction *action) {
+                                                    [self closeExperiment];
+                                                    [fullscreenViewController dismissViewControllerAnimated:YES completion:nil];
+                                                }]];
+        
+        [fullscreenViewController presentViewController:alert animated:YES completion:nil];
+    } catch (const std::exception &e) {
+        NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
+    } catch (...) {
+        NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
+    }
+}
+
+
+- (void)runExperiment {
+    try {
+        boost::weak_ptr<mw::Server> weakCore(core);
+        auto systemEventCallback = [weakCore](const boost::shared_ptr<mw::Event> &event) {
+            auto &data = event->getData();
+            if (data.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == mw::M_EXPERIMENT_STATE) {
+                auto &state = data.getElement(M_SYSTEM_PAYLOAD);
+                if (state.getElement(M_LOADED).getBool() && !state.getElement(M_RUNNING).getBool()) {
+                    if (auto core = weakCore.lock()) {
+                        core->unregisterCallbacks(EVENT_CALLBACK_KEY);
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [APP_DELEGATE openExperimentRunCloseSheetWithTitle:@"Experiment ended"
+                                                                 runAction:@"Run again"];
+                    });
+                }
+            }
+        };
+        core->registerCallback(mw::RESERVED_SYSTEM_EVENT_CODE, systemEventCallback, EVENT_CALLBACK_KEY);
+        core->startExperiment();
+    } catch (const std::exception &e) {
+        NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
+    } catch (...) {
+        NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
+    }
+}
+
+
+- (void)closeExperiment {
+    try {
+        core->closeExperiment();
+    } catch (const std::exception &e) {
+        NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
+    } catch (...) {
+        NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
+    }
 }
 
 
