@@ -89,6 +89,8 @@
 			<string>Display width</string>
 			<key>Key</key>
 			<string>display_width_preference</string>
+			<key>DefaultValue</key>
+			<string>373.33</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>
@@ -105,6 +107,8 @@
 			<string>Display height</string>
 			<key>Key</key>
 			<string>display_height_preference</string>
+			<key>DefaultValue</key>
+			<string>280</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>
@@ -121,6 +125,8 @@
 			<string>Display distance</string>
 			<key>Key</key>
 			<string>display_distance_preference</string>
+			<key>DefaultValue</key>
+			<string>450</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>

@@ -41,6 +41,9 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
       ALLOW_ALT_FAILOVER_PREFERENCE: @(YES),
       STOP_ON_ERROR_PREFERENCE: @(NO),
       WARN_ON_SKIPPED_REFRESH_PREFERENCE: @(YES),
+      DISPLAY_WIDTH_PREFERENCE: @(373.33),
+      DISPLAY_HEIGHT_PREFERENCE: @(280),
+      DISPLAY_DISTANCE_PREFERENCE: @(450),
       ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
       RENDER_AT_FULL_RESOLUTION_PREFERENCE: @(YES),
       USE_COLOR_MANAGEMENT_PREFERENCE: @(YES)
@@ -59,24 +62,9 @@ static void initializeSetupVariables(NSUserDefaults *userDefaults,
     setupVariablesController.serverName = serverName;
     
     setupVariablesController.displayToUse = @(1);
-    {
-        double displayWidth = [userDefaults doubleForKey:DISPLAY_WIDTH_PREFERENCE];
-        if (displayWidth != 0.0) {
-            setupVariablesController.displayWidth = @(displayWidth);
-        }
-    }
-    {
-        double displayHeight = [userDefaults doubleForKey:DISPLAY_HEIGHT_PREFERENCE];
-        if (displayHeight != 0.0) {
-            setupVariablesController.displayHeight = @(displayHeight);
-        }
-    }
-    {
-        double displayDistance = [userDefaults doubleForKey:DISPLAY_DISTANCE_PREFERENCE];
-        if (displayDistance != 0.0) {
-            setupVariablesController.displayDistance = @(displayDistance);
-        }
-    }
+    setupVariablesController.displayWidth = @([userDefaults doubleForKey:DISPLAY_WIDTH_PREFERENCE]);
+    setupVariablesController.displayHeight = @([userDefaults doubleForKey:DISPLAY_HEIGHT_PREFERENCE]);
+    setupVariablesController.displayDistance = @([userDefaults doubleForKey:DISPLAY_DISTANCE_PREFERENCE]);
     setupVariablesController.displayRefreshRateHz = @(60.0);
     setupVariablesController.alwaysDisplayMirrorWindow = NO;
     setupVariablesController.mirrorWindowBaseHeight = @(0);

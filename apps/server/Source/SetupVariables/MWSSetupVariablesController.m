@@ -78,19 +78,17 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
 
 
 - (NSArray *)availableDisplays {
-#if TARGET_OS_IPHONE
-    return @[ @"Main display" ];
-#else
     NSMutableArray *displays = [NSMutableArray arrayWithArray:@[ @"Mirror window only", @"Main display" ]];
     
+#if TARGET_OS_OSX
     NSArray *screens = [NSScreen screens];
     // Index 0 is always the main display, so start iteration at index 1
     for (NSUInteger index = 1; index < screens.count; index++) {
         [displays addObject:[NSString stringWithFormat:@"Display %lu", (unsigned long)(index+1)]];
     }
+#endif
     
     return displays;
-#endif
 }
 
 
