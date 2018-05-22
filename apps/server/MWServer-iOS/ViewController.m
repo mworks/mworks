@@ -16,16 +16,13 @@
 @implementation ViewController
 
 
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-
-
 - (void)viewWillAppear:(BOOL)animated {
     self.listeningAddress.text = APP_DELEGATE.listeningAddress;
     self.listeningPort.text = APP_DELEGATE.listeningPort.stringValue;
     
     [super viewWillAppear:animated];
+    
+    [self updateSetupVariablesForSize:self.view.bounds.size];
 }
 
 
@@ -34,6 +31,32 @@
     
     if (APP_DELEGATE.alert) {
         [self presentViewController:APP_DELEGATE.alert animated:YES completion:nil];
+    }
+}
+
+
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self updateSetupVariablesForSize:size];
+}
+
+
+- (void)updateSetupVariablesForSize:(CGSize)size {
+    //
+    // If needed, swap display width and height to match the current device orientation
+    //
+    
+    MWSSetupVariablesController *setupVariablesController = APP_DELEGATE.setupVariablesController;
+    double width = setupVariablesController.displayWidth.doubleValue;
+    double height = setupVariablesController.displayHeight.doubleValue;
+    
+    if ((width > height && size.width < size.height) ||
+        (width < height && size.width > size.height))
+    {
+        setupVariablesController.displayWidth = @(height);
+        setupVariablesController.displayHeight = @(width);
     }
 }
 
