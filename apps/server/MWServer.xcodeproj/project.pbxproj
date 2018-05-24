@@ -125,7 +125,7 @@
 		E16A21151E579D0F00C48E10 /* iOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_App.xcconfig; sourceTree = "<group>"; };
 		E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_App.xcconfig; sourceTree = "<group>"; };
 		E16A21171E579D0F00C48E10 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		E16A211C1E57A49100C48E10 /* MWServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E16A211C1E57A49100C48E10 /* MWorks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWorks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16A211F1E57A49100C48E10 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E16A21211E57A49100C48E10 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E16A21221E57A49100C48E10 /* AppDelegate.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -187,7 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* MWServer.app */,
-				E16A211C1E57A49100C48E10 /* MWServer.app */,
+				E16A211C1E57A49100C48E10 /* MWorks.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -321,7 +321,7 @@
 			);
 			name = "MWServer-iOS";
 			productName = "MWServer-iOS";
-			productReference = E16A211C1E57A49100C48E10 /* MWServer.app */;
+			productReference = E16A211C1E57A49100C48E10 /* MWorks.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -582,7 +582,7 @@
 					"-lboost_system",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWServer-iOS";
-				PRODUCT_NAME = MWServer;
+				PRODUCT_NAME = MWorks;
 			};
 			name = Development;
 		};

@@ -239,7 +239,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A211B1E57A49100C48E10"
-               BuildableName = "MWServer.app"
+               BuildableName = "MWorks.app"
                BlueprintName = "MWServer-iOS"
                ReferencedContainer = "container:../apps/server/MWServer.xcodeproj">
             </BuildableReference>
@@ -250,7 +250,6 @@
       buildConfiguration = "Development"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -258,7 +257,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16A211B1E57A49100C48E10"
-            BuildableName = "MWServer.app"
+            BuildableName = "MWorks.app"
             BlueprintName = "MWServer-iOS"
             ReferencedContainer = "container:../apps/server/MWServer.xcodeproj">
          </BuildableReference>
@@ -270,7 +269,6 @@
       buildConfiguration = "Development"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -282,7 +280,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16A211B1E57A49100C48E10"
-            BuildableName = "MWServer.app"
+            BuildableName = "MWorks.app"
             BlueprintName = "MWServer-iOS"
             ReferencedContainer = "container:../apps/server/MWServer.xcodeproj">
          </BuildableReference>
@@ -313,7 +311,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16A211B1E57A49100C48E10"
-            BuildableName = "MWServer.app"
+            BuildableName = "MWorks.app"
             BlueprintName = "MWServer-iOS"
             ReferencedContainer = "container:../apps/server/MWServer.xcodeproj">
          </BuildableReference>
