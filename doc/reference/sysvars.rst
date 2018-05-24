@@ -77,7 +77,7 @@ The following keys are recognized.  If a key is omitted, the default value is us
      - Inverse of blue channel gamma (must be greater than zero)
      - 
    * - ``make_window_opaque``
-     - True or false, indicating whether the stimulus display window should be opaque.  If the window is not opaque, and the experiment includes a `Stimulus Display` device whose ``background_alpha_multiplier`` parameter is less than 1, then the display background and/or application windows beneath the stimulus window will show through it.  Does not apply to the mirror window.
+     - True or false, indicating whether the stimulus display window should be opaque.  If the window is not opaque, and the experiment includes a `Stimulus Display` device whose ``background_alpha_multiplier`` parameter is less than 1, then the display background and/or application windows beneath the stimulus window will show through it.  Does not affect the mirror window, which is always opaque.
      - ``true``
 
 The ``width``, ``height``, and ``distance`` values are used to compute the angular field of view covered by the main display.  The bounds of the field of view (in degrees) are reported by MWorks when the experiment is loaded, e.g.::

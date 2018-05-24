@@ -829,7 +829,7 @@
                             <binding destination="Npj-AL-FRl" name="value" keyPath="selection.renderAtFullResolution" id="Dhz-QV-Yxn"/>
                         </connections>
                     </button>
-                    <button toolTip="Does not apply to the mirror window" verticalHuggingPriority="750" misplaced="YES" id="Ti1-Fa-8L0">
+                    <button toolTip="Does not affect the mirror window, which is always opaque" verticalHuggingPriority="750" misplaced="YES" id="Ti1-Fa-8L0">
                         <rect key="frame" x="18" y="51" width="254" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Make stimulus display window opaque" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4NU-UY-ca0">
