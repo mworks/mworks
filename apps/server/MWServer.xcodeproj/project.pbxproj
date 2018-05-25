@@ -429,7 +429,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$BUILT_PRODUCTS_DIR\"\n/bin/mkdir -p \"$FRAMEWORKS_FOLDER_PATH\" \"$PLUGINS_FOLDER_PATH\"\n/usr/bin/rsync -a *.framework \"$FRAMEWORKS_FOLDER_PATH\"\n/usr/bin/rsync -a *.plugin \"$PLUGINS_FOLDER_PATH\"";
+			shellScript = "cd \"$BUILT_PRODUCTS_DIR\"\n/bin/mkdir -p \"$FRAMEWORKS_FOLDER_PATH\" \"$PLUGINS_FOLDER_PATH\"\n/usr/bin/rsync -aL *.framework \"$FRAMEWORKS_FOLDER_PATH\"\n/usr/bin/rsync -aL *.plugin \"$PLUGINS_FOLDER_PATH\"";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -583,6 +583,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWServer-iOS";
 				PRODUCT_NAME = MWorks;
+				SKIP_INSTALL = NO;
 			};
 			name = Development;
 		};
