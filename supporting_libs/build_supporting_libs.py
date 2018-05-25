@@ -46,6 +46,11 @@ common_flags %= os.environ
 compile_flags = ('-g -Os -fexceptions -fvisibility=hidden ' +
                  '-Werror=partial-availability ' +
                  common_flags)
+if os.environ['ENABLE_BITCODE'] == 'YES':
+    compile_flags += {
+        'bitcode': ' -fembed-bitcode',
+        'marker': ' -fembed-bitcode-marker',
+        }.get(os.environ['BITCODE_GENERATION_MODE'], '')
 
 cflags = '-std=%(GCC_C_LANGUAGE_STANDARD)s' % os.environ
 cxxflags = ('-std=%(CLANG_CXX_LANGUAGE_STANDARD)s '
@@ -59,7 +64,7 @@ sourcedir = os.path.abspath('source')
 patchdir = os.path.abspath('patches')
 builddir = os.environ['TARGET_TEMP_DIR']
 
-prefix = os.environ['TARGET_BUILD_DIR']
+prefix = os.environ['BUILT_PRODUCTS_DIR']
 frameworksdir = prefix + '/Frameworks'
 matlabdir = prefix + '/MATLAB'
 includedir = prefix + '/include'
@@ -197,6 +202,9 @@ def run_b2(libraries, clean=False):
         './b2',
         #'-d', '2',  # Show actual commands run,
         '-j', num_cores,
+        '--prefix=' + prefix,
+        '--includedir=' + includedir,
+        '--libdir=' + libdir,
         '--build-dir=' + builddir,
         'variant=release',
         'optimization=space',
@@ -297,9 +305,6 @@ def boost(ios=True):
                 os.symlink('boost', 'mworks_boost')
                 check_call([
                     './bootstrap.sh',
-                    '--prefix=' + prefix,
-                    '--includedir=' + includedir,
-                    '--libdir=' + libdir,
                     '--with-toolset=clang',
                     '--without-icu',
                     '--without-libraries=python',  # Configure python manually
@@ -351,7 +356,12 @@ def zeromq(ios=True):
         with workdir(zeromq_builddir):
             run_configure_and_make(
                 command = [os.path.join(sourcedir, srcdir, 'configure')],
-                extra_args = ['--disable-silent-rules', '--disable-curve'],
+                extra_args = [
+                    '--disable-silent-rules',
+                    '--disable-perf',
+                    '--disable-curve-keygen',
+                    '--disable-curve',
+                    ],
                 extra_ldflags = '-lc++',
                 )
 
