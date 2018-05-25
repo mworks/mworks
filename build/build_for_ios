@@ -1,0 +1,38 @@
+#!/usr/bin/python
+
+import argparse
+from subprocess import check_call
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--archive', action='store_true',
+                        help='create an archive for distribution')
+    parser.add_argument('version', nargs='?', help='version number')
+    parser.add_argument('version_suffix', nargs='?',
+                        help='version number suffix')
+    args = parser.parse_args()
+
+    cmd = [
+        '/usr/bin/xcrun',
+        'xcodebuild',
+        '-workspace', 'MWorks-iOS.xcworkspace',
+        '-scheme', 'MWorks',
+        '-destination', 'generic/platform=iOS',
+        ]
+
+    if args.archive:
+        cmd.append('archive')
+    else:
+        cmd.extend(['clean', 'build'])
+
+    if args.version:
+        cmd.append('MW_VERSION=' + args.version)
+    if args.version_suffix:
+        cmd.append('MW_VERSION_SUFFIX=' + args.version_suffix)
+
+    check_call(cmd)
+
+
+if __name__ == '__main__':
+    main()
