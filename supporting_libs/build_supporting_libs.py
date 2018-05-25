@@ -99,7 +99,16 @@ def announce(msg, *args):
 
 def check_call(args, **kwargs):
     announce('Running command: %s', ' '.join(repr(a) for a in args))
-    subprocess.check_call(args, **kwargs)
+    cmd = subprocess.Popen(args,
+                           stdout = subprocess.PIPE,
+                           stderr = subprocess.STDOUT,
+                           **kwargs)
+    output = cmd.communicate()[0]
+    if 0 != cmd.returncode:
+        announce('Command exited with status %d and output:\n%s',
+                 cmd.returncode,
+                 output)
+        sys.exit(1)
 
 
 @contextmanager
