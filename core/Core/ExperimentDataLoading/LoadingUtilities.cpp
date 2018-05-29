@@ -157,7 +157,6 @@ BEGIN_NAMESPACE_MW
         }
 		
 		if(GlobalCurrentExperiment == NULL) {
-			merror(M_PARSER_MESSAGE_DOMAIN, "Experiment load failed");
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
 		}
