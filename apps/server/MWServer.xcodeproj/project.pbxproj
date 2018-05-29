@@ -314,6 +314,7 @@
 				E16A21191E57A49100C48E10 /* Frameworks */,
 				E16A211A1E57A49100C48E10 /* Resources */,
 				E1CCE03D1E5C96C700614060 /* ShellScript */,
+				E1C3C9E820BDB83000AA8661 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -417,6 +418,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
 			shellScript = "export SOURCE_DIR=./\n\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=\"`$GIT log -n1  --pretty=format:%h`\"\n\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nsed $SUBS_STRING  ${SOURCE_DIR}/Info.template.plist > ${SOURCE_DIR}/Info.plist\n";
+		};
+		E1C3C9E820BDB83000AA8661 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$BUILT_PRODUCTS_DIR\"\n/usr/bin/sed -i '' -e \"s/__VERSION__/${MW_VERSION}${MW_VERSION_SUFFIX}/g\" \"${CONTENTS_FOLDER_PATH}/Settings.bundle/Root.plist\"";
+			showEnvVarsInLog = 0;
 		};
 		E1CCE03D1E5C96C700614060 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
