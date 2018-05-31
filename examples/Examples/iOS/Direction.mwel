@@ -1,0 +1,229 @@
+%include 'includes/onscreen_message'
+%include 'includes/touch_input'
+
+
+//
+// Dots
+//
+
+%define dot_field_radius = 10
+var dot_direction = 0
+var dot_coherence = 1
+
+moving_dots dots (
+    field_radius = dot_field_radius
+    field_center_x = 0
+    field_center_y = 0
+    dot_density = 4
+    dot_size = 0.12
+    direction = dot_direction
+    speed = 1
+    coherence = dot_coherence
+    lifetime = 3 / refresh_rate()
+    autoplay = true
+    )
+
+circle dot_background (
+    color = 0,0,0
+    x_size = 2 * dot_field_radius
+    )
+
+
+//
+// Response targets
+//
+
+%define target_size = 5
+%define target_distance = 1.1 * (dot_field_radius + target_size / 2)
+%define radians(degrees) pi() / 180 * degrees
+
+%define NO_SELECTION = -1
+var selected_direction = NO_SELECTION
+%define no_selection = selected_direction == NO_SELECTION
+%define correct_selection(direction) dot_direction == direction
+%define incorrect_selection(direction) dot_direction != direction and selected_direction == direction
+
+%define target (trigger_flag, direction)
+    circular_fixation_point (
+        trigger_width = target_size
+        trigger_watch_x = touch_position_x
+        trigger_watch_y = touch_position_y
+        trigger_flag = trigger_flag
+        color = no_selection or incorrect_selection(direction), no_selection or correct_selection(direction), no_selection
+        x_size = target_size
+        x_position = target_distance * cos(radians(direction))
+        y_position = target_distance * sin(radians(direction))
+        alpha_multiplier = no_selection or correct_selection(direction) or incorrect_selection(direction)
+        )
+%end
+
+var touch_in_east_target = false
+var touch_in_north_target = false
+var touch_in_west_target = false
+var touch_in_south_target = false
+
+%define EAST = 0
+%define NORTH = 90
+%define WEST = 180
+%define SOUTH = 270
+
+target east_target (
+    trigger_flag = touch_in_east_target
+    direction = EAST
+    )
+
+target north_target (
+    trigger_flag = touch_in_north_target
+    direction = NORTH
+    )
+
+target west_target (
+    trigger_flag = touch_in_west_target
+    direction = WEST
+    )
+
+target south_target (
+    trigger_flag = touch_in_south_target
+    direction = SOUTH
+    )
+
+
+//
+// Protocol
+//
+
+var num_trials = 0
+var num_correct = 0
+
+protocol 'Direction Discrimination' {
+    //
+    // Display instructions
+    //
+
+    show_onscreen_message (
+        text = (
+            'In this experiment, you will be presented with fields of moving ' +
+            'dots.  Although dots disappear and reappear, and some of the ' +
+            'dots move in random directions, on average the dots move in one ' +
+            'of the cardinal directions (up, down, left, or right).' +
+            '\n\n' +
+            "Tap the target circle corresponding to the dots' average " +
+            'direction of motion.  Once you select a direction, the target ' +
+            'for the correct direction will turn green.  If you chose ' +
+            'incorrectly, your selected target will turn red.' +
+            '\n\n' +
+            'Tap the screen to begin.'
+            )
+        x_size = 25
+        y_size = 20
+        dismiss_when = touch_in_progress
+        )
+
+    //
+    // Perform trials
+    //
+
+    num_trials = 0
+    num_correct = 0
+
+    queue_stimulus (dot_background)
+    live_queue_stimulus (east_target)
+    live_queue_stimulus (north_target)
+    live_queue_stimulus (west_target)
+    live_queue_stimulus (south_target)
+
+    trial (nsamples = 10) {
+        task {
+            state 'Wait for touch release' {
+                goto (
+                    target = 'Present dots'
+                    when = not touch_in_progress
+                    )
+            }
+
+            state 'Present dots' {
+                dot_direction = 90 * disc_rand(0, 3)
+                dot_coherence = rand(0.3, 0.7)
+                touch_position_x = 0
+                touch_position_y = 0
+                selected_direction = NO_SELECTION
+
+                queue_stimulus (dots)
+                update_display ()
+
+                goto (
+                    target = 'East selected'
+                    when = touch_in_progress and touch_in_east_target
+                    )
+                goto (
+                    target = 'North selected'
+                    when = touch_in_progress and touch_in_north_target
+                    )
+                goto (
+                    target = 'West selected'
+                    when = touch_in_progress and touch_in_west_target
+                    )
+                goto (
+                    target = 'South selected'
+                    when = touch_in_progress and touch_in_south_target
+                    )
+            }
+
+            state 'East selected' {
+                selected_direction = EAST
+
+                goto ('End trial')
+            }
+
+            state 'North selected' {
+                selected_direction = NORTH
+
+                goto ('End trial')
+            }
+
+            state 'West selected' {
+                selected_direction = WEST
+
+                goto ('End trial')
+            }
+
+            state 'South selected' {
+                selected_direction = SOUTH
+
+                goto ('End trial')
+            }
+
+            state 'End trial' {
+                if (selected_direction == dot_direction) {
+                    num_correct += 1
+                }
+                dequeue_stimulus (dots)
+                update_display ()
+
+                wait (2s)
+
+                num_trials += 1
+
+                yield ()
+            }
+        }
+    }
+
+    //
+    // Display results summary
+    //
+
+    clear_display ()
+    show_onscreen_message (
+        text = format(
+            'You chose correctly on %1% out of %2% trials.' +
+            '\n\n' +
+            'Tap the screen to finish.',
+            num_correct,
+            num_trials
+            )
+        x_size = 20
+        y_size = 5
+        dismiss_when = touch_in_progress
+        )
+}

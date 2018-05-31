@@ -1,0 +1,10 @@
+var touch_position_x = 0
+var touch_position_y = 0
+var touch_in_progress = false
+
+iodevice/touch_input (
+    touch_position_x = touch_position_x
+    touch_position_y = touch_position_y
+    touch_in_progress = touch_in_progress
+    autostart = true
+    )
