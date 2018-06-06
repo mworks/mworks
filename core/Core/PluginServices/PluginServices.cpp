@@ -21,21 +21,7 @@
 #include "LoadingUtilities.h"
 #include <boost/filesystem/operations.hpp>
 
-#ifdef	__APPLE__
-#define USE_DLOPEN_DYNAMIC_LOADING	1
-#endif
-
-#if		__linux
-#define USE_DLOPEN_DYNAMIC_LOADING  1
-#endif
-
-#ifdef	USE_DLOPEN_DYNAMIC_LOADING
 #include <dlfcn.h>
-#endif
-
-#ifdef  USE_CORE_FOUNDATION_DYNAMIC_LOADING
-#import <CoreFoundation/CoreFoundation.h>
-#endif
 
 
 BEGIN_NAMESPACE_MW
@@ -67,7 +53,6 @@ BEGIN_NAMESPACE_MW
 			string plugin_name_stripped = 
 			plugin_name.substr(0, plugin_name.find_last_of("."));
 			//cerr << "Loading " << plugin_name_stripped.c_str() << endl;
-			mprintf("Loading %s", plugin_name_stripped.c_str());
 			readPlugin(plugin_name_stripped);
 		}
 		
@@ -81,43 +66,6 @@ BEGIN_NAMESPACE_MW
 		GetPluginFunctionPtr getplug = NULL;	
 		
 		
-#ifdef	USE_CORE_FOUNDATION_DYNAMIC_LOADING
-		
-		// don't prepend the path
-		//path = prependPluginPath(path);
-		
-		// Make a CFURLRef from the CFString representation of the 
-		// bundle's path. See the Core Foundation URL Services chapter 
-		// for details.
-		CFURLRef bundleURL = CFURLCreateWithFileSystemPath( 
-														   kCFAllocatorDefault, CFStringCreateWithCString(NULL, path,
-																										  kCFStringEncodingMacRoman), kCFURLPOSIXPathStyle, true );
-		
-		// Make a bundle instance using the URLRef.
-		CFBundleRef myBundle = CFBundleCreate( kCFAllocatorDefault, bundleURL );
-		
-		if(myBundle == NULL){
-			mwarning(M_PLUGIN_MESSAGE_DOMAIN,
-					 "Plugin (%s) did not load properly", path);
-			//throw an error?
-			return;
-		}
-		
-		// Try to load the executable from my bundle.
-		didLoad = CFBundleLoadExecutable( myBundle );
-		
-		// If the code was successfully loaded, look for our function.
-		if (didLoad) {
-			// Now that the code is loaded, search for 
-			// the function we want by name.
-			getplug = ( GetPluginFunctionPtr )CFBundleGetFunctionPointerForName( 
-																				myBundle, CFSTR("getPlugin") );
-			
-		}
-		
-		
-#elif	USE_DLOPEN_DYNAMIC_LOADING
-		
 		char dynamic_library_path[512]; // TODO define
 		
 #ifdef	__APPLE__
@@ -126,8 +74,19 @@ BEGIN_NAMESPACE_MW
 		sprintf(dynamic_library_path, "%s/%s.bundle/Contents/MacOS/%s",
 				pluginPath().string().c_str(), path.c_str(), path.c_str());
 #elif TARGET_OS_IPHONE
-        sprintf(dynamic_library_path, "%s/%s.plugin/%s",
+        sprintf(dynamic_library_path, "%s/%s.framework/%s",
                 pluginPath().string().c_str(), path.c_str(), path.c_str());
+        
+        // On iOS, frameworks and plugins have the same extension and reside in the same
+        // subdirectory of the app bundle.  However, frameworks are loaded automatically
+        // at launch time, while plugins are loaded manually at run time.  Therefore, by
+        // calling dlopen with mode RTLD_NOLOAD, we can determine if a given bundle
+        // executable is already loaded and, hence, whether it's a framework or a
+        // plugin.
+        if (dlopen(dynamic_library_path, RTLD_LAZY | RTLD_NOLOAD)) {
+            // This "plugin" is actually a framework, so take no further action.
+            return;
+        }
 #else
 #error  Unsupported platform
 #endif
@@ -136,8 +95,10 @@ BEGIN_NAMESPACE_MW
 		sprintf(dynamic_library_path, "%s/%s.so",
 				pluginPath().string().c_str(), path.c_str());
 		
-#endif 
-		
+#endif
+        
+        mprintf("Loading %s", path.c_str());
+        
 		void *library_handle = dlopen(dynamic_library_path, RTLD_LAZY);
 		
 		if(library_handle == NULL){
@@ -148,8 +109,6 @@ BEGIN_NAMESPACE_MW
 		
 		getplug = (GetPluginFunctionPtr)dlsym(library_handle, "getPlugin");
 		//dlclose(library_handle); 
-		
-#endif
 		
 		
 		

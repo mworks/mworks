@@ -77,7 +77,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E110FE721F7BE3E700E9BBB9 /* RCBLVDS.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RCBLVDS.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E110FE721F7BE3E700E9BBB9 /* RCBLVDS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RCBLVDS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E110FE751F7BE3E700E9BBB9 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E12DAD671F69A6E2004FF673 /* RCBLVDS.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RCBLVDS.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E12DAD6A1F69A6E2004FF673 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				E12DAD671F69A6E2004FF673 /* RCBLVDS.bundle */,
-				E110FE721F7BE3E700E9BBB9 /* RCBLVDS.plugin */,
+				E110FE721F7BE3E700E9BBB9 /* RCBLVDS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -208,7 +208,7 @@
 			);
 			name = "RCBLVDS-iOS";
 			productName = "RCBLVDS-iOS";
-			productReference = E110FE721F7BE3E700E9BBB9 /* RCBLVDS.plugin */;
+			productReference = E110FE721F7BE3E700E9BBB9 /* RCBLVDS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E12DAD661F69A6E2004FF673 /* RCBLVDS */ = {

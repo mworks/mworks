@@ -75,7 +75,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E125AF831E8050C10068EB25 /* TouchInput.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TouchInput.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E125AF831E8050C10068EB25 /* TouchInput.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TouchInput.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E125AF871E8050C10068EB25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E125AF911E8052E50068EB25 /* TouchInput-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TouchInput-Prefix.pch"; sourceTree = "<group>"; };
 		E125AF921E8053AC0068EB25 /* TouchInputPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchInputPlugin.cpp; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 		E125AF841E8050C10068EB25 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E125AF831E8050C10068EB25 /* TouchInput.plugin */,
+				E125AF831E8050C10068EB25 /* TouchInput.framework */,
 				E1AEAC011EB11212001150F7 /* TouchInput.bundle */,
 			);
 			name = Products;
@@ -206,7 +206,7 @@
 			);
 			name = TouchInput;
 			productName = TouchInput;
-			productReference = E125AF831E8050C10068EB25 /* TouchInput.plugin */;
+			productReference = E125AF831E8050C10068EB25 /* TouchInput.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E1AEAC001EB11212001150F7 /* TouchInput-macOS */ = {

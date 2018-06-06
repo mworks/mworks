@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72A71E6DDB0E001CE0C0"
-               BuildableName = "MovieStimulus.plugin"
+               BuildableName = "MovieStimulus.framework"
                BlueprintName = "MovieStimulus-iOS"
                ReferencedContainer = "container:MovieStimulusPlugin.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72A71E6DDB0E001CE0C0"
-            BuildableName = "MovieStimulus.plugin"
+            BuildableName = "MovieStimulus.framework"
             BlueprintName = "MovieStimulus-iOS"
             ReferencedContainer = "container:MovieStimulusPlugin.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72A71E6DDB0E001CE0C0"
-            BuildableName = "MovieStimulus.plugin"
+            BuildableName = "MovieStimulus.framework"
             BlueprintName = "MovieStimulus-iOS"
             ReferencedContainer = "container:MovieStimulusPlugin.xcodeproj">
          </BuildableReference>

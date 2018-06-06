@@ -106,7 +106,7 @@
 		E15C72A01E6DD9DF001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72A11E6DD9DF001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72A21E6DD9DF001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovieStimulus.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovieStimulus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C72AB1E6DDB0E001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E15D0B1F16C2BFDA00F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
@@ -193,7 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B6048680CD000E48DA /* MovieStimulusPlugin.bundle */,
-				E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.plugin */,
+				E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -272,7 +272,7 @@
 			);
 			name = "MovieStimulus-iOS";
 			productName = "MovieStimulus-iOS";
-			productReference = E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.plugin */;
+			productReference = E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */

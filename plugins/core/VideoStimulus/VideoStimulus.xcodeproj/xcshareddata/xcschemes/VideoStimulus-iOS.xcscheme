@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72EC1E6DFE42001CE0C0"
-               BuildableName = "VideoStimulus.plugin"
+               BuildableName = "VideoStimulus.framework"
                BlueprintName = "VideoStimulus-iOS"
                ReferencedContainer = "container:VideoStimulus.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72EC1E6DFE42001CE0C0"
-            BuildableName = "VideoStimulus.plugin"
+            BuildableName = "VideoStimulus.framework"
             BlueprintName = "VideoStimulus-iOS"
             ReferencedContainer = "container:VideoStimulus.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72EC1E6DFE42001CE0C0"
-            BuildableName = "VideoStimulus.plugin"
+            BuildableName = "VideoStimulus.framework"
             BlueprintName = "VideoStimulus-iOS"
             ReferencedContainer = "container:VideoStimulus.xcodeproj">
          </BuildableReference>

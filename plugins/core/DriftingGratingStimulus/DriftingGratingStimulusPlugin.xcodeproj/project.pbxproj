@@ -92,7 +92,7 @@
 		E1B11F051E69CED1009D877C /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1B11F061E69CED1009D877C /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1B11F071E69CED1009D877C /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		E1B11F101E69D09B009D877C /* DriftingGratingStimulus.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DriftingGratingStimulus.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1B11F101E69D09B009D877C /* DriftingGratingStimulus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DriftingGratingStimulus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1B11F171E69D4A5009D877C /* Info-iOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1DB979D16C1A904001481E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1E07E941C04F1E0008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */,
-				E1B11F101E69D09B009D877C /* DriftingGratingStimulus.plugin */,
+				E1B11F101E69D09B009D877C /* DriftingGratingStimulus.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -256,7 +256,7 @@
 			);
 			name = "DriftingGratingStimulus-iOS";
 			productName = "DriftingGratingStimulus-iOS";
-			productReference = E1B11F101E69D09B009D877C /* DriftingGratingStimulus.plugin */;
+			productReference = E1B11F101E69D09B009D877C /* DriftingGratingStimulus.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */

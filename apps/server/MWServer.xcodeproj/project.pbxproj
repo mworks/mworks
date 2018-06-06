@@ -429,7 +429,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$BUILT_PRODUCTS_DIR\"\n\n# Copy frameworks and plugins in to the app bundle\n/bin/mkdir -p \"$FRAMEWORKS_FOLDER_PATH\" \"$PLUGINS_FOLDER_PATH\"\n/usr/bin/rsync -aL *.framework \"$FRAMEWORKS_FOLDER_PATH\"\n/usr/bin/rsync -aL *.plugin \"$PLUGINS_FOLDER_PATH\"\n\n# Set the version number displayed in Settings\n/usr/bin/sed -i '' -e \"s/__VERSION__/${MW_VERSION}${MW_VERSION_SUFFIX}/g\" \"${CONTENTS_FOLDER_PATH}/Settings.bundle/Root.plist\"\n\n# Copy example experiments in to the app bundle\nexamples_dir=\"${CONTENTS_FOLDER_PATH}/Examples\"\n/bin/mkdir -p \"$examples_dir\"\nfor file in \"$SRCROOT\"/../../examples/Examples/iOS/*.mwel; do\n    file_basename=$(basename \"$file\")\n    \"${SRCROOT}/../../mwel/mwel2xml\" \"$file\" > \"${examples_dir}/${file_basename%.mwel}.xml\"\ndone";
+			shellScript = "cd \"$BUILT_PRODUCTS_DIR\"\n\n# Copy frameworks and plugins in to the app bundle\n/bin/mkdir -p \"$FRAMEWORKS_FOLDER_PATH\"\n/usr/bin/rsync -aL *.framework \"$FRAMEWORKS_FOLDER_PATH\"\n\n# Set the version number displayed in Settings\n/usr/bin/sed -i '' -e \"s/__VERSION__/${MW_VERSION}${MW_VERSION_SUFFIX}/g\" \"${CONTENTS_FOLDER_PATH}/Settings.bundle/Root.plist\"\n\n# Copy example experiments in to the app bundle\nexamples_dir=\"${CONTENTS_FOLDER_PATH}/Examples\"\n/bin/mkdir -p \"$examples_dir\"\nfor file in \"$SRCROOT\"/../../examples/Examples/iOS/*.mwel; do\n    file_basename=$(basename \"$file\")\n    \"${SRCROOT}/../../mwel/mwel2xml\" \"$file\" > \"${examples_dir}/${file_basename%.mwel}.xml\"\ndone";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

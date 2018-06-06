@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1B11F0F1E69D09B009D877C"
-               BuildableName = "DriftingGratingStimulus.plugin"
+               BuildableName = "DriftingGratingStimulus.framework"
                BlueprintName = "DriftingGratingStimulus-iOS"
                ReferencedContainer = "container:DriftingGratingStimulusPlugin.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E1B11F0F1E69D09B009D877C"
-            BuildableName = "DriftingGratingStimulus.plugin"
+            BuildableName = "DriftingGratingStimulus.framework"
             BlueprintName = "DriftingGratingStimulus-iOS"
             ReferencedContainer = "container:DriftingGratingStimulusPlugin.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E1B11F0F1E69D09B009D877C"
-            BuildableName = "DriftingGratingStimulus.plugin"
+            BuildableName = "DriftingGratingStimulus.framework"
             BlueprintName = "DriftingGratingStimulus-iOS"
             ReferencedContainer = "container:DriftingGratingStimulusPlugin.xcodeproj">
          </BuildableReference>

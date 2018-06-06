@@ -57,7 +57,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A20D91E576A3300C48E10"
-               BuildableName = "HighPrecisionClock.plugin"
+               BuildableName = "HighPrecisionClock.framework"
                BlueprintName = "HighPrecisionClock-iOS"
                ReferencedContainer = "container:../core/MWorksCore.xcodeproj">
             </BuildableReference>
@@ -71,7 +71,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A20E81E576DC200C48E10"
-               BuildableName = "ZenSchedulerPlugin.plugin"
+               BuildableName = "ZenSchedulerPlugin.framework"
                BlueprintName = "ZenSchedulerPlugin-iOS"
                ReferencedContainer = "container:../core/MWorksCore.xcodeproj">
             </BuildableReference>
@@ -85,7 +85,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A20F51E5770DF00C48E10"
-               BuildableName = "ZenStateSystemPlugin.plugin"
+               BuildableName = "ZenStateSystemPlugin.framework"
                BlueprintName = "ZenStateSystemPlugin-iOS"
                ReferencedContainer = "container:../core/MWorksCore.xcodeproj">
             </BuildableReference>
@@ -99,7 +99,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1B11F0F1E69D09B009D877C"
-               BuildableName = "DriftingGratingStimulus.plugin"
+               BuildableName = "DriftingGratingStimulus.framework"
                BlueprintName = "DriftingGratingStimulus-iOS"
                ReferencedContainer = "container:../plugins/core/DriftingGratingStimulus/DriftingGratingStimulusPlugin.xcodeproj">
             </BuildableReference>
@@ -113,7 +113,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E110E7951F27D6CC00F62C1B"
-               BuildableName = "EasyEye.plugin"
+               BuildableName = "EasyEye.framework"
                BlueprintName = "EasyEye-iOS"
                ReferencedContainer = "container:../plugins/core/EasyEye/EasyEye.xcodeproj">
             </BuildableReference>
@@ -127,7 +127,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1D54BA11EA699450073D938"
-               BuildableName = "Firmata.plugin"
+               BuildableName = "Firmata.framework"
                BlueprintName = "Firmata-iOS"
                ReferencedContainer = "container:../plugins/core/Firmata/Firmata.xcodeproj">
             </BuildableReference>
@@ -141,7 +141,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72A71E6DDB0E001CE0C0"
-               BuildableName = "MovieStimulus.plugin"
+               BuildableName = "MovieStimulus.framework"
                BlueprintName = "MovieStimulus-iOS"
                ReferencedContainer = "container:../plugins/core/MoviePlugin/MovieStimulusPlugin.xcodeproj">
             </BuildableReference>
@@ -155,7 +155,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72961E6DD121001CE0C0"
-               BuildableName = "MovingDots.plugin"
+               BuildableName = "MovingDots.framework"
                BlueprintName = "MovingDots-iOS"
                ReferencedContainer = "container:../plugins/core/MovingDots/MovingDots.xcodeproj">
             </BuildableReference>
@@ -169,7 +169,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E110FE711F7BE3E700E9BBB9"
-               BuildableName = "RCBLVDS.plugin"
+               BuildableName = "RCBLVDS.framework"
                BlueprintName = "RCBLVDS-iOS"
                ReferencedContainer = "container:../plugins/core/RCBLVDS/RCBLVDS.xcodeproj">
             </BuildableReference>
@@ -183,7 +183,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72CE1E6DF11A001CE0C0"
-               BuildableName = "TextStimulus.plugin"
+               BuildableName = "TextStimulus.framework"
                BlueprintName = "TextStimulus-iOS"
                ReferencedContainer = "container:../plugins/core/TextStimulus/TextStimulus.xcodeproj">
             </BuildableReference>
@@ -197,7 +197,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E125AF821E8050C10068EB25"
-               BuildableName = "TouchInput.plugin"
+               BuildableName = "TouchInput.framework"
                BlueprintName = "TouchInput"
                ReferencedContainer = "container:../plugins/core/TouchInput/TouchInput.xcodeproj">
             </BuildableReference>
@@ -211,7 +211,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72EC1E6DFE42001CE0C0"
-               BuildableName = "VideoStimulus.plugin"
+               BuildableName = "VideoStimulus.framework"
                BlueprintName = "VideoStimulus-iOS"
                ReferencedContainer = "container:../plugins/core/VideoStimulus/VideoStimulus.xcodeproj">
             </BuildableReference>
@@ -225,7 +225,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72BC1E6DE0CB001CE0C0"
-               BuildableName = "WhiteNoiseBackground.plugin"
+               BuildableName = "WhiteNoiseBackground.framework"
                BlueprintName = "WhiteNoiseBackground-iOS"
                ReferencedContainer = "container:../plugins/core/WhiteNoiseBackground/WhiteNoiseBackground.xcodeproj">
             </BuildableReference>

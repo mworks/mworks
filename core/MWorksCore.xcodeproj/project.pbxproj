@@ -1244,9 +1244,9 @@
 		E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OpenGLUtilities.hpp; path = Core/Stimuli/OpenGLUtilities.hpp; sourceTree = "<group>"; };
 		E148A4371E4B7106002DFB1C /* MWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16A20D41E5769DF00C48E10 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
-		E16A20DA1E576A3300C48E10 /* HighPrecisionClock.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HighPrecisionClock.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZenSchedulerPlugin.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZenStateSystemPlugin.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E16A20DA1E576A3300C48E10 /* HighPrecisionClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HighPrecisionClock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZenSchedulerPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZenStateSystemPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16A20FD1E57726200C48E10 /* Info-iOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E16A20FE1E57727600C48E10 /* ZenSchedulerPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenSchedulerPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
 		E16A20FF1E57728300C48E10 /* ZenStateSystemPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
@@ -2035,9 +2035,9 @@
 				5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */,
 				0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */,
 				E148A4371E4B7106002DFB1C /* MWorksCore.framework */,
-				E16A20DA1E576A3300C48E10 /* HighPrecisionClock.plugin */,
-				E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.plugin */,
-				E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin.plugin */,
+				E16A20DA1E576A3300C48E10 /* HighPrecisionClock.framework */,
+				E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.framework */,
+				E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2970,7 +2970,7 @@
 			);
 			name = "HighPrecisionClock-iOS";
 			productName = "HighPrecisionClock-iOS";
-			productReference = E16A20DA1E576A3300C48E10 /* HighPrecisionClock.plugin */;
+			productReference = E16A20DA1E576A3300C48E10 /* HighPrecisionClock.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E16A20E81E576DC200C48E10 /* ZenSchedulerPlugin-iOS */ = {
@@ -2989,7 +2989,7 @@
 			);
 			name = "ZenSchedulerPlugin-iOS";
 			productName = "ZenSchedulerPlugin-iOS";
-			productReference = E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.plugin */;
+			productReference = E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E16A20F51E5770DF00C48E10 /* ZenStateSystemPlugin-iOS */ = {
@@ -3008,7 +3008,7 @@
 			);
 			name = "ZenStateSystemPlugin-iOS";
 			productName = "ZenStateSystemPlugin-iOS";
-			productReference = E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin.plugin */;
+			productReference = E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */

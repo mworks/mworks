@@ -95,7 +95,7 @@
 		E15C72D81E6DFBF5001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72D91E6DFBF5001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72DA1E6DFBF5001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VideoStimulus.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VideoStimulus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C72F01E6DFE43001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1738F391DAD5BDA00B72222 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				E1556E061D945BD600AE70F9 /* VideoStimulus.bundle */,
-				E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.plugin */,
+				E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -247,7 +247,7 @@
 			);
 			name = "VideoStimulus-iOS";
 			productName = "VideoStimulus-iOS";
-			productReference = E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.plugin */;
+			productReference = E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */

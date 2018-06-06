@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A20F51E5770DF00C48E10"
-               BuildableName = "ZenStateSystemPlugin.plugin"
+               BuildableName = "ZenStateSystemPlugin.framework"
                BlueprintName = "ZenStateSystemPlugin-iOS"
                ReferencedContainer = "container:MWorksCore.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16A20F51E5770DF00C48E10"
-            BuildableName = "ZenStateSystemPlugin.plugin"
+            BuildableName = "ZenStateSystemPlugin.framework"
             BlueprintName = "ZenStateSystemPlugin-iOS"
             ReferencedContainer = "container:MWorksCore.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16A20F51E5770DF00C48E10"
-            BuildableName = "ZenStateSystemPlugin.plugin"
+            BuildableName = "ZenStateSystemPlugin.framework"
             BlueprintName = "ZenStateSystemPlugin-iOS"
             ReferencedContainer = "container:MWorksCore.xcodeproj">
          </BuildableReference>
