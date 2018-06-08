@@ -88,7 +88,7 @@
 		E110E78B1F278A4E00F62C1B /* EasyEyeDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EasyEyeDevice.hpp; sourceTree = "<group>"; };
 		E110E78D1F27CD3100F62C1B /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E110E78F1F27CFB800F62C1B /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
-		E110E7961F27D6CC00F62C1B /* EasyEye.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EasyEye.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E110E7961F27D6CC00F62C1B /* EasyEye.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EasyEye.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E110E7991F27D6CD00F62C1B /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,7 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				E110E7681F27843500F62C1B /* EasyEye.bundle */,
-				E110E7961F27D6CC00F62C1B /* EasyEye.plugin */,
+				E110E7961F27D6CC00F62C1B /* EasyEye.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -219,7 +219,7 @@
 			);
 			name = "EasyEye-iOS";
 			productName = "EasyEye-iOS";
-			productReference = E110E7961F27D6CC00F62C1B /* EasyEye.plugin */;
+			productReference = E110E7961F27D6CC00F62C1B /* EasyEye.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */

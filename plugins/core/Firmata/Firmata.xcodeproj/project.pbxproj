@@ -127,7 +127,7 @@
 		E1D54B9A1EA696CB0073D938 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1D54B9B1EA696CB0073D938 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1D54B9C1EA696CB0073D938 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		E1D54BA21EA699450073D938 /* Firmata.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Firmata.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1D54BA21EA699450073D938 /* Firmata.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Firmata.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D54BA51EA699450073D938 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1E84AF41D0B2B4200F45D54 /* Firmata.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Firmata.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E84AF71D0B2B4200F45D54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -235,7 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				E1E84AF41D0B2B4200F45D54 /* Firmata.bundle */,
-				E1D54BA21EA699450073D938 /* Firmata.plugin */,
+				E1D54BA21EA699450073D938 /* Firmata.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -315,7 +315,7 @@
 			);
 			name = "Firmata-iOS";
 			productName = "Firmata-iOS";
-			productReference = E1D54BA21EA699450073D938 /* Firmata.plugin */;
+			productReference = E1D54BA21EA699450073D938 /* Firmata.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E1E84AF31D0B2B4200F45D54 /* Firmata */ = {

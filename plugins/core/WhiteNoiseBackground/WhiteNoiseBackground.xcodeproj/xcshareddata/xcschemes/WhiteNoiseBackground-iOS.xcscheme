@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72BC1E6DE0CB001CE0C0"
-               BuildableName = "WhiteNoiseBackground.plugin"
+               BuildableName = "WhiteNoiseBackground.framework"
                BlueprintName = "WhiteNoiseBackground-iOS"
                ReferencedContainer = "container:WhiteNoiseBackground.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72BC1E6DE0CB001CE0C0"
-            BuildableName = "WhiteNoiseBackground.plugin"
+            BuildableName = "WhiteNoiseBackground.framework"
             BlueprintName = "WhiteNoiseBackground-iOS"
             ReferencedContainer = "container:WhiteNoiseBackground.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72BC1E6DE0CB001CE0C0"
-            BuildableName = "WhiteNoiseBackground.plugin"
+            BuildableName = "WhiteNoiseBackground.framework"
             BlueprintName = "WhiteNoiseBackground-iOS"
             ReferencedContainer = "container:WhiteNoiseBackground.xcodeproj">
          </BuildableReference>

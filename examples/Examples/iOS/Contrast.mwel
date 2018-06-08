@@ -1,0 +1,223 @@
+%include 'includes/onscreen_message'
+%include 'includes/touch_input'
+
+
+//
+// Gratings
+//
+
+%define grating_size = 12
+%define grating_offset_x = 8
+%define grating_alpha_min = 0.5
+%define grating_alpha_max = 0.55
+%define random_alpha() rand(grating_alpha_min, grating_alpha_max)
+
+var left_alpha = 1
+var right_alpha = 1
+
+%define grating (x_position, alpha_multiplier)
+    drifting_grating (
+        spatial_frequency = 0.5
+        speed = 1
+        grating_type = sinusoid
+        mask = gaussian
+        std_dev = 0.3
+        normalized = false
+        x_size = grating_size
+        x_position = x_position
+        alpha_multiplier = alpha_multiplier
+        autoplay = true
+        )
+%end
+
+grating left_grating (
+    x_position = -grating_offset_x
+    alpha_multiplier = left_alpha
+    )
+
+grating right_grating (
+    x_position = grating_offset_x
+    alpha_multiplier = right_alpha
+    )
+
+
+//
+// Response targets
+//
+
+var touch_in_left_target = false
+var touch_in_right_target = false
+
+%define target (trigger_flag, x_position)
+    fixation_point (
+        trigger_width = grating_size
+        trigger_watch_x = touch_position_x
+        trigger_watch_y = touch_position_y
+        trigger_flag = trigger_flag
+        x_size = grating_size
+        x_position = x_position
+        alpha_multiplier = 0
+        )
+%end
+
+target left_target (
+    trigger_flag = touch_in_left_target
+    x_position = -grating_offset_x
+    )
+
+target right_target (
+    trigger_flag = touch_in_right_target
+    x_position = grating_offset_x
+    )
+
+
+//
+// Feedback circles
+//
+
+%define feedback_size = 5
+
+circle correct_feedback (
+    color = 0,1,0
+    x_size = feedback_size
+    )
+
+circle incorrect_feedback (
+    color = 1,0,0
+    x_size = feedback_size
+    )
+
+
+//
+// Protocol
+//
+
+var num_trials = 0
+var num_correct = 0
+
+protocol 'Contrast Discrimination' {
+    //
+    // Display instructions
+    //
+
+    show_onscreen_message (
+        text = (
+            'In this experiment, you will be presented with pairs of ' +
+            'drifting gratings.  From each pair, tap the grating with the ' +
+            'highest contrast (i.e. the biggest difference in brightness ' +
+            'between the dark and light regions).  Once you select a ' +
+            'grating, a green circle will appear if you chose correctly, ' +
+            'otherwise a red circle will appear.' +
+            '\n\n' +
+            'Tap the screen to begin.'
+            )
+        x_size = 25
+        y_size = 15
+        dismiss_when = touch_in_progress
+        )
+
+    //
+    // Perform trials
+    //
+
+    num_trials = 0
+    num_correct = 0
+
+    queue_stimulus (left_target)
+    queue_stimulus (right_target)
+
+    trial (nsamples = 10) {
+        task {
+            state 'Wait for touch release' {
+                goto (
+                    target = 'Present gratings'
+                    when = not touch_in_progress
+                    )
+            }
+
+            state 'Present gratings' {
+                left_alpha = random_alpha()
+                right_alpha = random_alpha()
+
+                queue_stimulus (left_grating)
+                queue_stimulus (right_grating)
+                update_display ()
+
+                goto (
+                    target = 'Left selected'
+                    when = touch_in_progress and touch_in_left_target
+                    )
+
+                goto (
+                    target = 'Right selected'
+                    when = touch_in_progress and touch_in_right_target
+                    )
+            }
+
+            state 'Left selected' {
+                goto (
+                    target = 'Correct choice'
+                    when = left_alpha >= right_alpha
+                    )
+                goto ('Incorrect choice')
+            }
+
+            state 'Right selected' {
+                goto (
+                    target = 'Correct choice'
+                    when = right_alpha >= left_alpha
+                    )
+                goto ('Incorrect choice')
+            }
+
+            state 'Correct choice' {
+                num_correct += 1
+
+                queue_stimulus (correct_feedback)
+                update_display ()
+
+                goto ('End trial')
+            }
+
+            state 'Incorrect choice' {
+                queue_stimulus (incorrect_feedback)
+                update_display ()
+
+                goto ('End trial')
+            }
+
+            state 'End trial' {
+                dequeue_stimulus (left_grating)
+                dequeue_stimulus (right_grating)
+                update_display ()
+
+                wait (2s)
+
+                dequeue_stimulus (correct_feedback)
+                dequeue_stimulus (incorrect_feedback)
+                update_display ()
+
+                num_trials += 1
+
+                yield ()
+            }
+        }
+    }
+
+    //
+    // Display results summary
+    //
+
+    show_onscreen_message (
+        text = format(
+            'You chose correctly on %1% out of %2% trials.' +
+            '\n\n' +
+            'Tap the screen to finish.',
+            num_correct,
+            num_trials
+            )
+        x_size = 20
+        y_size = 5
+        dismiss_when = touch_in_progress
+        )
+}

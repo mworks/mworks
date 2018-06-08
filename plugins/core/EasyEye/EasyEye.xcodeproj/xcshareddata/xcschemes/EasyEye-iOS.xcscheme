@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E110E7951F27D6CC00F62C1B"
-               BuildableName = "EasyEye.plugin"
+               BuildableName = "EasyEye.framework"
                BlueprintName = "EasyEye-iOS"
                ReferencedContainer = "container:EasyEye.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E110E7951F27D6CC00F62C1B"
-            BuildableName = "EasyEye.plugin"
+            BuildableName = "EasyEye.framework"
             BlueprintName = "EasyEye-iOS"
             ReferencedContainer = "container:EasyEye.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E110E7951F27D6CC00F62C1B"
-            BuildableName = "EasyEye.plugin"
+            BuildableName = "EasyEye.framework"
             BlueprintName = "EasyEye-iOS"
             ReferencedContainer = "container:EasyEye.xcodeproj">
          </BuildableReference>

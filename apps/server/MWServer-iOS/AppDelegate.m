@@ -25,13 +25,9 @@
 #define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
 #define RENDER_AT_FULL_RESOLUTION_PREFERENCE @"render_at_full_resolution_preference"
 #define USE_COLOR_MANAGEMENT_PREFERENCE @"use_color_management_preference"
+#define DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE @"did_install_example_experiments_preference"
 
 #define EVENT_CALLBACK_KEY "<MWServer-iOS/AppDelegate>"
-
-
-@implementation AppDelegate {
-    boost::shared_ptr<mw::Server> core;
-}
 
 
 static void registerDefaultSettings(NSUserDefaults *userDefaults) {
@@ -46,7 +42,8 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
       DISPLAY_DISTANCE_PREFERENCE: @(450),
       ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
       RENDER_AT_FULL_RESOLUTION_PREFERENCE: @(YES),
-      USE_COLOR_MANAGEMENT_PREFERENCE: @(YES)
+      USE_COLOR_MANAGEMENT_PREFERENCE: @(YES),
+      DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE: @(NO)
       };
     [userDefaults registerDefaults:defaultSettings];
 }
@@ -78,10 +75,32 @@ static void initializeSetupVariables(NSUserDefaults *userDefaults,
 }
 
 
+static void installExampleExperiments(NSUserDefaults *userDefaults) {
+    if (![userDefaults boolForKey:DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE]) {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSURL *examplesURL = [NSBundle.mainBundle URLForResource:@"Examples" withExtension:nil];
+        NSURL *documentsURL = [fileManager URLForDirectory:NSDocumentDirectory
+                                                  inDomain:NSUserDomainMask
+                                         appropriateForURL:nil
+                                                    create:YES
+                                                     error:nil];
+        [fileManager copyItemAtURL:examplesURL
+                             toURL:[documentsURL URLByAppendingPathComponent:@"Examples" isDirectory:YES]
+                             error:nil];
+        [userDefaults setBool:YES forKey:DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE];
+    }
+}
+
+
 static UIAlertController * createInitializationFailureAlert(NSString *message) {
     return [UIAlertController alertControllerWithTitle:@"Server initialization failed"
                                                message:message
                                         preferredStyle:UIAlertControllerStyleAlert];
+}
+
+
+@implementation AppDelegate {
+    boost::shared_ptr<mw::Server> core;
 }
 
 
@@ -104,6 +123,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         registerDefaultSettings(userDefaults);
         _setupVariablesController = [[MWSSetupVariablesController alloc] init];
         initializeSetupVariables(userDefaults, self.setupVariablesController);
+        installExampleExperiments(userDefaults);
         
 #if TARGET_OS_SIMULATOR
         _listeningAddress = @"localhost";

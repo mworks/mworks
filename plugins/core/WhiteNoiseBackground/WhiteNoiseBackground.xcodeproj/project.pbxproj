@@ -89,7 +89,7 @@
 		E15C72B51E6DDFC3001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72B61E6DDFC3001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72B71E6DDFC3001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		E15C72BD1E6DE0CB001CE0C0 /* WhiteNoiseBackground.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteNoiseBackground.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15C72BD1E6DE0CB001CE0C0 /* WhiteNoiseBackground.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteNoiseBackground.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C72C01E6DE0CC001CE0C0 /* WhiteNoiseBackground-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WhiteNoiseBackground-iOS-Info.plist"; sourceTree = "<group>"; };
 		E15D0B2316C2C20300F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1E07EA81C04F416008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B6048680CD000E48DA /* WhiteNoiseBackground.bundle */,
-				E15C72BD1E6DE0CB001CE0C0 /* WhiteNoiseBackground.plugin */,
+				E15C72BD1E6DE0CB001CE0C0 /* WhiteNoiseBackground.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -247,7 +247,7 @@
 			);
 			name = "WhiteNoiseBackground-iOS";
 			productName = "WhiteNoiseBackground-iOS";
-			productReference = E15C72BD1E6DE0CB001CE0C0 /* WhiteNoiseBackground.plugin */;
+			productReference = E15C72BD1E6DE0CB001CE0C0 /* WhiteNoiseBackground.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */

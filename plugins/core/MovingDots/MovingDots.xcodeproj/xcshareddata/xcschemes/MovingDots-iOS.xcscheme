@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72961E6DD121001CE0C0"
-               BuildableName = "MovingDots.plugin"
+               BuildableName = "MovingDots.framework"
                BlueprintName = "MovingDots-iOS"
                ReferencedContainer = "container:MovingDots.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72961E6DD121001CE0C0"
-            BuildableName = "MovingDots.plugin"
+            BuildableName = "MovingDots.framework"
             BlueprintName = "MovingDots-iOS"
             ReferencedContainer = "container:MovingDots.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72961E6DD121001CE0C0"
-            BuildableName = "MovingDots.plugin"
+            BuildableName = "MovingDots.framework"
             BlueprintName = "MovingDots-iOS"
             ReferencedContainer = "container:MovingDots.xcodeproj">
          </BuildableReference>

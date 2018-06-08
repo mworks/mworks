@@ -86,7 +86,7 @@
 		E15C728F1E6DCFF8001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72901E6DCFF8001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72911E6DCFF8001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		E15C72971E6DD121001CE0C0 /* MovingDots.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovingDots.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15C72971E6DD121001CE0C0 /* MovingDots.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovingDots.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C729A1E6DD121001CE0C0 /* MovingDots-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MovingDots-iOS-Info.plist"; sourceTree = "<group>"; };
 		E15D0B4916C2D15C00F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E162635A1403F774000F89CB /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
@@ -162,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B6048680CD000E48DA /* MovingDots.bundle */,
-				E15C72971E6DD121001CE0C0 /* MovingDots.plugin */,
+				E15C72971E6DD121001CE0C0 /* MovingDots.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -241,7 +241,7 @@
 			);
 			name = "MovingDots-iOS";
 			productName = "MovingDots-iOS";
-			productReference = E15C72971E6DD121001CE0C0 /* MovingDots.plugin */;
+			productReference = E15C72971E6DD121001CE0C0 /* MovingDots.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */

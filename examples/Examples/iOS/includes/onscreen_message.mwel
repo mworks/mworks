@@ -1,0 +1,29 @@
+var onscreen_message_text = ''
+var onscreen_message_size_x = 0
+var onscreen_message_size_y = 0
+
+stimulus/text onscreen_message (
+    text = onscreen_message_text
+    font_name = 'HelveticaNeue'
+    font_size = 24
+    color = 0,0,0
+    x_size = onscreen_message_size_x
+    y_size = onscreen_message_size_y
+    )
+
+%define show_onscreen_message (text, x_size, y_size, dismiss_when)
+    onscreen_message_text = text
+    onscreen_message_size_x = x_size
+    onscreen_message_size_y = y_size
+
+    queue_stimulus (onscreen_message)
+    update_display ()
+
+    wait_for_condition (
+        condition = dismiss_when
+        timeout = 120s
+        )
+
+    dequeue_stimulus (onscreen_message)
+    update_display ()
+%end

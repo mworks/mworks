@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72CE1E6DF11A001CE0C0"
-               BuildableName = "TextStimulus.plugin"
+               BuildableName = "TextStimulus.framework"
                BlueprintName = "TextStimulus-iOS"
                ReferencedContainer = "container:TextStimulus.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72CE1E6DF11A001CE0C0"
-            BuildableName = "TextStimulus.plugin"
+            BuildableName = "TextStimulus.framework"
             BlueprintName = "TextStimulus-iOS"
             ReferencedContainer = "container:TextStimulus.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E15C72CE1E6DF11A001CE0C0"
-            BuildableName = "TextStimulus.plugin"
+            BuildableName = "TextStimulus.framework"
             BlueprintName = "TextStimulus-iOS"
             ReferencedContainer = "container:TextStimulus.xcodeproj">
          </BuildableReference>

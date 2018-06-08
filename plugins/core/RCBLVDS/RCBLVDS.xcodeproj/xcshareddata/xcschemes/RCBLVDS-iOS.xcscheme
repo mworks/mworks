@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E110FE711F7BE3E700E9BBB9"
-               BuildableName = "RCBLVDS.plugin"
+               BuildableName = "RCBLVDS.framework"
                BlueprintName = "RCBLVDS-iOS"
                ReferencedContainer = "container:RCBLVDS.xcodeproj">
             </BuildableReference>
@@ -48,7 +48,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E110FE711F7BE3E700E9BBB9"
-            BuildableName = "RCBLVDS.plugin"
+            BuildableName = "RCBLVDS.framework"
             BlueprintName = "RCBLVDS-iOS"
             ReferencedContainer = "container:RCBLVDS.xcodeproj">
          </BuildableReference>
@@ -66,7 +66,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E110FE711F7BE3E700E9BBB9"
-            BuildableName = "RCBLVDS.plugin"
+            BuildableName = "RCBLVDS.framework"
             BlueprintName = "RCBLVDS-iOS"
             ReferencedContainer = "container:RCBLVDS.xcodeproj">
          </BuildableReference>

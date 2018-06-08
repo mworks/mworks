@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1D54BA11EA699450073D938"
-               BuildableName = "Firmata.plugin"
+               BuildableName = "Firmata.framework"
                BlueprintName = "Firmata-iOS"
                ReferencedContainer = "container:Firmata.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E1D54BA11EA699450073D938"
-            BuildableName = "Firmata.plugin"
+            BuildableName = "Firmata.framework"
             BlueprintName = "Firmata-iOS"
             ReferencedContainer = "container:Firmata.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E1D54BA11EA699450073D938"
-            BuildableName = "Firmata.plugin"
+            BuildableName = "Firmata.framework"
             BlueprintName = "Firmata-iOS"
             ReferencedContainer = "container:Firmata.xcodeproj">
          </BuildableReference>
