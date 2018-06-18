@@ -1,0 +1,9 @@
+frame_list (
+    stimulus_group = frames
+    ) {
+    circle (x_size = 1)
+}
+
+stimulus_group frames {
+    circle (x_size = 2)
+}

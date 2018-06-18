@@ -19,22 +19,11 @@ BEGIN_NAMESPACE_MW
 class MovieStimulus : public BaseMovieStimulus {
     
 public:
-    static const std::string STIMULUS_GROUP;
-    
     static void describeComponent(ComponentInfo &info);
     
     explicit MovieStimulus(const ParameterValueMap &parameters);
 
     Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
-    
-protected:
-    int getNumFrames() MW_OVERRIDE {
-        return stimulusGroup->getNElements();
-    }
-
-    shared_ptr<Stimulus> getStimulusForFrame(int frameNumber) MW_OVERRIDE {
-        return stimulusGroup->getElement(frameNumber);
-    }
     
 private:
     shared_ptr<StimulusGroup> stimulusGroup;

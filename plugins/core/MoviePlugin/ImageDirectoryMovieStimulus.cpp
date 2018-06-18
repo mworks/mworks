@@ -42,6 +42,15 @@ ImageDirectoryMovieStimulus::ImageDirectoryMovieStimulus(const ParameterValueMap
 { }
 
 
+void ImageDirectoryMovieStimulus::addChild(std::map<std::string, std::string> parameters,
+                                           ComponentRegistryPtr reg,
+                                           boost::shared_ptr<Component> child)
+{
+    // We don't allow child components, so raise the standard error
+    Component::addChild(parameters, reg, child);
+}
+
+
 void ImageDirectoryMovieStimulus::load(shared_ptr<StimulusDisplay> display) {
     if (!loaded) {
         std::string workingPath;
@@ -64,7 +73,7 @@ void ImageDirectoryMovieStimulus::load(shared_ptr<StimulusDisplay> display) {
             imageParams.at(TAG) = ParameterValue(imageTag, reg);
             imageParams.insert(std::make_pair(ImageStimulus::PATH, ParameterValue(imageFilePaths[i], reg)));
             
-            images.push_back(boost::make_shared<ImageStimulus>(imageParams));
+            frames.push_back(boost::make_shared<ImageStimulus>(imageParams));
         }
         
         BaseMovieStimulus::load(display);
@@ -75,7 +84,7 @@ void ImageDirectoryMovieStimulus::load(shared_ptr<StimulusDisplay> display) {
 void ImageDirectoryMovieStimulus::unload(shared_ptr<StimulusDisplay> display) {
     if (loaded) {
         BaseMovieStimulus::unload(display);
-        images.clear();
+        frames.clear();
         currentDirectoryPath.clear();
     }
 }

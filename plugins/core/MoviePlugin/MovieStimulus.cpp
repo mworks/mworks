@@ -13,19 +13,15 @@
 BEGIN_NAMESPACE_MW
 
 
-const std::string MovieStimulus::STIMULUS_GROUP("stimulus_group");
-
-
 void MovieStimulus::describeComponent(ComponentInfo &info) {
     BaseMovieStimulus::describeComponent(info);
     info.setSignature("stimulus/movie");
-    info.addParameter(STIMULUS_GROUP);
+    info.addParameter(STIMULUS_GROUP, false);
 }
 
 
 MovieStimulus::MovieStimulus(const ParameterValueMap &parameters) :
-    BaseMovieStimulus(parameters),
-    stimulusGroup(parameters[STIMULUS_GROUP])
+    BaseMovieStimulus(parameters)
 {
     // To preserve existing behavior, do not auto-load stimulus, but *do*
     // mark it as loaded
@@ -39,7 +35,6 @@ Datum MovieStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = BaseMovieStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "movie");  
-    announceData.addElement(STIMULUS_GROUP, stimulusGroup->getTag());  
     
     return announceData;
 }

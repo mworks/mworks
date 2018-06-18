@@ -12,6 +12,7 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string BaseFrameListStimulus::STIMULUS_GROUP("stimulus_group");
 const std::string BaseFrameListStimulus::ENDING("ending");
 const std::string BaseFrameListStimulus::ENDED("ended");
 const std::string BaseFrameListStimulus::LOOP("loop");
@@ -34,8 +35,13 @@ BaseFrameListStimulus::BaseFrameListStimulus(const ParameterValueMap &parameters
     didSetEnding(false),
     didSetEnded(false)
 {
-    // We need to use find() because "ending" isn't a valid parameter for all BaseFrameListStimulus
-    // subclasses, meaning it won't always have a default value
+    // We need to use find() because "stimulus_group" isn't a valid parameter for all
+    // BaseFrameListStimulus subclasses, meaning it won't always have a default value
+    if ((parameters.find(STIMULUS_GROUP) != parameters.end()) && !(parameters[STIMULUS_GROUP].empty())) {
+        stimulusGroup = StimulusGroupPtr(parameters[STIMULUS_GROUP]);
+    }
+    
+    // Ditto for "ending"
     if ((parameters.find(ENDING) != parameters.end()) && !(parameters[ENDING].empty())) {
         ending = VariablePtr(parameters[ENDING]);
     }
@@ -43,6 +49,22 @@ BaseFrameListStimulus::BaseFrameListStimulus(const ParameterValueMap &parameters
     if (!(parameters[ENDED].empty())) {
         ended = VariablePtr(parameters[ENDED]);
     }
+}
+
+
+void BaseFrameListStimulus::addChild(std::map<std::string, std::string> parameters,
+                                     ComponentRegistryPtr reg,
+                                     boost::shared_ptr<Component> child)
+{
+    auto stim = boost::dynamic_pointer_cast<Stimulus>(child);
+    if (!stim) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Child component must be a stimulus");
+    }
+    if (stimulusGroup) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              "Child stimuli are not allowed when a stimulus group is specified");
+    }
+    frames.push_back(stim);
 }
 
 
@@ -92,6 +114,10 @@ void BaseFrameListStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
 Datum BaseFrameListStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = StandardDynamicStimulus::getCurrentAnnounceDrawData();
     
+    if (stimulusGroup) {
+        announceData.addElement(STIMULUS_GROUP, stimulusGroup->getTag());
+    }
+    
     announceData.addElement(LOOP, loop->getValue());
     announceData.addElement("playing", Datum(isPlaying()));
     
@@ -113,6 +139,14 @@ void BaseFrameListStimulus::startPlaying() {
     didSetEnding = false;
     didSetEnded = false;
     StandardDynamicStimulus::startPlaying();
+}
+
+
+int BaseFrameListStimulus::getNumFrames() {
+    if (stimulusGroup) {
+        return stimulusGroup->getNElements();
+    }
+    return frames.size();
 }
 
 
@@ -157,6 +191,14 @@ int BaseFrameListStimulus::getFrameNumber() {
     }
     
     return frameNumber;
+}
+
+
+shared_ptr<Stimulus> BaseFrameListStimulus::getStimulusForFrame(int frameNumber) {
+    if (stimulusGroup) {
+        return stimulusGroup->getElement(frameNumber);
+    }
+    return frames.at(frameNumber);
 }
 
 

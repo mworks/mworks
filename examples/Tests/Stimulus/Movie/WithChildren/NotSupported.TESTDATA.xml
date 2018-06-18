@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <permitted_error_messages>
+    <message type="contains"> is incompatible with display refresh rate </message>
+  </permitted_error_messages>
+  <expected_messages>
+    <message type="starts_with">ERROR: Component does not support child components</message>
+    <message type="starts_with">ERROR: Failed to parse experiment </message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't load, so we expect no events -->
+  </expected_events>
+</marionette_info>

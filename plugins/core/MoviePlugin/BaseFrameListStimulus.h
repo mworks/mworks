@@ -16,6 +16,7 @@ BEGIN_NAMESPACE_MW
 class BaseFrameListStimulus : public StandardDynamicStimulus {
     
 public:
+    static const std::string STIMULUS_GROUP;
     static const std::string ENDING;
     static const std::string ENDED;
     static const std::string LOOP;
@@ -24,6 +25,10 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit BaseFrameListStimulus(const ParameterValueMap &parameters);
+    
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistryPtr reg,
+                  boost::shared_ptr<Component> child) MW_OVERRIDE;
     
     void freeze(bool shouldFreeze = true) MW_OVERRIDE;
     
@@ -36,14 +41,18 @@ public:
 protected:
     void startPlaying() MW_OVERRIDE;
     
+    int getNumFrames();
     int getFrameNumber();
     int getLastFrameDrawn() const { return lastFrameDrawn; }
     
-    virtual int getNumFrames() = 0;
-    virtual int getNominalFrameNumber() = 0;
-    virtual shared_ptr<Stimulus> getStimulusForFrame(int frameNumber) = 0;
+    std::vector<boost::shared_ptr<Stimulus>> frames;
     
 private:
+    shared_ptr<Stimulus> getStimulusForFrame(int frameNumber);
+    
+    virtual int getNominalFrameNumber() = 0;
+    
+    StimulusGroupPtr stimulusGroup;
     shared_ptr<Variable> ending;
     shared_ptr<Variable> ended;
     shared_ptr<Variable> loop;

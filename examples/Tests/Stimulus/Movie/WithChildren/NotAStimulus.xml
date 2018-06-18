@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="frame_list" tag="New Frame List" stimulus_group="" ending="" ended="" loop="NO" repeats="0" autoplay="NO">
+            <variable tag="x" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        </stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <resources tag="Resources"></resources>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"></protocol>
+    </experiment>
+</monkeyml>

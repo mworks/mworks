@@ -24,25 +24,19 @@ public:
     
     explicit ImageDirectoryMovieStimulus(const ParameterValueMap &parameters);
     
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistryPtr reg,
+                  boost::shared_ptr<Component> child) MW_OVERRIDE;
+    
     void load(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
     void unload(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
     
     Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
     
-protected:
-    int getNumFrames() MW_OVERRIDE {
-        return images.size();
-    }
-    
-    shared_ptr<Stimulus> getStimulusForFrame(int frameNumber) MW_OVERRIDE {
-        return images.at(frameNumber);
-    }
-    
 private:
     const ParameterValueMap parameters;
     const VariablePtr directoryPath;
     std::string currentDirectoryPath;
-    std::vector< shared_ptr<Stimulus> > images;
     
 };
 

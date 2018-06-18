@@ -33,13 +33,16 @@ parameters:
 name: Frame List Stimulus
 signature: stimulus/frame_list
 isa: Base Frame List Stimulus
+allowed_child:
+  - Replicator
+  - Stimulus
 description: >
-    A simple movie stimulus that gets its frames from a stimulus group and
-    presents them at the native refresh rate of the display
+    A simple movie stimulus that presents its frames at the native refresh rate
+    of the display.  The frames can be provided by a stimulus group or attached
+    directly to the frame list as child components.
 parameters: 
   - 
     name: stimulus_group
-    required: yes
     description: Stimulus group providing the frames
   - 
     name: ending
@@ -69,9 +72,13 @@ parameters:
 name: Movie Stimulus
 signature: stimulus/movie
 isa: Base Movie Stimulus
+allowed_child:
+  - Replicator
+  - Stimulus
 description: |
-    A simple movie stimulus that gets its frames from a stimulus group and
-    presents them at a specified frame rate.
+    A simple movie stimulus that presents its frames at a specified frame rate.
+    The frames can be provided by a stimulus group or attached directly to the
+    movie as child components.
 
     *Note*:  For compatibility with previous MWorks versions, this stimulus
     ignores the `deferred`_ parameter.  Instead, the stimulus instance itself is
@@ -83,7 +90,6 @@ description: |
 parameters: 
   - 
     name: stimulus_group
-    required: yes
     description: Stimulus group providing the frames
 
 

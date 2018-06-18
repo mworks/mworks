@@ -27,14 +27,11 @@ public:
     bool needDraw(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
     Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
     
-protected:
+private:
     void startPlaying() MW_OVERRIDE;
     
-    int getNominalFrameNumber() MW_OVERRIDE {
-        return int(double(getElapsedTime()) * framesPerUS);
-    }
+    int getNominalFrameNumber() MW_OVERRIDE;
     
-private:
     shared_ptr<Variable> framesPerSecond;
     
     double framesPerUS;

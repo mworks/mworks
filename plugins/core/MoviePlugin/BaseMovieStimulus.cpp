@@ -27,24 +27,6 @@ BaseMovieStimulus::BaseMovieStimulus(const ParameterValueMap &parameters) :
 { }
 
 
-void BaseMovieStimulus::startPlaying() {
-    const double frameRate = framesPerSecond->getValue().getFloat();
-    const double refreshRate = StimulusDisplay::getCurrentStimulusDisplay()->getMainDisplayRefreshRate();
-    
-    if ((frameRate > refreshRate) || (fmod(refreshRate, frameRate) != 0.0)) {
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                 "Requested frame rate (%g) is incompatible with display refresh rate (%g)",
-                 frameRate,
-                 refreshRate);
-        
-    }
-    
-    framesPerUS = frameRate / 1.0e6;
-    
-    BaseFrameListStimulus::startPlaying();
-}
-
-
 bool BaseMovieStimulus::needDraw(shared_ptr<StimulusDisplay> display) {
     if (!BaseFrameListStimulus::needDraw(display)) {
         return false;
@@ -68,6 +50,29 @@ Datum BaseMovieStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = BaseFrameListStimulus::getCurrentAnnounceDrawData();
     announceData.addElement(FRAMES_PER_SECOND, framesPerSecond->getValue().getInteger());
     return announceData;
+}
+
+
+void BaseMovieStimulus::startPlaying() {
+    const double frameRate = framesPerSecond->getValue().getFloat();
+    const double refreshRate = StimulusDisplay::getCurrentStimulusDisplay()->getMainDisplayRefreshRate();
+    
+    if ((frameRate > refreshRate) || (fmod(refreshRate, frameRate) != 0.0)) {
+        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                 "Requested frame rate (%g) is incompatible with display refresh rate (%g)",
+                 frameRate,
+                 refreshRate);
+        
+    }
+    
+    framesPerUS = frameRate / 1.0e6;
+    
+    BaseFrameListStimulus::startPlaying();
+}
+
+
+int BaseMovieStimulus::getNominalFrameNumber() {
+    return int(double(getElapsedTime()) * framesPerUS);
 }
 
 

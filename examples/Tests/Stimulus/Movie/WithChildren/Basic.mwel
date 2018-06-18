@@ -1,0 +1,160 @@
+%define size = 8
+%define x_offset = 10
+%define y_offset = 5
+%define num_images = 52
+
+
+//
+// Simple
+//
+
+movie mv_simple (
+    frames_per_second = 3
+    loop = true
+    autoplay = true
+    ) {
+    image_file (
+        path = 'images/MotIm_1.jpg'
+        x_size = size
+        x_position = -x_offset
+        y_position = y_offset
+        )
+    image_file (
+        path = 'images/MotIm_26.jpg'
+        x_size = size
+        x_position = -x_offset
+        y_position = y_offset
+        )
+    image_file (
+        path = 'images/MotIm_52.jpg'
+        x_size = size
+        x_position = -x_offset
+        y_position = y_offset
+        )
+}
+
+frame_list fl_simple (
+    loop = true
+    autoplay = true
+    ) {
+    image_file (
+        path = 'images/MotIm_1.jpg'
+        x_size = size
+        x_position = -x_offset
+        y_position = -y_offset
+        )
+    image_file (
+        path = 'images/MotIm_26.jpg'
+        x_size = size
+        x_position = -x_offset
+        y_position = -y_offset
+        )
+    image_file (
+        path = 'images/MotIm_52.jpg'
+        x_size = size
+        x_position = -x_offset
+        y_position = -y_offset
+        )
+}
+
+
+//
+// Range replicator
+//
+
+var index (scope = local; default_value = 0)
+
+movie mv_range_rep (
+    frames_per_second = 20
+    loop = true
+    autoplay = true
+    ) {
+    range_replicator (
+        variable = index
+        from = 1
+        to = num_images
+        step = 1
+        ) {
+        image_file mv_range_rep_frame_${index} (
+            path = 'images/MotIm_${index}.jpg'
+            x_size = size
+            y_position = y_offset
+            )
+    }
+}
+
+frame_list fl_range_rep (
+    loop = true
+    autoplay = true
+    ) {
+    range_replicator (
+        variable = index
+        from = 1
+        to = num_images
+        step = 1
+        ) {
+        image_file fl_range_rep_frame_${index} (
+            path = 'images/MotIm_${index}.jpg'
+            x_size = size
+            y_position = -y_offset
+            )
+    }
+}
+
+
+//
+// List replicator
+//
+
+var filename (scope = local; type = string; default_value = 'none')
+
+movie mv_list_rep (
+    frames_per_second = 20
+    loop = true
+    autoplay = true
+    ) {
+    list_replicator (
+        variable = filename
+        values = 'filenames(images/MotIm_?.jpg), filenames(images/MotIm_??.jpg)'
+        ) {
+        image_file mv_list_rep_filename_${filename} (
+            path = ${filename}
+            x_size = size
+            x_position = x_offset
+            y_position = y_offset
+            )
+    }
+}
+
+frame_list fl_list_rep (
+    loop = true
+    autoplay = true
+    ) {
+    list_replicator (
+        variable = filename
+        values = 'filenames(images/MotIm_?.jpg), filenames(images/MotIm_??.jpg)'
+        ) {
+        image_file fl_list_rep_${filename} (
+            path = ${filename}
+            x_size = size
+            x_position = x_offset
+            y_position = -y_offset
+            )
+    }
+}
+
+
+//
+// Protocol
+//
+
+protocol {
+    queue_stimulus (mv_simple)
+    queue_stimulus (fl_simple)
+    queue_stimulus (mv_range_rep)
+    queue_stimulus (fl_range_rep)
+    queue_stimulus (mv_list_rep)
+    queue_stimulus (fl_list_rep)
+    update_display ()
+    wait (20s)
+}

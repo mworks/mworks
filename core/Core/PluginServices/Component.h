@@ -93,8 +93,7 @@ BEGIN_NAMESPACE_MW
 		virtual void addChild(std::map<std::string, std::string> parameters,
 							  ComponentRegistry *reg,
 							  shared_ptr<mw::Component> child){
-			// TODO: throw "can't add child" exception
-			throw  SimpleException("Invalid attempt to use base-class addChild component method. This is likely a bug.");
+			throw SimpleException(M_PARSER_MESSAGE_DOMAIN, "Component does not support child components");
 		}
 		
 		virtual void finalize(std::map<std::string, std::string> parameters,
