@@ -1,0 +1,15 @@
+layer layer {
+    blank_screen (color = 1,0,0)
+    mask (
+        mask = ellipse
+        fullscreen = true
+        )
+}
+
+
+protocol {
+    queue_stimulus (layer)
+    update_display ()
+    report ('A fullscreen, red ellipse should be displayed')
+    wait (10s)
+}

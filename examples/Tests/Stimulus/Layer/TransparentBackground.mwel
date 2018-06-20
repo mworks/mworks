@@ -1,0 +1,22 @@
+//
+// If #mainScreenInfo’s make_window_opaque key is set to false, this experiment
+// will display the desktop background through a fullscreen, elliptical
+// aperture.  Everything outside the ellipse will be black.
+//
+
+
+stimulus_display (background_color = 0,0,0)
+
+
+mask mask (
+    mask = ellipse
+    inverted = true
+    fullscreen = true
+    )
+
+
+protocol {
+    queue_stimulus (mask)
+    update_display ()
+    wait (10s)
+}

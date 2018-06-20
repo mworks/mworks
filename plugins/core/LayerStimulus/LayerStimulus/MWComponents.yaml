@@ -1,0 +1,101 @@
+---
+
+
+name: Layer Stimulus
+signature: stimulus/layer
+isa: Stimulus
+allowed_child: Stimulus
+description: |
+    Layers are useful only in conjuction with `masks <Mask Stimulus>`.
+
+    A layer is a container for other stimuli.  When displayed, it first renders
+    its child stimuli into a single scene, against a transparent background.  It
+    then draws this composite scene on the stimulus display.  If one of its
+    children is a mask, the "masked out" regions become transparent or semi-
+    transparent "windows", through which any stimuli below the layer are
+    visible.
+
+    For example, when displayed together, the following stimuli produce a red
+    circle inside a green square::
+
+        rectangle the_background (
+            color = 0,1,0
+            x_size = 10
+            )
+
+        layer the_layer {
+            rectangle (
+                color = 1,0,0
+                x_size = 10
+                )
+            mask (
+                mask = ellipse
+                x_size = 10
+                )
+        }
+
+
+---
+
+
+name: Mask Stimulus
+signature: stimulus/mask
+isa: Basic Transform Stimulus
+description: |
+    Masks are useful only in conjuction with `layers <Layer Stimulus>`.
+
+    A mask obscures or erases any stimuli in its layer that lie below it.  The
+    "masked out" regions become transparent or semi-transparent "windows",
+    through which any stimuli below the layer are visible.  If the mask is
+    `inverted`_, it will make a "hole" through the stimuli under it, allowing
+    the stimuli beneath the layer to show through.
+
+    For example, the following layer will produce a red ring with inner radius
+    5 and outer radius 10::
+
+        layer the_layer {
+            circle (
+                color = 1,0,0
+                x_size = 20
+                )
+            mask (
+                mask = ellipse
+                inverted = true
+                x_size = 10
+                )
+        }
+parameters: 
+  - 
+    name: mask
+    required: yes
+    options: [rectangle, ellipse, gaussian]
+    description: Mask type
+  -
+    name: inverted
+    default: 'NO'
+    description: >
+        If ``YES``, the effect of the mask is inverted: Areas of the display
+        that normally would be visible through the mask are hidden, and areas
+        that normally would be hidden are visible.
+  - 
+    name: std_dev
+    default: 1.0
+    description: Standard deviation of Gaussian mask
+  - 
+    name: mean
+    default: 0.0
+    description: |
+        Mean of Gaussian mask.
+
+        This value determines the radial offset of the Gaussian peak from the
+        center of the mask.  If non-zero, the peak will be a circle, rather than
+        a point, and luminance will decrease both inside and outside the circle,
+        producing a toroidal mask.
+  -
+    name: normalized
+    default: 'NO'
+    description: >
+        If ``YES``, the Gaussian mask includes a multiplicative normalization
+        term (``1/(std_dev*sqrt(2*pi))``).  If ``NO``, this term is omitted.
+
+

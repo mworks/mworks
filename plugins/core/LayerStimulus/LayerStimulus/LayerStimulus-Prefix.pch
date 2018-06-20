@@ -1,0 +1,20 @@
+//
+//  LayerStimulus-Prefix.pch
+//  LayerStimulus
+//
+//  Created by Christopher Stawarz on 6/19/18.
+//  Copyright © 2018 The MWorks Project. All rights reserved.
+//
+
+#ifndef LayerStimulus_Prefix_pch
+#define LayerStimulus_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardStimuli.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* LayerStimulus_Prefix_pch */

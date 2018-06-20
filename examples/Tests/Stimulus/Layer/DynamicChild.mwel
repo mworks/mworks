@@ -1,0 +1,30 @@
+var ended = false
+
+layer layer {
+    rectangle (
+        color = 1,0,0
+        x_size = 20
+        )
+    video (
+        path = 'slide.mp4'
+        x_size = 15
+        ended = ended
+        autoplay = true
+        )
+    mask (
+        mask = gaussian
+        std_dev = 0.3
+        x_size = 10
+        )
+}
+
+
+protocol {
+    ended = false
+    queue_stimulus (layer)
+    update_display ()
+    wait_for_condition (
+        condition = ended
+        timeout = 5s
+        )
+}

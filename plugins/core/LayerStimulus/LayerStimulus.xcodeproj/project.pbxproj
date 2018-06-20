@@ -1,0 +1,427 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E176036720D84718001CA59D /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E176036820D84718001CA59D /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E176036C20D84752001CA59D /* CopyFiles */,
+			);
+			dependencies = (
+				E176036B20D8474D001CA59D /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E176036E20D847B4001CA59D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E176036F20D847B4001CA59D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E176037220D847BD001CA59D /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E10CAA2820D93E3E00338421 /* LayerStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E10CAA2720D93E3E00338421 /* LayerStimulusPlugin.cpp */; };
+		E10CAA2E20D9402400338421 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10CAA2D20D9402400338421 /* MWorksCore.framework */; };
+		E176036D20D8475A001CA59D /* LayerStimulus.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E176035A20D845C7001CA59D /* LayerStimulus.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E17942BC20D9407B003F2CF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17942BB20D9407B003F2CF1 /* OpenGL.framework */; };
+		E17942BE20D940AB003F2CF1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E17942BD20D940AB003F2CF1 /* libboost_system.a */; };
+		E17942C120D9426C003F2CF1 /* LayerStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */; };
+		E17942C420D957C2003F2CF1 /* MaskStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17942C220D957C2003F2CF1 /* MaskStimulus.cpp */; };
+		E1E7421E20DBF48800DABB50 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E7421D20DBF48800DABB50 /* MWComponents.yaml */; };
+		E1E7422B20DC355600DABB50 /* LayerStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E10CAA2720D93E3E00338421 /* LayerStimulusPlugin.cpp */; };
+		E1E7422C20DC355900DABB50 /* MaskStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17942C220D957C2003F2CF1 /* MaskStimulus.cpp */; };
+		E1E7422D20DC356000DABB50 /* LayerStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E176036A20D8474D001CA59D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E176035220D845C7001CA59D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E176035920D845C7001CA59D;
+			remoteInfo = LayerStimulus;
+		};
+		E176037120D847BD001CA59D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E176035220D845C7001CA59D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E176036720D84718001CA59D;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E176036C20D84752001CA59D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E176036D20D8475A001CA59D /* LayerStimulus.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E10CAA2720D93E3E00338421 /* LayerStimulusPlugin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LayerStimulusPlugin.cpp; sourceTree = "<group>"; };
+		E10CAA2B20D93EE800338421 /* LayerStimulus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LayerStimulus-Prefix.pch"; sourceTree = "<group>"; };
+		E10CAA2D20D9402400338421 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E176035A20D845C7001CA59D /* LayerStimulus.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LayerStimulus.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E176035D20D845C7001CA59D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E176036420D84682001CA59D /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E176036520D84683001CA59D /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E176036620D84683001CA59D /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E17942BB20D9407B003F2CF1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		E17942BD20D940AB003F2CF1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LayerStimulus.cpp; sourceTree = "<group>"; };
+		E17942C020D9426C003F2CF1 /* LayerStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LayerStimulus.hpp; sourceTree = "<group>"; };
+		E17942C220D957C2003F2CF1 /* MaskStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MaskStimulus.cpp; sourceTree = "<group>"; };
+		E17942C320D957C2003F2CF1 /* MaskStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MaskStimulus.hpp; sourceTree = "<group>"; };
+		E1E7421D20DBF48800DABB50 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E1E7422420DC314500DABB50 /* LayerStimulus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LayerStimulus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1E7422720DC314500DABB50 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E176035720D845C7001CA59D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E10CAA2E20D9402400338421 /* MWorksCore.framework in Frameworks */,
+				E17942BC20D9407B003F2CF1 /* OpenGL.framework in Frameworks */,
+				E17942BE20D940AB003F2CF1 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1E7422020DC314500DABB50 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E10CAA2A20D93E8A00338421 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E176035D20D845C7001CA59D /* Info.plist */,
+				E1E7422720DC314500DABB50 /* Info-iOS.plist */,
+				E10CAA2B20D93EE800338421 /* LayerStimulus-Prefix.pch */,
+				E1E7421D20DBF48800DABB50 /* MWComponents.yaml */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E10CAA2C20D9402400338421 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E10CAA2D20D9402400338421 /* MWorksCore.framework */,
+				E17942BB20D9407B003F2CF1 /* OpenGL.framework */,
+				E17942BD20D940AB003F2CF1 /* libboost_system.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E176035120D845C7001CA59D = {
+			isa = PBXGroup;
+			children = (
+				E176036320D84643001CA59D /* External Config */,
+				E176035C20D845C7001CA59D /* LayerStimulus */,
+				E10CAA2C20D9402400338421 /* Frameworks */,
+				E176035B20D845C7001CA59D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E176035B20D845C7001CA59D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E176035A20D845C7001CA59D /* LayerStimulus.bundle */,
+				E1E7422420DC314500DABB50 /* LayerStimulus.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E176035C20D845C7001CA59D /* LayerStimulus */ = {
+			isa = PBXGroup;
+			children = (
+				E17942C020D9426C003F2CF1 /* LayerStimulus.hpp */,
+				E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */,
+				E17942C320D957C2003F2CF1 /* MaskStimulus.hpp */,
+				E17942C220D957C2003F2CF1 /* MaskStimulus.cpp */,
+				E10CAA2720D93E3E00338421 /* LayerStimulusPlugin.cpp */,
+				E10CAA2A20D93E8A00338421 /* Supporting Files */,
+			);
+			path = LayerStimulus;
+			sourceTree = "<group>";
+		};
+		E176036320D84643001CA59D /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E176036520D84683001CA59D /* macOS.xcconfig */,
+				E176036420D84682001CA59D /* macOS_Plugin.xcconfig */,
+				E176036620D84683001CA59D /* iOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E1E7422120DC314500DABB50 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E176035920D845C7001CA59D /* LayerStimulus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E176036020D845C7001CA59D /* Build configuration list for PBXNativeTarget "LayerStimulus" */;
+			buildPhases = (
+				E176035620D845C7001CA59D /* Sources */,
+				E176035720D845C7001CA59D /* Frameworks */,
+				E176035820D845C7001CA59D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LayerStimulus;
+			productName = LayerStimulus;
+			productReference = E176035A20D845C7001CA59D /* LayerStimulus.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		E1E7422320DC314500DABB50 /* LayerStimulus-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1E7422A20DC314500DABB50 /* Build configuration list for PBXNativeTarget "LayerStimulus-iOS" */;
+			buildPhases = (
+				E1E7421F20DC314500DABB50 /* Sources */,
+				E1E7422020DC314500DABB50 /* Frameworks */,
+				E1E7422120DC314500DABB50 /* Headers */,
+				E1E7422220DC314500DABB50 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "LayerStimulus-iOS";
+			productName = "LayerStimulus-iOS";
+			productReference = E1E7422420DC314500DABB50 /* LayerStimulus.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E176035220D845C7001CA59D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E176035920D845C7001CA59D = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					E176036720D84718001CA59D = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					E176036E20D847B4001CA59D = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					E1E7422320DC314500DABB50 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = E176035520D845C7001CA59D /* Build configuration list for PBXProject "LayerStimulus" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E176035120D845C7001CA59D;
+			productRefGroup = E176035B20D845C7001CA59D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E176035920D845C7001CA59D /* LayerStimulus */,
+				E176036720D84718001CA59D /* Install */,
+				E176036E20D847B4001CA59D /* Everything */,
+				E1E7422320DC314500DABB50 /* LayerStimulus-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E176035820D845C7001CA59D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1E7421E20DBF48800DABB50 /* MWComponents.yaml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1E7422220DC314500DABB50 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E176035620D845C7001CA59D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E10CAA2820D93E3E00338421 /* LayerStimulusPlugin.cpp in Sources */,
+				E17942C120D9426C003F2CF1 /* LayerStimulus.cpp in Sources */,
+				E17942C420D957C2003F2CF1 /* MaskStimulus.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1E7421F20DC314500DABB50 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1E7422D20DC356000DABB50 /* LayerStimulus.cpp in Sources */,
+				E1E7422B20DC355600DABB50 /* LayerStimulusPlugin.cpp in Sources */,
+				E1E7422C20DC355900DABB50 /* MaskStimulus.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E176036B20D8474D001CA59D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E176035920D845C7001CA59D /* LayerStimulus */;
+			targetProxy = E176036A20D8474D001CA59D /* PBXContainerItemProxy */;
+		};
+		E176037220D847BD001CA59D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E176036720D84718001CA59D /* Install */;
+			targetProxy = E176037120D847BD001CA59D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E176035E20D845C7001CA59D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E176036120D845C7001CA59D /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E176036420D84682001CA59D /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LayerStimulus/LayerStimulus-Prefix.pch";
+				INFOPLIST_FILE = LayerStimulus/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.LayerStimulus";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E176036920D84718001CA59D /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E176036520D84683001CA59D /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E176037020D847B4001CA59D /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E176036520D84683001CA59D /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1E7422920DC314500DABB50 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E176036620D84683001CA59D /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LayerStimulus/LayerStimulus-Prefix.pch";
+				INFOPLIST_FILE = "LayerStimulus/Info-iOS.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					OpenGLES,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.LayerStimulus-iOS";
+				PRODUCT_NAME = LayerStimulus;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E176035520D845C7001CA59D /* Build configuration list for PBXProject "LayerStimulus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E176035E20D845C7001CA59D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E176036020D845C7001CA59D /* Build configuration list for PBXNativeTarget "LayerStimulus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E176036120D845C7001CA59D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E176036820D84718001CA59D /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E176036920D84718001CA59D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E176036F20D847B4001CA59D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E176037020D847B4001CA59D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1E7422A20DC314500DABB50 /* Build configuration list for PBXNativeTarget "LayerStimulus-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1E7422920DC314500DABB50 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E176035220D845C7001CA59D /* Project object */;
+}

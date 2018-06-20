@@ -157,6 +157,7 @@ def core_plugins():
                    'EasyEye',
                    'Firmata',
                    'HIDPlugin',
+                   'LayerStimulus',
                    'MouseInput',
                    'MoviePlugin',
                    'MovingDots',

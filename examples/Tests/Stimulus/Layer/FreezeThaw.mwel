@@ -1,0 +1,61 @@
+%define size = 15
+
+var red = true
+var inverted = false
+
+
+layer layer {
+    rectangle (
+        color = red, !red, 0
+        x_size = 1.1 * size
+        )
+    mask (
+        mask = ellipse
+        inverted = inverted
+        x_size = size
+        )
+}
+
+
+%define update_and_wait ()
+    update_display ()
+    wait (1s)
+%end
+
+
+%define reset_params ()
+    red = true
+    inverted = false
+%end
+
+
+%define change_params ()
+    update_and_wait ()
+
+    red = false
+    update_and_wait ()
+
+    inverted = true
+    update_and_wait ()
+
+    dequeue_stimulus (layer)
+    update_and_wait ()
+%end
+
+
+protocol {
+    // Frozen
+    reset_params ()
+    queue_stimulus (layer)
+    change_params ()
+
+    // Thawed
+    reset_params ()
+    live_queue_stimulus (layer)
+    change_params ()
+
+    // Frozen
+    reset_params ()
+    queue_stimulus (layer)
+    change_params ()
+}

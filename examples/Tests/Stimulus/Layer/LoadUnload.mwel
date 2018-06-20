@@ -1,0 +1,62 @@
+%define size = 15
+
+
+layer layer {
+    rectangle rectangle (
+        color = 1,0,0
+        x_size = 1.1 * size
+        )
+    mask mask (
+        mask = ellipse
+        inverted = true
+        x_size = size
+        )
+}
+
+
+protocol {
+    //
+    // Basics
+    //
+
+    queue_stimulus (layer)
+    update_display ()
+    wait (2s)
+
+    unload_stimulus (layer)
+    update_display ()
+    wait (2s)
+
+    load_stimulus (layer)
+    update_display ()
+    wait (2s)
+
+    //
+    // Layer already loaded, children unloaded
+    //
+
+    unload_stimulus (rectangle)
+    unload_stimulus (mask)
+    update_display ()
+    wait (2s)
+
+    load_stimulus (layer)
+    update_display ()
+    wait (2s)
+
+    //
+    // Layer already unloaded, children loaded
+    //
+
+    unload_stimulus (layer)
+    load_stimulus (rectangle)
+    load_stimulus (mask)
+    queue_stimulus (rectangle)
+    queue_stimulus (mask)
+    update_display ()
+    wait (2s)
+
+    unload_stimulus (layer)
+    update_display ()
+    wait (2s)
+}

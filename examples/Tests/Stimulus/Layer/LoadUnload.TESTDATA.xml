@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Stimulus "layer" is not loaded and will not be displayed</message>
+    <message type="whole_message">ERROR: Stimulus "rectangle" (child of stimulus "layer") is not loaded and will not be displayed</message>
+    <message type="whole_message">ERROR: Stimulus "mask" (child of stimulus "layer") is not loaded and will not be displayed</message>
+    <message type="whole_message">ERROR: Stimulus "layer" is not loaded and will not be displayed</message>
+    <message type="whole_message">ERROR: Stimulus "layer" is not loaded and will not be displayed</message>
+    <message type="whole_message">ERROR: Stimulus "rectangle" is not loaded and will not be displayed</message>
+    <message type="whole_message">ERROR: Stimulus "mask" is not loaded and will not be displayed</message>
+  </expected_messages>
+</marionette_info>

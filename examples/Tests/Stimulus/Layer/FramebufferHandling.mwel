@@ -1,0 +1,27 @@
+//
+// WhiteNoiseBackground also changes the framebuffer when rendering.  This
+// test ensures that it works correctly within a layer.
+//
+
+
+blank_screen bg (color = 1,0,0)
+
+
+layer layer {
+    white_noise_background ()
+    mask (
+        mask = gaussian
+        inverted = true
+        std_dev = 0.2
+        x_size = 20
+        )
+}
+
+
+protocol {
+    queue_stimulus (bg)
+    queue_stimulus (layer)
+    update_display ()
+    report ('A red, Gaussian blob should be overlaid on the white noise')
+    wait (10s)
+}

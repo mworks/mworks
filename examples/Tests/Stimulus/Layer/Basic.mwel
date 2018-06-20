@@ -1,0 +1,109 @@
+var mask = 'rectangle'
+var inverted = false
+var std_dev = 1
+var mean = 0
+var normalized = false
+var x_size = 10
+var y_size = 7
+var x_position = -5
+var y_position = -5
+var rotation = 0
+var alpha_multiplier = 1
+
+
+layer layer {
+    rectangle (
+        color = 1,0,0
+        x_size = x_size + 2
+        y_size = y_size + 2
+        x_position = x_position
+        y_position = y_position
+        rotation = rotation
+        )
+    mask (
+        mask = mask
+        inverted = inverted
+        std_dev = std_dev
+        mean = mean
+        normalized = normalized
+        x_size = x_size
+        y_size = y_size
+        x_position = x_position
+        y_position = y_position
+        rotation = rotation
+        alpha_multiplier = alpha_multiplier
+        )
+}
+
+
+%define update_and_wait ()
+    update_display ()
+    wait (2s)
+%end
+
+
+protocol {
+    live_queue_stimulus (layer)
+
+    // Normal rectangle
+    update_and_wait ()
+
+    // Inverted rectangle
+    inverted = true
+    update_and_wait ()
+
+    // Normal ellipse
+    mask = 'ellipse'
+    inverted = false
+    update_and_wait ()
+
+    // Inverted ellipse
+    inverted = true
+    update_and_wait ()
+
+    // Normal Gaussian
+    mask = 'gaussian'
+    inverted = false
+    update_and_wait ()
+
+    // Inverted Gaussian
+    inverted = true
+    update_and_wait ()
+
+    // std_dev
+    inverted = false
+    std_dev = 0.2
+    update_and_wait ()
+
+    // mean
+    mean = 0.5
+    update_and_wait ()
+
+    // normalized
+    normalized = true
+    update_and_wait ()
+
+    // x_size
+    x_size = 7
+    update_and_wait ()
+
+    // y_size
+    y_size = 10
+    update_and_wait ()
+
+    // x_position
+    x_position = 5
+    update_and_wait ()
+
+    // y_position
+    y_position = 5
+    update_and_wait ()
+
+    // rotation
+    rotation = 45
+    update_and_wait ()
+
+    // alpha_multiplier
+    alpha_multiplier = 0.5
+    update_and_wait ()
+}

@@ -43,6 +43,7 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/EasyEye.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/Firmata.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/HIDPlugin.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/LayerStimulus.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MSSWGamepadPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MouseInput.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MovieStimulusPlugin.bundle',

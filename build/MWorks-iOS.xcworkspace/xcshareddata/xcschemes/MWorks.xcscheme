@@ -140,6 +140,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E1E7422320DC314500DABB50"
+               BuildableName = "LayerStimulus.framework"
+               BlueprintName = "LayerStimulus-iOS"
+               ReferencedContainer = "container:../plugins/core/LayerStimulus/LayerStimulus.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72A71E6DDB0E001CE0C0"
                BuildableName = "MovieStimulus.framework"
                BlueprintName = "MovieStimulus-iOS"
