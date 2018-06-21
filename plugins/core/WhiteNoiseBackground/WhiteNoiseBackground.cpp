@@ -174,7 +174,7 @@ void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
         }
         
         glViewport(defaultViewport.at(0), defaultViewport.at(1), defaultViewport.at(2), defaultViewport.at(3));
-        display->bindDefaultFramebuffer(display->getCurrentContextIndex());
+        display->bindCurrentFramebuffer();
         
         randCount++;
     }

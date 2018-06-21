@@ -414,14 +414,30 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
 }
 
 
-void StimulusDisplay::bindDefaultFramebuffer(int contextIndex) {
-    if (contextIndex == 0) {
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
-        const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
-        glDrawBuffers(1, &drawBuffer);
-    } else {
-        opengl_context_manager->bindDefaultFramebuffer(context_ids.at(contextIndex));
+void StimulusDisplay::pushFramebuffer(GLuint framebuffer, const std::vector<GLenum> &drawBuffers) {
+    framebufferStack.emplace_back(framebuffer, drawBuffers);
+    bindCurrentFramebuffer();
+}
+
+
+void StimulusDisplay::popFramebuffer() {
+    if (framebufferStack.empty()) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: No framebuffer to pop");
+        return;
     }
+    framebufferStack.pop_back();
+    bindCurrentFramebuffer();
+}
+
+
+void StimulusDisplay::bindCurrentFramebuffer() {
+    if (framebufferStack.empty()) {
+        opengl_context_manager->bindDefaultFramebuffer(context_ids.at(0));
+        return;
+    }
+    auto &framebufferInfo = framebufferStack.back();
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebufferInfo.first);
+    glDrawBuffers(framebufferInfo.second.size(), framebufferInfo.second.data());
 }
 
 
@@ -494,13 +510,13 @@ void StimulusDisplay::refreshMainDisplay() {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_id);
     
     if (needDraw) {
-        bindDefaultFramebuffer(contextIndex);
+        pushFramebuffer(framebuffer);
         
         current_context_index = contextIndex;
         drawDisplayStack();
         current_context_index = -1;
         
-        opengl_context_manager->bindDefaultFramebuffer(context_id);
+        popFramebuffer();
     }
     
     drawStoredFramebuffer(contextIndex);

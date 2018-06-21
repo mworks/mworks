@@ -94,6 +94,7 @@ BEGIN_NAMESPACE_MW
         std::map<int, GLuint> programs, vertexArrays, colorConversionLUTs;
         GLuint framebuffer = 0;
         GLuint framebufferTexture = 0;
+        std::vector<std::pair<GLuint, std::vector<GLenum>>> framebufferStack;
         
         virtual void prepareContext(int contextIndex);
         virtual void setMainDisplayRefreshRate() = 0;
@@ -137,7 +138,9 @@ BEGIN_NAMESPACE_MW
 		int getCurrentContextIndex() { return current_context_index; }
         
         void getCurrentViewportSize(GLint &width, GLint &height);
-        void bindDefaultFramebuffer(int contextIndex);
+        void pushFramebuffer(GLuint framebuffer, const std::vector<GLenum> &drawBuffers = { GL_COLOR_ATTACHMENT0 });
+        void popFramebuffer();
+        void bindCurrentFramebuffer();
 		
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
