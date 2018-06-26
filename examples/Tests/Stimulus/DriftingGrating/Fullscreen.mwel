@@ -3,7 +3,6 @@ var direction = 0
 
 drifting_grating stim (
     grating_type = square
-    mask = rectangle
     spatial_frequency = spatial_frequency
     speed = 0.5
     direction = direction

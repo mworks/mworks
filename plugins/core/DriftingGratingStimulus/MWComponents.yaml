@@ -49,8 +49,8 @@ parameters:
     description: Grating type
   - 
     name: mask
-    required: yes
     options: [rectangle, ellipse, gaussian]
+    default: rectangle
     description: Mask type
   -
     name: inverted

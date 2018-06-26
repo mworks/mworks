@@ -37,7 +37,7 @@ void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(SPEED);
     info.addParameter(COMPUTE_PHASE_INCREMENTALLY, "NO");
     info.addParameter(GRATING_TYPE);
-    info.addParameter(MASK);
+    info.addParameter(MASK, "rectangle");
     info.addParameter(INVERTED, "NO");
     info.addParameter(STD_DEV, "1.0");
     info.addParameter(MEAN, "0.0");
