@@ -56,7 +56,8 @@ parameters:
     name: inverted
     default: 'NO'
     description: >
-        If ``YES``, sawtooth gratings will start high instead of low
+        If ``YES``, all grating values are inverted, e.g. high values become
+        low, and low values become high
   - 
     name: std_dev
     default: 1.0

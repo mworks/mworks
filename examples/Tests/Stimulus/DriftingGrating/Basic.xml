@@ -34,11 +34,19 @@
             <action tag="Live queue grating" type="live_queue_stimulus" stimulus="grating"></action>
             <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change inverted" variable="inverted" value="!inverted"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
             <action type="assignment" tag="Change grating_type" variable="grating_type" value="'square'"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change inverted" variable="inverted" value="!inverted"></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
             <action type="assignment" tag="Change grating_type" variable="grating_type" value="'triangle'"></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change inverted" variable="inverted" value="!inverted"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
             <action type="assignment" tag="Change grating_type" variable="grating_type" value="'sawtooth'"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change inverted" variable="inverted" value="!inverted"></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
             <action type="assignment" tag="Change mask" variable="mask" value="'ellipse'"></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
@@ -51,8 +59,6 @@
             <action type="assignment" tag="Change spatial_frequency" variable="spatial_frequency" value="1"></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
             <action type="assignment" tag="Change speed" variable="speed" value="2"></action>
-            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
-            <action type="assignment" tag="Change inverted" variable="inverted" value="true"></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
             <action type="assignment" tag="Change std_dev" variable="std_dev" value="0.45"></action>
             <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>

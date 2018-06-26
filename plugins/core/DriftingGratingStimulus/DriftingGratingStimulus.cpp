@@ -109,10 +109,7 @@ Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(COMPUTE_PHASE_INCREMENTALLY, computePhaseIncrementally);
     announceData.addElement(GRATING_TYPE, last_grating_type_name);
     announceData.addElement(MASK, last_mask_type_name);
-    
-    if (last_grating_type == GratingType::sawtooth) {
-        announceData.addElement(INVERTED, last_inverted);
-    }
+    announceData.addElement(INVERTED, last_inverted);
     
     if (last_mask_type == MaskType::gaussian) {
         announceData.addElement(STD_DEV, last_std_dev);
@@ -224,14 +221,14 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
                  break;
                  
              case sawtoothGrating:
-                 if (inverted) {
-                     gratingValue = 1.0 - normGratingCoord;
-                 } else {
-                     gratingValue = normGratingCoord;
-                 }
+                 gratingValue = normGratingCoord;
                  break;
          }
          
+         if (inverted) {
+             gratingValue = 1.0 - gratingValue;
+         }
+
          fragColor.rgb = gratingValue * color.rgb;
          fragColor.a = color.a * maskValue;
      }
