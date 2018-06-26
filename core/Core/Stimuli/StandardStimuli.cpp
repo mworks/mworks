@@ -410,9 +410,6 @@ gl::Shader CircleStimulus::getFragmentShader() const {
          //
          float dist = distance(rawPosition, center);
          float delta = fwidth(dist);
-         if (dist > radius) {
-             discard;
-         }
          float alpha = 1.0 - smoothstep(radius - delta, radius, dist);
          fragColor.rgb = color.rgb;
          fragColor.a = alpha * color.a;

@@ -414,13 +414,9 @@ const std::string MovingDots::fragmentShaderSource
      //
      float dist = distance(gl_PointCoord, center);
      float delta = fwidth(dist);
-     if (dist > radius) {
-         discard;
-     }
-     float alpha = 1.0;
-     if (delta < radius) {  // If delta were greater than radius, we might erase the dot entirely
-         alpha -= smoothstep(radius - delta, radius, dist);
-     }
+     // Smooth only if delta is less than radius.  If delta is greater than or equal to radius,
+     // smoothing might erase the dot entirely.
+     float alpha = 1.0 - float(delta < radius) * smoothstep(radius - delta, radius, dist);
      fragColor.rgb = color.rgb;
      fragColor.a = alpha * color.a;
  }

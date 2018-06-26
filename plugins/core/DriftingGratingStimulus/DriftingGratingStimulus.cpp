@@ -177,12 +177,6 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
      out vec4 fragColor;
      
      void main() {
-         if (maskVaryingCoords.x < 0.0 || maskVaryingCoords.x > 1.0 ||
-             maskVaryingCoords.y < 0.0 || maskVaryingCoords.y > 1.0)
-         {
-             discard;
-         }
-         
          float maskValue;
          float dist;
          float delta;
@@ -199,9 +193,6 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
                  //
                  dist = distance(maskVaryingCoords, maskCenter);
                  delta = fwidth(dist);
-                 if (dist > maskRadius) {
-                     discard;
-                 }
                  maskValue = 1.0 - smoothstep(maskRadius - delta, maskRadius, dist);
                  break;
                  
@@ -214,6 +205,9 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
                  break;
          }
          
+         maskValue *= float(maskVaryingCoords.x >= 0.0 && maskVaryingCoords.x <= 1.0 &&
+                            maskVaryingCoords.y >= 0.0 && maskVaryingCoords.y <= 1.0);
+
          float normGratingCoord = mod(gratingVaryingCoord, 1.0);
          float gratingValue;
          switch (gratingType) {
@@ -222,19 +216,11 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
                  break;
                  
              case squareGrating:
-                 if (cos(2.0*pi*normGratingCoord) > 0.0) {
-                     gratingValue = 1.0;
-                 } else {
-                     gratingValue = 0.0;
-                 }
+                 gratingValue = float(cos(2.0*pi*normGratingCoord) > 0.0);
                  break;
                  
              case triangleGrating:
-                 if (normGratingCoord < 0.5) {
-                     gratingValue = (0.5 - normGratingCoord) / 0.5;
-                 } else {
-                     gratingValue = (normGratingCoord - 0.5) / 0.5;
-                 }
+                 gratingValue = sign(normGratingCoord - 0.5) * (normGratingCoord - 0.5) / 0.5;
                  break;
                  
              case sawtoothGrating:
