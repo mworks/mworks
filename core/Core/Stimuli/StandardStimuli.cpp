@@ -191,6 +191,9 @@ void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
     auto currentMVPMatrix = getCurrentMVPMatrix(display->getProjectionMatrix());
     glUniformMatrix4fv(mvpMatrixUniformLocation, 1, GL_FALSE, currentMVPMatrix.m);
     
+    gl::Enabled<GL_BLEND> blendEnabled;
+    setBlendEquation();
+    
     preDraw(display);
     
     glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
@@ -252,6 +255,12 @@ GLKMatrix4 BasicTransformStimulus::getCurrentMVPMatrix(const GLKMatrix4 &project
 }
 
 
+void BasicTransformStimulus::setBlendEquation() {
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+
 const std::string ColoredTransformStimulus::COLOR("color");
 
 
@@ -306,16 +315,6 @@ void ColoredTransformStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> 
     
     auto currentColor = GLKVector4Make(current_r, current_g, current_b, current_alpha);
     glUniform4fv(colorUniformLocation, 1, currentColor.v);
-    
-    glEnable(GL_BLEND);
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-}
-
-
-void ColoredTransformStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    glDisable(GL_BLEND);
-    BasicTransformStimulus::postDraw(display);
 }
 
 
@@ -512,6 +511,13 @@ auto ImageStimulus::getVertexPositions() const -> VertexPositionArray {
 }
 
 
+void ImageStimulus::setBlendEquation() {
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_ONE, // Source RGB values are pre-multiplied by source alpha
+                GL_ONE_MINUS_SRC_ALPHA);
+}
+
+
 void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     BasicTransformStimulus::prepare(display);
     
@@ -691,16 +697,10 @@ void ImageStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     glUniform1f(alphaUniformLocation, current_alpha);
     
     glBindTexture(GL_TEXTURE_2D, texture);
-    
-    glEnable(GL_BLEND);
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_ONE, // Source RGB values are pre-multiplied by source alpha
-                GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
 void ImageStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D, 0);
     
     BasicTransformStimulus::postDraw(display);

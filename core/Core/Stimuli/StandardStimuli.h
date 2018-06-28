@@ -75,6 +75,8 @@ protected:
     virtual VertexPositionArray getVertexPositions() const;
     virtual GLKMatrix4 getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const;
     
+    virtual void setBlendEquation();
+    
     virtual void prepare(const boost::shared_ptr<StimulusDisplay> &display) { }
     virtual void destroy(const boost::shared_ptr<StimulusDisplay> &display) { }
     virtual void preDraw(const boost::shared_ptr<StimulusDisplay> &display) { }
@@ -117,7 +119,6 @@ public:
 protected:
     void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
     void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     
     shared_ptr<Variable> r;
     shared_ptr<Variable> g;
@@ -181,6 +182,8 @@ private:
     gl::Shader getFragmentShader() const override;
     
     VertexPositionArray getVertexPositions() const override;
+    
+    void setBlendEquation() override;
     
     void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
     void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;

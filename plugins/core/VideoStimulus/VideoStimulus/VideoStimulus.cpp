@@ -273,15 +273,10 @@ void VideoStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     }
     
     glUniform1f(alphaUniformLocation, current_alpha);
-    
-    glEnable(GL_BLEND);
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
 void VideoStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    glDisable(GL_BLEND);
     glBindTexture(textureTarget, 0);
     BasicTransformStimulus::postDraw(display);
 }

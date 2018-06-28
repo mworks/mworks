@@ -173,6 +173,13 @@ gl::Shader MaskStimulus::getFragmentShader() const {
 }
 
 
+void MaskStimulus::setBlendEquation() {
+    // Blend by multiplying the destination color by the mask color
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_ZERO, GL_SRC_COLOR);
+}
+
+
 void MaskStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     BasicTransformStimulus::prepare(display);
     
@@ -194,18 +201,6 @@ void MaskStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     glUniform1f(stdDevUniformLocation, current_std_dev);
     glUniform1f(meanUniformLocation, current_mean);
     glUniform1f(normalizedUniformLocation, current_normalized);
-    
-    // Blend by multiplying the destination color by the mask color
-    glEnable(GL_BLEND);
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_ZERO, GL_SRC_COLOR);
-}
-
-
-void MaskStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    glDisable(GL_BLEND);
-    
-    BasicTransformStimulus::postDraw(display);
 }
 
 

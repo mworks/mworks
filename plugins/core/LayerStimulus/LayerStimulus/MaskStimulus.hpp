@@ -41,9 +41,10 @@ private:
     gl::Shader getVertexShader() const override;
     gl::Shader getFragmentShader() const override;
     
+    void setBlendEquation() override;
+    
     void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
     void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     
     const boost::shared_ptr<Variable> maskTypeName;
     const boost::shared_ptr<Variable> inverted;
