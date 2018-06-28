@@ -350,7 +350,7 @@ def boost(ios=True):
 
 @builder
 def zeromq(ios=True):
-    version = '4.2.3'
+    version = '4.2.5'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -377,7 +377,7 @@ def zeromq(ios=True):
 
 @builder
 def msgpack(ios=True):
-    version = '2.1.5'
+    version = '3.0.1'
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
 
