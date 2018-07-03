@@ -17,6 +17,7 @@ const std::string MaskStimulus::INVERTED("inverted");
 const std::string MaskStimulus::STD_DEV("std_dev");
 const std::string MaskStimulus::MEAN("mean");
 const std::string MaskStimulus::NORMALIZED("normalized");
+const std::string MaskStimulus::EDGE_WIDTH("edge_width");
 
 
 void MaskStimulus::describeComponent(ComponentInfo &info) {
@@ -29,6 +30,7 @@ void MaskStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(STD_DEV, "1.0");
     info.addParameter(MEAN, "0.0");
     info.addParameter(NORMALIZED, "NO");
+    info.addParameter(EDGE_WIDTH, "0.125");
 }
 
 
@@ -38,7 +40,8 @@ MaskStimulus::MaskStimulus(const ParameterValueMap &parameters) :
     inverted(registerVariable(parameters[INVERTED])),
     std_dev(registerVariable(parameters[STD_DEV])),
     mean(registerVariable(parameters[MEAN])),
-    normalized(registerVariable(parameters[NORMALIZED]))
+    normalized(registerVariable(parameters[NORMALIZED])),
+    edgeWidth(registerVariable(parameters[EDGE_WIDTH]))
 { }
 
 
@@ -49,6 +52,7 @@ void MaskStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
     current_std_dev = std_dev->getValue().getFloat();
     current_mean = mean->getValue().getFloat();
     current_normalized = normalized->getValue().getBool();
+    current_edge_width = edgeWidth->getValue().getFloat();
     
     BasicTransformStimulus::draw(display);
     
@@ -58,6 +62,7 @@ void MaskStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
     last_std_dev = current_std_dev;
     last_mean = current_mean;
     last_normalized = current_normalized;
+    last_edge_width = current_edge_width;
 }
 
 
@@ -68,10 +73,19 @@ Datum MaskStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(MASK, last_mask_type_name);
     announceData.addElement(INVERTED, last_inverted);
     
-    if (last_mask_type == MaskType::gaussian) {
-        announceData.addElement(STD_DEV, last_std_dev);
-        announceData.addElement(MEAN, last_mean);
-        announceData.addElement(NORMALIZED, last_normalized);
+    switch (last_mask_type) {
+        case MaskType::gaussian:
+            announceData.addElement(STD_DEV, last_std_dev);
+            announceData.addElement(MEAN, last_mean);
+            announceData.addElement(NORMALIZED, last_normalized);
+            break;
+            
+        case MaskType::raisedCosine:
+            announceData.addElement(EDGE_WIDTH, last_edge_width);
+            break;
+            
+        default:
+            break;
     }
     
     return announceData;
@@ -85,6 +99,8 @@ auto MaskStimulus::maskTypeFromName(const std::string &name) -> MaskType {
         return MaskType::ellipse;
     } else if (name == "gaussian") {
         return MaskType::gaussian;
+    } else if (name == "raised_cosine") {
+        return MaskType::raisedCosine;
     }
     merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid mask type: %s", name.c_str());
     return MaskType::rectangle;
@@ -115,6 +131,7 @@ gl::Shader MaskStimulus::getFragmentShader() const {
      const int rectangleMask = 1;
      const int ellipseMask = 2;
      const int gaussianMask = 3;
+     const int raisedCosineMask = 4;
      
      const vec2 maskCenter = vec2(0.5, 0.5);
      const float maskRadius = 0.5;
@@ -126,6 +143,7 @@ gl::Shader MaskStimulus::getFragmentShader() const {
      uniform float stdDev;
      uniform float mean;
      uniform bool normalized;
+     uniform float edgeWidth;
      
      in vec2 maskVaryingCoords;
      
@@ -135,6 +153,8 @@ gl::Shader MaskStimulus::getFragmentShader() const {
          float maskValue;
          float dist;
          float delta;
+         float edgeMax;
+         float edgeMin;
          
          switch (maskType) {
              case rectangleMask:
@@ -158,6 +178,22 @@ gl::Shader MaskStimulus::getFragmentShader() const {
                  if (normalized) {
                      maskValue /= stdDev * sqrt(2.0 * pi);
                  }
+                 break;
+                 
+             case raisedCosineMask:
+                 //
+                 // The equation used here derives from the definition of the raised-cosine filter at
+                 // https://en.wikipedia.org/wiki/Raised-cosine_filter
+                 //
+                 
+                 edgeMax = maskRadius;
+                 edgeMin = edgeMax - edgeWidth;
+                 dist = distance(maskVaryingCoords, maskCenter);
+                 
+                 maskValue = 0.5 * (1.0 + cos(pi / edgeWidth * (dist - edgeMin)));
+                 maskValue *= float(dist > edgeMin && dist <= edgeMax);
+                 maskValue += float(dist <= edgeMin);
+                 
                  break;
          }
          
@@ -189,6 +225,7 @@ void MaskStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     stdDevUniformLocation = glGetUniformLocation(program, "stdDev");
     meanUniformLocation = glGetUniformLocation(program, "mean");
     normalizedUniformLocation = glGetUniformLocation(program, "normalized");
+    edgeWidthUniformLocation = glGetUniformLocation(program, "edgeWidth");
 }
 
 
@@ -201,6 +238,7 @@ void MaskStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     glUniform1f(stdDevUniformLocation, current_std_dev);
     glUniform1f(meanUniformLocation, current_mean);
     glUniform1f(normalizedUniformLocation, current_normalized);
+    glUniform1f(edgeWidthUniformLocation, current_edge_width);
 }
 
 

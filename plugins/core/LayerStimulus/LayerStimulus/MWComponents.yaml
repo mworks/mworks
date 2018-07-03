@@ -68,7 +68,7 @@ parameters:
   - 
     name: mask
     required: yes
-    options: [rectangle, ellipse, gaussian]
+    options: [rectangle, ellipse, gaussian, raised_cosine]
     description: Mask type
   -
     name: inverted
@@ -97,5 +97,14 @@ parameters:
     description: >
         If ``YES``, the Gaussian mask includes a multiplicative normalization
         term (``1/(std_dev*sqrt(2*pi))``).  If ``NO``, this term is omitted.
+  - 
+    name: edge_width
+    default: 0.125
+    description: |
+        Edge width of raised cosine mask.
+
+        This value specifies the width of the sinusoidal edge as a fraction of
+        the total width (i.e. diameter) of the mask.  It should be greater than
+        zero and less than or equal to 0.5.
 
 

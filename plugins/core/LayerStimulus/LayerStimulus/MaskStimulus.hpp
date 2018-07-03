@@ -21,6 +21,7 @@ public:
     static const std::string STD_DEV;
     static const std::string MEAN;
     static const std::string NORMALIZED;
+    static const std::string EDGE_WIDTH;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -33,7 +34,8 @@ private:
     enum class MaskType {
         rectangle = 1,
         ellipse = 2,
-        gaussian = 3
+        gaussian = 3,
+        raisedCosine = 4
     };
     
     static MaskType maskTypeFromName(const std::string &name);
@@ -51,18 +53,21 @@ private:
     const boost::shared_ptr<Variable> std_dev;
     const boost::shared_ptr<Variable> mean;
     const boost::shared_ptr<Variable> normalized;
+    const boost::shared_ptr<Variable> edgeWidth;
     
     std::string current_mask_type_name;
     MaskType current_mask_type;
     bool current_inverted;
     double current_std_dev, current_mean;
     bool current_normalized;
+    double current_edge_width;
     
     std::string last_mask_type_name;
     MaskType last_mask_type;
     bool last_inverted;
     double last_std_dev, last_mean;
     bool last_normalized;
+    double last_edge_width;
     
     GLint alphaUniformLocation = -1;
     GLint maskTypeUniformLocation = -1;
@@ -70,6 +75,7 @@ private:
     GLint stdDevUniformLocation = -1;
     GLint meanUniformLocation = -1;
     GLint normalizedUniformLocation = -1;
+    GLint edgeWidthUniformLocation = -1;
     
 };
 

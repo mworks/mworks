@@ -3,6 +3,7 @@ var inverted = false
 var std_dev = 1
 var mean = 0
 var normalized = false
+var edge_width = 0.125
 var x_size = 10
 var y_size = 7
 var x_position = -5
@@ -26,6 +27,7 @@ layer layer {
         std_dev = std_dev
         mean = mean
         normalized = normalized
+        edge_width = edge_width
         x_size = x_size
         y_size = y_size
         x_position = x_position
@@ -81,6 +83,19 @@ protocol {
 
     // normalized
     normalized = true
+    update_and_wait ()
+
+    // Normal raised cosine
+    mask = 'raised_cosine'
+    inverted = false
+    update_and_wait ()
+
+    // Inverted raised cosine
+    inverted = true
+    update_and_wait ()
+
+    // edge_width
+    edge_width = 0.25
     update_and_wait ()
 
     // x_size
