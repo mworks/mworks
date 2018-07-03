@@ -44,7 +44,7 @@ private:
 };
 
 
-class BasicTransformStimulus : public Stimulus, boost::noncopyable {
+class TransformStimulus : public Stimulus, boost::noncopyable {
     
 public:
     static const std::string X_SIZE;
@@ -52,12 +52,11 @@ public:
     static const std::string X_POSITION;
     static const std::string Y_POSITION;
     static const std::string ROTATION;
-    static const std::string ALPHA_MULTIPLIER;
     static const std::string FULLSCREEN;
     
     static void describeComponent(ComponentInfo &info);
     
-    explicit BasicTransformStimulus(const Map<ParameterValue> &parameters);
+    explicit TransformStimulus(const Map<ParameterValue> &parameters);
     
     void load(shared_ptr<StimulusDisplay> display) override;
     void unload(shared_ptr<StimulusDisplay> display) override;
@@ -75,7 +74,7 @@ protected:
     virtual VertexPositionArray getVertexPositions() const;
     virtual GLKMatrix4 getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const;
     
-    virtual void setBlendEquation();
+    virtual void setBlendEquation() = 0;
     
     virtual void prepare(const boost::shared_ptr<StimulusDisplay> &display) { }
     virtual void destroy(const boost::shared_ptr<StimulusDisplay> &display) { }
@@ -84,17 +83,13 @@ protected:
     
     const shared_ptr<Variable> xoffset;
     const shared_ptr<Variable> yoffset;
-    
     shared_ptr<Variable> xscale;
     shared_ptr<Variable> yscale;
-    
     const shared_ptr<Variable> rotation;
-    const shared_ptr<Variable> alpha_multiplier;
-    
     const bool fullscreen;
     
-    float current_posx, current_posy, current_sizex, current_sizey, current_rot, current_alpha;
-    float last_posx, last_posy, last_sizex, last_sizey, last_rot, last_alpha;
+    float current_posx, current_posy, current_sizex, current_sizey, current_rot;
+    float last_posx, last_posy, last_sizex, last_sizey, last_rot;
     
     GLuint program = 0;
     GLint mvpMatrixUniformLocation = -1;
@@ -102,6 +97,33 @@ protected:
     GLuint vertexPositionBuffer = 0;
     
 };
+
+
+class AlphaBlendedTransformStimulus : public TransformStimulus {
+    
+public:
+    static const std::string ALPHA_MULTIPLIER;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit AlphaBlendedTransformStimulus(const Map<ParameterValue> &parameters);
+    
+    void draw(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
+    
+protected:
+    void setBlendEquation() override;
+    
+    const shared_ptr<Variable> alpha_multiplier;
+    
+    float current_alpha;
+    float last_alpha;
+    
+};
+
+
+// Alias to avoid breaking existing code
+using BasicTransformStimulus = AlphaBlendedTransformStimulus;
 
 
 class ColoredTransformStimulus : public BasicTransformStimulus {

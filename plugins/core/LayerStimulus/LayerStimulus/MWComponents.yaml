@@ -40,7 +40,7 @@ description: |
 
 name: Mask Stimulus
 signature: stimulus/mask
-isa: Basic Transform Stimulus
+isa: Transform Stimulus
 description: |
     Masks are useful only in conjuction with `layers <Layer Stimulus>`.
 

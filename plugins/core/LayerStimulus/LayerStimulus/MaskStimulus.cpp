@@ -21,7 +21,7 @@ const std::string MaskStimulus::EDGE_WIDTH("edge_width");
 
 
 void MaskStimulus::describeComponent(ComponentInfo &info) {
-    BasicTransformStimulus::describeComponent(info);
+    TransformStimulus::describeComponent(info);
     
     info.setSignature("stimulus/mask");
     
@@ -35,7 +35,7 @@ void MaskStimulus::describeComponent(ComponentInfo &info) {
 
 
 MaskStimulus::MaskStimulus(const ParameterValueMap &parameters) :
-    BasicTransformStimulus(parameters),
+    TransformStimulus(parameters),
     maskTypeName(registerVariable(variableOrText(parameters[MASK]))),
     inverted(registerVariable(parameters[INVERTED])),
     std_dev(registerVariable(parameters[STD_DEV])),
@@ -54,7 +54,7 @@ void MaskStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
     current_normalized = normalized->getValue().getBool();
     current_edge_width = edgeWidth->getValue().getFloat();
     
-    BasicTransformStimulus::draw(display);
+    TransformStimulus::draw(display);
     
     last_mask_type_name = current_mask_type_name;
     last_mask_type = current_mask_type;
@@ -67,7 +67,7 @@ void MaskStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
 
 
 Datum MaskStimulus::getCurrentAnnounceDrawData() {
-    auto announceData = BasicTransformStimulus::getCurrentAnnounceDrawData();
+    auto announceData = TransformStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "mask");
     announceData.addElement(MASK, last_mask_type_name);
@@ -137,7 +137,6 @@ gl::Shader MaskStimulus::getFragmentShader() const {
      const float maskRadius = 0.5;
      const float pi = 3.14159265358979323846264338327950288;
      
-     uniform float alpha;
      uniform int maskType;
      uniform bool inverted;
      uniform float stdDev;
@@ -201,7 +200,7 @@ gl::Shader MaskStimulus::getFragmentShader() const {
              maskValue = 1.0 - maskValue;
          }
          
-         fragColor = vec4(1.0, 1.0, 1.0, alpha * maskValue);
+         fragColor = vec4(1.0, 1.0, 1.0, maskValue);
      }
      )");
     
@@ -217,9 +216,8 @@ void MaskStimulus::setBlendEquation() {
 
 
 void MaskStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
-    BasicTransformStimulus::prepare(display);
+    TransformStimulus::prepare(display);
     
-    alphaUniformLocation = glGetUniformLocation(program, "alpha");
     maskTypeUniformLocation = glGetUniformLocation(program, "maskType");
     invertedUniformLocation = glGetUniformLocation(program, "inverted");
     stdDevUniformLocation = glGetUniformLocation(program, "stdDev");
@@ -230,9 +228,8 @@ void MaskStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
 
 
 void MaskStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    BasicTransformStimulus::preDraw(display);
+    TransformStimulus::preDraw(display);
     
-    glUniform1f(alphaUniformLocation, current_alpha);
     glUniform1i(maskTypeUniformLocation, int(current_mask_type));
     glUniform1i(invertedUniformLocation, current_inverted);
     glUniform1f(stdDevUniformLocation, current_std_dev);

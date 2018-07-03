@@ -13,7 +13,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class MaskStimulus : public BasicTransformStimulus {
+class MaskStimulus : public TransformStimulus {
     
 public:
     static const std::string MASK;
@@ -69,7 +69,6 @@ private:
     bool last_normalized;
     double last_edge_width;
     
-    GLint alphaUniformLocation = -1;
     GLint maskTypeUniformLocation = -1;
     GLint invertedUniformLocation = -1;
     GLint stdDevUniformLocation = -1;

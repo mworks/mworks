@@ -78,33 +78,30 @@ Datum BlankScreen::getCurrentAnnounceDrawData() {
 }
 
 
-const std::string BasicTransformStimulus::X_SIZE("x_size");
-const std::string BasicTransformStimulus::Y_SIZE("y_size");
-const std::string BasicTransformStimulus::X_POSITION("x_position");
-const std::string BasicTransformStimulus::Y_POSITION("y_position");
-const std::string BasicTransformStimulus::ROTATION("rotation");
-const std::string BasicTransformStimulus::ALPHA_MULTIPLIER("alpha_multiplier");
-const std::string BasicTransformStimulus::FULLSCREEN("fullscreen");
+const std::string TransformStimulus::X_SIZE("x_size");
+const std::string TransformStimulus::Y_SIZE("y_size");
+const std::string TransformStimulus::X_POSITION("x_position");
+const std::string TransformStimulus::Y_POSITION("y_position");
+const std::string TransformStimulus::ROTATION("rotation");
+const std::string TransformStimulus::FULLSCREEN("fullscreen");
 
 
-void BasicTransformStimulus::describeComponent(ComponentInfo &info) {
+void TransformStimulus::describeComponent(ComponentInfo &info) {
     Stimulus::describeComponent(info);
     info.addParameter(X_SIZE, false);
     info.addParameter(Y_SIZE, false);
     info.addParameter(X_POSITION, "0.0");
     info.addParameter(Y_POSITION, "0.0");
     info.addParameter(ROTATION, "0.0");
-    info.addParameter(ALPHA_MULTIPLIER, "1.0");
     info.addParameter(FULLSCREEN, "NO");
 }
 
 
-BasicTransformStimulus::BasicTransformStimulus(const ParameterValueMap &parameters) :
+TransformStimulus::TransformStimulus(const ParameterValueMap &parameters) :
     Stimulus(parameters),
     xoffset(registerVariable(parameters[X_POSITION])),
     yoffset(registerVariable(parameters[Y_POSITION])),
     rotation(registerVariable(parameters[ROTATION])),
-    alpha_multiplier(registerVariable(parameters[ALPHA_MULTIPLIER])),
     fullscreen(parameters[FULLSCREEN])
 {
     if (!(parameters[X_SIZE].empty())) {
@@ -119,7 +116,7 @@ BasicTransformStimulus::BasicTransformStimulus(const ParameterValueMap &paramete
 }
 
 
-void BasicTransformStimulus::load(shared_ptr<StimulusDisplay> display) {
+void TransformStimulus::load(shared_ptr<StimulusDisplay> display) {
     if (loaded)
         return;
     
@@ -149,7 +146,7 @@ void BasicTransformStimulus::load(shared_ptr<StimulusDisplay> display) {
 }
 
 
-void BasicTransformStimulus::unload(shared_ptr<StimulusDisplay> display) {
+void TransformStimulus::unload(shared_ptr<StimulusDisplay> display) {
     if (!loaded)
         return;
     
@@ -165,7 +162,7 @@ void BasicTransformStimulus::unload(shared_ptr<StimulusDisplay> display) {
 }
 
 
-void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
+void TransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
     if (!fullscreen) {
         current_posx = *xoffset;
         current_posy = *yoffset;
@@ -183,7 +180,6 @@ void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
         }
         current_rot = *rotation;
     }
-    current_alpha = *alpha_multiplier;
     
     gl::ProgramUsage programUsage(program);
     gl::VertexArrayBinding vertexArrayBinding(vertexArray);
@@ -207,11 +203,10 @@ void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
         last_sizey = current_sizey;
         last_rot = current_rot;
     }
-    last_alpha = current_alpha;
 }
 
 
-Datum BasicTransformStimulus::getCurrentAnnounceDrawData() {
+Datum TransformStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = Stimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE,STIM_TYPE_BASICTRANSFORM);
@@ -224,13 +219,12 @@ Datum BasicTransformStimulus::getCurrentAnnounceDrawData() {
         announceData.addElement(STIM_SIZEY,last_sizey);
         announceData.addElement(STIM_ROT,last_rot);
     }
-    announceData.addElement(STIM_ALPHA,last_alpha);
     
     return announceData;
 }
 
 
-auto BasicTransformStimulus::getVertexPositions() const -> VertexPositionArray {
+auto TransformStimulus::getVertexPositions() const -> VertexPositionArray {
     return VertexPositionArray {
         0.0f, 0.0f,
         1.0f, 0.0f,
@@ -240,7 +234,7 @@ auto BasicTransformStimulus::getVertexPositions() const -> VertexPositionArray {
 }
 
 
-GLKMatrix4 BasicTransformStimulus::getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const {
+GLKMatrix4 TransformStimulus::getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const {
     GLKMatrix4 currentMVPMatrix;
     
     if (fullscreen) {
@@ -255,7 +249,40 @@ GLKMatrix4 BasicTransformStimulus::getCurrentMVPMatrix(const GLKMatrix4 &project
 }
 
 
-void BasicTransformStimulus::setBlendEquation() {
+const std::string AlphaBlendedTransformStimulus::ALPHA_MULTIPLIER("alpha_multiplier");
+
+
+void AlphaBlendedTransformStimulus::describeComponent(ComponentInfo &info) {
+    TransformStimulus::describeComponent(info);
+    info.addParameter(ALPHA_MULTIPLIER, "1.0");
+}
+
+
+AlphaBlendedTransformStimulus::AlphaBlendedTransformStimulus(const ParameterValueMap &parameters) :
+    TransformStimulus(parameters),
+    alpha_multiplier(registerVariable(parameters[ALPHA_MULTIPLIER]))
+{ }
+
+
+void AlphaBlendedTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
+    current_alpha = *alpha_multiplier;
+    
+    TransformStimulus::draw(display);
+    
+    last_alpha = current_alpha;
+}
+
+
+Datum AlphaBlendedTransformStimulus::getCurrentAnnounceDrawData() {
+    Datum announceData = TransformStimulus::getCurrentAnnounceDrawData();
+    
+    announceData.addElement(STIM_ALPHA,last_alpha);
+    
+    return announceData;
+}
+
+
+void AlphaBlendedTransformStimulus::setBlendEquation() {
     glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

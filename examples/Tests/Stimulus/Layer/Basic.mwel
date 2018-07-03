@@ -9,7 +9,6 @@ var y_size = 7
 var x_position = -5
 var y_position = -5
 var rotation = 0
-var alpha_multiplier = 1
 
 
 layer layer {
@@ -33,7 +32,6 @@ layer layer {
         x_position = x_position
         y_position = y_position
         rotation = rotation
-        alpha_multiplier = alpha_multiplier
         )
 }
 
@@ -116,9 +114,5 @@ protocol {
 
     // rotation
     rotation = 45
-    update_and_wait ()
-
-    // alpha_multiplier
-    alpha_multiplier = 0.5
     update_and_wait ()
 }
