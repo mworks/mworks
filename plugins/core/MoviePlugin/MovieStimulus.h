@@ -25,9 +25,6 @@ public:
 
     Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
     
-private:
-    shared_ptr<StimulusGroup> stimulusGroup;
-    
 };
 
 
