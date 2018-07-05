@@ -12,11 +12,11 @@ parameters:
     description: Field radius (degrees)
   - 
     name: field_center_x
-    required: yes
+    default: 0.0
     description: Field horizontal center position (degrees)
   - 
     name: field_center_y
-    required: yes
+    default: 0.0
     description: Field vertical center position (degrees)
   - 
     name: dot_density
@@ -41,7 +41,7 @@ parameters:
         ``0.0`` is fully tranparent.
   - 
     name: direction
-    required: yes
+    default: 0.0
     description: Direction of movement for coherent dots (degrees)
   - 
     name: speed

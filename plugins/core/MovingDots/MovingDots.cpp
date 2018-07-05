@@ -35,13 +35,13 @@ void MovingDots::describeComponent(ComponentInfo &info) {
     info.setDescription("A moving dots stimulus.");
 
     info.addParameter(FIELD_RADIUS);
-    info.addParameter(FIELD_CENTER_X);
-    info.addParameter(FIELD_CENTER_Y);
+    info.addParameter(FIELD_CENTER_X, "0.0");
+    info.addParameter(FIELD_CENTER_Y, "0.0");
     info.addParameter(DOT_DENSITY);
     info.addParameter(DOT_SIZE);
     info.addParameter(COLOR, "1.0,1.0,1.0");
     info.addParameter(ALPHA_MULTIPLIER, "1.0");
-    info.addParameter(DIRECTION);
+    info.addParameter(DIRECTION, "0.0");
     info.addParameter(SPEED);
     info.addParameter(COHERENCE, "1.0");
     info.addParameter(LIFETIME, "0.0");
