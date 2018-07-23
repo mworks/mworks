@@ -314,13 +314,9 @@ Other
    Name of the current operating system as a string (e.g. "macos", "ios")
 
 ``py_call(expr,...)``
-   *Available on macOS*
-
    Evaluates *expr* as a Python expression, calls the resulting Python object with the remaining arguments, and returns the result.  If a Python error occurs, logs the error message and returns 0.
 
 ``py_eval(expr)``
-   *Available on macOS*
-
    Evaluates *expr* as a Python expression and returns the result.  If a Python error occurs, logs the error message and returns 0.
 
 ``selection('sel',n)``

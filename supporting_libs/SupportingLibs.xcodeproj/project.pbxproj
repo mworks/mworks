@@ -97,9 +97,11 @@
 				TargetAttributes = {
 					E1DF4BB11C57E0D20081491C = {
 						CreatedOnToolsVersion = 7.2;
+						ProvisioningStyle = Automatic;
 					};
 					E1DF4BBC1C57E95E0081491C = {
 						CreatedOnToolsVersion = 7.2;
+						ProvisioningStyle = Automatic;
 					};
 					E1F298D01E451D7A006842A7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -137,6 +139,7 @@
 		E1DF4BB21C57E0D20081491C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MW_PYTHON_3_PREFIX = "$(BUILT_PRODUCTS_DIR)";
 			};
 			name = Development;
 		};

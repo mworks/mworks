@@ -52,7 +52,7 @@ static std::string formatException(const std::string &description) {
             msg.append(": ");
             for (Py_ssize_t i = 0; i < PyList_GET_SIZE(formattedExceptionLines); i++) {
                 const char *str;
-                if ((str = PyString_AsString(PyList_GET_ITEM(formattedExceptionLines, i)))) {
+                if ((str = PyUnicode_AsUTF8AndSize(PyList_GET_ITEM(formattedExceptionLines, i), nullptr))) {
                     msg.append(str);
                 } else {
                     PyErr_Clear();

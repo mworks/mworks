@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <marionette_info>
-  <requirements>
-    <feature name="macos"/>
-  </requirements>
   <expected_messages>
     <message type="starts_with">ERROR: Expression parser error: First parameter to function PY_CALL() must be a string</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>

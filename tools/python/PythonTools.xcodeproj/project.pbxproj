@@ -50,6 +50,15 @@
 
 /* Begin PBXBuildFile section */
 		E1018AF21FBCCF8200300E44 /* _mworks_3.so in CopyFiles */ = {isa = PBXBuildFile; fileRef = E16881501FBCA3500049BCDA /* _mworks_3.so */; };
+		E105D17120FE2F1A002E2464 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E105D16F20FE2F06002E2464 /* libz.tbd */; };
+		E105D18120FE8226002E2464 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
+		E105D18220FE822C002E2464 /* RunPythonAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D645811B31C1ED0092C428 /* RunPythonAction.cpp */; };
+		E105D18320FE8230002E2464 /* RunPythonFileAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D3CAA51B1CCE3400E94A2C /* RunPythonFileAction.cpp */; };
+		E105D18420FE8236002E2464 /* RunPythonStringAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D645841B31C5FF0092C428 /* RunPythonStringAction.cpp */; };
+		E105D18520FE823A002E2464 /* PythonException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19C4CB81B1E21BE005380F0 /* PythonException.cpp */; };
+		E105D18620FE823D002E2464 /* PythonEvaluator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CF55511F97CB8000F65009 /* PythonEvaluator.cpp */; };
+		E105D18720FE8241002E2464 /* PythonFileResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CF554E1F97A30700F65009 /* PythonFileResource.cpp */; };
+		E105D18820FE8243002E2464 /* PythonPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */; };
 		E16881411FBCA3500049BCDA /* PythonTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3BA716553CCF00D472D0 /* PythonTools.cpp */; };
 		E16881421FBCA3500049BCDA /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
 		E16881431FBCA3500049BCDA /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3BCE1655489C00D472D0 /* PythonDataBindingsHelpers.cpp */; };
@@ -59,6 +68,13 @@
 		E168814A1FBCA3500049BCDA /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979116C19843001481E9 /* libboost_system.a */; };
 		E168814B1FBCA3500049BCDA /* libdfindex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BD216554AB200D472D0 /* libdfindex.a */; };
 		E168814C1FBCA3500049BCDA /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979316C19859001481E9 /* libscarab.a */; };
+		E18AE4B620FFD52900C3CF38 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B020FFD4F400C3CF38 /* Accelerate.framework */; };
+		E18AE4B720FFD52E00C3CF38 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B120FFD4FE00C3CF38 /* SystemConfiguration.framework */; };
+		E18AE4B820FFD53100C3CF38 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B420FFD50E00C3CF38 /* libedit.tbd */; };
+		E18AE4B920FFD53400C3CF38 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B320FFD50A00C3CF38 /* libncurses.tbd */; };
+		E18AE4BA20FFD53600C3CF38 /* libpanel.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B220FFD50500C3CF38 /* libpanel.tbd */; };
+		E18AE4BB20FFD53900C3CF38 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B520FFD51100C3CF38 /* libsqlite3.tbd */; };
+		E18AE4C020FFD5A200C3CF38 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4BF20FFD59900C3CF38 /* libbz2.tbd */; };
 		E18D3BA216553B5900D472D0 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
 		E18D3BB8165541B900D472D0 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BB7165541B900D472D0 /* MWorksCore.framework */; };
 		E18D3BC71655456600D472D0 /* PythonTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3BA716553CCF00D472D0 /* PythonTools.cpp */; };
@@ -75,7 +91,6 @@
 		E1D3CAA11B1CB7F700E94A2C /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BB7165541B900D472D0 /* MWorksCore.framework */; };
 		E1D3CAA21B1CB7FC00E94A2C /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979116C19843001481E9 /* libboost_system.a */; };
 		E1D3CAA71B1CCE3400E94A2C /* RunPythonFileAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D3CAA51B1CCE3400E94A2C /* RunPythonFileAction.cpp */; };
-		E1D3CAA81B1CD18D00E94A2C /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978F16C19830001481E9 /* libboost_filesystem.a */; };
 		E1D3CAA91B1CDD4100E94A2C /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
 		E1D645831B31C1ED0092C428 /* RunPythonAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D645811B31C1ED0092C428 /* RunPythonAction.cpp */; };
 		E1D645861B31C5FF0092C428 /* RunPythonStringAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D645841B31C5FF0092C428 /* RunPythonStringAction.cpp */; };
@@ -86,6 +101,7 @@
 		E1DB979416C19859001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979316C19859001481E9 /* libscarab.a */; };
 		E1E07E931C04F17E008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E921C04F17E008DD97E /* MWComponents.yaml */; };
 		E1E603A71B19062B009BA19D /* PythonPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1E6039E1B1904D2009BA19D /* PythonPlugin.bundle */; };
+		E1FD0B8020FD125300A88259 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FD0B7E20FD123C00A88259 /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,11 +171,22 @@
 
 /* Begin PBXFileReference section */
 		E1018AEF1FBCCE9200300E44 /* PythonTools-Exports-3.exp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.exports; path = "PythonTools-Exports-3.exp"; sourceTree = "<group>"; };
+		E105D16F20FE2F06002E2464 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		E105D17220FE7662002E2464 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E105D17320FE7662002E2464 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E105D17420FE7662002E2464 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E105D17A20FE7D33002E2464 /* PythonPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PythonPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E105D17D20FE7D33002E2464 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E16881501FBCA3500049BCDA /* _mworks_3.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = _mworks_3.so; sourceTree = BUILT_PRODUCTS_DIR; };
+		E18AE4B020FFD4F400C3CF38 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		E18AE4B120FFD4FE00C3CF38 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E18AE4B220FFD50500C3CF38 /* libpanel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpanel.tbd; path = usr/lib/libpanel.tbd; sourceTree = SDKROOT; };
+		E18AE4B320FFD50A00C3CF38 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
+		E18AE4B420FFD50E00C3CF38 /* libedit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libedit.tbd; path = usr/lib/libedit.tbd; sourceTree = SDKROOT; };
+		E18AE4B520FFD51100C3CF38 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		E18AE4BF20FFD59900C3CF38 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		E18D3B79165537A300D472D0 /* _mworks.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = _mworks.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18D3B7D165537A300D472D0 /* PythonTools-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PythonTools-Prefix.pch"; sourceTree = "<group>"; };
-		E18D3B981655390600D472D0 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		E18D3B991655390600D472D0 /* WARNING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		E18D3B9B16553B5900D472D0 /* PythonAccumulatingConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonAccumulatingConduit.h; sourceTree = "<group>"; };
 		E18D3B9C16553B5900D472D0 /* PythonSimpleConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonSimpleConduit.h; sourceTree = "<group>"; };
 		E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonDataHelpers.cpp; sourceTree = "<group>"; };
@@ -195,9 +222,17 @@
 		E1E6039E1B1904D2009BA19D /* PythonPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PythonPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E603A11B1904D2009BA19D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1ED66D7165585E3000AAAEA /* GILHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GILHelpers.h; sourceTree = "<group>"; };
+		E1FD0B7E20FD123C00A88259 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E105D17620FE7D33002E2464 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E16881451FBCA3500049BCDA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -229,7 +264,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1D3CAA11B1CB7F700E94A2C /* MWorksCore.framework in Frameworks */,
-				E1D3CAA81B1CD18D00E94A2C /* libboost_filesystem.a in Frameworks */,
+				E18AE4B620FFD52900C3CF38 /* Accelerate.framework in Frameworks */,
+				E1FD0B8020FD125300A88259 /* CoreFoundation.framework in Frameworks */,
+				E18AE4B720FFD52E00C3CF38 /* SystemConfiguration.framework in Frameworks */,
+				E18AE4C020FFD5A200C3CF38 /* libbz2.tbd in Frameworks */,
+				E18AE4B820FFD53100C3CF38 /* libedit.tbd in Frameworks */,
+				E18AE4B920FFD53400C3CF38 /* libncurses.tbd in Frameworks */,
+				E18AE4BA20FFD53600C3CF38 /* libpanel.tbd in Frameworks */,
+				E18AE4BB20FFD53900C3CF38 /* libsqlite3.tbd in Frameworks */,
+				E105D17120FE2F1A002E2464 /* libz.tbd in Frameworks */,
 				E1D3CAA21B1CB7FC00E94A2C /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,6 +300,7 @@
 				E18D3B79165537A300D472D0 /* _mworks.so */,
 				E16881501FBCA3500049BCDA /* _mworks_3.so */,
 				E1E6039E1B1904D2009BA19D /* PythonPlugin.bundle */,
+				E105D17A20FE7D33002E2464 /* PythonPlugin.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -284,10 +328,12 @@
 		E18D3B97165538D600D472D0 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				E18D3B981655390600D472D0 /* Development.xcconfig */,
-				E18D3B991655390600D472D0 /* WARNING.txt */,
+				E105D17320FE7662002E2464 /* macOS.xcconfig */,
+				E105D17220FE7662002E2464 /* macOS_Plugin.xcconfig */,
+				E105D17420FE7662002E2464 /* iOS_Plugin.xcconfig */,
 			);
 			name = "External Config";
+			path = ../../build/xcode;
 			sourceTree = "<group>";
 		};
 		E18D3B9A16553B5900D472D0 /* Conduits */ = {
@@ -313,6 +359,15 @@
 			isa = PBXGroup;
 			children = (
 				E18D3BB7165541B900D472D0 /* MWorksCore.framework */,
+				E18AE4B020FFD4F400C3CF38 /* Accelerate.framework */,
+				E1FD0B7E20FD123C00A88259 /* CoreFoundation.framework */,
+				E18AE4B120FFD4FE00C3CF38 /* SystemConfiguration.framework */,
+				E18AE4BF20FFD59900C3CF38 /* libbz2.tbd */,
+				E18AE4B420FFD50E00C3CF38 /* libedit.tbd */,
+				E18AE4B320FFD50A00C3CF38 /* libncurses.tbd */,
+				E18AE4B220FFD50500C3CF38 /* libpanel.tbd */,
+				E18AE4B520FFD51100C3CF38 /* libsqlite3.tbd */,
+				E105D16F20FE2F06002E2464 /* libz.tbd */,
 				E1DB978F16C19830001481E9 /* libboost_filesystem.a */,
 				E1DB978D16C1981E001481E9 /* libboost_serialization.a */,
 				E1DB979116C19843001481E9 /* libboost_system.a */,
@@ -377,6 +432,7 @@
 				E1E07E921C04F17E008DD97E /* MWComponents.yaml */,
 				E1D645881B31E2900092C428 /* MWLibrary.xml */,
 				E1E603A11B1904D2009BA19D /* Info.plist */,
+				E105D17D20FE7D33002E2464 /* Info-iOS.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -384,6 +440,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		E105D17720FE7D33002E2464 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E168814D1FBCA3500049BCDA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -401,6 +464,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		E105D17920FE7D33002E2464 /* PythonPlugin-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E105D18020FE7D33002E2464 /* Build configuration list for PBXNativeTarget "PythonPlugin-iOS" */;
+			buildPhases = (
+				E105D17520FE7D33002E2464 /* Sources */,
+				E105D17620FE7D33002E2464 /* Frameworks */,
+				E105D17720FE7D33002E2464 /* Headers */,
+				E105D17820FE7D33002E2464 /* Resources */,
+				E1D471BA20FF795C0047BADA /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PythonPlugin-iOS";
+			productName = "PythonPlugin-iOS";
+			productReference = E105D17A20FE7D33002E2464 /* PythonPlugin.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		E168813F1FBCA3500049BCDA /* Extension Module (Py3) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E168814E1FBCA3500049BCDA /* Build configuration list for PBXNativeTarget "Extension Module (Py3)" */;
@@ -442,6 +524,7 @@
 				E1E6039A1B1904D2009BA19D /* Sources */,
 				E1E6039B1B1904D2009BA19D /* Frameworks */,
 				E1E6039C1B1904D2009BA19D /* Resources */,
+				E1FD0B8220FD298E00A88259 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -461,6 +544,10 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "MWorks Project";
 				TargetAttributes = {
+					E105D17920FE7D33002E2464 = {
+						CreatedOnToolsVersion = 9.4.1;
+						ProvisioningStyle = Automatic;
+					};
 					E134E8F6165BF5C600B159A1 = {
 						ProvisioningStyle = Automatic;
 					};
@@ -500,11 +587,19 @@
 				E18D3BDC16554E9C00D472D0 /* Install */,
 				E134E8F6165BF5C600B159A1 /* Test */,
 				E18D3BEB1655580000D472D0 /* Everything */,
+				E105D17920FE7D33002E2464 /* PythonPlugin-iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E105D17820FE7D33002E2464 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1E6039C1B1904D2009BA19D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -545,9 +640,52 @@
 			shellScript = "# Add an appropriately-named symlink to _mworks_3.so\n/bin/ln -fs _mworks_3.so \"${MW_PYTHON_DIR}\"/mworks/_mworks$(\"${MW_PYTHON_3}\" -c 'import sysconfig ; print(sysconfig.get_config_var(\"EXT_SUFFIX\"))')\n\necho \"Byte-compiling .py files for Python ${MW_PYTHON_VERSION}\"\n\"${MW_PYTHON}\" -m compileall \"${MW_PYTHON_DIR}\"\n\necho \"Byte-compiling .py files for Python ${MW_PYTHON_3_VERSION}\"\n\"${MW_PYTHON_3}\" -m compileall \"${MW_PYTHON_DIR}\"";
 			showEnvVarsInLog = 0;
 		};
+		E1D471BA20FF795C0047BADA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${MW_PYTHON_3} PythonPlugin/package_python_files.py";
+			showEnvVarsInLog = 0;
+		};
+		E1FD0B8220FD298E00A88259 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${MW_PYTHON_3} PythonPlugin/package_python_files.py";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E105D17520FE7D33002E2464 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E105D18320FE8230002E2464 /* RunPythonFileAction.cpp in Sources */,
+				E105D18120FE8226002E2464 /* PythonDataHelpers.cpp in Sources */,
+				E105D18820FE8243002E2464 /* PythonPlugin.cpp in Sources */,
+				E105D18520FE823A002E2464 /* PythonException.cpp in Sources */,
+				E105D18620FE823D002E2464 /* PythonEvaluator.cpp in Sources */,
+				E105D18420FE8236002E2464 /* RunPythonStringAction.cpp in Sources */,
+				E105D18220FE822C002E2464 /* RunPythonAction.cpp in Sources */,
+				E105D18720FE8241002E2464 /* PythonFileResource.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E16881401FBCA3500049BCDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -614,8 +752,44 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		E105D17F20FE7D33002E2464 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E105D17420FE7662002E2464 /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"PRODUCT_BUNDLE_IDENTIFIER=\\\"$(PRODUCT_BUNDLE_IDENTIFIER)\\\"",
+					"MW_PYTHON_3_VERSION_MAJOR=\\\"$(MW_PYTHON_3_VERSION_MAJOR)\\\"",
+					"MW_PYTHON_3_VERSION_MINOR=\\\"$(MW_PYTHON_3_VERSION_MINOR)\\\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(MW_PYTHON_3_INCLUDEDIR)",
+					"$(MW_PYTHON_3_STDLIB_DIR)/site-packages/numpy/core/include",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "PythonPlugin/Info-iOS.plist";
+				MW_PYTHON_3_PREFIX = "$(BUILT_PRODUCTS_DIR)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Accelerate,
+					"-framework",
+					CoreFoundation,
+					"-lbz2",
+					"-lsqlite3",
+					"-lz",
+					"-force_load",
+					"$(BUILT_PRODUCTS_DIR)/lib/libpython$(MW_PYTHON_3_VERSION)_all.a",
+					"-lboost_python$(MW_PYTHON_3_VERSION_MAJOR)$(MW_PYTHON_3_VERSION_MINOR)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.PythonPlugin-iOS";
+				PRODUCT_NAME = PythonPlugin;
+			};
+			name = Development;
+		};
 		E134E8F7165BF5C600B159A1 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E105D17320FE7662002E2464 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -623,15 +797,18 @@
 		};
 		E168814F1FBCA3500049BCDA /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E105D17320FE7662002E2464 /* macOS.xcconfig */;
 			buildSettings = {
 				EXECUTABLE_EXTENSION = so;
 				EXPORTED_SYMBOLS_FILE = "PythonTools-Exports-3.exp";
 				HEADER_SEARCH_PATHS = (
 					"$(MW_PYTHON_3_INCLUDEDIR)",
+					"$(MW_PYTHON_PREFIX)/Extras/lib/python/numpy/core/include",
 					"$(inherited)",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
+				MW_PYTHON_3_PREFIX = "/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_3_VERSION)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-undefined",
@@ -644,13 +821,12 @@
 		};
 		E18D3B84165537A300D472D0 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E18D3B981655390600D472D0 /* Development.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PythonTools-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"NPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION",
+					"NPY_NO_DEPRECATED_API=NPY_1_8_API_VERSION",
 					"PY_ARRAY_UNIQUE_SYMBOL=MWORKS_$(PRODUCT_NAME)_ARRAY_API",
 				);
 			};
@@ -658,11 +834,13 @@
 		};
 		E18D3B87165537A300D472D0 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E105D17320FE7662002E2464 /* macOS.xcconfig */;
 			buildSettings = {
 				EXECUTABLE_EXTENSION = so;
 				EXPORTED_SYMBOLS_FILE = "PythonTools-Exports.exp";
 				HEADER_SEARCH_PATHS = (
 					"$(MW_PYTHON_INCLUDEDIR)",
+					"$(MW_PYTHON_PREFIX)/Extras/lib/python/numpy/core/include",
 					"$(inherited)",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
@@ -679,6 +857,7 @@
 		};
 		E18D3BDE16554E9C00D472D0 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E105D17320FE7662002E2464 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -686,6 +865,7 @@
 		};
 		E18D3BED1655580000D472D0 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E105D17320FE7662002E2464 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -693,42 +873,43 @@
 		};
 		E1E603A21B1904D2009BA19D /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E105D17220FE7662002E2464 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"PRODUCT_BUNDLE_IDENTIFIER=\\\"$(PRODUCT_BUNDLE_IDENTIFIER)\\\"",
+					"MW_PYTHON_3_VERSION_MAJOR=\\\"$(MW_PYTHON_3_VERSION_MAJOR)\\\"",
+					"MW_PYTHON_3_VERSION_MINOR=\\\"$(MW_PYTHON_3_VERSION_MINOR)\\\"",
+				);
 				HEADER_SEARCH_PATHS = (
-					"$(MW_PYTHON_INCLUDEDIR)",
+					"$(MW_PYTHON_3_INCLUDEDIR)",
+					"$(MW_PYTHON_3_STDLIB_DIR)/site-packages/numpy/core/include",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = PythonPlugin/Info.plist;
+				MW_PYTHON_3_PREFIX = "\"$(MW_DEVELOPER_DIR)\"";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"$(MW_PYTHON_PREFIX)/Python",
-					"$(MW_LIB_DIR)/libboost_python$(MW_PYTHON_VERSION_MAJOR)$(MW_PYTHON_VERSION_MINOR).a",
+					"-force_load",
+					"$(MW_LIB_DIR)/libpython$(MW_PYTHON_3_VERSION)_all.a",
+					"$(MW_LIB_DIR)/libboost_python$(MW_PYTHON_3_VERSION_MAJOR)$(MW_PYTHON_3_VERSION_MINOR).a",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.$(PRODUCT_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E105D18020FE7D33002E2464 /* Build configuration list for PBXNativeTarget "PythonPlugin-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E105D17F20FE7D33002E2464 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
 		E134E8F8165BF5C600B159A1 /* Build configuration list for PBXAggregateTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

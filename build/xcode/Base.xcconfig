@@ -59,3 +59,13 @@ VERSIONING_SYSTEM = $(inherited)
 WARNING_CFLAGS = $(inherited) -Wno-inconsistent-missing-override -Wpartial-availability -Wreorder
 
 MW_VERSION = 0.9.dev
+
+MW_PYTHON_3 = /Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_3_VERSION)/bin/python3
+// MW_PYTHON_3_PREFIX must be defined by any project that uses
+// MW_PYTHON_3_INCLUDEDIR, MW_PYTHON_3_LIBDIR, or MW_PYTHON_3_STDLIB_DIR
+MW_PYTHON_3_INCLUDEDIR = $(MW_PYTHON_3_PREFIX)/include/python$(MW_PYTHON_3_VERSION)m
+MW_PYTHON_3_LIBDIR = $(MW_PYTHON_3_PREFIX)/lib
+MW_PYTHON_3_STDLIB_DIR = $(MW_PYTHON_3_LIBDIR)/python$(MW_PYTHON_3_VERSION)
+MW_PYTHON_3_VERSION = $(MW_PYTHON_3_VERSION_MAJOR).$(MW_PYTHON_3_VERSION_MINOR)
+MW_PYTHON_3_VERSION_MAJOR = 3
+MW_PYTHON_3_VERSION_MINOR = 7

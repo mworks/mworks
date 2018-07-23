@@ -26,6 +26,7 @@ else:
     assert os.environ['PLATFORM_NAME'] == 'macosx'
 
 assert os.environ['GCC_VERSION'] == 'com.apple.compilers.llvm.clang.1_0'
+ar = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/ar'
 cc = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/clang'
 cxx = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/clang++'
 make = os.environ['DEVELOPER_DIR'] + '/usr/bin/make'
@@ -241,6 +242,7 @@ def get_updated_env(
     extra_cflags = '',
     extra_cxxflags = '',
     extra_ldflags = '',
+    extra_cppflags = '',
     ):
 
     env = get_clean_env()
@@ -252,6 +254,7 @@ def get_updated_env(
         'CXXFLAGS': join_flags(compile_flags, extra_compile_flags,
                                cxxflags, extra_cxxflags),
         'LDFLAGS': join_flags(link_flags, extra_ldflags),
+        'CPPFLAGS': join_flags(common_flags, extra_cppflags),
         })
     return env
 
@@ -263,6 +266,7 @@ def run_configure_and_make(
     extra_cflags = '',
     extra_cxxflags = '',
     extra_ldflags = '',
+    extra_cppflags = '',
     ):
 
     args = [
@@ -284,10 +288,24 @@ def run_configure_and_make(
         env = get_updated_env(extra_compile_flags,
                               extra_cflags,
                               extra_cxxflags,
-                              extra_ldflags),
+                              extra_ldflags,
+                              extra_cppflags),
         )
     
     check_call([make, '-j', num_cores, 'install'])
+
+
+def add_object_files_to_libpythonall(exclude=()):
+    object_files = []
+    for dirpath, dirnames, filenames in os.walk('.'):
+        for name in filenames:
+            if name.endswith('.o') and name not in exclude:
+                object_files.append(os.path.join(dirpath, name))
+    check_call([
+        ar,
+        'rcs',
+        libdir + ('/libpython%s_all.a' % os.environ['MW_PYTHON_3_VERSION']),
+        ] + object_files)
 
 
 ################################################################################
@@ -295,6 +313,102 @@ def run_configure_and_make(
 # Library builders
 #
 ################################################################################
+
+
+@builder
+def python3(ios=True):
+    version = '3.7.0'
+    srcdir = 'Python-' + version
+    tarfile = srcdir + '.tgz'
+
+    assert version[:version.rfind('.')] == os.environ['MW_PYTHON_3_VERSION']
+
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('https://www.python.org/ftp/python/%s/' % version, tarfile)
+            unpack_tarfile(tarfile, srcdir)
+            with workdir(srcdir):
+                apply_patch('python_static_zlib.patch')
+                if building_for_ios:
+                    apply_patch('python_ios_build.patch')
+                    apply_patch('python_ios_disabled_modules.patch')
+                else:
+                    apply_patch('python_macos_10_12_required.patch')
+                    apply_patch('python_macos_10_13_required.patch')
+                    apply_patch('python_macos_disabled_modules.patch')
+
+        python3_builddir = os.path.join(builddir, 'python3')
+        make_directory(python3_builddir)
+
+        with workdir(python3_builddir):
+            extra_args = ['--without-ensurepip']
+            if building_for_ios:
+                extra_args += [
+                    '--build=x86_64-apple-darwin',
+                    '--enable-ipv6',
+                    'PYTHON_FOR_BUILD=' + os.environ['MW_PYTHON_3'],
+                    'ac_cv_file__dev_ptmx=no',
+                    'ac_cv_file__dev_ptc=no',
+                    ]
+
+            run_configure_and_make(
+                command = [os.path.join(sourcedir, srcdir, 'configure')],
+                extra_args = extra_args,
+                extra_cflags = '-fvisibility=default',
+                )
+
+            add_object_files_to_libpythonall(
+                exclude = ['_testembed.o', 'python.o']
+                )
+
+
+@builder
+def numpy3(ios=True):
+    version = '1.14.5'
+    srcdir = 'numpy-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('https://github.com/numpy/numpy/releases/download/v%s/' % version, tarfile)
+            unpack_tarfile(tarfile, srcdir)
+            with workdir(srcdir):
+                if building_for_ios:
+                    apply_patch('numpy_ios_build.patch')
+
+        numpy3_builddir = os.path.join(builddir, 'numpy3')
+        make_directory(numpy3_builddir)
+
+        check_call([rsync, '-a', srcdir + '/', numpy3_builddir])
+
+        with workdir(numpy3_builddir):
+            env = get_clean_env()
+            env['PYTHONPATH'] = os.environ['MW_PYTHON_3_STDLIB_DIR']
+
+            if building_for_ios:
+                env.update({
+                    '_PYTHON_HOST_PLATFORM': 'darwin-arm',
+                    '_PYTHON_SYSCONFIGDATA_NAME': '_sysconfigdata_m_darwin_darwin',
+                    # numpy's configuration tests link test executuables using
+                    # bare cc (without cflags).  Add common_flags to ensure that
+                    # linking uses the correct architecture and SDK.
+                    'CC': join_flags(cc, common_flags)
+                    })
+
+            check_call([
+                os.environ['MW_PYTHON_3'],
+                'setup.py',
+                'build',
+                '-j', num_cores,
+                'install',
+                '--prefix=' + prefix,
+                # Force egg info in to a separate directory.  (Not sure why
+                # including --root has this affect, but whatever.)
+                '--root=/',
+                ],
+                env = env)
+
+            add_object_files_to_libpythonall(exclude=['python_xerbla.o'])
 
 
 @builder
@@ -329,19 +443,20 @@ def boost(ios=True):
                 libraries += ['serialization']
             run_b2(libraries)
 
-            if not building_for_ios:
-                for tag in ('', '_3'):
-                    shutil.copy(project_config_jam_orig, project_config_jam)
-                    with open(project_config_jam, 'a') as fp:
-                        fp.write('\nusing python : %s : %s : %s : %s ;\n' %
-                                 (os.environ['MW_PYTHON%s_VERSION' % tag],
-                                  os.environ['MW_PYTHON%s' % tag],
-                                  os.environ['MW_PYTHON%s_INCLUDEDIR' % tag],
-                                  os.environ['MW_PYTHON%s_LIBDIR' % tag]))
-                    libraries = ['python']
-                    # Remove previous build products before building again
-                    run_b2(libraries, clean=True)
-                    run_b2(libraries)
+            for tag in (() if building_for_ios else ('',)) + ('_3',):
+                shutil.copy(project_config_jam_orig, project_config_jam)
+                with open(project_config_jam, 'a') as fp:
+                    fp.write('\nusing python : %s : %s : %s : %s ;\n' %
+                             (os.environ['MW_PYTHON%s_VERSION' % tag],
+                              # Prevent Boost's build system from running the
+                              # Python executable
+                              '/usr/bin/false',
+                              os.environ['MW_PYTHON%s_INCLUDEDIR' % tag],
+                              os.environ['MW_PYTHON%s_LIBDIR' % tag]))
+                libraries = ['python']
+                # Remove previous build products before building again
+                run_b2(libraries, clean=True)
+                run_b2(libraries)
 
         with workdir(includedir):
             if not os.path.islink('mworks_boost'):
@@ -439,7 +554,11 @@ def cppunit():
                 )
 
 
-@builder
+#
+# This isn't needed at present, but keep it around in case Apple ever updates
+# the numpy version that ships with macOS.
+#
+#@builder
 def numpy():
     # NOTE: We need to use the version of numpy that's distributed with
     # MACOSX_DEPLOYMENT_TARGET

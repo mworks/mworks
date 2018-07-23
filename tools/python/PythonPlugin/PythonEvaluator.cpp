@@ -23,6 +23,52 @@ BEGIN_NAMESPACE_MW
 BEGIN_NAMESPACE()
 
 
+inline cf::ObjectPtr<CFBundleRef> getBundle() {
+    return cf::ObjectPtr<CFBundleRef>::borrowed(CFBundleGetBundleWithIdentifier(CFSTR(PRODUCT_BUNDLE_IDENTIFIER)));
+}
+
+
+std::string getPathForURL(const cf::ObjectPtr<CFURLRef> &url) {
+    std::vector<char> path(1024);
+    if (!CFURLGetFileSystemRepresentation(url.get(),
+                                          true,
+                                          reinterpret_cast<UInt8 *>(path.data()),
+                                          path.size()))
+    {
+        throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Cannot convert URL to filesystem path");
+    }
+    return std::string(path.data());
+}
+
+
+class StaticExtensionModuleFinder {
+    
+public:
+    StaticExtensionModuleFinder() :
+        bundle(getBundle())
+    { }
+    
+    std::string getExecutablePath() const {
+        auto executableURL = cf::ObjectPtr<CFURLRef>::owned(CFBundleCopyExecutableURL(bundle.get()));
+        if (!executableURL) {
+            throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Cannot obtain path to Python plugin executable");
+        }
+        return getPathForURL(executableURL);
+    }
+    
+    bool haveInitFuncForName(const std::string &name) const {
+        auto functionName = cf::StringPtr::created(CFStringCreateWithCString(kCFAllocatorDefault,
+                                                                             ("PyInit_" + name).c_str(),
+                                                                             kCFStringEncodingUTF8));
+        return CFBundleGetFunctionPointerForName(bundle.get(), functionName.get());
+    }
+    
+private:
+    const cf::ObjectPtr<CFBundleRef> bundle;
+    
+};
+
+
 inline boost::shared_ptr<RegistryAwareEventStreamInterface> getCore() {
     return Server::instance();
 }
@@ -162,27 +208,59 @@ void unregister_event_callbacks() {
 }
 
 
-void init_mworkscore() {
-    auto module = manageBorrowedRef( Py_InitModule("mworkscore", nullptr) );
-    boost::python::scope moduleScope(module);
+PyModuleDef mworkscoreModule = {
+    PyModuleDef_HEAD_INIT,
+    "mworkscore",
+    nullptr,
+    -1,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr
+};
+
+
+PyObject * init_mworkscore() {
+    try {
+        auto module = manageBorrowedRef( PyModule_Create(&mworkscoreModule) );
+        boost::python::scope moduleScope(module);
+        
+        class_<StaticExtensionModuleFinder>("_StaticExtensionModuleFinder")
+        .def("get_executable_path", &StaticExtensionModuleFinder::getExecutablePath)
+        .def("have_init_func_for_name", &StaticExtensionModuleFinder::haveInitFuncForName)
+        ;
+        
+        class_<Event>("Event", no_init)
+        .add_property("code", &Event::getEventCode)
+        .add_property("time", extractEventTime)
+        .add_property("data", extractEventData)
+        ;
+        
+        register_ptr_to_python<boost::shared_ptr<Event>>();
+        
+        def("getcodec", getcodec);
+        def("get_reverse_codec", get_reverse_codec);
+        def("getvar", getvar);
+        def("setvar", setvar);
+        
+        def("register_event_callback", register_event_callback);
+        def("register_event_callback", register_event_callback_for_name);
+        def("register_event_callback", register_event_callback_for_code);
+        def("unregister_event_callbacks", unregister_event_callbacks);
+        
+        return module.ptr();
+    } catch (const boost::python::error_already_set &) {
+        // Python error already set.  Do nothing.
+    } catch (const std::exception &e) {
+        PyErr_Format(PyExc_RuntimeError,
+                     "Error while initializing Python mworkscore module: %s",
+                     e.what());
+    } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError, "Unknown error while initializing Python mworkscore module");
+    }
     
-    class_<Event>("Event", no_init)
-    .add_property("code", &Event::getEventCode)
-    .add_property("time", extractEventTime)
-    .add_property("data", extractEventData)
-    ;
-    
-    register_ptr_to_python<boost::shared_ptr<Event>>();
-    
-    def("getcodec", getcodec);
-    def("get_reverse_codec", get_reverse_codec);
-    def("getvar", getvar);
-    def("setvar", setvar);
-    
-    def("register_event_callback", register_event_callback);
-    def("register_event_callback", register_event_callback_for_name);
-    def("register_event_callback", register_event_callback_for_code);
-    def("unregister_event_callbacks", unregister_event_callbacks);
+    return nullptr;
 }
 
 
@@ -195,6 +273,32 @@ PyObject * getGlobalsDict() {
     static std::once_flag initFlag;
     std::call_once(initFlag, []() {
         //
+        // Set module search path
+        //
+        {
+            auto zipURL = cf::ObjectPtr<CFURLRef>::owned(CFBundleCopyResourceURL(getBundle().get(),
+                                                                                 CFSTR("python" MW_PYTHON_3_VERSION_MAJOR MW_PYTHON_3_VERSION_MINOR),
+                                                                                 CFSTR("zip"),
+                                                                                 nullptr));
+            if (!zipURL) {
+                throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Cannot obtain path to Python library file");
+            }
+            auto decodedPath = Py_DecodeLocale(getPathForURL(zipURL).c_str(), nullptr);
+            if (!decodedPath) {
+                throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Cannot decode Python module search path");
+            }
+            Py_SetPath(decodedPath);
+            PyMem_RawFree(decodedPath);
+        }
+        
+        //
+        // Register mworkscore module
+        //
+        if (-1 == PyImport_AppendInittab(mworkscoreModule.m_name, &init_mworkscore)) {
+            throw PythonException("Unable to register Python mworkscore module");
+        }
+        
+        //
         // Initialize Python interpreter
         //
         Py_InitializeEx(0);
@@ -203,13 +307,6 @@ PyObject * getGlobalsDict() {
             // PyEval_InitThreads acquires the GIL, so we must release it on exit
             PyEval_ReleaseThread(PyThreadState_Get());
         } BOOST_SCOPE_EXIT_END
-        
-        //
-        // Import NumPy C API
-        //
-        if (_import_array() < 0) {
-            throw PythonException("Unable to import NumPy C API");
-        }
         
         //
         // Obtain __main__ module's dict and store a reference in globalsDict
@@ -222,18 +319,25 @@ PyObject * getGlobalsDict() {
         Py_INCREF(globalsDict);  // Upgrade to owned ref
         
         //
-        // Create mworkscore module
+        // Import mworks_python_config.  (This adds no names to globalsDict.)
         //
-        try {
-            init_mworkscore();
-        } catch (const boost::python::error_already_set &) {
-            throw PythonException("Unable to create Python mworkscore module");
+        PyObject *result = PyRun_String("from mworks_python_config import *", Py_single_input, globalsDict, globalsDict);
+        if (!result) {
+            throw PythonException("Unable to import mworks_python_config");
+        }
+        Py_DECREF(result);
+        
+        //
+        // Import NumPy C API
+        //
+        if (_import_array() < 0) {
+            throw PythonException("Unable to import NumPy C API");
         }
         
         //
         // Import mworkscore contents into __main__
         //
-        PyObject *result = PyRun_String("from mworkscore import *", Py_single_input, globalsDict, globalsDict);
+        result = PyRun_String("from mworkscore import *", Py_single_input, globalsDict, globalsDict);
         if (!result) {
             throw PythonException("Unable to import mworkscore contents into Python __main__ module");
         }
@@ -406,7 +510,7 @@ bool PythonEvaluator::call(Datum &result, ArgIter first, ArgIter last) {
 
 
 inline PyObject * PythonEvaluator::eval() {
-    return PyEval_EvalCode(codeObject, globalsDict, globalsDict);
+    return PyEval_EvalCode(reinterpret_cast<PyObject *>(codeObject), globalsDict, globalsDict);
 }
 
 

@@ -168,6 +168,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E105D17920FE7D33002E2464"
+               BuildableName = "PythonPlugin.framework"
+               BlueprintName = "PythonPlugin-iOS"
+               ReferencedContainer = "container:../tools/python/PythonTools.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E110FE711F7BE3E700E9BBB9"
                BuildableName = "RCBLVDS.framework"
                BlueprintName = "RCBLVDS-iOS"

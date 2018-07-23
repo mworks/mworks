@@ -1,0 +1,23 @@
+diff -ur Python-3.7.0/Lib/urllib/request.py Python/Lib/urllib/request.py
+--- Python-3.7.0/Lib/urllib/request.py	2018-06-26 23:07:35.000000000 -0400
++++ Python/Lib/urllib/request.py	2018-07-20 16:27:41.000000000 -0400
+@@ -2579,7 +2579,7 @@
+     return False
+ 
+ 
+-if sys.platform == 'darwin':
++if False and sys.platform == 'darwin':
+     from _scproxy import _get_proxy_settings, _get_proxies
+ 
+     def proxy_bypass_macosx_sysconf(host):
+diff -ur Python-3.7.0/Modules/Setup.dist Python/Modules/Setup.dist
+--- Python-3.7.0/Modules/Setup.dist	2018-06-26 23:07:35.000000000 -0400
++++ Python/Modules/Setup.dist	2018-07-10 12:29:42.000000000 -0400
+@@ -375,3 +375,7 @@
+ #
+ #_sqlite3 _tkinter _curses pyexpat
+ #_codecs_jp _codecs_kr _codecs_tw unicodedata
++
++*disabled*
++
++_ctypes _ctypes_test _curses _lzma _scproxy

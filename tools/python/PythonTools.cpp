@@ -22,6 +22,12 @@ BEGIN_NAMESPACE_MW
 BOOST_PYTHON_MODULE(_mworks)
 {
     
+    // The following values for NPY_VERSION and NPY_FEATURE_VERSION (aka NPY_ABI_VERSION and
+    // NPY_API_VERSION) are valid for macOS 10.11, 10.12, and 10.13
+    static_assert(NPY_VERSION == 0x01000009 && NPY_FEATURE_VERSION <= 0x00000009,
+                  "Compiling against a NumPy version that is incompatible with the system NumPy "
+                  "version on MACOSX_DEPLOYMENT_TARGET");
+    
     if (_import_array() < 0) {
         PyErr_SetString(PyExc_ImportError, "Unable to import NumPy C API");
         throw_error_already_set();

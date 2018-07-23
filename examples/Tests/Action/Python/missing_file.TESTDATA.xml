@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <marionette_info>
-  <requirements>
-    <feature name="macos"/>
-  </requirements>
   <expected_messages>
     <message type="starts_with">ERROR: Can't find file: </message>
     <message type="whole_message">ERROR: Failed to create a valid packaged experiment.</message>

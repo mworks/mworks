@@ -4,7 +4,6 @@
 name: Python File Resource
 signature: resource/python_file
 isa: Resource
-platform: macos
 description: |
     A special type of `resource file <Resources>` that contains Python source
     code.
@@ -27,7 +26,6 @@ parameters:
 name: Run Python Action
 abstract: yes
 isa: Action
-platform: macos
 parameters: 
   - 
     name: stop_on_failure

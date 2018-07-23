@@ -29,6 +29,9 @@
          location = "group:../plugins/core/MovingDots/MovingDots.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:../tools/python/PythonTools.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:../plugins/core/RCBLVDS/RCBLVDS.xcodeproj">
       </FileRef>
       <FileRef

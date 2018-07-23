@@ -23,19 +23,22 @@
 #include <boost/scope_exit.hpp>
 #include <boost/scoped_ptr.hpp>
 
-#include <MWorksCore/AccumulatingConduit.h>
+#include <MWorksCore/CFObjectPtr.h>
 #include <MWorksCore/Clock.h>
-#include <MWorksCore/CodecAwareConduit.h>
 #include <MWorksCore/CoreBuilderForeman.h>
 #include <MWorksCore/Exceptions.h>
 #include <MWorksCore/GenericData.h>
-#include <MWorksCore/IPCEventTransport.h>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/Server.h>
 #include <MWorksCore/StandardComponentFactory.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
 #include <MWorksCore/TrialBuildingBlocks.h>
 
-#include <dfindex/dfindex.h>
+#if TARGET_OS_OSX
+#  include <MWorksCore/AccumulatingConduit.h>
+#  include <MWorksCore/CodecAwareConduit.h>
+#  include <MWorksCore/IPCEventTransport.h>
+#  include <dfindex/dfindex.h>
+#endif
 
 #endif /* defined(__cplusplus) */

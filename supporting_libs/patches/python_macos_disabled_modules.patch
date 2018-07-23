@@ -1,0 +1,11 @@
+diff -ur Python-3.7.0/Modules/Setup.dist Python/Modules/Setup.dist
+--- Python-3.7.0/Modules/Setup.dist	2018-06-26 23:07:35.000000000 -0400
++++ Python/Modules/Setup.dist	2018-07-20 15:37:46.000000000 -0400
+@@ -375,3 +375,7 @@
+ #
+ #_sqlite3 _tkinter _curses pyexpat
+ #_codecs_jp _codecs_kr _codecs_tw unicodedata
++
++*disabled*
++
++_ctypes _ctypes_test _lzma _tkinter

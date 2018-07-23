@@ -1,11 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
-  <requirements>
-    <feature name="macos"/>
-  </requirements>
   <expected_messages>
-    <message type="contains">ZeroDivisionError: integer division or modulo by zero</message>
-    <message type="contains">ZeroDivisionError: integer division or modulo by zero</message>
+    <message type="contains">ZeroDivisionError: division by zero</message>
+    <message type="contains">ZeroDivisionError: division by zero</message>
     <message type="whole_message">ERROR: Stopping experiment due to failed Python execution [line 8, column 5]</message>
   </expected_messages>
 </marionette_info>

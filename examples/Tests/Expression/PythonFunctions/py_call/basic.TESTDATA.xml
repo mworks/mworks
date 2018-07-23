@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <marionette_info>
-  <requirements>
-    <feature name="macos"/>
-  </requirements>
   <expected_messages>
     <message type="contains"><![CDATA[File "<string>", line 1, in <module>
 NameError: name 'one' is not defined]]></message>

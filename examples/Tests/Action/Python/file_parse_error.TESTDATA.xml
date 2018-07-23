@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <marionette_info>
-  <requirements>
-    <feature name="macos"/>
-  </requirements>
   <expected_messages>
     <message type="contains"><![CDATA[line 1
     y = 1 - * 2
