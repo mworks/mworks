@@ -61,6 +61,8 @@ private:
     VertexPositionArray getVertexPositions() const override;
     GLKMatrix4 getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const override;
     
+    void setBlendEquation() override;
+    
     void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
     void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
     void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
@@ -85,7 +87,7 @@ private:
     GratingType current_grating_type;
     std::string current_mask_type_name;
     MaskType current_mask_type;
-    bool current_inverted;
+    bool current_grating_is_mask, current_inverted;
     double current_std_dev, current_mean;
     bool current_normalized;
     
@@ -94,7 +96,7 @@ private:
     GratingType last_grating_type;
     std::string last_mask_type_name;
     MaskType last_mask_type;
-    bool last_inverted;
+    bool last_grating_is_mask, last_inverted;
     double last_std_dev, last_mean;
     bool last_normalized;
     
@@ -105,6 +107,7 @@ private:
     
     GLint gratingTypeUniformLocation = -1;
     GLint maskTypeUniformLocation = -1;
+    GLint gratingIsMaskUniformLocation = -1;
     GLint invertedUniformLocation = -1;
     GLint stdDevUniformLocation = -1;
     GLint meanUniformLocation = -1;

@@ -49,9 +49,23 @@ parameters:
     description: Grating type
   - 
     name: mask
-    options: [rectangle, ellipse, gaussian]
-    default: rectangle
-    description: Mask type
+    default: 'NO'
+    description: |
+        If ``YES``, the grating will function as a mask (similar to a `Mask
+        Stimulus`).  When used as part of a `layer <Layer Stimulus>`, "high"
+        regions of the grating (where the value is close to one) will allow
+        stimuli beneath it in the layer to show through, while "low" regions
+        (where the value is near zero) will partially or fully erase such
+        stimuli, exposing any stimuli beneath the layer.
+
+        When the value of this parameter is ``YES``, `color`_ and
+        `alpha_multiplier`_ are ignored.
+
+        *Note*: For compatibility with existing experiments, the value of this
+        parameter can also be one of ``rectangle``, ``ellipse``, or
+        ``gaussian``, in which case it specifies the type of mask to apply to
+        the grating.  However, this usage is deprecated, and new experiments
+        should use a `Mask Stimulus` instead.
   -
     name: inverted
     default: 'NO'
@@ -61,10 +75,12 @@ parameters:
   - 
     name: std_dev
     default: 1.0
+    deprecated: yes
     description: Standard deviation of Gaussian mask
   - 
     name: mean
     default: 0.0
+    deprecated: yes
     description: |
         Mean of Gaussian mask.
 
@@ -75,6 +91,7 @@ parameters:
   -
     name: normalized
     default: 'YES'
+    deprecated: yes
     description: >
         If ``YES``, the Gaussian mask includes a multiplicative normalization
         term (``1/(std_dev*sqrt(2*pi))``).  If ``NO``, this term is omitted.

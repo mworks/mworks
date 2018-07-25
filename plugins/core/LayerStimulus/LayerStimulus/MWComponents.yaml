@@ -44,11 +44,11 @@ isa: Transform Stimulus
 description: |
     Masks are useful only in conjuction with `layers <Layer Stimulus>`.
 
-    A mask obscures or erases any stimuli in its layer that lie below it.  The
-    "masked out" regions become transparent or semi-transparent "windows",
-    through which any stimuli below the layer are visible.  If the mask is
-    `inverted`_, it will make a "hole" through the stimuli under it, allowing
-    the stimuli beneath the layer to show through.
+    A mask can truncate, obscure, or erase stimuli in its layer that lie below
+    it.  The "masked out" regions become transparent or semi-transparent
+    "windows", through which any stimuli below the layer are visible.  If the
+    mask is `inverted`_, it will make a "hole" through the stimuli under it,
+    allowing the stimuli beneath the layer to show through.
 
     For example, the following layer will produce a red ring with inner radius
     5 and outer radius 10::

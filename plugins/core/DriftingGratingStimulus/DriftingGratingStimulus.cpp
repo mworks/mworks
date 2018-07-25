@@ -37,7 +37,7 @@ void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(SPEED);
     info.addParameter(COMPUTE_PHASE_INCREMENTALLY, "NO");
     info.addParameter(GRATING_TYPE);
-    info.addParameter(MASK, "rectangle");
+    info.addParameter(MASK, "NO");
     info.addParameter(INVERTED, "NO");
     info.addParameter(STD_DEV, "1.0");
     info.addParameter(MEAN, "0.0");
@@ -108,7 +108,13 @@ Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(SPEED, last_speed);
     announceData.addElement(COMPUTE_PHASE_INCREMENTALLY, computePhaseIncrementally);
     announceData.addElement(GRATING_TYPE, last_grating_type_name);
-    announceData.addElement(MASK, last_mask_type_name);
+    
+    if (!last_mask_type_name.empty()) {
+        announceData.addElement(MASK, last_mask_type_name);
+    } else {
+        announceData.addElement(MASK, last_grating_is_mask);
+    }
+    
     announceData.addElement(INVERTED, last_inverted);
     
     if (last_mask_type == MaskType::gaussian) {
@@ -163,6 +169,7 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
      uniform int gratingType;
      uniform int maskType;
      uniform vec4 color;
+     uniform bool gratingIsMask;
      uniform bool inverted;
      uniform float stdDev;
      uniform float mean;
@@ -229,8 +236,12 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
              gratingValue = 1.0 - gratingValue;
          }
 
-         fragColor.rgb = gratingValue * color.rgb;
-         fragColor.a = color.a * maskValue;
+         if (gratingIsMask) {
+             fragColor = vec4(1.0, 1.0, 1.0, gratingValue);
+         } else {
+             fragColor.rgb = gratingValue * color.rgb;
+             fragColor.a = color.a * maskValue;
+         }
      }
      )");
     
@@ -259,6 +270,17 @@ GLKMatrix4 DriftingGratingStimulus::getCurrentMVPMatrix(const GLKMatrix4 &projec
 }
 
 
+void DriftingGratingStimulus::setBlendEquation() {
+    if (!current_grating_is_mask) {
+        ColoredTransformStimulus::setBlendEquation();
+    } else {
+        // Blend by multiplying the destination color by the grating color
+        glBlendEquation(GL_FUNC_ADD);
+        glBlendFunc(GL_ZERO, GL_SRC_COLOR);
+    }
+}
+
+
 void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     boost::mutex::scoped_lock locker(stim_lock);
     
@@ -273,6 +295,7 @@ void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &
     
     gratingTypeUniformLocation = glGetUniformLocation(program, "gratingType");
     maskTypeUniformLocation = glGetUniformLocation(program, "maskType");
+    gratingIsMaskUniformLocation = glGetUniformLocation(program, "gratingIsMask");
     invertedUniformLocation = glGetUniformLocation(program, "inverted");
     stdDevUniformLocation = glGetUniformLocation(program, "stdDev");
     meanUniformLocation = glGetUniformLocation(program, "mean");
@@ -307,6 +330,7 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     
     glUniform1i(gratingTypeUniformLocation, int(current_grating_type));
     glUniform1i(maskTypeUniformLocation, int(current_mask_type));
+    glUniform1i(gratingIsMaskUniformLocation, current_grating_is_mask);
     glUniform1i(invertedUniformLocation, current_inverted);
     glUniform1f(stdDevUniformLocation, current_std_dev);
     glUniform1f(meanUniformLocation, current_mean);
@@ -384,8 +408,18 @@ void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> displ
     current_speed = speed->getValue().getFloat();
     current_grating_type_name = gratingTypeName->getValue().getString();
     current_grating_type = gratingTypeFromName(current_grating_type_name);
-    current_mask_type_name = maskTypeName->getValue().getString();
-    current_mask_type = maskTypeFromName(current_mask_type_name);
+    {
+        auto maskType = maskTypeName->getValue();
+        if (maskType.isString()) {
+            current_mask_type_name = maskType.getString();
+            current_mask_type = maskTypeFromName(current_mask_type_name);
+            current_grating_is_mask = false;
+        } else {
+            current_mask_type_name.clear();
+            current_mask_type = MaskType::rectangle;
+            current_grating_is_mask = maskType.getBool();
+        }
+    }
     current_inverted = inverted->getValue().getBool();
     current_std_dev = std_dev->getValue().getFloat();
     current_mean = mean->getValue().getFloat();
@@ -406,6 +440,7 @@ void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> displ
     last_grating_type = current_grating_type;
     last_mask_type_name = current_mask_type_name;
     last_mask_type = current_mask_type;
+    last_grating_is_mask = current_grating_is_mask;
     last_inverted = current_inverted;
     last_std_dev = current_std_dev;
     last_mean = current_mean;

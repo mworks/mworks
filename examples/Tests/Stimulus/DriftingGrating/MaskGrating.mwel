@@ -1,0 +1,46 @@
+%define size = 20
+
+var mask = false
+
+
+rectangle backdrop (
+    color = 1,0,0
+    x_size = size
+    )
+
+layer layer {
+    drifting_grating normal_grating (
+        spatial_frequency = 0.25
+        speed = 1
+        grating_type = sinusoid
+        x_size = size
+        autoplay = true
+        )
+
+    drifting_grating mask_grating (
+        spatial_frequency = 0.5
+        speed = 1
+        grating_type = sinusoid
+        direction = 90
+        mask = mask
+        x_size = size
+        autoplay = true
+        )
+}
+
+
+protocol {
+    queue_stimulus (backdrop)
+    queue_stimulus (normal_grating)
+    update_display ()
+    wait (5s)
+
+    dequeue_stimulus (normal_grating)
+    mask = false
+    live_queue_stimulus (layer)
+    update_display ()
+    wait (5s)
+
+    mask = true
+    wait (5s)
+}
