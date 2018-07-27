@@ -214,13 +214,20 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
 
          float normGratingCoord = mod(gratingVaryingCoord, 1.0);
          float gratingValue;
+         float halfDelta;
          switch (gratingType) {
              case sinusoidGrating:
                  gratingValue = 0.5*(1.0+cos(2.0*pi*normGratingCoord));
                  break;
                  
              case squareGrating:
-                 gratingValue = float(cos(2.0*pi*normGratingCoord) > 0.0);
+                 //
+                 // This is a smoothed version of the original equation, which was
+                 //   gratingValue = float(cos(2.0*pi*normGratingCoord) > 0.0);
+                 //
+                 halfDelta = fwidth(gratingVaryingCoord) / 2.0;
+                 gratingValue = ((1.0 - smoothstep(0.25 - halfDelta, 0.25 + halfDelta, normGratingCoord)) +
+                                 smoothstep(0.75 - halfDelta, 0.75 + halfDelta, normGratingCoord));
                  break;
                  
              case triangleGrating:
@@ -228,7 +235,14 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
                  break;
                  
              case sawtoothGrating:
-                 gratingValue = normGratingCoord;
+                 //
+                 // This is a smoothed version of the original equation, which was
+                 //   gratingValue = normGratingCoord;
+                 //
+                 halfDelta = fwidth(gratingVaryingCoord) / 2.0;
+                 gratingValue = (normGratingCoord
+                                 - smoothstep(1.0 - halfDelta, 1.0 + halfDelta, normGratingCoord)
+                                 + (1.0 - smoothstep(-halfDelta, halfDelta, normGratingCoord)));
                  break;
          }
          

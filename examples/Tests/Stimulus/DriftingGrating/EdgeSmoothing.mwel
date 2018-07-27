@@ -1,0 +1,38 @@
+var direction = 0
+
+%define grating (grating_type, x_position)
+    drifting_grating (
+        grating_type = grating_type
+        spatial_frequency = 1
+        speed = 1
+        direction = direction
+        x_size = 15
+        x_position = x_position
+        autoplay = true
+        )
+%end
+
+grating square (
+    grating_type = square
+    x_position = -10
+    )
+
+grating sawtooth (
+    grating_type = sawtooth
+    x_position = 10
+    )
+
+
+protocol {
+    report ('Both gratings should drift smoothly, with no visible jitter')
+
+    live_queue_stimulus (square)
+    live_queue_stimulus (sawtooth)
+    direction = 0
+    update_display ()
+
+    while (direction < 360) {
+        wait (5s)
+        direction += 45
+    }
+}
