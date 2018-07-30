@@ -9,7 +9,7 @@
         <stimulus_group tag="frames">
             <stimulus tag="bg" type="blank_screen" color="1,0,0"></stimulus>
         </stimulus_group>
-        <stimulus type="movie" tag="movie" frames_per_second="1" ended="movie_ended" loop="0"></stimulus>
+        <stimulus type="movie" tag="movie" ended="movie_ended" loop="0"></stimulus>
     </stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>
