@@ -136,12 +136,16 @@ def done_file(tag):
         fp.write('Done!\n')
 
 
+def always_download_file(url, filepath):
+    check_call(['/usr/bin/curl', '-#', '-L', '-f', '-o', filepath, url])
+
+
 def download_file(url, filename):
     filepath = downloaddir + '/' + filename
     if os.path.isfile(filepath):
         announce('Already downloaded file %r', filename)
     else:
-        check_call(['/usr/bin/curl', '-#', '-L', '-f', '-o', filepath, url])
+        always_download_file(url, filepath)
 
 
 def download_archive(url_path, filename):
@@ -259,6 +263,10 @@ def get_updated_env(
     return env
 
 
+def run_make(targets=[]):
+    check_call([make, '-j', num_cores] + targets)
+
+
 def run_configure_and_make(
     extra_args = [],
     command = ['./configure'],
@@ -292,7 +300,7 @@ def run_configure_and_make(
                               extra_cppflags),
         )
     
-    check_call([make, '-j', num_cores, 'install'])
+    run_make(['install'])
 
 
 def add_object_files_to_libpythonall(exclude=()):
@@ -313,6 +321,45 @@ def add_object_files_to_libpythonall(exclude=()):
 # Library builders
 #
 ################################################################################
+
+
+@builder
+def openssl(ios=True):
+    version = '1.1.0h'
+    srcdir = 'openssl-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('https://www.openssl.org/source/', tarfile)
+            unpack_tarfile(tarfile, srcdir)
+
+        openssl_builddir = os.path.join(builddir, 'openssl')
+        make_directory(openssl_builddir)
+
+        with workdir(openssl_builddir):
+            if building_for_ios:
+                assert os.environ['ARCHS'] == 'arm64'
+                config_name = 'ios64-cross'
+            else:
+                assert os.environ['ARCHS'] == 'x86_64'
+                config_name = 'darwin64-x86_64-cc'
+
+            env = get_clean_env()
+            env['AR'] = ar
+            env['CC'] = cc
+
+            check_call([
+                os.path.join(sourcedir, srcdir, 'Configure'),
+                config_name,
+                '--prefix=' + prefix,
+                'no-shared',
+                join_flags(compile_flags, cflags, '-std=gnu11'),
+                ],
+                env = env)
+
+            run_make()
+            run_make(['install_sw'])
 
 
 @builder
@@ -341,7 +388,10 @@ def python3(ios=True):
         make_directory(python3_builddir)
 
         with workdir(python3_builddir):
-            extra_args = ['--without-ensurepip']
+            extra_args = [
+                '--without-ensurepip',
+                '--with-openssl=' + prefix,
+                ]
             if building_for_ios:
                 extra_args += [
                     '--build=x86_64-apple-darwin',
@@ -359,6 +409,13 @@ def python3(ios=True):
 
             add_object_files_to_libpythonall(
                 exclude = ['_testembed.o', 'python.o']
+                )
+
+            # Generate list of trusted root certificates (for ssl module)
+            always_download_file(
+                url = 'https://mkcert.org/generate/',
+                filepath = os.path.join(os.environ['MW_PYTHON_3_STDLIB_DIR'],
+                                        'cacert.pem'),
                 )
 
 

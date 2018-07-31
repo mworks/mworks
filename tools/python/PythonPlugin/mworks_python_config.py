@@ -1,4 +1,5 @@
 from importlib.machinery import ExtensionFileLoader, ModuleSpec
+import os
 import sys
 
 from mworkscore import _StaticExtensionModuleFinder
@@ -6,6 +7,10 @@ from mworkscore import _StaticExtensionModuleFinder
 
 __all__ = ()
 
+
+#
+# Add finder for statically-linked extension modules
+#
 
 class StaticExtensionModuleFinder(_StaticExtensionModuleFinder):
 
@@ -19,9 +24,16 @@ class StaticExtensionModuleFinder(_StaticExtensionModuleFinder):
                               ExtensionFileLoader(fullname, self.path),
                               origin = self.path)
 
-
 sys.meta_path.append(StaticExtensionModuleFinder())
 
 # Need to import numpy.core.multiarray here.  Otherwise, the C _import_array
 # function won't be able to find it.
 import numpy.core.multiarray
+
+
+#
+# Tell OpenSSL where to find the list of trusted root certificates
+#
+
+os.environ['SSL_CERT_FILE'] = os.path.join(os.path.dirname(sys.path[0]),
+                                           'cacert.pem')

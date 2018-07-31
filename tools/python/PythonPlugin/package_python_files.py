@@ -1,5 +1,6 @@
 import os
 import py_compile
+import shutil
 import tempfile
 import zipfile
 
@@ -10,6 +11,11 @@ zipfile_path = os.path.join(os.environ['BUILT_PRODUCTS_DIR'],
                             os.environ['UNLOCALIZED_RESOURCES_FOLDER_PATH'],
                             'python%s%s.zip' % (os.environ['MW_PYTHON_3_VERSION_MAJOR'],
                                                 os.environ['MW_PYTHON_3_VERSION_MINOR']))
+
+cacert_file = 'cacert.pem'
+cacert_path = os.path.join(os.environ['BUILT_PRODUCTS_DIR'],
+                           os.environ['UNLOCALIZED_RESOURCES_FOLDER_PATH'],
+                           cacert_file)
 
 
 def add_file(fp, path):
@@ -53,3 +59,7 @@ if not os.path.isfile(zipfile_path):
 
         os.chdir(os.path.join(os.environ['SRCROOT'], 'PythonPlugin'))
         add_file(fp, 'mworks_python_config.py')
+
+# Ditto for root certificates file
+if not os.path.isfile(cacert_path):
+    shutil.copyfile(os.path.join(stdlib_path, cacert_file), cacert_path)
