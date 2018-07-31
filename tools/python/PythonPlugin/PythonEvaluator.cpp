@@ -301,6 +301,7 @@ PyObject * getGlobalsDict() {
         //
         // Initialize Python interpreter
         //
+        Py_NoSiteFlag = 1;  // Don't import the "site" module
         Py_InitializeEx(0);
         PyEval_InitThreads();
         BOOST_SCOPE_EXIT(void) {
