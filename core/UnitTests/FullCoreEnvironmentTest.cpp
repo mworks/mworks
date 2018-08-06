@@ -55,6 +55,7 @@ void FullCoreEnvironmentTestFixture::tearDown(){
 
 	StateSystem::destroy();
 	Scheduler::destroy();
+    Clock::instance()->stopClock();
 	Clock::destroy();
 }
 
