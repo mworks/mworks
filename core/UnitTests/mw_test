@@ -90,8 +90,13 @@ def run_unit_tests(arch_name, test_names=None):
         results = minidom.parse(output)
 
     failed_tests = results.getElementsByTagName('FailedTests')[0]
-    return [test.firstChild.data for test in
-            failed_tests.getElementsByTagName('Name')]
+    failed_tests = [test.firstChild.data for test in
+                    failed_tests.getElementsByTagName('Name')]
+
+    # Ensure consistent output order for test names
+    failed_tests.sort()
+
+    return failed_tests
 
 
 def iter_marionette_tests(top_dir=test_file_dir):

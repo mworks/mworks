@@ -10,6 +10,8 @@
 
 #include <unistd.h>
 
+#include <random>
+
 #include <cppunit/TextTestRunner.h>
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/TestCase.h>
@@ -42,6 +44,18 @@ public:
 };
 
 
+static void getTests(CppUnit::Test *testOrSuite, std::vector<CppUnit::Test *> &tests) {
+    for (int childIndex = 0; childIndex < testOrSuite->getChildTestCount(); childIndex++) {
+        auto childTest = testOrSuite->getChildTestAt(childIndex);
+        if (auto childSuite = dynamic_cast<CppUnit::TestSuite *>(childTest)) {
+            getTests(childSuite, tests);
+        } else {
+            tests.push_back(childTest);
+        }
+    }
+}
+
+
 int MWorksCoreTestMain(int argc, char *argv[]) {
     if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " results_file [test_name ...]" << std::endl;
@@ -64,15 +78,33 @@ int MWorksCoreTestMain(int argc, char *argv[]) {
     runner.eventManager().addListener( &listener );
     
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry("Unit Test");
-    runner.addTest( registry.makeTest() );
+    auto topLevelTest = registry.makeTest();
     
     bool returnval = true;
     if (argc > 2) {
+        // Add all tests and test suites to test runner
+        runner.addTest(topLevelTest);
+        
         // Run specified tests
         for (int i = 2; i < argc; i++) {
             returnval = runner.run( argv[i], false, false, false ) && returnval;
         }
     } else {
+        // Collect all tests (but not test suites)
+        std::vector<CppUnit::Test *> tests;
+        getTests(topLevelTest, tests);
+        
+        // Randomize test order to help catch unintended dependencies and bad interactions
+        // between components
+        std::random_device randDev;
+        std::mt19937 randGen(randDev());
+        std::shuffle(tests.begin(), tests.end(), randGen);
+        
+        // Add all tests to test runner
+        for (auto &test : tests) {
+            runner.addTest(test);
+        }
+        
         // Run all tests
         returnval = runner.run( "", false, false, false );
     }
