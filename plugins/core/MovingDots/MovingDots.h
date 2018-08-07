@@ -29,6 +29,7 @@ public:
     static const std::string COHERENCE;
     static const std::string LIFETIME;
     static const std::string ANNOUNCE_DOTS;
+    static const std::string RAND_SEED;
     
     static void describeComponent(ComponentInfo &info);
 
@@ -91,6 +92,7 @@ private:
     shared_ptr<Variable> coherence;
     shared_ptr<Variable> lifetime;
     shared_ptr<Variable> announceDots;
+    MWTime randSeed;
     
     GLfloat previousFieldRadius, currentFieldRadius;
     GLint previousNumDots, currentNumDots;

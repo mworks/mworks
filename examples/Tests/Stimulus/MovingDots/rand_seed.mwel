@@ -1,0 +1,69 @@
+stimulus_display (
+    background_color = 0,0,0
+    )
+
+
+%define dots (rand_seed)
+    moving_dots (
+        field_radius = 10
+        dot_density = 10
+        dot_size = 0.1
+        speed = 0
+        rand_seed = rand_seed
+        autoplay = true
+        )
+%end
+
+%define seed = 12345678
+
+dots dot_field_1 (rand_seed = seed)
+
+dots dot_field_2 (rand_seed = seed)
+
+dots dot_field_3 (rand_seed = seed + 1)
+
+
+%define cue_size = 1
+
+circle cue1 (
+    x_size = cue_size
+    x_position = -1.5 * cue_size
+    color = 0,1,0
+    )
+
+circle cue2 (
+    x_size = cue_size
+    x_position = 0
+    color = 0,1,0
+    )
+
+circle cue3 (
+    x_size = cue_size
+    x_position = 1.5 * cue_size
+    color = 1,0,0
+    )
+
+
+protocol {
+    queue_stimulus (dot_field_1)
+    queue_stimulus (cue1)
+    update_display ()
+    report ('New dot field')
+    wait (1s)
+
+    dequeue_stimulus (dot_field_1)
+    queue_stimulus (dot_field_2)
+    send_stimulus_to_back (dot_field_2)
+    queue_stimulus (cue2)
+    update_display ()
+    report ('Same dot field')
+    wait (1s)
+
+    dequeue_stimulus (dot_field_2)
+    queue_stimulus (dot_field_3)
+    send_stimulus_to_back (dot_field_3)
+    queue_stimulus (cue3)
+    update_display ()
+    report ('New dot field')
+    wait (1s)
+}

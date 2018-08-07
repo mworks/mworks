@@ -25,6 +25,7 @@ const std::string MovingDots::SPEED("speed");
 const std::string MovingDots::COHERENCE("coherence");
 const std::string MovingDots::LIFETIME("lifetime");
 const std::string MovingDots::ANNOUNCE_DOTS("announce_dots");
+const std::string MovingDots::RAND_SEED("rand_seed");
 
 
 void MovingDots::describeComponent(ComponentInfo &info) {
@@ -46,6 +47,7 @@ void MovingDots::describeComponent(ComponentInfo &info) {
     info.addParameter(COHERENCE, "1.0");
     info.addParameter(LIFETIME, "0.0");
     info.addParameter(ANNOUNCE_DOTS, "0");
+    info.addParameter(RAND_SEED, false);
 }
 
 
@@ -80,6 +82,13 @@ MovingDots::MovingDots(const ParameterValueMap &parameters) :
     red = registerVariable(color.getR());
     green = registerVariable(color.getG());
     blue = registerVariable(color.getB());
+    
+    if (parameters[RAND_SEED].empty()) {
+        randSeed = Clock::instance()->getSystemTimeNS();
+    } else {
+        randSeed = MWTime(parameters[RAND_SEED]);
+    }
+    randGen.seed(randSeed);
 }
 
 
@@ -151,6 +160,7 @@ Datum MovingDots::getCurrentAnnounceDrawData() {
     announceData.addElement(COHERENCE, currentCoherence);
     announceData.addElement(LIFETIME, currentLifetime);
     announceData.addElement("num_dots", long(currentNumDots));
+    announceData.addElement(RAND_SEED, randSeed);
     
     if (announceDots->getValue().getBool()) {
         Datum dotsData(reinterpret_cast<char *>(&(dotPositions[0])), dotPositions.size() * sizeof(GLfloat));

@@ -72,5 +72,10 @@ parameters:
         pair of values representing the (x,y) coordinates of a dot.  The
         coordinates are scaled to lie in the range [-1,1] and rotated so that
         the direction of coherent motion is zero degrees.
+  - 
+    name: rand_seed
+    description: >
+        Seed value for the random number generator.  If omitted, the current
+        system time in nanoseconds is used.
 
 
