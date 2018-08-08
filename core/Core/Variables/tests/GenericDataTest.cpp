@@ -1410,6 +1410,28 @@ void GenericDataTestFixture::testOperatorTimes() {
             }
         }
         
+        // and list
+        {
+            Datum::list_value_type list { Datum(1.5), Datum("foo") };
+            
+            // true
+            {
+                Datum d = Datum(true) * Datum(list);
+                CPPUNIT_ASSERT( d.isList() );
+                auto &items = d.getList();
+                CPPUNIT_ASSERT_EQUAL( 2, int(items.size()) );
+                CPPUNIT_ASSERT_EQUAL( 1.5, items.at(0).getFloat() );
+                CPPUNIT_ASSERT_EQUAL( std::string("foo"), items.at(1).getString() );
+            }
+            
+            // false
+            {
+                Datum d = Datum(false) * Datum(list);
+                CPPUNIT_ASSERT( d.isList() );
+                CPPUNIT_ASSERT( d.getList().empty() );
+            }
+        }
+        
         // and other
         {
             Datum d = Datum(true) * Datum(Datum::dict_value_type());
@@ -1471,6 +1493,48 @@ void GenericDataTestFixture::testOperatorTimes() {
                 Datum d = Datum(2) * Datum("abc");
                 CPPUNIT_ASSERT( d.isString() );
                 CPPUNIT_ASSERT_EQUAL( std::string("abcabc"), d.getString() );
+            }
+        }
+        
+        // and list
+        {
+            Datum::list_value_type list { Datum(1.5), Datum("foo") };
+            
+            // < 0
+            {
+                Datum d = Datum(-1) * Datum(list);
+                CPPUNIT_ASSERT( d.isInteger() );
+                CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+                assertError("ERROR: Cannot multiply list by negative integer");
+            }
+            
+            // == 0
+            {
+                Datum d = Datum(0) * Datum(list);
+                CPPUNIT_ASSERT( d.isList() );
+                CPPUNIT_ASSERT( d.getList().empty() );
+            }
+            
+            // == 1
+            {
+                Datum d = Datum(1) * Datum(list);
+                CPPUNIT_ASSERT( d.isList() );
+                auto &items = d.getList();
+                CPPUNIT_ASSERT_EQUAL( 2, int(items.size()) );
+                CPPUNIT_ASSERT_EQUAL( 1.5, items.at(0).getFloat() );
+                CPPUNIT_ASSERT_EQUAL( std::string("foo"), items.at(1).getString() );
+            }
+            
+            // > 1
+            {
+                Datum d = Datum(2) * Datum(list);
+                CPPUNIT_ASSERT( d.isList() );
+                auto &items = d.getList();
+                CPPUNIT_ASSERT_EQUAL( 4, int(items.size()) );
+                CPPUNIT_ASSERT_EQUAL( 1.5, items.at(0).getFloat() );
+                CPPUNIT_ASSERT_EQUAL( std::string("foo"), items.at(1).getString() );
+                CPPUNIT_ASSERT_EQUAL( 1.5, items.at(2).getFloat() );
+                CPPUNIT_ASSERT_EQUAL( std::string("foo"), items.at(3).getString() );
             }
         }
         
@@ -1572,6 +1636,79 @@ void GenericDataTestFixture::testOperatorTimes() {
             CPPUNIT_ASSERT( d.isInteger() );
             CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
             assertError("ERROR: Cannot multiply string and float");
+        }
+    }
+    
+    // List
+    {
+        Datum::list_value_type list { Datum(1.5), Datum("foo") };
+        
+        // and boolean
+        {
+            // true
+            {
+                Datum d = Datum(list) * Datum(true);
+                CPPUNIT_ASSERT( d.isList() );
+                auto &items = d.getList();
+                CPPUNIT_ASSERT_EQUAL( 2, int(items.size()) );
+                CPPUNIT_ASSERT_EQUAL( 1.5, items.at(0).getFloat() );
+                CPPUNIT_ASSERT_EQUAL( std::string("foo"), items.at(1).getString() );
+            }
+            
+            // false
+            {
+                Datum d = Datum(list) * Datum(false);
+                CPPUNIT_ASSERT( d.isList() );
+                CPPUNIT_ASSERT( d.getList().empty() );
+            }
+        }
+        
+        // and integer
+        {
+            // < 0
+            {
+                Datum d = Datum(list) * Datum(-1);
+                CPPUNIT_ASSERT( d.isInteger() );
+                CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+                assertError("ERROR: Cannot multiply list by negative integer");
+            }
+            
+            // == 0
+            {
+                Datum d = Datum(list) * Datum(0);
+                CPPUNIT_ASSERT( d.isList() );
+                CPPUNIT_ASSERT( d.getList().empty() );
+            }
+            
+            // == 1
+            {
+                Datum d = Datum(list) * Datum(1);
+                CPPUNIT_ASSERT( d.isList() );
+                auto &items = d.getList();
+                CPPUNIT_ASSERT_EQUAL( 2, int(items.size()) );
+                CPPUNIT_ASSERT_EQUAL( 1.5, items.at(0).getFloat() );
+                CPPUNIT_ASSERT_EQUAL( std::string("foo"), items.at(1).getString() );
+            }
+            
+            // > 1
+            {
+                Datum d = Datum(list) * Datum(2);
+                CPPUNIT_ASSERT( d.isList() );
+                auto &items = d.getList();
+                CPPUNIT_ASSERT_EQUAL( 4, int(items.size()) );
+                CPPUNIT_ASSERT_EQUAL( 1.5, items.at(0).getFloat() );
+                CPPUNIT_ASSERT_EQUAL( std::string("foo"), items.at(1).getString() );
+                CPPUNIT_ASSERT_EQUAL( 1.5, items.at(2).getFloat() );
+                CPPUNIT_ASSERT_EQUAL( std::string("foo"), items.at(3).getString() );
+            }
+        }
+        
+        // and other
+        {
+            Datum d = Datum(list) * Datum(1.5);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot multiply list and float");
         }
     }
     

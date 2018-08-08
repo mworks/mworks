@@ -960,6 +960,24 @@ static Datum multiplyStringAndInteger(const std::string &stringValue, long long 
 }
 
 
+static Datum multiplyListAndInteger(const Datum::list_value_type &listValue, long long intValue) {
+    if (intValue < 0) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN,
+               "Cannot multiply %s by negative %s",
+               Datum::getDataTypeName(M_LIST),
+               Datum::getDataTypeName(M_INTEGER));
+        return 0;
+    }
+    
+    Datum::list_value_type result;
+    for (long long i = 0; i < intValue; i++) {
+        result.insert(result.end(), listValue.begin(), listValue.end());
+    }
+    
+    return Datum(result);
+}
+
+
 Datum Datum::operator*(const Datum& other) const {
     if (isInteger()) {
         if (other.isInteger()) {
@@ -968,6 +986,8 @@ Datum Datum::operator*(const Datum& other) const {
             return getInteger() * (double)other;
         } else if (other.isString()) {
             return multiplyStringAndInteger(other.getString(), getInteger());
+        } else if (other.isList()) {
+            return multiplyListAndInteger(other.getList(), getInteger());
         }
     } else if (isFloat()) {
         if (other.isInteger()) {
@@ -978,6 +998,10 @@ Datum Datum::operator*(const Datum& other) const {
     } else if (isString()) {
         if (other.isInteger()) {
             return multiplyStringAndInteger(getString(), other.getInteger());
+        }
+    } else if (isList()) {
+        if (other.isInteger()) {
+            return multiplyListAndInteger(getList(), other.getInteger());
         }
     }
     
