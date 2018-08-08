@@ -128,7 +128,8 @@ public:
      */
     
     GenericDataType getDataType() const { return datatype; }
-    const char * getDataTypeName() const;
+    static const char * getDataTypeName(GenericDataType datatype);
+    const char * getDataTypeName() const { return getDataTypeName(datatype); }
     
     bool isInteger() const { return ((datatype == M_INTEGER) || isBool()); }
     bool isFloat() const { return (datatype == M_FLOAT); }

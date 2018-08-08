@@ -298,7 +298,7 @@ Datum::Datum(GenericDataType type, double arg) :
 }
 
 
-const char * Datum::getDataTypeName() const {
+const char * Datum::getDataTypeName(GenericDataType datatype) {
     switch (datatype) {
         case M_INTEGER:
             return "integer";
@@ -942,18 +942,42 @@ Datum Datum::operator-(const Datum& other) const {
 }
 
 
+static Datum multiplyStringAndInteger(const std::string &stringValue, long long intValue) {
+    if (intValue < 0) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN,
+               "Cannot multiply %s by negative %s",
+               Datum::getDataTypeName(M_STRING),
+               Datum::getDataTypeName(M_INTEGER));
+        return 0;
+    }
+    
+    std::string result;
+    for (long long i = 0; i < intValue; i++) {
+        result.append(stringValue);
+    }
+    
+    return Datum(result);
+}
+
+
 Datum Datum::operator*(const Datum& other) const {
     if (isInteger()) {
         if (other.isInteger()) {
             return getInteger() * (long long)other;
         } else if (other.isFloat()) {
             return getInteger() * (double)other;
+        } else if (other.isString()) {
+            return multiplyStringAndInteger(other.getString(), getInteger());
         }
     } else if (isFloat()) {
         if (other.isInteger()) {
             return getFloat() * (long long)other;
         } else if (other.isFloat()) {
             return getFloat() * (double)other;
+        }
+    } else if (isString()) {
+        if (other.isInteger()) {
+            return multiplyStringAndInteger(getString(), other.getInteger());
         }
     }
     

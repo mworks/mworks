@@ -1393,12 +1393,29 @@ void GenericDataTestFixture::testOperatorTimes() {
             CPPUNIT_ASSERT_EQUAL( 1.5, d.getFloat() );
         }
         
+        // and string
+        {
+            // true
+            {
+                Datum d = Datum(true) * Datum("abc");
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT_EQUAL( std::string("abc"), d.getString() );
+            }
+            
+            // false
+            {
+                Datum d = Datum(false) * Datum("abc");
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT( d.getString().empty() );
+            }
+        }
+        
         // and other
         {
-            Datum d = Datum(true) * Datum("foo");
+            Datum d = Datum(true) * Datum(Datum::dict_value_type());
             CPPUNIT_ASSERT( d.isInteger() );
             CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
-            assertError("ERROR: Cannot multiply boolean and string");
+            assertError("ERROR: Cannot multiply boolean and dictionary");
         }
     }
     
@@ -1425,12 +1442,44 @@ void GenericDataTestFixture::testOperatorTimes() {
             CPPUNIT_ASSERT_EQUAL( 4.5, d.getFloat() );
         }
         
+        // and string
+        {
+            // < 0
+            {
+                Datum d = Datum(-1) * Datum("abc");
+                CPPUNIT_ASSERT( d.isInteger() );
+                CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+                assertError("ERROR: Cannot multiply string by negative integer");
+            }
+            
+            // == 0
+            {
+                Datum d = Datum(0) * Datum("abc");
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT( d.getString().empty() );
+            }
+            
+            // == 1
+            {
+                Datum d = Datum(1) * Datum("abc");
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT_EQUAL( std::string("abc"), d.getString() );
+            }
+            
+            // > 1
+            {
+                Datum d = Datum(2) * Datum("abc");
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT_EQUAL( std::string("abcabc"), d.getString() );
+            }
+        }
+        
         // and other
         {
-            Datum d = Datum(3) * Datum("foo");
+            Datum d = Datum(3) * Datum(Datum::dict_value_type());
             CPPUNIT_ASSERT( d.isInteger() );
             CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
-            assertError("ERROR: Cannot multiply integer and string");
+            assertError("ERROR: Cannot multiply integer and dictionary");
         }
     }
     
@@ -1466,12 +1515,72 @@ void GenericDataTestFixture::testOperatorTimes() {
         }
     }
     
+    // String
+    {
+        // and boolean
+        {
+            // true
+            {
+                Datum d = Datum("abc") * Datum(true);
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT_EQUAL( std::string("abc"), d.getString() );
+            }
+            
+            // false
+            {
+                Datum d = Datum("abc") * Datum(false);
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT( d.getString().empty() );
+            }
+        }
+        
+        // and integer
+        {
+            // < 0
+            {
+                Datum d = Datum("abc") * Datum(-1);
+                CPPUNIT_ASSERT( d.isInteger() );
+                CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+                assertError("ERROR: Cannot multiply string by negative integer");
+            }
+            
+            // == 0
+            {
+                Datum d = Datum("abc") * Datum(0);
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT( d.getString().empty() );
+            }
+            
+            // == 1
+            {
+                Datum d = Datum("abc") * Datum(1);
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT_EQUAL( std::string("abc"), d.getString() );
+            }
+            
+            // > 1
+            {
+                Datum d = Datum("abc") * Datum(2);
+                CPPUNIT_ASSERT( d.isString() );
+                CPPUNIT_ASSERT_EQUAL( std::string("abcabc"), d.getString() );
+            }
+        }
+        
+        // and other
+        {
+            Datum d = Datum("abc") * Datum(1.5);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot multiply string and float");
+        }
+    }
+    
     // Other
     {
-        Datum d = Datum("foo") * Datum(1);
+        Datum d = Datum(Datum::dict_value_type()) * Datum(1);
         CPPUNIT_ASSERT( d.isInteger() );
         CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
-        assertError("ERROR: Cannot multiply string and integer");
+        assertError("ERROR: Cannot multiply dictionary and integer");
     }
 }
 
