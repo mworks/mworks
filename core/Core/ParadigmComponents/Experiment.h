@@ -144,7 +144,6 @@
 BEGIN_NAMESPACE_MW
 
 
-extern void setCurrentExperiment(Experiment *exp);
 extern shared_ptr<Experiment> GlobalCurrentExperiment;
 
 enum{M_INFO, M_STATUS};
@@ -166,6 +165,7 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
         
 		// An abstract stimulus display associated with this experiment
 		shared_ptr<StimulusDisplay> stimulus_display;
+        std::once_flag stimulusDisplayCreated;
         
 		int n_protocols; 
 		
@@ -175,10 +175,8 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
         std::string workingPath;
     
         std::string currentSavedVariablesFile;
-		
-		// Private methods to log changes in variable values
-		void logChange(Variable *variable, const Datum& data);
-		void logChange(Variable *variable, const Datum& data, MWTime timeUS);
+    
+        void prepareStimulusDisplay();
         			
     public:
 		Experiment(shared_ptr<VariableRegistry> variable_reg);
@@ -242,8 +240,7 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		
 		// Accessors for stimulus display
 	    shared_ptr<StimulusDisplay> getStimulusDisplay();
-        void setStimulusDisplay(shared_ptr<StimulusDisplay> newdisplay);
-        
+    
 
 		// Current mw::Protocol
 	    void setCurrentProtocol(unsigned int protocol_number);
@@ -285,21 +282,22 @@ class ExperimentFactory : public ComponentFactory {
     shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
                                            ComponentRegistry *reg) override
     {
-		GlobalCurrentExperiment = shared_ptr<Experiment>(new Experiment(global_variable_registry));
-	
-		// TODO
-		// Not sure if this is okay order-wise...
-		// This may need to be a separate parser directive
-		//GlobalCurrentExperiment->createVariableContexts();
-		prepareStimulusDisplay();
-		
-		shared_ptr<mw::Component> experiment = boost::dynamic_pointer_cast<mw::Component, Experiment>(GlobalCurrentExperiment);		
+        auto experiment = boost::make_shared<Experiment>(global_variable_registry);
 		
 		if(!parameters["tag"].empty()){
-			GlobalCurrentExperiment->setExperimentName(parameters["tag"]);
+			experiment->setExperimentName(parameters["tag"]);
 		}
         
-        GlobalCurrentExperiment->setWorkingPath(parameters["working_path"]);
+        experiment->setWorkingPath(parameters["working_path"]);
+        
+#if TARGET_OS_IPHONE
+        // On iOS, create the StimulusDisplay instance unconditionally, even if the experiment
+        // doesn't use it.  The app uses the entire display in any case, and this saves us the
+        // trouble of finding some other way to alert the user that an experiment is loaded.
+        experiment->getStimulusDisplay();
+#endif
+        
+        GlobalCurrentExperiment = experiment;
         
 		return experiment;
 	}

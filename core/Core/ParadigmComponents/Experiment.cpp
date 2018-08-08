@@ -1,10 +1,12 @@
 #include "Experiment.h"
-#include "EventBuffer.h"
+
+#include "ComponentRegistry.h"
 #include "Event.h"
-#include "SystemEventFactory.h"
+#include "EventBuffer.h"
 #include "ExpressionVariable.h"
+#include "OpenGLContextManager.h"
 #include "StimulusDisplay.h"
-//#include "UserData.h"
+#include "SystemEventFactory.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -45,12 +47,12 @@ void Experiment::createVariableContexts(){
 	
 }
 
-shared_ptr<StimulusDisplay> Experiment::getStimulusDisplay() {
-    return stimulus_display;
-}
 
-void Experiment::setStimulusDisplay(shared_ptr<StimulusDisplay> newdisplay) {
-    stimulus_display = newdisplay;
+shared_ptr<StimulusDisplay> Experiment::getStimulusDisplay() {
+    std::call_once(stimulusDisplayCreated, [this]() {
+        prepareStimulusDisplay();
+    });
+    return stimulus_display;
 }
 
 
@@ -174,15 +176,6 @@ shared_ptr<VariableRegistry> Experiment::getVariableRegistry() {
 }
 
 
-void setCurrentExperiment(shared_ptr<Experiment> exp) {
-	if(exp != NULL) {
-		GlobalCurrentExperiment = exp;
-	} else {
-		merror(M_PARADIGM_MESSAGE_DOMAIN,
-			   "Attempt to set current experiment to null");
-	}
-}
-
 void Experiment::setExperimentName(std::string n){
 	experimentName = n;
 	setName(experimentName);
@@ -206,4 +199,97 @@ std::string Experiment::getExperimentDirectory() {
 }
 
 
+void Experiment::prepareStimulusDisplay() {
+    auto opengl_context_manager = OpenGLContextManager::instance(false);
+    if (!opengl_context_manager) {
+        opengl_context_manager = OpenGLContextManager::createPlatformOpenGLContextManager();
+        OpenGLContextManager::registerInstance(opengl_context_manager);
+    }
+    
+    bool always_display_mirror_window = false;
+    int display_to_use = 0;
+    bool announce_individual_stimuli = true;
+    bool render_at_full_resolution = true;
+    bool use_color_management = true;
+    bool make_window_opaque = true;
+    
+    if (auto main_screen_info = ComponentRegistry::getSharedRegistry()->getVariable(MAIN_SCREEN_INFO_TAGNAME)) {
+        Datum val = *(main_screen_info);
+        
+        if (val.hasKey(M_DISPLAY_TO_USE_KEY)) {
+            display_to_use = (int)val.getElement(M_DISPLAY_TO_USE_KEY);
+        }
+        
+        if (val.hasKey(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY)) {
+            always_display_mirror_window = (bool)val.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY);
+        }
+        
+        if (val.hasKey(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY)) {
+            announce_individual_stimuli = (bool)val.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY);
+        }
+        
+        if (val.hasKey(M_RENDER_AT_FULL_RESOLUTION_KEY)) {
+            render_at_full_resolution = (bool)val.getElement(M_RENDER_AT_FULL_RESOLUTION_KEY);
+        }
+        
+        if (val.hasKey(M_USE_COLOR_MANAGEMENT_KEY)) {
+            use_color_management = (bool)val.getElement(M_USE_COLOR_MANAGEMENT_KEY);
+        }
+        
+        if (val.hasKey(M_MAKE_WINDOW_OPAQUE_KEY)) {
+            make_window_opaque = (bool)val.getElement(M_MAKE_WINDOW_OPAQUE_KEY);
+        }
+    }
+    
+    stimulus_display = StimulusDisplay::createPlatformStimulusDisplay(announce_individual_stimuli,
+                                                                      use_color_management);
+    
+    if (display_to_use >= 0 && (opengl_context_manager->getNumDisplays() > 1 || display_to_use == 0)) {
+        if (display_to_use >= opengl_context_manager->getNumDisplays()) {
+            merror(M_SERVER_MESSAGE_DOMAIN,
+                   "Requested display index (%d) is greater than the number of displays (%d).  "
+                   "Using default display.",
+                   display_to_use,
+                   opengl_context_manager->getNumDisplays());
+            display_to_use = 1;
+        }
+        
+        auto new_context = opengl_context_manager->newFullscreenContext(display_to_use,
+                                                                        render_at_full_resolution,
+                                                                        make_window_opaque);
+        stimulus_display->addContext(new_context);
+        
+        if (always_display_mirror_window) {
+            auto auxilliary_context = opengl_context_manager->newMirrorContext(render_at_full_resolution);
+            stimulus_display->addContext(auxilliary_context);
+        }
+    } else {
+        auto new_context = opengl_context_manager->newMirrorContext(render_at_full_resolution);
+        stimulus_display->addContext(new_context);
+    }
+    
+    stimulus_display->clearDisplay();
+}
+
+
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
