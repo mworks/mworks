@@ -1,35 +1,13 @@
-diff -ur numpy-1.14.5/numpy/core/setup.py numpy/numpy/core/setup.py
---- numpy-1.14.5/numpy/core/setup.py	2018-06-12 17:28:52.000000000 -0400
-+++ numpy/numpy/core/setup.py	2018-07-18 11:26:22.000000000 -0400
-@@ -844,8 +844,8 @@
-         multiarray_src.extend([join('src', 'multiarray', 'cblasfuncs.c'),
-                                join('src', 'multiarray', 'python_xerbla.c'),
-                                ])
--        if uses_accelerate_framework(blas_info):
--            multiarray_src.extend(get_sgemv_fix())
-+        #if uses_accelerate_framework(blas_info):
-+        #    multiarray_src.extend(get_sgemv_fix())
-     else:
-         extra_info = {}
+diff -ur numpy-1.15.0/numpy/distutils/system_info.py numpy/numpy/distutils/system_info.py
+--- numpy-1.15.0/numpy/distutils/system_info.py	2018-07-23 08:27:00.000000000 -0400
++++ numpy/numpy/distutils/system_info.py	2018-08-09 10:20:28.000000000 -0400
+@@ -1892,7 +1892,8 @@
+         libraries = [lib.strip().lower() for lib in libraries]
  
-diff -ur numpy-1.14.5/numpy/core/src/multiarray/strfuncs.c numpy/numpy/core/src/multiarray/strfuncs.c
---- numpy-1.14.5/numpy/core/src/multiarray/strfuncs.c	2018-06-12 17:28:52.000000000 -0400
-+++ numpy/numpy/core/src/multiarray/strfuncs.c	2018-07-13 12:54:20.000000000 -0400
-@@ -41,7 +41,7 @@
-  * XXX we do this in multiple places; time for a string library?
-  */
- static char *
--extend(char **strp, Py_ssize_t n, Py_ssize_t *maxp)
-+extend_(char **strp, Py_ssize_t n, Py_ssize_t *maxp)
- {
-     char *str = *strp;
-     Py_ssize_t new_cap;
-@@ -71,7 +71,7 @@
-     npy_intp i, N, ret = 0;
- 
- #define CHECK_MEMORY do {                           \
--        if (extend(string, *n, max_n) == NULL) {    \
-+        if (extend_(string, *n, max_n) == NULL) {    \
-             ret = -1;                               \
-             goto end;                               \
-         }                                           \
+         if (sys.platform == 'darwin' and
+-                not os.getenv('_PYTHON_HOST_PLATFORM', None)):
++                #not os.getenv('_PYTHON_HOST_PLATFORM', None)):
++                True):
+             # Use the system BLAS from Accelerate or vecLib under OSX
+             args = []
+             link_args = []
