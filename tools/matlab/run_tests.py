@@ -24,7 +24,7 @@ mw_developer_dir = os.environ.get(
 
 mw_matlab_dir = os.environ.get(
     'MW_MATLAB_DIR',
-    '/Library/Application Support/MWorks/Scripting/Matlab',
+    '/Library/Application Support/MWorks/Scripting/MATLAB',
     )
 
 
