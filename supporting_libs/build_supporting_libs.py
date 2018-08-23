@@ -325,7 +325,7 @@ def add_object_files_to_libpythonall(exclude=()):
 
 @builder
 def openssl(ios=True):
-    version = '1.1.0h'
+    version = '1.1.0i'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -421,7 +421,7 @@ def python3(ios=True):
 
 @builder
 def numpy3(ios=True):
-    version = '1.15.0'
+    version = '1.15.1'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -549,7 +549,7 @@ def zeromq(ios=True):
 
 @builder
 def msgpack(ios=True):
-    version = '3.0.1'
+    version = '3.1.0'
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
 
