@@ -577,6 +577,24 @@ def libxslt(macos=False, ios=True):
 
 
 @builder
+def sqlite(ios=True):
+    version = '3260000'
+    srcdir = 'sqlite-autoconf-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('https://sqlite.org/2018/', tarfile)
+            unpack_tarfile(tarfile, srcdir)
+
+        with workdir(srcdir):
+            run_configure_and_make(
+                extra_compile_flags = ('-DSQLITE_NOHAVE_SYSTEM'
+                                       if building_for_ios else ''),
+                )
+
+
+@builder
 def cppunit():
     version = '1.14.0'
     srcdir = 'cppunit-' + version
