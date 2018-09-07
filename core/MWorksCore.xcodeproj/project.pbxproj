@@ -699,6 +699,13 @@
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 		E1F82A5E1E53532E00A2690B /* IOSOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F82A5C1E53532E00A2690B /* IOSOpenGLContextManager.cpp */; };
 		E1F82A5F1E53532E00A2690B /* IOSOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1FE64112142BEB700209279 /* MWK2File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1FE640F2142BEB700209279 /* MWK2File.cpp */; };
+		E1FE64122142BEB700209279 /* MWK2File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1FE640F2142BEB700209279 /* MWK2File.cpp */; };
+		E1FE64132142BEB700209279 /* MWK2File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1FE64102142BEB700209279 /* MWK2File.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1FE64142142BEB700209279 /* MWK2File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1FE64102142BEB700209279 /* MWK2File.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1FE64172142BF3000209279 /* MWK2FileTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1FE64152142BF3000209279 /* MWK2FileTests.cpp */; };
+		E1FE64182142BF3000209279 /* MWK2FileTests.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1FE64162142BF3000209279 /* MWK2FileTests.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1FE641A2142C3CE00209279 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FE64192142C3CE00209279 /* libsqlite3.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1312,6 +1319,11 @@
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 		E1F82A5C1E53532E00A2690B /* IOSOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = IOSOpenGLContextManager.cpp; sourceTree = "<group>"; };
 		E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IOSOpenGLContextManager.hpp; sourceTree = "<group>"; };
+		E1FE640F2142BEB700209279 /* MWK2File.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MWK2File.cpp; sourceTree = "<group>"; };
+		E1FE64102142BEB700209279 /* MWK2File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MWK2File.hpp; sourceTree = "<group>"; };
+		E1FE64152142BF3000209279 /* MWK2FileTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MWK2FileTests.cpp; sourceTree = "<group>"; };
+		E1FE64162142BF3000209279 /* MWK2FileTests.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MWK2FileTests.hpp; sourceTree = "<group>"; };
+		E1FE64192142C3CE00209279 /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "/Library/Application Support/MWorks/Developer/lib/libsqlite3.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1394,6 +1406,7 @@
 				E1DB975716C16C7F001481E9 /* libboost_thread.a in Frameworks */,
 				E1DB975B16C16C8D001481E9 /* libboost_system.a in Frameworks */,
 				E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */,
+				E1FE641A2142C3CE00209279 /* libsqlite3.a in Frameworks */,
 				E13B07EE1E2929590071347C /* libxml2.tbd in Frameworks */,
 				E13B07F01E2929620071347C /* libxslt.tbd in Frameworks */,
 				E188BE8D1D47B5D00001483A /* libzmq.a in Frameworks */,
@@ -1723,6 +1736,8 @@
 			children = (
 				0EDB6FB00B2F1B9F00C60ED8 /* DataFileTest.h */,
 				0EDB6FAF0B2F1B9F00C60ED8 /* DataFileTest.cpp */,
+				E1FE64162142BF3000209279 /* MWK2FileTests.hpp */,
+				E1FE64152142BF3000209279 /* MWK2FileTests.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -2297,6 +2312,8 @@
 				5C4D254309DCBADB0082BF9F /* tests */,
 				DA2CE11D07E9F86300C68AEF /* DataFileManager.h */,
 				DA2CE11C07E9F86300C68AEF /* DataFileManager.cpp */,
+				E1FE64102142BEB700209279 /* MWK2File.hpp */,
+				E1FE640F2142BEB700209279 /* MWK2File.cpp */,
 			);
 			name = DataFiles;
 			path = Core/DataFiles;
@@ -2446,6 +2463,7 @@
 				E1DB975616C16C7F001481E9 /* libboost_thread.a */,
 				E1DB978516C18FE0001481E9 /* libcppunit.a */,
 				E1DB976616C16CC9001481E9 /* libscarab.a */,
+				E1FE64192142C3CE00209279 /* libsqlite3.a */,
 				E188BE8C1D47B5D00001483A /* libzmq.a */,
 			);
 			name = Project;
@@ -2467,6 +2485,7 @@
 				0E7E9FCC0A75502600E20898 /* GenericDataTest.h in Headers */,
 				5CBFD7600AC04587007AB1A9 /* FullCoreEnvironmentTest.h in Headers */,
 				0E4A1DB40B1F2B7700643235 /* PlatformDependentServicesTest.h in Headers */,
+				E1FE64182142BF3000209279 /* MWK2FileTests.hpp in Headers */,
 				0EDB6FB20B2F1B9F00C60ED8 /* DataFileTest.h in Headers */,
 				5CE65B9B0B619FF70060AB37 /* LinkedListTest.h in Headers */,
 				5C7720420B6972C7008DC497 /* ScarabFileTest.h in Headers */,
@@ -2510,6 +2529,7 @@
 				DA2CE12507E9F88900C68AEF /* Buffers.h in Headers */,
 				DA2CE12707E9F88900C68AEF /* Event.h in Headers */,
 				DA2CE12B07E9F8B200C68AEF /* LoadingUtilities.h in Headers */,
+				E1FE64132142BEB700209279 /* MWK2File.hpp in Headers */,
 				DA2CE16707E9F92D00C68AEF /* ScarabConnection.h in Headers */,
 				DA2CE16B07E9F92D00C68AEF /* ScarabWriteConnection.h in Headers */,
 				DA2CE17F07E9F93900C68AEF /* BlockAndProtocol.h in Headers */,
@@ -2742,6 +2762,7 @@
 				E179171C1E4E53C200528B91 /* TrialBuildingBlocks.h in Headers */,
 				E17917741E4E565E00528B91 /* OpenGLContextManager.h in Headers */,
 				E1F82A5F1E53532E00A2690B /* IOSOpenGLContextManager.hpp in Headers */,
+				E1FE64142142BEB700209279 /* MWK2File.hpp in Headers */,
 				E17916F61E4E528F00528B91 /* CoreBuilderForeman.h in Headers */,
 				E179172D1E4E540D00528B91 /* SequentialSelection.h in Headers */,
 				E17917441E4E54DC00528B91 /* Map.h in Headers */,
@@ -3246,6 +3267,7 @@
 				5CE04BD70BB0724700263274 /* SchedulerTest.cpp in Sources */,
 				5C6DC28E0BCDE16C00C3C57A /* ExpandableListTest.cpp in Sources */,
 				0EC851C00C1DE69B0075F742 /* ScopedVariableTest.cpp in Sources */,
+				E1FE64172142BF3000209279 /* MWK2FileTests.cpp in Sources */,
 				0EC2F0860C84F66000E47ED8 /* VariablePropertiesTest.cpp in Sources */,
 				681F79240CA97E3E00F2F133 /* SelectionVariableTest.cpp in Sources */,
 				E1BC637D1D51001900745034 /* ZeroMQSocketTests.cpp in Sources */,
@@ -3353,6 +3375,7 @@
 				DA871F2709995B180084304E /* StandardClientCoreBuilder.cpp in Sources */,
 				E179169D1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp in Sources */,
 				5C71CD6C09AA507700EAD886 /* GlobalVariable.cpp in Sources */,
+				E1FE64112142BEB700209279 /* MWK2File.cpp in Sources */,
 				5C71CD6E09AA507700EAD886 /* ExpressionVariable.cpp in Sources */,
 				5C0C4A8709B64DAD0021D3CC /* SelectionVariable.cpp in Sources */,
 				5C08412509D596F800E4D2F4 /* TestBedCoreBuilder.cpp in Sources */,
@@ -3432,6 +3455,7 @@
 				E17916AF1E4E509900528B91 /* ScarabServices.cpp in Sources */,
 				E17916C01E4E511400528B91 /* VariableSave.cpp in Sources */,
 				E17916E01E4E51C900528B91 /* Buffers.cpp in Sources */,
+				E1FE64122142BEB700209279 /* MWK2File.cpp in Sources */,
 				E17916C61E4E512C00528B91 /* GenericVariable.cpp in Sources */,
 				E17917651E4E55DD00528B91 /* IODevice.cpp in Sources */,
 				E17916B81E4E50D800528B91 /* ZeroMQServer.cpp in Sources */,
@@ -3827,6 +3851,7 @@
 					"-lboost_system",
 					"-lboost_thread",
 					"-lscarab",
+					"-lsqlite3",
 					"-lxml2",
 					"-lxslt",
 					"-lzmq",
