@@ -11,6 +11,7 @@
 #include <string>
 
 #include <boost/noncopyable.hpp>
+#define MSGPACK_DISABLE_LEGACY_NIL
 #include <msgpack.hpp>
 #include <sqlite3.h>
 

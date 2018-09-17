@@ -9,16 +9,11 @@
  * Copyright (c) 2004 MIT. All rights reserved.
  */
 
-#include "Experiment.h"
-#include "Event.h"
 #include "DataFileManager.h"
-#include "Utilities.h"
-#include "ScarabServices.h"
-#include <string>
-#include "SystemEventFactory.h"
-#include "EventBuffer.h"
+
+#include <boost/filesystem/convenience.hpp>
+
 #include "PlatformDependentServices.h"
-#include "boost/filesystem/convenience.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -27,65 +22,64 @@ BEGIN_NAMESPACE_MW
 DataFileManager *GlobalDataFileManager;
 
 
-DataFileManager::DataFileManager() {
-	
-	
-    scarab_connection = shared_ptr<ScarabWriteConnection>();
-    //session = NULL;
-    file_open = false;
-	
+DataFileManager::DataFileManager() :
+    running(false)
+{ }
+
+
+DataFileManager::~DataFileManager() {
+    if (eventHandlerThread.joinable()) {
+        running = false;
+        eventHandlerThread.join();
+    }
 }
 
-DataFileManager::~DataFileManager() { }
 
 int DataFileManager::openFile(const Datum &oeDatum) {
-	std::string dFile(oeDatum.getElement(DATA_FILE_FILENAME).getString());
- DatumFileOptions opt = (DatumFileOptions)oeDatum.getElement(DATA_FILE_OPTIONS).getInteger();
-	
-	if(dFile.size() == 0) {
-		merror(M_FILE_MESSAGE_DOMAIN, 
-			   "Attempt to open an empty data file");
-		return -1;
-	}
-	if(GlobalDataFileManager->isFileOpen()) {
-		mwarning(M_FILE_MESSAGE_DOMAIN,
-				 "Data file already open at %s", 
-				 (GlobalDataFileManager->getFilename()).c_str());
-		return -1;
-	}
-	
-	return openFile(dFile, opt);
+    std::string dFile(oeDatum.getElement(DATA_FILE_FILENAME).getString());
+    DatumFileOptions opt = (DatumFileOptions)oeDatum.getElement(DATA_FILE_OPTIONS).getInteger();
+    
+    if(dFile.size() == 0) {
+        merror(M_FILE_MESSAGE_DOMAIN,
+               "Attempt to open an empty data file");
+        return -1;
+    }
+    
+    return openFile(dFile, opt);
 }
 
+
 int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
+    if (isFileOpen()) {
+        mwarning(M_FILE_MESSAGE_DOMAIN, "Data file already open at \"%s\"", filename.c_str());
+        return -1;
+    }
+    
     // first we need to format the file name with the correct path and
     // extension
-	std::string _ext_(appendDataFileExtension(
-											  prependDataFilePath(_filename.c_str()).string()));    
-    filename = _ext_;
+    filename = appendDataFileExtension(prependDataFilePath(_filename).string());
+    const auto filepath = boost::filesystem::path(filename);
     
-    // form the scarab uri
-    std::string prefix = "ldobinary:file://";
-    std::string uri = prefix + filename;
-	
-	if(opt == M_NO_OVERWRITE) {
-		FILE *fd = fopen(filename.c_str(), "r");
-		if(fd != 0) {
-			// badness....don't overwrite my file!
-			fclose(fd);
-			
-			merror(M_FILE_MESSAGE_DOMAIN,
-				   "Can't overwrite existing file: %s", filename.c_str());
-			
-            global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(), 
-																				M_COMMAND_FAILURE));
-			return -1;
-		}
-	}			
-	
+    if (boost::filesystem::exists(filepath)) {
+        if (opt == M_NO_OVERWRITE) {
+            merror(M_FILE_MESSAGE_DOMAIN, "Can't overwrite existing file \"%s\"", filename.c_str());
+            global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
+                                                                                              M_COMMAND_FAILURE));
+            return -1;
+        }
+        try {
+            boost::filesystem::remove(filepath);
+        } catch (const std::exception &e) {
+            merror(M_FILE_MESSAGE_DOMAIN, "Can't remove existing file \"%s\": %s", filename.c_str(), e.what());
+            global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
+                                                                                              M_COMMAND_FAILURE));
+            return -1;
+        }
+    }
+    
     // Ensure that the destination directory exists
     try {
-        boost::filesystem::create_directories(boost::filesystem::path(filename).parent_path());
+        boost::filesystem::create_directories(filepath.parent_path());
     } catch (const std::exception &e) {
         merror(M_FILE_MESSAGE_DOMAIN, "Could not create data file destination directory: %s", e.what());
         global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
@@ -93,76 +87,105 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
         return -1;
     }
     
-    if(scarab_create_file(filename.c_str()) != 0){
-		merror(M_FILE_MESSAGE_DOMAIN,
-			   "Could not create file: %s", filename.c_str());
+    // Create the file
+    try {
+        mwk2Writer.reset(new MWK2Writer(filename));
+    } catch (const SimpleException &e) {
+        merror(M_FILE_MESSAGE_DOMAIN, "Could not create file \"%s\": %s", filename.c_str(), e.what());
         global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
                                                                                           M_COMMAND_FAILURE));
-		return -1;
-	}
+        return -1;
+    }
     
     // Generate list of excluded event codes
-    std::unordered_set<int> excludedEventCodes;
+    excludedEventCodes.clear();
     for (auto &var : global_variable_registry->getGlobalVariables()) {
         if (var->getProperties()->getExcludeFromDataFile()) {
             excludedEventCodes.insert(var->getCodecCode());
         }
     }
     
-    scarab_connection = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(global_outgoing_event_buffer,
-                                                                                    uri,
-                                                                                    excludedEventCodes));
-    scarab_connection->connect();
-	
-    if(scarab_connection->isConnected()) {
-        scarab_connection->startThread(M_DATAFILE_SERVICE_INTERVAL_US);
-        file_open = true;
-		
-        // write out the event-code to name/description mapping
-        // this is an essential part of the self-describing nature of the
-        // MWorks/Scarab format
-		global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
-		global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
-		global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
-		global_variable_registry->announceAll();
-    } else {
-        merror(M_FILE_MESSAGE_DOMAIN,
-			   "Failed to open file: %s", uri.c_str());
-        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(), 
-																			M_COMMAND_FAILURE));
-        return -1;
-    }
+    // Create the event buffer reader
+    eventBufferReader.reset(new EventBufferReader(global_outgoing_event_buffer));
     
-	mprintf(M_FILE_MESSAGE_DOMAIN, "Opening data file: %s", filename.c_str());
-	
+    // Start the event handler thread
+    running = true;
+    eventHandlerThread = std::thread([this]() { handleEvents(); });
+    
+    // Announce component codec, variable codec, experiment state, and all current
+    // variable values
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+    global_variable_registry->announceAll();
+    
+    mprintf(M_FILE_MESSAGE_DOMAIN, "Opening data file: %s", filename.c_str());
+    
     // everything went ok so issue the success event
-    global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(), 
-																		M_COMMAND_SUCCESS)); 
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
+                                                                                      M_COMMAND_SUCCESS));
     return 0;
 }
+
 
 int DataFileManager::closeFile() {
-    if(file_open) {
-        scarab_connection->disconnect();
-        // delete scarab_connection;
-        file_open = false;
-		
-		mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file: %s", filename.c_str());
-        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileClosedResponse(filename.c_str(), 
-																			M_COMMAND_SUCCESS)); 
+    if (!isFileOpen()) {
+        merror(M_FILE_MESSAGE_DOMAIN, "Attempt to close a data file when there isn't one open");
     } else {
-		merror(M_FILE_MESSAGE_DOMAIN,
-			   "Attempt to close a data file when there isn't one open");		
-	}
+        running = false;
+        eventHandlerThread.join();
+        eventBufferReader.reset();
+        mwk2Writer.reset();
+        
+        mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file: %s", filename.c_str());
+        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileClosedResponse(filename.c_str(),
+                                                                                          M_COMMAND_SUCCESS));
+    }
     return 0;
 }
 
-bool DataFileManager::isFileOpen() {
-    return file_open;
-}
 
-std::string DataFileManager::getFilename() { 
-    return filename;
+void DataFileManager::handleEvents() {
+    constexpr MWTime nextEventTimeout = 500 * 1000;  // 500ms
+    constexpr std::size_t maxPendingEvents = 100;
+    
+    std::vector<boost::shared_ptr<Event>> pendingEvents;
+    
+    while (running) {
+        // Wait for next event or timeout
+        auto event = eventBufferReader->getNextEvent(nextEventTimeout);
+        
+        // Collect all currently-available events (up to maxPendingEvents)
+        while (event) {
+            if (!excludedEventCodes.count(event->getEventCode())) {
+                pendingEvents.push_back(event);
+                if (pendingEvents.size() >= maxPendingEvents) {
+                    break;
+                }
+            }
+            event = eventBufferReader->getNextEvent();
+        }
+        
+        // Write pending events
+        if (!pendingEvents.empty()) {
+            try {
+                mwk2Writer->writeEvents(pendingEvents);
+            } catch (const SimpleException &e) {
+                merror(M_FILE_MESSAGE_DOMAIN,
+                       "Failed to write %lu events to data file: %s",
+                       pendingEvents.size(),
+                       e.what());
+            }
+            pendingEvents.clear();
+        }
+    }
+    
+    // Write termination event
+    try {
+        mwk2Writer->writeEvent(boost::make_shared<Event>(RESERVED_TERMINATION_CODE, Datum()));
+    } catch (const SimpleException &e) {
+        merror(M_FILE_MESSAGE_DOMAIN, "Failed to write termination event to data file: %s", e.what());
+    }
 }
 
 

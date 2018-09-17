@@ -31,7 +31,7 @@ BEGIN_NAMESPACE_MW
 #   error Unsupported platform
 #endif
 	
-	const char * DATA_FILE_EXT = ".mwk";
+	const char * DATA_FILE_EXT = ".mwk2";
 	const char * EXPERIMENT_TEMPORARY_DIR_NAME = "tmp";
 	const char * VARIABLE_FILE_EXT = "_var.xml";
 	const char * EXPERIMENT_STORAGE_DIR_NAME = "Experiment Storage";

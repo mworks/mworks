@@ -20,68 +20,56 @@
 #ifndef DATA_FILE_MANAGER_H__
 #define DATA_FILE_MANAGER_H__
 
-#include "ScarabServices.h"
-#include "ScarabWriteConnection.h"
-#include "Event.h"
+#include <thread>
+
+#include "MWK2File.hpp"
 #include "SystemEventFactory.h"
 
 #define DATA_FILE_FILENAME	"file"
 #define DATA_FILE_OPTIONS	"options"
 
-#define M_DATAFILE_SERVICE_INTERVAL_US	20000
-
 
 BEGIN_NAMESPACE_MW
 
 
-	class DataFileManager{
-		
-	private:
-		//mEventBufferReader *buffer_reader;
-		
-		std::string filename;
-		bool file_open;
-		
-		shared_ptr <ScarabWriteConnection> scarab_connection;
-		
-		//ScarabSession *session;
-		//ScarabDatum *event_template;
-		
-	public:
-		
-        DataFileManager();
-        ~DataFileManager();
-        
-        /*!
-         * @function openFile
-         * @discussion TODO.... issues a M_DATA_FILE_OPENED event
-         */
-		int openFile(const Datum &openFileDatum);
-		int openFile(std::string filename, DatumFileOptions opt);
-		
-        /*!
-         * @function closeFile
-         * @discussion TODO.... issues a M_DATA_FILE_CLOSED event
-         */
-		int closeFile();
-		
-		bool isFileOpen();
-		std::string getFilename();
-		
-		int serviceBuffer();
-		int serviceBufferPeriodically();
-		
-		// Write out a dictionary that maps event codes onto event names
-		// this should minimally be done at the head the file, but there might 
-        //also arise cases where
-		// you might want to write this later as well (e.g. to better ensure
-        // data integrity, or if
-		// more events were somehow added on the fly, etc. etc.)
-		// void writeCodec();
-	};
-	
-	
-	extern DataFileManager *GlobalDataFileManager;
+class DataFileManager {
+    
+public:
+    DataFileManager();
+    ~DataFileManager();
+    
+    /*!
+     * @function openFile
+     * @discussion TODO.... issues a M_DATA_FILE_OPENED event
+     */
+    int openFile(const Datum &openFileDatum);
+    int openFile(std::string filename, DatumFileOptions opt);
+    
+    /*!
+     * @function closeFile
+     * @discussion TODO.... issues a M_DATA_FILE_CLOSED event
+     */
+    int closeFile();
+    
+    bool isFileOpen() const { return eventHandlerThread.joinable(); }
+    const std::string& getFilename() const { return filename; }
+    
+private:
+    void handleEvents();
+    
+    std::string filename;
+    
+    std::unique_ptr<MWK2Writer> mwk2Writer;
+    std::unordered_set<int> excludedEventCodes;
+    std::unique_ptr<EventBufferReader> eventBufferReader;
+    std::thread eventHandlerThread;
+    static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
+    std::atomic_bool running;
+    
+};
+
+
+extern DataFileManager *GlobalDataFileManager;
 
 
 END_NAMESPACE_MW
