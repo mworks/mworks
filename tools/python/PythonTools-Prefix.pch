@@ -2,7 +2,10 @@
 // Prefix header for all source files of the 'PythonTools' target in the 'PythonTools' project
 //
 
-#include <Python.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-register"
+#  include <Python.h>
+#pragma clang diagnostic pop
 #include <bytesobject.h>
 #include <node.h>
 

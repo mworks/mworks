@@ -61,7 +61,6 @@ cxxflags = ('-std=%(CLANG_CXX_LANGUAGE_STANDARD)s '
 link_flags = common_flags
 
 downloaddir = os.path.abspath('download')
-sourcedir = os.path.abspath('source')
 patchdir = os.path.abspath('patches')
 builddir = os.environ['TARGET_TEMP_DIR']
 
@@ -128,7 +127,7 @@ class DoneFileExists(Exception):
 
 @contextmanager
 def done_file(tag):
-    filename = os.path.join(builddir, tag + '.done')
+    filename = tag + '.done'
     if os.path.isfile(filename):
         raise DoneFileExists
     yield
@@ -219,7 +218,6 @@ def run_b2(libraries, clean=False):
         '--prefix=' + prefix,
         '--includedir=' + includedir,
         '--libdir=' + libdir,
-        '--build-dir=' + builddir,
         'variant=release',
         'optimization=space',
         'debug-symbols=on',
@@ -334,10 +332,7 @@ def openssl(ios=True):
             download_archive('https://www.openssl.org/source/', tarfile)
             unpack_tarfile(tarfile, srcdir)
 
-        openssl_builddir = os.path.join(builddir, 'openssl')
-        make_directory(openssl_builddir)
-
-        with workdir(openssl_builddir):
+        with workdir(srcdir):
             if building_for_ios:
                 assert os.environ['ARCHS'] == 'arm64'
                 config_name = 'ios64-cross'
@@ -350,7 +345,7 @@ def openssl(ios=True):
             env['CC'] = cc
 
             check_call([
-                os.path.join(sourcedir, srcdir, 'Configure'),
+                './Configure',
                 config_name,
                 '--prefix=' + prefix,
                 'no-shared',
@@ -384,10 +379,7 @@ def python3(ios=True):
                     apply_patch('python_macos_10_13_required.patch')
                     apply_patch('python_macos_disabled_modules.patch')
 
-        python3_builddir = os.path.join(builddir, 'python3')
-        make_directory(python3_builddir)
-
-        with workdir(python3_builddir):
+        with workdir(srcdir):
             extra_args = [
                 '--without-ensurepip',
                 '--with-openssl=' + prefix,
@@ -402,7 +394,6 @@ def python3(ios=True):
                     ]
 
             run_configure_and_make(
-                command = [os.path.join(sourcedir, srcdir, 'configure')],
                 extra_args = extra_args,
                 extra_cflags = '-fvisibility=default',
                 )
@@ -433,12 +424,7 @@ def numpy3(ios=True):
                 if building_for_ios:
                     apply_patch('numpy_ios_build.patch')
 
-        numpy3_builddir = os.path.join(builddir, 'numpy3')
-        make_directory(numpy3_builddir)
-
-        check_call([rsync, '-a', srcdir + '/', numpy3_builddir])
-
-        with workdir(numpy3_builddir):
+        with workdir(srcdir):
             env = get_clean_env()
             env['PYTHONPATH'] = os.environ['MW_PYTHON_3_STDLIB_DIR']
 
@@ -483,13 +469,21 @@ def boost(ios=True):
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 os.symlink('boost', 'mworks_boost')
+                env = get_clean_env()
+                if building_for_ios:
+                    # Need to use the macOS SDK when compiling the build system
+                    env['SDKROOT'] = subprocess.check_output([
+                        '/usr/bin/xcrun',
+                        '--sdk', 'macosx',
+                        '--show-sdk-path',
+                        ]).strip()
                 check_call([
                     './bootstrap.sh',
                     '--with-toolset=clang',
                     '--without-icu',
                     '--without-libraries=python',  # Configure python manually
                     ],
-                    env = get_clean_env(),
+                    env = env,
                     )
                 shutil.move(project_config_jam, project_config_jam_orig)
             
@@ -531,12 +525,8 @@ def zeromq(ios=True):
             download_archive('https://github.com/zeromq/libzmq/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
 
-        zeromq_builddir = os.path.join(builddir, 'zeromq')
-        make_directory(zeromq_builddir)
-
-        with workdir(zeromq_builddir):
+        with workdir(srcdir):
             run_configure_and_make(
-                command = [os.path.join(sourcedir, srcdir, 'configure')],
                 extra_args = [
                     '--disable-silent-rules',
                     '--disable-perf',
@@ -573,12 +563,8 @@ def libxslt(macos=False, ios=True):
             download_archive('ftp://xmlsoft.org/libxslt/', tarfile)
             unpack_tarfile(tarfile, srcdir)
 
-        libxslt_builddir = os.path.join(builddir, 'libxslt')
-        make_directory(libxslt_builddir)
-
-        with workdir(libxslt_builddir):
+        with workdir(srcdir):
             run_configure_and_make(
-                command = [os.path.join(sourcedir, srcdir, 'configure')],
                 extra_args = [
                     '--disable-silent-rules',
                     '--without-python',
@@ -601,12 +587,8 @@ def cppunit():
             download_archive('http://dev-www.libreoffice.org/src/', tarfile)
             unpack_tarfile(tarfile, srcdir)
 
-        cppunit_builddir = os.path.join(builddir, 'cppunit')
-        make_directory(cppunit_builddir)
-
-        with workdir(cppunit_builddir):
+        with workdir(srcdir):
             run_configure_and_make(
-                command = [os.path.join(sourcedir, srcdir, 'configure')],
                 extra_compile_flags = '-g0',
                 )
 
@@ -713,17 +695,6 @@ def narrative():
 
 
 def main():
-    if os.environ['ACTION'] == 'clean':
-        remove_directories(sourcedir,
-                           builddir,
-                           frameworksdir,
-                           matlabdir,
-                           prefix + '/bin',
-                           includedir,
-                           libdir,
-                           prefix + '/share')
-        return
-
     requested_builders = sys.argv[1:]
     builder_names = set(buildfunc.__name__ for buildfunc in all_builders)
 
@@ -732,9 +703,9 @@ def main():
             announce('ERROR: invalid builder: %r', name)
             sys.exit(1)
 
-    make_directories(downloaddir, sourcedir, builddir)
+    make_directories(downloaddir, builddir)
 
-    with workdir(sourcedir):
+    with workdir(builddir):
         for buildfunc in all_builders:
             if ((not requested_builders) or
                 (buildfunc.__name__ in requested_builders)):

@@ -20,4 +20,4 @@ diff -ur Python-3.7.0/Modules/Setup.dist Python/Modules/Setup.dist
 +
 +*disabled*
 +
-+_ctypes _ctypes_test _curses _lzma _scproxy
++_ctypes _ctypes_test _curses _curses_panel _lzma _scproxy readline

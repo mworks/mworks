@@ -119,7 +119,7 @@
 		0EDBEBA10C721A8200694CA9 /* MWCocoaEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWCocoaEvent.m; path = Source/MWCocoaEvent.m; sourceTree = "<group>"; };
 		0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientServerBase.h; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* MWorksCocoa_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCocoa_Prefix.pch; sourceTree = "<group>"; };
-		5C4D285009DD90B40082BF9F /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5C4D285009DD90B40082BF9F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = errorGlyph.tif; path = Images/errorGlyph.tif; sourceTree = "<group>"; };
 		5C58924809D0BA2C00F9D2C5 /* warningGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = warningGlyph.tif; path = Images/warningGlyph.tif; sourceTree = "<group>"; };
 		5C58924B09D0BAF300F9D2C5 /* messageGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = messageGlyph.tif; path = Images/messageGlyph.tif; sourceTree = "<group>"; };
@@ -330,6 +330,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					5C77F48510E9698E00919719 = {
+						ProvisioningStyle = Automatic;
+					};
+					8DC2EF4F0486A6940098B216 = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D98F016BC2928004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = DA2A85460871A49C00D99DD8 /* Build configuration list for PBXProject "MWorksCocoa" */;
 			compatibilityVersion = "Xcode 3.2";
