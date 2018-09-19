@@ -6,6 +6,8 @@
 //
 //
 
+#define GLES_SILENCE_DEPRECATION
+
 #include "IOSStimulusDisplay.hpp"
 
 #include "AppleOpenGLContextManager.hpp"

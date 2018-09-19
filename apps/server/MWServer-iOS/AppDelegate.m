@@ -6,6 +6,8 @@
 //
 //
 
+#define GLES_SILENCE_DEPRECATION
+
 #import "AppDelegate.h"
 
 #include <MWorksCore/AppleOpenGLContextManager.hpp>

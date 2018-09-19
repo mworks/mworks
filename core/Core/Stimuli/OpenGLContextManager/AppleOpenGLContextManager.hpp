@@ -13,6 +13,7 @@
 #if TARGET_OS_OSX
 #  include <Cocoa/Cocoa.h>
 #elif TARGET_OS_IPHONE
+#  define GLES_SILENCE_DEPRECATION
 #  include <UIKit/UIKit.h>
 #  include <OpenGLES/EAGL.h>
 #endif

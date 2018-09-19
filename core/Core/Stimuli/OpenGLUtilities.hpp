@@ -9,6 +9,11 @@
 #ifndef OpenGLUtilities_hpp
 #define OpenGLUtilities_hpp
 
+#include <TargetConditionals.h>
+#if TARGET_OS_IPHONE
+#  define GLES_SILENCE_DEPRECATION
+#endif
+
 #include <unordered_set>
 
 #include <GLKit/GLKMath.h>
