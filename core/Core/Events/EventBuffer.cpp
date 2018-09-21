@@ -53,11 +53,6 @@ boost::shared_ptr<Event> EventBufferReader::getNextEvent(MWTime timeoutUS) {
 }
 
 
-bool EventBufferReader::nextEventExists() const {
-    return bool(currentEvent->getNextEvent());
-}
-
-
 END_NAMESPACE_MW
 
 

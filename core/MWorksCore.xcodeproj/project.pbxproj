@@ -280,10 +280,6 @@
 		DA2CE12707E9F88900C68AEF /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE12307E9F88900C68AEF /* Event.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE12A07E9F8B200C68AEF /* LoadingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE12807E9F8B200C68AEF /* LoadingUtilities.cpp */; };
 		DA2CE12B07E9F8B200C68AEF /* LoadingUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE12907E9F8B200C68AEF /* LoadingUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2CE16607E9F92D00C68AEF /* ScarabConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE15E07E9F92D00C68AEF /* ScarabConnection.cpp */; };
-		DA2CE16707E9F92D00C68AEF /* ScarabConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE15F07E9F92D00C68AEF /* ScarabConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2CE16A07E9F92D00C68AEF /* ScarabWriteConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE16207E9F92D00C68AEF /* ScarabWriteConnection.cpp */; };
-		DA2CE16B07E9F92D00C68AEF /* ScarabWriteConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE16307E9F92D00C68AEF /* ScarabWriteConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE17E07E9F93900C68AEF /* BlockAndProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE16C07E9F93900C68AEF /* BlockAndProtocol.cpp */; };
 		DA2CE17F07E9F93900C68AEF /* BlockAndProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE16D07E9F93900C68AEF /* BlockAndProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE18207E9F93900C68AEF /* Experiment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE17007E9F93900C68AEF /* Experiment.cpp */; };
@@ -335,8 +331,6 @@
 		DA2CE1EF07E9F97F00C68AEF /* ScopedVariableContext.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1E707E9F97F00C68AEF /* ScopedVariableContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2E379E08B0FE5800BD22C4 /* EventBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */; };
 		DA2E379F08B0FE5800BD22C4 /* EventBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA30579D08B6A23700BA4B0E /* NetworkReturn.h in Headers */ = {isa = PBXBuildFile; fileRef = DA30579B08B6A23700BA4B0E /* NetworkReturn.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA30579E08B6A23700BA4B0E /* NetworkReturn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA30579C08B6A23700BA4B0E /* NetworkReturn.cpp */; };
 		DA871F2609995B180084304E /* StandardClientCoreBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = DA871F2409995B180084304E /* StandardClientCoreBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA871F2709995B180084304E /* StandardClientCoreBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA871F2509995B180084304E /* StandardClientCoreBuilder.cpp */; };
 		DA96B8B40981901F0007610D /* AbstractCoreBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96B8B20981901F0007610D /* AbstractCoreBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -401,12 +395,6 @@
 		E17916A51E4E505300528B91 /* ExpandableList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */; };
 		E17916A61E4E506000528B91 /* Serialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2386DD0E8D1A4600CDC4FC /* Serialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916A71E4E506600528B91 /* Serialization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C2386DE0E8D1A4600CDC4FC /* Serialization.cpp */; };
-		E17916A81E4E507600528B91 /* ScarabConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE15F07E9F92D00C68AEF /* ScarabConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E17916A91E4E507B00528B91 /* ScarabConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE15E07E9F92D00C68AEF /* ScarabConnection.cpp */; };
-		E17916AA1E4E507E00528B91 /* ScarabWriteConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE16307E9F92D00C68AEF /* ScarabWriteConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E17916AB1E4E508400528B91 /* ScarabWriteConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE16207E9F92D00C68AEF /* ScarabWriteConnection.cpp */; };
-		E17916AC1E4E508700528B91 /* NetworkReturn.h in Headers */ = {isa = PBXBuildFile; fileRef = DA30579B08B6A23700BA4B0E /* NetworkReturn.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E17916AD1E4E508D00528B91 /* NetworkReturn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA30579C08B6A23700BA4B0E /* NetworkReturn.cpp */; };
 		E17916AE1E4E509400528B91 /* ScarabServices.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1C107E9F96500C68AEF /* ScarabServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916AF1E4E509900528B91 /* ScarabServices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */; };
 		E17916B01E4E50B600528B91 /* MessagePackAdaptors.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B637421D4A96C900116BB3 /* MessagePackAdaptors.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1149,10 +1137,6 @@
 		DA2CE12907E9F8B200C68AEF /* LoadingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoadingUtilities.h; path = Core/ExperimentDataLoading/LoadingUtilities.h; sourceTree = SOURCE_ROOT; };
 		DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyIODevice.cpp; path = Core/IODevices/LegacyIODevice.cpp; sourceTree = "<group>"; };
 		DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LegacyIODevice.h; path = Core/IODevices/LegacyIODevice.h; sourceTree = "<group>"; };
-		DA2CE15E07E9F92D00C68AEF /* ScarabConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabConnection.cpp; sourceTree = "<group>"; };
-		DA2CE15F07E9F92D00C68AEF /* ScarabConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabConnection.h; sourceTree = "<group>"; };
-		DA2CE16207E9F92D00C68AEF /* ScarabWriteConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabWriteConnection.cpp; sourceTree = "<group>"; };
-		DA2CE16307E9F92D00C68AEF /* ScarabWriteConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabWriteConnection.h; sourceTree = "<group>"; };
 		DA2CE16C07E9F93900C68AEF /* BlockAndProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BlockAndProtocol.cpp; path = Core/ParadigmComponents/BlockAndProtocol.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE16D07E9F93900C68AEF /* BlockAndProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BlockAndProtocol.h; path = Core/ParadigmComponents/BlockAndProtocol.h; sourceTree = SOURCE_ROOT; };
 		DA2CE17007E9F93900C68AEF /* Experiment.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Experiment.cpp; path = Core/ParadigmComponents/Experiment.cpp; sourceTree = SOURCE_ROOT; };
@@ -1204,8 +1188,6 @@
 		DA2CE1E707E9F97F00C68AEF /* ScopedVariableContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScopedVariableContext.h; path = Core/Variables/ScopedVariableContext.h; sourceTree = "<group>"; };
 		DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = Core/Events/EventBuffer.cpp; sourceTree = SOURCE_ROOT; };
 		DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventBuffer.h; path = Core/Events/EventBuffer.h; sourceTree = SOURCE_ROOT; };
-		DA30579B08B6A23700BA4B0E /* NetworkReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkReturn.h; sourceTree = "<group>"; };
-		DA30579C08B6A23700BA4B0E /* NetworkReturn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkReturn.cpp; sourceTree = "<group>"; };
 		DA871F2409995B180084304E /* StandardClientCoreBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardClientCoreBuilder.h; path = Core/CoreBuilders/StandardClientCoreBuilder.h; sourceTree = SOURCE_ROOT; };
 		DA871F2509995B180084304E /* StandardClientCoreBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StandardClientCoreBuilder.cpp; path = Core/CoreBuilders/StandardClientCoreBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		DA96B8B20981901F0007610D /* AbstractCoreBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractCoreBuilder.h; path = Core/CoreBuilders/AbstractCoreBuilder.h; sourceTree = SOURCE_ROOT; };
@@ -2180,7 +2162,6 @@
 		DA2CE0E807E9F70400C68AEF /* Scarab */ = {
 			isa = PBXGroup;
 			children = (
-				DA2CE0F707E9F70600C68AEF /* Network */,
 				5C37479209EC090E00F8265F /* tests */,
 				DA2CE1C107E9F96500C68AEF /* ScarabServices.h */,
 				DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */,
@@ -2245,16 +2226,6 @@
 			name = ParadigmComponents;
 			sourceTree = "<group>";
 		};
-		DA2CE0F707E9F70600C68AEF /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				DA2CE14A07E9F90900C68AEF /* Connections */,
-				DA30579B08B6A23700BA4B0E /* NetworkReturn.h */,
-				DA30579C08B6A23700BA4B0E /* NetworkReturn.cpp */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
 		DA2CE0FA07E9F70700C68AEF /* IODevices */ = {
 			isa = PBXGroup;
 			children = (
@@ -2317,17 +2288,6 @@
 			);
 			name = DataFiles;
 			path = Core/DataFiles;
-			sourceTree = "<group>";
-		};
-		DA2CE14A07E9F90900C68AEF /* Connections */ = {
-			isa = PBXGroup;
-			children = (
-				DA2CE15F07E9F92D00C68AEF /* ScarabConnection.h */,
-				DA2CE15E07E9F92D00C68AEF /* ScarabConnection.cpp */,
-				DA2CE16307E9F92D00C68AEF /* ScarabWriteConnection.h */,
-				DA2CE16207E9F92D00C68AEF /* ScarabWriteConnection.cpp */,
-			);
-			path = Connections;
 			sourceTree = "<group>";
 		};
 		DA96B8A409818EF30007610D /* CoreBuilders */ = {
@@ -2530,8 +2490,6 @@
 				DA2CE12707E9F88900C68AEF /* Event.h in Headers */,
 				DA2CE12B07E9F8B200C68AEF /* LoadingUtilities.h in Headers */,
 				E1FE64132142BEB700209279 /* MWK2File.hpp in Headers */,
-				DA2CE16707E9F92D00C68AEF /* ScarabConnection.h in Headers */,
-				DA2CE16B07E9F92D00C68AEF /* ScarabWriteConnection.h in Headers */,
 				DA2CE17F07E9F93900C68AEF /* BlockAndProtocol.h in Headers */,
 				DA2CE18307E9F93900C68AEF /* Experiment.h in Headers */,
 				DA2CE18607E9F93900C68AEF /* Filters.h in Headers */,
@@ -2564,7 +2522,6 @@
 				5C866A99086E1E43006CBE6F /* MWorksTypes.h in Headers */,
 				5C18E25608A167BE00AA734D /* VariableNotification.h in Headers */,
 				DA2E379F08B0FE5800BD22C4 /* EventBuffer.h in Headers */,
-				DA30579D08B6A23700BA4B0E /* NetworkReturn.h in Headers */,
 				8ED451E408BF5B90003880D5 /* EyeMonitors.h in Headers */,
 				8ED451E808BF5BA1003880D5 /* FilterTransforms.h in Headers */,
 				8ED452C908BF9870003880D5 /* Transforms.h in Headers */,
@@ -2680,14 +2637,12 @@
 				E17917491E4E54FA00528B91 /* RegisteredSingleton.h in Headers */,
 				E17916DB1E4E51B500528B91 /* EventBuffer.h in Headers */,
 				E17917161E4E539000528B91 /* LoadingUtilities.h in Headers */,
-				E17916AA1E4E507E00528B91 /* ScarabWriteConnection.h in Headers */,
 				E17917831E4E570800528B91 /* alut.h in Headers */,
 				E179171A1E4E53A300528B91 /* ExperimentUnpackager.h in Headers */,
 				E17917591E4E557300528B91 /* FitableFunctions.h in Headers */,
 				E17917781E4E567D00528B91 /* OpenGLUtilities.hpp in Headers */,
 				E179172B1E4E540500528B91 /* Selection.h in Headers */,
 				E17917511E4E554B00528B91 /* Transforms.h in Headers */,
-				E17916A81E4E507600528B91 /* ScarabConnection.h in Headers */,
 				E17917381E4E547D00528B91 /* Announcers.h in Headers */,
 				E17916CD1E4E514700528B91 /* ScopedVariable.h in Headers */,
 				E17917701E4E563A00528B91 /* DynamicStimulusActions.h in Headers */,
@@ -2726,7 +2681,6 @@
 				E179172F1E4E541700528B91 /* RandomWORSelection.h in Headers */,
 				E17917291E4E53FB00528B91 /* Selectable.h in Headers */,
 				E17916AE1E4E509400528B91 /* ScarabServices.h in Headers */,
-				E17916AC1E4E508700528B91 /* NetworkReturn.h in Headers */,
 				E179175B1E4E557B00528B91 /* Averagers.h in Headers */,
 				E17916BF1E4E511000528B91 /* VariableSave.h in Headers */,
 				E179174F1E4E554100528B91 /* VariableTransformAdaptors.h in Headers */,
@@ -3323,8 +3277,6 @@
 				DA2CE12607E9F88900C68AEF /* Event.cpp in Sources */,
 				DA2CE12A07E9F8B200C68AEF /* LoadingUtilities.cpp in Sources */,
 				E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */,
-				DA2CE16607E9F92D00C68AEF /* ScarabConnection.cpp in Sources */,
-				DA2CE16A07E9F92D00C68AEF /* ScarabWriteConnection.cpp in Sources */,
 				DA2CE17E07E9F93900C68AEF /* BlockAndProtocol.cpp in Sources */,
 				DA2CE18207E9F93900C68AEF /* Experiment.cpp in Sources */,
 				DA2CE18A07E9F93900C68AEF /* Selection.cpp in Sources */,
@@ -3356,7 +3308,6 @@
 				5C91B991086CC9DC00C14E1A /* Trigger.cpp in Sources */,
 				5C18E25708A167BE00AA734D /* VariableNotification.cpp in Sources */,
 				DA2E379E08B0FE5800BD22C4 /* EventBuffer.cpp in Sources */,
-				DA30579E08B6A23700BA4B0E /* NetworkReturn.cpp in Sources */,
 				8ED451E308BF5B90003880D5 /* EyeMonitors.cpp in Sources */,
 				8ED451E708BF5BA1003880D5 /* FilterTransforms.cpp in Sources */,
 				8ED451FF08BF5C0C003880D5 /* Transforms.cpp in Sources */,
@@ -3463,7 +3414,6 @@
 				E17916F31E4E524600528B91 /* VariableRegistryInterface.cpp in Sources */,
 				E17916A71E4E506600528B91 /* Serialization.cpp in Sources */,
 				E179170D1E4E533900528B91 /* ParameterValue.cpp in Sources */,
-				E17916A91E4E507B00528B91 /* ScarabConnection.cpp in Sources */,
 				E17917301E4E541C00528B91 /* RandomWORSelection.cpp in Sources */,
 				E17916CC1E4E514500528B91 /* GlobalVariable.cpp in Sources */,
 				E17917611E4E55B500528B91 /* BiasMonitor.cpp in Sources */,
@@ -3484,7 +3434,6 @@
 				E17917841E4E570D00528B91 /* alut.c in Sources */,
 				E17916E61E4E51E300528B91 /* LegacyBuffers.cpp in Sources */,
 				E17916EF1E4E523300528B91 /* Server.cpp in Sources */,
-				E17916AD1E4E508D00528B91 /* NetworkReturn.cpp in Sources */,
 				E17917371E4E547900528B91 /* Clock.cpp in Sources */,
 				E17917101E4E534700528B91 /* ComponentFactory.cpp in Sources */,
 				E17917191E4E539E00528B91 /* ExperimentPackager.cpp in Sources */,
@@ -3536,7 +3485,6 @@
 				E17916D21E4E515C00528B91 /* ScopedVariableContext.cpp in Sources */,
 				E179175F1E4E55AD00528B91 /* SimpleStaircase.cpp in Sources */,
 				E17916D41E4E516500528B91 /* SelectionVariable.cpp in Sources */,
-				E17916AB1E4E508400528B91 /* ScarabWriteConnection.cpp in Sources */,
 				E17916BE1E4E510C00528B91 /* VariableLoad.cpp in Sources */,
 				E179172A1E4E540200528B91 /* Selectable.cpp in Sources */,
 				E179170B1E4E533100528B91 /* ComponentRegistry.cpp in Sources */,

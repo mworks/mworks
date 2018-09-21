@@ -32,7 +32,6 @@ public:
     ~EventBufferReader();
     
     boost::shared_ptr<Event> getNextEvent(MWTime timeoutUS = 0);
-    bool nextEventExists() const;
     
 private:
     boost::shared_ptr<Event> currentEvent;
