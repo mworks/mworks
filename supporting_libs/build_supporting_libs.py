@@ -375,7 +375,6 @@ def python3(ios=True):
                     apply_patch('python_ios_build.patch')
                     apply_patch('python_ios_disabled_modules.patch')
                 else:
-                    apply_patch('python_macos_10_12_required.patch')
                     apply_patch('python_macos_10_13_required.patch')
                     apply_patch('python_macos_disabled_modules.patch')
 
@@ -602,9 +601,9 @@ def numpy():
     # NOTE: We need to use the version of numpy that's distributed with
     # MACOSX_DEPLOYMENT_TARGET
     version = {
-        '10.11': '1.8.0',
         '10.12': '1.8.0',
         '10.13': '1.8.0',
+        '10.14': '1.8.0',
         }[os.environ['MACOSX_DEPLOYMENT_TARGET']]
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'

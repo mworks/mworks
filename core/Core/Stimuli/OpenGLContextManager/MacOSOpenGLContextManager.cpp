@@ -113,7 +113,7 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool rend
         // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
         dispatch_sync(dispatch_get_main_queue(), ^{
             NSWindow *fullscreen_window = [[NSWindow alloc] initWithContentRect:screen_rect
-                                                                      styleMask:NSBorderlessWindowMask
+                                                                      styleMask:NSWindowStyleMaskBorderless
                                                                         backing:NSBackingStoreBuffered
                                                                           defer:NO
                                                                          screen:screen];
@@ -215,7 +215,7 @@ int MacOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) 
         dispatch_sync(dispatch_get_main_queue(), ^{
             NSRect mirror_rect = NSMakeRect(50.0, 50.0, width, height);
             NSWindow *mirror_window = [[NSWindow alloc] initWithContentRect:mirror_rect
-                                                                  styleMask:(NSTitledWindowMask | NSMiniaturizableWindowMask)
+                                                                  styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskMiniaturizable)
                                                                     backing:NSBackingStoreBuffered
                                                                       defer:NO];
             

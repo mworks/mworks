@@ -24,13 +24,13 @@
     if ((self = [super init])) {
         mouseInputDeviceWeak = mouseInputDevice;
         
-        upDownEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:(NSLeftMouseDownMask | NSLeftMouseUpMask)
+        upDownEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:(NSEventMaskLeftMouseDown | NSEventMaskLeftMouseUp)
                                                                    handler:^(NSEvent *theEvent) {
                                                                        [self postMouseState:theEvent];
                                                                        return theEvent;
                                                                    }];
         
-        dragEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDraggedMask
+        dragEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskLeftMouseDragged
                                                                  handler:^(NSEvent *theEvent) {
                                                                      [self postMouseLocation:theEvent];
                                                                      return theEvent;
@@ -96,7 +96,7 @@
 - (void)postMouseState:(NSEvent *)theEvent
 {
     if (auto mouseInputDevice = mouseInputDeviceWeak.lock()) {
-        mouseInputDevice->postMouseState([theEvent type] == NSLeftMouseDown);
+        mouseInputDevice->postMouseState([theEvent type] == NSEventTypeLeftMouseDown);
     }
 }
 
