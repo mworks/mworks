@@ -12,6 +12,7 @@
 
 
 @interface MWKOpenGLView : NSOpenGLView {
+    mw::OpenGLContextLock::unique_lock::mutex_type mutex;
     BOOL _opaque;
 }
 
@@ -33,6 +34,12 @@
 }
 
 
+- (mw::OpenGLContextLock)lockContext
+{
+    return mw::OpenGLContextLock(mw::OpenGLContextLock::unique_lock(mutex));
+}
+
+
 - (BOOL)isOpaque
 {
     return _opaque;
@@ -49,7 +56,7 @@
 {
     // This method is called by the windowing system on the main thread.  Since drawing normally occurs
     // on a non-main thread, we need to acquire the context lock before updating the context.
-    mw::OpenGLContextLock ctxLock(self.openGLContext.CGLContextObj);
+    auto ctxLock = [self lockContext];
     [super update];
 }
 
@@ -61,14 +68,20 @@ BEGIN_NAMESPACE_MW
 
 
 MacOSOpenGLContextManager::MacOSOpenGLContextManager() :
-    display_sleep_block(kIOPMNullAssertionID)
-{ }
+    display_sleep_block(kIOPMNullAssertionID),
+    flushBufferSerialQueue(dispatch_queue_create(nullptr, DISPATCH_QUEUE_SERIAL))
+{
+    if (!flushBufferSerialQueue) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create serial queue for flushing buffer");
+    }
+}
 
 
 MacOSOpenGLContextManager::~MacOSOpenGLContextManager() {
     // Calling releaseContexts here causes the application to crash at exit.  Since this class is
     // used as a singleton, it doesn't matter, anyway.
     //releaseContexts();
+    dispatch_release(flushBufferSerialQueue);
 }
 
 
@@ -285,11 +298,18 @@ int MacOSOpenGLContextManager::getNumDisplays() const {
 OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
     @autoreleasepool {
         if (auto context = getContext(context_id)) {
-            [context makeCurrentContext];
-            return OpenGLContextLock(context.CGLContextObj);
+            return setCurrent(context);
         }
         return OpenGLContextLock();
     }
+}
+
+
+OpenGLContextLock MacOSOpenGLContextManager::setCurrent(NSOpenGLContext *context) {
+    // This method can only be called from Objective-C code, so we don't need
+    // to provide an autorelease pool
+    [context makeCurrentContext];
+    return [(MWKOpenGLView *)(context.view) lockContext];
 }
 
 
@@ -308,7 +328,23 @@ void MacOSOpenGLContextManager::bindDefaultFramebuffer(int context_id) {
 void MacOSOpenGLContextManager::flush(int context_id) {
     @autoreleasepool {
         if (auto context = getContext(context_id)) {
-            [context flushBuffer];
+            //
+            // When running on macOS 10.14, windows in apps linked against the macOS 10.14 SDK are displayed
+            // using Core Animation [1].  This triggers a known issue [2, 3] that leads to deadlock if we attempt
+            // to invoke flushBuffer on both the main and mirror windows simultaneously.  To avoid the deadlock,
+            // we serialize calls to flushBuffer using flushBufferSerialQueue.
+            //
+            // Note that avoiding the deadlock also required us to stop using CGLLockContext/CGLUnlockContext in
+            // OpenGLContextLock, as having two CGLLockContext-locked contexts leads to deadlock even when the
+            // calls to flushBuffer are serialized.
+            //
+            // [1] https://developer.apple.com/documentation/appkit/appkit_release_notes_for_macos_10_14?language=objc
+            // [2] http://www.openradar.me/37064579
+            // [3] https://forums.developer.apple.com/thread/97418
+            //
+            dispatch_sync(flushBufferSerialQueue, ^{
+                [context flushBuffer];
+            });
         }
     }
 }

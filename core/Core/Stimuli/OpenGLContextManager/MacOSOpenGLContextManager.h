@@ -31,6 +31,7 @@ public:
     int getNumDisplays() const override;
     
     OpenGLContextLock setCurrent(int context_id) override;
+    OpenGLContextLock setCurrent(NSOpenGLContext *context);
     void clearCurrent() override;
     
     void bindDefaultFramebuffer(int context_id) override;
@@ -49,6 +50,7 @@ private:
                                           int numGridPoints);
     
     IOPMAssertionID display_sleep_block;
+    dispatch_queue_t flushBufferSerialQueue;
     
 };
 
