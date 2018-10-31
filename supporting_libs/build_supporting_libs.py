@@ -359,7 +359,7 @@ def openssl(ios=True):
 
 @builder
 def python3(ios=True):
-    version = '3.7.0'
+    version = '3.7.1'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -411,7 +411,7 @@ def python3(ios=True):
 
 @builder
 def numpy3(ios=True):
-    version = '1.15.1'
+    version = '1.15.3'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
