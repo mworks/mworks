@@ -50,6 +50,7 @@ public:
     
     bool setPriority(TaskPriority priority);
     
+    bool setQOSClass(qos_class_t qosClass, int relativePriority = 0);
     bool setImportance(integer_t importance);
     bool setTimesharing(bool timesharing);
     bool setRealtime(uint32_t period, uint32_t computation, uint32_t constraint, bool preemptible = true);

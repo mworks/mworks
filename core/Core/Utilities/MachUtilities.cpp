@@ -113,6 +113,19 @@ bool MachThreadSelf::setPriority(TaskPriority priority) {
 }
 
 
+bool MachThreadSelf::setQOSClass(qos_class_t qosClass, int relativePriority) {
+    const auto errorNum = pthread_set_qos_class_self_np(qosClass, relativePriority);
+    if (0 != errorNum) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN,
+               "pthread_set_qos_class_self_np failed: %s (%d)",
+               strerror(errorNum),
+               errorNum);
+        return false;
+    }
+    return true;
+}
+
+
 bool MachThreadSelf::setImportance(integer_t importance) {
     thread_precedence_policy_data_t precedencePolicyData;
     precedencePolicyData.importance = importance;
