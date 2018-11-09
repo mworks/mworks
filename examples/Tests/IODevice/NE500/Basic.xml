@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices">
-        <iodevice type="ne500" tag="ne500" address="&quot;10.0.254.254&quot;" port="100" response_timeout="500ms" log_pump_commands="YES">
+        <iodevice type="ne500" tag="ne500" address="" port="" response_timeout="500ms" log_pump_commands="YES">
             <iochannel type="ne500" tag="pump0" capability="00" syringe_diameter="15.0" flow_rate="rate" rate_unit="UM" variable="volume" volume_unit="UL"></iochannel>
         </iodevice>
     </io_devices>
