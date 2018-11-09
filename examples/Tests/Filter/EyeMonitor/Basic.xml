@@ -14,6 +14,7 @@
             <action type="assignment" tag="Compute eye speed" variable="eye_speed" value="sqrt(eye_velocity_h*eye_velocity_h + eye_velocity_v* eye_velocity_v)"></action>
         </variable>
         <variable tag="expected_v_h" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="expected_v_v" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
         <variable tag="tolerance" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0.2" type="any"></variable>
         <variable tag="saccade_speed" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="5" type="any"></variable>
         <variable tag="color_r" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
@@ -53,9 +54,10 @@
                     <action type="assignment" tag="Update eye_v" variable="eye_v" value="-eye_h"></action>
                     <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="1" duration_units="ms"></action>
                     <action type="assignment" tag="Compute expected velocity h" variable="expected_v_h" value="2e6 * pi() * amplitude / period * sin(2 * pi() * elapsed_time / period)"></action>
-                    <action type="assert" tag="Assert eye velocity h" condition="abs(eye_velocity_h - expected_v_h) &lt;= tolerance" message="" stop_on_failure="0"></action>
-                    <action type="assert" tag="Assert eye velocity v" condition="abs(eye_velocity_v + expected_v_h) &lt;= tolerance" message="" stop_on_failure="0"></action>
-                    <action type="assert" tag="Assert eye state" condition="saccade == (eye_speed &gt;= saccade_speed)" message="" stop_on_failure="0"></action>
+                    <action type="assignment" tag="Compute expected velocity v" variable="expected_v_v" value="-expected_v_h"></action>
+                    <action type="assert" tag="Assert eye velocity h" condition="abs(eye_velocity_h - expected_v_h) &lt;= tolerance" message="eye_velocity_h = $eye_velocity_h, expected_v_h = $expected_v_h" stop_on_failure="1"></action>
+                    <action type="assert" tag="Assert eye velocity v" condition="abs(eye_velocity_v - expected_v_v) &lt;= tolerance" message="eye_velocity_v = $eye_velocity_v, expected_v_v = $expected_v_v" stop_on_failure="1"></action>
+                    <action type="assert" tag="Assert eye state" condition="saccade == (eye_speed &gt;= saccade_speed)" message="" stop_on_failure="1"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition type="conditional" tag="If Condition is True, Transition to ..." condition="elapsed_time &gt;= 60s" target="Exit State System"></transition>
                     <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Update" timer="MyTimer"></transition>
