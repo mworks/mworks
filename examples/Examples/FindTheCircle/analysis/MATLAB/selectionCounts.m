@@ -1,6 +1,6 @@
 function selectionCounts(filename)
 
-addpath('/Library/Application Support/MWorks/Scripting/Matlab');
+addpath('/Library/Application Support/MWorks/Scripting/MATLAB');
 
 r_codec = getReverseCodec(filename);
 red_code = r_codec('red_selected');

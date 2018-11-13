@@ -123,9 +123,9 @@ Using MATLAB
 Setup
 *****
 
-To use MWorks' data analysis tools for MATLAB, you must first add the directory ``/Library/Application Support/MWorks/Scripting/Matlab`` to the search path::
+To use MWorks' data analysis tools for MATLAB, you must first add the directory ``/Library/Application Support/MWorks/Scripting/MATLAB`` to the search path::
 
-    addpath('/Library/Application Support/MWorks/Scripting/Matlab')
+    addpath('/Library/Application Support/MWorks/Scripting/MATLAB')
 
 
 Selecting Events

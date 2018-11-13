@@ -72,7 +72,7 @@ package_contents = {
 
     'MWorksMATLABTools':
         (
-        '/Library/Application Support/MWorks/Scripting/Matlab',
+        '/Library/Application Support/MWorks/Scripting/MATLAB',
         ),
 
     'MWorksExampleExperiments':
