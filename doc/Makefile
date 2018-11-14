@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 PYTHON        = python
 SPHINXOPTS    =
-SPHINXBUILD   = $(PYTHON) -c 'import sys; from sphinx import main; sys.exit(main())'
+SPHINXBUILD   = $(PYTHON) -c 'import sys; from sphinx.cmd.build import main; sys.exit(main())'
 PAPER         =
 BUILDDIR      = _build
 MW_VERSION    =
