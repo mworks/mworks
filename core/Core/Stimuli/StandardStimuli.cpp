@@ -14,11 +14,9 @@
 #include "StandardStimuli.h"
 
 #import <CoreGraphics/CoreGraphics.h>
-#import <ImageIO/ImageIO.h>
 
 #include <boost/uuid/detail/sha1.hpp>
 
-#include "CFObjectPtr.h"
 #include "ParameterValue.h"
 
 
@@ -467,6 +465,58 @@ auto ImageStimulus::getVertexPositions(double aspectRatio) -> VertexPositionArra
 }
 
 
+cf::ObjectPtr<CGImageSourceRef> ImageStimulus::loadImageFile(const std::string &filename, std::string &fileHash) {
+    @autoreleasepool {
+        NSData *imageData = nil;
+        
+        //
+        // Load image data
+        //
+        {
+            NSError *errorPtr = nil;
+            imageData = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:(filename.c_str())]
+                                               options:0
+                                                 error:&errorPtr];
+            if (!imageData) {
+                throw SimpleException("Cannot read image file", [[errorPtr localizedDescription] UTF8String]);
+            }
+        }
+        
+        //
+        // Create image source
+        //
+        auto imageSource = cf::ObjectPtr<CGImageSourceRef>::created(CGImageSourceCreateWithData(static_cast<CFDataRef>(imageData), nullptr));
+        if (CGImageSourceGetCount(imageSource.get()) < 1) {
+            auto imageSourceStatus = CGImageSourceGetStatus(imageSource.get());
+            throw SimpleException((boost::format("Cannot load image from file (status = %d)") % imageSourceStatus).str());
+        }
+        
+        //
+        // Compute the SHA-1 message digest of the raw file data, convert it to a hex string, and copy it to fileHash
+        //
+        {
+            boost::uuids::detail::sha1 sha;
+            sha.process_bytes([imageData bytes], [imageData length]);
+            
+            constexpr std::size_t digestSize = 5;
+            unsigned int digest[digestSize];
+            sha.get_digest(digest);
+            
+            std::ostringstream os;
+            os.fill('0');
+            os << std::hex;
+            for (int i = 0; i < digestSize; i++) {
+                os << std::setw(2 * sizeof(unsigned int)) << digest[i];
+            }
+            
+            fileHash = os.str();
+        }
+        
+        return imageSource;
+    }
+}
+
+
 void ImageStimulus::describeComponent(ComponentInfo &info) {
     BasicTransformStimulus::describeComponent(info);
     info.setSignature("stimulus/image_file");
@@ -556,140 +606,97 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     
     mprintf("Loading image %s", filename.c_str());
     
-    @autoreleasepool {
-        NSData *imageData = nil;
+    //
+    // Create texture
+    //
+    {
+        //
+        // The procedure used here is adapted from section "Creating a Texture from a Quartz Image Source" in
+        // "OpenGL Programming Guide for Mac":
+        //
+        // https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW31
+        //
         
-        //
-        // Load image data
-        //
-        {
-            NSError *errorPtr = nil;
-            imageData = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:(filename.c_str())]
-                                               options:0
-                                                 error:&errorPtr];
-            if (!imageData) {
-                throw SimpleException("Cannot read image file", [[errorPtr localizedDescription] UTF8String]);
+        auto imageSource = loadImageFile(filename, fileHash);
+        auto image = cf::ObjectPtr<CGImageRef>::created(CGImageSourceCreateImageAtIndex(imageSource.get(), 0, nullptr));
+        
+        // If we're not using color management, replace the image's color space with an appropriate
+        // device-dependent one, so that its color values are not altered in any way
+        if (!display->getUseColorManagement()) {
+            cf::ObjectPtr<CGColorSpaceRef> imageColorSpace;
+            
+            switch (CGColorSpaceGetModel(CGImageGetColorSpace(image.get()))) {
+                case kCGColorSpaceModelMonochrome:
+                    imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceGray());
+                    break;
+                case kCGColorSpaceModelRGB:
+                    imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
+                    break;
+                case kCGColorSpaceModelCMYK:
+                    imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceCMYK());
+                    break;
+                default:
+                    throw SimpleException("Image uses an unsupported color model");
             }
+            
+            image = cf::ObjectPtr<CGImageRef>::created(CGImageCreateCopyWithColorSpace(image.get(),
+                                                                                       imageColorSpace.get()));
         }
         
-        //
-        // Create texture
-        //
-        {
-            //
-            // The procedure used here is adapted from section "Creating a Texture from a Quartz Image Source" in
-            // "OpenGL Programming Guide for Mac":
-            //
-            // https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW31
-            //
-            
-            auto imageSource = cf::ObjectPtr<CGImageSourceRef>::created(CGImageSourceCreateWithData(static_cast<CFDataRef>(imageData), nullptr));
-            if (CGImageSourceGetCount(imageSource.get()) < 1) {
-                auto imageSourceStatus = CGImageSourceGetStatus(imageSource.get());
-                throw SimpleException((boost::format("Cannot load image from file (status = %d)") % imageSourceStatus).str());
-            }
-            
-            auto image = cf::ObjectPtr<CGImageRef>::created(CGImageSourceCreateImageAtIndex(imageSource.get(), 0, nullptr));
-            
-            // If we're not using color management, replace the image's color space with an appropriate
-            // device-dependent one, so that its color values are not altered in any way
-            if (!display->getUseColorManagement()) {
-                cf::ObjectPtr<CGColorSpaceRef> imageColorSpace;
-                
-                switch (CGColorSpaceGetModel(CGImageGetColorSpace(image.get()))) {
-                    case kCGColorSpaceModelMonochrome:
-                        imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceGray());
-                        break;
-                    case kCGColorSpaceModelRGB:
-                        imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
-                        break;
-                    case kCGColorSpaceModelCMYK:
-                        imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceCMYK());
-                        break;
-                    default:
-                        throw SimpleException("Image uses an unsupported color model");
-                }
-                
-                image = cf::ObjectPtr<CGImageRef>::created(CGImageCreateCopyWithColorSpace(image.get(),
-                                                                                           imageColorSpace.get()));
-            }
-            
-            auto width = CGImageGetWidth(image.get());
-            auto height = CGImageGetHeight(image.get());
-            aspectRatio = double(width) / double(height);
-            
-            // If we're using color management, convert the image to sRGB.  Otherwise, draw it in the
-            // device-dependent RGB color space.
-            auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(display->getUseColorManagement() ?
-                                                                      CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
-                                                                      CGColorSpaceCreateDeviceRGB());
-            
-            auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
-                                                                                      width,
-                                                                                      height,
-                                                                                      8,
-                                                                                      width * 4,
-                                                                                      colorSpace.get(),
+        auto width = CGImageGetWidth(image.get());
+        auto height = CGImageGetHeight(image.get());
+        aspectRatio = double(width) / double(height);
+        
+        // If we're using color management, convert the image to sRGB.  Otherwise, draw it in the
+        // device-dependent RGB color space.
+        auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(display->getUseColorManagement() ?
+                                                                  CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
+                                                                  CGColorSpaceCreateDeviceRGB());
+        
+        auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
+                                                                                  width,
+                                                                                  height,
+                                                                                  8,
+                                                                                  width * 4,
+                                                                                  colorSpace.get(),
 #if MWORKS_OPENGL_ES
-                                                                                      kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big));
+                                                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big));
 #else
-                                                                                      kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
+                                                                                  kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
 #endif
-            
-            // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL)
-            CGContextTranslateCTM(context.get(), 0, height);
-            CGContextScaleCTM(context.get(), 1, -1);
-            
-            CGContextSetBlendMode(context.get(), kCGBlendModeCopy);
-            
-            CGContextDrawImage(context.get(), CGRectMake(0, 0, width, height), image.get());
-            
-            glGenTextures(1, &texture);
-            gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
-            
-            gl::resetPixelStorageUnpackParameters();
-            
-            glTexImage2D(GL_TEXTURE_2D,
-                         0,
-                         (display->getUseColorManagement() ? GL_SRGB8_ALPHA8 : GL_RGBA8),
-                         width,
-                         height,
-                         0,
-#if MWORKS_OPENGL_ES
-                         GL_RGBA,
-                         GL_UNSIGNED_BYTE,
-#else
-                         GL_BGRA,
-                         GL_UNSIGNED_INT_8_8_8_8_REV,
-#endif
-                         CGBitmapContextGetData(context.get()));
-            
-            glGenerateMipmap(GL_TEXTURE_2D);
-            
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        }
         
-        //
-        // Compute the SHA-1 message digest of the raw file data, convert it to a hex string, and copy it to fileHash
-        //
-        {
-            boost::uuids::detail::sha1 sha;
-            sha.process_bytes([imageData bytes], [imageData length]);
-            
-            constexpr std::size_t digestSize = 5;
-            unsigned int digest[digestSize];
-            sha.get_digest(digest);
-            
-            std::ostringstream os;
-            os.fill('0');
-            os << std::hex;
-            for (int i = 0; i < digestSize; i++) {
-                os << std::setw(2 * sizeof(unsigned int)) << digest[i];
-            }
-            
-            fileHash = os.str();
-        }
+        // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL)
+        CGContextTranslateCTM(context.get(), 0, height);
+        CGContextScaleCTM(context.get(), 1, -1);
+        
+        CGContextSetBlendMode(context.get(), kCGBlendModeCopy);
+        
+        CGContextDrawImage(context.get(), CGRectMake(0, 0, width, height), image.get());
+        
+        glGenTextures(1, &texture);
+        gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
+        
+        gl::resetPixelStorageUnpackParameters();
+        
+        glTexImage2D(GL_TEXTURE_2D,
+                     0,
+                     (display->getUseColorManagement() ? GL_SRGB8_ALPHA8 : GL_RGBA8),
+                     width,
+                     height,
+                     0,
+#if MWORKS_OPENGL_ES
+                     GL_RGBA,
+                     GL_UNSIGNED_BYTE,
+#else
+                     GL_BGRA,
+                     GL_UNSIGNED_INT_8_8_8_8_REV,
+#endif
+                     CGBitmapContextGetData(context.get()));
+        
+        glGenerateMipmap(GL_TEXTURE_2D);
+        
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     }
     
     mprintf("Image loaded into texture_map %u", texture);

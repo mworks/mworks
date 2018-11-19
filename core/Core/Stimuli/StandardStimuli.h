@@ -19,6 +19,9 @@
 #ifndef _STANDARD_STIMULI_H
 #define _STANDARD_STIMULI_H
 
+#include <ImageIO/ImageIO.h>
+
+#include "CFObjectPtr.h"
 #include "Stimulus.h"
 
 
@@ -192,6 +195,7 @@ public:
     static const std::string PATH;
     
     static VertexPositionArray getVertexPositions(double aspectRatio);
+    static cf::ObjectPtr<CGImageSourceRef> loadImageFile(const std::string &filename, std::string &fileHash);
     
     static void describeComponent(ComponentInfo &info);
     
