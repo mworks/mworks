@@ -147,6 +147,14 @@ inline VariablePtr variableOrText(const ParameterValue &param) {
 }
 
 
+inline VariablePtr optionalVariable(const ParameterValue &param) {
+    if (param.empty()) {
+        return VariablePtr();
+    }
+    return VariablePtr(param);
+}
+
+
 END_NAMESPACE_MW
 
 
