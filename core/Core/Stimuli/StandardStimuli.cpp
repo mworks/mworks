@@ -466,6 +466,8 @@ auto ImageStimulus::getVertexPositions(double aspectRatio) -> VertexPositionArra
 
 
 cf::ObjectPtr<CGImageSourceRef> ImageStimulus::loadImageFile(const std::string &filename, std::string &fileHash) {
+    mprintf("Loading image %s", filename.c_str());
+    
     @autoreleasepool {
         NSData *imageData = nil;
         
@@ -603,8 +605,6 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     
     // Evaluate and store file path
     filename = pathFromParameterValue(path).string();
-    
-    mprintf("Loading image %s", filename.c_str());
     
     //
     // Create texture
