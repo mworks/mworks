@@ -20,13 +20,13 @@ class TestXMLGenerator(ErrorLoggerMixin, TempFilesMixin, unittest.TestCase):
         self.validator = Validator(self.error_logger)
         self.generator = XMLGenerator()
 
-    def generate(self, src):
+    def generate(self, src, omit_metadata=False):
         tree = self.parser.parse(src, self.tmpdir)
         self.assertNoErrors()
         cmpts = self.analyzer.analyze(tree)
         cmpts = self.validator.validate(cmpts)
         self.assertNoErrors()
-        return self.generator.generate(cmpts)
+        return self.generator.generate(cmpts, omit_metadata)
 
     def test_all(self):
         base_src = '''\
@@ -93,6 +93,63 @@ protocol 'Test Protocol' {
         # Add node with tail
         node = ET.SubElement(node, 'child')
         node.tail = 'Some stray text'
+
+        self.generator.format(root)
+
+        output_stream = io.BytesIO()
+        self.generator.write(root, output_stream)
+        self.assertEqual(expected_xml_output,
+                         output_stream.getvalue().decode('utf-8'))
+
+    def test_omit_metadata(self):
+        base_src = '''\
+var x = 2
+
+folder 'Other Vars' {
+    var foo = 12
+    var bar = 'This is a string'
+    var blah = [1.5, 2.5, 3.5]
+}
+
+%include protocol
+
+experiment 'My Experiment' {}
+'''
+
+        protocol_src = '''\
+protocol 'Test Protocol' {
+    if (x > 1) {
+        report ('x is greater than 1!')
+    }
+    x = 'foo'
+    report ('x = $x')
+}
+'''
+        protocol_path = self.write_file('protocol.mwel', protocol_src)
+
+        expected_xml_output = '''\
+<?xml version='1.0' encoding='UTF-8'?>
+<monkeyml version="1.0">
+  <variable default_value="2" tag="x" />
+  <folder tag="Other Vars">
+    <variable default_value="12" tag="foo" />
+    <variable default_value="'This is a string'" tag="bar" />
+    <variable default_value="[1.5, 2.5, 3.5]" tag="blah" />
+  </folder>
+  <experiment tag="My Experiment">
+    <protocol tag="Test Protocol">
+      <action condition="x &gt; 1" type="if">
+        <action message="x is greater than 1!" type="report" />
+      </action>
+      <action type="assignment" value="'foo'" variable="x" />
+      <action message="x = $x" type="report" />
+    </protocol>
+  </experiment>
+</monkeyml>
+'''
+
+        root = self.generate(base_src, omit_metadata=True)
+        self.assertIsInstance(root, ET.Element)
 
         self.generator.format(root)
 

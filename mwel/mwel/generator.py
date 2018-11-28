@@ -10,29 +10,30 @@ class XMLGenerator(object):
         self.newline = newline
         self.tab = tab
 
-    def generate(self, cmpts):
+    def generate(self, cmpts, omit_metadata=False):
         root = ET.Element('monkeyml', version='1.0')
         for c in cmpts:
-            self._convert(c, root)
+            self._convert(c, root, omit_metadata)
         return root
 
-    def _convert(self, cmpt, parent_node):
+    def _convert(self, cmpt, parent_node, omit_metadata):
         params = cmpt.params.copy()
         if cmpt.type:
             params['type'] = cmpt.type
         if cmpt.tag:
             params['tag'] = cmpt.tag
 
-        location = ErrorLogger.format_location(cmpt.lineno,
-                                               cmpt.colno,
-                                               cmpt.filename)
-        if location:
-            params['_location'] = location
+        if not omit_metadata:
+            location = ErrorLogger.format_location(cmpt.lineno,
+                                                   cmpt.colno,
+                                                   cmpt.filename)
+            if location:
+                params['_location'] = location
 
         node = ET.SubElement(parent_node, cmpt.name, params)
 
         for child in cmpt.children:
-            self._convert(child, node)
+            self._convert(child, node, omit_metadata)
 
     def format(self, node, depth=0, last_at_depth=True):
         children = list(node)
