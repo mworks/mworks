@@ -47,12 +47,13 @@ class Lexer(object):
     states = (
         ('sstring', 'exclusive'),
         ('dstring', 'exclusive'),
+        ('comment', 'exclusive'),
         )
 
     tokens = ('STRING',)
 
     t_ignore = ' \t\r'
-    t_sstring_dstring_ignore = ''
+    t_sstring_dstring_comment_ignore = ''
 
     t_ignore_comment = r'//[^\n]*'
 
@@ -119,6 +120,22 @@ class Lexer(object):
     def t_dstring_end(self, t):
         r'"'
         return self.end_string(t)
+
+    def t_INITIAL_comment_begin_comment(self, t):
+        r'/\*'
+        t.lexer.push_state('comment')
+
+    def t_comment_body(self, t):
+        r'([^\n/*] | (/(?!\*)) | (\*(?!/)))+'
+        pass
+
+    def t_comment_newline(self, t):
+        r'\n+'
+        self.update_lineno(t)
+
+    def t_comment_end(self, t):
+        r'\*/'
+        t.lexer.pop_state()
 
     @TOKEN(
         r'( ([0-9]+(\.[0-9]*)?) |'

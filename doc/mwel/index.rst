@@ -15,17 +15,33 @@ The following sections describe MWEL in detail.
 Comments
 --------
 
-Comments in MWEL begin with ``//`` and continue to the end of the line.  They are used to explain, clarify, or otherwise document parts of an experiment::
+Comments are used to explain, clarify, or otherwise document parts of an experiment.  MWEL supports both single-line and multi-line comments.
+
+Single-line comments begin with ``//`` and continue to the end of the line::
 
     // This is a single-line comment
 
-    //
-    // Here is a comment
-    // that spans
-    // multiple lines
-    //
-
     var x = 1  // Comments can appear on the same line as non-comment code
+
+Multi-line comments begin with ``/*`` and end with ``*/``::
+
+    /*
+       Here is a comment
+       that spans
+       multiple lines
+    */
+
+    var y = /* This type of comment can appear within non-comment code */ 2
+
+    /*
+       Unlike some programming languages,
+       /* MWEL allows nested pairs of
+          /* multi-line comment delimiters within
+             a multi-line comment */
+       */
+    */
+
+    var z = 3
 
 
 .. _identifiers:

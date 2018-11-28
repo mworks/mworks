@@ -70,11 +70,11 @@ class TestLexer(unittest.TestCase):
     def assertString(self, value):
         self.assertToken('STRING', value)
 
-    def assertNumber(self, value):
-        self.assertToken('NUMBER', value)
+    def assertNumber(self, value, lineno=None):
+        self.assertToken('NUMBER', value, lineno)
 
-    def assertIdentifier(self, value):
-        self.assertToken('IDENTIFIER', value)
+    def assertIdentifier(self, value, lineno=None):
+        self.assertToken('IDENTIFIER', value, lineno)
 
     def test_whitespace(self):
         self.ignore_newlines = False
@@ -99,6 +99,44 @@ class TestLexer(unittest.TestCase):
         with self.input('1 // foo 123 abc\n// blah blah\n2'):
             self.assertToken('NUMBER', '1')
             self.assertToken('NUMBER', '2', lineno=3)
+
+    def test_multiline_comments(self):
+        self.ignore_newlines = False
+
+        # Basic
+        with self.input('''
+                        foo
+                        /* bar blah
+                        1 2 3 * /
+                        + - */
+                        / * 4
+                        abc
+                        '''):
+            self.assertToken('NEWLINE', '\n')
+            self.assertIdentifier('foo')
+            self.assertToken('NEWLINE', '\n')
+            self.assertToken('NEWLINE', '\n')
+            self.assertToken('/', lineno=6)
+            self.assertToken('*')
+            self.assertNumber('4')
+            self.assertToken('NEWLINE', '\n')
+            self.assertIdentifier('abc', lineno=7)
+            self.assertToken('NEWLINE', '\n')
+
+        # Nested
+        with self.input('''
+                        foo
+                        /* bar /* blah /* 1 2 3
+                        */
+                        + */ - */
+                        4
+                        '''):
+            self.assertToken('NEWLINE', '\n')
+            self.assertIdentifier('foo')
+            self.assertToken('NEWLINE', '\n')
+            self.assertToken('NEWLINE', '\n')
+            self.assertNumber('4', lineno=6)
+            self.assertToken('NEWLINE', '\n')
 
     def test_operators(self):
         # Arithmetic
