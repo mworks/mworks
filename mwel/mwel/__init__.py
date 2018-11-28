@@ -108,13 +108,19 @@ def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     from .parser import Parser
     from .validator import Validator
 
-    if len(argv) != 2:
-        print('Usage: %s file' % os.path.basename(argv[0]), file=stderr)
+    omit_metadata = False
+    if len(argv) == 2:
+        filepath = argv[1]
+    elif len(argv) == 3 and argv[1] == '--omit-metadata':
+        filepath = argv[2]
+        omit_metadata = True
+    else:
+        print('Usage: %s [--omit-metadata] file' % os.path.basename(argv[0]),
+              file = stderr)
         return 2
 
     error_logger = ErrorLogger()
 
-    filepath = argv[1]
     src = readfile(filepath, error_logger)
     if src is not None:
         parser = Parser(error_logger)
@@ -128,21 +134,22 @@ def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
         return 1
 
     generator = XMLGenerator()
-    root = generator.generate(cmpts)
+    root = generator.generate(cmpts, omit_metadata)
 
-    # Store the sources for the experiment and all included files in an
-    # assignment to #loadedExperiment
-    sources = collections.OrderedDict()
-    sources[filepath] = src
-    sources.update(parser.included_files)
-    va_node = ET.SubElement(root,
-                            'variable_assignment',
-                            variable = '#loadedExperiment')
-    dict_node = ET.SubElement(va_node, 'dictionary')
-    for path, src in sources.items():
-        dict_elem_node = ET.SubElement(dict_node, 'dictionary_element')
-        ET.SubElement(dict_elem_node, 'key').text = path
-        ET.SubElement(dict_elem_node, 'value', type='string').text = src
+    if not omit_metadata:
+        # Store the sources for the experiment and all included files in an
+        # assignment to #loadedExperiment
+        sources = collections.OrderedDict()
+        sources[filepath] = src
+        sources.update(parser.included_files)
+        va_node = ET.SubElement(root,
+                                'variable_assignment',
+                                variable = '#loadedExperiment')
+        dict_node = ET.SubElement(va_node, 'dictionary')
+        for path, src in sources.items():
+            dict_elem_node = ET.SubElement(dict_node, 'dictionary_element')
+            ET.SubElement(dict_elem_node, 'key').text = path
+            ET.SubElement(dict_elem_node, 'value', type='string').text = src
 
     generator.format(root)
     try:

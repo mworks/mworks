@@ -124,11 +124,11 @@ class TestToXML(TempFilesMixin, unittest.TestCase):
     def test_usage_error(self):
         # No args
         self.assertEqual(2, self.toxml('my_script'))
-        self.assertOutput(stderr='Usage: my_script file\n')
+        self.assertOutput(stderr='Usage: my_script [--omit-metadata] file\n')
 
         # Extra args
         self.assertEqual(2, self.toxml('/path/to/my_script', 'foo', 'bar'))
-        self.assertOutput(stderr='Usage: my_script file\n')
+        self.assertOutput(stderr='Usage: my_script [--omit-metadata] file\n')
 
     def test_file_read_error(self):
         self.assertEqual(1, self.toxml('my_script', '/path/to/not_a_file'))
@@ -376,3 +376,49 @@ File '%s' does not contain valid UTF-8 encoded text [line 2, column 2]
         self.assertOutput(stderr='''\
 File '%s' does not contain valid UTF-8 encoded text
 ''' % experiment_path)
+
+    def test_omit_metadata(self):
+        src = '''\
+var x = 2
+
+folder 'Other Vars' {
+    var foo = 12
+    var bar = 'This is a string'
+    var blah = [1.5, 2.5, 3.5]
+}
+
+protocol 'Test Protocol' {
+    if (x > 1) {
+        report ('x is greater than 1!')
+    }
+    x = 'foo'
+    report ('x = $x')
+}
+
+experiment 'My Experiment' {}
+'''
+        src_path = self.write_file('experiment.mwel', src)
+
+        self.assertEqual(0, self.toxml('my_script',
+                                       '--omit-metadata',
+                                       src_path))
+        self.assertOutput(stdout='''\
+<?xml version='1.0' encoding='UTF-8'?>
+<monkeyml version="1.0">
+  <variable default_value="2" tag="x" />
+  <folder tag="Other Vars">
+    <variable default_value="12" tag="foo" />
+    <variable default_value="'This is a string'" tag="bar" />
+    <variable default_value="[1.5, 2.5, 3.5]" tag="blah" />
+  </folder>
+  <experiment tag="My Experiment">
+    <protocol tag="Test Protocol">
+      <action condition="x &gt; 1" type="if">
+        <action message="x is greater than 1!" type="report" />
+      </action>
+      <action type="assignment" value="'foo'" variable="x" />
+      <action message="x = $x" type="report" />
+    </protocol>
+  </experiment>
+</monkeyml>
+''')
