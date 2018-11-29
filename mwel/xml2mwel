@@ -1,0 +1,10 @@
+#!/usr/bin/python
+
+from __future__ import division, print_function, unicode_literals
+import sys
+
+import mwel
+
+
+if __name__ == '__main__':
+    sys.exit(mwel.fromxml())

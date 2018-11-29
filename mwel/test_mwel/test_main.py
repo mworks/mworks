@@ -4,7 +4,7 @@ import io
 import sys
 import unittest
 
-from mwel import ErrorLogger, toxml
+from mwel import ErrorLogger, toxml, fromxml
 
 from . import TempFilesMixin
 
@@ -421,4 +421,102 @@ experiment 'My Experiment' {}
     </protocol>
   </experiment>
 </monkeyml>
+''')
+
+
+class TestFromXML(TempFilesMixin, unittest.TestCase):
+
+    def fromxml(self, *argv):
+        self.stdout = io.StringIO()
+        self.stderr = io.StringIO()
+        return fromxml(argv, self.stdout, self.stderr)
+
+    def assertOutput(self, stdout='', stderr=''):
+        self.assertEqual(stdout, self.stdout.getvalue())
+        self.assertEqual(stderr, self.stderr.getvalue())
+
+    def test_usage_error(self):
+        # No args
+        self.assertEqual(2, self.fromxml('my_script'))
+        self.assertOutput(stderr='Usage: my_script file\n')
+
+        # Extra args
+        self.assertEqual(2, self.fromxml('/path/to/my_script', 'foo', 'bar'))
+        self.assertOutput(stderr='Usage: my_script file\n')
+
+    def test_file_read_error(self):
+        self.assertEqual(1, self.fromxml('my_script', '/path/to/not_a_file'))
+        self.assertOutput(stderr=("Failed to open file '/path/to/not_a_file': "
+                                  "No such file or directory\n"))
+
+    def test_xml_parsing_failure(self):
+        src = b'''\
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <protocol>
+        <action type="assignment" variable="x" value="1">
+    </protocol>
+</monkeyml>'''
+
+        src_path = self.write_file('experiment.xml', src, encoding=None)
+
+        self.assertEqual(1, self.fromxml('my_script', src_path))
+        self.assertOutput(stderr='''\
+Failed to parse XML: mismatched tag [line 5, column 6]
+''')
+
+    def test_errors(self):
+        src = b'''\
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <!-- Flagged by XML parser-->
+    foo
+    <protocol>
+        <action type="assignment" variable="x" value="1"/>
+        <!-- Flagged by simplifier-->
+        <transition_marker>
+            <action type="report" message="Not cool!"></action>
+        </transition_marker>
+    </protocol>
+</monkeyml>'''
+
+        src_path = self.write_file('experiment.xml', src, encoding=None)
+
+        self.assertEqual(1, self.fromxml('my_script', src_path))
+        self.assertOutput(stdout='''\
+// Flagged by XML parser
+protocol {
+    x = 1
+    // Flagged by simplifier
+}
+''',
+                          stderr='''\
+XML contains unexpected data
+Ignored element 'transition_marker' has unexpected children that will also be ignored [line 8, column 8]
+''')
+
+    def test_no_errors(self):
+        src = b'''\
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <!-- Empty parameter removed by simplifier-->
+    <protocol nsamples="10" sampling_method="">
+        <!-- Assignment transformed by converter-->
+        <action type="assignment" variable="x" value="1"/>
+        <!-- Type name shortened by beautifier-->
+        <action type="update_stimulus_display"/>
+    </protocol>
+</monkeyml>'''
+
+        src_path = self.write_file('experiment.xml', src, encoding=None)
+
+        self.assertEqual(0, self.fromxml('my_script', src_path))
+        self.assertOutput(stdout='''\
+// Empty parameter removed by simplifier
+protocol (nsamples = 10) {
+    // Assignment transformed by converter
+    x = 1
+    // Type name shortened by beautifier
+    update_stimulus_display ()
+}
 ''')

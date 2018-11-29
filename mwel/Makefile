@@ -9,7 +9,7 @@ MWEL_DIR = $(MW_APP_SUPPORT_DIR)/MWEL
 all: install
 
 install: test
-	$(RSYNC_A) --exclude=__pycache__ mwel mwel2xml $(MWEL_DIR)
+	$(RSYNC_A) --exclude=__pycache__ mwel mwel2xml xml2mwel $(MWEL_DIR)
 
 uninstall:
 	$(RM_RF) $(MWEL_DIR)

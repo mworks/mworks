@@ -68,6 +68,8 @@ class TempFilesMixin(object):
         dirpath = os.path.dirname(filepath)
         if not os.path.isdir(dirpath):
             os.makedirs(dirpath)
+        if encoding:
+            src = src.encode(encoding)
         with open(filepath, 'wb') as fp:
-            fp.write(src.encode(encoding))
+            fp.write(src)
         return filepath

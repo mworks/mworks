@@ -86,10 +86,13 @@ class ErrorLogger(object):
         return location
 
 
-def readfile(filepath, error_logger, lineno=None, colno=None):
+def readfile(filepath, error_logger, lineno=None, colno=None, decode=True):
     try:
         with open(filepath, 'rb') as fp:
-            return fp.read().decode('utf-8')
+            data = fp.read()
+        if decode:
+            data = data.decode('utf-8')
+        return data
     except IOError as e:
         error_logger(("Failed to open file '%s': %s" %
                       (filepath, e.strerror)),
@@ -158,5 +161,35 @@ def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
         # Python 2.7
         output_stream = stdout
     generator.write(root, output_stream)
+
+    return 0
+
+
+def fromxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
+    from .decompiler.beautifier import Beautifier
+    from .decompiler.converter import Converter
+    from .decompiler.outputter import Outputter
+    from .decompiler.simplifier import Simplifier
+    from .decompiler.xmlparser import XMLParser
+
+    if len(argv) != 2:
+        print('Usage: %s file' % os.path.basename(argv[0]), file=stderr)
+        return 2
+
+    filepath = argv[1]
+    error_logger = ErrorLogger()
+
+    src_data = readfile(filepath, error_logger, decode=False)
+    if src_data is not None:
+        root = XMLParser(error_logger).parse(src_data)
+        if root:
+            Simplifier(error_logger).simplify(root)
+            items = Converter(error_logger).convert(root)
+            Beautifier(error_logger).beautify(items)
+            Outputter(error_logger).output(items, stdout)
+
+    if error_logger.errors:
+        error_logger.print_errors(stderr)
+        return 1
 
     return 0
