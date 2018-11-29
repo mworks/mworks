@@ -574,10 +574,7 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                  ''',
                  ast.VarStmt(name='foo', value=self.bar),
                  ast.AssignmentStmt(varname='x', value=self.two),
-                 ast.DeclarationStmt(type = 'foo',
-                                     tag = 'bar',
-                                     params = (),
-                                     children = ()),
+                 ast.DeclarationStmt(type='foo', tag='bar'),
                  )
 
         # Missing newline between statements
@@ -823,10 +820,7 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                   children = (
                       ast.VarStmt(name='foo', value=self.bar),
                       ast.AssignmentStmt(varname='x', value=self.two),
-                      ast.DeclarationStmt(type = 'foo',
-                                          tag = 'bar',
-                                          params = (),
-                                          children = ()),
+                      ast.DeclarationStmt(type='foo', tag='bar'),
                       ),
                   )
 
@@ -975,10 +969,7 @@ bar = 1
             self.assertEqual(2, len(blah.statements))
             self.assertEqual(ast.AssignmentStmt(varname='foo', value=self.one),
                              blah.statements[0])
-            self.assertEqual(ast.DeclarationStmt(type = 'blah',
-                                                 tag = None,
-                                                 params = (),
-                                                 children = ()),
+            self.assertEqual(ast.DeclarationStmt(type='blah'),
                              blah.statements[1])
 
             self.assertEqual(ast.AssignmentStmt(varname='bar', value=self.two),
@@ -991,17 +982,12 @@ bar = 1
             self.assertEqual(1, len(something.statements))
             self.assertEqual(ast.DeclarationStmt(
                 type = 'baz',
-                tag = None,
-                params = (),
                 children = (ast.AssignmentStmt(varname='foo',
                                                value=self.three),)
                 ),
                              something.statements[0])
 
-            self.assertEqual(ast.DeclarationStmt(type = 'foo',
-                                                 tag = 'bar',
-                                                 params = (),
-                                                 children = ()),
+            self.assertEqual(ast.DeclarationStmt(type='foo', tag='bar'),
                              p.statements[4])
 
             self.assertError(("Failed to open file '%s': "

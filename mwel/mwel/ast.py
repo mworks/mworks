@@ -70,6 +70,7 @@ class AssignmentStmt(Stmt):
 class DeclarationStmt(Stmt):
 
     _fields = ('type', 'tag', 'params', 'children')
+    _defaults = {'tag': None, 'params': (), 'children': ()}
 
 
 class MacroStmt(Stmt):
