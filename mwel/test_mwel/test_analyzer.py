@@ -108,17 +108,6 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
         with self.analyze('') as cmpts:
             self.assertEqual([], cmpts)
 
-    def test_var_stmt(self):
-        with self.analyze('''
-                          var foo = 'bar'
-                          ''') as cmpts:
-            self.assertEqual(1, len(cmpts))
-            children = self.assertComponent(cmpts[0], 2, 27,
-                                            name = 'variable',
-                                            tag = 'foo',
-                                            default_value = "'bar'")
-            self.assertEqual([], children)
-
     def test_assignment_stmt(self):
         with self.analyze('''
                           foo = 'bar'
@@ -277,6 +266,73 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
             children = self.assertComponent(cmpts[0], 2, 27,
                                             name = 'bizzfizz',
                                             b = 'a')
+            self.assertEqual([], children)
+
+    def test_decl_stmt_with_value(self):
+        # No parameters or children
+        with self.analyze('''
+                          var foo = 'bar'
+                          ''') as cmpts:
+            self.assertEqual(1, len(cmpts))
+            children = self.assertComponent(cmpts[0], 2, 27,
+                                            name = 'variable',
+                                            tag = 'foo',
+                                            default_value = "'bar'")
+            self.assertEqual([], children)
+
+        # With params, no children
+        with self.analyze('''
+                          variable foo = 'bar' (a = b)
+                          ''') as cmpts:
+            self.assertEqual(1, len(cmpts))
+            children = self.assertComponent(cmpts[0], 2, 27,
+                                            name = 'variable',
+                                            tag = 'foo',
+                                            default_value = "'bar'",
+                                            a = 'b')
+            self.assertEqual([], children)
+
+        # With params and children
+        with self.analyze('''
+                          var foo = 'bar' (a = b) {
+                              x = 1
+                              y = "two"
+                          }
+                          ''') as cmpts:
+            self.assertEqual(1, len(cmpts))
+            cmpts = self.assertComponent(cmpts[0], 2, 27,
+                                         name = 'variable',
+                                         tag = 'foo',
+                                         default_value = "'bar'",
+                                         a = 'b')
+            self.assertEqual(2, len(cmpts))
+
+            children = self.assertComponent(cmpts[0], 3, 33,
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'x',
+                                            value = '1')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[1], 4, 33,
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'y',
+                                            value = '"two"')
+            self.assertEqual([], children)
+
+        # Not a variable declaration
+        with self.analyze('''
+                          foo bar = 3
+                          ''') as cmpts:
+            self.assertError('Only variable declarations can specify a '
+                             "default value with '='",
+                             lineno = 2,
+                             colno = 27)
+            self.assertEqual(1, len(cmpts))
+            children = self.assertComponent(cmpts[0], 2, 27,
+                                            name = 'foo',
+                                            tag = 'bar')
             self.assertEqual([], children)
 
     def test_decl_stmt_parameter_name_inference(self):

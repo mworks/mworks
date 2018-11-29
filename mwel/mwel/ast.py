@@ -56,11 +56,6 @@ class Stmt(AST):
     pass
 
 
-class VarStmt(Stmt):
-
-    _fields = ('name', 'value')
-
-
 class AssignmentStmt(Stmt):
 
     _fields = ('varname', 'indices', 'op', 'value')
@@ -69,8 +64,8 @@ class AssignmentStmt(Stmt):
 
 class DeclarationStmt(Stmt):
 
-    _fields = ('type', 'tag', 'params', 'children')
-    _defaults = {'tag': None, 'params': (), 'children': ()}
+    _fields = ('type', 'tag', 'value', 'params', 'children')
+    _defaults = {'tag': None, 'value': None, 'params': (), 'children': ()}
 
 
 class MacroStmt(Stmt):

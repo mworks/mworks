@@ -561,7 +561,7 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
         test_mod('''
                  var foo = bar
                  ''',
-                 ast.VarStmt(name='foo', value=self.bar),
+                 ast.DeclarationStmt(type='var', tag='foo', value=self.bar),
                  )
 
         # Multiple statements
@@ -572,7 +572,7 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                  // One more statement
                  foo bar ()
                  ''',
-                 ast.VarStmt(name='foo', value=self.bar),
+                 ast.DeclarationStmt(type='var', tag='foo', value=self.bar),
                  ast.AssignmentStmt(varname='x', value=self.two),
                  ast.DeclarationStmt(type='foo', tag='bar'),
                  )
@@ -583,49 +583,6 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                         '''):
             self.assertError('Missing newline at end of statement',
                              token='y')
-
-    def test_var_stmt(self):
-        def test_var(src, name, value):
-            with self.parse(src) as p:
-                self.assertIsInstance(p, ast.Module)
-                self.assertEqual(1, len(p.statements))
-                p = p.statements[0]
-
-                self.assertIsInstance(p, ast.VarStmt)
-                self.assertLocation(p, 1, 1)
-                self.assertEqual(name, p.name)
-                self.assertEqual(value, p.value)
-
-        test_var('var foo = 1', 'foo', self.one)
-        test_var('var var = bar', 'var', self.bar)
-
-        # Wrong case
-        with self.parse('VAR foo = 1'):
-            self.assertExpected("'(' or '{'", got='=')
-
-        # Bad name
-        with self.parse('var 1 = 2'):
-            self.assertExpected("'(' or '{'", got='1')
-
-        # Missing =
-        with self.parse('''
-                        var a
-                        var b = 1
-                        '''):
-            self.assertExpected("'(' or '{'", lineno=2)
-
-        # Regular declaration
-        with self.parse('var foo ()') as p:
-            self.assertIsInstance(p, ast.Module)
-            self.assertEqual(1, len(p.statements))
-            p = p.statements[0]
-
-            self.assertIsInstance(p, ast.DeclarationStmt)
-            self.assertLocation(p, 1, 1)
-            self.assertEqual('var', p.type)
-            self.assertEqual('foo', p.tag)
-            self.assertEqual((), p.params)
-            self.assertEqual((), p.children)
 
     def test_assignment_stmt(self):
         def test_assign(src, colno, varname, value):
@@ -728,7 +685,12 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
             self.assertError('Line ended unexpectedly', token='\n', lineno=2)
 
     def test_declaration_stmt(self):
-        def test_decl(src, typename, tagname=None, params=(), children=()):
+        def test_decl(src,
+                      typename,
+                      tagname = None,
+                      value = None,
+                      params = (),
+                      children = ()):
             with self.parse(src) as p:
                 self.assertIsInstance(p, ast.Module)
                 self.assertEqual(1, len(p.statements))
@@ -738,6 +700,7 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                 self.assertLocation(p, 1, 1)
                 self.assertEqual(typename, p.type)
                 self.assertEqual(tagname, p.tag)
+                self.assertEqual(value, p.value)
                 self.assertIsInstance(p.params, (tuple, dict))
                 self.assertEqual(params, p.params)
                 self.assertIsInstance(p.children, tuple)
@@ -781,7 +744,7 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
         one_two_three = ast.ExprList(items=(self.one, self.two, self.three))
         foo_to_bar = ast.RangeExpr(start=self.foo, stop=self.bar)
 
-        test_decl('foo "bar" (foo, bar)', 'foo', 'bar', (foo_bar,))
+        test_decl('foo "bar" (foo, bar)', 'foo', 'bar', params=(foo_bar,))
         test_decl('''foo/bar (
                          abc = 1,2,3
                          xyz = foo:bar
@@ -818,10 +781,49 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                   'bar',
                   params = {'p1': self.one, 'p2': self.two},
                   children = (
-                      ast.VarStmt(name='foo', value=self.bar),
+                      ast.DeclarationStmt(type = 'var',
+                                          tag = 'foo',
+                                          value = self.bar),
                       ast.AssignmentStmt(varname='x', value=self.two),
                       ast.DeclarationStmt(type='foo', tag='bar'),
                       ),
+                  )
+
+        #
+        # Value
+        #
+
+        # No params or children
+        test_decl('foo bar = 1', 'foo', 'bar', value=self.one)
+
+        # Params
+        test_decl('foo bar = 1 (p1 = 1)',
+                  'foo',
+                  'bar',
+                  value = self.one,
+                  params = {'p1': self.one})
+
+        # Children
+        test_decl('''foo/bar blah = 2 {
+                         x = 2
+                     }
+                  ''',
+                  'foo/bar',
+                  'blah',
+                  value = self.two,
+                  children = (ast.AssignmentStmt(varname='x', value=self.two),),
+                  )
+
+        # Params and children
+        test_decl('''foo/bar blah = 2 (p1 = 1) {
+                         x = 2
+                     }
+                  ''',
+                  'foo/bar',
+                  'blah',
+                  value = self.two,
+                  params = {'p1': self.one},
+                  children = (ast.AssignmentStmt(varname='x', value=self.two),),
                   )
 
         #
@@ -891,6 +893,11 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
                         '''):
             self.assertError('Input ended unexpectedly')
 
+        # Value without tag
+        with self.parse('foo = 1 (b = 2)'):
+            self.assertError('Missing newline at end of statement',
+                             token='(')
+
 
 class TestIncludes(ParserTestMixin, TempFilesMixin, unittest.TestCase):
 
@@ -959,7 +966,9 @@ bar = 1
             self.assertIsInstance(p, ast.Module)
             self.assertEqual(10, len(p.statements))
 
-            self.assertEqual(ast.VarStmt(name='foo', value=self.bar),
+            self.assertEqual(ast.DeclarationStmt(type = 'var',
+                                                 tag = 'foo',
+                                                 value = self.bar),
                              p.statements[0])
 
             blah = p.statements[1]

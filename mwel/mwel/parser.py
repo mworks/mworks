@@ -401,14 +401,8 @@ class Parser(ExpressionParser):
 
     def stmt(self, _toplevel=False):
         if self.accept('IDENTIFIER'):
-            if (self.curr.value == 'var' and
-                self.peek('IDENTIFIER') and
-                self.peek('=', depth=2)):
-                stmt = self._var_stmt()
-
-            elif self.peek('=') or self.peek('AUGASSIGN') or self.peek('['):
+            if self.peek('=') or self.peek('AUGASSIGN') or self.peek('['):
                 stmt = self._assignment_stmt()
-
             else:
                 stmt = self._decl_stmt()
 
@@ -433,15 +427,6 @@ class Parser(ExpressionParser):
             self.error('Missing newline at end of statement')
 
         return stmt
-
-    def _var_stmt(self):
-        lineno = self.curr.lineno
-        colno = self.curr.colno
-        self.accept()
-        name = self.curr.value
-        self.accept()
-        value = self.expr()
-        return ast.VarStmt(lineno, colno, name=name, value=value)
 
     def _assignment_stmt(self):
         varname = self.curr.value
@@ -478,13 +463,15 @@ class Parser(ExpressionParser):
             self.expect('IDENTIFIER')
             typename += '/' + self.curr.value
 
+        tagname = None
+        value = None
         if self.peek('IDENTIFIER') or self.peek('STRING'):
             tagname = self._identifier_or_string()
-        else:
-            tagname = None
+            if self.accept('='):
+                value = self.expr()
 
         if not self.accept('('):
-            if not self.peek('{'):
+            if not (value or self.peek('{')):
                 self.unexpected_token("'(' or '{'")
             params = ()
         else:
@@ -521,6 +508,7 @@ class Parser(ExpressionParser):
                                    colno,
                                    type = typename,
                                    tag = tagname,
+                                   value = value,
                                    params = params,
                                    children = tuple(children))
 

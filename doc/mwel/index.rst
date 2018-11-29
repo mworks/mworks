@@ -62,30 +62,12 @@ Expressions
 Expressions in MWEL are identical to those used in XML-based experiments.  For details, see the `expression reference <Expressions>`.
 
 
-.. _variable declarations:
-
-Variable Declarations
----------------------
-
-`Variables <Variable>` are declared by using the ``var`` keyword and providing a name and initial value.  The name must be an `identifier <identifiers>`.  The initial value can be any expression::
-
-    var a = 1.5
-    var b = 'Hello, world!'
-    var c = 2*a + 3
-
-A variable declared in this way receives default values for all of its optional parameters.  To provide non-default parameter values, you must use :ref:`component declaration <component declarations>` syntax::
-
-    var x (default_value = 3; persistant = YES)
-
-Variables can be declared only at the top level of an experiment or inside a top-level `folder <Folder>`.  They cannot be declared inside a `protocol <Protocol>` or other component.
-
-
 .. _assignments:
 
 Assignments
 -----------
 
-Assignments change the value of existing variables.  They come in three different varieties.
+An assignment changes the value of a `variable <Variable>`.  Assignments come in three different varieties.
 
 A simple assignment just replaces the old value with a new one::
 
@@ -101,9 +83,9 @@ If a variable's current value is a list or dictionary, an index assignment assig
 
 Finally, an augmented assignment performs a binary operation with the current value and another value and assigns the result to the variable::
 
-    var d = 7
-    d += 8     // d == 15
-    d /= 2     // d == 7.5
+    d = 7
+    d += 8  // d == 15
+    d /= 2  // d == 7.5
 
 Index assignments may also be augmented::
 
@@ -217,6 +199,33 @@ with an equivalent version that makes use of type and parameter name inference::
         }
         update_stimulus_display ()
     }
+
+
+.. _variable declarations:
+
+Variable Declarations
+---------------------
+
+Like other components, `variables <Variable>` are declared using :ref:`component declaration <component declarations>` syntax::
+
+    var a (default_value = 1.5)
+
+Because most experiments declare many variables, MWEL provides a simplified syntax for specifying a variable's default value::
+
+    var a = 1.5  // Equivalent to above
+
+The default value can be any expression::
+
+    var b = 'Hello, world!'
+    var c = 2*a + 3
+
+Variables declared in this way can still include parameters and/or child components::
+
+    var x = 3 (persistant = YES) {
+        report ('x = $x')
+    }
+
+Variables can be declared only at the top level of an experiment or inside a top-level `folder <Folder>`.  They cannot be declared inside a `protocol <Protocol>` or other component.
 
 
 .. _includes:

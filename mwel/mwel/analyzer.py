@@ -173,27 +173,13 @@ class Analyzer(ExpressionAnalyzer):
         return result
 
     def _stmt(self, stmt, cmpts):
-        if isinstance(stmt, ast.VarStmt):
-            cmpts.append(self._var_stmt(stmt))
-
-        elif isinstance(stmt, ast.AssignmentStmt):
+        if isinstance(stmt, ast.AssignmentStmt):
             cmpts.append(self._assignment_stmt(stmt))
-
         elif isinstance(stmt, ast.DeclarationStmt):
             if not self._macro_expansion(stmt, cmpts=cmpts):
                 cmpts.append(self._decl_stmt(stmt))
-
         else:
             raise NotImplementedError
-
-    def _var_stmt(self, stmt):
-        return self._component(stmt.lineno,
-                               stmt.colno,
-                               name = 'variable',
-                               tag = stmt.name,
-                               params = {
-                                   'default_value': self._expr(stmt.value),
-                                   })
 
     def _assignment_stmt(self, stmt):
         variable = stmt.varname
@@ -370,13 +356,21 @@ class Analyzer(ExpressionAnalyzer):
             typename = canon_name
             type = canon_name.split('/')
 
-        if not stmt.params:
-            params = {}
-        elif isinstance(stmt.params, dict):
-            params = collections.OrderedDict((key, self._param_expr(value))
-                                             for (key, value)
-                                             in stmt.params.items())
-        else:
+        params = collections.OrderedDict()
+
+        if stmt.value:
+            if typename == 'variable':
+                params['default_value'] = self._expr(stmt.value)
+            else:
+                self.error_logger('Only variable declarations can specify a '
+                                  "default value with '='",
+                                  lineno = stmt.lineno,
+                                  colno = stmt.colno)
+
+        if isinstance(stmt.params, dict):
+            for key, value in stmt.params.items():
+                params[key] = self._param_expr(value)
+        elif stmt.params:
             # A single, unnamed parameter was given, so we need to infer its
             # name
             assert len(stmt.params) == 1
