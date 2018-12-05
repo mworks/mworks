@@ -23,6 +23,11 @@ class Lexer(object):
         t = self._lexer.token()
         if t:
             t.colno = self.lexpos_to_colno(t.lineno, t.lexpos)
+        elif self._lexer.current_state() in ('sstring', 'dstring'):
+            self.log_error('Unterminated string literal',
+                           lineno = self.string_lineno,
+                           lexpos = self.string_lexpos)
+            self._lexer.pop_state()
         return t
 
     def update_lineno(self, t):

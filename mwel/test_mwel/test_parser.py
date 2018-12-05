@@ -44,7 +44,7 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
     parser_class = ExpressionParser
 
     def test_incomplete_input(self):
-        with self.parse('"foo') as p:
+        with self.parse('1+') as p:
             self.assertError('Input ended unexpectedly')
             self.assertIsNone(p)
 

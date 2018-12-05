@@ -46,13 +46,15 @@ class TestLexer(unittest.TestCase):
                     self.next_token.type == 'NEWLINE'):
                 break
 
-    def assertError(self, value, lineno=None):
+    def assertError(self, value=None, lineno=None, msg=None):
         self.assertTrue(self.errors, 'expected error was not detected')
         e = self.errors.popleft()
         
         self.assertEqual(value, e[1])
         if lineno:
             self.assertEqual(lineno, e[2])
+        if msg:
+            self.assertEqual(msg, e[0])
 
     def assertToken(self, type, value=None, lineno=None):
         t = self.next_token
@@ -259,14 +261,15 @@ class TestLexer(unittest.TestCase):
                         '123\\'
                         '4\'5\"6\7'
                         'abcd
-                        """):
+                        'efgh"""):
             self.assertString("''")
             self.assertString("'a bc def'")
             self.assertString("'\"'")
             self.assertString(r"'123\\'")
             self.assertString(r"'4\'5\"6\7'")
             self.assertString("'abcd")
-            self.assertError('\n', lineno=7)
+            self.assertError('\n', lineno=7, msg='Unterminated string literal')
+            self.assertError(lineno=8, msg='Unterminated string literal')
 
         # Double quotes
         with self.input(r'''
@@ -276,14 +279,15 @@ class TestLexer(unittest.TestCase):
                         "123\\"
                         "4\'5\"6\7"
                         "abcd
-                        '''):
+                        "efgh'''):
             self.assertString('""')
             self.assertString('"a bc def"')
             self.assertString('"\'"')
             self.assertString(r'"123\\"')
             self.assertString(r'"4\'5\"6\7"')
             self.assertString('"abcd')
-            self.assertError('\n', lineno=7)
+            self.assertError('\n', lineno=7, msg='Unterminated string literal')
+            self.assertError(lineno=8, msg='Unterminated string literal')
 
     def test_numbers(self):
         # Without decimal point
