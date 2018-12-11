@@ -28,6 +28,11 @@ class Lexer(object):
                            lineno = self.string_lineno,
                            lexpos = self.string_lexpos)
             self._lexer.pop_state()
+        elif self._lexer.current_state() == 'comment':
+            self.log_error('Unterminated multiline comment',
+                           lineno = self.comment_lineno,
+                           lexpos = self.comment_lexpos)
+            self._lexer.pop_state()
         return t
 
     def update_lineno(self, t):
@@ -129,6 +134,8 @@ class Lexer(object):
     def t_INITIAL_comment_begin_comment(self, t):
         r'/\*'
         t.lexer.push_state('comment')
+        self.comment_lineno = t.lineno
+        self.comment_lexpos = t.lexpos
 
     def t_comment_body(self, t):
         r'([^\n/*] | (/(?!\*)) | (\*(?!/)))+'

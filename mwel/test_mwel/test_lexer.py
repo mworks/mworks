@@ -113,7 +113,7 @@ class TestLexer(unittest.TestCase):
                         + - */
                         / * 4
                         abc
-                        '''):
+                        /* def'''):
             self.assertToken('NEWLINE', '\n')
             self.assertIdentifier('foo')
             self.assertToken('NEWLINE', '\n')
@@ -124,6 +124,7 @@ class TestLexer(unittest.TestCase):
             self.assertToken('NEWLINE', '\n')
             self.assertIdentifier('abc', lineno=7)
             self.assertToken('NEWLINE', '\n')
+            self.assertError(lineno=8, msg='Unterminated multiline comment')
 
         # Nested
         with self.input('''
