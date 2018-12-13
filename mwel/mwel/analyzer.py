@@ -234,26 +234,30 @@ class Analyzer(ExpressionAnalyzer):
         else:
             params = macro.parameters
 
+            default_value = None
             if isinstance(node, ast.IdentifierExpr):
                 args = ()
             elif isinstance(node, ast.FunctionCallExpr):
                 args = node.args
-            elif not isinstance(node.params, dict):
-                args = (node.params or ())
-                assert len(args) <= 1
             else:
-                for p in node.params:
-                    if p not in params:
-                        self.error_logger(("Macro '%s' has no parameter '%s'" %
-                                           (name, p)),
-                                          lineno = node.lineno,
-                                          colno = node.colno)
-                        return
-                args = []
-                for p in params:
-                    value = node.params.get(p)
-                    if value:
-                        args.append(value)
+                assert isinstance(node, ast.DeclarationStmt)
+                default_value = node.value
+                if not isinstance(node.params, dict):
+                    args = (node.params or ())
+                    assert len(args) <= 1
+                else:
+                    for p in node.params:
+                        if p not in params:
+                            self.error_logger(("Macro '%s' has no parameter "
+                                               "'%s'") % (name, p),
+                                              lineno = node.lineno,
+                                              colno = node.colno)
+                            return
+                    args = []
+                    for p in params:
+                        value = node.params.get(p)
+                        if value:
+                            args.append(value)
 
             if len(args) != len(params):
                 self.error_logger("Macro '%s' takes %s parameter%s" %
@@ -263,8 +267,13 @@ class Analyzer(ExpressionAnalyzer):
                                   lineno = node.lineno,
                                   colno = node.colno)
             else:
-                # Need to process arguments here, where the arguments to
-                # the enclosing macro (if any) are still visible
+                # Need to process default value and arguments here, where the
+                # arguments to the enclosing macro (if any) are still visible
+                if default_value:
+                    # Use _expr (and not _expanded_expr), because default_value
+                    # is never an expression list, and it's always used as a
+                    # parameter value, so it doesn't need to be parenthesized
+                    default_value = self._expr(default_value)
                 args = (self._expanded_expr(a) for a in args)
                 self._active_macros.append(name)
                 self._active_macro_arg_expansions.append(dict(zip(params,
@@ -284,7 +293,8 @@ class Analyzer(ExpressionAnalyzer):
                             if len(expansion) != 1:
                                 self.error_logger(
                                     ("Macro body declares %d components, so "
-                                     "invocation cannot include tag or child "
+                                     "invocation cannot include a tag, a "
+                                     "default value with '=', or child "
                                      "components" % len(expansion)),
                                     lineno = node.lineno,
                                     colno = node.colno,
@@ -301,6 +311,21 @@ class Analyzer(ExpressionAnalyzer):
                                         )
                                     return
                                 c.tag = node.tag
+                                # Syntactically, there can't be a default value
+                                # if there's not a tag, so we only check for a
+                                # default value here
+                                if default_value:
+                                    if (c.name, c.type) != ('variable', None):
+                                        self.error_logger(
+                                            "Macro body does not contain a "
+                                            "variable declaration, so "
+                                            "invocation cannot include a "
+                                            "default value with '='",
+                                            lineno = node.lineno,
+                                            colno = node.colno,
+                                            )
+                                        return
+                                    c.params['default_value'] = default_value
                             if node.children:
                                 if c.children:
                                     self.error_logger(

@@ -324,15 +324,27 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
         # Not a variable declaration
         with self.analyze('''
                           foo bar = 3
+                          variable/selection foo = 4
                           ''') as cmpts:
+            self.assertEqual(2, len(cmpts))
+
             self.assertError('Only variable declarations can specify a '
                              "default value with '='",
                              lineno = 2,
                              colno = 27)
-            self.assertEqual(1, len(cmpts))
             children = self.assertComponent(cmpts[0], 2, 27,
                                             name = 'foo',
                                             tag = 'bar')
+            self.assertEqual([], children)
+
+            self.assertError('Only variable declarations can specify a '
+                             "default value with '='",
+                             lineno = 3,
+                             colno = 27)
+            children = self.assertComponent(cmpts[1], 3, 27,
+                                            name = 'variable',
+                                            type = 'selection',
+                                            tag = 'foo')
             self.assertEqual([], children)
 
     def test_decl_stmt_parameter_name_inference(self):
@@ -1421,7 +1433,8 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
             self.assertEqual(9, len(cmpts))
 
             self.assertError("Macro body declares 2 components, so invocation "
-                             "cannot include tag or child components",
+                             "cannot include a tag, a default value with '=', "
+                             "or child components",
                              lineno = 21,
                              colno = 27)
             children = self.assertComponent(cmpts[0], 21, 27,
@@ -1430,7 +1443,8 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
             self.assertEqual([], children)
 
             self.assertError("Macro body declares 2 components, so invocation "
-                             "cannot include tag or child components",
+                             "cannot include a tag, a default value with '=', "
+                             "or child components",
                              lineno = 22,
                              colno = 27)
             children = self.assertComponent(cmpts[1], 22, 27,
@@ -1530,4 +1544,136 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
                                             type = 'assignment',
                                             variable = 'x',
                                             value = '6')
+            self.assertEqual([], children)
+
+    def test_value(self):
+        with self.analyze('''
+                          %define multiple_components()
+                              variable var1 ()
+                              variable var2 ()
+                          %end
+
+                          %define no_value_not_variable()
+                              block ()
+                          %end
+
+                          %define no_value_selection_variable()
+                              variable/selection ()
+                          %end
+
+                          %define no_value_variable()
+                              variable ()
+                          %end
+
+                          %define no_value_var()
+                              var ()
+                          %end
+
+                          multiple_components foo = 1
+                          no_value_not_variable bar = 2
+                          no_value_selection_variable blah = 3
+                          no_value_variable baz = 4
+                          no_value_var flaz = 5
+
+                          %define recursive_no_value_var(a, b)
+                              no_value_var var1 = a+1
+                              no_value_var var2 = b+2
+                          %end
+
+                          recursive_no_value_var (a=6; b=7)
+
+                          %define with_params(logging)
+                              variable (logging = logging)
+                          %end
+
+                          with_params fraz = 8 (logging = never)
+                          ''') as cmpts:
+            self.assertEqual(8, len(cmpts))
+
+            self.assertError("Macro body declares 2 components, so invocation "
+                             "cannot include a tag, a default value with '=', "
+                             "or child components",
+                             lineno = 23,
+                             colno = 27)
+            self.assertError('Only variable declarations can specify a '
+                             "default value with '='",
+                             lineno = 23,
+                             colno = 27)
+            children = self.assertComponent(cmpts[0], 23, 27,
+                                            name = 'multiple_components',
+                                            tag = 'foo')
+            self.assertEqual([], children)
+
+            self.assertError("Macro body does not contain a variable "
+                             "declaration, so invocation cannot include a "
+                             "default value with '='",
+                             lineno = 24,
+                             colno = 27)
+            self.assertError('Only variable declarations can specify a '
+                             "default value with '='",
+                             lineno = 24,
+                             colno = 27)
+            children = self.assertComponent(cmpts[1], 24, 27,
+                                            name = 'no_value_not_variable',
+                                            tag = 'bar')
+            self.assertEqual([], children)
+
+            self.assertError("Macro body does not contain a variable "
+                             "declaration, so invocation cannot include a "
+                             "default value with '='",
+                             lineno = 25,
+                             colno = 27)
+            self.assertError('Only variable declarations can specify a '
+                             "default value with '='",
+                             lineno = 25,
+                             colno = 27)
+            children = self.assertComponent(cmpts[2], 25, 27,
+                                            name = 'no_value_selection_variable',
+                                            tag = 'blah')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[3],
+                                            (16, 26),
+                                            (31, 27),
+                                            filename = ('', ''),
+                                            name = 'variable',
+                                            tag = 'baz',
+                                            default_value = '4')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[4],
+                                            (20, 27),
+                                            (31, 27),
+                                            filename = ('', ''),
+                                            name = 'variable',
+                                            tag = 'flaz',
+                                            default_value = '5')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[5],
+                                            (20, 30, 34),
+                                            (31, 31, 27),
+                                            filename = ('', '', ''),
+                                            name = 'variable',
+                                            tag = 'var1',
+                                            default_value = '6 + 1')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[6],
+                                            (20, 31, 34),
+                                            (31, 31, 27),
+                                            filename = ('', '', ''),
+                                            name = 'variable',
+                                            tag = 'var2',
+                                            default_value = '7 + 2')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[7],
+                                            (37, 40),
+                                            (31, 27),
+                                            filename = ('', ''),
+                                            name = 'variable',
+                                            tag = 'fraz',
+                                            default_value = '8',
+                                            logging = 'never')
             self.assertEqual([], children)

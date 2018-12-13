@@ -376,19 +376,22 @@ A statement macro invocation can include a tag and/or children only if
 1. the macro body declares exactly one component, and
 2. the component declaration in the macro body does not include a tag (if the invocation includes a tag) and/or children (if the invocation includes children).
 
+Also, if the macro body is a single :ref:`variable declaration <variable declarations>`, then the invocation can include a default value with ``=`` (as
+long as the body does not include one).
+
 For example::
 
-    %define reported_var (default_value, message)
-        var (default_value) {
+    %define reported_var (message)
+        var {
             report (message)
         }
     %end
 
     // OK: invocation includes a tag, macro body does not
-    reported_var x (default_value = 3; message = 'x = $x')
+    reported_var x = 3 (message = 'x = $x')
 
     // Not OK: invocation and macro body both include children
-    reported_var y (default_value = 3; message = 'y = $y') {
+    reported_var y = 3 (message = 'y = $y') {
         z = 2*y
     }
 
