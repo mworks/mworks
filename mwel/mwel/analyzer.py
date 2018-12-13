@@ -233,8 +233,9 @@ class Analyzer(ExpressionAnalyzer):
             self._macros[name] = None
         else:
             params = macro.parameters
-
             default_value = None
+            children = []
+
             if isinstance(node, ast.IdentifierExpr):
                 args = ()
             elif isinstance(node, ast.FunctionCallExpr):
@@ -242,6 +243,7 @@ class Analyzer(ExpressionAnalyzer):
             else:
                 assert isinstance(node, ast.DeclarationStmt)
                 default_value = node.value
+                children = node.children
                 if not isinstance(node.params, dict):
                     args = (node.params or ())
                     assert len(args) <= 1
@@ -267,14 +269,22 @@ class Analyzer(ExpressionAnalyzer):
                                   lineno = node.lineno,
                                   colno = node.colno)
             else:
-                # Need to process default value and arguments here, where the
-                # arguments to the enclosing macro (if any) are still visible
+                # Need to process default value, arguments, and children here,
+                # where the arguments to the enclosing macro (if any) are still
+                # visible
+
                 if default_value:
                     # Use _expr (and not _expanded_expr), because default_value
                     # is never an expression list, and it's always used as a
                     # parameter value, so it doesn't need to be parenthesized
                     default_value = self._expr(default_value)
+
                 args = (self._expanded_expr(a) for a in args)
+
+                expanded_children = []
+                for stmt in children:
+                    self._stmt(stmt, expanded_children)
+
                 self._active_macros.append(name)
                 self._active_macro_arg_expansions.append(dict(zip(params,
                                                                   args)))
@@ -335,10 +345,7 @@ class Analyzer(ExpressionAnalyzer):
                                         colno = node.colno,
                                         )
                                     return
-                                children = []
-                                for stmt in node.children:
-                                    self._stmt(stmt, children)
-                                c.children = children
+                                c.children = expanded_children
                         cmpts.extend(expansion)
                         return True
                 finally:

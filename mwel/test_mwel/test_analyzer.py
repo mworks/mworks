@@ -1429,8 +1429,16 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
                           no_tag_or_children blorp {
                               x = 6
                           }
+
+                          %define children_in_enclosing_macro (a, b)
+                              no_tag_or_children {
+                                  x = a + b
+                              }
+                          %end
+
+                          children_in_enclosing_macro morp (a=7; b=8)
                           ''') as cmpts:
-            self.assertEqual(9, len(cmpts))
+            self.assertEqual(10, len(cmpts))
 
             self.assertError("Macro body declares 2 components, so invocation "
                              "cannot include a tag, a default value with '=', "
@@ -1544,6 +1552,23 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
                                             type = 'assignment',
                                             variable = 'x',
                                             value = '6')
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[9],
+                                            (18, 45, 50),
+                                            (31, 31, 27),
+                                            filename = ('', '', ''),
+                                            name = 'block',
+                                            tag = 'morp')
+            self.assertEqual(1, len(children))
+            children = self.assertComponent(children[0],
+                                            (46, 50),
+                                            (37, 27),
+                                            filename = ('', ''),
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'x',
+                                            value = '7 + 8')
             self.assertEqual([], children)
 
     def test_value(self):
