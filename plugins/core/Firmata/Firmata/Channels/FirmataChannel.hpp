@@ -24,6 +24,8 @@ public:
     
     static void describeComponent(ComponentInfo &info);
     
+    virtual ~FirmataChannel() { }
+    
     explicit FirmataChannel(const ParameterValueMap &parameters);
     
     bool resolvePinNumber(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel);
