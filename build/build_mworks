@@ -241,12 +241,7 @@ def server():
 
 @builder('mworks/doc')
 def doc():
-    args = ['clean', 'install']
-    if mw_version[0] in string.digits:
-        # Use version number only if it starts with a digit.  This
-        # will exclude fake versions like "NIGHTLY" and "CUSTOM".
-        args.append('MW_VERSION=' + mw_version)
-    make(args)
+    xcodebuild()
 
 
 @builder('mworks/mwel')

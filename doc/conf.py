@@ -53,6 +53,8 @@ author = 'The MWorks Project'
 
 
 def get_mworks_version():
+    if 'MW_VERSION' in os.environ:
+        return os.environ['MW_VERSION']
     with open('/Library/Application Support/MWorks/Developer/Xcode/'
               'Base.xcconfig') as fp:
         for line in fp.readlines():

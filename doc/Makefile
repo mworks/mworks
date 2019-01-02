@@ -2,20 +2,16 @@
 #
 
 # You can set these variables from the command line.
-PYTHON        = python
+PYTHON        = python3
 SPHINXOPTS    =
 SPHINXBUILD   = $(PYTHON) -c 'import sys; from sphinx.cmd.build import main; sys.exit(main())'
 PAPER         =
 BUILDDIR      = _build
-MW_VERSION    =
 
 # Internal variables.
-ifneq "$(strip $(MW_VERSION))" ""
-VERSIONOPT = -D version="$(MW_VERSION)" -D release="$(MW_VERSION)"
-endif
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
-ALLSPHINXOPTS   = $(VERSIONOPT) -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
@@ -54,10 +50,10 @@ help:
 	@echo "  coverage   to run coverage check of the documentation (if enabled)"
 
 clean:
-	rm -rf $(BUILDDIR)/* $(COMPONENTSDIR)/*
+	/bin/rm -rf $(BUILDDIR)/* $(COMPONENTSDIR)/*
 
 install: html
-	rsync -a $(BUILDDIR)/html/ $(MWORKSDOCDIR)
+	/usr/bin/rsync -a $(BUILDDIR)/html/ $(MWORKSDOCDIR)
 
 componentref:
 	$(PYTHON) generate_component_ref.py $(MWORKSDOCDIR)

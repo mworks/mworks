@@ -1,0 +1,167 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1064A8B21DD3D6600A095DF /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1064A8C21DD3D6600A095DF /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1064A8F21DD3D7400A095DF /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXContainerItemProxy section */
+		E1064A8E21DD3D7400A095DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1064A7F21DD3B7000A095DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1064A8321DD3B7000A095DF;
+			remoteInfo = Documentation;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E1064A8A21DD3C0500A095DF /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1064A9121DD3E9900A095DF /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		E1064A7E21DD3B7000A095DF = {
+			isa = PBXGroup;
+			children = (
+				E1064A8921DD3BB700A095DF /* External Config */,
+				E1064A9121DD3E9900A095DF /* Makefile */,
+			);
+			sourceTree = "<group>";
+		};
+		E1064A8921DD3BB700A095DF /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1064A8A21DD3C0500A095DF /* macOS.xcconfig */,
+			);
+			name = "External Config";
+			path = ../build/xcode;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		E1064A8321DD3B7000A095DF /* Documentation */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "clean install PYTHON=$(MW_PYTHON_3)";
+			buildConfigurationList = E1064A8621DD3B7000A095DF /* Build configuration list for PBXLegacyTarget "Documentation" */;
+			buildPhases = (
+			);
+			buildToolPath = "$(DEVELOPER_DIR)/usr/bin/make";
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = Documentation;
+			passBuildSettingsInEnvironment = 1;
+			productName = Documentation;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		E1064A7F21DD3B7000A095DF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E1064A8321DD3B7000A095DF = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					E1064A8B21DD3D6600A095DF = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = E1064A8221DD3B7000A095DF /* Build configuration list for PBXProject "Documentation" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E1064A7E21DD3B7000A095DF;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1064A8321DD3B7000A095DF /* Documentation */,
+				E1064A8B21DD3D6600A095DF /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXTargetDependency section */
+		E1064A8F21DD3D7400A095DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1064A8321DD3B7000A095DF /* Documentation */;
+			targetProxy = E1064A8E21DD3D7400A095DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E1064A8421DD3B7000A095DF /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1064A8A21DD3C0500A095DF /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1064A8721DD3B7000A095DF /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1064A8D21DD3D6600A095DF /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1064A8221DD3B7000A095DF /* Build configuration list for PBXProject "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1064A8421DD3B7000A095DF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1064A8621DD3B7000A095DF /* Build configuration list for PBXLegacyTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1064A8721DD3B7000A095DF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1064A8C21DD3D6600A095DF /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1064A8D21DD3D6600A095DF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1064A7F21DD3B7000A095DF /* Project object */;
+}
