@@ -110,6 +110,9 @@ def iter_marionette_tests(top_dir=test_file_dir):
 def run_marionette_tests(arch_name, test_names=None):
     if not test_names:
         test_file_iter = iter_marionette_tests
+        # We're running all the tests, so this is probably an automated
+        # run.  Ensure that the display is awake.
+        check_call(['/usr/bin/caffeinate', '-u', '-t', '20'])
     else:
         def test_file_iter():
             for test in test_names:
