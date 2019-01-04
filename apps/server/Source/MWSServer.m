@@ -29,6 +29,8 @@
     
     boost::shared_ptr<Server> core;
     MWConsoleController *cc;
+    
+    id<NSObject> ioActivity;
 }
 
 
@@ -74,6 +76,17 @@
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    //
+    // Without an active power assertion, calls to poll() inside ZeroMQ (specifically,
+    // in zmq::signaler_t::wait()) will eventually take longer than requested to time out,
+    // which makes the server unresponsive to client requests.
+    //
+    // I suspect this is a consequence of App Nap, but I'm not sure:
+    // https://developer.apple.com/library/archive/documentation/Performance/Conceptual/power_efficiency_guidelines_osx/AppNap.html
+    //
+    ioActivity = [NSProcessInfo.processInfo beginActivityWithOptions:(NSActivityBackground | NSActivityIdleSystemSleepDisabled)
+                                                              reason:@"Prevent I/O throttling"];
+    
     core->setHostname(listeningAddress.UTF8String);
     core->setListenPort(listeningPort);
     core->startServer();
@@ -91,6 +104,7 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     core->stopServer();
+    [NSProcessInfo.processInfo endActivity:ioActivity];
 }
 
 
