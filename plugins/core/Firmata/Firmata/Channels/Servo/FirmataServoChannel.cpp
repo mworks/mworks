@@ -17,7 +17,7 @@ const std::string FirmataServoChannel::MAX_PULSE_WIDTH("max_pulse_width");
 
 
 void FirmataServoChannel::describeComponent(ComponentInfo &info) {
-    FirmataChannel::describeComponent(info);
+    FirmataSimpleChannel::describeComponent(info);
     info.setSignature("iochannel/firmata_servo");
     info.addParameter(MIN_PULSE_WIDTH, "544");
     info.addParameter(MAX_PULSE_WIDTH, "2400");
@@ -25,7 +25,7 @@ void FirmataServoChannel::describeComponent(ComponentInfo &info) {
 
 
 FirmataServoChannel::FirmataServoChannel(const ParameterValueMap &parameters) :
-    FirmataChannel(parameters),
+    FirmataSimpleChannel(parameters),
     minPulseWidth(parameters[MIN_PULSE_WIDTH]),
     maxPulseWidth(parameters[MAX_PULSE_WIDTH])
 {

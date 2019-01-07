@@ -19,18 +19,14 @@ public:
     enum class Type { Analog = 3, Digital = 1, Servo = 4 };
     enum class Direction { Input = 1, Output = 0 };
     
-    static const std::string PIN_NUMBER;
-    static const std::string VALUE;
-    
-    static void describeComponent(ComponentInfo &info);
-    
-    virtual ~FirmataChannel() { }
-    
     explicit FirmataChannel(const ParameterValueMap &parameters);
     
-    bool resolvePinNumber(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel, int &pinNumber) const;
+    virtual bool resolvePinNumbers(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel,
+                                   std::set<int> &pinNumbers) = 0;
     
-    const VariablePtr& getValueVariable() const { return value; }
+    virtual void addNewValueNotification(const boost::shared_ptr<VariableNotification> &notification) = 0;
+    virtual Datum getValueForPin(int pinNumber) = 0;
+    virtual void setValueForPin(int pinNumber, const Datum &value, MWTime time) = 0;
     
     virtual Type getType() const = 0;
     bool isAnalog() const { return getType() == Type::Analog; }
@@ -42,15 +38,16 @@ public:
     
     int getPinMode() const { return (int(getType()) - int(getDirection())); }
     
-private:
+protected:
     static constexpr int minPinNumber = 0;
     static constexpr int maxPinNumber = 127;
     
     static constexpr int minAnalogChannelNumber = 0;
     static constexpr int maxAnalogChannelNumber = 15;
     
-    const std::string requestedPinNumber;
-    const VariablePtr value;
+    static bool resolvePinNumber(const std::string &requestedPinNumber,
+                                 const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel,
+                                 int &pinNumber);
     
 };
 

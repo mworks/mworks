@@ -9,13 +9,13 @@
 #ifndef FirmataServoChannel_hpp
 #define FirmataServoChannel_hpp
 
-#include "FirmataChannel.hpp"
+#include "FirmataSimpleChannel.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class FirmataServoChannel : public FirmataChannel {
+class FirmataServoChannel : public FirmataSimpleChannel {
     
 public:
     static const std::string MIN_PULSE_WIDTH;

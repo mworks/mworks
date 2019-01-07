@@ -12,26 +12,14 @@
 BEGIN_NAMESPACE_MW
 
 
-const std::string FirmataChannel::PIN_NUMBER("pin_number");
-const std::string FirmataChannel::VALUE("value");
-
-
-void FirmataChannel::describeComponent(ComponentInfo &info) {
-    Component::describeComponent(info);
-    info.addParameter(PIN_NUMBER);
-    info.addParameter(VALUE);
-}
-
-
 FirmataChannel::FirmataChannel(const ParameterValueMap &parameters) :
-    Component(parameters),
-    requestedPinNumber(parameters[PIN_NUMBER].str()),
-    value(parameters[VALUE])
+    Component(parameters)
 { }
 
 
-bool FirmataChannel::resolvePinNumber(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel,
-                                      int &pinNumber) const
+bool FirmataChannel::resolvePinNumber(const std::string &requestedPinNumber,
+                                      const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel,
+                                      int &pinNumber)
 {
     static const boost::regex pinNumberRegex("(?<analog_channel_prefix>[aA])?(?<number>0|([1-9][0-9]*))");
     boost::smatch matchResults;
@@ -82,29 +70,3 @@ bool FirmataChannel::resolvePinNumber(const std::map<std::uint8_t, std::uint8_t>
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
