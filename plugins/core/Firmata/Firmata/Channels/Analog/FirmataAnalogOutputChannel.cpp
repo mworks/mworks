@@ -13,7 +13,7 @@ BEGIN_NAMESPACE_MW
 
 
 void FirmataAnalogOutputChannel::describeComponent(ComponentInfo &info) {
-    FirmataAnalogChannel::describeComponent(info);
+    FirmataChannel::describeComponent(info);
     info.setSignature("iochannel/firmata_analog_output");
 }
 

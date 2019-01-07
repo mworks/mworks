@@ -9,19 +9,20 @@
 #ifndef FirmataDigitalInputChannel_hpp
 #define FirmataDigitalInputChannel_hpp
 
-#include "FirmataDigitalChannel.hpp"
+#include "FirmataChannel.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class FirmataDigitalInputChannel : public FirmataDigitalChannel {
+class FirmataDigitalInputChannel : public FirmataChannel {
     
 public:
     static void describeComponent(ComponentInfo &info);
     
-    using FirmataDigitalChannel::FirmataDigitalChannel;
+    using FirmataChannel::FirmataChannel;
     
+    Type getType() const override { return Type::Digital; }
     Direction getDirection() const override { return Direction::Input; }
     
 };

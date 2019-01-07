@@ -13,7 +13,7 @@ BEGIN_NAMESPACE_MW
 
 
 void FirmataDigitalInputChannel::describeComponent(ComponentInfo &info) {
-    FirmataDigitalChannel::describeComponent(info);
+    FirmataChannel::describeComponent(info);
     info.setSignature("iochannel/firmata_digital_input");
 }
 
