@@ -230,12 +230,11 @@ bool FirmataDevice::getDeviceInfo(unique_lock &lock) {
 
 bool FirmataDevice::processChannelRequests() {
     for (auto &channel : requestedChannels) {
-        if (!(channel->resolvePinNumber(pinForAnalogChannel))) {
+        int pinNumber = -1;
+        if (!(channel->resolvePinNumber(pinForAnalogChannel, pinNumber))) {
             merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot resolve pin number on Firmata device \"%s\"", getTag().c_str());
             return false;
         }
-        
-        const int pinNumber = channel->getPinNumber();
         
         const auto &pinModes = modesForPin[pinNumber];
         if (pinModes.find(channel->getPinMode()) == pinModes.end()) {
@@ -246,7 +245,7 @@ bool FirmataDevice::processChannelRequests() {
             return false;
         }
         
-        if (channel->isAnalog() && channel->isInput() && (channel->getAnalogChannelNumber() < 0)) {
+        if (channel->isAnalog() && channel->isInput() && (getAnalogChannelNumber(pinNumber) < 0)) {
             merror(M_IODEVICE_MESSAGE_DOMAIN,
                    "Pin %d is not an analog input on Firmata device \"%s\"",
                    pinNumber,
@@ -287,10 +286,12 @@ bool FirmataDevice::configurePins() {
     
     boost::weak_ptr<FirmataDevice> weakThis(component_shared_from_this<FirmataDevice>());
     
-    for (const auto &port : ports) {
-        for (const auto &channel : port) {
+    for (std::size_t portNum = 0; portNum < ports.size(); portNum++) {
+        const auto &port = ports.at(portNum);
+        for (std::size_t bitNum = 0; bitNum < port.size(); bitNum++) {
+            const auto &channel = port.at(bitNum);
             if (channel) {
-                const auto pinNumber = channel->getPinNumber();
+                const auto pinNumber = getPinNumber(portNum, bitNum);
                 
                 if (auto servoChannel = boost::dynamic_pointer_cast<FirmataServoChannel>(channel)) {
                     const auto minPulseWidth = servoChannel->getMinPulseWidth();
@@ -326,7 +327,7 @@ bool FirmataDevice::configurePins() {
                             // StandardFirmata automatically enables reporting of pins in mode PIN_MODE_ANALOG.
                             // Since we don't want reporting to begin until startIO() is invoked, we must disable
                             // reporting of these pins.
-                            const auto channelNumber = channel->getAnalogChannelNumber();
+                            const auto channelNumber = getAnalogChannelNumber(pinNumber);
                             if (!sendData({ std::uint8_t(REPORT_ANALOG | channelNumber), 0 })) {
                                 merror(M_IODEVICE_MESSAGE_DOMAIN,
                                        "Cannot disable reporting of analog input channel %d on Firmata device \"%s\"",
@@ -398,11 +399,12 @@ bool FirmataDevice::startIO() {
         for (std::size_t bitNum = 0; bitNum < port.size(); bitNum++) {
             const auto &channel = port.at(bitNum);
             if (channel) {
+                const auto pinNumber = getPinNumber(portNum, bitNum);
                 switch (channel->getType()) {
                     case FirmataChannel::Type::Analog: {
                         switch (channel->getDirection()) {
                             case FirmataChannel::Direction::Input: {
-                                const auto channelNumber = channel->getAnalogChannelNumber();
+                                const auto channelNumber = getAnalogChannelNumber(pinNumber);
                                 if (!sendData({ std::uint8_t(REPORT_ANALOG | channelNumber), 1 })) {
                                     merror(M_IODEVICE_MESSAGE_DOMAIN,
                                            "Cannot enable reporting of analog input channel %d on Firmata device \"%s\"",
@@ -414,7 +416,7 @@ bool FirmataDevice::startIO() {
                             }
                                 
                             case FirmataChannel::Direction::Output:
-                                if (!setAnalogOutput(channel->getPinNumber(),
+                                if (!setAnalogOutput(pinNumber,
                                                      channel->getValueVariable()->getValue().getFloat()))
                                 {
                                     return false;
@@ -440,7 +442,7 @@ bool FirmataDevice::startIO() {
                         
                     case FirmataChannel::Type::Servo: {
                         if (channel->isOutput()) {
-                            if (!setServo(channel->getPinNumber(),
+                            if (!setServo(pinNumber,
                                           channel->getValueVariable()->getValue().getFloat()))
                             {
                                 return false;
@@ -481,13 +483,15 @@ bool FirmataDevice::stopIO() {
         bool portHasDigitalInputs = false;
         bool portHasDigitalOutputs = false;
         
-        for (const auto &channel : port) {
+        for (std::size_t bitNum = 0; bitNum < port.size(); bitNum++) {
+            const auto &channel = port.at(bitNum);
             if (channel) {
+                const auto pinNumber = getPinNumber(portNum, bitNum);
                 switch (channel->getType()) {
                     case FirmataChannel::Type::Analog: {
                         switch (channel->getDirection()) {
                             case FirmataChannel::Direction::Input: {
-                                const auto channelNumber = channel->getAnalogChannelNumber();
+                                const auto channelNumber = getAnalogChannelNumber(pinNumber);
                                 if (!sendData({ std::uint8_t(REPORT_ANALOG | channelNumber), 0 })) {
                                     merror(M_IODEVICE_MESSAGE_DOMAIN,
                                            "Cannot disable reporting of analog input channel %d on Firmata device \"%s\"",
@@ -499,7 +503,7 @@ bool FirmataDevice::stopIO() {
                             }
                                 
                             case FirmataChannel::Direction::Output:
-                                if (!setAnalogOutput(channel->getPinNumber(), 0.0)) {
+                                if (!setAnalogOutput(pinNumber, 0.0)) {
                                     return false;
                                 }
                                 break;

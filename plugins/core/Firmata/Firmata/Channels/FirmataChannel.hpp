@@ -28,9 +28,7 @@ public:
     
     explicit FirmataChannel(const ParameterValueMap &parameters);
     
-    bool resolvePinNumber(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel);
-    int getPinNumber() const { return pinNumber; }
-    int getAnalogChannelNumber() const { return analogChannelNumber; }
+    bool resolvePinNumber(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel, int &pinNumber) const;
     
     const VariablePtr& getValueVariable() const { return value; }
     
@@ -53,8 +51,6 @@ private:
     
     const std::string requestedPinNumber;
     const VariablePtr value;
-    int pinNumber;
-    int analogChannelNumber;
     
 };
 

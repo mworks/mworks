@@ -26,13 +26,13 @@ void FirmataChannel::describeComponent(ComponentInfo &info) {
 FirmataChannel::FirmataChannel(const ParameterValueMap &parameters) :
     Component(parameters),
     requestedPinNumber(parameters[PIN_NUMBER].str()),
-    value(parameters[VALUE]),
-    pinNumber(-1),
-    analogChannelNumber(-1)
+    value(parameters[VALUE])
 { }
 
 
-bool FirmataChannel::resolvePinNumber(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel) {
+bool FirmataChannel::resolvePinNumber(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel,
+                                      int &pinNumber) const
+{
     static const boost::regex pinNumberRegex("(?<analog_channel_prefix>[aA])?(?<number>0|([1-9][0-9]*))");
     boost::smatch matchResults;
     
@@ -56,13 +56,6 @@ bool FirmataChannel::resolvePinNumber(const std::map<std::uint8_t, std::uint8_t>
         
         pinNumber = number;
         
-        for (auto &item : devicePinForAnalogChannel) {
-            if (item.second == number) {
-                analogChannelNumber = item.first;
-                break;
-            }
-        }
-        
     } else {
         
         if (number < minAnalogChannelNumber || number > maxAnalogChannelNumber) {
@@ -81,7 +74,6 @@ bool FirmataChannel::resolvePinNumber(const std::map<std::uint8_t, std::uint8_t>
         }
         
         pinNumber = iter->second;
-        analogChannelNumber = number;
         
     }
     

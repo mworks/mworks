@@ -45,8 +45,21 @@ private:
     static constexpr std::size_t numPorts = 16;
     static constexpr std::size_t numPinsPerPort = 8;
     
+    static int getPinNumber(std::size_t portNum, std::size_t bitNum) {
+        return portNum * numPinsPerPort + bitNum;
+    }
+    
     boost::shared_ptr<FirmataChannel>& getChannelForPin(int pinNumber) {
         return ports.at(pinNumber / numPinsPerPort).at(pinNumber % numPinsPerPort);
+    }
+    
+    int getAnalogChannelNumber(int pinNumber) const {
+        for (auto &item : pinForAnalogChannel) {
+            if (item.second == pinNumber) {
+                return item.first;
+            }
+        }
+        return -1;
     }
     
     bool checkProtocolVersion(unique_lock &lock);
