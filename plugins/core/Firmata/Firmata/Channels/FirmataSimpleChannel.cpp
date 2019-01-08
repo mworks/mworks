@@ -31,13 +31,22 @@ FirmataSimpleChannel::FirmataSimpleChannel(const ParameterValueMap &parameters) 
 
 
 bool FirmataSimpleChannel::resolvePinNumbers(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel,
-                                             std::set<int> &pinNumbers)
+                                             std::vector<int> &pinNumbers)
 {
-    int pinNumber = -1;
-    if (!resolvePinNumber(requestedPinNumber, devicePinForAnalogChannel, pinNumber)) {
+    Datum evaluatedPinNumber;
+    try {
+        evaluatedPinNumber = ParsedExpressionVariable::evaluateExpression(requestedPinNumber, *this);
+    } catch (SimpleException &e) {
+        merror(e.getDomain(), "%s", e.getMessage().c_str());
         return false;
     }
-    pinNumbers.insert(pinNumber);
+    
+    int pinNumber = -1;
+    if (!resolvePinNumber(evaluatedPinNumber, devicePinForAnalogChannel, pinNumber)) {
+        return false;
+    }
+    
+    pinNumbers.push_back(pinNumber);
     return true;
 }
 

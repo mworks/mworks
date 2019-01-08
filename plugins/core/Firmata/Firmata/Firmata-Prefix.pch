@@ -18,6 +18,7 @@
 
 #include <boost/regex.hpp>
 
+#include <MWorksCore/ExpressionVariable.h>
 #include <MWorksCore/IODevice.h>
 #include <MWorksCore/Plugin.h>
 #if TARGET_OS_OSX

@@ -145,6 +145,32 @@ parameters:
 ---
 
 
+name: Firmata Word Output Channel
+signature: iochannel/firmata_word_output
+isa: Firmata Channel
+description: Word output channel on a `Firmata Device`
+parameters: 
+  - 
+    name: pin_numbers
+    required: yes
+    example: 4
+    example: ['2,3,4', '5:8', 'a5,10:12,A3']
+    description: >
+        Pins used to output the individual bits of words assigned to `value`_.
+        The first pin receives the least significant bit, the last pin the most
+        significant.
+  - 
+    name: value
+    required: yes
+    description: >
+        Variable from which to read output word (an integer).  `Assigning
+        <Assign Variable>` a value to the variable causes the state of the pins
+        specified in `pin_numbers`_ to be changed immediately.
+
+
+---
+
+
 name: Firmata Servo Channel
 signature: iochannel/firmata_servo
 isa: Firmata Channel

@@ -26,7 +26,7 @@ public:
     explicit FirmataSimpleChannel(const ParameterValueMap &parameters);
     
     bool resolvePinNumbers(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel,
-                           std::set<int> &pinNumbers) override;
+                           std::vector<int> &pinNumbers) override;
     
     void addNewValueNotification(const boost::shared_ptr<VariableNotification> &notification) override {
         valueVar->addNotification(notification);

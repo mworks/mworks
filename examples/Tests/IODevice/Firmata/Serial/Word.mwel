@@ -1,0 +1,2 @@
+%define bluetooth_local_name = ''
+%include '../Word.inc'

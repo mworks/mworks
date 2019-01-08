@@ -13,7 +13,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class FirmataChannel : public Component {
+class FirmataChannel : public Component, protected stx::EmptySymbolTable {
     
 public:
     enum class Type { Analog = 3, Digital = 1, Servo = 4 };
@@ -22,7 +22,7 @@ public:
     explicit FirmataChannel(const ParameterValueMap &parameters);
     
     virtual bool resolvePinNumbers(const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel,
-                                   std::set<int> &pinNumbers) = 0;
+                                   std::vector<int> &pinNumbers) = 0;
     
     virtual void addNewValueNotification(const boost::shared_ptr<VariableNotification> &notification) = 0;
     virtual Datum getValueForPin(int pinNumber) = 0;
@@ -39,15 +39,15 @@ public:
     int getPinMode() const { return (int(getType()) - int(getDirection())); }
     
 protected:
-    static constexpr int minPinNumber = 0;
-    static constexpr int maxPinNumber = 127;
-    
-    static constexpr int minAnalogChannelNumber = 0;
-    static constexpr int maxAnalogChannelNumber = 15;
-    
-    static bool resolvePinNumber(const std::string &requestedPinNumber,
+    static bool resolvePinNumber(const Datum &requestedPinNumber,
                                  const std::map<std::uint8_t, std::uint8_t> &devicePinForAnalogChannel,
                                  int &pinNumber);
+    
+    Datum lookupVariable(const std::string &varName) const override;
+    Datum processFunction(const std::string &funcName, const paramlist_type &paramList) const override;
+    
+private:
+    static const boost::regex analogChannelIDRegex;
     
 };
 

@@ -230,13 +230,22 @@ bool FirmataDevice::getDeviceInfo(unique_lock &lock) {
 
 bool FirmataDevice::processChannelRequests() {
     for (auto &channel : requestedChannels) {
-        std::set<int> pinNumbers;
+        std::vector<int> pinNumbers;
         if (!(channel->resolvePinNumbers(pinForAnalogChannel, pinNumbers))) {
             merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot resolve pin numbers on Firmata device \"%s\"", getTag().c_str());
             return false;
         }
         
         for (const auto pinNumber : pinNumbers) {
+            if (pinNumber < minPinNumber || pinNumber > maxPinNumber) {
+                merror(M_IODEVICE_MESSAGE_DOMAIN,
+                       "Pin numbers must be between %d and %d; %d is not valid",
+                       minPinNumber,
+                       maxPinNumber,
+                       pinNumber);
+                return false;
+            }
+            
             const auto &pinModes = modesForPin[pinNumber];
             if (pinModes.find(channel->getPinMode()) == pinModes.end()) {
                 merror(M_IODEVICE_MESSAGE_DOMAIN,
@@ -246,12 +255,15 @@ bool FirmataDevice::processChannelRequests() {
                 return false;
             }
             
-            if (channel->isAnalog() && channel->isInput() && (getAnalogChannelNumber(pinNumber) < 0)) {
-                merror(M_IODEVICE_MESSAGE_DOMAIN,
-                       "Pin %d is not an analog input on Firmata device \"%s\"",
-                       pinNumber,
-                       getTag().c_str());
-                return false;
+            if (channel->isAnalog() && channel->isInput()) {
+                const auto analogChannelNumber = getAnalogChannelNumber(pinNumber);
+                if (analogChannelNumber < minAnalogChannelNumber || analogChannelNumber > maxAnalogChannelNumber) {
+                    merror(M_IODEVICE_MESSAGE_DOMAIN,
+                           "Pin %d is not an analog input on Firmata device \"%s\"",
+                           pinNumber,
+                           getTag().c_str());
+                    return false;
+                }
             }
             
             auto &slot = getChannelForPin(pinNumber);

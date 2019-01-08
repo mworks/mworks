@@ -45,6 +45,12 @@ private:
     static constexpr std::size_t numPorts = 16;
     static constexpr std::size_t numPinsPerPort = 8;
     
+    static constexpr int minPinNumber = 0;
+    static constexpr int maxPinNumber = 127;
+    
+    static constexpr int minAnalogChannelNumber = 0;
+    static constexpr int maxAnalogChannelNumber = 15;
+    
     static int getPinNumber(std::size_t portNum, std::size_t bitNum) {
         return portNum * numPinsPerPort + bitNum;
     }
@@ -59,7 +65,7 @@ private:
                 return item.first;
             }
         }
-        return -1;
+        return minAnalogChannelNumber - 1;
     }
     
     bool checkProtocolVersion(unique_lock &lock);
