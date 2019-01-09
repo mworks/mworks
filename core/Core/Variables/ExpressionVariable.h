@@ -45,20 +45,28 @@ public:
         }
     }
     
-    static Datum evaluateParseTree(const stx::ParseTree &tree) {
+    static Datum evaluateParseTree(const stx::ParseTree &tree, const stx::SymbolTable &symbolTable) {
         if (tree.isEmpty()) {
             throw FatalParserException("Internal error", "Expression parse tree is empty");
         }
         
         try {
-            return tree.evaluate((stx::SymbolTable&)(*(global_variable_registry.get())));
+            return tree.evaluate(symbolTable);
         } catch (stx::ExpressionParserException &e){
             throw FatalParserException("Expression parser error", e.what());
         }
     }
     
+    static Datum evaluateParseTree(const stx::ParseTree &tree) {
+        return evaluateParseTree(tree, *global_variable_registry);
+    }
+    
+    static Datum evaluateExpression(const std::string &expr, const stx::SymbolTable &symbolTable) {
+        return evaluateParseTree(parseExpression(expr), symbolTable);
+    }
+
     static Datum evaluateExpression(const std::string &expr) {
-        return evaluateParseTree(parseExpression(expr));
+        return evaluateExpression(expr, *global_variable_registry);
     }
     
     static stx::ParseTreeList parseExpressionList(const std::string &exprList) {
@@ -77,18 +85,32 @@ public:
         }
     }
     
-    static void evaluateParseTreeList(const stx::ParseTreeList &treeList, std::vector<Datum> &values) {
+    static void evaluateParseTreeList(const stx::ParseTreeList &treeList,
+                                      const stx::SymbolTable &symbolTable,
+                                      std::vector<Datum> &values)
+    {
         try {
-            treeList.evaluate(values, (stx::SymbolTable&)(*(global_variable_registry.get())));
+            treeList.evaluate(values, symbolTable);
         } catch (stx::ExpressionParserException &e){
             throw FatalParserException("Expression parser error", e.what());
         }
     }
     
-    static void evaluateExpressionList(const std::string &exprList, std::vector<Datum> &values) {
-        evaluateParseTreeList(parseExpressionList(exprList), values);
+    static void evaluateParseTreeList(const stx::ParseTreeList &treeList, std::vector<Datum> &values) {
+        return evaluateParseTreeList(treeList, *global_variable_registry, values);
     }
-	
+    
+    static void evaluateExpressionList(const std::string &exprList,
+                                       const stx::SymbolTable &symbolTable,
+                                       std::vector<Datum> &values)
+    {
+        evaluateParseTreeList(parseExpressionList(exprList), symbolTable, values);
+    }
+    
+    static void evaluateExpressionList(const std::string &exprList, std::vector<Datum> &values) {
+        evaluateExpressionList(exprList, *global_variable_registry, values);
+    }
+    
     ParsedExpressionVariable(const std::string &expression_string) :
         expression_tree(parseExpression(expression_string))
     {
