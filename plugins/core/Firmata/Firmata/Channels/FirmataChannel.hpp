@@ -22,7 +22,9 @@ enum {
     PIN_MODE_OUTPUT = 0x01, // same as OUTPUT defined in Arduino.h
     PIN_MODE_ANALOG = 0x02, // analog pin in analogInput mode
     PIN_MODE_PWM    = 0x03, // digital pin in PWM output mode
-    PIN_MODE_SERVO  = 0x04  // digital pin in Servo output mode
+    PIN_MODE_SERVO  = 0x04, // digital pin in Servo output mode
+    
+    PIN_MODE_PULLUP = 0x0B  // enable internal pull-up resistor for pin
 };
 
 

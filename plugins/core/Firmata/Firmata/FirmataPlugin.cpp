@@ -10,6 +10,7 @@
 #include "FirmataAnalogInputChannel.hpp"
 #include "FirmataAnalogOutputChannel.hpp"
 #include "FirmataDigitalInputChannel.hpp"
+#include "FirmataDigitalInputPullupChannel.hpp"
 #include "FirmataDigitalOutputChannel.hpp"
 #include "FirmataWordOutputChannel.hpp"
 #include "FirmataServoChannel.hpp"
@@ -24,6 +25,7 @@ class FirmataPlugin : public Plugin {
         registry->registerFactory<StandardComponentFactory, FirmataAnalogInputChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataAnalogOutputChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataDigitalInputChannel>();
+        registry->registerFactory<StandardComponentFactory, FirmataDigitalInputPullupChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataDigitalOutputChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataWordOutputChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataServoChannel>();

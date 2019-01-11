@@ -123,6 +123,34 @@ parameters:
 ---
 
 
+name: Firmata Digital Input Pullup Channel
+signature: iochannel/firmata_digital_input_pullup
+isa: Firmata Channel
+description: |
+    Digital input pullup channel on a `Firmata Device`.
+
+    Unlike a standard `digital input channel <Firmata Digital Input Channel>`,
+    a digital input pullup channel enables the built-in pullup resistor for its
+    associated pin.  This causes the input to be high/true when unconnected and
+    low/false when connected to ground. For more information, see the Arduino
+    documentation on  `digital pins
+    <https://www.arduino.cc/en/Tutorial/DigitalPins>`_.
+parameters: 
+  - 
+    name: pin_number
+    required: yes
+    example: 8
+    description: Input pin number
+  - 
+    name: value
+    required: yes
+    description: >
+        Variable in which to store input state (true or false)
+
+
+---
+
+
 name: Firmata Digital Output Channel
 signature: iochannel/firmata_digital_output
 isa: Firmata Channel
@@ -153,7 +181,6 @@ parameters:
   - 
     name: pin_numbers
     required: yes
-    example: 4
     example: ['2,3,4', '5:8', 'a5,10:12,A3']
     description: >
         Pins used to output the individual bits of words assigned to `value`_.
