@@ -44,19 +44,6 @@ enum {
 };
 
 
-//
-// Pin modes
-//
-
-enum {
-    PIN_MODE_INPUT  = 0x00, // same as INPUT defined in Arduino.h
-    PIN_MODE_OUTPUT = 0x01, // same as OUTPUT defined in Arduino.h
-    PIN_MODE_ANALOG = 0x02, // analog pin in analogInput mode
-    PIN_MODE_PWM    = 0x03, // digital pin in PWM output mode
-    PIN_MODE_SERVO  = 0x04  // digital pin in Servo output mode
-};
-
-
 const std::string FirmataDevice::SERIAL_PORT("serial_port");
 const std::string FirmataDevice::BLUETOOTH_LOCAL_NAME("bluetooth_local_name");
 const std::string FirmataDevice::DATA_INTERVAL("data_interval");

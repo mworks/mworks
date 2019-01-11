@@ -27,6 +27,7 @@ public:
     
     Type getType() const override { return Type::Servo; }
     Direction getDirection() const override { return Direction::Output; }
+    int getPinMode() const override { return PIN_MODE_SERVO; }
     
     MWTime getMinPulseWidth() const { return minPulseWidth; }
     MWTime getMaxPulseWidth() const { return maxPulseWidth; }

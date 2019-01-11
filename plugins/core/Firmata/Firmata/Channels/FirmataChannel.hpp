@@ -13,11 +13,24 @@
 BEGIN_NAMESPACE_MW
 
 
+//
+// Pin modes
+//
+
+enum {
+    PIN_MODE_INPUT  = 0x00, // same as INPUT defined in Arduino.h
+    PIN_MODE_OUTPUT = 0x01, // same as OUTPUT defined in Arduino.h
+    PIN_MODE_ANALOG = 0x02, // analog pin in analogInput mode
+    PIN_MODE_PWM    = 0x03, // digital pin in PWM output mode
+    PIN_MODE_SERVO  = 0x04  // digital pin in Servo output mode
+};
+
+
 class FirmataChannel : public Component, protected stx::EmptySymbolTable {
     
 public:
-    enum class Type { Analog = 3, Digital = 1, Servo = 4 };
-    enum class Direction { Input = 1, Output = 0 };
+    enum class Type { Analog, Digital, Servo };
+    enum class Direction { Input, Output };
     
     explicit FirmataChannel(const ParameterValueMap &parameters);
     
@@ -36,7 +49,7 @@ public:
     bool isInput() const { return getDirection() == Direction::Input; }
     bool isOutput() const { return getDirection() == Direction::Output; }
     
-    int getPinMode() const { return (int(getType()) - int(getDirection())); }
+    virtual int getPinMode() const = 0;
     
 protected:
     static bool resolvePinNumber(const Datum &requestedPinNumber,

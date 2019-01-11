@@ -24,6 +24,7 @@ public:
     
     Type getType() const override { return Type::Digital; }
     Direction getDirection() const override { return Direction::Input; }
+    int getPinMode() const override { return PIN_MODE_INPUT; }
     
 };
 
