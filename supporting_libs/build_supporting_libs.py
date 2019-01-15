@@ -323,7 +323,7 @@ def add_object_files_to_libpythonall(exclude=()):
 
 @builder
 def openssl(ios=True):
-    version = '1.1.1'
+    version = '1.1.1a'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -359,7 +359,7 @@ def openssl(ios=True):
 
 @builder
 def python3(ios=True):
-    version = '3.7.1'
+    version = '3.7.2'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -411,7 +411,7 @@ def python3(ios=True):
 
 @builder
 def numpy3(ios=True):
-    version = '1.15.3'
+    version = '1.16.0'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -455,7 +455,7 @@ def numpy3(ios=True):
 
 @builder
 def boost(ios=True):
-    version = '1.68.0'
+    version = '1.69.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -467,6 +467,7 @@ def boost(ios=True):
             download_archive('https://dl.bintray.com/boostorg/release/%s/source/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
+                apply_patch('boost_deprecated_include.patch')
                 os.symlink('boost', 'mworks_boost')
                 env = get_clean_env()
                 if building_for_ios:
@@ -515,7 +516,7 @@ def boost(ios=True):
 
 @builder
 def zeromq(ios=True):
-    version = '4.2.5'
+    version = '4.3.1'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 

@@ -1,6 +1,6 @@
-diff -ur Python-3.7.0/Modules/Setup.dist Python/Modules/Setup.dist
---- Python-3.7.0/Modules/Setup.dist	2018-06-26 23:07:35.000000000 -0400
-+++ Python/Modules/Setup.dist	2018-07-10 12:29:42.000000000 -0400
+diff -ur Python-3.7.2/Modules/Setup.dist Python/Modules/Setup.dist
+--- Python-3.7.2/Modules/Setup.dist	2018-12-23 16:37:36.000000000 -0500
++++ Python/Modules/Setup.dist	2019-01-15 12:58:52.000000000 -0500
 @@ -174,7 +174,7 @@
  #cmath cmathmodule.c _math.c # -lm # complex math library functions
  #math mathmodule.c _math.c # -lm # math library functions, e.g. sin()
@@ -19,9 +19,9 @@ diff -ur Python-3.7.0/Modules/Setup.dist Python/Modules/Setup.dist
  
  
  # Modules with some UNIX dependencies -- on by default:
-diff -ur Python-3.7.0/Modules/_decimal/libmpdec/mpdecimal.h Python/Modules/_decimal/libmpdec/mpdecimal.h
---- Python-3.7.0/Modules/_decimal/libmpdec/mpdecimal.h	2018-06-26 23:07:35.000000000 -0400
-+++ Python/Modules/_decimal/libmpdec/mpdecimal.h	2018-07-10 12:22:13.000000000 -0400
+diff -ur Python-3.7.2/Modules/_decimal/libmpdec/mpdecimal.h Python/Modules/_decimal/libmpdec/mpdecimal.h
+--- Python-3.7.2/Modules/_decimal/libmpdec/mpdecimal.h	2018-12-23 16:37:36.000000000 -0500
++++ Python/Modules/_decimal/libmpdec/mpdecimal.h	2019-01-15 12:58:52.000000000 -0500
 @@ -135,6 +135,9 @@
    #elif defined(__x86_64__)
      #define CONFIG_64
@@ -32,9 +32,9 @@ diff -ur Python-3.7.0/Modules/_decimal/libmpdec/mpdecimal.h Python/Modules/_deci
    #else
      #error "unknown architecture for universal build."
    #endif
-diff -ur Python-3.7.0/Modules/posixmodule.c Python/Modules/posixmodule.c
---- Python-3.7.0/Modules/posixmodule.c	2018-06-26 23:07:35.000000000 -0400
-+++ Python/Modules/posixmodule.c	2018-07-09 13:06:41.000000000 -0400
+diff -ur Python-3.7.2/Modules/posixmodule.c Python/Modules/posixmodule.c
+--- Python-3.7.2/Modules/posixmodule.c	2018-12-23 16:37:36.000000000 -0500
++++ Python/Modules/posixmodule.c	2019-01-15 12:58:52.000000000 -0500
 @@ -188,7 +188,7 @@
  #define HAVE_KILL       1
  #define HAVE_OPENDIR    1
@@ -44,10 +44,10 @@ diff -ur Python-3.7.0/Modules/posixmodule.c Python/Modules/posixmodule.c
  #define HAVE_WAIT       1
  #define HAVE_TTYNAME    1
  #endif  /* _MSC_VER */
-diff -ur Python-3.7.0/configure Python/configure
---- Python-3.7.0/configure	2018-06-26 23:07:35.000000000 -0400
-+++ Python/configure	2018-07-09 14:53:00.000000000 -0400
-@@ -2920,7 +2920,9 @@
+diff -ur Python-3.7.2/configure Python/configure
+--- Python-3.7.2/configure	2018-12-23 16:37:36.000000000 -0500
++++ Python/configure	2019-01-15 12:58:52.000000000 -0500
+@@ -2924,7 +2924,9 @@
  if test "$cross_compiling" = yes; then
      { $as_echo "$as_me:${as_lineno-$LINENO}: checking for python interpreter for cross build" >&5
  $as_echo_n "checking for python interpreter for cross build... " >&6; }
@@ -58,7 +58,7 @@ diff -ur Python-3.7.0/configure Python/configure
          for interp in python$PACKAGE_VERSION python3 python; do
  	    which $interp >/dev/null 2>&1 || continue
  	    if $interp -c "import sys;sys.exit(not '.'.join(str(n) for n in sys.version_info[:2]) == '$PACKAGE_VERSION')"; then
-@@ -2933,8 +2935,8 @@
+@@ -2937,8 +2939,8 @@
  	fi
          { $as_echo "$as_me:${as_lineno-$LINENO}: result: $interp" >&5
  $as_echo "$interp" >&6; }
@@ -68,7 +68,7 @@ diff -ur Python-3.7.0/configure Python/configure
  elif test "$cross_compiling" = maybe; then
      as_fn_error $? "Cross compiling required --host=HOST-TUPLE and --build=ARCH" "$LINENO" 5
  else
-@@ -2991,7 +2993,7 @@
+@@ -2995,7 +2997,7 @@
  
  
  
@@ -77,7 +77,7 @@ diff -ur Python-3.7.0/configure Python/configure
  
  # Arguments passed to configure.
  
-@@ -3257,6 +3259,9 @@
+@@ -3261,6 +3263,9 @@
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
@@ -87,7 +87,7 @@ diff -ur Python-3.7.0/configure Python/configure
  	*)
  		# for now, limit cross builds to known configurations
  		MACHDEP="unknown"
-@@ -3301,6 +3306,9 @@
+@@ -3305,6 +3310,9 @@
  	*-*-cygwin*)
  		_host_cpu=
  		;;
@@ -97,7 +97,7 @@ diff -ur Python-3.7.0/configure Python/configure
  	*)
  		# for now, limit cross builds to known configurations
  		MACHDEP="unknown"
-@@ -6179,13 +6187,13 @@
+@@ -6183,13 +6191,13 @@
    fi
  fi
  
@@ -118,9 +118,9 @@ diff -ur Python-3.7.0/configure Python/configure
  
  
  
-diff -ur Python-3.7.0/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.7.0/pyconfig.h.in	2018-06-26 23:07:35.000000000 -0400
-+++ Python/pyconfig.h.in	2018-07-20 16:09:13.000000000 -0400
+diff -ur Python-3.7.2/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.7.2/pyconfig.h.in	2018-12-23 16:37:36.000000000 -0500
++++ Python/pyconfig.h.in	2019-01-15 12:58:52.000000000 -0500
 @@ -126,7 +126,7 @@
  #undef HAVE_CLOCK_GETTIME
  
@@ -139,10 +139,10 @@ diff -ur Python-3.7.0/pyconfig.h.in Python/pyconfig.h.in
  
  /* Define to 1 if you have the `getgrouplist' function. */
  #undef HAVE_GETGROUPLIST
-diff -ur Python-3.7.0/setup.py Python/setup.py
---- Python-3.7.0/setup.py	2018-06-26 23:07:35.000000000 -0400
-+++ Python/setup.py	2018-07-10 13:12:25.000000000 -0400
-@@ -32,6 +32,8 @@
+diff -ur Python-3.7.2/setup.py Python/setup.py
+--- Python-3.7.2/setup.py	2018-12-23 16:37:36.000000000 -0500
++++ Python/setup.py	2019-01-15 12:58:52.000000000 -0500
+@@ -37,6 +37,8 @@
  def get_platform():
      # cross build
      if "_PYTHON_HOST_PLATFORM" in os.environ:
@@ -151,7 +151,7 @@ diff -ur Python-3.7.0/setup.py Python/setup.py
          return os.environ["_PYTHON_HOST_PLATFORM"]
      # Get value of sys.platform
      if sys.platform.startswith('osf1'):
-@@ -73,7 +75,10 @@
+@@ -78,7 +80,10 @@
      for var_name in make_vars:
          var = sysconfig.get_config_var(var_name)
          if var is not None:

@@ -1,7 +1,7 @@
-diff -ur numpy-1.15.0/numpy/distutils/system_info.py numpy/numpy/distutils/system_info.py
---- numpy-1.15.0/numpy/distutils/system_info.py	2018-07-23 08:27:00.000000000 -0400
-+++ numpy/numpy/distutils/system_info.py	2018-08-09 10:20:28.000000000 -0400
-@@ -1892,7 +1892,8 @@
+diff -ur numpy-1.16.0/numpy/distutils/system_info.py numpy/numpy/distutils/system_info.py
+--- numpy-1.16.0/numpy/distutils/system_info.py	2019-01-05 17:25:49.000000000 -0500
++++ numpy/numpy/distutils/system_info.py	2019-01-15 13:23:28.000000000 -0500
+@@ -1893,7 +1893,8 @@
          libraries = [lib.strip().lower() for lib in libraries]
  
          if (sys.platform == 'darwin' and
