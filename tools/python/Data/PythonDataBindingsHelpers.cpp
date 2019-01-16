@@ -204,7 +204,7 @@ void PythonDataStream::write(const boost::python::object &obj) {
 
 EventWrapper PythonDataStream::read_event() {
     auto scarabEvent = datumToScarabDatum(readDatum());
-    if (!DataFileUtilities::isScarabEvent(scarabEvent.get())) {
+    if (!data_file_utilities::isScarabEvent(scarabEvent.get())) {
         PyErr_SetString(PyExc_IOError, "Read invalid event from Scarab session");
         throw_error_already_set();
     }

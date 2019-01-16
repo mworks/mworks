@@ -11,7 +11,6 @@
 #define DateFileIndexer_
 
 #include <set>
-#include <stdexcept>
 #include <vector>
 
 #include <boost/filesystem/path.hpp>
@@ -26,15 +25,18 @@
 #include "EventBlock.h"
 
 
-class DataFileIndexerError : public std::runtime_error {
+BEGIN_NAMESPACE_MW
+
+
+class DataFileIndexerError : public SimpleException {
     
 public:
     explicit DataFileIndexerError(const std::string &s) :
-        std::runtime_error(s)
+        SimpleException(M_FILE_MESSAGE_DOMAIN, s)
     { }
     
     explicit DataFileIndexerError(const boost::format &f) :
-        std::runtime_error(f.str())
+        SimpleException(M_FILE_MESSAGE_DOMAIN, f)
     { }
     
 };
@@ -45,7 +47,7 @@ class DataFileIndexer : boost::noncopyable {
 public:
     ~DataFileIndexer();
     
-    DataFileIndexer(const boost::filesystem::path &data_file);
+    explicit DataFileIndexer(const boost::filesystem::path &data_file);
     
     void buildIndex(unsigned int events_per_block, unsigned int multiplication_factor_per_level);
     
@@ -118,34 +120,10 @@ private:
 };
 
 
-BOOST_CLASS_VERSION(DataFileIndexer, 1)
+END_NAMESPACE_MW
+
+
+BOOST_CLASS_VERSION(mw::DataFileIndexer, 1)
 
 
 #endif  // !defined(DateFileIndexer_)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

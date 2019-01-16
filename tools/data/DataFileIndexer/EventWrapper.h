@@ -15,6 +15,9 @@
 #include <dfindex/DataFileUtilities.h>
 
 
+BEGIN_NAMESPACE_MW
+
+
 class EventWrapper {
     
 private:
@@ -51,21 +54,21 @@ public:
         if (empty()) {
             return -1;
         }
-        return DataFileUtilities::getScarabEventCode(datum);
+        return data_file_utilities::getScarabEventCode(datum);
     }
     
     MWTime getTime() const {
         if (empty()) {
             return 0LL;
         }
-        return DataFileUtilities::getScarabEventTime(datum);
+        return data_file_utilities::getScarabEventTime(datum);
     }
     
     ScarabDatum *getPayload() const {
         if (empty()) {
             return NULL;
         }
-        return DataFileUtilities::getScarabEventPayload(datum);
+        return data_file_utilities::getScarabEventPayload(datum);
     }
     
     // This is needed for Python bindings
@@ -74,32 +77,7 @@ public:
 };
 
 
+END_NAMESPACE_MW
+
+
 #endif //SCARAB_DATUM_WRAPPER_H
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -12,6 +12,10 @@
 
 #include "EventBlock.h"
 
+
+BEGIN_NAMESPACE_MW
+
+
 EventBlock::EventBlock(long int offset,
 					   MWTime min_time,
 					   MWTime max_time,
@@ -84,3 +88,5 @@ void EventBlock::children(std::vector<boost::shared_ptr<EventBlock> > &matching_
 	}
 }
 
+
+END_NAMESPACE_MW

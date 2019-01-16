@@ -16,10 +16,9 @@
 #include <MWorksCore/MWorksTypes.h>
 #include <MWorksCore/EventConstants.h>
 
-using mw::MWTime;
 
-
-BEGIN_NAMESPACE(DataFileUtilities)
+BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE(data_file_utilities)
 
 
 inline int getScarabEventSize(const ScarabDatum *datum) {
@@ -69,34 +68,8 @@ inline bool isScarabEvent(const ScarabDatum *datum) {
 }
 
 
-END_NAMESPACE(DataFileUtilities)
+END_NAMESPACE(data_file_utilities)
+END_NAMESPACE_MW
 
 
 #endif /* !defined(__DataFileIndexer__DataFileUtilities__) */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -14,6 +14,9 @@
 #include <iostream>
 
 
+BEGIN_NAMESPACE_MW
+
+
 DataFileIndexer::~DataFileIndexer() {
     scarab_session_close(session);
 }
@@ -47,15 +50,15 @@ void DataFileIndexer::buildIndex(unsigned int _events_per_block, unsigned int mu
 			
 			ScarabDatum *datum = NULL;
 			while(datum = scarab_read(session)) {
-                if (!DataFileUtilities::isScarabEvent(datum)) {
+                if (!data_file_utilities::isScarabEvent(datum)) {
                     // Ignore invalid events
                     scarab_free_datum(datum);
                     continue;
                 }
                 
-				event_codes_in_block.insert(DataFileUtilities::getScarabEventCode(datum));
+				event_codes_in_block.insert(data_file_utilities::getScarabEventCode(datum));
 				
-				MWTime event_time = DataFileUtilities::getScarabEventTime(datum);
+				MWTime event_time = data_file_utilities::getScarabEventTime(datum);
 				max_time = std::max(max_time, event_time);
 				min_time = std::min(min_time, event_time);
 				
@@ -172,17 +175,17 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
         // Read through the event block
 		while (event.empty() && (current_relative_event < dfi.events_per_block) && (current_datum = scarab_read(dfi.session)))
         {
-            if (!DataFileUtilities::isScarabEvent(current_datum)) {
+            if (!data_file_utilities::isScarabEvent(current_datum)) {
                 // Skip invalid events
                 scarab_free_datum(current_datum);
                 continue;
             }
             
-			MWTime event_time = DataFileUtilities::getScarabEventTime(current_datum);
+			MWTime event_time = data_file_utilities::getScarabEventTime(current_datum);
 			
             // Check the time criterion
             if (event_time >= lower_bound && event_time <= upper_bound) {
-				unsigned int event_code = DataFileUtilities::getScarabEventCode(current_datum);
+				unsigned int event_code = data_file_utilities::getScarabEventCode(current_datum);
 				
                 // Check if the event code matches
                 if (event_codes_to_match.empty() ||
@@ -207,27 +210,4 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+END_NAMESPACE_MW

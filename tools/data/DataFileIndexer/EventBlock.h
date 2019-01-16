@@ -24,21 +24,19 @@
 
 #include <MWorksCore/Utilities.h>
 
-using mw::MWTime;
-using mw::MIN_MWORKS_TIME;
-using mw::MAX_MWORKS_TIME;
+
+BEGIN_NAMESPACE_MW
 
 
 class EventBlock {
 	
 public:
-	EventBlock() {}
 	EventBlock(long int offset,
 			   MWTime min_time,
 			   MWTime max_time,
 			   const std::set<unsigned int> &_event_codes);
 	
-	EventBlock(const std::vector<boost::shared_ptr<EventBlock> > &child_event_blocks);
+	explicit EventBlock(const std::vector<boost::shared_ptr<EventBlock>> &child_event_blocks);
 	
 	bool hasTime(MWTime lower_bound, MWTime upper_bound) const {
         return lower_bound <= maximum_time && upper_bound >= minimum_time;
@@ -58,6 +56,9 @@ public:
 
 private:
     friend class boost::serialization::access;
+    
+    // This is used only by boost::serialization when loading an archive
+    EventBlock() {}
     
     template<class Archive> void save(Archive & ar, const unsigned int version) const {
         ar << file_offset;
@@ -93,33 +94,10 @@ private:
 };
 
 
-BOOST_CLASS_VERSION(EventBlock, 1)
+END_NAMESPACE_MW
+
+
+BOOST_CLASS_VERSION(mw::EventBlock, 1)
 
 
 #endif // EventBlock_
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

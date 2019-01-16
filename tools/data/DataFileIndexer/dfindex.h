@@ -15,10 +15,13 @@
 #include "DataFileIndexer.h"
 
 
+BEGIN_NAMESPACE_MW
+
+
 class dfindex {
     
 public:
-    dfindex(const boost::filesystem::path &data_file);
+    explicit dfindex(const boost::filesystem::path &data_file);
     
     std::string getFilePath() const {
         return mwk_data_file.string();
@@ -62,30 +65,7 @@ private:
 };
 
 
+END_NAMESPACE_MW
+
+
 #endif //dfindex_
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

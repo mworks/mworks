@@ -17,6 +17,9 @@
 #include <boost/archive/text_oarchive.hpp>
 
 
+BEGIN_NAMESPACE_MW
+
+
 dfindex::dfindex(const boost::filesystem::path &data_file) :
     mwk_data_file(data_file),
     actual_mwk_file(prepareDataFile(mwk_data_file)),
@@ -60,27 +63,4 @@ boost::filesystem::path dfindex::prepareDataFile(const boost::filesystem::path &
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+END_NAMESPACE_MW

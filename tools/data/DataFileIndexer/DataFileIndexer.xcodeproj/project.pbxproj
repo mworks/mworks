@@ -38,14 +38,10 @@
 		0E7788180D6B44FB00AF41F2 /* DataFileUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
 		0EA2B4C50D6BB349002396FC /* EventBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EA2B4C30D6BB349002396FC /* EventBlock.h */; };
 		0EA2B4C60D6BB349002396FC /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
-		0EA58F120D6B20410027A3AC /* Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA58EB50D6B1D850027A3AC /* Test.cpp */; };
 		0EA58F9F0D6B25500027A3AC /* DataFileIndexer.h in Headers */ = {isa = PBXBuildFile; fileRef = 50149BD909E781A5002DEE6A /* DataFileIndexer.h */; };
 		0EA58FA00D6B25580027A3AC /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
 		0EE378AA0D6CA7B30065846A /* dfindex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE378A80D6CA7B30065846A /* dfindex.h */; };
 		0EE378AB0D6CA7B30065846A /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
-		E167F67115D2A7F50096459C /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
-		E167F67515D2A7FE0096459C /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
-		E167F67615D2A8020096459C /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
 		E1CBF67716BB02CF0057CE48 /* DataFileIndexer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50149BD909E781A5002DEE6A /* DataFileIndexer.h */; };
 		E1CBF67816BB02CF0057CE48 /* DataFileUtilities.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
 		E1CBF67916BB02CF0057CE48 /* EventWrapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* EventWrapper.h */; };
@@ -99,35 +95,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		0E587B3D0D6B63B20053BE5C /* EventWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventWrapper.h; sourceTree = "<group>"; };
 		0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileUtilities.h; sourceTree = "<group>"; };
 		0EA2B4C30D6BB349002396FC /* EventBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventBlock.h; sourceTree = "<group>"; };
 		0EA2B4C40D6BB349002396FC /* EventBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventBlock.cpp; sourceTree = "<group>"; };
-		0EA58EB50D6B1D850027A3AC /* Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Test.cpp; sourceTree = "<group>"; };
-		0EA58EF50D6B1F260027A3AC /* DFITest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DFITest-Info.plist"; sourceTree = "<group>"; };
-		0EA58F0B0D6B20120027A3AC /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0EA58F0D0D6B20120027A3AC /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libdfindex.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EE378A80D6CA7B30065846A /* dfindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dfindex.h; sourceTree = "<group>"; };
 		0EE378A90D6CA7B30065846A /* dfindex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dfindex.cpp; sourceTree = "<group>"; };
 		50149BD909E781A5002DEE6A /* DataFileIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileIndexer.h; sourceTree = "<group>"; };
 		5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileIndexer.cpp; sourceTree = "<group>"; };
-		5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = DataFileIndexerProj.xcconfig; sourceTree = "<group>"; };
-		5073E0C709E734A800EC74B6 /* DataFileIndexerTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = DataFileIndexerTarget.xcconfig; sourceTree = "<group>"; };
 		E14FFF8B164C52670006081B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1C78767116FA6C1004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1C78768116FA6C1004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0EA58F090D6B20120027A3AC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0EA58F980D6B24FF0027A3AC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -141,7 +123,6 @@
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0EA58F0B0D6B20120027A3AC /* Test.app */,
 				0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */,
 			);
 			name = Products;
@@ -151,24 +132,19 @@
 			isa = PBXGroup;
 			children = (
 				E1C78763116FA698004928BF /* External Config */,
-				0EA58EB30D6B1D6A0027A3AC /* Test */,
-				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
 				08FB77ACFE841707C02AAC07 /* Source */,
-				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				0867D69AFE84028FC02AAC07 /* Frameworks & Libraries */,
 				034768DDFF38A45A11DB9C8B /* Products */,
-				0EA58EF50D6B1F260027A3AC /* DFITest-Info.plist */,
-				0EA58F0D0D6B20120027A3AC /* Test-Info.plist */,
 			);
 			name = DataFileIndexer;
 			sourceTree = "<group>";
 		};
-		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* Frameworks & Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				08FB77AAFE841565C02AAC07 /* Carbon.framework */,
 				E14FFF8B164C52670006081B /* MWorksCore.framework */,
 			);
-			name = "External Frameworks and Libraries";
+			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
 		};
 		08FB77ACFE841707C02AAC07 /* Source */ = {
@@ -184,23 +160,6 @@
 				0EE378A90D6CA7B30065846A /* dfindex.cpp */,
 			);
 			name = Source;
-			sourceTree = "<group>";
-		};
-		0EA58EB30D6B1D6A0027A3AC /* Test */ = {
-			isa = PBXGroup;
-			children = (
-				0EA58EB50D6B1D850027A3AC /* Test.cpp */,
-			);
-			name = Test;
-			sourceTree = "<group>";
-		};
-		5073E0CA09E734BC00EC74B6 /* Configuration Files */ = {
-			isa = PBXGroup;
-			children = (
-				5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */,
-				5073E0C709E734A800EC74B6 /* DataFileIndexerTarget.xcconfig */,
-			);
-			name = "Configuration Files";
 			sourceTree = "<group>";
 		};
 		E1C78763116FA698004928BF /* External Config */ = {
@@ -230,23 +189,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0EA58F0A0D6B20120027A3AC /* Test */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0EA58F100D6B20120027A3AC /* Build configuration list for PBXNativeTarget "Test" */;
-			buildPhases = (
-				0EA58F070D6B20120027A3AC /* Resources */,
-				0EA58F080D6B20120027A3AC /* Sources */,
-				0EA58F090D6B20120027A3AC /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Test;
-			productName = Test;
-			productReference = 0EA58F0B0D6B20120027A3AC /* Test.app */;
-			productType = "com.apple.product-type.application";
-		};
 		0EA58F990D6B24FF0027A3AC /* dfindex */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0EA58FB10D6B25870027A3AC /* Build configuration list for PBXNativeTarget "dfindex" */;
@@ -271,6 +213,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					0EA58F990D6B24FF0027A3AC = {
+						ProvisioningStyle = Automatic;
+					};
+					E16EB57C114EDDB500F23DB5 = {
+						ProvisioningStyle = Automatic;
+					};
+					E1CBF66F16BB02740057CE48 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "DataFileIndexer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -289,34 +242,12 @@
 			targets = (
 				0EA58F990D6B24FF0027A3AC /* dfindex */,
 				E1CBF66F16BB02740057CE48 /* Install dfindex */,
-				0EA58F0A0D6B20120027A3AC /* Test */,
 				E16EB57C114EDDB500F23DB5 /* Everything */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		0EA58F070D6B20120027A3AC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		0EA58F080D6B20120027A3AC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0EA58F120D6B20410027A3AC /* Test.cpp in Sources */,
-				E167F67115D2A7F50096459C /* DataFileIndexer.cpp in Sources */,
-				E167F67515D2A7FE0096459C /* EventBlock.cpp in Sources */,
-				E167F67615D2A8020096459C /* dfindex.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0EA58F970D6B24FF0027A3AC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -350,23 +281,6 @@
 			};
 			name = Development;
 		};
-		5C7243001097F3ED004887A5 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "Test-Info.plist";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-lboost_system",
-					"-lboost_filesystem",
-					"-lboost_serialization",
-					"-lscarab",
-				);
-				PRODUCT_NAME = Test;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Development;
-		};
 		5C7243011097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -391,14 +305,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0EA58F100D6B20120027A3AC /* Build configuration list for PBXNativeTarget "Test" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C7243001097F3ED004887A5 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		0EA58FB10D6B25870027A3AC /* Build configuration list for PBXNativeTarget "dfindex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
