@@ -12,9 +12,9 @@
 
 #include <Scarab/scarab.h>
 
-#include <MWorksCore/MWorksMacros.h>
-#include <MWorksCore/MWorksTypes.h>
-#include <MWorksCore/EventConstants.h>
+#include "MWorksMacros.h"
+#include "MWorksTypes.h"
+#include "EventConstants.h"
 
 
 BEGIN_NAMESPACE_MW

@@ -20,8 +20,6 @@
 #include <boost/shared_ptr.hpp>
 #include <Scarab/scarab.h>
 
-#include <MWorksCore/Utilities.h>
-
 #include "EventBlock.h"
 
 

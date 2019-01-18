@@ -108,8 +108,6 @@ BOOST_PYTHON_MODULE(_mworks)
     .def(vector_indexing_suite<std::vector<PythonEventWrapper>>())
     ;
     
-    register_exception_translator<scarab::DataFileIndexerError>(&PythonDataFile::translateDFIError);
-    
     class_<PythonDataFile, boost::noncopyable>("_MWKFile", init<std::string>())
     .def("open", &PythonDataFile::open)
     .def("close", &PythonDataFile::close)

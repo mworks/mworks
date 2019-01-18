@@ -5,9 +5,6 @@
       location = "group:../supporting_libs/SupportingLibs.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../supporting_libs/scarab/Scarab.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:../core/MWorksCore.xcodeproj">
    </FileRef>
    <Group

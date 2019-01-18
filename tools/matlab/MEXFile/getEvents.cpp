@@ -8,9 +8,8 @@
 
 #include "getEvents.h"
 
+#include <MWorksCore/dfindex.h>
 #include <MWorksCore/ScarabServices.h>
-
-#include <dfindex/dfindex.h>
 
 #include "Array.h"
 #include "Converters.h"
@@ -43,7 +42,7 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
             times.push_back(time);
             values.push_back(convertDatumToArray(value));
         }
-    } catch (const scarab::DataFileIndexerError &e) {
+    } catch (const std::exception &e) {
         throwMATLABError("MWorks:DataFileIndexerError", e.what());
     }
     

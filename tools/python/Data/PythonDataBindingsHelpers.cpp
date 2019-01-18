@@ -10,9 +10,8 @@
 
 #include "GILHelpers.h"
 
+#include <MWorksCore/DataFileUtilities.h>
 #include <MWorksCore/ScarabServices.h>
-
-#include <dfindex/DataFileUtilities.h>
 
 using boost::python::throw_error_already_set;
 

@@ -28,20 +28,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E1F298A91E4501F6006842A7"
-               BuildableName = "libscarab.a"
-               BlueprintName = "Scarab-iOS"
-               ReferencedContainer = "container:../supporting_libs/scarab/Scarab.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E148A4361E4B7106002DFB1C"
                BuildableName = "MWorksCore.framework"
                BlueprintName = "MWorksCore-iOS"

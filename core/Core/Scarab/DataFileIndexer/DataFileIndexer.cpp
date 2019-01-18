@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <iostream>
 
-#include <MWorksCore/ScarabServices.h>
+#include "ScarabServices.h"
 
 
 BEGIN_NAMESPACE_MW

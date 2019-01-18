@@ -246,12 +246,12 @@ class TestMWKFileBasics(MWKFileTestMixin, unittest.TestCase):
         self.assertRaises(IOError, self.fp.unindex)
 
     def test_nonexistent_file(self):
-        self.assertRaises(IOError, self.fp.open)
+        self.assertRaises(RuntimeError, self.fp.open)
 
     def test_unreadable_file(self):
         self.create_file()
         os.chmod(self.filename, 0)
-        self.assertRaises(IOError, self.open_file)
+        self.assertRaises(RuntimeError, self.open_file)
 
     def test_context_manager(self):
         self.assertFalse(self.fp.exists)
@@ -364,7 +364,7 @@ class TestMWKFileSelection(MWKFileTestMixin, unittest.TestCase):
         self.assertSelected([1,2], min_time=22, max_time=33)
         self.assertSelected([], min_time=23, max_time=32)
         self.assertSelected([1], min_time=22, max_time=22)
-        self.assertRaises(IOError, self.select, min_time=23, max_time=22)
+        self.assertRaises(RuntimeError, self.select, min_time=23, max_time=22)
 
     def test_by_code_and_time(self):
         self.assertSelected([1,2,3], codes=(2,3,4), min_time=22)

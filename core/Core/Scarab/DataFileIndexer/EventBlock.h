@@ -22,7 +22,7 @@
 #include <boost/serialization/split_member.hpp>
 #include <boost/serialization/vector.hpp>
 
-#include <MWorksCore/Utilities.h>
+#include "Utilities.h"
 
 
 BEGIN_NAMESPACE_MW

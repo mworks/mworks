@@ -181,13 +181,6 @@ def local_core_plugins():
             xcodebuild()
 
 
-@builder('mworks/tools/data')
-def data_tools():
-    for subdir in ('DataFileIndexer',):
-        with workdir(subdir):
-            xcodebuild()
-
-
 @builder('mworks/tools/python')
 def python_tools():
     xcodebuild()

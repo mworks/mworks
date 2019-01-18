@@ -64,7 +64,6 @@
 		E150375E167F8B4200CF3AEC /* MEXInputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E150375C167F8B4200CF3AEC /* MEXInputs.cpp */; };
 		E1503762167F98F800CF3AEC /* getEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1503760167F98F700CF3AEC /* getEvents.cpp */; };
 		E1503766167FA84D00CF3AEC /* MEXOutputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1503764167FA84D00CF3AEC /* MEXOutputs.cpp */; };
-		E1503769167FB14D00CF3AEC /* libdfindex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1503768167FB14D00CF3AEC /* libdfindex.a */; };
 		E1523D9B167673A300069B10 /* mwfeval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1523D99167673A300069B10 /* mwfeval.cpp */; };
 		E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaci64 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */; };
 		E1D2C0FF167BADF00030EF33 /* Converters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D2C0FD167BADF00030EF33 /* Converters.cpp */; };
@@ -136,7 +135,6 @@
 		E1503761167F98F700CF3AEC /* getEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getEvents.h; sourceTree = "<group>"; };
 		E1503764167FA84D00CF3AEC /* MEXOutputs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MEXOutputs.cpp; sourceTree = "<group>"; };
 		E1503765167FA84D00CF3AEC /* MEXOutputs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEXOutputs.h; sourceTree = "<group>"; };
-		E1503768167FB14D00CF3AEC /* libdfindex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdfindex.a; path = "/Library/Application Support/MWorks/Developer/lib/libdfindex.a"; sourceTree = "<absolute>"; };
 		E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = mwfeval.mexmaci64; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1523D66167669BF00069B10 /* MATLABTools-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MATLABTools-Prefix.pch"; sourceTree = "<group>"; };
 		E1523D7716766AE400069B10 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
@@ -163,7 +161,6 @@
 				E1DB979816C19C2D001481E9 /* libboost_filesystem.a in Frameworks */,
 				E1DB979A16C19C30001481E9 /* libboost_serialization.a in Frameworks */,
 				E1DB979C16C19C38001481E9 /* libboost_system.a in Frameworks */,
-				E1503769167FB14D00CF3AEC /* libdfindex.a in Frameworks */,
 				E1DB979616C1998D001481E9 /* libscarab.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,7 +251,6 @@
 				E1DB979716C19C2D001481E9 /* libboost_filesystem.a */,
 				E1DB979916C19C30001481E9 /* libboost_serialization.a */,
 				E1DB979B16C19C38001481E9 /* libboost_system.a */,
-				E1503768167FB14D00CF3AEC /* libdfindex.a */,
 				E1DB979516C1998D001481E9 /* libscarab.a */,
 			);
 			name = "Frameworks & Libraries";

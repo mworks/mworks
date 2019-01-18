@@ -66,10 +66,6 @@ private:
 class PythonDataFile : boost::noncopyable {
     
 public:
-    static void translateDFIError(const scarab::DataFileIndexerError &e) {
-        PyErr_SetString(PyExc_IOError, e.what());
-    }
-    
     explicit PythonDataFile(const std::string &_file_name);
     
     void open();    

@@ -66,7 +66,6 @@
 		E16881471FBCA3500049BCDA /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978F16C19830001481E9 /* libboost_filesystem.a */; };
 		E16881491FBCA3500049BCDA /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978D16C1981E001481E9 /* libboost_serialization.a */; };
 		E168814A1FBCA3500049BCDA /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979116C19843001481E9 /* libboost_system.a */; };
-		E168814B1FBCA3500049BCDA /* libdfindex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BD216554AB200D472D0 /* libdfindex.a */; };
 		E168814C1FBCA3500049BCDA /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979316C19859001481E9 /* libscarab.a */; };
 		E181E051210F9B7A0045C955 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E181E04F210F9B520045C955 /* libcrypto.a */; };
 		E181E052210F9BAA0045C955 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E181E050210F9B560045C955 /* libssl.a */; };
@@ -81,7 +80,6 @@
 		E18D3BB8165541B900D472D0 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BB7165541B900D472D0 /* MWorksCore.framework */; };
 		E18D3BC71655456600D472D0 /* PythonTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3BA716553CCF00D472D0 /* PythonTools.cpp */; };
 		E18D3BD01655489C00D472D0 /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3BCE1655489C00D472D0 /* PythonDataBindingsHelpers.cpp */; };
-		E18D3BD316554AB200D472D0 /* libdfindex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BD216554AB200D472D0 /* libdfindex.a */; };
 		E18D3BE616554EE200D472D0 /* _mworks.so in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3B79165537A300D472D0 /* _mworks.so */; };
 		E18D3BE716554EE400D472D0 /* __init__.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BD916554D7D00D472D0 /* __init__.py */; };
 		E18D3BE816554EE600D472D0 /* conduit.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BDA16554D7D00D472D0 /* conduit.py */; };
@@ -199,7 +197,6 @@
 		E18D3BB7165541B900D472D0 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E18D3BCE1655489C00D472D0 /* PythonDataBindingsHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonDataBindingsHelpers.cpp; sourceTree = "<group>"; };
 		E18D3BCF1655489C00D472D0 /* PythonDataBindingsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonDataBindingsHelpers.h; sourceTree = "<group>"; };
-		E18D3BD216554AB200D472D0 /* libdfindex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdfindex.a; path = "/Library/Application Support/MWorks/Developer/lib/libdfindex.a"; sourceTree = "<absolute>"; };
 		E18D3BD916554D7D00D472D0 /* __init__.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		E18D3BDA16554D7D00D472D0 /* conduit.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = conduit.py; sourceTree = "<group>"; };
 		E18D3BDB16554D7D00D472D0 /* data.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = data.py; sourceTree = "<group>"; };
@@ -245,7 +242,6 @@
 				E16881471FBCA3500049BCDA /* libboost_filesystem.a in Frameworks */,
 				E16881491FBCA3500049BCDA /* libboost_serialization.a in Frameworks */,
 				E168814A1FBCA3500049BCDA /* libboost_system.a in Frameworks */,
-				E168814B1FBCA3500049BCDA /* libdfindex.a in Frameworks */,
 				E168814C1FBCA3500049BCDA /* libscarab.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,7 +254,6 @@
 				E1DB979016C19830001481E9 /* libboost_filesystem.a in Frameworks */,
 				E1DB978E16C1981E001481E9 /* libboost_serialization.a in Frameworks */,
 				E1DB979216C19843001481E9 /* libboost_system.a in Frameworks */,
-				E18D3BD316554AB200D472D0 /* libdfindex.a in Frameworks */,
 				E1DB979416C19859001481E9 /* libscarab.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,7 +373,6 @@
 				E1DB978D16C1981E001481E9 /* libboost_serialization.a */,
 				E1DB979116C19843001481E9 /* libboost_system.a */,
 				E181E04F210F9B520045C955 /* libcrypto.a */,
-				E18D3BD216554AB200D472D0 /* libdfindex.a */,
 				E1DB979316C19859001481E9 /* libscarab.a */,
 				E181E050210F9B560045C955 /* libssl.a */,
 			);

@@ -9,8 +9,10 @@
 #include <bytesobject.h>
 #include <node.h>
 
-#include <Scarab/scarab.h>
-#include <Scarab/scarab_utilities.h>
+#if TARGET_OS_OSX
+#  include <Scarab/scarab.h>
+#  include <Scarab/scarab_utilities.h>
+#endif
 
 #ifdef __cplusplus
 
@@ -41,7 +43,7 @@
 #  include <MWorksCore/AccumulatingConduit.h>
 #  include <MWorksCore/CodecAwareConduit.h>
 #  include <MWorksCore/IPCEventTransport.h>
-#  include <dfindex/dfindex.h>
+#  include <MWorksCore/dfindex.h>
 #endif
 
 #endif /* defined(__cplusplus) */
