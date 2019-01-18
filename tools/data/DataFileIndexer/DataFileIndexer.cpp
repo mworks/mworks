@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <iostream>
 
+#include <MWorksCore/ScarabServices.h>
+
 
 BEGIN_NAMESPACE_MW
 
@@ -124,21 +126,6 @@ void DataFileIndexer::buildIndex(unsigned int _events_per_block, unsigned int mu
 }
 
 
-void DataFileIndexer::getEvents(std::vector<EventWrapper> &return_vector,
-                                const std::set<unsigned int> &event_codes_to_match,
-                                MWTime lower_bound,
-                                MWTime upper_bound) const
-{
-    EventsIterator ei = getEventsIterator(event_codes_to_match, lower_bound, upper_bound);
-    while (true) {
-        EventWrapper event = ei.getNextEvent();
-        if (event.empty())
-            break;
-        return_vector.push_back(event);
-    }
-}
-
-
 DataFileIndexer::EventsIterator::EventsIterator(const DataFileIndexer &_dfi,
                                                 const std::set<unsigned int> &_event_codes_to_match,
                                                 MWTime _lower_bound,
@@ -162,18 +149,18 @@ DataFileIndexer::EventsIterator::EventsIterator(const DataFileIndexer &_dfi,
 }
 
 
-EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
-    EventWrapper event;
+bool DataFileIndexer::EventsIterator::getNextEvent(int &code, MWTime &time, Datum &data) {
+    bool foundNextEvent = false;
     
-    while (current_event_block < matching_event_blocks.size()) {
+    while (!foundNextEvent && (current_event_block < matching_event_blocks.size())) {
         if ((current_relative_event == dfi.events_per_block) || (current_datum == NULL)) {
             // Advance to the next block
-            scarab_seek(dfi.session, matching_event_blocks[current_event_block]->blockOffset(), SEEK_SET);
+            scarab_seek(dfi.session, matching_event_blocks.at(current_event_block)->blockOffset(), SEEK_SET);
             current_relative_event = 0;
         }
         
         // Read through the event block
-		while (event.empty() && (current_relative_event < dfi.events_per_block) && (current_datum = scarab_read(dfi.session)))
+		while (!foundNextEvent && (current_relative_event < dfi.events_per_block) && (current_datum = scarab_read(dfi.session)))
         {
             if (!data_file_utilities::isScarabEvent(current_datum)) {
                 // Skip invalid events
@@ -191,7 +178,10 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
                 if (event_codes_to_match.empty() ||
                     (event_codes_to_match.find(event_code) != event_codes_to_match.end()))
                 {
-                    event = EventWrapper(current_datum);
+                    code = event_code;
+                    time = event_time;
+                    data = scarabDatumToDatum(data_file_utilities::getScarabEventPayload(current_datum));
+                    foundNextEvent = true;
                 }
 			}
 			
@@ -201,12 +191,9 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
         
         if ((current_relative_event == dfi.events_per_block) || (current_datum == NULL))
             current_event_block++;
-        
-        if (!event.empty())
-            return event;
     }
     
-    return event;
+    return foundNextEvent;
 }
 
 

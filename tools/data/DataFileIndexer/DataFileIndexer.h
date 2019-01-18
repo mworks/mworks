@@ -18,10 +18,10 @@
 #include <boost/noncopyable.hpp>
 #include <boost/serialization/split_member.hpp>
 #include <boost/shared_ptr.hpp>
+#include <Scarab/scarab.h>
 
 #include <MWorksCore/Utilities.h>
 
-#include "EventWrapper.h"
 #include "EventBlock.h"
 
 
@@ -55,11 +55,6 @@ public:
     MWTime getMinimumTime() const { return root->minimumTime(); }
     MWTime getMaximumTime() const { return root->maximumTime(); }
     
-    void getEvents(std::vector<EventWrapper> &events,
-                   const std::set<unsigned int> &event_codes,
-                   MWTime lower_bound,
-                   MWTime upper_bound) const;
-    
     class EventsIterator {
     private:
         const DataFileIndexer &dfi;
@@ -79,7 +74,7 @@ public:
                        MWTime lower_bound,
                        MWTime upper_bound);
         
-        EventWrapper getNextEvent();
+        bool getNextEvent(int &code, MWTime &time, Datum &data);
     };
     
     EventsIterator getEventsIterator(const std::set<unsigned int> &event_codes,

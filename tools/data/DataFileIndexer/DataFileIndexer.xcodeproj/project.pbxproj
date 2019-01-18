@@ -34,7 +34,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0E587B3F0D6B63B20053BE5C /* EventWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* EventWrapper.h */; };
 		0E7788180D6B44FB00AF41F2 /* DataFileUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
 		0EA2B4C50D6BB349002396FC /* EventBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EA2B4C30D6BB349002396FC /* EventBlock.h */; };
 		0EA2B4C60D6BB349002396FC /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
@@ -44,7 +43,6 @@
 		0EE378AB0D6CA7B30065846A /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
 		E1CBF67716BB02CF0057CE48 /* DataFileIndexer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50149BD909E781A5002DEE6A /* DataFileIndexer.h */; };
 		E1CBF67816BB02CF0057CE48 /* DataFileUtilities.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
-		E1CBF67916BB02CF0057CE48 /* EventWrapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* EventWrapper.h */; };
 		E1CBF67A16BB02CF0057CE48 /* EventBlock.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EA2B4C30D6BB349002396FC /* EventBlock.h */; };
 		E1CBF67B16BB02CF0057CE48 /* dfindex.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EE378A80D6CA7B30065846A /* dfindex.h */; };
 		E1CBF67D16BB02EF0057CE48 /* libdfindex.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */; };
@@ -76,7 +74,6 @@
 			files = (
 				E1CBF67716BB02CF0057CE48 /* DataFileIndexer.h in CopyFiles */,
 				E1CBF67816BB02CF0057CE48 /* DataFileUtilities.h in CopyFiles */,
-				E1CBF67916BB02CF0057CE48 /* EventWrapper.h in CopyFiles */,
 				E1CBF67A16BB02CF0057CE48 /* EventBlock.h in CopyFiles */,
 				E1CBF67B16BB02CF0057CE48 /* dfindex.h in CopyFiles */,
 			);
@@ -95,7 +92,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0E587B3D0D6B63B20053BE5C /* EventWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventWrapper.h; sourceTree = "<group>"; };
 		0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileUtilities.h; sourceTree = "<group>"; };
 		0EA2B4C30D6BB349002396FC /* EventBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventBlock.h; sourceTree = "<group>"; };
 		0EA2B4C40D6BB349002396FC /* EventBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventBlock.cpp; sourceTree = "<group>"; };
@@ -153,7 +149,6 @@
 				50149BD909E781A5002DEE6A /* DataFileIndexer.h */,
 				5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */,
 				0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */,
-				0E587B3D0D6B63B20053BE5C /* EventWrapper.h */,
 				0EA2B4C30D6BB349002396FC /* EventBlock.h */,
 				0EA2B4C40D6BB349002396FC /* EventBlock.cpp */,
 				0EE378A80D6CA7B30065846A /* dfindex.h */,
@@ -180,7 +175,6 @@
 			files = (
 				0EA58F9F0D6B25500027A3AC /* DataFileIndexer.h in Headers */,
 				0E7788180D6B44FB00AF41F2 /* DataFileUtilities.h in Headers */,
-				0E587B3F0D6B63B20053BE5C /* EventWrapper.h in Headers */,
 				0EA2B4C50D6BB349002396FC /* EventBlock.h in Headers */,
 				0EE378AA0D6CA7B30065846A /* dfindex.h in Headers */,
 			);

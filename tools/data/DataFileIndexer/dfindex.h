@@ -39,20 +39,8 @@ public:
         return dfi.getMaximumTime();
     }
     
-    void getEvents(std::vector<EventWrapper> &events,
-                   const std::set<unsigned int> &event_codes,
-                   MWTime lower_bound,
-                   MWTime upper_bound) const
-    {
-        dfi.getEvents(events, event_codes, lower_bound, upper_bound);
-    }
-    
-    DataFileIndexer::EventsIterator getEventsIterator(const std::set<unsigned int> &event_codes,
-                                                      MWTime lower_bound,
-                                                      MWTime upper_bound) const
-    {
-        return dfi.getEventsIterator(event_codes, lower_bound, upper_bound);
-    }
+    void selectEvents(const std::set<unsigned int> &event_codes, MWTime lower_bound, MWTime upper_bound);
+    bool getNextEvent(int &code, MWTime &time, Datum &data);
     
 private:
     static boost::filesystem::path prepareDataFile(const boost::filesystem::path &mwk_data_file);
@@ -60,7 +48,9 @@ private:
     const boost::filesystem::path mwk_data_file;
     const boost::filesystem::path actual_mwk_file;
     const boost::filesystem::path index_file;
+    
     DataFileIndexer dfi;
+    std::unique_ptr<DataFileIndexer::EventsIterator> eventsIterator;
     
 };
 

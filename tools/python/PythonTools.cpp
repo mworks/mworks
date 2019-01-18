@@ -23,7 +23,7 @@ BOOST_PYTHON_MODULE(_mworks)
 {
     
     // The following values for NPY_VERSION and NPY_FEATURE_VERSION (aka NPY_ABI_VERSION and
-    // NPY_API_VERSION) are valid for macOS 10.11, 10.12, and 10.13
+    // NPY_API_VERSION) are valid for macOS 10.11 to 10.14
     static_assert(NPY_VERSION == 0x01000009 && NPY_FEATURE_VERSION <= 0x00000009,
                   "Compiling against a NumPy version that is incompatible with the system NumPy "
                   "version on MACOSX_DEPLOYMENT_TARGET");
@@ -96,16 +96,16 @@ BOOST_PYTHON_MODULE(_mworks)
     .def(init<string, string, string, boost::python::list>())
     ;
     
-    class_<EventWrapper>("EventWrapper", no_init)
-    .add_property("code", &EventWrapper::getEventCode)
-    .add_property("time", extract_event_time)
-    .add_property("value", extract_event_value)
-    .add_property("data", extract_event_value)  // For compatibility with Event
-    .add_property("empty", &EventWrapper::empty)
+    class_<PythonEventWrapper>("EventWrapper", no_init)
+    .add_property("code", &PythonEventWrapper::getCode)
+    .add_property("time", &PythonEventWrapper::getTime)
+    .add_property("value", &PythonEventWrapper::getValue)
+    .add_property("data", &PythonEventWrapper::getValue)  // For compatibility with Event
+    .add_property("empty", &PythonEventWrapper::isEmpty)
     ;
     
-    class_<std::vector<EventWrapper> >("EventWrapperArray", no_init)
-    .def(vector_indexing_suite< std::vector<EventWrapper> >())
+    class_<std::vector<PythonEventWrapper>>("EventWrapperArray", no_init)
+    .def(vector_indexing_suite<std::vector<PythonEventWrapper>>())
     ;
     
     register_exception_translator<DataFileIndexerError>(&PythonDataFile::translateDFIError);

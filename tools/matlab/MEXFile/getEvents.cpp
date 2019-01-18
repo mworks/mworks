@@ -33,14 +33,15 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
     
     try {
         dfindex dfi(filename);
-        DataFileIndexer::EventsIterator ei = dfi.getEventsIterator(event_codes, lower_bound,  upper_bound);
-        while (true) {
-            EventWrapper event = ei.getNextEvent();
-            if (event.empty())
-                break;
-            codes.push_back(event.getEventCode());
-            times.push_back(event.getTime());
-            values.push_back(convertDatumToArray(scarabDatumToDatum(event.getPayload())));
+        dfi.selectEvents(event_codes, lower_bound, upper_bound);
+        
+        int code;
+        MWTime time;
+        Datum value;
+        while (dfi.getNextEvent(code, time, value)) {
+            codes.push_back(code);
+            times.push_back(time);
+            values.push_back(convertDatumToArray(value));
         }
     } catch (const DataFileIndexerError &e) {
         throwMATLABError("MWorks:DataFileIndexerError", e.what());

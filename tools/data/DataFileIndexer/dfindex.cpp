@@ -41,6 +41,21 @@ dfindex::dfindex(const boost::filesystem::path &data_file) :
 }
 
 
+void dfindex::selectEvents(const std::set<unsigned int> &event_codes, MWTime lower_bound, MWTime upper_bound) {
+    eventsIterator.reset(new DataFileIndexer::EventsIterator(dfi.getEventsIterator(event_codes,
+                                                                                   lower_bound,
+                                                                                   upper_bound)));
+}
+
+
+bool dfindex::getNextEvent(int &code, MWTime &time, Datum &data) {
+    if (!eventsIterator) {
+        return false;
+    }
+    return eventsIterator->getNextEvent(code, time, data);
+}
+
+
 boost::filesystem::path dfindex::prepareDataFile(const boost::filesystem::path &mwk_data_file) {
 	if (!boost::filesystem::exists(mwk_data_file)) {
 		throw DataFileIndexerError(boost::format("File \"%s\" does not exist") % mwk_data_file.string());

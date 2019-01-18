@@ -9,9 +9,10 @@
 #include "PythonDataBindingsHelpers.h"
 
 #include "GILHelpers.h"
-#include "PythonDataHelpers.h"
 
 #include <MWorksCore/ScarabServices.h>
+
+#include <dfindex/DataFileUtilities.h>
 
 using boost::python::throw_error_already_set;
 
@@ -48,7 +49,6 @@ void PythonDataFile::close(){
     // close it
     ScopedGILRelease sgr;
     indexer.reset();
-    eventsIterator.reset();
 }
 
 
@@ -86,28 +86,36 @@ void PythonDataFile::select_events(const boost::python::list &codes, MWTime lowe
         event_codes.insert(boost::python::extract<unsigned int>(codes[i]));
     }
     
-    eventsIterator.reset(new DataFileIndexer::EventsIterator(indexer->getEventsIterator(event_codes, lower_bound, upper_bound)));
+    indexer->selectEvents(event_codes, lower_bound, upper_bound);
 }
 
 
-EventWrapper PythonDataFile::get_next_event() {
-    requireValidEventsIterator();
+PythonEventWrapper PythonDataFile::get_next_event() {
+    requireValidIndexer();
     ScopedGILRelease sgr;
-    return eventsIterator->getNextEvent();
+    
+    int code;
+    MWTime time;
+    Datum value;
+    if (indexer->getNextEvent(code, time, value)) {
+        return PythonEventWrapper(code, time, value);
+    }
+    
+    return PythonEventWrapper();
 }
 
 
-std::vector<EventWrapper> PythonDataFile::get_events() {
-    requireValidEventsIterator();
+std::vector<PythonEventWrapper> PythonDataFile::get_events() {
+    requireValidIndexer();
     
     ScopedGILRelease sgr;
-    std::vector<EventWrapper> events;
+    std::vector<PythonEventWrapper> events;
     
-    while (true) {
-        EventWrapper evt = eventsIterator->getNextEvent();
-        if (evt.empty())
-            break;
-        events.push_back(evt);
+    int code;
+    MWTime time;
+    Datum value;
+    while (indexer->getNextEvent(code, time, value)) {
+        events.emplace_back(code, time, value);
     }
     
     return events;
@@ -117,14 +125,6 @@ std::vector<EventWrapper> PythonDataFile::get_events() {
 void PythonDataFile::requireValidIndexer() const {
     if (!indexer) {
         PyErr_SetString(PyExc_IOError, "Data file is not open");
-        throw_error_already_set();
-    }
-}
-
-
-void PythonDataFile::requireValidEventsIterator() const {
-    if (!eventsIterator) {
-        PyErr_SetString(PyExc_IOError, "No events have been selected");
         throw_error_already_set();
     }
 }
@@ -202,18 +202,20 @@ void PythonDataStream::write(const boost::python::object &obj) {
 }
 
 
-EventWrapper PythonDataStream::read_event() {
+PythonEventWrapper PythonDataStream::read_event() {
     auto scarabEvent = datumToScarabDatum(readDatum());
     if (!data_file_utilities::isScarabEvent(scarabEvent.get())) {
         PyErr_SetString(PyExc_IOError, "Read invalid event from Scarab session");
         throw_error_already_set();
     }
-    return EventWrapper(scarabEvent.get());
+    return PythonEventWrapper(data_file_utilities::getScarabEventCode(scarabEvent.get()),
+                              data_file_utilities::getScarabEventTime(scarabEvent.get()),
+                              scarabDatumToDatum(data_file_utilities::getScarabEventPayload(scarabEvent.get())));
 }
 
 
-void PythonDataStream::write_event(const EventWrapper &e) {
-    writeDatum(scarabDatumToDatum(e.getDatum()));
+void PythonDataStream::write_event(const PythonEventWrapper &e) {
+    writeDatum(e.asDatum());
 }
 
 
@@ -280,16 +282,6 @@ void PythonDataStream::writeDatum(const Datum &datum) {
         PyErr_Format(PyExc_IOError, "Scarab write failed: %s", scarab_strerror(err));
         throw_error_already_set();
     }
-}
-
-
-boost::python::object extract_event_time(const EventWrapper &e) {
-    return convert_longlong_to_python(e.getTime());
-}
-
-
-boost::python::object extract_event_value(const EventWrapper &e) {
-    return convert_datum_to_python(scarabDatumToDatum(e.getPayload()));
 }
 
 
