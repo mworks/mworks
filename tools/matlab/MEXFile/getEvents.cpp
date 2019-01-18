@@ -32,7 +32,7 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
     boost::container::vector<ArrayPtr> values;
     
     try {
-        dfindex dfi(filename);
+        scarab::dfindex dfi(filename);
         dfi.selectEvents(event_codes, lower_bound, upper_bound);
         
         int code;
@@ -43,7 +43,7 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
             times.push_back(time);
             values.push_back(convertDatumToArray(value));
         }
-    } catch (const DataFileIndexerError &e) {
+    } catch (const scarab::DataFileIndexerError &e) {
         throwMATLABError("MWorks:DataFileIndexerError", e.what());
     }
     

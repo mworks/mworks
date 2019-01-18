@@ -66,7 +66,7 @@ private:
 class PythonDataFile : boost::noncopyable {
     
 public:
-    static void translateDFIError(const DataFileIndexerError &e) {
+    static void translateDFIError(const scarab::DataFileIndexerError &e) {
         PyErr_SetString(PyExc_IOError, e.what());
     }
     
@@ -91,7 +91,7 @@ private:
     void requireValidIndexer() const;
     
     const std::string file_name;
-    boost::scoped_ptr<dfindex> indexer;
+    boost::scoped_ptr<scarab::dfindex> indexer;
     
 };
 

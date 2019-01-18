@@ -18,7 +18,7 @@
 
 
 BEGIN_NAMESPACE_MW
-BEGIN_NAMESPACE(data_file_utilities)
+BEGIN_NAMESPACE(scarab)
 
 
 inline int getScarabEventSize(const ScarabDatum *datum) {
@@ -68,7 +68,7 @@ inline bool isScarabEvent(const ScarabDatum *datum) {
 }
 
 
-END_NAMESPACE(data_file_utilities)
+END_NAMESPACE(scarab)
 END_NAMESPACE_MW
 
 

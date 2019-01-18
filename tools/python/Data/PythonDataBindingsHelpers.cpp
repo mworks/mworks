@@ -41,7 +41,7 @@ void PythonDataFile::open(){
     
     // open the file
     ScopedGILRelease sgr;
-    indexer.reset(new dfindex(file_path));
+    indexer.reset(new scarab::dfindex(file_path));
 }
 
 
@@ -204,13 +204,13 @@ void PythonDataStream::write(const boost::python::object &obj) {
 
 PythonEventWrapper PythonDataStream::read_event() {
     auto scarabEvent = datumToScarabDatum(readDatum());
-    if (!data_file_utilities::isScarabEvent(scarabEvent.get())) {
+    if (!scarab::isScarabEvent(scarabEvent.get())) {
         PyErr_SetString(PyExc_IOError, "Read invalid event from Scarab session");
         throw_error_already_set();
     }
-    return PythonEventWrapper(data_file_utilities::getScarabEventCode(scarabEvent.get()),
-                              data_file_utilities::getScarabEventTime(scarabEvent.get()),
-                              scarabDatumToDatum(data_file_utilities::getScarabEventPayload(scarabEvent.get())));
+    return PythonEventWrapper(scarab::getScarabEventCode(scarabEvent.get()),
+                              scarab::getScarabEventTime(scarabEvent.get()),
+                              scarabDatumToDatum(scarab::getScarabEventPayload(scarabEvent.get())));
 }
 
 

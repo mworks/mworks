@@ -14,6 +14,7 @@
 
 
 BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE(scarab)
 
 
 EventBlock::EventBlock(long int offset,
@@ -89,4 +90,5 @@ void EventBlock::children(std::vector<boost::shared_ptr<EventBlock> > &matching_
 }
 
 
+END_NAMESPACE(scarab)
 END_NAMESPACE_MW

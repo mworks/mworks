@@ -26,6 +26,7 @@
 
 
 BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE(scarab)
 
 
 class DataFileIndexerError : public SimpleException {
@@ -115,10 +116,11 @@ private:
 };
 
 
+END_NAMESPACE(scarab)
 END_NAMESPACE_MW
 
 
-BOOST_CLASS_VERSION(mw::DataFileIndexer, 1)
+BOOST_CLASS_VERSION(mw::scarab::DataFileIndexer, 1)
 
 
 #endif  // !defined(DateFileIndexer_)

@@ -26,6 +26,7 @@
 
 
 BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE(scarab)
 
 
 class EventBlock {
@@ -94,10 +95,11 @@ private:
 };
 
 
+END_NAMESPACE(scarab)
 END_NAMESPACE_MW
 
 
-BOOST_CLASS_VERSION(mw::EventBlock, 1)
+BOOST_CLASS_VERSION(mw::scarab::EventBlock, 1)
 
 
 #endif // EventBlock_

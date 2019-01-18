@@ -17,6 +17,7 @@
 
 
 BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE(scarab)
 
 
 DataFileIndexer::~DataFileIndexer() {
@@ -52,15 +53,15 @@ void DataFileIndexer::buildIndex(unsigned int _events_per_block, unsigned int mu
 			
 			ScarabDatum *datum = NULL;
 			while(datum = scarab_read(session)) {
-                if (!data_file_utilities::isScarabEvent(datum)) {
+                if (!isScarabEvent(datum)) {
                     // Ignore invalid events
                     scarab_free_datum(datum);
                     continue;
                 }
                 
-				event_codes_in_block.insert(data_file_utilities::getScarabEventCode(datum));
+				event_codes_in_block.insert(getScarabEventCode(datum));
 				
-				MWTime event_time = data_file_utilities::getScarabEventTime(datum);
+				MWTime event_time = getScarabEventTime(datum);
 				max_time = std::max(max_time, event_time);
 				min_time = std::min(min_time, event_time);
 				
@@ -162,17 +163,17 @@ bool DataFileIndexer::EventsIterator::getNextEvent(int &code, MWTime &time, Datu
         // Read through the event block
 		while (!foundNextEvent && (current_relative_event < dfi.events_per_block) && (current_datum = scarab_read(dfi.session)))
         {
-            if (!data_file_utilities::isScarabEvent(current_datum)) {
+            if (!isScarabEvent(current_datum)) {
                 // Skip invalid events
                 scarab_free_datum(current_datum);
                 continue;
             }
             
-			MWTime event_time = data_file_utilities::getScarabEventTime(current_datum);
+			MWTime event_time = getScarabEventTime(current_datum);
 			
             // Check the time criterion
             if (event_time >= lower_bound && event_time <= upper_bound) {
-				unsigned int event_code = data_file_utilities::getScarabEventCode(current_datum);
+				unsigned int event_code = getScarabEventCode(current_datum);
 				
                 // Check if the event code matches
                 if (event_codes_to_match.empty() ||
@@ -180,7 +181,7 @@ bool DataFileIndexer::EventsIterator::getNextEvent(int &code, MWTime &time, Datu
                 {
                     code = event_code;
                     time = event_time;
-                    data = scarabDatumToDatum(data_file_utilities::getScarabEventPayload(current_datum));
+                    data = scarabDatumToDatum(getScarabEventPayload(current_datum));
                     foundNextEvent = true;
                 }
 			}
@@ -197,4 +198,5 @@ bool DataFileIndexer::EventsIterator::getNextEvent(int &code, MWTime &time, Datu
 }
 
 
+END_NAMESPACE(scarab)
 END_NAMESPACE_MW

@@ -16,6 +16,7 @@
 
 
 BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE(scarab)
 
 
 class dfindex {
@@ -55,6 +56,7 @@ private:
 };
 
 
+END_NAMESPACE(scarab)
 END_NAMESPACE_MW
 
 

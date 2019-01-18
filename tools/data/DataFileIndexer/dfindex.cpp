@@ -18,6 +18,7 @@
 
 
 BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE(scarab)
 
 
 dfindex::dfindex(const boost::filesystem::path &data_file) :
@@ -78,4 +79,5 @@ boost::filesystem::path dfindex::prepareDataFile(const boost::filesystem::path &
 }
 
 
+END_NAMESPACE(scarab)
 END_NAMESPACE_MW
