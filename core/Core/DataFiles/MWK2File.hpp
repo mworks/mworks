@@ -15,8 +15,8 @@
 #include <msgpack.hpp>
 #include <sqlite3.h>
 
+#include "DataFileReader.hpp"
 #include "Event.h"
-#include "Utilities.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -71,19 +71,19 @@ private:
 };
 
 
-class MWK2Reader : public MWK2File {
+class MWK2Reader : public MWK2File, public DataFileReader {
     
 public:
     explicit MWK2Reader(const std::string &filename);
     
-    std::size_t getNumEvents();
-    MWTime getTimeMin();
-    MWTime getTimeMax();
+    std::size_t getNumEvents() override;
+    MWTime getTimeMin() override;
+    MWTime getTimeMax() override;
     
     void selectEvents(const std::unordered_set<int> &codes = {},
                       MWTime timeMin = MIN_MWORKS_TIME(),
-                      MWTime timeMax = MAX_MWORKS_TIME());
-    bool nextEvent(int &code, MWTime &time, Datum &data);
+                      MWTime timeMax = MAX_MWORKS_TIME()) override;
+    bool nextEvent(int &code, MWTime &time, Datum &data) override;
     
 private:
     void unpackNext(Datum &data);
