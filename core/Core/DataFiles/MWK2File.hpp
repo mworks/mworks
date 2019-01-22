@@ -76,6 +76,10 @@ class MWK2Reader : public MWK2File {
 public:
     explicit MWK2Reader(const std::string &filename);
     
+    std::size_t getNumEvents();
+    MWTime getTimeMin();
+    MWTime getTimeMax();
+    
     void selectEvents(const std::unordered_set<int> &codes = {},
                       MWTime timeMin = MIN_MWORKS_TIME(),
                       MWTime timeMax = MAX_MWORKS_TIME());
@@ -84,7 +88,11 @@ public:
 private:
     void unpackNext(Datum &data);
     
-    StatementPtr selectStatement;
+    StatementPtr selectCountStatement;
+    StatementPtr selectMinTimeStatement;
+    StatementPtr selectMaxTimeStatement;
+    StatementPtr selectEventsStatement;
+    
     int lastCode;
     MWTime lastTime;
     msgpack::unpacker unpacker;

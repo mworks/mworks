@@ -314,12 +314,42 @@ MWK2Reader::MWK2Reader(const std::string &filename) :
                                                &conn,
                                                SQLITE_OPEN_READONLY,
                                                nullptr)) ||
-        // Try preparing the select statement to confirm that this is a valid,
-        // unlocked database file
-        SQLITE_OK != (result = prepareStatement(selectSQL, selectStatement)))
+        SQLITE_OK != (result = prepareStatement("SELECT count(*) FROM events", selectCountStatement)) ||
+        SQLITE_OK != (result = prepareStatement("SELECT min(time) FROM events", selectMinTimeStatement)) ||
+        SQLITE_OK != (result = prepareStatement("SELECT max(time) FROM events", selectMaxTimeStatement)) ||
+        // Try preparing the select events statement to confirm that all the expected columns are present
+        SQLITE_OK != (result = prepareStatement(selectSQL, selectEventsStatement)))
     {
         throwSQLError(result, "Cannot open data file");
     }
+}
+
+
+static inline sqlite3_int64 evaluateAggregateValueStatement(sqlite3_stmt *stmt, const std::string &failureMsg) {
+    (void)sqlite3_reset(stmt);
+    auto result = sqlite3_step(stmt);
+    if (SQLITE_ROW != result) {
+        throwSQLError(result, failureMsg);
+    }
+    return sqlite3_column_int64(stmt, 0);
+}
+
+
+std::size_t MWK2Reader::getNumEvents() {
+    return evaluateAggregateValueStatement(selectCountStatement.get(),
+                                           "Cannot determine number of events in data file");
+}
+
+
+MWTime MWK2Reader::getTimeMin() {
+    return evaluateAggregateValueStatement(selectMinTimeStatement.get(),
+                                           "Cannot determine minimum event time in data file");
+}
+
+
+MWTime MWK2Reader::getTimeMax() {
+    return evaluateAggregateValueStatement(selectMaxTimeStatement.get(),
+                                           "Cannot determine maximum event time in data file");
 }
 
 
@@ -360,12 +390,12 @@ void MWK2Reader::selectEvents(const std::unordered_set<int> &codes, MWTime timeM
     }
     
     int result;
-    if (SQLITE_OK != (result = prepareStatement(sql, selectStatement))) {
+    if (SQLITE_OK != (result = prepareStatement(sql, selectEventsStatement))) {
         throwSQLError(result, "Cannot prepare SQL SELECT statement");
     }
     
     for (std::size_t i = 0; i < whereParams.size(); i++) {
-        if (SQLITE_OK != (result = sqlite3_bind_int64(selectStatement.get(), i + 1, whereParams.at(i)))) {
+        if (SQLITE_OK != (result = sqlite3_bind_int64(selectEventsStatement.get(), i + 1, whereParams.at(i)))) {
             throwSQLError(result, "Cannot bind parameters to SQL SELECT statement");
         }
     }
@@ -373,7 +403,7 @@ void MWK2Reader::selectEvents(const std::unordered_set<int> &codes, MWTime timeM
 
 
 bool MWK2Reader::nextEvent(int &code, MWTime &time, Datum &data) {
-    if (!selectStatement) {
+    if (!selectEventsStatement) {
         // No selection
         return false;
     }
@@ -385,10 +415,10 @@ bool MWK2Reader::nextEvent(int &code, MWTime &time, Datum &data) {
         return true;
     }
     
-    auto result = sqlite3_step(selectStatement.get());
+    auto result = sqlite3_step(selectEventsStatement.get());
     if (SQLITE_DONE == result) {
         // No more rows in selection
-        selectStatement.reset();
+        selectEventsStatement.reset();
         return false;
     }
     
@@ -396,28 +426,28 @@ bool MWK2Reader::nextEvent(int &code, MWTime &time, Datum &data) {
         throwSQLError(result, "Cannot read next event from data file");
     }
     
-    code = sqlite3_column_int(selectStatement.get(), codeColumn);
-    time = sqlite3_column_int64(selectStatement.get(), timeColumn);
+    code = sqlite3_column_int(selectEventsStatement.get(), codeColumn);
+    time = sqlite3_column_int64(selectEventsStatement.get(), timeColumn);
     
-    switch (sqlite3_column_type(selectStatement.get(), dataColumn)) {
+    switch (sqlite3_column_type(selectEventsStatement.get(), dataColumn)) {
         case SQLITE_INTEGER:
-            data = Datum(sqlite3_column_int64(selectStatement.get(), dataColumn));
+            data = Datum(sqlite3_column_int64(selectEventsStatement.get(), dataColumn));
             break;
             
         case SQLITE_FLOAT:
-            data = Datum(sqlite3_column_double(selectStatement.get(), dataColumn));
+            data = Datum(sqlite3_column_double(selectEventsStatement.get(), dataColumn));
             break;
             
         case SQLITE_TEXT: {
-            auto text = sqlite3_column_text(selectStatement.get(), dataColumn);
-            auto size = sqlite3_column_bytes(selectStatement.get(), dataColumn);
+            auto text = sqlite3_column_text(selectEventsStatement.get(), dataColumn);
+            auto size = sqlite3_column_bytes(selectEventsStatement.get(), dataColumn);
             data = Datum(reinterpret_cast<const char *>(text), size);
             break;
         }
             
         case SQLITE_BLOB: {
-            auto blob = sqlite3_column_blob(selectStatement.get(), dataColumn);
-            auto size = sqlite3_column_bytes(selectStatement.get(), dataColumn);
+            auto blob = sqlite3_column_blob(selectEventsStatement.get(), dataColumn);
+            auto size = sqlite3_column_bytes(selectEventsStatement.get(), dataColumn);
             unpacker.reserve_buffer(size);
             std::memcpy(unpacker.buffer(), blob, size);
             unpacker.buffer_consumed(size);

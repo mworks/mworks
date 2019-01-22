@@ -130,6 +130,10 @@ void MWK2FileTests::testEmptyFile() {
     
     MWK2Reader reader(tempFile.getFilename());
     
+    CPPUNIT_ASSERT_EQUAL( std::size_t(0), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(0), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(0), reader.getTimeMax() );
+    
     // Default selection
     CPPUNIT_ASSERT( !reader.nextEvent(code, time, data) );
     
@@ -173,6 +177,11 @@ void MWK2FileTests::testDataTypes() {
     }
     
     MWK2Reader reader(tempFile.getFilename());
+    
+    CPPUNIT_ASSERT_EQUAL( testData.size(), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(testData.size() + 1), reader.getTimeMax() );
+    
     for (std::size_t i = 0; i < testData.size(); i++) {
         CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
         
@@ -213,6 +222,11 @@ void MWK2FileTests::testEventConcatenation() {
     }
     
     MWK2Reader reader(tempFile.getFilename());
+    
+    CPPUNIT_ASSERT_EQUAL( std::size_t(1), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMax() );
+    
     for (std::size_t i = 0; i < testData.size(); i++) {
         code = -1;
         time = -1;
@@ -258,6 +272,11 @@ void MWK2FileTests::testSorting() {
     }
     
     MWK2Reader reader(tempFile.getFilename());
+    
+    CPPUNIT_ASSERT_EQUAL( testData.size(), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(1), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(3), reader.getTimeMax() );
+    
     for (auto &item : testData) {
         CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
         
@@ -284,6 +303,10 @@ void MWK2FileTests::testSelection() {
     }
     
     MWK2Reader reader(tempFile.getFilename());
+    
+    CPPUNIT_ASSERT_EQUAL( std::size_t(20), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(1), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(4), reader.getTimeMax() );
     
     // Everything
     reader.selectEvents();
@@ -403,6 +426,11 @@ void MWK2FileTests::testWriteEvent() {
     }
     
     MWK2Reader reader(tempFile.getFilename());
+    
+    CPPUNIT_ASSERT_EQUAL( testData.size(), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(4), reader.getTimeMax() );
+    
     for (std::size_t i = 0; i < testData.size(); i++) {
         CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
         
@@ -437,6 +465,11 @@ void MWK2FileTests::testWriteEvents() {
     }
     
     MWK2Reader reader(tempFile.getFilename());
+    
+    CPPUNIT_ASSERT_EQUAL( testData.size(), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(4), reader.getTimeMax() );
+    
     for (std::size_t i = 0; i < testData.size(); i++) {
         CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
         
