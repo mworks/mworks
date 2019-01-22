@@ -58,19 +58,19 @@ bool PythonDataFile::loaded() const {
 
 unsigned int PythonDataFile::num_events() const {
     requireValidIndexer();
-    return indexer->getNEvents();
+    return indexer->getNumEvents();
 }
 
 
 MWTime PythonDataFile::minimum_time() const {
     requireValidIndexer();
-    return indexer->getMinimumTime();
+    return indexer->getTimeMin();
 }
 
 
 MWTime PythonDataFile::maximum_time() const {
     requireValidIndexer();
-    return indexer->getMaximumTime();
+    return indexer->getTimeMax();
 }
 
 
@@ -78,11 +78,11 @@ void PythonDataFile::select_events(const boost::python::list &codes, MWTime lowe
 {
     requireValidIndexer();
     
-    std::set<unsigned int> event_codes;
+    std::unordered_set<int> event_codes;
     int n = len(codes);
         
     for(int i = 0; i < n; i++){
-        event_codes.insert(boost::python::extract<unsigned int>(codes[i]));
+        event_codes.insert(boost::python::extract<int>(codes[i]));
     }
     
     indexer->selectEvents(event_codes, lower_bound, upper_bound);
@@ -96,7 +96,7 @@ PythonEventWrapper PythonDataFile::get_next_event() {
     int code;
     MWTime time;
     Datum value;
-    if (indexer->getNextEvent(code, time, value)) {
+    if (indexer->nextEvent(code, time, value)) {
         return PythonEventWrapper(code, time, value);
     }
     
@@ -113,7 +113,7 @@ std::vector<PythonEventWrapper> PythonDataFile::get_events() {
     int code;
     MWTime time;
     Datum value;
-    while (indexer->getNextEvent(code, time, value)) {
+    while (indexer->nextEvent(code, time, value)) {
         events.emplace_back(code, time, value);
     }
     

@@ -13,35 +13,24 @@
 #include <boost/filesystem/path.hpp>
 
 #include "DataFileIndexer.h"
+#include "DataFileReader.hpp"
 
 
 BEGIN_NAMESPACE_MW
 BEGIN_NAMESPACE(scarab)
 
 
-class dfindex {
+class dfindex : public DataFileReader {
     
 public:
     explicit dfindex(const boost::filesystem::path &data_file);
     
-    std::string getFilePath() const {
-        return mwk_data_file.string();
-    }
+    std::size_t getNumEvents() override;
+    MWTime getTimeMin() override;
+    MWTime getTimeMax() override;
     
-    unsigned int getNEvents() const {
-        return dfi.getNEvents();
-    }
-    
-    MWTime getMinimumTime() const {
-        return dfi.getMinimumTime();
-    }
-    
-    MWTime getMaximumTime() const {
-        return dfi.getMaximumTime();
-    }
-    
-    void selectEvents(const std::set<unsigned int> &event_codes, MWTime lower_bound, MWTime upper_bound);
-    bool getNextEvent(int &code, MWTime &time, Datum &data);
+    void selectEvents(const std::unordered_set<int> &event_codes, MWTime lower_bound, MWTime upper_bound) override;
+    bool nextEvent(int &code, MWTime &time, Datum &data) override;
     
 private:
     static boost::filesystem::path prepareDataFile(const boost::filesystem::path &mwk_data_file);

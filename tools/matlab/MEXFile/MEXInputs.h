@@ -9,8 +9,8 @@
 #ifndef __MATLABTools__MEXInputs__
 #define __MATLABTools__MEXInputs__
 
-#include <set>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include <boost/filesystem/path.hpp>
@@ -42,7 +42,7 @@ public:
     MEXInputs& operator>>(std::vector<T> &values);
     
     template<typename T>
-    MEXInputs& operator>>(std::set<T> &values);
+    MEXInputs& operator>>(std::unordered_set<T> &values);
     
 private:
     static void needMoreInputs();
@@ -107,7 +107,7 @@ MEXInputs& MEXInputs::operator>>(std::vector<T> &values) {
 
 
 template<typename T>
-MEXInputs& MEXInputs::operator>>(std::set<T> &values) {
+MEXInputs& MEXInputs::operator>>(std::unordered_set<T> &values) {
     std::vector<T> data;
     (*this) >> data;
     values.clear();

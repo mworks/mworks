@@ -21,7 +21,7 @@ BEGIN_NAMESPACE_MW_MATLAB
 void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
 {
     boost::filesystem::path filename;
-    std::set<unsigned int> event_codes;
+    std::unordered_set<int> event_codes;
     MWTime lower_bound, upper_bound;
     
     inputs >> filename >> event_codes >> lower_bound >> upper_bound;
@@ -37,7 +37,7 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
         int code;
         MWTime time;
         Datum value;
-        while (dfi.getNextEvent(code, time, value)) {
+        while (dfi.nextEvent(code, time, value)) {
             codes.push_back(code);
             times.push_back(time);
             values.push_back(convertDatumToArray(value));

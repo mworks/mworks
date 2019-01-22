@@ -16,9 +16,9 @@ validateattributes(filename, {'char'}, {}, 1)
 
 if nargin > 1
     validateattributes(codes, {'numeric'}, {'integer', 'nonnegative'}, 2)
-    codes = uint32(codes);
+    codes = int32(codes);
 else
-    codes = uint32([]);
+    codes = int32([]);
 end
 
 if nargin > 2

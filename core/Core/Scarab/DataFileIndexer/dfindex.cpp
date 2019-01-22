@@ -42,14 +42,34 @@ dfindex::dfindex(const boost::filesystem::path &data_file) :
 }
 
 
-void dfindex::selectEvents(const std::set<unsigned int> &event_codes, MWTime lower_bound, MWTime upper_bound) {
-    eventsIterator.reset(new DataFileIndexer::EventsIterator(dfi.getEventsIterator(event_codes,
-                                                                                   lower_bound,
-                                                                                   upper_bound)));
+std::size_t dfindex::getNumEvents() {
+    return dfi.getNEvents();
 }
 
 
-bool dfindex::getNextEvent(int &code, MWTime &time, Datum &data) {
+MWTime dfindex::getTimeMin() {
+    return dfi.getMinimumTime();
+}
+
+
+MWTime dfindex::getTimeMax() {
+    return dfi.getMaximumTime();
+}
+
+
+void dfindex::selectEvents(const std::unordered_set<int> &event_codes, MWTime lower_bound, MWTime upper_bound) {
+    std::set<unsigned int> codes;
+    for (auto code : event_codes) {
+        if (code < 0) {
+            throw DataFileIndexerError(boost::format("Invalid event code: %d") % code);
+        }
+        codes.insert(code);
+    }
+    eventsIterator.reset(new DataFileIndexer::EventsIterator(dfi.getEventsIterator(codes, lower_bound, upper_bound)));
+}
+
+
+bool dfindex::nextEvent(int &code, MWTime &time, Datum &data) {
     if (!eventsIterator) {
         return false;
     }

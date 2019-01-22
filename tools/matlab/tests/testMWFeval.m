@@ -11,7 +11,7 @@ assertExceptionThrown(@() mworks.mwfeval, 'MWorks:NotEnoughInputs');
 
 
 function testWrongNumberOfOutputs
-f = @() mworks.mwfeval('getEvents', getFilename, uint32([]), int64(0), int64(1));
+f = @() mworks.mwfeval('getEvents', getFilename, int32([]), int64(0), int64(1));
 assertExceptionThrown(f, 'MWorks:NotEnoughOutputs');
 
 
@@ -20,13 +20,13 @@ assertExceptionThrown(@() mworks.mwfeval(3), 'MWorks:InvalidInput');
 
 
 function scalarHasWrongType
-e = mworks.mwfeval('getEvents', 'foo', uint32([]), single(0), int64(1));
+e = mworks.mwfeval('getEvents', 'foo', int32([]), single(0), int64(1));
 
 function scalarIsComplex
-e = mworks.mwfeval('getEvents', 'foo', uint32([]), int64(1+2i), int64(1));
+e = mworks.mwfeval('getEvents', 'foo', int32([]), int64(1+2i), int64(1));
 
 function scalarIsNotScalar
-e = mworks.mwfeval('getEvents', 'foo', uint32([]), int64([1,2]), int64(1));
+e = mworks.mwfeval('getEvents', 'foo', int32([]), int64([1,2]), int64(1));
 
 function testInvalidScalarInput
 assertExceptionThrown(@scalarHasWrongType, 'MWorks:InvalidInput');
@@ -38,7 +38,7 @@ function vectorHasWrongType
 e = mworks.mwfeval('getEvents', 'foo', single([]), int64(0), int64(1));
 
 function vectorIsComplex
-e = mworks.mwfeval('getEvents', 'foo', uint32(1+2i), int64(0), int64(1));
+e = mworks.mwfeval('getEvents', 'foo', int32(1+2i), int64(0), int64(1));
 
 function testInvalidVectorInput
 assertExceptionThrown(@vectorHasWrongType, 'MWorks:InvalidInput');
