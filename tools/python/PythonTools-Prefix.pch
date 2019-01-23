@@ -2,6 +2,8 @@
 // Prefix header for all source files of the 'PythonTools' target in the 'PythonTools' project
 //
 
+#include <TargetConditionals.h>
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-register"
 #  include <Python.h>
@@ -26,13 +28,13 @@
 #include <boost/python.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 #include <boost/scope_exit.hpp>
-#include <boost/scoped_ptr.hpp>
 
 #include <MWorksCore/CFObjectPtr.h>
 #include <MWorksCore/Clock.h>
 #include <MWorksCore/CoreBuilderForeman.h>
 #include <MWorksCore/Exceptions.h>
 #include <MWorksCore/GenericData.h>
+#include <MWorksCore/MWK2File.hpp>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/Server.h>
 #include <MWorksCore/StandardComponentFactory.h>
@@ -42,8 +44,8 @@
 #if TARGET_OS_OSX
 #  include <MWorksCore/AccumulatingConduit.h>
 #  include <MWorksCore/CodecAwareConduit.h>
+#  include <MWorksCore/DataFileReader.hpp>
 #  include <MWorksCore/IPCEventTransport.h>
-#  include <MWorksCore/dfindex.h>
 #endif
 
 #endif /* defined(__cplusplus) */

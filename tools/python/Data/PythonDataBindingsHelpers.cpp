@@ -30,7 +30,7 @@ std::string PythonDataFile::file() const {
 
 
 void PythonDataFile::open(){
-    if (indexer) {
+    if (reader) {
         PyErr_SetString(PyExc_IOError, "Data file is already open");
         throw_error_already_set();
     }
@@ -40,43 +40,43 @@ void PythonDataFile::open(){
     
     // open the file
     ScopedGILRelease sgr;
-    indexer.reset(new scarab::dfindex(file_path));
+    reader = DataFileReader::openDataFile(file_path);
 }
 
 
 void PythonDataFile::close(){
     // close it
     ScopedGILRelease sgr;
-    indexer.reset();
+    reader.reset();
 }
 
 
 bool PythonDataFile::loaded() const {
-    return (indexer != NULL);
+    return (reader != NULL);
 }
 
 
 unsigned int PythonDataFile::num_events() const {
-    requireValidIndexer();
-    return indexer->getNumEvents();
+    requireValidReader();
+    return reader->getNumEvents();
 }
 
 
 MWTime PythonDataFile::minimum_time() const {
-    requireValidIndexer();
-    return indexer->getTimeMin();
+    requireValidReader();
+    return reader->getTimeMin();
 }
 
 
 MWTime PythonDataFile::maximum_time() const {
-    requireValidIndexer();
-    return indexer->getTimeMax();
+    requireValidReader();
+    return reader->getTimeMax();
 }
 
 
 void PythonDataFile::select_events(const boost::python::list &codes, MWTime lower_bound, MWTime upper_bound)
 {
-    requireValidIndexer();
+    requireValidReader();
     
     std::unordered_set<int> event_codes;
     int n = len(codes);
@@ -85,18 +85,18 @@ void PythonDataFile::select_events(const boost::python::list &codes, MWTime lowe
         event_codes.insert(boost::python::extract<int>(codes[i]));
     }
     
-    indexer->selectEvents(event_codes, lower_bound, upper_bound);
+    reader->selectEvents(event_codes, lower_bound, upper_bound);
 }
 
 
 PythonEventWrapper PythonDataFile::get_next_event() {
-    requireValidIndexer();
+    requireValidReader();
     ScopedGILRelease sgr;
     
     int code;
     MWTime time;
     Datum value;
-    if (indexer->nextEvent(code, time, value)) {
+    if (reader->nextEvent(code, time, value)) {
         return PythonEventWrapper(code, time, value);
     }
     
@@ -105,7 +105,7 @@ PythonEventWrapper PythonDataFile::get_next_event() {
 
 
 std::vector<PythonEventWrapper> PythonDataFile::get_events() {
-    requireValidIndexer();
+    requireValidReader();
     
     ScopedGILRelease sgr;
     std::vector<PythonEventWrapper> events;
@@ -113,7 +113,7 @@ std::vector<PythonEventWrapper> PythonDataFile::get_events() {
     int code;
     MWTime time;
     Datum value;
-    while (indexer->nextEvent(code, time, value)) {
+    while (reader->nextEvent(code, time, value)) {
         events.emplace_back(code, time, value);
     }
     
@@ -121,166 +121,82 @@ std::vector<PythonEventWrapper> PythonDataFile::get_events() {
 }
 
 
-void PythonDataFile::requireValidIndexer() const {
-    if (!indexer) {
+void PythonDataFile::requireValidReader() const {
+    if (!reader) {
         PyErr_SetString(PyExc_IOError, "Data file is not open");
         throw_error_already_set();
     }
 }
 
 
-void PythonDataStream::createFile(const std::string &filename) {
+PythonMWKWriter::PythonMWKWriter(const std::string &filename) :
+    session(nullptr)
+{
     int err;
     {
         ScopedGILRelease sgr;
         err = scarab_create_file(filename.c_str());
     }
-    
     if (err != 0) {
-        PyErr_Format(PyExc_IOError, "Cannot create Scarab file '%s'", filename.c_str());
-        throw_error_already_set();
-    }
-}
-
-
-PythonDataStream::PythonDataStream(const std::string &uri) :
-    uri(uri),
-    session(NULL)
-{ }
-
-
-PythonDataStream::~PythonDataStream() {
-    close();
-}
-
-
-void PythonDataStream::open(){
-    if (session) {
-        PyErr_SetString(PyExc_IOError, "Scarab session is already connected");
+        PyErr_Format(PyExc_IOError, "Cannot create file '%s'", filename.c_str());
         throw_error_already_set();
     }
     
     {
         ScopedGILRelease sgr;
-        session = scarab_session_connect(uri.c_str());
+        session = scarab_session_connect(("ldobinary:file://" + filename).c_str());
     }
-    
     if (!session) {
         // The pointer will be NULL only if scarab_mem_malloc failed
         PyErr_NoMemory();
         throw_error_already_set();
     }
     
-    int err = scarab_session_geterr(session);
+    err = scarab_session_geterr(session);
     if (err != 0) {
         scarab_mem_free(session);
-        session = NULL;
-        PyErr_Format(PyExc_IOError, "Cannot connect to Scarab session '%s': %s", uri.c_str(), scarab_strerror(err));
+        PyErr_Format(PyExc_IOError, "Cannot open file '%s' for writing: %s", filename.c_str(), scarab_strerror(err));
         throw_error_already_set();
     }
 }
 
 
-void PythonDataStream::close(){
-    // close it
-    if(session) {
-        ScopedGILRelease sgr;
-        (void)scarab_session_close(session);  // Ignore return value
-        session = NULL;
-    }
+PythonMWKWriter::~PythonMWKWriter() {
+    ScopedGILRelease sgr;
+    (void)scarab_session_close(session);  // Ignore return value
 }
 
 
-boost::python::object PythonDataStream::read() {
-    return convert_datum_to_python(readDatum());
-}
-
-
-void PythonDataStream::write(const boost::python::object &obj) {
-    writeDatum(convert_python_to_datum(obj));
-}
-
-
-PythonEventWrapper PythonDataStream::read_event() {
-    auto scarabEvent = datumToScarabDatum(readDatum());
-    if (!scarab::isScarabEvent(scarabEvent.get())) {
-        PyErr_SetString(PyExc_IOError, "Read invalid event from Scarab session");
-        throw_error_already_set();
-    }
-    return PythonEventWrapper(scarab::getScarabEventCode(scarabEvent.get()),
-                              scarab::getScarabEventTime(scarabEvent.get()),
-                              scarabDatumToDatum(scarab::getScarabEventPayload(scarabEvent.get())));
-}
-
-
-void PythonDataStream::write_event(const PythonEventWrapper &e) {
-    writeDatum(e.asDatum());
-}
-
-
-void PythonDataStream::flush() {
-    requireValidSession();
-    
+void PythonMWKWriter::write_event(int code, MWTime time, const boost::python::object &data) {
+    Event event(code, time, convert_python_to_datum(data));
     int err;
     {
         ScopedGILRelease sgr;
-        err = scarab_session_flush(session);
+        err = scarab_write(session, eventToScarabEventDatum(event).get());
     }
-    
     if (err != 0) {
-        PyErr_Format(PyExc_IOError, "Scarab flush failed: %s", scarab_strerror(err));
+        PyErr_Format(PyExc_IOError, "Event write failed: %s", scarab_strerror(err));
         throw_error_already_set();
     }
 }
 
 
-void PythonDataStream::requireValidSession() const {
-    if (!session) {
-        PyErr_SetString(PyExc_IOError, "Scarab session is not connected");
-        throw_error_already_set();
-    }
+PythonMWK2Writer::PythonMWK2Writer(const std::string &filename) {
+    ScopedGILRelease sgr;
+    writer.reset(new MWK2Writer(filename));
 }
 
 
-Datum PythonDataStream::readDatum() {
-    requireValidSession();
-    
-    ScarabDatum *rawDatum;
-    {
-        ScopedGILRelease sgr;
-        rawDatum = scarab_read(session);
-    }
-    
-    if (!rawDatum) {
-        int err = scarab_session_geterr(session);
-        if (err != 0) {
-            PyErr_Format(PyExc_IOError, "Scarab read failed: %s", scarab_strerror(err));
-        } else {
-            PyErr_SetNone(PyExc_EOFError);
-        }
-        throw_error_already_set();
-    }
-    
-    Datum datum = scarabDatumToDatum(rawDatum);
-    scarab_free_datum(rawDatum);
-    
-    return datum;
+PythonMWK2Writer::~PythonMWK2Writer() {
+    ScopedGILRelease sgr;
+    writer.reset();
 }
 
 
-void PythonDataStream::writeDatum(const Datum &datum) {
-    requireValidSession();
-    
-    int err;
-    {
-        ScopedGILRelease sgr;
-        err = scarab_write(session, datumToScarabDatum(datum).get());
-    }
-    
-    if (err != 0) {
-        PyErr_Format(PyExc_IOError, "Scarab write failed: %s", scarab_strerror(err));
-        throw_error_already_set();
-    }
+void PythonMWK2Writer::write_event(int code, MWTime time, const boost::python::object &data) {
+    auto eventData = convert_python_to_datum(data);
+    ScopedGILRelease sgr;
+    writer->writeEvent(code, time, eventData);
 }
 
 

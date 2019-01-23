@@ -51,10 +51,6 @@ public:
                 value == other.value);
     }
     
-    Datum asDatum() const {
-        return Datum(Datum::list_value_type { Datum(code), Datum(time), value });
-    }
-    
 private:
     int code;
     MWTime time;
@@ -84,46 +80,40 @@ public:
     std::vector<PythonEventWrapper> get_events();
     
 private:
-    void requireValidIndexer() const;
+    void requireValidReader() const;
     
     const std::string file_name;
-    boost::scoped_ptr<scarab::dfindex> indexer;
+    std::unique_ptr<DataFileReader> reader;
     
 };
 
 
-
-// A simple, non-indexing stream (e.g. file / socket) reader/writer for 
-// python wrapping
-class PythonDataStream : boost::noncopyable {
+class PythonMWKWriter : boost::noncopyable {
     
 public:
-    static void createFile(const std::string &filename);
+    explicit PythonMWKWriter(const std::string &filename);
+    ~PythonMWKWriter();
     
-    explicit PythonDataStream(const std::string &uri);
-    ~PythonDataStream();
-    
-    void open();
-    void close();
-    
-    boost::python::object read();
-    void write(const boost::python::object &obj);
-	
-    PythonEventWrapper read_event();
-    void write_event(const PythonEventWrapper &e);
-    
-    void flush();
+    void write_event(int code, MWTime time, const boost::python::object &data);
     
 private:
-    void requireValidSession() const;
-    
-    Datum readDatum();
-    void writeDatum(const Datum &datum);
-    
-    const std::string uri;
     ScarabSession *session;
+    
+};
 
-};    
+
+class PythonMWK2Writer {
+    
+public:
+    explicit PythonMWK2Writer(const std::string &filename);
+    ~PythonMWK2Writer();
+    
+    void write_event(int code, MWTime time, const boost::python::object &data);
+    
+private:
+    std::unique_ptr<MWK2Writer> writer;
+    
+};
 
 
 END_NAMESPACE_MW

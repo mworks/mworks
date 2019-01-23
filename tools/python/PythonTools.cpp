@@ -122,16 +122,12 @@ BOOST_PYTHON_MODULE(_mworks)
     .add_property("file", &PythonDataFile::file)
     ;
     
-    class_<PythonDataStream, boost::noncopyable>("_MWKStream", init<std::string>())
-    .def("_create_file", &PythonDataStream::createFile)
-    .staticmethod("_create_file")
-    .def("open", &PythonDataStream::open)
-    .def("close", &PythonDataStream::close)
-    .def("_read", &PythonDataStream::read)
-    .def("_write", &PythonDataStream::write)
-    .def("_read_event", &PythonDataStream::read_event)
-    .def("_write_event", &PythonDataStream::write_event)
-    .def("_flush", &PythonDataStream::flush)
+    class_<PythonMWKWriter, boost::noncopyable>("_MWKWriter", init<std::string>())
+    .def("write_event", &PythonMWKWriter::write_event)
+    ;
+    
+    class_<PythonMWK2Writer, boost::noncopyable>("_MWK2Writer", init<std::string>())
+    .def("write_event", &PythonMWK2Writer::write_event)
     ;
     
 }

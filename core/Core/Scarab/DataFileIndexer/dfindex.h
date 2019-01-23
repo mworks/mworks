@@ -10,8 +10,6 @@
 #ifndef dfindex_
 #define dfindex_
 
-#include <boost/filesystem/path.hpp>
-
 #include "DataFileIndexer.h"
 #include "DataFileReader.hpp"
 

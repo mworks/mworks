@@ -2,7 +2,6 @@ import collections
 import math
 import os
 import sys
-import unittest
 import warnings
 try:
     long

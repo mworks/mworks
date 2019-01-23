@@ -4,6 +4,7 @@ import pickle
 import shutil
 import subprocess
 import sys
+import tempfile
 import warnings
 
 import numpy
@@ -14,7 +15,7 @@ mw_python_dir = os.environ.get(
     )
 sys.path.insert(0, mw_python_dir)
 
-from mworks.data import MWKStream
+from mworks._mworks import _MWKWriter, _MWK2Writer
 
 
 mw_developer_dir = os.environ.get(
@@ -75,22 +76,23 @@ test_data = (
     )
 
 
-def create_test_file():
+def create_test_file(extension):
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', RuntimeWarning)
-        filename = os.tempnam()
+        filename = tempfile.mktemp(suffix=extension)
 
-    with MWKStream._create_file(filename) as fp:
-        with open('tests/codec.dat') as codec_fp:
-            fp._write([0, 0, pickle.load(codec_fp)])
+    fp = (_MWK2Writer if extension == '.mwk2' else _MWKWriter)(filename)
 
-        tagmap = dict((item[0], i+2) for i, item in enumerate(test_data))
-        fp._write([1, 1, tagmap])
+    with open('tests/codec.dat') as codec_fp:
+        fp.write_event(0, 0, pickle.load(codec_fp))
 
-        code = 2
-        for tag, data in test_data:
-            fp._write([code, code, data])
-            code += 1
+    tagmap = dict((item[0], i+2) for i, item in enumerate(test_data))
+    fp.write_event(1, 1, tagmap)
+
+    code = 2
+    for tag, data in test_data:
+        fp.write_event(code, code, data)
+        code += 1
 
     return filename
 
@@ -102,8 +104,8 @@ def remove_test_file(filename):
         os.remove(filename)
 
 
-def run_matlab(path, arch):
-    filename = create_test_file()
+def run_matlab(path, arch, test_file_extension):
+    filename = create_test_file(test_file_extension)
     try:
         args = (
             '%s/bin/matlab' % path,
@@ -127,7 +129,8 @@ def main():
     status = 0
     for path in glob.iglob('/Applications/MATLAB_R*.app'):
         for arch in (sys.argv[1:] or ['x86_64']):
-            status = run_matlab(path, arch) or status
+            for test_file_extension in ('.mwk', '.mwk2'):
+                status = run_matlab(path, arch, test_file_extension) or status
     sys.exit(status)
 
 

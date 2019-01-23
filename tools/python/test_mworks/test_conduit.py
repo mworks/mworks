@@ -3,11 +3,12 @@ try:
 except ImportError:
     from queue import Queue  # Python 3
 import random
+import unittest
 
 from mworks.conduit import IPCClientConduit, IPCServerConduit
 from mworks._mworks import Event
 
-from test_mworks import unittest, TypeConversionTestMixin
+from . import TypeConversionTestMixin
 
 
 class ConduitTestMixin(object):

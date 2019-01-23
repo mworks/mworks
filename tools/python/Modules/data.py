@@ -1,7 +1,9 @@
 import os
 import shutil
 
-from ._mworks import ReservedEventCode, _MWKFile, _MWKStream
+import numpy
+
+from ._mworks import ReservedEventCode, _MWKFile
 
 
 class IndexingException(IOError):
@@ -9,6 +11,9 @@ class IndexingException(IOError):
 
 
 class MWKFile(_MWKFile):
+
+    _default_min_time = numpy.iinfo(numpy.int64).min
+    _default_max_time = numpy.iinfo(numpy.int64).max
 
     def __init__(self, file_name):
         super(MWKFile, self).__init__(file_name)
@@ -40,9 +45,9 @@ class MWKFile(_MWKFile):
 
         min_time, max_time = time_range
         if min_time is None:
-            min_time = self.minimum_time
+            min_time = self._default_min_time
         if max_time is None:
-            max_time = self.maximum_time
+            max_time = self._default_max_time
 
         self._select_events(codes, min_time, max_time)
 
@@ -64,8 +69,8 @@ class MWKFile(_MWKFile):
             return self._codec
     
         self._select_events([ReservedEventCode.RESERVED_CODEC_CODE],
-                            self.minimum_time,
-                            self.maximum_time)
+                            self._default_min_time,
+                            self._default_max_time)
         e = self._get_next_event()
         if e.empty:
             self._codec = {}
@@ -133,38 +138,3 @@ class MWKFile(_MWKFile):
             return True
         else:
             return False
-
-
-class MWKStream(_MWKStream):
-
-    @classmethod
-    def _create_file(cls, filename):
-        super(MWKStream, cls)._create_file(filename)
-        return cls.open_file(filename, _writable=True)
-
-    @classmethod
-    def open_file(cls, filename, _writable=False):
-        uri = ('ldobinary:file%s://%s' %
-               (('' if _writable else '_readonly'), filename))
-        stream = cls(uri)
-        stream.open()
-        return stream
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, type, value, tb):
-        self.close()
-
-    def __iter__(self):
-        while True:
-            try:
-                yield self._read_event()
-            except EOFError:
-                break
-
-    def read_event(self):
-        try:
-            return self._read_event()
-        except EOFError:
-            pass

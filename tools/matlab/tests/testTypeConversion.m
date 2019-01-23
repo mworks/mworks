@@ -8,7 +8,7 @@ assertTrue(isempty(u));
 assertEqual([], u);
 
 function testBoolean
-% Scarab doesn't have a boolean type, so booleans come out as integers
+% Neither Scarab nor SQLite has a boolean type, so booleans come out as integers
 assertInteger(1, getData('bool_true'));
 assertInteger(0, getData('bool_false'));
 
@@ -32,7 +32,13 @@ assertTrue(isinf(f));
 function testFloatNan
 f = getData('float_nan');
 assertTrue(isa(f, 'double'));
-assertTrue(isnan(f));
+if endsWith(getFilename(), '.mwk2')
+    % SQLite stores NaN as NULL
+    assertTrue(isempty(f));
+    assertEqual([], f);
+else
+    assertTrue(isnan(f));
+end
 
 function testString
 assertString('', getData('str_empty'));

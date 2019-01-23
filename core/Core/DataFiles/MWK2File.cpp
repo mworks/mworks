@@ -362,6 +362,11 @@ MWTime MWK2Reader::getTimeMax() {
 
 
 void MWK2Reader::selectEvents(const std::unordered_set<int> &codes, MWTime timeMin, MWTime timeMax) {
+    if (timeMin > timeMax) {
+        throw SimpleException(M_FILE_MESSAGE_DOMAIN,
+                              "Minimum event time must be less than or equal to maximum event time");
+    }
+    
     std::vector<std::string> whereParts;
     std::vector<sqlite3_int64> whereParams;
     

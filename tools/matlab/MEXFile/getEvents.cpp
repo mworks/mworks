@@ -8,8 +8,7 @@
 
 #include "getEvents.h"
 
-#include <MWorksCore/dfindex.h>
-#include <MWorksCore/ScarabServices.h>
+#include <MWorksCore/DataFileReader.hpp>
 
 #include "Array.h"
 #include "Converters.h"
@@ -31,13 +30,13 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
     boost::container::vector<ArrayPtr> values;
     
     try {
-        scarab::dfindex dfi(filename);
-        dfi.selectEvents(event_codes, lower_bound, upper_bound);
+        auto reader = DataFileReader::openDataFile(filename);
+        reader->selectEvents(event_codes, lower_bound, upper_bound);
         
         int code;
         MWTime time;
         Datum value;
-        while (dfi.nextEvent(code, time, value)) {
+        while (reader->nextEvent(code, time, value)) {
             codes.push_back(code);
             times.push_back(time);
             values.push_back(convertDatumToArray(value));

@@ -3,6 +3,7 @@ import math
 import os
 import random
 import tempfile
+import unittest
 import warnings
 try:
     long
@@ -12,71 +13,63 @@ except NameError:
 import numpy
 
 import mworks.data
-from mworks.data import MWKFile, MWKStream, ReservedEventCode
-from mworks._mworks import EventWrapper
+from mworks.data import MWKFile, ReservedEventCode
+from mworks._mworks import EventWrapper, _MWKWriter, _MWK2Writer
 
-from test_mworks import unittest, TypeConversionTestMixin
-
-
-class DataTestMixin(object):
-
-    def assertEvent(self, evt, code, time, value):
-        self.assertIsInstance(evt, EventWrapper)
-        self.assertFalse(evt.empty)
-        self.assertIsInstance(evt.code, int)
-        self.assertEqual(code, evt.code)
-        self.assertIsInstance(evt.time, (int, long))
-        self.assertEqual(time, evt.time)
-        self.assertIsInstance(evt.value, type(value))
-        self.assertEqual(value, evt.value)
-
-        # Alternative name for value
-        self.assertIsInstance(evt.data, type(evt.value))
-        self.assertEqual(evt.value, evt.data)
+from . import TypeConversionTestMixin
+from .readers.mwk import MWKReader
+from .readers.mwk2 import MWK2Reader
 
 
-class MWKStreamTestMixin(DataTestMixin):
+class MWKTestMixin(object):
 
-    @staticmethod
-    def create_file():
+    file_extension = '.mwk'
+    file_writer = _MWKWriter
+
+
+class MWK2TestMixin(object):
+
+    file_extension = '.mwk2'
+    file_writer = _MWK2Writer
+
+
+class FileTypeConversionTestMixin(TypeConversionTestMixin):
+
+    def setUp(self):
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', RuntimeWarning)
-            filename = tempfile.mktemp()
-        fp = MWKStream._create_file(filename)
-        return filename, fp
+            self.filename = tempfile.mktemp(suffix=self.file_extension)
 
-    @classmethod
-    def setUpClass(cls):
-        cls.filename, cls.outstream = cls.create_file()
-        cls.instream = MWKStream.open_file(cls.filename)
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.instream.close()
-        cls.outstream.close()
-        os.remove(cls.filename)
-
-    def write(self, data):
-        self.outstream._write(data)
-        self.outstream._flush()
-
-    def read(self):
+    def send(self, data):
+        fp = self.file_writer(self.filename)
         try:
-            return self.instream._read()
-        except Exception as e:
-            return e
+            fp.write_event(1, 2, data)
+        except:
+            os.remove(self.filename)
+            raise
 
-    send = write
-    receive = read
-
-
-class TestMWKStreamTypeConversion(MWKStreamTestMixin,
-                                  TypeConversionTestMixin,
-                                  unittest.TestCase):
+    def receive(self):
+        try:
+            with MWKFile(self.filename) as fp:
+                evts = fp.get_events()
+                self.assertEqual(1, len(evts))
+                e = evts[0]
+                self.assertEqual(1, e.code)
+                self.assertEqual(2, e.time)
+                try:
+                    return e.data
+                except Exception as e:
+                    return e
+        finally:
+            try:
+                fp.unindex()
+            except mworks.data.IndexingException:
+                pass
+            os.remove(self.filename)
 
     #
-    # Scarab doesn't have a boolean type, so bool and numpy.bool_ come
-    # back as int
+    # Neither Scarab nor SQLite has a boolean type, so bool and numpy.bool_
+    # come back as int
     #
 
     def test_bool(self):
@@ -86,6 +79,11 @@ class TestMWKStreamTypeConversion(MWKStreamTestMixin,
     def test_numpy_bool_(self):
         self.assertReceivedEqualsSent(numpy.bool_(True), 1)
         self.assertReceivedEqualsSent(numpy.bool_(False), 0)
+
+
+class TestMWKFileTypeConversion(MWKTestMixin,
+                                FileTypeConversionTestMixin,
+                                unittest.TestCase):
 
     #
     # If a string ends with NUL and contains no other NUL's, the NUL will be
@@ -102,108 +100,26 @@ class TestMWKStreamTypeConversion(MWKStreamTestMixin,
         self.assertReceivedEqualsSent(u'foo\0', 'foo')
 
 
-class TestMWKStreamEventIO(MWKStreamTestMixin, unittest.TestCase):
+class TestMWK2FileTypeConversion(MWK2TestMixin,
+                                 FileTypeConversionTestMixin,
+                                 unittest.TestCase):
 
-    def read_event(self):
-        return self.instream.read_event()
+    #
+    # SQLite stores NaN as NULL
+    #
 
-    def write_event(self, evt):
-        self.outstream._write_event(evt)
-        self.outstream._flush()
-
-    def test_nonexistent_file(self):
-        self.assertRaises(IOError, MWKStream.open_file, 'not_a_file.mwk')
-
-    def test_unreadable_file(self):
-        filename, fp = self.create_file()
-        fp.close()
-        os.chmod(filename, 0)
-        try:
-            self.assertRaises(IOError, MWKStream.open_file, filename)
-        finally:
-            os.remove(filename)
-
-    def test_basic(self):
-        code = 123
-        time = 456
-        value = {'a': 1.0, 'b': [None, 2.2]}
-
-        # Write a "raw" event
-        self.write([code, time, value])
-        evt = self.read_event()
-        self.assertEvent(evt, code, time, value)
-
-        # Write an EventWrapper instance
-        self.write_event(evt)
-        evt2 = self.read_event()
-        self.assertIsNot(evt2, evt)
-        self.assertEvent(evt2, code, time, value)
-
-    def test_no_payload(self):
-        code = 123
-        time = 456
-
-        # Write a "raw" event
-        self.write([code, time])
-        evt = self.read_event()
-        self.assertEvent(evt, code, time, None)
-
-        # Write an EventWrapper instance
-        self.write_event(evt)
-        evt2 = self.read_event()
-        self.assertIsNot(evt2, evt)
-        self.assertEvent(evt2, code, time, None)
-
-    def test_bad_event(self):
-        def test(e):
-            self.write(e)
-            self.assertRaises(IOError, self.instream.read_event)
-
-        test(1)  # Not a list
-        test(None)  # Not a list
-        test([1])  # Too few elements
-        test([1,2,3,4])  # Too many elements
-        test([1.0, 2, 3])  # Bad code
-        test([1, 'two', 3])  # Bad time
-
-    def test_iteration_and_context_management(self):
-        evts = [
-            [1, 11, 'one'],
-            [2, 22, 'two'],
-            [3, 33, 'three'],
-            [4, 44, 'four'],
-            ]
-
-        filename, outstream = self.create_file()
-        with outstream:
-            for e in evts:
-                outstream._write(e)
-
-        # Write to closed file should fail
-        self.assertRaises(IOError, outstream._write, evts[0])
-
-        with MWKStream.open_file(filename) as instream:
-            # Attempt to open already-open stream should fail
-            self.assertRaises(IOError, instream.open)
-
-            for i, e in enumerate(instream):
-                self.assertEvent(e, *evts[i])
-            self.assertEqual(len(evts)-1, i)
-
-            # Once we've hit EOF, read_event should return None
-            self.assertIs(instream.read_event(), None)
-            self.assertIs(instream.read_event(), None)
-
-        # Read from closed file should fail
-        self.assertRaises(IOError, instream._read)
+    def test_float_nan(self):
+        self.send(numpy.nan)
+        received = self.receive()
+        self.assertIsNone(received)
 
 
-class MWKFileTestMixin(DataTestMixin):
+class FileTestMixin(object):
 
     def setUp(self):
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', RuntimeWarning)
-            self.filename = tempfile.mktemp(suffix='.mwk')
+            self.filename = tempfile.mktemp(suffix=self.file_extension)
         self.fp = MWKFile(self.filename)
 
     def tearDown(self):
@@ -216,15 +132,29 @@ class MWKFileTestMixin(DataTestMixin):
             os.remove(self.filename)
 
     def create_file(self, events=()):
-        with MWKStream._create_file(self.filename) as fp:
-            for evt in events:
-                fp._write(evt)
+        fp = self.file_writer(self.filename)
+        for code, time, data in events:
+            fp.write_event(code, time, data)
 
     def open_file(self):
         self.fp.open()
 
+    def assertEvent(self, evt, code, time, value):
+        self.assertIsInstance(evt, EventWrapper)
+        self.assertFalse(evt.empty)
+        self.assertIsInstance(evt.code, int)
+        self.assertEqual(code, evt.code)
+        self.assertIsInstance(evt.time, (int, long))
+        self.assertEqual(time, evt.time)
+        self.assertIsInstance(evt.value, type(value))
+        self.assertEqual(value, evt.value)
 
-class TestMWKFileBasics(MWKFileTestMixin, unittest.TestCase):
+        # Alternative name for value
+        self.assertIsInstance(evt.data, type(evt.value))
+        self.assertEqual(evt.value, evt.data)
+
+
+class FileBasicsTestMixin(FileTestMixin):
 
     def test_unopened_file(self):
         self.assertIs(False, self.fp.exists)
@@ -294,27 +224,19 @@ class TestMWKFileBasics(MWKFileTestMixin, unittest.TestCase):
             self.assertEvent(evt, *events[i])
         self.assertEqual(len(events)-1, i)
 
-    def test_bad_event(self):
-        events = (
-            [1, 11, 1.0],
-            [2, 22, 'two'],
-            3,
-            [4, 44, {'four': [1, 2, 3, 4]}],
-            )
 
-        self.create_file(events)
-        self.open_file()
-
-        self.assertEqual(len(events)-1, self.fp.num_events)
-
-        for i, evt in zip((0, 1, 3), self.fp.get_events_iter()):
-            self.assertEvent(evt, *events[i])
+class TestMWKFileBasics(MWKTestMixin, FileBasicsTestMixin, unittest.TestCase):
+    pass
 
 
-class TestMWKFileSelection(MWKFileTestMixin, unittest.TestCase):
+class TestMWK2FileBasics(MWK2TestMixin, FileBasicsTestMixin, unittest.TestCase):
+    pass
+
+
+class FileSelectionTestMixin(FileTestMixin):
 
     def setUp(self):
-        super(TestMWKFileSelection, self).setUp()
+        super(FileSelectionTestMixin, self).setUp()
         self.events = (
             [1, 11, 1.0],
             [2, 22, 'two'],
@@ -385,19 +307,28 @@ class TestMWKFileSelection(MWKFileTestMixin, unittest.TestCase):
         self.assertRaises(TypeError, self.select, codes=('a', 'c', 'e'))
 
 
-class TestRealMWKFile(unittest.TestCase):
+class TestMWKFileSelection(MWKTestMixin,
+                           FileSelectionTestMixin,
+                           unittest.TestCase):
+    pass
 
-    filename = 'data.mwk'
+
+class TestMWK2FileSelection(MWK2TestMixin,
+                            FileSelectionTestMixin,
+                            unittest.TestCase):
+    pass
+
+
+class RealFileTestMixin(object):
 
     @classmethod
     def setUpClass(cls):
         cls.event_counts = defaultdict(lambda: 0)
         cls.event_times = []
 
-        with MWKStream.open_file(cls.filename) as stream:
-            for evt in stream:
-                cls.event_counts[evt.code] += 1
-                cls.event_times.append(evt.time)
+        for evt in cls.file_reader(cls.filename):
+            cls.event_counts[evt[0]] += 1
+            cls.event_times.append(evt[1])
 
         cls.event_counts = dict(cls.event_counts)
         cls.event_times = numpy.array(cls.event_times)
@@ -406,7 +337,10 @@ class TestRealMWKFile(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.fp.unindex()
+        try:
+            cls.fp.unindex()
+        except mworks.data.IndexingException:
+            pass
 
     def setUp(self):
         self.fp.open()
@@ -486,3 +420,15 @@ class TestRealMWKFile(unittest.TestCase):
 
         self.assertEqual(len(numpy.where(self.event_times <= median_low)[0]),
                          self.count(max_time=median_low))
+
+
+class TestRealMWKFile(RealFileTestMixin, unittest.TestCase):
+
+    filename = 'data.mwk'
+    file_reader = MWKReader
+
+
+class TestRealMWK2File(RealFileTestMixin, unittest.TestCase):
+
+    filename = 'data.mwk2'
+    file_reader = MWK2Reader

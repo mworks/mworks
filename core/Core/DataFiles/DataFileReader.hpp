@@ -10,6 +10,8 @@
 
 #include <unordered_set>
 
+#include <boost/filesystem/path.hpp>
+
 #include "Utilities.h"
 
 
@@ -19,6 +21,8 @@ BEGIN_NAMESPACE_MW
 class DataFileReader {
     
 public:
+    static std::unique_ptr<DataFileReader> openDataFile(const boost::filesystem::path &filePath);
+    
     virtual ~DataFileReader() { }
     
     virtual std::size_t getNumEvents() = 0;

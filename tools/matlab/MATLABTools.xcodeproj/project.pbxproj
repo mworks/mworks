@@ -68,7 +68,6 @@
 		E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaci64 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */; };
 		E1D2C0FF167BADF00030EF33 /* Converters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D2C0FD167BADF00030EF33 /* Converters.cpp */; };
 		E1D2C105167BB3420030EF33 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D2C104167BB3420030EF33 /* MWorksCore.framework */; };
-		E1DB979616C1998D001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979516C1998D001481E9 /* libscarab.a */; };
 		E1DB979816C19C2D001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979716C19C2D001481E9 /* libboost_filesystem.a */; };
 		E1DB979A16C19C30001481E9 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979916C19C30001481E9 /* libboost_serialization.a */; };
 		E1DB979C16C19C38001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979B16C19C38001481E9 /* libboost_system.a */; };
@@ -146,7 +145,6 @@
 		E1D2C0FD167BADF00030EF33 /* Converters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Converters.cpp; sourceTree = "<group>"; };
 		E1D2C0FE167BADF00030EF33 /* Converters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Converters.h; sourceTree = "<group>"; };
 		E1D2C104167BB3420030EF33 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E1DB979516C1998D001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
 		E1DB979716C19C2D001481E9 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E1DB979916C19C30001481E9 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_serialization.a"; sourceTree = "<absolute>"; };
 		E1DB979B16C19C38001481E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
@@ -161,7 +159,6 @@
 				E1DB979816C19C2D001481E9 /* libboost_filesystem.a in Frameworks */,
 				E1DB979A16C19C30001481E9 /* libboost_serialization.a in Frameworks */,
 				E1DB979C16C19C38001481E9 /* libboost_system.a in Frameworks */,
-				E1DB979616C1998D001481E9 /* libscarab.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,7 +248,6 @@
 				E1DB979716C19C2D001481E9 /* libboost_filesystem.a */,
 				E1DB979916C19C30001481E9 /* libboost_serialization.a */,
 				E1DB979B16C19C38001481E9 /* libboost_system.a */,
-				E1DB979516C1998D001481E9 /* libscarab.a */,
 			);
 			name = "Frameworks & Libraries";
 			sourceTree = "<group>";

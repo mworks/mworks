@@ -390,9 +390,23 @@ void MWK2FileTests::testSelection() {
     }
     CPPUNIT_ASSERT( !reader.nextEvent(code, time, data) );
     
-    // Min time greater than max time
-    reader.selectEvents({}, 3, 2);
+    // Min time equal to max time
+    reader.selectEvents({}, 2, 2);
+    for (int i = 1; i <= 5; i++) {
+        CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
+        CPPUNIT_ASSERT_EQUAL( i, code );
+        CPPUNIT_ASSERT_EQUAL( MWTime(2), time );
+        CPPUNIT_ASSERT_EQUAL( Datum(1.5), data );
+    }
     CPPUNIT_ASSERT( !reader.nextEvent(code, time, data) );
+    
+    // Min time greater than max time
+    try {
+        reader.selectEvents({}, 3, 2);
+        CPPUNIT_FAIL( "Exception not thrown" );
+    } catch (const SimpleException &e) {
+        assertEqualStrings( "Minimum event time must be less than or equal to maximum event time", e.what() );
+    }
     
     // Codes, min time, and max time
     reader.selectEvents({ 2, 4 }, 2, 3);
