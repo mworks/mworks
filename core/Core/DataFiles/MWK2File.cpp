@@ -314,7 +314,15 @@ MWK2Reader::MWK2Reader(const std::string &filename) :
                                                &conn,
                                                SQLITE_OPEN_READONLY,
                                                nullptr)) ||
-        SQLITE_OK != (result = prepareStatement("SELECT count(*) FROM events", selectCountStatement)) ||
+        SQLITE_OK != (result = sqlite3_create_function(conn,
+                                                       "event_data_count",
+                                                       1,
+                                                       SQLITE_UTF8 | SQLITE_DETERMINISTIC,
+                                                       nullptr,
+                                                       eventDataCount,
+                                                       nullptr,
+                                                       nullptr)) ||
+        SQLITE_OK != (result = prepareStatement("SELECT sum(event_data_count(data)) FROM events", selectEventCountStatement)) ||
         SQLITE_OK != (result = prepareStatement("SELECT min(time) FROM events", selectMinTimeStatement)) ||
         SQLITE_OK != (result = prepareStatement("SELECT max(time) FROM events", selectMaxTimeStatement)) ||
         // Try preparing the select events statement to confirm that all the expected columns are present
@@ -336,7 +344,7 @@ static inline sqlite3_int64 evaluateAggregateValueStatement(sqlite3_stmt *stmt, 
 
 
 std::size_t MWK2Reader::getNumEvents() {
-    return evaluateAggregateValueStatement(selectCountStatement.get(),
+    return evaluateAggregateValueStatement(selectEventCountStatement.get(),
                                            "Cannot determine number of events in data file");
 }
 
@@ -467,6 +475,32 @@ bool MWK2Reader::nextEvent(int &code, MWTime &time, Datum &data) {
     lastTime = time;
     
     return true;
+}
+
+
+void MWK2Reader::eventDataCount(sqlite3_context *context, int numValues, sqlite3_value **values) {
+    try {
+        auto value = values[0];
+        sqlite3_int64 result = 0;
+        if (sqlite3_value_type(value) != SQLITE_BLOB) {
+            result = 1;
+        } else {
+            auto blob = sqlite3_value_blob(value);
+            auto size = sqlite3_value_bytes(value);
+            std::size_t offset = 0;
+            while (offset < size) {
+                msgpack::unpack(reinterpret_cast<const char *>(blob), size, offset);  // Discard result
+                result += 1;
+            }
+        }
+        sqlite3_result_int64(context, result);
+    } catch (const std::bad_alloc &) {
+        sqlite3_result_error_nomem(context);
+    } catch (const std::exception &e) {  // All msgpack exceptions derive from std::exception
+        sqlite3_result_error(context, e.what(), -1);
+    } catch (...) {
+        sqlite3_result_error(context, "An unknown error occurred", -1);
+    }
 }
 
 

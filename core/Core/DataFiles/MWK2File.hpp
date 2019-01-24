@@ -86,9 +86,11 @@ public:
     bool nextEvent(int &code, MWTime &time, Datum &data) override;
     
 private:
+    static void eventDataCount(sqlite3_context *context, int numValues, sqlite3_value **values);
+    
     void unpackNext(Datum &data);
     
-    StatementPtr selectCountStatement;
+    StatementPtr selectEventCountStatement;
     StatementPtr selectMinTimeStatement;
     StatementPtr selectMaxTimeStatement;
     StatementPtr selectEventsStatement;

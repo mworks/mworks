@@ -223,7 +223,7 @@ void MWK2FileTests::testEventConcatenation() {
     
     MWK2Reader reader(tempFile.getFilename());
     
-    CPPUNIT_ASSERT_EQUAL( std::size_t(1), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( testData.size(), reader.getNumEvents() );
     CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
     CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMax() );
     
