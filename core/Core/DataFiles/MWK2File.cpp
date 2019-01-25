@@ -137,14 +137,17 @@ void MWK2Writer::writeEvent(int code, MWTime time, const Datum &data) {
     
     if (SQLITE_OK != (result = sqlite3_bind_int(insertStatement.get(), codeColumn + 1, code)) ||
         SQLITE_OK != (result = sqlite3_bind_int64(insertStatement.get(), timeColumn + 1, time)) ||
-        SQLITE_OK != (result = bindDatum(insertStatement.get(), dataColumn + 1, data)))
+        SQLITE_OK != (result = bindDatum(insertStatement.get(), dataColumn + 1, data)) ||
+        SQLITE_DONE != (result = evaluateStatement(insertStatement.get())))
     {
-        throwSQLError(result, "Cannot bind parameters to SQL INSERT statement");
-    }
-    
-    result = evaluateStatement(insertStatement.get());
-    if (SQLITE_DONE != result) {
-        throwSQLError(result, "Cannot execute SQL INSERT statement");
+        if (!sqlite3_get_autocommit(conn)) {
+            // Roll back the active transaction
+            auto rollbackResult = evaluateStatement(rollbackTransactionStatement.get());
+            if (SQLITE_DONE != rollbackResult) {
+                logSQLError(rollbackResult, "Cannot rollback SQL transaction");
+            }
+        }
+        throwSQLError(result, "Cannot write event to data file");
     }
 }
 
@@ -155,24 +158,24 @@ void MWK2Writer::writeEvent(const boost::shared_ptr<Event> &event) {
 
 
 void MWK2Writer::writeEvents(const std::vector<boost::shared_ptr<Event>> &events) {
+    beginTransaction();
+    for (auto &event : events) {
+        writeEvent(event);
+    }
+    commitTransaction();
+}
+
+
+void MWK2Writer::beginTransaction() {
     auto result = evaluateStatement(beginTransactionStatement.get());
     if (SQLITE_DONE != result) {
         throwSQLError(result, "Cannot begin SQL transaction");
     }
-    
-    try {
-        for (auto &event : events) {
-            writeEvent(event);
-        }
-    } catch (const SimpleException &) {
-        result = evaluateStatement(rollbackTransactionStatement.get());
-        if (SQLITE_DONE != result) {
-            logSQLError(result, "Cannot rollback SQL transaction");
-        }
-        throw;
-    }
-    
-    result = evaluateStatement(commitTransactionStatement.get());
+}
+
+
+void MWK2Writer::commitTransaction() {
+    auto result = evaluateStatement(commitTransactionStatement.get());
     if (SQLITE_DONE != result) {
         throwSQLError(result, "Cannot commit SQL transaction");
     }

@@ -53,6 +53,9 @@ public:
     void writeEvent(const boost::shared_ptr<Event> &event);
     void writeEvents(const std::vector<boost::shared_ptr<Event>> &events);
     
+    void beginTransaction();
+    void commitTransaction();
+    
 private:
     static void _concatEventData(sqlite3_context *context, int numValues, sqlite3_value **values);
     

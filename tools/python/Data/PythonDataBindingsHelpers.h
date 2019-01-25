@@ -110,6 +110,9 @@ public:
     
     void write_event(int code, MWTime time, const boost::python::object &data);
     
+    void begin_transaction();
+    void commit_transaction();
+    
 private:
     std::unique_ptr<MWK2Writer> writer;
     

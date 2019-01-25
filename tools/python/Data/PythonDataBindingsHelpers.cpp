@@ -200,6 +200,18 @@ void PythonMWK2Writer::write_event(int code, MWTime time, const boost::python::o
 }
 
 
+void PythonMWK2Writer::begin_transaction() {
+    ScopedGILRelease sgr;
+    writer->beginTransaction();
+}
+
+
+void PythonMWK2Writer::commit_transaction() {
+    ScopedGILRelease sgr;
+    writer->commitTransaction();
+}
+
+
 END_NAMESPACE_MW
 
 
