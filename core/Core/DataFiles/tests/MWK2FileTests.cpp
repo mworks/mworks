@@ -9,7 +9,10 @@
 
 #include <random>
 
+#include <compression.h>
+
 #include "MWorksCore/MWK2File.hpp"
+#include "MWorksCore/MessagePackAdaptors.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -558,6 +561,218 @@ void MWK2FileTests::testInvalidEventData() {
     } catch (const SimpleException &e) {
         assertEqualStrings( "Data file contains invalid or corrupt event data", e.what() );
     }
+}
+
+
+static std::string compressEventData(const std::string &data, int extTypeCode) {
+    std::vector<char> compressionBuffer(data.size());
+    auto compressedSize = compression_encode_buffer(reinterpret_cast<std::uint8_t *>(compressionBuffer.data()),
+                                                    compressionBuffer.size(),
+                                                    reinterpret_cast<const std::uint8_t *>(data.data()),
+                                                    data.size(),
+                                                    nullptr,
+                                                    COMPRESSION_ZLIB);
+    CPPUNIT_ASSERT( compressedSize > 0 && compressedSize < data.size() );
+    
+    std::stringstream packingBuffer;
+    msgpack::packer<std::stringstream> packer(packingBuffer);
+    packer.pack_ext(compressedSize, extTypeCode);
+    packer.pack_ext_body(compressionBuffer.data(), compressedSize);
+    return packingBuffer.str();
+}
+
+
+void MWK2FileTests::testEventDataCompression() {
+    std::vector<std::string> testData(4);
+    for (std::size_t i = 0; i < 100; i++) {
+        // Uncompressible text
+        testData.at(0).push_back(i + 1);
+        // Compressible text
+        testData.at(1).push_back((i % 5) + 1);
+        // Uncompressible blob
+        testData.at(2).push_back(i);
+        // Compressible blob
+        testData.at(3).push_back(i % 5);
+    }
+    
+    NamedTempFile tempFile;
+    
+    {
+        MWK2Writer writer(tempFile.getFilename());
+        for (std::size_t i = 0; i < testData.size(); i++) {
+            writer.writeEvent(i + 1, i + 2, Datum(testData.at(i).data(), testData.at(i).size()));
+        }
+    }
+    
+    {
+        sqlite3 *conn = nullptr;
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_open_v2(tempFile.getFilename(),
+                                                         &conn,
+                                                         SQLITE_OPEN_READONLY,
+                                                         nullptr) );
+        sqlite3_stmt *stmt = nullptr;
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_prepare(conn,
+                                                         "SELECT data FROM events",
+                                                         -1,
+                                                         &stmt,
+                                                         nullptr) );
+        
+        {
+            CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_TEXT, sqlite3_column_type(stmt, 0) );
+            auto text = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
+            auto size = sqlite3_column_bytes(stmt, 0);
+            CPPUNIT_ASSERT_EQUAL( testData.at(0), std::string(text, size) );
+        }
+        
+        {
+            CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_BLOB, sqlite3_column_type(stmt, 0) );
+            auto blob = static_cast<const char *>(sqlite3_column_blob(stmt, 0));
+            auto size = sqlite3_column_bytes(stmt, 0);
+            CPPUNIT_ASSERT_EQUAL( compressEventData(testData.at(1), 1), std::string(blob, size) );
+        }
+        
+        {
+            CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_BLOB, sqlite3_column_type(stmt, 0) );
+            
+            auto blob = static_cast<const char *>(sqlite3_column_blob(stmt, 0));
+            auto size = sqlite3_column_bytes(stmt, 0);
+            
+            std::stringstream buffer;
+            msgpack::packer<std::stringstream> packer(buffer);
+            packer.pack_bin(testData.at(2).size());
+            packer.pack_bin_body(testData.at(2).data(), testData.at(2).size());
+            
+            CPPUNIT_ASSERT_EQUAL( buffer.str(), std::string(blob, size) );
+        }
+        
+        {
+            CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_BLOB, sqlite3_column_type(stmt, 0) );
+            
+            auto blob = static_cast<const char *>(sqlite3_column_blob(stmt, 0));
+            auto size = sqlite3_column_bytes(stmt, 0);
+            
+            std::stringstream buffer;
+            msgpack::packer<std::stringstream> packer(buffer);
+            packer.pack_bin(testData.at(3).size());
+            packer.pack_bin_body(testData.at(3).data(), testData.at(3).size());
+
+            CPPUNIT_ASSERT_EQUAL( compressEventData(buffer.str(), 2), std::string(blob, size) );
+        }
+        
+        CPPUNIT_ASSERT_EQUAL( SQLITE_DONE, sqlite3_step(stmt) );
+        (void)sqlite3_finalize(stmt);
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_close(conn) );
+    }
+    
+    MWK2Reader reader(tempFile.getFilename());
+    
+    CPPUNIT_ASSERT_EQUAL( testData.size(), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(5), reader.getTimeMax() );
+    
+    for (std::size_t i = 0; i < testData.size(); i++) {
+        CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
+        
+        CPPUNIT_ASSERT_EQUAL( int(i + 1), code );
+        CPPUNIT_ASSERT_EQUAL( MWTime(i + 2), time );
+        
+        auto &expectedData = testData.at(i);
+        CPPUNIT_ASSERT_EQUAL( Datum(expectedData), data );
+    }
+    
+    CPPUNIT_ASSERT( !reader.nextEvent(code, time, data) );
+}
+
+
+void MWK2FileTests::testEventConcatenationWithCompression() {
+    NamedTempFile tempFile;
+    
+    std::string compressibleText, compressibleBlob;
+    for (int i = 0; i < 100; i++) {
+        compressibleText += 'a' + (i % 5);
+        compressibleBlob += i % 5;
+    }
+    
+    const std::vector<std::vector<Datum>> testData = {
+        { Datum(1), Datum(2) },  // New value is not compressed
+        { Datum(1), Datum(compressibleText) },  // New value is compressed text
+        { Datum(1), Datum(compressibleBlob) },  // New value is compressed blob
+        { Datum(1), Datum(2), Datum(compressibleText) },  // Old value is uncompressed blob
+        { Datum(1), Datum(compressibleText), Datum(compressibleBlob) }  // Old value is compressed blob
+    };
+    
+    {
+        MWK2Writer writer(tempFile.getFilename());
+        for (std::size_t i = 0; i < testData.size(); i++) {
+            for (auto &data : testData.at(i)) {
+                writer.writeEvent(i+1, i+2, data);
+            }
+        }
+    }
+    
+    {
+        sqlite3 *conn = nullptr;
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_open_v2(tempFile.getFilename(),
+                                                         &conn,
+                                                         SQLITE_OPEN_READONLY,
+                                                         nullptr) );
+        sqlite3_stmt *stmt = nullptr;
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_prepare(conn,
+                                                         "SELECT data FROM events",
+                                                         -1,
+                                                         &stmt,
+                                                         nullptr) );
+        
+        for (std::size_t i = 0; i < testData.size(); i++) {
+            CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_BLOB, sqlite3_column_type(stmt, 0) );
+            
+            auto blob = static_cast<const char *>(sqlite3_column_blob(stmt, 0));
+            auto size = sqlite3_column_bytes(stmt, 0);
+            
+            std::stringstream buffer;
+            msgpack::packer<std::stringstream> packer(buffer);
+            for (auto &data : testData.at(i)) {
+                packer.pack(data);
+            }
+            
+            if (i == 0) {
+                CPPUNIT_ASSERT_EQUAL( buffer.str(), std::string(blob, size) );
+            } else {
+                CPPUNIT_ASSERT_EQUAL( compressEventData(buffer.str(), 2), std::string(blob, size) );
+            }
+        }
+        
+        CPPUNIT_ASSERT_EQUAL( SQLITE_DONE, sqlite3_step(stmt) );
+        (void)sqlite3_finalize(stmt);
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_close(conn) );
+    }
+    
+    MWK2Reader reader(tempFile.getFilename());
+    
+    CPPUNIT_ASSERT_EQUAL( std::size_t(12), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(6), reader.getTimeMax() );
+    
+    for (std::size_t i = 0; i < testData.size(); i++) {
+        for (auto &expectedData : testData.at(i)) {
+            code = -1;
+            time = -1;
+            CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
+            
+            CPPUNIT_ASSERT_EQUAL( int(i+1), code );
+            CPPUNIT_ASSERT_EQUAL( MWTime(i+2), time );
+            
+            CPPUNIT_ASSERT_EQUAL( expectedData.getDataType(), data.getDataType() );
+            CPPUNIT_ASSERT_EQUAL( expectedData, data );
+        }
+    }
+    
+    CPPUNIT_ASSERT( !reader.nextEvent(code, time, data) );
 }
 
 

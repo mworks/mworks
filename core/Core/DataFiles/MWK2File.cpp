@@ -7,6 +7,8 @@
 
 #include "MWK2File.hpp"
 
+#include <compression.h>
+
 #include "MessagePackAdaptors.hpp"
 
 
@@ -59,7 +61,25 @@ constexpr int timeColumn = 1;
 constexpr int dataColumn = 2;
 
 
+constexpr int compressedTextTypeCode = 1;
+constexpr int compressedMsgPackStreamTypeCode = 2;
+
+
 END_NAMESPACE()
+
+
+void MWK2File::StatementDeleter::operator()(sqlite3_stmt *stmt) const {
+    // Ignore the return value, as it indicates whether the most recent evaluation
+    // of the statement succeeded, not whether the statement was finalized successfully
+    (void)sqlite3_finalize(stmt);
+}
+
+
+MWK2File::MWK2File() :
+    conn(nullptr),
+    scratchBuffer(std::max(compression_encode_scratch_buffer_size(COMPRESSION_ZLIB),
+                           compression_decode_scratch_buffer_size(COMPRESSION_ZLIB)))
+{ }
 
 
 MWK2File::~MWK2File() {
@@ -67,13 +87,6 @@ MWK2File::~MWK2File() {
     if (SQLITE_OK != result) {
         logSQLError(result, "Cannot close data file");
     }
-}
-
-
-void MWK2File::StatementDeleter::operator()(sqlite3_stmt *stmt) const {
-    // Ignore the return value, as it indicates whether the most recent evaluation
-    // of the statement succeeded, not whether the statement was finalized successfully
-    (void)sqlite3_finalize(stmt);
 }
 
 
@@ -92,8 +105,68 @@ int MWK2File::prepareStatement(const std::string &sql, StatementPtr &stmtPtr) {
 }
 
 
+static bool alwaysReferencePackedData(msgpack::type::object_type type, std::size_t length, void *userData) {
+    return true;
+}
+
+
+std::tuple<int, std::size_t> MWK2File::unpack(const char *data,
+                                              std::size_t size,
+                                              std::size_t &offset,
+                                              bool tryDecompression,
+                                              Datum *valuePtr)
+{
+    try {
+        auto handle = msgpack::unpack(data, size, offset, alwaysReferencePackedData);
+        auto &object = handle.get();
+        
+        if (tryDecompression &&
+            offset == size &&
+            object.type == msgpack::type::object_type::EXT)
+        {
+            auto &extObj = object.via.ext;
+            auto extType = extObj.type();
+            
+            if (extType == compressedTextTypeCode || extType == compressedMsgPackStreamTypeCode) {
+                if (compressionBuffer.size() < 2 * extObj.size) {
+                    compressionBuffer.resize(2 * extObj.size);
+                }
+                
+                std::size_t decompressedSize;
+                do {
+                    decompressedSize = compression_decode_buffer(compressionBuffer.data(),
+                                                                 compressionBuffer.size(),
+                                                                 reinterpret_cast<const std::uint8_t *>(extObj.data()),
+                                                                 extObj.size,
+                                                                 scratchBuffer.data(),
+                                                                 COMPRESSION_ZLIB);
+                    if (decompressedSize < compressionBuffer.size()) {
+                        break;
+                    }
+                    // If the decompressed size equals the size of the compression buffer, then there wasn't
+                    // enough space to decompress all the data.  Double the buffer size and try again.
+                    compressionBuffer.resize(2 * compressionBuffer.size());
+                } while (true);
+                
+                if (decompressedSize > 0) {
+                    return std::make_tuple(extType, decompressedSize);
+                }
+            }
+        }
+        
+        if (valuePtr) {
+            *valuePtr = object.as<Datum>();
+        }
+        
+        return std::make_tuple(0, 0);
+    } catch (const std::exception &) {  // All msgpack exceptions derive from std::exception
+        throw SimpleException(M_FILE_MESSAGE_DOMAIN, "Data file contains invalid or corrupt event data");
+    }
+}
+
+
 MWK2Writer::MWK2Writer(const std::string &filename, std::size_t pageSize) :
-    packer(buffer)
+    packer(packingBuffer)
 {
     // Try creating the file to ensure it doesn't already exist
     auto fp = fopen(filename.c_str(), "wxb");
@@ -111,7 +184,7 @@ MWK2Writer::MWK2Writer(const std::string &filename, std::size_t pageSize) :
                                                nullptr)) ||
         SQLITE_OK != (result = sqlite3_create_function(conn,
                                                        "concat_event_data",
-                                                       -1,
+                                                       2,
                                                        SQLITE_UTF8 | SQLITE_DETERMINISTIC,
                                                        this,
                                                        _concatEventData,
@@ -183,7 +256,7 @@ void MWK2Writer::commitTransaction() {
 
 
 void MWK2Writer::_concatEventData(sqlite3_context *context, int numValues, sqlite3_value **values) {
-    MWK2Writer &writer = *static_cast<MWK2Writer *>(sqlite3_user_data(context));
+    auto &writer = *static_cast<MWK2Writer *>(sqlite3_user_data(context));
     try {
         writer.concatEventData(context, numValues, values);
     } catch (const std::bad_alloc &) {
@@ -197,7 +270,7 @@ void MWK2Writer::_concatEventData(sqlite3_context *context, int numValues, sqlit
 
 
 void MWK2Writer::concatEventData(sqlite3_context *context, int numValues, sqlite3_value **values) {
-    buffer.clear();
+    packingBuffer.clear();
     
     for (int index = 0; index < numValues; index++) {
         auto value = values[index];
@@ -219,10 +292,35 @@ void MWK2Writer::concatEventData(sqlite3_context *context, int numValues, sqlite
                 break;
             }
                 
-            case SQLITE_BLOB:
-                // Value is already msgpack encoded, so just copy it
-                buffer.write(reinterpret_cast<const char *>(sqlite3_value_blob(value)), sqlite3_value_bytes(value));
+            case SQLITE_BLOB: {
+                auto blob = static_cast<const char *>(sqlite3_value_blob(value));
+                auto size = sqlite3_value_bytes(value);
+                
+                int extType;
+                std::size_t decompressedSize;
+                std::size_t offset = 0;
+                std::tie(extType, decompressedSize) = unpack(blob, size, offset, true);
+                
+                switch (extType) {
+                    case compressedTextTypeCode:
+                        packer.pack_str(decompressedSize);
+                        packer.pack_str_body(reinterpret_cast<const char *>(compressionBuffer.data()),
+                                             decompressedSize);
+                        break;
+                        
+                    case compressedMsgPackStreamTypeCode:
+                        blob = reinterpret_cast<const char *>(compressionBuffer.data());
+                        size = decompressedSize;
+                        [[clang::fallthrough]];
+                        
+                    default:
+                        // Value is already msgpack encoded, so just copy it
+                        packingBuffer.write(blob, size);
+                        break;
+                }
+                
                 break;
+            }
                 
             case SQLITE_NULL:
                 [[clang::fallthrough]];
@@ -233,9 +331,11 @@ void MWK2Writer::concatEventData(sqlite3_context *context, int numValues, sqlite
         }
     }
     
+    tryCompression(packingBuffer.data(), packingBuffer.size(), compressedMsgPackStreamTypeCode);
+    
     sqlite3_result_blob64(context,
-                          buffer.data(),
-                          buffer.size(),
+                          packingBuffer.data(),
+                          packingBuffer.size(),
                           SQLITE_TRANSIENT);
 }
 
@@ -254,6 +354,13 @@ int MWK2Writer::bindDatum(sqlite3_stmt *stmt, int index, const Datum &datum) {
         case M_STRING: {
             auto &str = datum.getString();
             if (datum.stringIsCString()) {
+                if (tryCompression(str.data(), str.size(), compressedTextTypeCode)) {
+                    return sqlite3_bind_blob64(stmt,
+                                               index,
+                                               packingBuffer.data(),
+                                               packingBuffer.size(),
+                                               SQLITE_TRANSIENT);
+                }
                 return sqlite3_bind_text64(stmt,
                                            index,
                                            str.data(),
@@ -261,19 +368,19 @@ int MWK2Writer::bindDatum(sqlite3_stmt *stmt, int index, const Datum &datum) {
                                            SQLITE_TRANSIENT,
                                            SQLITE_UTF8);
             }
-            buffer.clear();
+            packingBuffer.clear();
             packer.pack_bin(str.size());
             packer.pack_bin_body(str.data(), str.size());
             break;
         }
             
         case M_LIST:
-            buffer.clear();
+            packingBuffer.clear();
             packer.pack(datum.getList());
             break;
             
         case M_DICTIONARY:
-            buffer.clear();
+            packingBuffer.clear();
             packer.pack(datum.getDict());
             break;
             
@@ -284,11 +391,33 @@ int MWK2Writer::bindDatum(sqlite3_stmt *stmt, int index, const Datum &datum) {
             return sqlite3_bind_null(stmt, index);
     }
     
+    tryCompression(packingBuffer.data(), packingBuffer.size(), compressedMsgPackStreamTypeCode);
+    
     return sqlite3_bind_blob64(stmt,
                                index,
-                               buffer.data(),
-                               buffer.size(),
+                               packingBuffer.data(),
+                               packingBuffer.size(),
                                SQLITE_TRANSIENT);
+}
+
+
+bool MWK2Writer::tryCompression(const char *data, std::size_t size, int extTypeCode) {
+    if (compressionBuffer.size() < size) {
+        compressionBuffer.resize(size);
+    }
+    auto compressedSize = compression_encode_buffer(compressionBuffer.data(),
+                                                    compressionBuffer.size(),
+                                                    reinterpret_cast<const std::uint8_t *>(data),
+                                                    size,
+                                                    scratchBuffer.data(),
+                                                    COMPRESSION_ZLIB);
+    auto shouldCompress = (compressedSize > 0 && compressedSize < size);
+    if (shouldCompress) {
+        packingBuffer.clear();
+        packer.pack_ext(compressedSize, extTypeCode);
+        packer.pack_ext_body(reinterpret_cast<const char *>(compressionBuffer.data()), compressedSize);
+    }
+    return (shouldCompress && packingBuffer.size() < size);
 }
 
 
@@ -303,7 +432,8 @@ int MWK2Writer::evaluateStatement(sqlite3_stmt *stmt) {
 
 MWK2Reader::MWK2Reader(const std::string &filename) :
     lastCode(-1),
-    lastTime(-1)
+    lastTime(-1),
+    unpackingBufferOffset(0)
 {
     // Try opening the file to ensure it exists
     auto fp = fopen(filename.c_str(), "rb");
@@ -312,6 +442,7 @@ MWK2Reader::MWK2Reader(const std::string &filename) :
     }
     (void)fclose(fp);
     
+    // Open database connection, create "event_data_count" function, and prepare SQL statements
     int result;
     if (SQLITE_OK != (result = sqlite3_open_v2(filename.c_str(),
                                                &conn,
@@ -321,8 +452,8 @@ MWK2Reader::MWK2Reader(const std::string &filename) :
                                                        "event_data_count",
                                                        1,
                                                        SQLITE_UTF8 | SQLITE_DETERMINISTIC,
-                                                       nullptr,
-                                                       eventDataCount,
+                                                       this,
+                                                       _eventDataCount,
                                                        nullptr,
                                                        nullptr)) ||
         SQLITE_OK != (result = prepareStatement("SELECT sum(event_data_count(data)) FROM events", selectEventCountStatement)) ||
@@ -424,10 +555,10 @@ bool MWK2Reader::nextEvent(int &code, MWTime &time, Datum &data) {
         return false;
     }
     
-    if (unpacker.nonparsed_size() > 0) {
+    if (unpackingBufferOffset < unpackingBuffer.size()) {
         code = lastCode;
         time = lastTime;
-        unpackNext(data);
+        unpack(unpackingBuffer.data(), unpackingBuffer.size(), unpackingBufferOffset, false, &data);
         return true;
     }
     
@@ -462,12 +593,36 @@ bool MWK2Reader::nextEvent(int &code, MWTime &time, Datum &data) {
         }
             
         case SQLITE_BLOB: {
-            auto blob = sqlite3_column_blob(selectEventsStatement.get(), dataColumn);
+            auto blob = static_cast<const char *>(sqlite3_column_blob(selectEventsStatement.get(), dataColumn));
             auto size = sqlite3_column_bytes(selectEventsStatement.get(), dataColumn);
-            unpacker.reserve_buffer(size);
-            std::memcpy(unpacker.buffer(), blob, size);
-            unpacker.buffer_consumed(size);
-            unpackNext(data);
+            
+            int extType;
+            std::size_t decompressedSize;
+            std::size_t offset = 0;
+            std::tie(extType, decompressedSize) = unpack(blob, size, offset, true, &data);
+            
+            switch (extType) {
+                case compressedTextTypeCode:
+                    data = Datum(reinterpret_cast<const char *>(compressionBuffer.data()), decompressedSize);
+                    break;
+                    
+                case compressedMsgPackStreamTypeCode:
+                    blob = reinterpret_cast<const char *>(compressionBuffer.data());
+                    size = decompressedSize;
+                    offset = 0;
+                    unpack(blob, size, offset, false, &data);
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            if (offset < size) {
+                // Store remainder of data for unpacking in a subsequent iteration
+                unpackingBuffer.assign(blob+offset, blob+size);
+                unpackingBufferOffset = 0;
+            }
+            
             break;
         }
             
@@ -486,25 +641,13 @@ bool MWK2Reader::nextEvent(int &code, MWTime &time, Datum &data) {
 }
 
 
-void MWK2Reader::eventDataCount(sqlite3_context *context, int numValues, sqlite3_value **values) {
+void MWK2Reader::_eventDataCount(sqlite3_context *context, int numValues, sqlite3_value **values) {
+    auto &reader = *static_cast<MWK2Reader *>(sqlite3_user_data(context));
     try {
-        auto value = values[0];
-        sqlite3_int64 result = 0;
-        if (sqlite3_value_type(value) != SQLITE_BLOB) {
-            result = 1;
-        } else {
-            auto blob = sqlite3_value_blob(value);
-            auto size = sqlite3_value_bytes(value);
-            std::size_t offset = 0;
-            while (offset < size) {
-                msgpack::unpack(reinterpret_cast<const char *>(blob), size, offset);  // Discard result
-                result += 1;
-            }
-        }
-        sqlite3_result_int64(context, result);
+        reader.eventDataCount(context, numValues, values);
     } catch (const std::bad_alloc &) {
         sqlite3_result_error_nomem(context);
-    } catch (const std::exception &e) {  // All msgpack exceptions derive from std::exception
+    } catch (const std::exception &e) {
         sqlite3_result_error(context, e.what(), -1);
     } catch (...) {
         sqlite3_result_error(context, "An unknown error occurred", -1);
@@ -512,16 +655,38 @@ void MWK2Reader::eventDataCount(sqlite3_context *context, int numValues, sqlite3
 }
 
 
-void MWK2Reader::unpackNext(Datum &data) {
-    msgpack::object_handle handle;
-    try {
-        if (!unpacker.next(handle)) {
-            throw std::runtime_error("incomplete event data");
+void MWK2Reader::eventDataCount(sqlite3_context *context, int numValues, sqlite3_value **values) {
+    sqlite3_int64 result = 0;
+    
+    for (int index = 0; index < numValues; index++) {
+        result += 1;
+        
+        auto value = values[index];
+        if (sqlite3_value_type(value) == SQLITE_BLOB) {
+            auto blob = static_cast<const char *>(sqlite3_value_blob(value));
+            auto size = sqlite3_value_bytes(value);
+            
+            int extType;
+            std::size_t decompressedSize;
+            std::size_t offset = 0;
+            std::tie(extType, decompressedSize) = unpack(blob, size, offset, true);
+            
+            if (extType != compressedTextTypeCode) {
+                if (extType == compressedMsgPackStreamTypeCode) {
+                    blob = reinterpret_cast<const char *>(compressionBuffer.data());
+                    size = decompressedSize;
+                    offset = 0;
+                    unpack(blob, size, offset, false);
+                }
+                while (offset < size) {
+                    unpack(blob, size, offset, false);
+                    result += 1;
+                }
+            }
         }
-        data = handle.get().as<Datum>();
-    } catch (const std::exception &) {  // All msgpack exceptions derive from std::exception
-        throw SimpleException(M_FILE_MESSAGE_DOMAIN, "Data file contains invalid or corrupt event data");
     }
+    
+    sqlite3_result_int64(context, result);
 }
 
 

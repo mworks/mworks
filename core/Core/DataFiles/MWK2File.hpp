@@ -24,22 +24,26 @@ BEGIN_NAMESPACE_MW
 
 class MWK2File : boost::noncopyable {
     
-public:
-    ~MWK2File();
-    
 protected:
     struct StatementDeleter {
         void operator()(sqlite3_stmt *stmt) const;
     };
     using StatementPtr = std::unique_ptr<sqlite3_stmt, StatementDeleter>;
     
-    MWK2File() :
-        conn(nullptr)
-    { }
+    MWK2File();
+    ~MWK2File();
     
     int prepareStatement(const std::string &sql, StatementPtr &stmtPtr);
+    std::tuple<int, std::size_t> unpack(const char *data,
+                                        std::size_t size,
+                                        std::size_t &offset,
+                                        bool tryDecompression,
+                                        Datum *valuePtr = nullptr);
     
     sqlite3 *conn;
+    
+    std::vector<std::uint8_t> compressionBuffer;
+    std::vector<std::uint8_t> scratchBuffer;
     
 };
 
@@ -61,6 +65,7 @@ private:
     
     void concatEventData(sqlite3_context *context, int numValues, sqlite3_value **values);
     int bindDatum(sqlite3_stmt *stmt, int index, const Datum &datum);
+    bool tryCompression(const char *data, std::size_t size, int extTypeCode);
     int evaluateStatement(sqlite3_stmt *stmt);
     
     StatementPtr insertStatement;
@@ -68,8 +73,8 @@ private:
     StatementPtr rollbackTransactionStatement;
     StatementPtr commitTransactionStatement;
     
-    msgpack::sbuffer buffer;
-    msgpack::packer<decltype(buffer)> packer;
+    msgpack::sbuffer packingBuffer;
+    msgpack::packer<decltype(packingBuffer)> packer;
     
 };
 
@@ -89,9 +94,9 @@ public:
     bool nextEvent(int &code, MWTime &time, Datum &data) override;
     
 private:
-    static void eventDataCount(sqlite3_context *context, int numValues, sqlite3_value **values);
+    static void _eventDataCount(sqlite3_context *context, int numValues, sqlite3_value **values);
     
-    void unpackNext(Datum &data);
+    void eventDataCount(sqlite3_context *context, int numValues, sqlite3_value **values);
     
     StatementPtr selectEventCountStatement;
     StatementPtr selectMinTimeStatement;
@@ -100,7 +105,9 @@ private:
     
     int lastCode;
     MWTime lastTime;
-    msgpack::unpacker unpacker;
+    
+    std::vector<char> unpackingBuffer;
+    std::size_t unpackingBufferOffset;
     
 };
 

@@ -368,6 +368,7 @@
 		E13464E81D4BA32B00E4CF08 /* MessagePackAdaptorTests.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E13464E61D4BA32B00E4CF08 /* MessagePackAdaptorTests.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E13464EB1D4BD8B200E4CF08 /* ZeroMQConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13464E91D4BD8B200E4CF08 /* ZeroMQConnection.cpp */; };
 		E13464EC1D4BD8B200E4CF08 /* ZeroMQConnection.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E13464EA1D4BD8B200E4CF08 /* ZeroMQConnection.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1381BBB220622B500901506 /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9BAD42200C80100D63D59 /* libcompression.tbd */; };
 		E13B07EE1E2929590071347C /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07ED1E2929590071347C /* libxml2.tbd */; };
 		E13B07F01E2929620071347C /* libxslt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07EF1E2929620071347C /* libxslt.tbd */; };
 		E13B07F11E292A040071347C /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07ED1E2929590071347C /* libxml2.tbd */; };
@@ -656,6 +657,7 @@
 		E1CBF66E16BAFD5F0057CE48 /* MWorksCoreTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */; };
 		E1D97A9816CD3C4700E517DF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974E16C16C3F001481E9 /* IOKit.framework */; };
 		E1D9BAD02200B20E00D63D59 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FE64192142C3CE00209279 /* libsqlite3.a */; };
+		E1D9BAD62200C81400D63D59 /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9BAD42200C80100D63D59 /* libcompression.tbd */; };
 		E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974816C16BEE001481E9 /* CoreAudio.framework */; };
 		E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974A16C16C1F001481E9 /* CoreVideo.framework */; };
 		E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
@@ -1288,6 +1290,7 @@
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
 		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
 		E1CA92A51B5554EF00DF78B9 /* Marionette.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Marionette.xib; sourceTree = "<group>"; };
+		E1D9BAD42200C80100D63D59 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
 		E1DB974816C16BEE001481E9 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E1DB974A16C16C1F001481E9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E1DB974C16C16C30001481E9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -1366,6 +1369,7 @@
 				E1DB978216C18FCC001481E9 /* libboost_filesystem.a in Frameworks */,
 				E1DB978316C18FCE001481E9 /* libboost_serialization.a in Frameworks */,
 				E1DB978416C18FD1001481E9 /* libboost_system.a in Frameworks */,
+				E1381BBB220622B500901506 /* libcompression.tbd in Frameworks */,
 				E1DB978616C18FE0001481E9 /* libcppunit.a in Frameworks */,
 				E1DB978716C1900B001481E9 /* libscarab.a in Frameworks */,
 				E1D9BAD02200B20E00D63D59 /* libsqlite3.a in Frameworks */,
@@ -1407,6 +1411,7 @@
 				E1DB975916C16C89001481E9 /* libboost_serialization.a in Frameworks */,
 				E1DB975716C16C7F001481E9 /* libboost_thread.a in Frameworks */,
 				E1DB975B16C16C8D001481E9 /* libboost_system.a in Frameworks */,
+				E1D9BAD62200C81400D63D59 /* libcompression.tbd in Frameworks */,
 				E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */,
 				E1FE641A2142C3CE00209279 /* libsqlite3.a in Frameworks */,
 				E13B07EE1E2929590071347C /* libxml2.tbd in Frameworks */,
@@ -2430,6 +2435,7 @@
 				E1DB974E16C16C3F001481E9 /* IOKit.framework */,
 				E1DB975C16C16CA1001481E9 /* OpenAL.framework */,
 				E1DB975D16C16CA1001481E9 /* OpenGL.framework */,
+				E1D9BAD42200C80100D63D59 /* libcompression.tbd */,
 				E13B07ED1E2929590071347C /* libxml2.tbd */,
 				E13B07EF1E2929620071347C /* libxslt.tbd */,
 			);
@@ -3866,6 +3872,7 @@
 					"-lboost_regex",
 					"-lboost_system",
 					"-lboost_thread",
+					"-lcompression",
 					"-lsqlite3",
 					"-lxml2",
 					"-lxslt",
