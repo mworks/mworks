@@ -499,4 +499,66 @@ void MWK2FileTests::testWriteEvents() {
 }
 
 
+void MWK2FileTests::testInvalidEventData() {
+    NamedTempFile tempFile;
+    
+    const std::vector<Datum> testData = {
+        Datum(123),
+        Datum(Datum::list_value_type { Datum(1), Datum(2), Datum(3) }),
+        Datum(456)
+    };
+    
+    {
+        MWK2Writer writer(tempFile.getFilename());
+        for (std::size_t i = 0; i < testData.size(); i++) {
+            writer.writeEvent(i + 1, i + 2, testData.at(i));
+        }
+    }
+    
+    {
+        sqlite3 *conn = nullptr;
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_open_v2(tempFile.getFilename(),
+                                                         &conn,
+                                                         SQLITE_OPEN_READWRITE,
+                                                         nullptr) );
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_exec(conn,
+                                                      R"(
+                                                      UPDATE events
+                                                      /* This is the msgpack representation of the list, but
+                                                         truncated to omit the third item */
+                                                      SET data = x'930102'
+                                                      WHERE code = 2
+                                                      )",
+                                                      nullptr,
+                                                      nullptr,
+                                                      nullptr) );
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_close(conn) );
+    }
+    
+    MWK2Reader reader(tempFile.getFilename());
+    
+    try {
+        reader.getNumEvents();
+        CPPUNIT_FAIL( "Exception not thrown" );
+    } catch (const SimpleException &e) {
+        assertEqualStrings( "Cannot determine number of events in data file: SQL logic error (1)", e.what() );
+    }
+    
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(4), reader.getTimeMax() );
+    
+    CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
+    CPPUNIT_ASSERT_EQUAL( 1, code );
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), time );
+    CPPUNIT_ASSERT_EQUAL( testData.at(0), data );
+    
+    try {
+        reader.nextEvent(code, time, data);
+        CPPUNIT_FAIL( "Exception not thrown" );
+    } catch (const SimpleException &e) {
+        assertEqualStrings( "Data file contains invalid or corrupt event data", e.what() );
+    }
+}
+
+
 END_NAMESPACE_MW
