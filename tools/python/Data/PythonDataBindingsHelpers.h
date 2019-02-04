@@ -106,6 +106,8 @@ class PythonMWK2Writer {
     
 public:
     explicit PythonMWK2Writer(const std::string &filename);
+    PythonMWK2Writer(const std::string &filename, std::size_t pageSize);
+    
     ~PythonMWK2Writer();
     
     void write_event(int code, MWTime time, const boost::python::object &data);

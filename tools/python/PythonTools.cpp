@@ -127,6 +127,7 @@ BOOST_PYTHON_MODULE(_mworks)
     ;
     
     class_<PythonMWK2Writer, boost::noncopyable>("_MWK2Writer", init<std::string>())
+    .def(init<std::string, std::size_t>())
     .def("write_event", &PythonMWK2Writer::write_event)
     .def("begin_transaction", &PythonMWK2Writer::begin_transaction)
     .def("commit_transaction", &PythonMWK2Writer::commit_transaction)

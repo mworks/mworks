@@ -187,6 +187,12 @@ PythonMWK2Writer::PythonMWK2Writer(const std::string &filename) {
 }
 
 
+PythonMWK2Writer::PythonMWK2Writer(const std::string &filename, std::size_t pageSize) {
+    ScopedGILRelease sgr;
+    writer.reset(new MWK2Writer(filename, pageSize));
+}
+
+
 PythonMWK2Writer::~PythonMWK2Writer() {
     ScopedGILRelease sgr;
     writer.reset();
