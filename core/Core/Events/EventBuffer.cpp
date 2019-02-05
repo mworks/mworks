@@ -28,6 +28,22 @@ EventBufferReader::EventBufferReader(const boost::shared_ptr<EventBuffer> &buffe
 { }
 
 
+EventBufferReader::~EventBufferReader() {
+    //
+    // Clear out all remaining events.
+    //
+    // If we don't do this, and all the events in the buffer are down to a single
+    // reference, then destroying currentEvent will recursively destroy its nextEvent,
+    // which will recursively destroy *its* nextEvent, and so on.  If there are enough
+    // events remaining, this recursive destruction can lead the application to run
+    // out of stack space and crash.
+    //
+    do {
+        currentEvent = currentEvent->getNextEvent();
+    } while (currentEvent);
+}
+
+
 boost::shared_ptr<Event> EventBufferReader::getNextEvent(MWTime timeoutUS) {
     auto nextEvent = currentEvent->getNextEvent(timeoutUS);
     if (nextEvent) {

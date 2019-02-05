@@ -29,6 +29,7 @@ class EventBufferReader {
     
 public:
     explicit EventBufferReader(const boost::shared_ptr<EventBuffer> &buffer);
+    ~EventBufferReader();
     
     boost::shared_ptr<Event> getNextEvent(MWTime timeoutUS = 0);
     bool nextEventExists() const;
