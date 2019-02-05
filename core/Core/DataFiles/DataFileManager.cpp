@@ -40,8 +40,7 @@ int DataFileManager::openFile(const Datum &oeDatum) {
     DatumFileOptions opt = (DatumFileOptions)oeDatum.getElement(DATA_FILE_OPTIONS).getInteger();
     
     if(dFile.size() == 0) {
-        merror(M_FILE_MESSAGE_DOMAIN,
-               "Attempt to open an empty data file");
+        merror(M_FILE_MESSAGE_DOMAIN, "Attempt to open data file with an empty name");
         return -1;
     }
     
@@ -54,6 +53,8 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
         mwarning(M_FILE_MESSAGE_DOMAIN, "Data file already open at \"%s\"", filename.c_str());
         return -1;
     }
+    
+    mprintf(M_FILE_MESSAGE_DOMAIN, "Opening data file...");
     
     // first we need to format the file name with the correct path and
     // extension
@@ -119,7 +120,7 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
     global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
     global_variable_registry->announceAll();
     
-    mprintf(M_FILE_MESSAGE_DOMAIN, "Opening data file: %s", filename.c_str());
+    mprintf(M_FILE_MESSAGE_DOMAIN, "Opened data file: %s", filename.c_str());
     
     // everything went ok so issue the success event
     global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
@@ -132,12 +133,14 @@ int DataFileManager::closeFile() {
     if (!isFileOpen()) {
         merror(M_FILE_MESSAGE_DOMAIN, "Attempt to close a data file when there isn't one open");
     } else {
+        mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file...");
+        
         running = false;
         eventHandlerThread.join();
         eventBufferReader.reset();
         mwk2Writer.reset();
         
-        mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file: %s", filename.c_str());
+        mprintf(M_FILE_MESSAGE_DOMAIN, "Closed data file: %s", filename.c_str());
         global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileClosedResponse(filename.c_str(),
                                                                                           M_COMMAND_SUCCESS));
     }
