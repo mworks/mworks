@@ -12,6 +12,8 @@
 #include <string>
 
 #include <boost/noncopyable.hpp>
+#define MSGPACK_DISABLE_LEGACY_NIL
+#include <msgpack.hpp>
 #include <zmq.h>
 
 #include "Event.h"
@@ -63,6 +65,9 @@ public:
     
 private:
     void * const socket;
+    
+    msgpack::sbuffer packingBuffer;
+    msgpack::packer<decltype(packingBuffer)> packer;
     
 };
 

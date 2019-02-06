@@ -100,7 +100,8 @@ bool ZeroMQSocket::Message::isComplete() const {
 
 
 ZeroMQSocket::ZeroMQSocket(int type) :
-    socket(zmq_socket(getContext(), type))
+    socket(zmq_socket(getContext(), type)),
+    packer(packingBuffer)
 {
     if (!socket) {
         throw SimpleException(M_NETWORK_MESSAGE_DOMAIN, "Cannot create ZeroMQ socket", zmq_strerror(errno));
@@ -223,17 +224,21 @@ auto ZeroMQSocket::send(const boost::shared_ptr<Event> &event) -> Result {
     
     // Send time and data
     {
-        std::ostringstream buffer;
-        msgpack::pack(buffer, event->getTime());
-        msgpack::pack(buffer, event->getData());
+        packingBuffer.clear();
+        packer.pack(event->getTime());
+        packer.pack(event->getData());
         Result result;
-        auto data = buffer.str();
-        if (Result::ok != (result = send(data.data(), data.size()))) {
+        if (Result::ok != (result = send(packingBuffer.data(), packingBuffer.size()))) {
             return result;
         }
     }
     
     return Result::ok;
+}
+
+
+static bool alwaysReferencePackedData(msgpack::type::object_type type, std::size_t length, void *userData) {
+    return true;
 }
 
 
@@ -277,15 +282,14 @@ auto ZeroMQSocket::recv(boost::shared_ptr<Event> &event) -> Result {
         auto msgData = static_cast<const char *>(msg.getData());
         auto msgSize = msg.getSize();
         std::size_t offset = 0;
-        msgpack::object_handle handle;
         try {
             
             // Extract time
-            handle = msgpack::unpack(msgData, msgSize, offset);
+            auto handle = msgpack::unpack(msgData, msgSize, offset, alwaysReferencePackedData);
             time = handle.get().as<MWTime>();
             
             // Extract data
-            handle = msgpack::unpack(msgData, msgSize, offset);
+            handle = msgpack::unpack(msgData, msgSize, offset, alwaysReferencePackedData);
             data = handle.get().as<Datum>();
             
         } catch (const std::exception &) {  // All msgpack exceptions derive from std::exception
