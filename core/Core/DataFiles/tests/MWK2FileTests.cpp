@@ -776,4 +776,87 @@ void MWK2FileTests::testEventConcatenationWithCompression() {
 }
 
 
+void MWK2FileTests::testInvalidCompressedData() {
+    NamedTempFile tempFile;
+    
+    std::string compressibleText;
+    for (int i = 0; i < 100; i++) {
+        compressibleText += 'a' + (i % 5);
+    }
+    
+    {
+        MWK2Writer writer(tempFile.getFilename());
+        writer.writeEvent(1, 1, Datum(compressibleText));
+    }
+    
+    std::vector<std::string> invalidData = {
+        compressEventData(compressibleText, 1) + compressibleText,  // Extra data after valid compressed data
+        compressEventData(compressibleText, 3)  // Unrecognized msgpack extension type
+    };
+    
+    // Invalid compressed data (decode error)
+    {
+        auto data = compressEventData(compressibleText, 1);
+        for (std::size_t i = data.size() / 2; i < data.size(); i++) {
+            data.at(i) = i;
+        }
+        invalidData.emplace_back(data);
+    }
+    
+    {
+        sqlite3 *conn = nullptr;
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_open_v2(tempFile.getFilename(),
+                                                         &conn,
+                                                         SQLITE_OPEN_READWRITE,
+                                                         nullptr) );
+        sqlite3_stmt *stmt = nullptr;
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_prepare(conn,
+                                                         "INSERT INTO events VALUES (?, ?, ?)",
+                                                         -1,
+                                                         &stmt,
+                                                         nullptr) );
+        
+        for (std::size_t i = 0; i < invalidData.size(); i++) {
+            CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_bind_int(stmt, 1, i+2) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_bind_int64(stmt, 2, i+2) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_bind_blob64(stmt,
+                                                                 3,
+                                                                 invalidData.at(i).data(),
+                                                                 invalidData.at(i).size(),
+                                                                 SQLITE_TRANSIENT) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_DONE, sqlite3_step(stmt) );
+            (void)sqlite3_reset(stmt);
+        }
+        
+        (void)sqlite3_finalize(stmt);
+        CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_close(conn) );
+    }
+    
+    MWK2Reader reader(tempFile.getFilename());
+    
+    // The extra data in invalidData[0] is misinterpreted as additional events
+    CPPUNIT_ASSERT( reader.getNumEvents() > 4 );
+    
+    CPPUNIT_ASSERT_EQUAL( MWTime(1), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(4), reader.getTimeMax() );
+    
+    reader.selectEvents({ 1 });
+    CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
+    CPPUNIT_ASSERT_EQUAL( 1, code );
+    CPPUNIT_ASSERT_EQUAL( MWTime(1), time );
+    CPPUNIT_ASSERT_EQUAL( Datum(compressibleText), data );
+    CPPUNIT_ASSERT( !reader.nextEvent(code, time, data) );
+    
+    for (std::size_t i = 0; i < invalidData.size(); i++) {
+        reader.selectEvents({ int(i + 2) });
+        try {
+            reader.nextEvent(code, time, data);
+            CPPUNIT_FAIL( "Exception not thrown" );
+        } catch (const SimpleException &e) {
+            assertEqualStrings( "Data file contains invalid or corrupt event data", e.what() );
+        }
+    }
+}
+
+
 END_NAMESPACE_MW

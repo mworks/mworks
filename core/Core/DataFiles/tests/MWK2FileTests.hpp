@@ -32,6 +32,7 @@ class MWK2FileTests : public MessageTestFixture {
     CPPUNIT_TEST( testInvalidEventData );
     CPPUNIT_TEST( testEventDataCompression );
     CPPUNIT_TEST( testEventConcatenationWithCompression );
+    CPPUNIT_TEST( testInvalidCompressedData );
     
     CPPUNIT_TEST_SUITE_END();
     
@@ -50,6 +51,7 @@ public:
     void testInvalidEventData();
     void testEventDataCompression();
     void testEventConcatenationWithCompression();
+    void testInvalidCompressedData();
     
 private:
     int code;
