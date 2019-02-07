@@ -50,7 +50,6 @@ private:
                                           int numGridPoints);
     
     IOPMAssertionID display_sleep_block;
-    dispatch_queue_t flushBufferSerialQueue;
     
 };
 
