@@ -16,16 +16,22 @@
 BEGIN_NAMESPACE_MW
 
 
+ZeroMQIncomingConnectionBase::ZeroMQIncomingConnectionBase(ZeroMQSocket &socket,
+                                                           const boost::shared_ptr<EventBuffer> &eventBuffer) :
+    ZeroMQConnectionBase(socket, eventBuffer)
+{
+    if (!socket.setOption(ZMQ_RCVTIMEO, receiveTimeoutMS)) {
+        throw SimpleException(M_NETWORK_MESSAGE_DOMAIN, "Cannot configure ZeroMQ socket");
+    }
+}
+
+
 std::thread ZeroMQIncomingConnectionBase::startEventHandlerThread() {
     return std::thread([this]() { handleEvents(); });
 }
 
 
 void ZeroMQIncomingConnectionBase::handleEvents() {
-    if (!socket.setOption(ZMQ_RCVTIMEO, receiveTimeoutMS)) {
-        return;
-    }
-    
     while (running) {
         boost::shared_ptr<Event> event;
         switch (socket.recv(event)) {
@@ -45,6 +51,16 @@ void ZeroMQIncomingConnectionBase::handleEvents() {
 }
 
 
+ZeroMQOutgoingConnectionBase::ZeroMQOutgoingConnectionBase(ZeroMQSocket &socket,
+                                                           const boost::shared_ptr<EventBuffer> &eventBuffer) :
+    ZeroMQConnectionBase(socket, eventBuffer)
+{
+    if (!socket.setOption(ZMQ_SNDTIMEO, sendTimeoutMS)) {
+        throw SimpleException(M_NETWORK_MESSAGE_DOMAIN, "Cannot configure ZeroMQ socket");
+    }
+}
+
+
 std::thread ZeroMQOutgoingConnectionBase::startEventHandlerThread() {
     // Create the buffer reader here, so that we don't miss any events added to the
     // buffer between the call to this method and the beginning of handleEvents()
@@ -54,10 +70,6 @@ std::thread ZeroMQOutgoingConnectionBase::startEventHandlerThread() {
 
 
 void ZeroMQOutgoingConnectionBase::handleEvents() {
-    if (!socket.setOption(ZMQ_SNDTIMEO, sendTimeoutMS)) {
-        return;
-    }
-    
     while (running) {
         auto event = eventBufferReader->getNextEvent(receiveTimeoutMS * 1000);
         if (event) {

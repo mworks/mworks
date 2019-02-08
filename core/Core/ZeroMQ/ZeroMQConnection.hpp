@@ -42,7 +42,7 @@ protected:
 class ZeroMQIncomingConnectionBase : public ZeroMQConnectionBase {
     
 public:
-    using ZeroMQConnectionBase::ZeroMQConnectionBase;
+    ZeroMQIncomingConnectionBase(ZeroMQSocket &socket, const boost::shared_ptr<EventBuffer> &eventBuffer);
     
 protected:
     std::thread startEventHandlerThread();
@@ -56,7 +56,7 @@ private:
 class ZeroMQOutgoingConnectionBase : public ZeroMQConnectionBase {
     
 public:
-    using ZeroMQConnectionBase::ZeroMQConnectionBase;
+    ZeroMQOutgoingConnectionBase(ZeroMQSocket &socket, const boost::shared_ptr<EventBuffer> &eventBuffer);
     
 protected:
     std::thread startEventHandlerThread();
