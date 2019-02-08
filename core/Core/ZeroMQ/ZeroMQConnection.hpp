@@ -48,7 +48,7 @@ protected:
     std::thread startEventHandlerThread();
     
 private:
-    void handleEvents();
+    void handleNextEvent();
     
 };
 

@@ -27,26 +27,33 @@ ZeroMQIncomingConnectionBase::ZeroMQIncomingConnectionBase(ZeroMQSocket &socket,
 
 
 std::thread ZeroMQIncomingConnectionBase::startEventHandlerThread() {
-    return std::thread([this]() { handleEvents(); });
+    // Try receiving one event before starting the thread.  Without this, the
+    // client sometimes misses the M_SERVER_CONNECTED_CLIENT message from the
+    // server, leading it to conclude (mistakenly) that the connection attempt
+    // failed.
+    handleNextEvent();
+    return std::thread([this]() {
+        while (running) {
+            handleNextEvent();
+        }
+    });
 }
 
 
-void ZeroMQIncomingConnectionBase::handleEvents() {
-    while (running) {
-        boost::shared_ptr<Event> event;
-        switch (socket.recv(event)) {
-            case ZeroMQSocket::Result::ok:
-                eventBuffer->putEvent(event);
-                break;
-                
-            case ZeroMQSocket::Result::error:
-                merror(M_NETWORK_MESSAGE_DOMAIN, "Terminating incoming connection");
-                running = false;
-                return;
-                
-            default:
-                break;
-        }
+void ZeroMQIncomingConnectionBase::handleNextEvent() {
+    boost::shared_ptr<Event> event;
+    switch (socket.recv(event)) {
+        case ZeroMQSocket::Result::ok:
+            eventBuffer->putEvent(event);
+            break;
+            
+        case ZeroMQSocket::Result::error:
+            merror(M_NETWORK_MESSAGE_DOMAIN, "Terminating incoming connection");
+            running = false;
+            break;
+            
+        default:
+            break;
     }
 }
 
