@@ -883,10 +883,22 @@ UpdateStimulusDisplay::UpdateStimulusDisplay(const ParameterValueMap &parameters
 
 
 bool UpdateStimulusDisplay::execute() {
-    MWTime outputTime = StimulusDisplay::getCurrentStimulusDisplay()->updateDisplay();
+    auto clock = Clock::instance();
+    auto startTime = clock->getCurrentTimeUS();
+    
+    auto stimulusDisplay = StimulusDisplay::getCurrentStimulusDisplay();
+    auto outputTime = stimulusDisplay->updateDisplay();
     
     if (predictedOutputTime) {
         predictedOutputTime->setValue(outputTime);
+    }
+    
+    auto stopTime = clock->getCurrentTimeUS();
+    auto elapsedMS = double(stopTime - startTime) / 1000.0;
+    if (elapsedMS > 2000.0 / stimulusDisplay->getMainDisplayRefreshRate()) {
+        mwarning(M_PARADIGM_MESSAGE_DOMAIN,
+                 "update_stimulus_display action took more than two display refresh cycles (%g ms) to complete",
+                 elapsedMS);
     }
     
     return true;
