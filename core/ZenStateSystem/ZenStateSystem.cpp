@@ -68,8 +68,7 @@ void StandardStateSystem::start(){
 	weak_ptr<State> exp_ref(current_experiment);
 	current_experiment->setCurrentState(exp_ref);
     
-    auto sharedThis = component_shared_from_this<StandardStateSystem>();
-    state_system_thread = std::thread([sharedThis]() { sharedThis->run(); });
+    state_system_thread = std::thread([this]() { run(); });
     
     is_running = true;
 	sendSystemStateEvent();
