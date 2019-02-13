@@ -183,6 +183,39 @@ void logMachThreadInfo() {
         mach_msg_type_number_t policyInfoCount;
         boolean_t getDefault;
         
+        if (auto pthread = pthread_from_mach_thread_np(thread)) {
+            qos_class_t qosClass;
+            int relativePriority;
+            if (0 == pthread_get_qos_class_np(pthread, &qosClass, &relativePriority) &&
+                QOS_CLASS_UNSPECIFIED != qosClass)
+            {
+                fprintf(stderr, "\n  QoS class: ");
+                switch (qosClass) {
+                    case QOS_CLASS_USER_INTERACTIVE:
+                        fprintf(stderr, "USER INTERACTIVE");
+                        break;
+                    case QOS_CLASS_USER_INITIATED:
+                        fprintf(stderr, "USER INITIATED");
+                        break;
+                    case QOS_CLASS_DEFAULT:
+                        fprintf(stderr, "DEFAULT");
+                        break;
+                    case QOS_CLASS_UTILITY:
+                        fprintf(stderr, "UTILITY");
+                        break;
+                    case QOS_CLASS_BACKGROUND:
+                        fprintf(stderr, "BACKGROUND");
+                        break;
+                    default:
+                        fprintf(stderr, "Unknown (%u)", qosClass);
+                        break;
+                }
+                if (relativePriority != 0) {
+                    fprintf(stderr, "\n  QoS relative priority: %d", relativePriority);
+                }
+            }
+        }
+        
         {
             thread_precedence_policy_data_t precedencePolicyData;
             policyInfoCount = THREAD_PRECEDENCE_POLICY_COUNT;
