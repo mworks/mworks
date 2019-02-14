@@ -545,6 +545,10 @@
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    // Take a power assertion to prevent the OS from throttling long-running event listener and I/O threads
+    ioActivity = [NSProcessInfo.processInfo beginActivityWithOptions:(NSActivityBackground | NSActivityIdleSystemSleepDisabled)
+                                                              reason:@"Prevent I/O throttling"];
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_CONNECT_TO_LAST_SERVER_KEY]) {
         [modalClientInstanceInCharge connect];
     }
@@ -555,6 +559,8 @@
     for (MWClientInstance *client in [clientInstances arrangedObjects]) {
         [client shutDown];
     }
+    
+    [NSProcessInfo.processInfo endActivity:ioActivity];
 }
 
 

@@ -60,6 +60,8 @@
 	
     // Cosmetics
     int colorIndex;
+    
+    id<NSObject> ioActivity;
 }
 
 

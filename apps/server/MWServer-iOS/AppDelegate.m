@@ -103,6 +103,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 
 @implementation AppDelegate {
     boost::shared_ptr<mw::Server> core;
+    id<NSObject> ioActivity;
 }
 
 
@@ -112,6 +113,11 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
     
     // Prevent system sleep
     application.idleTimerDisabled = YES;
+    
+    // Take a power assertion to prevent the OS from throttling long-running event listener and I/O threads.
+    // (Not sure if this actually helps on iOS, but it probably can't hurt.)
+    ioActivity = [NSProcessInfo.processInfo beginActivityWithOptions:(NSActivityBackground | NSActivityIdleSystemSleepDisabled)
+                                                              reason:@"Prevent I/O throttling"];
     
     try {
         
@@ -165,6 +171,9 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
             NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
         }
     }
+    
+    // Release power assertion
+    [NSProcessInfo.processInfo endActivity:ioActivity];
     
     // Re-enable system sleep
     application.idleTimerDisabled = NO;
