@@ -34,22 +34,23 @@ public:
     OpenGLContextLock setCurrent(NSOpenGLContext *context);
     void clearCurrent() override;
     
+    void prepareContext(int context_id, bool useColorManagement) override;
     int createFramebufferTexture(int context_id, int width, int height, bool srgb) override;
-    void bindDefaultFramebuffer(int context_id) override;
-    void flush(int context_id) override;
-    
-    std::vector<float> getColorConversionLUTData(int context_id, int numGridPoints) override;
+    void flushFramebufferTexture(int context_id) override;
+    void drawFramebufferTexture(int src_context_id, int dst_context_id) override;
     
 private:
     using ColorSyncProfilePtr = cf::ObjectPtr<ColorSyncProfileRef>;
     using ColorSyncTransformPtr = cf::ObjectPtr<ColorSyncTransformRef>;
     
+    bool createColorConversionLUT(int context_id);
+    std::vector<float> getColorConversionLUTData(int context_id);
+    
     static ColorSyncTransformPtr createColorSyncTransform(const ColorSyncProfilePtr &srcProfile,
                                                           const ColorSyncProfilePtr &dstProfile);
-    static void getColorConversionLUTData(const ColorSyncTransformPtr &transform,
-                                          std::vector<float> &lutData,
-                                          int numGridPoints);
+    static void getColorConversionLUTData(const ColorSyncTransformPtr &transform, std::vector<float> &lutData);
     
+    std::map<int, GLuint> programs, vertexArrays, colorConversionLUTs, framebufferTextures;
     IOPMAssertionID display_sleep_block;
     
 };

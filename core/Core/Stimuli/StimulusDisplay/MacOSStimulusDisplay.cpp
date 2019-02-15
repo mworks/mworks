@@ -76,7 +76,7 @@ void MacOSStimulusDisplay::prepareContext(int contextIndex) {
         }
     }
     
-    StimulusDisplay::prepareContext(contextIndex);
+    opengl_context_manager->prepareContext(context_ids.at(contextIndex), useColorManagement);
 }
 
 

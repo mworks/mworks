@@ -31,6 +31,7 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>arm64</string>
+		<string>metal</string>
 		<string>opengles-3</string>
 		<string>wifi</string>
 	</array>

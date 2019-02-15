@@ -10,51 +10,109 @@
 
 #include "OpenGLUtilities.hpp"
 
+#include <Metal/Metal.h>
+#include <MetalKit/MetalKit.h>
 #include <OpenGLES/ES3/glext.h>
+#include <simd/simd.h>
 
 
-//
-// The technique for using a CAEAGLLayer-backed UIView for displaying OpenGL ES content is taken from
-// Apple's "Real-time Video Processing Using AVPlayerItemVideoOutput" example project:
-//
-// https://developer.apple.com/library/content/samplecode/AVBasicVideoOutput/Introduction/Intro.html
-//
+namespace {
+    const std::string librarySource
+    (R"(
+     using namespace metal;
+     
+     typedef struct {
+         float4 clipSpacePosition [[position]];
+         float2 textureCoordinate;
+     } RasterizerData;
+     
+     vertex RasterizerData
+     vertexShader(uint vertexID [[vertex_id]],
+                  constant float2 *vertexPositions [[buffer(0)]],
+                  constant float2 *texCoords [[buffer(1)]])
+     {
+         RasterizerData out;
+         
+         out.clipSpacePosition.xy = vertexPositions[vertexID];
+         out.clipSpacePosition.z = 0.0;
+         out.clipSpacePosition.w = 1.0;
+         
+         out.textureCoordinate = texCoords[vertexID];
+         
+         return out;
+     }
+     
+     fragment float4
+     fragmentShader(RasterizerData in [[stage_in]],
+                    texture2d<float> colorTexture [[texture(0)]])
+     {
+         constexpr sampler textureSampler (mag_filter::linear, min_filter::linear);
+         const float4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
+         return colorSample;
+     }
+     )");
+    
+    
+    constexpr std::size_t numVertices = 4;
+    
+    
+    const simd::float2 vertexPositions[numVertices] =
+    {
+        { -1.0f, -1.0f },
+        {  1.0f, -1.0f },
+        { -1.0f,  1.0f },
+        {  1.0f,  1.0f },
+    };
+    
+    
+    const simd::float2 texCoords[numVertices] =
+    {
+        { 0.0f, 0.0f },
+        { 1.0f, 0.0f },
+        { 0.0f, 1.0f },
+        { 1.0f, 1.0f },
+    };
+}
 
 
-@interface MWKEAGLView : UIView
+@interface MWKMetalView : MTKView
 
 @property(nonatomic, readonly) EAGLContext *context;
 
-- (instancetype)initWithFrame:(CGRect)frame context:(EAGLContext *)context;
+- (instancetype)initWithFrame:(CGRect)frameRect device:(id<MTLDevice>)device context:(EAGLContext *)context;
 - (mw::OpenGLContextLock)lockContext;
-- (BOOL)prepareGL;
-- (void)bindDrawable;
-- (void)display;
+- (BOOL)prepare;
+- (void)drawTexture:(id<MTLTexture>)texture;
 
 @end
 
 
-@implementation MWKEAGLView {
+@implementation MWKMetalView {
     mw::OpenGLContextLock::unique_lock::mutex_type mutex;
-    GLuint framebuffer;
-    GLuint renderbuffer;
+    id<MTLCommandQueue> _commandQueue;
+    id<MTLRenderPipelineState> _pipelineState;
+    id<MTLBuffer> _vertexPositionBuffer;
+    id<MTLBuffer> _texCoordsBuffer;
+    id<MTLTexture> _texture;  // NOT owned
 }
 
 
-+ (Class)layerClass {
-    return [CAEAGLLayer class];
-}
-
-
-- (instancetype)initWithFrame:(CGRect)frame context:(EAGLContext *)context {
-    self = [super initWithFrame:frame];
-    
+- (instancetype)initWithFrame:(CGRect)frameRect device:(id<MTLDevice>)device context:(EAGLContext *)context {
+    self = [super initWithFrame:frameRect device:device];
     if (self) {
         _context = [context retain];
-        self.layer.opaque = TRUE;
     }
-    
     return self;
+}
+
+
+- (void)dealloc {
+    [_texCoordsBuffer release];
+    [_vertexPositionBuffer release];
+    [_pipelineState release];
+    [_commandQueue release];
+    [_context release];
+    [super dealloc];
 }
 
 
@@ -63,50 +121,89 @@
 }
 
 
-- (BOOL)prepareGL {
-    glGenFramebuffers(1, &framebuffer);
-    mw::gl::FramebufferBinding<GL_FRAMEBUFFER> framebufferBinding(framebuffer);
+- (BOOL)prepare {
+    _commandQueue = [self.device newCommandQueue];
     
-    glGenRenderbuffers(1, &renderbuffer);
-    mw::gl::RenderbufferBinding<GL_RENDERBUFFER> renderbufferBinding(renderbuffer);
+    NSError *error = nullptr;
+    id<MTLLibrary> library = [[self.device newLibraryWithSource:@(librarySource.c_str())
+                                                        options:nil
+                                                          error:&error] autorelease];
+    if (!library) {
+        mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN,
+                   "Cannot create Metal library: %s",
+                   error.localizedDescription.UTF8String);
+        return NO;
+    }
     
-    [self.context renderbufferStorage:GL_RENDERBUFFER fromDrawable:static_cast<CAEAGLLayer *>(self.layer)];
+    id<MTLFunction> vertexFunction = [[library newFunctionWithName:@"vertexShader"] autorelease];
+    id<MTLFunction> fragmentFunction = [[library newFunctionWithName:@"fragmentShader"] autorelease];
     
-    GLint backingWidth, backingHeight;
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
-    glViewport(0, 0, backingWidth, backingHeight);
+    MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[[MTLRenderPipelineDescriptor alloc] init] autorelease];
+    pipelineStateDescriptor.vertexFunction = vertexFunction;
+    pipelineStateDescriptor.fragmentFunction = fragmentFunction;
+    pipelineStateDescriptor.colorAttachments[0].pixelFormat = self.colorPixelFormat;
     
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer);
-    return (GL_FRAMEBUFFER_COMPLETE == glCheckFramebufferStatus(GL_FRAMEBUFFER));
+    _pipelineState = [self.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
+    if (!_pipelineState) {
+        mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN,
+                   "Cannot create Metal render pipeline state: %s",
+                   error.localizedDescription.UTF8String);
+        return NO;
+    }
+    
+    _vertexPositionBuffer = [self.device newBufferWithBytes:vertexPositions
+                                                     length:sizeof(vertexPositions)
+                                                    options:MTLResourceStorageModeShared];
+    _texCoordsBuffer = [self.device newBufferWithBytes:texCoords
+                                                length:sizeof(texCoords)
+                                               options:MTLResourceStorageModeShared];
+    
+    CGSize drawableSize = self.drawableSize;
+    glViewport(0, 0, drawableSize.width, drawableSize.height);
+    
+    return YES;
 }
 
 
-- (void)bindDrawable {
-    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+- (void)drawTexture:(id<MTLTexture>)texture {
+    _texture = texture;
+    [self draw];
+    _texture = nil;
 }
 
 
-- (void)display {
-    mw::gl::RenderbufferBinding<GL_RENDERBUFFER> renderbufferBinding(renderbuffer);
-    [self.context presentRenderbuffer:GL_RENDERBUFFER];
-}
-
-
-- (void)dealloc {
-    [_context release];
-    [super dealloc];
+- (void)drawRect:(CGRect)rect {
+    id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
+    
+    MTLRenderPassDescriptor *renderPassDescriptor = self.currentRenderPassDescriptor;
+    if (renderPassDescriptor) {
+        id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        
+        [renderEncoder setRenderPipelineState:_pipelineState];
+        
+        [renderEncoder setVertexBuffer:_vertexPositionBuffer offset:0 atIndex:0];
+        [renderEncoder setVertexBuffer:_texCoordsBuffer offset:0 atIndex:1];
+        
+        [renderEncoder setFragmentTexture:_texture atIndex:0];
+        
+        [renderEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:numVertices];
+        
+        [renderEncoder endEncoding];
+        [commandBuffer presentDrawable:self.currentDrawable];
+    }
+    
+    [commandBuffer commit];
 }
 
 
 @end
 
 
-@interface MWKEAGLViewController : UIViewController
+@interface MWKMetalViewController : UIViewController
 @end
 
 
-@implementation MWKEAGLViewController
+@implementation MWKMetalViewController
 
 
 - (BOOL)prefersStatusBarHidden {
@@ -125,10 +222,25 @@
 BEGIN_NAMESPACE_MW
 
 
+IOSOpenGLContextManager::IOSOpenGLContextManager() :
+    metalDevice(nil)
+{
+    @autoreleasepool {
+        metalDevice = MTLCreateSystemDefaultDevice();
+        if (!metalDevice) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Metal is not supported on this device");
+        }
+    }
+}
+
+
 IOSOpenGLContextManager::~IOSOpenGLContextManager() {
-    // Calling releaseContexts here causes the application to crash at exit.  Since this class is
-    // used as a singleton, it doesn't matter, anyway.
-    //releaseContexts();
+    @autoreleasepool {
+        // Calling releaseContexts here causes the application to crash at exit.  Since this class is
+        // used as a singleton, it doesn't matter, anyway.
+        //releaseContexts();
+        [metalDevice release];
+    }
 }
 
 
@@ -160,15 +272,20 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render
             if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
                 window.screen = screen;
                 
-                if (MWKEAGLViewController *viewController = [[MWKEAGLViewController alloc] init]) {
+                if (MWKMetalViewController *viewController = [[MWKMetalViewController alloc] init]) {
                     window.rootViewController = viewController;
                     
-                    if (MWKEAGLView *view = [[MWKEAGLView alloc] initWithFrame:window.bounds context:context]) {
+                    if (MWKMetalView *view = [[MWKMetalView alloc] initWithFrame:window.bounds
+                                                                          device:metalDevice
+                                                                         context:context])
+                    {
                         viewController.view = view;
                         view.contentScaleFactor = (render_at_full_resolution ? screen.nativeScale : 1.0);
+                        view.paused = YES;
+                        view.enableSetNeedsDisplay = NO;
                         [EAGLContext setCurrentContext:context];
                         
-                        if ([view prepareGL]) {
+                        if ([view prepare]) {
                             [window makeKeyAndVisible];
                             
                             [contexts addObject:context];
@@ -207,8 +324,10 @@ int IOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) {
 
 void IOSOpenGLContextManager::releaseContexts() {
     @autoreleasepool {
-        cvTextures.clear();
-        cvTextureCaches.clear();
+        cvOpenGLESTextures.clear();
+        cvOpenGLESTextureCaches.clear();
+        cvMetalTextures.clear();
+        cvMetalTextureCaches.clear();
         cvPixelBuffers.clear();
         
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -232,11 +351,9 @@ int IOSOpenGLContextManager::getNumDisplays() const {
 
 OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
     @autoreleasepool {
-        if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
+        if (auto view = static_cast<MWKMetalView *>(getView(context_id))) {
             if ([EAGLContext setCurrentContext:view.context]) {
-                auto lock = [view lockContext];
-                [view bindDrawable];
-                return lock;
+                return [view lockContext];
             }
             merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot set current OpenGL ES context");
         }
@@ -247,17 +364,23 @@ OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
 
 void IOSOpenGLContextManager::clearCurrent() {
     @autoreleasepool {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);  // Unbind the view's drawable object
         [EAGLContext setCurrentContext:nil];
+    }
+}
+
+
+void IOSOpenGLContextManager::prepareContext(int context_id, bool useColorManagement) {
+    if (useColorManagement) {
+        checkDisplayGamut(context_id);
     }
 }
 
 
 int IOSOpenGLContextManager::createFramebufferTexture(int context_id, int width, int height, bool srgb) {
     @autoreleasepool {
-        GLuint texture = 0;
+        GLuint framebufferTexture = 0;
         
-        if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
+        if (auto view = static_cast<MWKMetalView *>(getView(context_id))) {
             {
                 NSDictionary *pixelBufferAttributes = @{ (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES),
                                                          (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES) };
@@ -276,23 +399,55 @@ int IOSOpenGLContextManager::createFramebufferTexture(int context_id, int width,
             }
             
             {
-                CVOpenGLESTextureCacheRef _cvTextureCache = nullptr;
+                CVMetalTextureCacheRef _cvMetalTextureCache = nullptr;
+                auto status = CVMetalTextureCacheCreate(kCFAllocatorDefault,
+                                                        nil,
+                                                        metalDevice,
+                                                        nil,
+                                                        &_cvMetalTextureCache);
+                if (status != kCVReturnSuccess) {
+                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                          boost::format("Cannot create Metal texture cache (error = %d)") % status);
+                }
+                cvMetalTextureCaches[context_id] = CVMetalTextureCachePtr::created(_cvMetalTextureCache);
+            }
+            
+            {
+                CVMetalTextureRef _cvMetalTexture = nullptr;
+                auto status = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                                        cvMetalTextureCaches.at(context_id).get(),
+                                                                        cvPixelBuffers.at(context_id).get(),
+                                                                        nil,
+                                                                        MTLPixelFormatBGRA8Unorm,
+                                                                        width,
+                                                                        height,
+                                                                        0,
+                                                                        &_cvMetalTexture);
+                if (status != kCVReturnSuccess) {
+                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                          boost::format("Cannot create Metal texture (error = %d)") % status);
+                }
+                cvMetalTextures[context_id] = CVMetalTexturePtr::created(_cvMetalTexture);
+            }
+            
+            {
+                CVOpenGLESTextureCacheRef _cvOpenGLESTextureCache = nullptr;
                 auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
                                                            nil,
                                                            view.context,
                                                            nil,
-                                                           &_cvTextureCache);
+                                                           &_cvOpenGLESTextureCache);
                 if (status != kCVReturnSuccess) {
                     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                                           boost::format("Cannot create OpenGL ES texture cache (error = %d)") % status);
                 }
-                cvTextureCaches[context_id] = CVTextureCachePtr::created(_cvTextureCache);
+                cvOpenGLESTextureCaches[context_id] = CVOpenGLESTextureCachePtr::created(_cvOpenGLESTextureCache);
             }
             
             {
-                CVOpenGLESTextureRef _cvTexture = nullptr;
+                CVOpenGLESTextureRef _cvOpenGLESTexture = nullptr;
                 auto status = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-                                                                           cvTextureCaches.at(context_id).get(),
+                                                                           cvOpenGLESTextureCaches.at(context_id).get(),
                                                                            cvPixelBuffers.at(context_id).get(),
                                                                            nil,
                                                                            GL_TEXTURE_2D,
@@ -302,44 +457,39 @@ int IOSOpenGLContextManager::createFramebufferTexture(int context_id, int width,
                                                                            GL_BGRA_EXT,
                                                                            GL_UNSIGNED_BYTE,
                                                                            0,
-                                                                           &_cvTexture);
+                                                                           &_cvOpenGLESTexture);
                 if (status != kCVReturnSuccess) {
                     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                                           boost::format("Cannot create OpenGL ES texture (error = %d)") % status);
                 }
-                cvTextures[context_id] = CVTexturePtr::created(_cvTexture);
+                cvOpenGLESTextures[context_id] = CVOpenGLESTexturePtr::created(_cvOpenGLESTexture);
             }
             
-            texture = CVOpenGLESTextureGetName(cvTextures.at(context_id).get());
+            framebufferTexture = CVOpenGLESTextureGetName(cvOpenGLESTextures.at(context_id).get());
         }
         
-        return texture;
+        return framebufferTexture;
     }
 }
 
 
-void IOSOpenGLContextManager::bindDefaultFramebuffer(int context_id) {
+void IOSOpenGLContextManager::flushFramebufferTexture(int context_id) {
+    // Call glFlush so that changes made to the texture are visible to Metal
+    glFlush();
+}
+
+
+void IOSOpenGLContextManager::drawFramebufferTexture(int src_context_id, int dst_context_id) {
     @autoreleasepool {
-        if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
-            [view bindDrawable];
+        if (auto view = static_cast<MWKMetalView *>(getView(dst_context_id))) {
+            [view drawTexture:CVMetalTextureGetTexture(cvMetalTextures.at(src_context_id).get())];
         }
     }
 }
 
 
-void IOSOpenGLContextManager::flush(int context_id) {
+void IOSOpenGLContextManager::checkDisplayGamut(int context_id) const {
     @autoreleasepool {
-        if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
-            [view display];
-        }
-    }
-}
-
-
-std::vector<float> IOSOpenGLContextManager::getColorConversionLUTData(int context_id, int numGridPoints) {
-    @autoreleasepool {
-        std::vector<float> lutData;
-        
         if (auto view = getView(context_id)) {
             __block UIDisplayGamut displayGamut;
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -372,12 +522,10 @@ std::vector<float> IOSOpenGLContextManager::getColorConversionLUTData(int contex
                 }
                     
                 default:
-                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Unsupported display gamut");
+                    merror(M_DISPLAY_MESSAGE_DOMAIN, "Unsupported display gamut");
+                    break;
             }
-            
         }
-        
-        return lutData;
     }
 }
 

@@ -91,16 +91,13 @@ BEGIN_NAMESPACE_MW
         std::vector<Datum> stimAnnouncements;
         
         const bool useColorManagement;
-        std::map<int, GLuint> programs, vertexArrays, colorConversionLUTs;
         GLuint framebuffer = 0;
         GLuint framebufferTexture = 0;
         std::vector<std::pair<GLuint, std::vector<GLenum>>> framebufferStack;
         
-        virtual void prepareContext(int contextIndex);
+        virtual void prepareContext(int contextIndex) = 0;
         virtual void setMainDisplayRefreshRate() = 0;
         void allocateFramebufferStorage(int contextIndex);
-        bool createColorConversionLUT(int contextIndex);
-        void drawStoredFramebuffer(int contextIndex) const;
 		
 		void setDisplayBounds();
         void refreshMainDisplay();

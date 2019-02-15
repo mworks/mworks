@@ -102,7 +102,7 @@ void IOSStimulusDisplay::prepareContext(int contextIndex) {
         //          @"Unexpected preferredFramesPerSecond on CADisplayLink");
     });
     
-    StimulusDisplay::prepareContext(contextIndex);
+    opengl_context_manager->prepareContext(context_ids.at(contextIndex), useColorManagement);
 }
 
 

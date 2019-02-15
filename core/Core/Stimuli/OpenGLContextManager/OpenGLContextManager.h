@@ -35,11 +35,11 @@ public:
     virtual OpenGLContextLock setCurrent(int context_id) = 0;
     virtual void clearCurrent() = 0;
     
+    virtual void prepareContext(int context_id, bool useColorManagement) = 0;
     virtual int createFramebufferTexture(int context_id, int width, int height, bool srgb) = 0;
-    virtual void bindDefaultFramebuffer(int context_id) = 0;
-    virtual void flush(int context_id) = 0;
-    
-    virtual std::vector<float> getColorConversionLUTData(int context_id, int numGridPoints) = 0;
+    virtual void flushFramebufferTexture(int context_id) = 0;
+    virtual void drawFramebufferTexture(int src_context_id, int dst_context_id) = 0;
+    void drawFramebufferTexture(int context_id) { drawFramebufferTexture(context_id, context_id); }
     
     REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
     
