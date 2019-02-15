@@ -169,7 +169,7 @@ void StimulusDisplay::addContext(int _context_id){
     
     if (0 == contextIndex) {
         setMainDisplayRefreshRate();
-        allocateFramebufferStorage();
+        allocateFramebufferStorage(contextIndex);
     }
 }
 
@@ -313,30 +313,17 @@ void StimulusDisplay::prepareContext(int contextIndex) {
 }
 
 
-void StimulusDisplay::allocateFramebufferStorage() {
+void StimulusDisplay::allocateFramebufferStorage(int contextIndex) {
     glGenFramebuffers(1, &framebuffer);
-    glGenTextures(1, &framebufferTexture);
-    
     gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
-    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
     
     GLint viewportWidth, viewportHeight;
     getCurrentViewportSize(viewportWidth, viewportHeight);
-    
-    glTexImage2D(GL_TEXTURE_2D,
-                 0,
-                 (useColorManagement ? GL_SRGB8_ALPHA8 : GL_RGBA8),
-                 viewportWidth,
-                 viewportHeight,
-                 0,
-#if MWORKS_OPENGL_ES
-                 GL_RGBA,
-                 GL_UNSIGNED_BYTE,
-#else
-                 GL_BGRA,
-                 GL_UNSIGNED_INT_8_8_8_8_REV,
-#endif
-                 nullptr);
+    framebufferTexture = opengl_context_manager->createFramebufferTexture(context_ids.at(contextIndex),
+                                                                          viewportWidth,
+                                                                          viewportHeight,
+                                                                          useColorManagement);
+    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

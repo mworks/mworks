@@ -98,7 +98,7 @@ BEGIN_NAMESPACE_MW
         
         virtual void prepareContext(int contextIndex);
         virtual void setMainDisplayRefreshRate() = 0;
-        void allocateFramebufferStorage();
+        void allocateFramebufferStorage(int contextIndex);
         bool createColorConversionLUT(int contextIndex);
         void drawStoredFramebuffer(int contextIndex) const;
 		

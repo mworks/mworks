@@ -307,6 +307,25 @@ void MacOSOpenGLContextManager::clearCurrent() {
 }
 
 
+int MacOSOpenGLContextManager::createFramebufferTexture(int context_id, int width, int height, bool srgb) {
+    GLuint texture;
+    glGenTextures(1, &texture);
+    
+    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 (srgb ? GL_SRGB8_ALPHA8 : GL_RGBA8),
+                 width,
+                 height,
+                 0,
+                 GL_BGRA,
+                 GL_UNSIGNED_INT_8_8_8_8_REV,
+                 nullptr);
+    
+    return texture;
+}
+
+
 void MacOSOpenGLContextManager::bindDefaultFramebuffer(int context_id) {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

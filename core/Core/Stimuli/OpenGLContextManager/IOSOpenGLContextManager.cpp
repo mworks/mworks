@@ -10,6 +10,8 @@
 
 #include "OpenGLUtilities.hpp"
 
+#include <OpenGLES/ES3/glext.h>
+
 
 //
 // The technique for using a CAEAGLLayer-backed UIView for displaying OpenGL ES content is taken from
@@ -205,6 +207,10 @@ int IOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) {
 
 void IOSOpenGLContextManager::releaseContexts() {
     @autoreleasepool {
+        cvTextures.clear();
+        cvTextureCaches.clear();
+        cvPixelBuffers.clear();
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             for (UIWindow *window in windows) {
                 window.hidden = YES;
@@ -243,6 +249,71 @@ void IOSOpenGLContextManager::clearCurrent() {
     @autoreleasepool {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);  // Unbind the view's drawable object
         [EAGLContext setCurrentContext:nil];
+    }
+}
+
+
+int IOSOpenGLContextManager::createFramebufferTexture(int context_id, int width, int height, bool srgb) {
+    @autoreleasepool {
+        GLuint texture = 0;
+        
+        if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
+            {
+                NSDictionary *pixelBufferAttributes = @{ (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES),
+                                                         (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES) };
+                CVPixelBufferRef _cvPixelBuffer = nullptr;
+                auto status = CVPixelBufferCreate(kCFAllocatorDefault,
+                                                  width,
+                                                  height,
+                                                  kCVPixelFormatType_32BGRA,
+                                                  (CFDictionaryRef)pixelBufferAttributes,
+                                                  &_cvPixelBuffer);
+                if (status != kCVReturnSuccess) {
+                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                          boost::format("Cannot create pixel buffer (error = %d)") % status);
+                }
+                cvPixelBuffers[context_id] = CVPixelBufferPtr::created(_cvPixelBuffer);
+            }
+            
+            {
+                CVOpenGLESTextureCacheRef _cvTextureCache = nullptr;
+                auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
+                                                           nil,
+                                                           view.context,
+                                                           nil,
+                                                           &_cvTextureCache);
+                if (status != kCVReturnSuccess) {
+                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                          boost::format("Cannot create OpenGL ES texture cache (error = %d)") % status);
+                }
+                cvTextureCaches[context_id] = CVTextureCachePtr::created(_cvTextureCache);
+            }
+            
+            {
+                CVOpenGLESTextureRef _cvTexture = nullptr;
+                auto status = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                                           cvTextureCaches.at(context_id).get(),
+                                                                           cvPixelBuffers.at(context_id).get(),
+                                                                           nil,
+                                                                           GL_TEXTURE_2D,
+                                                                           (srgb ? GL_SRGB8_ALPHA8 : GL_RGBA8),
+                                                                           width,
+                                                                           height,
+                                                                           GL_BGRA_EXT,
+                                                                           GL_UNSIGNED_BYTE,
+                                                                           0,
+                                                                           &_cvTexture);
+                if (status != kCVReturnSuccess) {
+                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                          boost::format("Cannot create OpenGL ES texture (error = %d)") % status);
+                }
+                cvTextures[context_id] = CVTexturePtr::created(_cvTexture);
+            }
+            
+            texture = CVOpenGLESTextureGetName(cvTextures.at(context_id).get());
+        }
+        
+        return texture;
     }
 }
 

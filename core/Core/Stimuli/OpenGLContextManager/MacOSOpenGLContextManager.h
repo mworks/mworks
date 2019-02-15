@@ -34,6 +34,7 @@ public:
     OpenGLContextLock setCurrent(NSOpenGLContext *context);
     void clearCurrent() override;
     
+    int createFramebufferTexture(int context_id, int width, int height, bool srgb) override;
     void bindDefaultFramebuffer(int context_id) override;
     void flush(int context_id) override;
     

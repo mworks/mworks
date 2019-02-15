@@ -3857,6 +3857,8 @@
 					"-framework",
 					CoreGraphics,
 					"-framework",
+					CoreVideo,
+					"-framework",
 					ImageIO,
 					"-framework",
 					GLKit,

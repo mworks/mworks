@@ -35,6 +35,7 @@ public:
     virtual OpenGLContextLock setCurrent(int context_id) = 0;
     virtual void clearCurrent() = 0;
     
+    virtual int createFramebufferTexture(int context_id, int width, int height, bool srgb) = 0;
     virtual void bindDefaultFramebuffer(int context_id) = 0;
     virtual void flush(int context_id) = 0;
     
