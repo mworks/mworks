@@ -34,7 +34,7 @@ AppleOpenGLContextManager::~AppleOpenGLContextManager() {
 }
 
 
-auto AppleOpenGLContextManager::getContext(int context_id) const -> PlatformOpenGLContextPtr {
+auto AppleOpenGLContextManager::getContext(int context_id) const -> PlatformContextPtr {
     @autoreleasepool {
         if (context_id < 0 || context_id >= contexts.count) {
             merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
@@ -45,7 +45,7 @@ auto AppleOpenGLContextManager::getContext(int context_id) const -> PlatformOpen
 }
 
 
-auto AppleOpenGLContextManager::getView(int context_id) const -> PlatformOpenGLViewPtr {
+auto AppleOpenGLContextManager::getView(int context_id) const -> PlatformViewPtr {
     @autoreleasepool {
         if (context_id < 0 || context_id >= views.count) {
             merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
@@ -56,7 +56,7 @@ auto AppleOpenGLContextManager::getView(int context_id) const -> PlatformOpenGLV
 }
 
 
-auto AppleOpenGLContextManager::getFullscreenView() const -> PlatformOpenGLViewPtr {
+auto AppleOpenGLContextManager::getFullscreenView() const -> PlatformViewPtr {
     @autoreleasepool {
         if (views.count > 0) {
             return views[0];
@@ -66,7 +66,7 @@ auto AppleOpenGLContextManager::getFullscreenView() const -> PlatformOpenGLViewP
 }
 
 
-auto AppleOpenGLContextManager::getMirrorView() const -> PlatformOpenGLViewPtr {
+auto AppleOpenGLContextManager::getMirrorView() const -> PlatformViewPtr {
     @autoreleasepool {
         if (views.count > 1) {
             return views[1];

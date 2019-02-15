@@ -28,11 +28,13 @@ class AppleOpenGLContextManager : public OpenGLContextManager {
     
 public:
 #if TARGET_OS_OSX
-    using PlatformOpenGLContextPtr = NSOpenGLContext *;
-    using PlatformOpenGLViewPtr = NSOpenGLView *;
+    using PlatformContextPtr = NSOpenGLContext *;
+    using PlatformViewPtr = NSOpenGLView *;
+    using PlatformWindowPtr = NSWindow *;
 #elif TARGET_OS_IPHONE
-    using PlatformOpenGLContextPtr = EAGLContext *;
-    using PlatformOpenGLViewPtr = UIView *;
+    using PlatformContextPtr = EAGLContext *;
+    using PlatformViewPtr = UIView *;
+    using PlatformWindowPtr = UIWindow *;
 #else
 #   error Unsupported platform
 #endif
@@ -40,15 +42,15 @@ public:
     AppleOpenGLContextManager();
     ~AppleOpenGLContextManager();
     
-    PlatformOpenGLContextPtr getContext(int context_id) const;
-    PlatformOpenGLViewPtr getView(int context_id) const;
-    PlatformOpenGLViewPtr getFullscreenView() const;
-    PlatformOpenGLViewPtr getMirrorView() const;
+    PlatformContextPtr getContext(int context_id) const;
+    PlatformViewPtr getView(int context_id) const;
+    PlatformViewPtr getFullscreenView() const;
+    PlatformViewPtr getMirrorView() const;
     
 protected:
-    NSMutableArray *contexts;
-    NSMutableArray *views;
-    NSMutableArray *windows;
+    NSMutableArray<PlatformContextPtr> *contexts;
+    NSMutableArray<PlatformViewPtr> *views;
+    NSMutableArray<PlatformWindowPtr> *windows;
     
 };
 
