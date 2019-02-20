@@ -10,7 +10,6 @@
 
 #if TARGET_OS_IPHONE
 #  include <OpenGLES/EAGLIOSurface.h>
-#  include <OpenGLES/ES3/glext.h>
 #else
 #  include <OpenGL/CGLIOSurface.h>
 #endif

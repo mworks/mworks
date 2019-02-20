@@ -660,7 +660,7 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
                                                                                   width * 4,
                                                                                   colorSpace.get(),
 #if MWORKS_OPENGL_ES
-                                                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big));
+                                                                                  kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Little));
 #else
                                                                                   kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
 #endif
@@ -685,7 +685,7 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
                      height,
                      0,
 #if MWORKS_OPENGL_ES
-                     GL_RGBA,
+                     GL_BGRA_EXT,
                      GL_UNSIGNED_BYTE,
 #else
                      GL_BGRA,

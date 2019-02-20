@@ -150,7 +150,7 @@ void LayerStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
                      viewportHeight,
                      0,
 #if MWORKS_OPENGL_ES
-                     GL_RGBA,
+                     GL_BGRA_EXT,
                      GL_UNSIGNED_BYTE,
 #else
                      GL_BGRA,
