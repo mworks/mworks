@@ -40,9 +40,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>_VERSION_STRING_</string>
+	<string></string>
 	<key>CFBundleShortVersionString</key>
-	<string>${MW_VERSION}${MW_VERSION_SUFFIX}</string>
+	<string>${MW_VERSION}</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

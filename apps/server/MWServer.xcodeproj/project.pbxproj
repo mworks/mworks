@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		5C488A6F0F4E291200C5A526 /* Set Version String */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 5C488A7F0F4E293D00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */;
-			buildPhases = (
-				5C488A6E0F4E291200C5A526 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "Set Version String";
-			productName = "Set Version String";
-		};
 		5C77F4B110E969C600919719 /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5C77F4C510E969E600919719 /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -68,13 +57,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5C488A720F4E293300C5A526 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C488A6F0F4E291200C5A526;
-			remoteInfo = "Set Version String";
-		};
 		E12D995C16BC3B2B004FEF79 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -113,7 +95,6 @@
 		0EA038090C3D8A9A007C37CF /* MWSServer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWSServer.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MWServer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServer_Prefix.pch; sourceTree = "<group>"; };
-		5C6615620F4C91CC00C8FD71 /* Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.template.plist; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E13A098720AF1674003A678F /* MWServer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MWServer.entitlements; sourceTree = "<group>"; };
@@ -218,7 +199,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5C6615620F4C91CC00C8FD71 /* Info.template.plist */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				E18B83FF1552D61100268197 /* MainMenu.xib */,
@@ -291,14 +271,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MWorksServer" */;
 			buildPhases = (
-				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				8D1107290486CEB800E47090 /* Resources */,
+				E13FCB3322205D240051DB9F /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5C488A730F4E293300C5A526 /* PBXTargetDependency */,
 			);
 			name = MWorksServer;
 			productInstallPath = "$(HOME)/Applications";
@@ -332,9 +312,6 @@
 			attributes = {
 				LastUpgradeCheck = 0410;
 				TargetAttributes = {
-					5C488A6F0F4E291200C5A526 = {
-						ProvisioningStyle = Automatic;
-					};
 					5C77F4B110E969C600919719 = {
 						ProvisioningStyle = Automatic;
 					};
@@ -370,7 +347,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5C488A6F0F4E291200C5A526 /* Set Version String */,
 				8D1107260486CEB800E47090 /* MWorksServer */,
 				E12D995916BC3B24004FEF79 /* Install */,
 				5C77F4B110E969C600919719 /* Everything */,
@@ -405,18 +381,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5C488A6E0F4E291200C5A526 /* ShellScript */ = {
+		E13FCB3322205D240051DB9F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=./\n\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=\"`$GIT log -n1  --pretty=format:%h`\"\n\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nsed $SUBS_STRING  ${SOURCE_DIR}/Info.template.plist > ${SOURCE_DIR}/Info.plist\n";
+			shellPath = /bin/sh;
+			shellScript = "# Generate CFBundleVersion from the current date\n/usr/bin/plutil -replace CFBundleVersion -string $(/bin/date '+%Y.%m.%d') \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		E1CCE03D1E5C96C700614060 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -424,12 +406,13 @@
 			files = (
 			);
 			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$BUILT_PRODUCTS_DIR\"\n\n# Copy frameworks and plugins in to the app bundle\n/bin/mkdir -p \"$FRAMEWORKS_FOLDER_PATH\"\n/usr/bin/rsync -aL *.framework \"$FRAMEWORKS_FOLDER_PATH\"\n\n# Set the version number displayed in Settings\n/usr/bin/sed -i '' -e \"s/__VERSION__/${MW_VERSION}${MW_VERSION_SUFFIX}/g\" \"${CONTENTS_FOLDER_PATH}/Settings.bundle/Root.plist\"\n\n# Copy example experiments in to the app bundle\nexamples_dir=\"${CONTENTS_FOLDER_PATH}/Examples\"\n/bin/mkdir -p \"$examples_dir\"\nfor file in \"$SRCROOT\"/../../examples/Examples/iOS/*.mwel; do\n    file_basename=$(basename \"$file\")\n    \"${SRCROOT}/../../mwel/mwel2xml\" \"$file\" > \"${examples_dir}/${file_basename%.mwel}.xml\"\ndone";
+			shellScript = "cd \"$BUILT_PRODUCTS_DIR\"\n\n# Copy frameworks and plugins in to the app bundle\n/bin/mkdir -p \"$FRAMEWORKS_FOLDER_PATH\"\n/usr/bin/rsync -aL *.framework \"$FRAMEWORKS_FOLDER_PATH\"\n\n# Generate CFBundleVersion from the current date\ncf_bundle_version=$(/bin/date '+%Y.%m.%d')\n/usr/bin/plutil -replace CFBundleVersion -string \"${cf_bundle_version}\" \"${INFOPLIST_PATH}\"\n\n# Set the version number displayed in Settings\n/usr/bin/sed -i '' -e \"s/__VERSION__/${MW_VERSION} (${cf_bundle_version})/g\" \"${CONTENTS_FOLDER_PATH}/Settings.bundle/Root.plist\"\n\n# Copy example experiments in to the app bundle\nexamples_dir=\"${CONTENTS_FOLDER_PATH}/Examples\"\n/bin/mkdir -p \"$examples_dir\"\nfor file in \"$SRCROOT\"/../../examples/Examples/iOS/*.mwel; do\n    file_basename=$(basename \"$file\")\n    \"${SRCROOT}/../../mwel/mwel2xml\" \"$file\" > \"${examples_dir}/${file_basename%.mwel}.xml\"\ndone\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -459,11 +442,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5C488A730F4E293300C5A526 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C488A6F0F4E291200C5A526 /* Set Version String */;
-			targetProxy = 5C488A720F4E293300C5A526 /* PBXContainerItemProxy */;
-		};
 		E12D995D16BC3B2B004FEF79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E12D995916BC3B24004FEF79 /* Install */;
@@ -512,14 +490,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		5C488A700F4E291200C5A526 /* Development */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E16A21171E579D0F00C48E10 /* macOS.xcconfig */;
-			buildSettings = {
-				PRODUCT_NAME = "Set Version String";
-			};
-			name = Development;
-		};
 		5C77F4B210E969C600919719 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E16A21171E579D0F00C48E10 /* macOS.xcconfig */;
@@ -590,14 +560,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5C488A7F0F4E293D00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C488A700F4E291200C5A526 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		5C77F4C510E969E600919719 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MW_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>$(MW_VERSION)$(MW_VERSION_SUFFIX)</string>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationExitsOnSuspend</key>

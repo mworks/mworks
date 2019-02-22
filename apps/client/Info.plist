@@ -7,9 +7,9 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>YellowMonkey</string>
+	<string>ClientProgramIcon</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.mworks-project.MWServer</string>
+	<string>org.mworks-project.MWClient</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -19,17 +19,12 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>_VERSION_STRING_</string>
+	<string></string>
 	<key>CFBundleShortVersionString</key>
-	<string>${MW_VERSION}${MW_VERSION_SUFFIX}</string>
+	<string>${MW_VERSION}</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 </dict>
 </plist>
