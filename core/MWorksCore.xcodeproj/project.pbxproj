@@ -2927,10 +2927,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5C0E84DA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MWorksCore" */;
 			buildPhases = (
-				DA2CE0CF07E9F68100C68AEF /* Headers */,
-				DA2CE0D007E9F68100C68AEF /* Resources */,
 				DA2CE0D107E9F68100C68AEF /* Sources */,
 				DA2CE0D207E9F68100C68AEF /* Frameworks */,
+				DA2CE0CF07E9F68100C68AEF /* Headers */,
+				DA2CE0D007E9F68100C68AEF /* Resources */,
+				E10FA6132220729400547C9B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2968,6 +2969,7 @@
 				E148A4331E4B7106002DFB1C /* Frameworks */,
 				E148A4341E4B7106002DFB1C /* Headers */,
 				E148A4351E4B7106002DFB1C /* Resources */,
+				E10FA61422207E3100547C9B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3224,6 +3226,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		E10FA6132220729400547C9B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "# Generate CFBundleVersion from the current date\n/usr/bin/plutil -replace CFBundleVersion -string $(/bin/date '+%Y.%m.%d') \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E10FA61422207E3100547C9B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "# Generate CFBundleVersion from the current date\n/usr/bin/plutil -replace CFBundleVersion -string $(/bin/date '+%Y.%m.%d') \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E1F7CBBF21F2516B003F48A1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3753,14 +3793,14 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"MW_VERSION=\\\"$(MW_VERSION)\\\"",
-					"MW_VERSION_SUFFIX=\\\"$(MW_VERSION_SUFFIX)\\\"",
+					"PRODUCT_BUNDLE_IDENTIFIER=\\\"$(PRODUCT_BUNDLE_IDENTIFIER)\\\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksCore";
 				PRODUCT_NAME = MWorksCore;
 			};
 			name = Development;
@@ -3843,8 +3883,7 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"MW_VERSION=\\\"$(MW_VERSION)\\\"",
-					"MW_VERSION_SUFFIX=\\\"$(MW_VERSION_SUFFIX)\\\"",
+					"PRODUCT_BUNDLE_IDENTIFIER=\\\"$(PRODUCT_BUNDLE_IDENTIFIER)\\\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",

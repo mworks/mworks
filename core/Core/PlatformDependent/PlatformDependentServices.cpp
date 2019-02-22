@@ -195,4 +195,22 @@ BEGIN_NAMESPACE_MW
 	}
 
 
+std::string getVersionString() {
+    @autoreleasepool {
+        std::string versionString("<UNKNOWN>");
+        
+        NSBundle *bundle = [NSBundle bundleWithIdentifier:@"" PRODUCT_BUNDLE_IDENTIFIER];
+        if (bundle) {
+            NSString *version = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+            NSString *buildVersion = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+            if (version && buildVersion) {
+                versionString = [NSString stringWithFormat:@"%@ (%@)", version, buildVersion].UTF8String;
+            }
+        }
+        
+        return versionString;
+    }
+}
+
+
 END_NAMESPACE_MW

@@ -9,8 +9,6 @@ def main():
     parser.add_argument('--archive', action='store_true',
                         help='create an archive for distribution')
     parser.add_argument('version', nargs='?', help='version number')
-    parser.add_argument('version_suffix', nargs='?',
-                        help='version number suffix')
     args = parser.parse_args()
 
     cmd = [
@@ -28,8 +26,6 @@ def main():
 
     if args.version:
         cmd.append('MW_VERSION=' + args.version)
-    if args.version_suffix:
-        cmd.append('MW_VERSION_SUFFIX=' + args.version_suffix)
 
     check_call(cmd)
 

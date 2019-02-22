@@ -183,7 +183,7 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 		}
 		case M_START_EXPERIMENT:
 		{
-            mprintf(M_SYSTEM_MESSAGE_DOMAIN, "Running MWorks %s", MW_VERSION MW_VERSION_SUFFIX);
+            mprintf(M_SYSTEM_MESSAGE_DOMAIN, "Running MWorks %s", getVersionString().c_str());
             
             time_t currentTime;
             struct tm currentLocalTime;

@@ -61,6 +61,8 @@ BEGIN_NAMESPACE_MW
 	
 	std::string appendVarFileExt(const std::string expName);
 
+    std::string getVersionString();
+
 
 END_NAMESPACE_MW
 
