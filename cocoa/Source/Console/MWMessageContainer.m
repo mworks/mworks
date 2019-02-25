@@ -20,8 +20,6 @@
     DefaultColor = nil;
     WarningColor = nil;
     ErrorColor = nil;
-    FatalColor = nil;
-    NetworkColor = nil;
 	LocalColor = nil;
 	RemoteColor = nil;
 }
@@ -41,15 +39,13 @@
 		
         WarningColor = [NSColor brownColor];
         ErrorColor = [NSColor redColor];
-        FatalColor = [NSColor darkGrayColor];
-        // dark green
-        NetworkColor = [NSColor colorWithCalibratedRed:0.0 green:0.5 
-												   blue:0.0 alpha:1.0];
         
-		LocalColor = [NSColor colorWithCalibratedRed:0.0 green:0.0 
-												 blue:0.0 alpha:1.0];
-		RemoteColor = [NSColor colorWithCalibratedRed:0.2 green:0.2 
-												 blue:0.2 alpha:1.0];
+		LocalColor = [NSColor textColor];
+        if (@available(macOS 10.13, *)) {
+            RemoteColor = [NSColor colorNamed:@"consoleRemoteTextColor" bundle:[NSBundle bundleForClass:[self class]]];
+        } else {
+            RemoteColor = [NSColor colorWithCalibratedRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+        }
 
 		//[self initMessageParagraphStyle];
 		
@@ -136,20 +132,13 @@ autorelease];*/
 
 - (void)setMessageTimeColor:(int)colorType {
     switch(colorType) {
-        case MW_GENERIC_MESSAGE:
-            messageTimeColor = DefaultColor;
-            break;
+        case MW_FATAL_ERROR_MESSAGE:
+            [[clang::fallthrough]];
         case MW_ERROR_MESSAGE:
             messageTimeColor = ErrorColor;
             break;
         case MW_WARNING_MESSAGE:
             messageTimeColor = WarningColor;
-            break;
-        case MW_FATAL_ERROR_MESSAGE:
-            messageTimeColor = FatalColor;
-            break;
-        case MW_NETWORK_MESSAGE:
-            messageTimeColor = NetworkColor;
             break;
         default:
             messageTimeColor = DefaultColor;

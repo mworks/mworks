@@ -25,7 +25,6 @@ const int MW_ERROR_MESSAGE          = (int)M_ERROR_MESSAGE;
 const int MW_WARNING_MESSAGE        = (int)M_WARNING_MESSAGE;
 const int MW_GENERIC_MESSAGE        = (int)M_GENERIC_MESSAGE;
 const int MW_FATAL_ERROR_MESSAGE    = (int)M_FATAL_ERROR_MESSAGE;
-const int MW_NETWORK_MESSAGE        = -1000;//(int)M_NETWORK_MESSAGE;
 const int MW_MAX_MESSAGE_TYPE       = (int)M_MAX_MESSAGE_TYPE;
 
 @interface MWMessageContainer : NSObject {
@@ -43,8 +42,6 @@ const int MW_MAX_MESSAGE_TYPE       = (int)M_MAX_MESSAGE_TYPE;
     NSColor * DefaultColor;
     NSColor * WarningColor;
     NSColor * ErrorColor;
-    NSColor * FatalColor;
-    NSColor * NetworkColor;
 }
 
 /**
