@@ -75,7 +75,7 @@
 	NSTimer *connection_check_timer;
 	
 	NSMutableArray *errors;
-	NSString *errorString;
+	NSAttributedString *errorString;
 	
 	BOOL hasExperimentLoadErrors;
     
@@ -97,7 +97,7 @@
 - (NSArray *)variableNames;
 @property	NSMutableArray *errors;
 
-@property(copy, readwrite) NSString *errorString;
+@property(copy, readwrite) NSAttributedString *errorString;
 
 //@property(readonly) MWNotebook *notebook;
 - (MWNotebook *)notebook;

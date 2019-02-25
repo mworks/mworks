@@ -19,9 +19,9 @@
 	NSColor *color;
 	
 	if([value boolValue]){
-		color = [NSColor colorWithDeviceRed:(CGFloat)0.5 green:(CGFloat)0.0 blue:(CGFloat)0.0 alpha:(CGFloat)1.0];
+        color = [NSColor systemRedColor];
 	} else {
-		color = [NSColor colorWithDeviceRed:(CGFloat)0.0 green:(CGFloat)0.0 blue:(CGFloat)0.0 alpha:(CGFloat)1.0];
+        color = [NSColor labelColor];
 	}
 	return color;
 }

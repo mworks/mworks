@@ -484,13 +484,13 @@
 	[NSApp endSheet: errorSheet];
 }
 
-// TODO: kludgey, make better
+
 - (NSColor *)uniqueColor {
-    
     int ind = [[clientInstances arrangedObjects] count] % 6;
-    //int ind = colorIndex%6;
-    //colorIndex++;
     
+    if (@available(macOS 10.13, *)) {
+        return [NSColor colorNamed:[NSString stringWithFormat:@"uniqueColor%d", ind]];
+    }
     
     if(ind == 1){
         return [NSColor colorWithDeviceRed:194./255. green:192./255 blue:129./255 alpha:1.0];
@@ -514,6 +514,7 @@
     
     return [NSColor colorWithDeviceRed:180./255. green:197./255 blue:211./255 alpha:1.0];
 }
+
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
 	return YES;

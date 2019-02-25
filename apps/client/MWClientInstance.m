@@ -1057,7 +1057,9 @@
 	[self willChangeValueForKey:@"errors"];
 	[self didChangeValueForKey:@"errors"];
 	
-	[self setErrorString:[errors componentsJoinedByString:@"\n"]];
+    NSAttributedString *errorString = [[NSAttributedString alloc] initWithString:[errors componentsJoinedByString:@"\n"]
+                                                                      attributes:@{ NSForegroundColorAttributeName: [NSColor textColor] }];
+	[self setErrorString:errorString];
 	
 	accumulatingErrors = NO;	
 }

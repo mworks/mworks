@@ -66,10 +66,10 @@
 		5CEDF8F10D86247F0044D738 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF8F00D86247F0044D738 /* AppController.m */; };
 		5CEDF93E0D862FC60044D738 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEDF93D0D862FC60044D738 /* MWorksCore.framework */; };
 		5CEDFA7C0D86C8C90044D738 /* MWServerConnectedIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */; };
-		5CF675C00DF58FF5006C80D5 /* candybar.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CF675BF0DF58FF5006C80D5 /* candybar.tif */; };
 		5CFE56580F54A653000C7F30 /* MWURLStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE56570F54A653000C7F30 /* MWURLStringValueTransformer.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		E102336D2225ADFC0027E647 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E102336C2225ADFC0027E647 /* Media.xcassets */; };
 		E11416F2157669DF00FFE959 /* ResumeTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = E11416F1157669DF00FFE959 /* ResumeTBIcon.tiff */; };
 		E11416F615766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E11416F515766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m */; };
 		E12D990116BC2AFE004FEF79 /* MWClient.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* MWClient.app */; };
@@ -156,11 +156,11 @@
 		5CEDF93D0D862FC60044D738 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		5CEDFA7A0D86C8C90044D738 /* MWServerConnectedIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServerConnectedIconTransformer.h; sourceTree = "<group>"; };
 		5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWServerConnectedIconTransformer.m; sourceTree = "<group>"; };
-		5CF675BF0DF58FF5006C80D5 /* candybar.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = candybar.tif; path = Images/candybar.tif; sourceTree = "<group>"; };
 		5CFE56560F54A653000C7F30 /* MWURLStringValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWURLStringValueTransformer.h; sourceTree = "<group>"; };
 		5CFE56570F54A653000C7F30 /* MWURLStringValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWURLStringValueTransformer.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E102336C2225ADFC0027E647 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		E11416F1157669DF00FFE959 /* ResumeTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ResumeTBIcon.tiff; path = Images/ResumeTBIcon.tiff; sourceTree = "<group>"; };
 		E11416F415766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentPauseResumeIconTransformer.h; sourceTree = "<group>"; };
 		E11416F515766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentPauseResumeIconTransformer.m; sourceTree = "<group>"; };
@@ -240,6 +240,7 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				5CEDF8180D85D7400044D738 /* Images */,
 				E18B840B1552D7C000268197 /* MainMenu.xib */,
+				E102336C2225ADFC0027E647 /* Media.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -285,7 +286,6 @@
 		5CEDF8180D85D7400044D738 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5CF675BF0DF58FF5006C80D5 /* candybar.tif */,
 				5CD6D3120D96C57E0042051C /* NotConnected.tiff */,
 				5CD6D2E20D96C20A0042051C /* FileServer_Off.tiff */,
 				5CD6D2E30D96C20A0042051C /* FileServer_On.tiff */,
@@ -415,6 +415,7 @@
 				5CEDF8380D85D7550044D738 /* OpenExperimentTBIcon.tif in Resources */,
 				5CEDF8390D85D7550044D738 /* OptionKeyGlyph_nib.tiff in Resources */,
 				5CEDF83A0D85D7550044D738 /* PauseTBIcon.tiff in Resources */,
+				E102336D2225ADFC0027E647 /* Media.xcassets in Resources */,
 				5CEDF83B0D85D7550044D738 /* RunTBIcon.tiff in Resources */,
 				5CEDF83C0D85D7550044D738 /* ShifteyGlyph_nib.tiff in Resources */,
 				5CEDF83D0D85D7550044D738 /* StopTBIcon.tiff in Resources */,
@@ -423,7 +424,6 @@
 				5CD6D2E50D96C20A0042051C /* FileServer_On.tiff in Resources */,
 				5CD6D3130D96C57E0042051C /* NotConnected.tiff in Resources */,
 				5C6DA5150DEF22F7005E496A /* GroupedPluginsWindow.xib in Resources */,
-				5CF675C00DF58FF5006C80D5 /* candybar.tif in Resources */,
 				E18B840D1552D7C000268197 /* MainMenu.xib in Resources */,
 				E11416F2157669DF00FFE959 /* ResumeTBIcon.tiff in Resources */,
 			);
