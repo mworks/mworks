@@ -227,7 +227,8 @@
     if([data length] != 0){
         NSString *str;
         str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:str];
+        NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:str
+                                                                     attributes:@{ NSForegroundColorAttributeName: [NSColor textColor] }];
         
         [self postToConsole:attstr];
         
