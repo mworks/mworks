@@ -23,9 +23,9 @@
     NSString *imageName;
     
     if ([value respondsToSelector:@selector(boolValue)] && [value boolValue]) {
-        imageName = [[NSBundle mainBundle] pathForResource:@"ResumeTBIcon" ofType:@"tiff"];
+        imageName = [[NSBundle mainBundle] pathForResource:@"play" ofType:@"png"];
     } else {
-        imageName = [[NSBundle mainBundle] pathForResource:@"PauseTBIcon" ofType:@"tiff"];
+        imageName = [[NSBundle mainBundle] pathForResource:@"pause" ofType:@"png"];
     }
     
     return [[NSImage alloc] initWithContentsOfFile:imageName];

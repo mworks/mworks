@@ -417,9 +417,9 @@
                     <color key="fillColor" name="candybarColor"/>
                 </box>
                 <button id="438">
-                    <rect key="frame" x="11" y="149" width="29" height="30"/>
+                    <rect key="frame" x="11" y="147" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NoX" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="457">
+                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="error" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="457">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system" size="10"/>
                         <connections>
@@ -530,9 +530,9 @@
                     </connections>
                 </textField>
                 <button id="445">
-                    <rect key="frame" x="23" y="106" width="30" height="29"/>
+                    <rect key="frame" x="26" y="106" width="25" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="OpenExperimentTBIcon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="446">
+                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="folder" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="446">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system" size="10"/>
                     </buttonCell>
@@ -615,9 +615,9 @@
                     </connections>
                 </button>
                 <button id="951">
-                    <rect key="frame" x="331" y="111" width="19" height="24"/>
+                    <rect key="frame" x="328" y="111" width="22" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NoX" imagePosition="only" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="952">
+                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="error" imagePosition="only" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="952">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -676,7 +676,7 @@
                         <button id="1008">
                             <rect key="frame" x="19" y="43" width="25" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSAdvanced" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="1009">
+                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="controls" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="1009">
                                 <behavior key="behavior" lightByContents="YES"/>
                                 <font key="font" metaFont="system" size="10"/>
                             </buttonCell>
@@ -695,7 +695,7 @@
                             </connections>
                         </button>
                         <textField verticalHuggingPriority="750" id="502">
-                            <rect key="frame" x="46" y="15" width="216" height="16"/>
+                            <rect key="frame" x="50" y="15" width="216" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="Data File" allowsEditingTextAttributes="YES" id="503">
                                 <font key="font" metaFont="systemBold" size="12"/>
@@ -714,9 +714,9 @@
                             </connections>
                         </textField>
                         <button id="465">
-                            <rect key="frame" x="18" y="11" width="25" height="25"/>
+                            <rect key="frame" x="20" y="11" width="25" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="InstallerLarge" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="466">
+                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="database" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="466">
                                 <behavior key="behavior" lightByContents="YES"/>
                                 <font key="font" metaFont="system" size="10"/>
                             </buttonCell>
@@ -802,9 +802,9 @@
                             </connections>
                         </colorWell>
                         <button id="437">
-                            <rect key="frame" x="269" y="67" width="29" height="31"/>
+                            <rect key="frame" x="269" y="71" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="RunTBIcon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="458">
+                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="play" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="458">
                                 <behavior key="behavior" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -828,9 +828,9 @@
                             </connections>
                         </button>
                         <button id="434">
-                            <rect key="frame" x="296" y="68" width="31" height="36"/>
+                            <rect key="frame" x="301" y="71" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="PauseTBIcon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="461">
+                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="pause" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="461">
                                 <behavior key="behavior" lightByContents="YES"/>
                                 <font key="font" metaFont="system" size="10"/>
                             </buttonCell>
@@ -1517,7 +1517,7 @@
                     <imageView id="945">
                         <rect key="frame" x="21" y="172" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="NoX" id="946"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="error" id="946"/>
                     </imageView>
                     <button verticalHuggingPriority="750" id="947">
                         <rect key="frame" x="248" y="11" width="65" height="28"/>
@@ -2464,9 +2464,9 @@
                                     </comboBoxCell>
                                 </comboBox>
                                 <button id="1057">
-                                    <rect key="frame" x="257" y="20" width="20" height="21"/>
+                                    <rect key="frame" x="257" y="20" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="OpenExperimentTBIcon" imagePosition="overlaps" alignment="center" enabled="NO" imageScaling="proportionallyDown" inset="2" id="1058">
+                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="folder" imagePosition="overlaps" alignment="center" enabled="NO" imageScaling="proportionallyDown" inset="2" id="1058">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
@@ -2608,17 +2608,11 @@
         </window>
     </objects>
     <resources>
-        <image name="InstallerLarge" width="32" height="32"/>
         <image name="NSAddTemplate" width="11" height="11"/>
-        <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSGoRightTemplate" width="9" height="12"/>
         <image name="NSInfo" width="32" height="32"/>
         <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
-        <image name="NoX" width="32" height="32"/>
-        <image name="OpenExperimentTBIcon" width="54" height="53"/>
-        <image name="PauseTBIcon" width="32" height="32"/>
-        <image name="RunTBIcon" width="32" height="32"/>
         <image name="buttonCell:1275:image" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
@@ -3263,6 +3257,12 @@ ANkA2xMXExwTJxMwE0MTRxNSE1sTYBNoE2sTcBN/E4MTihOSE58TpBOmE6gTrRO1E7gTvRPFE8gT2hPd
 E+IAAAAAAAACAQAAAAAAAABBAAAAAAAAAAAAAAAAAAAT5A
 </mutableData>
         </image>
+        <image name="controls" width="43.892147064208984" height="43.892147064208984"/>
+        <image name="database" width="44.677803039550781" height="44.677803039550781"/>
+        <image name="error" width="520" height="520"/>
+        <image name="folder" width="47.938541412353516" height="47.938541412353516"/>
+        <image name="pause" width="520" height="520"/>
+        <image name="play" width="520" height="520"/>
         <namedColor name="candybarColor">
             <color red="0.66600000858306885" green="0.66600000858306885" blue="0.66600000858306885" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
