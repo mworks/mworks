@@ -172,6 +172,7 @@
 				5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */,
 			);
 			name = Classes;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -202,17 +203,18 @@
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
+			path = Source;
 			sourceTree = "<group>";
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5CEDF8180D85D7400044D738 /* Images */,
+				E102336C2225ADFC0027E647 /* Media.xcassets */,
+				E18B840B1552D7C000268197 /* MainMenu.xib */,
 				5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				5CEDF8180D85D7400044D738 /* Images */,
-				E18B840B1552D7C000268197 /* MainMenu.xib */,
-				E102336C2225ADFC0027E647 /* Media.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -465,7 +467,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "New Client_Prefix.pch";
+				GCC_PREFIX_HEADER = "Source/New Client_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = MWClient;
 				WRAPPER_EXTENSION = app;
