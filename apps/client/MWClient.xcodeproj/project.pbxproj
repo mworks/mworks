@@ -39,29 +39,15 @@
 		5C55E10D0D8E00A8000E1CB5 /* NSMenuExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */; };
 		5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */; };
 		5C6DA5150DEF22F7005E496A /* GroupedPluginsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */; };
-		5CD6D2E40D96C20A0042051C /* FileServer_Off.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CD6D2E20D96C20A0042051C /* FileServer_Off.tiff */; };
-		5CD6D2E50D96C20A0042051C /* FileServer_On.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CD6D2E30D96C20A0042051C /* FileServer_On.tiff */; };
-		5CD6D3130D96C57E0042051C /* NotConnected.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CD6D3120D96C57E0042051C /* NotConnected.tiff */; };
 		5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */; };
-		5CEDF82C0D85D7550044D738 /* Clear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8190D85D7550044D738 /* Clear.tiff */; };
-		5CEDF82D0D85D7550044D738 /* ClientConnected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81A0D85D7550044D738 /* ClientConnected.tif */; };
-		5CEDF82E0D85D7550044D738 /* ClientNotConnected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81B0D85D7550044D738 /* ClientNotConnected.tif */; };
 		5CEDF82F0D85D7550044D738 /* ClientProgramIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81C0D85D7550044D738 /* ClientProgramIcon.icns */; };
-		5CEDF8300D85D7550044D738 /* CommandKeyGlyph_nib.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81D0D85D7550044D738 /* CommandKeyGlyph_nib.tiff */; };
-		5CEDF8310D85D7550044D738 /* ComputerTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81E0D85D7550044D738 /* ComputerTBIcon.tiff */; };
-		5CEDF8320D85D7550044D738 /* Console.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81F0D85D7550044D738 /* Console.tiff */; };
-		5CEDF8330D85D7550044D738 /* errorGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8200D85D7550044D738 /* errorGlyph.tif */; };
-		5CEDF8340D85D7550044D738 /* InfoTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8210D85D7550044D738 /* InfoTBIcon.tiff */; };
 		5CEDF8350D85D7550044D738 /* InstallerLarge.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8220D85D7550044D738 /* InstallerLarge.tiff */; };
 		5CEDF8360D85D7550044D738 /* NoX.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8230D85D7550044D738 /* NoX.tiff */; };
 		5CEDF8370D85D7550044D738 /* OkCheck.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8240D85D7550044D738 /* OkCheck.tiff */; };
 		5CEDF8380D85D7550044D738 /* OpenExperimentTBIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8250D85D7550044D738 /* OpenExperimentTBIcon.tif */; };
-		5CEDF8390D85D7550044D738 /* OptionKeyGlyph_nib.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8260D85D7550044D738 /* OptionKeyGlyph_nib.tiff */; };
 		5CEDF83A0D85D7550044D738 /* PauseTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8270D85D7550044D738 /* PauseTBIcon.tiff */; };
 		5CEDF83B0D85D7550044D738 /* RunTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8280D85D7550044D738 /* RunTBIcon.tiff */; };
-		5CEDF83C0D85D7550044D738 /* ShifteyGlyph_nib.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8290D85D7550044D738 /* ShifteyGlyph_nib.tiff */; };
 		5CEDF83D0D85D7550044D738 /* StopTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF82A0D85D7550044D738 /* StopTBIcon.tiff */; };
-		5CEDF83E0D85D7550044D738 /* warningGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF82B0D85D7550044D738 /* warningGlyph.tif */; };
 		5CEDF85D0D85E49D0044D738 /* MWClientInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */; };
 		5CEDF8F10D86247F0044D738 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF8F00D86247F0044D738 /* AppController.m */; };
 		5CEDF93E0D862FC60044D738 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEDF93D0D862FC60044D738 /* MWorksCore.framework */; };
@@ -123,32 +109,18 @@
 		5C6DA5110DEF2237005E496A /* MWGroupedPluginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWGroupedPluginWindowController.h; sourceTree = "<group>"; };
 		5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGroupedPluginWindowController.m; sourceTree = "<group>"; };
 		5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupedPluginsWindow.xib; sourceTree = "<group>"; };
-		5CD6D2E20D96C20A0042051C /* FileServer_Off.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FileServer_Off.tiff; path = Images/FileServer_Off.tiff; sourceTree = "<group>"; };
-		5CD6D2E30D96C20A0042051C /* FileServer_On.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FileServer_On.tiff; path = Images/FileServer_On.tiff; sourceTree = "<group>"; };
-		5CD6D3120D96C57E0042051C /* NotConnected.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NotConnected.tiff; path = Images/NotConnected.tiff; sourceTree = "<group>"; };
 		5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWErrorColorTransformer.h; sourceTree = "<group>"; };
 		5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWErrorColorTransformer.m; sourceTree = "<group>"; };
 		5CE62A60115855F700C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62A61115855F700C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
-		5CEDF8190D85D7550044D738 /* Clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Clear.tiff; path = Images/Clear.tiff; sourceTree = "<group>"; };
-		5CEDF81A0D85D7550044D738 /* ClientConnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClientConnected.tif; path = Images/ClientConnected.tif; sourceTree = "<group>"; };
-		5CEDF81B0D85D7550044D738 /* ClientNotConnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClientNotConnected.tif; path = Images/ClientNotConnected.tif; sourceTree = "<group>"; };
 		5CEDF81C0D85D7550044D738 /* ClientProgramIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ClientProgramIcon.icns; path = Images/ClientProgramIcon.icns; sourceTree = "<group>"; };
-		5CEDF81D0D85D7550044D738 /* CommandKeyGlyph_nib.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = CommandKeyGlyph_nib.tiff; path = Images/CommandKeyGlyph_nib.tiff; sourceTree = "<group>"; };
-		5CEDF81E0D85D7550044D738 /* ComputerTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ComputerTBIcon.tiff; path = Images/ComputerTBIcon.tiff; sourceTree = "<group>"; };
-		5CEDF81F0D85D7550044D738 /* Console.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Console.tiff; path = Images/Console.tiff; sourceTree = "<group>"; };
-		5CEDF8200D85D7550044D738 /* errorGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = errorGlyph.tif; path = Images/errorGlyph.tif; sourceTree = "<group>"; };
-		5CEDF8210D85D7550044D738 /* InfoTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InfoTBIcon.tiff; path = Images/InfoTBIcon.tiff; sourceTree = "<group>"; };
 		5CEDF8220D85D7550044D738 /* InstallerLarge.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InstallerLarge.tiff; path = Images/InstallerLarge.tiff; sourceTree = "<group>"; };
 		5CEDF8230D85D7550044D738 /* NoX.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NoX.tiff; path = Images/NoX.tiff; sourceTree = "<group>"; };
 		5CEDF8240D85D7550044D738 /* OkCheck.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = OkCheck.tiff; path = Images/OkCheck.tiff; sourceTree = "<group>"; };
 		5CEDF8250D85D7550044D738 /* OpenExperimentTBIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = OpenExperimentTBIcon.tif; path = Images/OpenExperimentTBIcon.tif; sourceTree = "<group>"; };
-		5CEDF8260D85D7550044D738 /* OptionKeyGlyph_nib.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = OptionKeyGlyph_nib.tiff; path = Images/OptionKeyGlyph_nib.tiff; sourceTree = "<group>"; };
 		5CEDF8270D85D7550044D738 /* PauseTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PauseTBIcon.tiff; path = Images/PauseTBIcon.tiff; sourceTree = "<group>"; };
 		5CEDF8280D85D7550044D738 /* RunTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = RunTBIcon.tiff; path = Images/RunTBIcon.tiff; sourceTree = "<group>"; };
-		5CEDF8290D85D7550044D738 /* ShifteyGlyph_nib.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ShifteyGlyph_nib.tiff; path = Images/ShifteyGlyph_nib.tiff; sourceTree = "<group>"; };
 		5CEDF82A0D85D7550044D738 /* StopTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StopTBIcon.tiff; path = Images/StopTBIcon.tiff; sourceTree = "<group>"; };
-		5CEDF82B0D85D7550044D738 /* warningGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = warningGlyph.tif; path = Images/warningGlyph.tif; sourceTree = "<group>"; };
 		5CEDF85B0D85E49D0044D738 /* MWClientInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientInstance.h; sourceTree = "<group>"; };
 		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientInstance.m; sourceTree = "<group>"; };
 		5CEDF8EF0D86247F0044D738 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -286,29 +258,15 @@
 		5CEDF8180D85D7400044D738 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5CD6D3120D96C57E0042051C /* NotConnected.tiff */,
-				5CD6D2E20D96C20A0042051C /* FileServer_Off.tiff */,
-				5CD6D2E30D96C20A0042051C /* FileServer_On.tiff */,
-				5CEDF8190D85D7550044D738 /* Clear.tiff */,
-				5CEDF81A0D85D7550044D738 /* ClientConnected.tif */,
-				5CEDF81B0D85D7550044D738 /* ClientNotConnected.tif */,
 				5CEDF81C0D85D7550044D738 /* ClientProgramIcon.icns */,
-				5CEDF81D0D85D7550044D738 /* CommandKeyGlyph_nib.tiff */,
-				5CEDF81E0D85D7550044D738 /* ComputerTBIcon.tiff */,
-				5CEDF81F0D85D7550044D738 /* Console.tiff */,
-				5CEDF8200D85D7550044D738 /* errorGlyph.tif */,
-				5CEDF8210D85D7550044D738 /* InfoTBIcon.tiff */,
 				5CEDF8220D85D7550044D738 /* InstallerLarge.tiff */,
 				5CEDF8230D85D7550044D738 /* NoX.tiff */,
 				5CEDF8240D85D7550044D738 /* OkCheck.tiff */,
 				5CEDF8250D85D7550044D738 /* OpenExperimentTBIcon.tif */,
-				5CEDF8260D85D7550044D738 /* OptionKeyGlyph_nib.tiff */,
 				5CEDF8270D85D7550044D738 /* PauseTBIcon.tiff */,
 				E11416F1157669DF00FFE959 /* ResumeTBIcon.tiff */,
 				5CEDF8280D85D7550044D738 /* RunTBIcon.tiff */,
-				5CEDF8290D85D7550044D738 /* ShifteyGlyph_nib.tiff */,
 				5CEDF82A0D85D7550044D738 /* StopTBIcon.tiff */,
-				5CEDF82B0D85D7550044D738 /* warningGlyph.tif */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -400,29 +358,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				5CEDF82C0D85D7550044D738 /* Clear.tiff in Resources */,
-				5CEDF82D0D85D7550044D738 /* ClientConnected.tif in Resources */,
-				5CEDF82E0D85D7550044D738 /* ClientNotConnected.tif in Resources */,
 				5CEDF82F0D85D7550044D738 /* ClientProgramIcon.icns in Resources */,
-				5CEDF8300D85D7550044D738 /* CommandKeyGlyph_nib.tiff in Resources */,
-				5CEDF8310D85D7550044D738 /* ComputerTBIcon.tiff in Resources */,
-				5CEDF8320D85D7550044D738 /* Console.tiff in Resources */,
-				5CEDF8330D85D7550044D738 /* errorGlyph.tif in Resources */,
-				5CEDF8340D85D7550044D738 /* InfoTBIcon.tiff in Resources */,
 				5CEDF8350D85D7550044D738 /* InstallerLarge.tiff in Resources */,
 				5CEDF8360D85D7550044D738 /* NoX.tiff in Resources */,
 				5CEDF8370D85D7550044D738 /* OkCheck.tiff in Resources */,
 				5CEDF8380D85D7550044D738 /* OpenExperimentTBIcon.tif in Resources */,
-				5CEDF8390D85D7550044D738 /* OptionKeyGlyph_nib.tiff in Resources */,
 				5CEDF83A0D85D7550044D738 /* PauseTBIcon.tiff in Resources */,
 				E102336D2225ADFC0027E647 /* Media.xcassets in Resources */,
 				5CEDF83B0D85D7550044D738 /* RunTBIcon.tiff in Resources */,
-				5CEDF83C0D85D7550044D738 /* ShifteyGlyph_nib.tiff in Resources */,
 				5CEDF83D0D85D7550044D738 /* StopTBIcon.tiff in Resources */,
-				5CEDF83E0D85D7550044D738 /* warningGlyph.tif in Resources */,
-				5CD6D2E40D96C20A0042051C /* FileServer_Off.tiff in Resources */,
-				5CD6D2E50D96C20A0042051C /* FileServer_On.tiff in Resources */,
-				5CD6D3130D96C57E0042051C /* NotConnected.tiff in Resources */,
 				5C6DA5150DEF22F7005E496A /* GroupedPluginsWindow.xib in Resources */,
 				E18B840D1552D7C000268197 /* MainMenu.xib in Resources */,
 				E11416F2157669DF00FFE959 /* ResumeTBIcon.tiff in Resources */,
