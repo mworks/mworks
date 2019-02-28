@@ -171,6 +171,8 @@
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>About</string>
+			<key>FooterText</key>
+			<string>Icon made by Freepik from www.flaticon.com</string>
 		</dict>
 		<dict>
 			<key>Type</key>

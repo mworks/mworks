@@ -1,0 +1,33 @@
+#!/usr/bin/python
+
+import json
+import os
+import sys
+
+from export_icon import export_icon
+
+
+def update_appiconset(appiconset_path):
+    contents_path = os.path.join(appiconset_path, 'Contents.json')
+    with open(contents_path) as fp:
+        contents_json = json.load(fp)
+
+    for info in contents_json['images']:
+        if 'filename' in info:
+            size = float(info['size'].split('x')[0])
+            scale = {
+                '1x': 1,
+                '2x': 2,
+                '3x': 3,
+                }[info['scale']]
+
+            scaled_size = int(size * scale)
+            assert float(scaled_size) / scale == size
+
+            filepath = os.path.join(appiconset_path, info['filename'])
+
+            export_icon(scaled_size, os.path.abspath(filepath))
+
+
+if __name__ == '__main__':
+    update_appiconset(sys.argv[1])

@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>ClientProgramIcon</string>
+	<string>RedMonkey</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.mworks-project.MWClient</string>
 	<key>CFBundleInfoDictionaryVersion</key>

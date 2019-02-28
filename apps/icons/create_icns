@@ -1,0 +1,30 @@
+#!/usr/bin/python
+
+import os
+import shutil
+from subprocess import check_call
+import sys
+import tempfile
+
+from export_icon import export_icon
+
+
+def create_icns(icns_path):
+    iconset_path = tempfile.mkdtemp(suffix='.iconset')
+    try:
+        for size in (16, 32, 128, 256, 512):
+            for scale, suffix in ((1, ''), (2, '@2x')):
+                outputfile = 'icon_%dx%d%s.png' % (size, size, suffix)
+                export_icon(size * scale,
+                            os.path.join(iconset_path, outputfile))
+
+        check_call(['/usr/bin/iconutil',
+                    '-c', 'icns',
+                    '-o', icns_path,
+                    iconset_path])
+    finally:
+        shutil.rmtree(iconset_path)
+
+
+if __name__ == '__main__':
+    create_icns(sys.argv[1])

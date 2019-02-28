@@ -40,7 +40,7 @@
 		5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */; };
 		5C6DA5150DEF22F7005E496A /* GroupedPluginsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */; };
 		5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */; };
-		5CEDF82F0D85D7550044D738 /* ClientProgramIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81C0D85D7550044D738 /* ClientProgramIcon.icns */; };
+		5CEDF82F0D85D7550044D738 /* RedMonkey.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81C0D85D7550044D738 /* RedMonkey.icns */; };
 		5CEDF85D0D85E49D0044D738 /* MWClientInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */; };
 		5CEDF8F10D86247F0044D738 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF8F00D86247F0044D738 /* AppController.m */; };
 		5CEDF93E0D862FC60044D738 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEDF93D0D862FC60044D738 /* MWorksCore.framework */; };
@@ -114,7 +114,7 @@
 		5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWErrorColorTransformer.m; sourceTree = "<group>"; };
 		5CE62A60115855F700C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62A61115855F700C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
-		5CEDF81C0D85D7550044D738 /* ClientProgramIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ClientProgramIcon.icns; path = Images/ClientProgramIcon.icns; sourceTree = "<group>"; };
+		5CEDF81C0D85D7550044D738 /* RedMonkey.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RedMonkey.icns; path = Images/RedMonkey.icns; sourceTree = "<group>"; };
 		5CEDF85B0D85E49D0044D738 /* MWClientInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientInstance.h; sourceTree = "<group>"; };
 		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientInstance.m; sourceTree = "<group>"; };
 		5CEDF8EF0D86247F0044D738 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -263,7 +263,7 @@
 		5CEDF8180D85D7400044D738 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5CEDF81C0D85D7550044D738 /* ClientProgramIcon.icns */,
+				5CEDF81C0D85D7550044D738 /* RedMonkey.icns */,
 				E1172B91222703CB00253D14 /* success.png */,
 				E1172B932227055E00253D14 /* error.png */,
 				E1172B9F2227174B00253D14 /* folder.png */,
@@ -365,7 +365,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				E1172B96222707BA00253D14 /* play.png in Resources */,
 				E1172BA6222723AB00253D14 /* controls.png in Resources */,
-				5CEDF82F0D85D7550044D738 /* ClientProgramIcon.icns in Resources */,
+				5CEDF82F0D85D7550044D738 /* RedMonkey.icns in Resources */,
 				E1172B8E2226DF5200253D14 /* Credits.html in Resources */,
 				E1172B942227055E00253D14 /* error.png in Resources */,
 				E1172B92222703CB00253D14 /* success.png in Resources */,

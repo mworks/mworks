@@ -44,7 +44,7 @@
 		5C9186F60E3697C400B64213 /* URLPathValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9186F50E3697C400B64213 /* URLPathValueTransformer.m */; };
 		5C992CE10E78A9950093A8FF /* SoundStimulusInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C992CDF0E78A9950093A8FF /* SoundStimulusInspectorView.xib */; };
 		5C992CE20E78A9950093A8FF /* WaitInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C992CE00E78A9950093A8FF /* WaitInspectorView.xib */; };
-		5C992DB60E78BFB20093A8FF /* greenmonkey.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5C992DB50E78BFB20093A8FF /* greenmonkey.icns */; };
+		5C992DB60E78BFB20093A8FF /* GreenMonkey.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5C992DB50E78BFB20093A8FF /* GreenMonkey.icns */; };
 		5CAC11050CDA66350064AA4A /* MWExperimentTreeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAC11040CDA66350064AA4A /* MWExperimentTreeController.m */; };
 		5CB03E9A0D201B1D00D43DEA /* SyntheticSaccadeInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CB03E990D201B1D00D43DEA /* SyntheticSaccadeInspectorView.xib */; };
 		5CB03E9E0D201C2C00D43DEA /* AlwaysGoTransitionInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CB03E9D0D201C2C00D43DEA /* AlwaysGoTransitionInspectorView.xib */; };
@@ -144,6 +144,7 @@
 		E12D995816BC39C4004FEF79 /* MWEditor.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D15AC370486D014006FF6A4 /* MWEditor.app */; };
 		E15D0AF616C2AF0300F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF516C2AF0300F331B1 /* AppKit.framework */; };
 		E15D0AF816C2AF3E00F331B1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF716C2AF3E00F331B1 /* Quartz.framework */; };
+		E15EABF72229CD700073C603 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = E15EABF62229CD700073C603 /* Credits.html */; };
 		E1FFCD851558203B004DD840 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD811558203B004DD840 /* MainMenu.xib */; };
 		E1FFCD861558203B004DD840 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD831558203B004DD840 /* MyDocument.xib */; };
 /* End PBXBuildFile section */
@@ -202,7 +203,7 @@
 		5C9186F50E3697C400B64213 /* URLPathValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLPathValueTransformer.m; sourceTree = "<group>"; };
 		5C992CDF0E78A9950093A8FF /* SoundStimulusInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SoundStimulusInspectorView.xib; path = InspectorViews/SoundStimulusInspectorView.xib; sourceTree = "<group>"; };
 		5C992CE00E78A9950093A8FF /* WaitInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WaitInspectorView.xib; path = InspectorViews/WaitInspectorView.xib; sourceTree = "<group>"; };
-		5C992DB50E78BFB20093A8FF /* greenmonkey.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = greenmonkey.icns; sourceTree = "<group>"; };
+		5C992DB50E78BFB20093A8FF /* GreenMonkey.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GreenMonkey.icns; sourceTree = "<group>"; };
 		5CAC10E10CDA353A0064AA4A /* MWXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWXMLElementAdditions.h; sourceTree = "<group>"; };
 		5CAC10E20CDA353A0064AA4A /* MWXMLElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWXMLElementAdditions.m; sourceTree = "<group>"; };
 		5CAC11030CDA66350064AA4A /* MWExperimentTreeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentTreeController.h; sourceTree = "<group>"; };
@@ -321,6 +322,7 @@
 		E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGenericInspectorView.m; sourceTree = "<group>"; };
 		E15D0AF516C2AF0300F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E15D0AF716C2AF3E00F331B1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		E15EABF62229CD700073C603 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		E1FFCD821558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1FFCD841558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -412,6 +414,7 @@
 				E1FFCD811558203B004DD840 /* MainMenu.xib */,
 				E1FFCD831558203B004DD840 /* MyDocument.xib */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
+				E15EABF62229CD700073C603 /* Credits.html */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -493,7 +496,7 @@
 		5CCBABC70CDE627000B42E7B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5C992DB50E78BFB20093A8FF /* greenmonkey.icns */,
+				5C992DB50E78BFB20093A8FF /* GreenMonkey.icns */,
 				5CF72A0A0E59213A00F427AC /* no_graphviz.pdf */,
 				5CF729BC0E58F18900F427AC /* nodes.tif */,
 				5CE065CC0E02B2140097F17F /* staircase_diagram.png */,
@@ -766,9 +769,10 @@
 				5C9186DF0E368F0B00B64213 /* ImageStimulusInspectorView.xib in Resources */,
 				5CF729BD0E58F18900F427AC /* nodes.tif in Resources */,
 				5CF72A0B0E59213A00F427AC /* no_graphviz.pdf in Resources */,
+				E15EABF72229CD700073C603 /* Credits.html in Resources */,
 				5C992CE10E78A9950093A8FF /* SoundStimulusInspectorView.xib in Resources */,
 				5C992CE20E78A9950093A8FF /* WaitInspectorView.xib in Resources */,
-				5C992DB60E78BFB20093A8FF /* greenmonkey.icns in Resources */,
+				5C992DB60E78BFB20093A8FF /* GreenMonkey.icns in Resources */,
 				0EC2F5150EE9B248008BD196 /* MWLibraryCombiner.xsl in Resources */,
 				5C56F6F31010BDA0007E03A9 /* ReportInspectorView.xib in Resources */,
 				5CF17BB310FFA9A800B7EF53 /* LoadStimulusInspectorView.xib in Resources */,
