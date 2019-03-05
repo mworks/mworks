@@ -139,12 +139,12 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* MWXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* MWXMLDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		E115628A222EFA4200D0451F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E1156289222EFA4200D0451F /* Credits.rtf */; };
 		E12449AA11EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */; };
 		E12449C811EB9FF20012EEEB /* MWGenericInspectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */; };
 		E12D995816BC39C4004FEF79 /* MWEditor.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D15AC370486D014006FF6A4 /* MWEditor.app */; };
 		E15D0AF616C2AF0300F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF516C2AF0300F331B1 /* AppKit.framework */; };
 		E15D0AF816C2AF3E00F331B1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF716C2AF3E00F331B1 /* Quartz.framework */; };
-		E15EABF72229CD700073C603 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = E15EABF62229CD700073C603 /* Credits.html */; };
 		E1FFCD851558203B004DD840 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD811558203B004DD840 /* MainMenu.xib */; };
 		E1FFCD861558203B004DD840 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD831558203B004DD840 /* MyDocument.xib */; };
 /* End PBXBuildFile section */
@@ -316,13 +316,13 @@
 		5CF8C3AB0E7975DD00AAA250 /* MWSimpleSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSimpleSoundPlayer.h; sourceTree = "<group>"; };
 		5CF8C3AC0E7975DD00AAA250 /* MWSimpleSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWSimpleSoundPlayer.m; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MWEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1156289222EFA4200D0451F /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		E12449A811EB9D7C0012EEEB /* MWLibraryBrowserMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWLibraryBrowserMatrix.h; sourceTree = "<group>"; };
 		E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWLibraryBrowserMatrix.m; sourceTree = "<group>"; };
 		E12449C611EB9FF20012EEEB /* MWGenericInspectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWGenericInspectorView.h; sourceTree = "<group>"; };
 		E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGenericInspectorView.m; sourceTree = "<group>"; };
 		E15D0AF516C2AF0300F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E15D0AF716C2AF3E00F331B1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
-		E15EABF62229CD700073C603 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		E1FFCD821558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1FFCD841558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -414,7 +414,7 @@
 				E1FFCD811558203B004DD840 /* MainMenu.xib */,
 				E1FFCD831558203B004DD840 /* MyDocument.xib */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
-				E15EABF62229CD700073C603 /* Credits.html */,
+				E1156289222EFA4200D0451F /* Credits.rtf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -714,6 +714,7 @@
 				5CCBABF30CDE627000B42E7B /* smallFolder.tif in Resources */,
 				5CCBABF40CDE627000B42E7B /* smallIOFolder.tif in Resources */,
 				5CCBABF50CDE627000B42E7B /* smallList.tif in Resources */,
+				E115628A222EFA4200D0451F /* Credits.rtf in Resources */,
 				5CCBABF60CDE627000B42E7B /* smallProtocol.tif in Resources */,
 				5CCBABF70CDE627000B42E7B /* smallStimulus.tif in Resources */,
 				5CCBABF80CDE627000B42E7B /* smallStimulusFolder.tif in Resources */,
@@ -769,7 +770,6 @@
 				5C9186DF0E368F0B00B64213 /* ImageStimulusInspectorView.xib in Resources */,
 				5CF729BD0E58F18900F427AC /* nodes.tif in Resources */,
 				5CF72A0B0E59213A00F427AC /* no_graphviz.pdf in Resources */,
-				E15EABF72229CD700073C603 /* Credits.html in Resources */,
 				5C992CE10E78A9950093A8FF /* SoundStimulusInspectorView.xib in Resources */,
 				5C992CE20E78A9950093A8FF /* WaitInspectorView.xib in Resources */,
 				5C992DB60E78BFB20093A8FF /* GreenMonkey.icns in Resources */,

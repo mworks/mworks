@@ -39,12 +39,12 @@
 		0EA0380A0C3D8A9A007C37CF /* MWSServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA038090C3D8A9A007C37CF /* MWSServer.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		E1156288222EF99300D0451F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E1156287222EF99300D0451F /* Credits.rtf */; };
 		E12D996116BC3B39004FEF79 /* MWServer.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* MWServer.app */; };
 		E14742AA193F9BFF00A82D91 /* MWSSetupVariablesController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14742A9193F9BFF00A82D91 /* MWSSetupVariablesController.m */; };
 		E1518A9B1940C25D00ADB7D0 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */; };
 		E15D0AEE16C2ACAA00F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AED16C2ACAA00F331B1 /* AppKit.framework */; };
 		E15D0AF016C2ACB000F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AEF16C2ACB000F331B1 /* libboost_system.a */; };
-		E15EABF52229CCD90073C603 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = E15EABF42229CCD90073C603 /* Credits.html */; };
 		E16A21201E57A49100C48E10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E16A211F1E57A49100C48E10 /* main.m */; };
 		E16A21231E57A49100C48E10 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E16A21221E57A49100C48E10 /* AppDelegate.m */; };
 		E16A21261E57A49100C48E10 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E16A21251E57A49100C48E10 /* ViewController.m */; };
@@ -98,13 +98,13 @@
 		32CA4F630368D1EE00C91783 /* MWServer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServer_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1156287222EF99300D0451F /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		E13A098720AF1674003A678F /* MWServer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MWServer.entitlements; sourceTree = "<group>"; };
 		E14742A8193F9BFF00A82D91 /* MWSSetupVariablesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSSetupVariablesController.h; sourceTree = "<group>"; };
 		E14742A9193F9BFF00A82D91 /* MWSSetupVariablesController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWSSetupVariablesController.m; sourceTree = "<group>"; };
 		E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E15D0AED16C2ACAA00F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E15D0AEF16C2ACB000F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
-		E15EABF42229CCD90073C603 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		E16A21151E579D0F00C48E10 /* iOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_App.xcconfig; sourceTree = "<group>"; };
 		E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_App.xcconfig; sourceTree = "<group>"; };
 		E16A21171E579D0F00C48E10 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -204,7 +204,7 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				E18B83FF1552D61100268197 /* MainMenu.xib */,
-				E15EABF42229CCD90073C603 /* Credits.html */,
+				E1156287222EF99300D0451F /* Credits.rtf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -364,10 +364,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				E1156288222EF99300D0451F /* Credits.rtf in Resources */,
 				E1BB72C61D6B3D460046B14F /* Console.tiff in Resources */,
 				0EA037E00C3D879F007C37CF /* YellowMonkey.icns in Resources */,
 				E18B84011552D61100268197 /* MainMenu.xib in Resources */,
-				E15EABF52229CCD90073C603 /* Credits.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
