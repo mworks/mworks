@@ -347,7 +347,7 @@ Although `actions <Actions>` normally reside inside a `protocol <Protocol>`, you
 
 Actions that are attached to a variable execute every time the variable is assigned a value.  For example, by attaching a `report <Report / Message>` action to a variable, you can log a message every time the variable's value is set::
 
-    var x (0) {
+    var x = 0 {
         report ('x = $x')
     }
 
@@ -355,7 +355,7 @@ Variable-attached actions will execute *even if no protocol is running*.  If you
 
 Be aware that attaching an `assignment <Assign Variable>` to the assignment's target variable will result in `deadlock <https://en.wikipedia.org/wiki/Deadlock>`_::
 
-    var y (0) {
+    var y = 0 {
         // Don't do this!
         y += 1
     }
@@ -401,7 +401,7 @@ Most commonly, replicators are employed in the declaration of related stimuli.  
 
 Because each declaration differs only in the numeric index of the image, you can replace this long, redundant list with a single image declaration contained in a `range replicator <Range Replicator>`::
 
-    var index (scope = local; default_value = 0)
+    var index = 0 (scope = local)
 
     stimulus_group images {
         range_replicator (

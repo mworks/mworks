@@ -32,7 +32,7 @@ fake_monkey eye_tracker {
 
 var reward_duration = 100ms
 var reward_line = false  // e.g. a TTL channel
-var reward (0) {
+var reward = 0 {
     if (reward > 0) {
         play_sound (reward_sound)
         reward_line = true
@@ -383,8 +383,8 @@ protocol 'RSVP' {
 
 
 var cal_fixation_duration = 800ms
-var cal_fix_pos_x (scope = local; default_value = 0)
-var cal_fix_pos_y (scope = local; default_value = 0)
+var cal_fix_pos_x = 0 (scope = local)
+var cal_fix_pos_y = 0 (scope = local)
 
 protocol 'Eye Calibration' {
     report ('******** STARTING CALIBRATION ********')

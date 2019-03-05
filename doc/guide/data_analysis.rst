@@ -44,7 +44,7 @@ Opening and Closing
 To open an event file, use the ``MWKFile`` class from the ``mworks.data`` module::
 
     from mworks.data import MWKFile
-    f = MWKFile('my_data.mwk')
+    f = MWKFile('my_data.mwk2')
     f.open()
 
 When you are done using the file, you should close it::
@@ -53,7 +53,7 @@ When you are done using the file, you should close it::
 
 Alternatively, you can use the `with statement <https://docs.python.org/3/reference/compound_stmts.html#the-with-statement>`_ to handle opening and closing of the file in an implicit, exception-safe fashion::
 
-    with MWKFile('my_data.mwk') as f:
+    with MWKFile('my_data.mwk2') as f:
         # Analysis code goes here
         ...
 
@@ -133,19 +133,19 @@ Selecting Events
 
 To extract events from an event file, use the ``getEvents`` function.  If called with just the filename, this function returns *all* events in the file::
 
-    all_events = getEvents('my_data.mwk')
+    all_events = getEvents('my_data.mwk2')
 
 To extract only events with specific event codes, provide an array containing the desired codes as the second argument::
 
-    events = getEvents('my_data.mwk', [36, 37, 38])
+    events = getEvents('my_data.mwk2', [36, 37, 38])
 
 To further restrict the retrieved events to a particular time range, specify a minimum and maximum time as the third and fourth arguments, respectively::
 
-    events = getEvents('my_data.mwk', [36, 37, 38], t1, t2)
+    events = getEvents('my_data.mwk2', [36, 37, 38], t1, t2)
 
 To extract all events in a given time range, pass an empty array as the second argument::
 
-    events = getEvents('my_data.mwk', [], t1, t2)
+    events = getEvents('my_data.mwk2', [], t1, t2)
 
 
 Accessing Event Data
@@ -180,7 +180,7 @@ The ``getEvents`` function returns a `structure array <https://www.mathworks.com
 
 The ``event_code`` and ``time_us`` fields always have integer values.  However, the type of ``data`` can be logical, integer, floating point, string, `cell <https://www.mathworks.com/help/matlab/cell-arrays.html>`_, `struct <https://www.mathworks.com/help/matlab/structures.html>`_, or `Map <https://www.mathworks.com/help/matlab/map-containers.html>`_::
 
-    >> events = getEvents('my_data.mwk', [6]);
+    >> events = getEvents('my_data.mwk2', [6]);
     >> events(16).data
     
     ans =
@@ -198,7 +198,7 @@ Using the Codec
 
 To convert an event code to a variable name, use the Map returned by the ``getCodec`` function::
 
-    >> codec = getCodec('my_data.mwk');
+    >> codec = getCodec('my_data.mwk2');
     >> codec(36)
     
     ans =
@@ -207,7 +207,7 @@ To convert an event code to a variable name, use the Map returned by the ``getCo
 
 To convert a variable name to an event code, use the Map returned by the ``getReverseCodec`` function::
 
-    >> reverse_codec = getReverseCodec('my_data.mwk');
+    >> reverse_codec = getReverseCodec('my_data.mwk2');
     >> reverse_codec('red_selected')
     
     ans =
