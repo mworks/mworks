@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Check for and offer to backup an existing MWorks installation
+# Check for and back up any existing MWorks installation
 #
 
 set -u
@@ -14,27 +14,5 @@ if ! "${uninstall_mworks}" --check; then
 fi
 
 "${uninstall_mworks}" --backup || exit
-
-/usr/bin/osascript > /dev/null 2>&1 <<EOF
-tell application "System Events"
-    activate
-    display dialog \
-      "Previous MWorks installation backed up to Desktop" \
-      buttons {"OK"} \
-      default button "OK" \
-      with title "Previous Installation Backed Up" \
-      giving up after 10
-end tell
-EOF
-
-/usr/bin/osascript > /dev/null 2>&1 <<EOF
-tell application "System Events"
-    activate
-    set frontmostApp to name of first process whose frontmost is true
-end tell
-tell application frontmostApp
-   activate
-end tell
-EOF
 
 exit 0

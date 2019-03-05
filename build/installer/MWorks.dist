@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <installer-gui-script minSpecVersion="2">
     <title>MWorks</title>
-    <background file="monkeys.pdf" mime-type="application/pdf" alignment="topright" scaling="proportional"/>
     <license file="LICENSE.txt" mime-type="text/plain"/>
-    <options customize="allow" require-scripts="false" rootVolumeOnly="true"/>
+    <options customize="allow" require-scripts="false"/>
+    <domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true"/>
     <choice id="org.mworks-project.pkg.MWorksCoreComponents" title="Core components" enabled="false">
         <pkg-ref id="org.mworks-project.pkg.MWorksCoreComponents">#MWorksCoreComponents.pkg</pkg-ref>
     </choice>
