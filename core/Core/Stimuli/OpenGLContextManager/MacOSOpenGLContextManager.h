@@ -31,7 +31,6 @@ public:
     int getNumDisplays() const override;
     
     OpenGLContextLock setCurrent(int context_id) override;
-    OpenGLContextLock setCurrent(NSOpenGLContext *context);
     void clearCurrent() override;
     
     void prepareContext(int context_id, bool useColorManagement) override;

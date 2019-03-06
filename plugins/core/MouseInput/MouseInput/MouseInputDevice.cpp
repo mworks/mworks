@@ -79,7 +79,7 @@ bool MouseInputDevice::initialize() {
             // Call getCurrentStimulusDisplay() first, as this will ensure that both the stimulus display and
             // the OpenGL context manager exist
             auto stimulusDisplay = StimulusDisplay::getCurrentStimulusDisplay();
-            auto glcm = boost::dynamic_pointer_cast<MacOSOpenGLContextManager>(OpenGLContextManager::instance());
+            auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
             
             // Get the target view and context
             NSOpenGLContext *targetContext = nil;
@@ -96,7 +96,8 @@ bool MouseInputDevice::initialize() {
             
             // Get the parameters needed by GLKMathUnproject
             projectionMatrix = stimulusDisplay->getProjectionMatrix();
-            auto ctxLock = glcm->setCurrent(targetContext);
+            [targetContext makeCurrentContext];
+            OpenGLContextLock ctxLock(targetContext.CGLContextObj);
             glGetIntegerv(GL_VIEWPORT, viewport.data());
         }
         

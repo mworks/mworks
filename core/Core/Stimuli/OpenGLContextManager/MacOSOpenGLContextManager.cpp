@@ -290,18 +290,11 @@ int MacOSOpenGLContextManager::getNumDisplays() const {
 OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
     @autoreleasepool {
         if (auto context = getContext(context_id)) {
-            return setCurrent(context);
+            [context makeCurrentContext];
+            return OpenGLContextLock(context.CGLContextObj);
         }
         return OpenGLContextLock();
     }
-}
-
-
-OpenGLContextLock MacOSOpenGLContextManager::setCurrent(NSOpenGLContext *context) {
-    // This method can only be called from Objective-C code, so we don't need
-    // to provide an autorelease pool
-    [context makeCurrentContext];
-    return OpenGLContextLock(context.CGLContextObj);
 }
 
 
