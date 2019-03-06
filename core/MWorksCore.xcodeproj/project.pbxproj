@@ -393,7 +393,7 @@
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
 		E179169D1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */; };
-		E179169E1E4E27A700528B91 /* MacOSOpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179169E1E4E27A700528B91 /* MacOSOpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */; };
 		E17916A21E4E416C00528B91 /* MacOSStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */; };
 		E17916A31E4E416C00528B91 /* MacOSStimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916A41E4E504C00528B91 /* ExpandableList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30C0AD94214009C0B0B /* ExpandableList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -698,7 +698,7 @@
 		E1F7CBBD21F22B8A003F48A1 /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F7CBB621F22B8A003F48A1 /* EventBlock.cpp */; };
 		E1F7CBBE21F22B8A003F48A1 /* DataFileIndexer.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F7CBB721F22B8A003F48A1 /* DataFileIndexer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1F82A5E1E53532E00A2690B /* IOSOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F82A5C1E53532E00A2690B /* IOSOpenGLContextManager.cpp */; };
-		E1F82A5F1E53532E00A2690B /* IOSOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1F82A5F1E53532E00A2690B /* IOSOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */; };
 		E1FE64112142BEB700209279 /* MWK2File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1FE640F2142BEB700209279 /* MWK2File.cpp */; };
 		E1FE64122142BEB700209279 /* MWK2File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1FE640F2142BEB700209279 /* MWK2File.cpp */; };
 		E1FE64132142BEB700209279 /* MWK2File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1FE64102142BEB700209279 /* MWK2File.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
