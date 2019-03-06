@@ -45,6 +45,26 @@ auto AppleOpenGLContextManager::getContext(int context_id) const -> PlatformCont
 }
 
 
+auto AppleOpenGLContextManager::getFullscreenContext() const -> PlatformContextPtr {
+    @autoreleasepool {
+        if (contexts.count > 0) {
+            return contexts[0];
+        }
+        return nil;
+    }
+}
+
+
+auto AppleOpenGLContextManager::getMirrorContext() const -> PlatformContextPtr {
+    @autoreleasepool {
+        if (contexts.count > 1) {
+            return contexts[1];
+        }
+        return getFullscreenContext();
+    }
+}
+
+
 auto AppleOpenGLContextManager::getView(int context_id) const -> PlatformViewPtr {
     @autoreleasepool {
         if (context_id < 0 || context_id >= views.count) {

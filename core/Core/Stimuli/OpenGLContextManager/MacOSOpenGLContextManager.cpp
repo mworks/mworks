@@ -199,7 +199,7 @@ int MacOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) 
         
         NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
         NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format
-                                                                     shareContext:[getFullscreenView() openGLContext]];
+                                                                     shareContext:getFullscreenContext()];
         if (!opengl_context) {
             [pixel_format release];
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for mirror window");

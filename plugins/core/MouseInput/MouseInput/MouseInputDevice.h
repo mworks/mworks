@@ -49,7 +49,7 @@ private:
     GLKMatrix4 projectionMatrix;
     std::array<GLint, 4> viewport;
     
-    NSOpenGLView *targetView;
+    NSView *targetView;
     MWKMouseTracker *tracker;
     NSTrackingArea *trackingArea;
     

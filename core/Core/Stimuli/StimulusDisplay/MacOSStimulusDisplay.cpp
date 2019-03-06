@@ -97,7 +97,7 @@ void MacOSStimulusDisplay::setDisplayGamma(const Datum &displayInfo) {
     __block CGDirectDisplayID displayID;
     dispatch_sync(dispatch_get_main_queue(), ^{
         auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
-        NSOpenGLView *view = glcm->getView(context_ids.at(0));
+        NSView *view = glcm->getView(context_ids.at(0));
         NSNumber *screenNumber = view.window.screen.deviceDescription[@"NSScreenNumber"];
         displayID = screenNumber.unsignedIntValue;
     });

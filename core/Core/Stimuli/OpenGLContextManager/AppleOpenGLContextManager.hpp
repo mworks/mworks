@@ -29,7 +29,7 @@ class AppleOpenGLContextManager : public OpenGLContextManager {
 public:
 #if TARGET_OS_OSX
     using PlatformContextPtr = NSOpenGLContext *;
-    using PlatformViewPtr = NSOpenGLView *;
+    using PlatformViewPtr = NSView *;
     using PlatformWindowPtr = NSWindow *;
 #elif TARGET_OS_IPHONE
     using PlatformContextPtr = EAGLContext *;
@@ -43,6 +43,9 @@ public:
     ~AppleOpenGLContextManager();
     
     PlatformContextPtr getContext(int context_id) const;
+    PlatformContextPtr getFullscreenContext() const;
+    PlatformContextPtr getMirrorContext() const;
+    
     PlatformViewPtr getView(int context_id) const;
     PlatformViewPtr getFullscreenView() const;
     PlatformViewPtr getMirrorView() const;
