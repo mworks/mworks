@@ -34,6 +34,8 @@ private:
                                         CVOptionFlags *flagsOut,
                                         void *_context);
     
+    CGDirectDisplayID getDisplayIDForContext(int contextIndex) const;
+    
     void prepareContext(int contextIndex) override;
     void setDisplayGamma(const Datum &displayInfo);
     void setMainDisplayRefreshRate() override;

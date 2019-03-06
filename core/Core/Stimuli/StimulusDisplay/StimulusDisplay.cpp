@@ -178,19 +178,23 @@ void StimulusDisplay::allocateFramebufferStorage(int contextIndex) {
     glGenFramebuffers(1, &framebuffer);
     gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
     
-    GLint viewportWidth, viewportHeight;
-    getCurrentViewportSize(viewportWidth, viewportHeight);
-    framebufferTexture = opengl_context_manager->createFramebufferTexture(context_ids.at(contextIndex),
-                                                                          viewportWidth,
-                                                                          viewportHeight,
-                                                                          useColorManagement);
-    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
+    int textureTarget;
+    int viewportWidth, viewportHeight;
+    auto framebufferTexture = opengl_context_manager->createFramebufferTexture(context_ids.at(contextIndex),
+                                                                               useColorManagement,
+                                                                               textureTarget,
+                                                                               viewportWidth,
+                                                                               viewportHeight);
     
-    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, framebufferTexture, 0);
+    glBindTexture(textureTarget, framebufferTexture);
+    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, textureTarget, framebufferTexture, 0);
+    glBindTexture(textureTarget, 0);
     
     if (GL_FRAMEBUFFER_COMPLETE != glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER)) {
         throw SimpleException("OpenGL framebuffer setup failed");
     }
+    
+    glViewport(0, 0, viewportWidth, viewportHeight);
 }
 
 

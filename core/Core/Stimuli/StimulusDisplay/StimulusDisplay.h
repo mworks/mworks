@@ -92,7 +92,6 @@ BEGIN_NAMESPACE_MW
         
         const bool useColorManagement;
         GLuint framebuffer = 0;
-        GLuint framebufferTexture = 0;
         std::vector<std::pair<GLuint, std::vector<GLenum>>> framebufferStack;
         
         virtual void prepareContext(int contextIndex) = 0;

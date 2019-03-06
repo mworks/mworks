@@ -56,7 +56,9 @@
 BEGIN_NAMESPACE_MW
 
 
-IOSOpenGLContextManager::IOSOpenGLContextManager() {
+IOSOpenGLContextManager::IOSOpenGLContextManager() :
+    metalDevice(nil)
+ {
     @autoreleasepool {
         metalDevice = MTLCreateSystemDefaultDevice();
         if (!metalDevice) {
@@ -67,9 +69,12 @@ IOSOpenGLContextManager::IOSOpenGLContextManager() {
 
 
 IOSOpenGLContextManager::~IOSOpenGLContextManager() {
-    // Calling releaseContexts here causes the application to crash at exit.  Since this class is
-    // used as a singleton, it doesn't matter, anyway.
-    //releaseContexts();
+    @autoreleasepool {
+        // Calling releaseContexts here causes the application to crash at exit.  Since this class is
+        // used as a singleton, it doesn't matter, anyway.
+        //releaseContexts();
+        [metalDevice release];
+    }
 }
 
 
@@ -84,12 +89,7 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render
                                   (boost::format("Invalid screen number (%d)") % screen_number).str());
         }
         
-        EAGLSharegroup *sharegroup = nil;
-        if (contexts.count > 0) {
-            sharegroup = contexts[0].sharegroup;
-        }
-        
-        MWKEAGLContext *context = [[MWKEAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:sharegroup];
+        MWKEAGLContext *context = [[MWKEAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
         if (!context) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL ES context");
         }
@@ -107,19 +107,15 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render
                     if (MWKMetalView *view = [[MWKMetalView alloc] initWithFrame:window.bounds device:metalDevice]) {
                         viewController.view = view;
                         view.contentScaleFactor = (render_at_full_resolution ? screen.nativeScale : 1.0);
-                        [EAGLContext setCurrentContext:context];
                         
-                        if ([view prepare]) {
-                            [window makeKeyAndVisible];
-                            
-                            [contexts addObject:context];
-                            [views addObject:view];
-                            [windows addObject:window];
-                            
-                            success = true;
-                        }
+                        [window makeKeyAndVisible];
                         
-                        [EAGLContext setCurrentContext:nil];
+                        [contexts addObject:context];
+                        [views addObject:view];
+                        [windows addObject:window];
+                        
+                        success = true;
+                        
                         [view release];
                     }
                     
@@ -190,56 +186,58 @@ void IOSOpenGLContextManager::clearCurrent() {
 
 
 void IOSOpenGLContextManager::prepareContext(int context_id, bool useColorManagement) {
-    if (useColorManagement) {
-        checkDisplayGamut(context_id);
-    }
-}
-
-
-void IOSOpenGLContextManager::checkDisplayGamut(int context_id) const {
     @autoreleasepool {
-        if (auto view = getView(context_id)) {
-            __block UIDisplayGamut displayGamut;
+        if (auto view = static_cast<MWKMetalView *>(getView(context_id))) {
+            __block bool success = false;
+            
             dispatch_sync(dispatch_get_main_queue(), ^{
-                displayGamut = view.window.screen.traitCollection.displayGamut;
+                NSError *error = nil;
+                if (![view prepareUsingColorManagement:useColorManagement error:&error]) {
+                    merror(mw::M_DISPLAY_MESSAGE_DOMAIN,
+                           "Cannot prepare Metal view: %s",
+                           error.localizedDescription.UTF8String);
+                } else {
+                    if (useColorManagement) {
+                        auto displayGamut = view.window.screen.traitCollection.displayGamut;
+                        switch (displayGamut) {
+                            case UIDisplayGamutSRGB:
+                                // No color conversion required
+                                break;
+                                
+                            case UIDisplayGamutP3: {
+                                //
+                                // According to "What's New in Metal, Part 2" (WWDC 2016, Session 605), applications should
+                                // always render in the sRGB colorspace, even when the target device has a P3 display.  To use
+                                // colors outside of the sRGB gamut, the app needs to use a floating-point color buffer and
+                                // encode the P3-only colors using component values less than 0 or greater than 1 (as in Apple's
+                                // "extended sRGB" color space).  Since MWKMetalView uses an 8 bit per channel, integer color
+                                // buffer, we're always limited to sRGB.
+                                //
+                                // Testing suggests that this approach is correct.  If we draw an image with high color
+                                // saturation and then display it both with and without a Mac-style, LUT-based conversion
+                                // from sRGB to Display P3, the unconverted colors match what we see on a Mac, while the converted
+                                // colors are noticeably duller.  This makes sense, because converting, say, 100% red (255, 0, 0)
+                                // in sRGB to the wider gamut of Display P3 results in smaller numerical values (234, 51, 35).
+                                //
+                                // https://developer.apple.com/videos/play/wwdc2016/605/
+                                //
+                                break;
+                            }
+                                
+                            default:
+                                mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Unknown display gamut (%ld)", displayGamut);
+                                break;
+                        }
+                    }
+                    success = true;
+                }
             });
             
-            switch (displayGamut) {
-                case UIDisplayGamutSRGB:
-                    // No color conversion required
-                    break;
-                    
-                case UIDisplayGamutP3: {
-                    //
-                    // According to "What's New in Metal, Part 2" (WWDC 2016, Session 605), applications should
-                    // always render in the sRGB colorspace, even when the target device has a P3 display.  To use
-                    // colors outside of the sRGB gamut, the app needs to use a floating-point color buffer and
-                    // encode the P3-only colors using component values less than 0 or greater than 1 (as in Apple's
-                    // "extended sRGB" color space).  Since StimulusDisplay uses an 8 bit per channel, integer color
-                    // buffer, we're always limited to sRGB.
-                    //
-                    // Testing suggests that this approach is correct.  If we draw an image with high color
-                    // saturation and then display it both with and without a Mac-style, LUT-based conversion
-                    // from sRGB to Display P3, the unconverted colors match what we see on a Mac, while the converted
-                    // colors are noticeably duller.  This makes sense, because converting, say, 100% red (255, 0, 0)
-                    // in sRGB to the wider gamut of Display P3 results in smaller numerical values (234, 51, 35).
-                    //
-                    // https://developer.apple.com/videos/play/wwdc2016/605/
-                    //
-                    break;
-                }
-                    
-                default:
-                    merror(M_DISPLAY_MESSAGE_DOMAIN, "Unsupported display gamut");
-                    break;
+            if (!success) {
+                throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot prepare OpenGL context");
             }
         }
     }
-}
-
-
-boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
-    return boost::make_shared<IOSOpenGLContextManager>();
 }
 
 

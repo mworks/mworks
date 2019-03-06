@@ -361,6 +361,8 @@
 		E10C1D0922305DC2007094E5 /* MetalOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */; };
 		E10C1D112230626F007094E5 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10C1D0F22306253007094E5 /* Metal.framework */; };
 		E10C1D1222306273007094E5 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10C1D1022306258007094E5 /* MetalKit.framework */; };
+		E10C1D1522306AB9007094E5 /* MacOSOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E10C1D1322306AB9007094E5 /* MacOSOpenGLContextManager.cpp */; };
+		E10C1D1622306AB9007094E5 /* MacOSOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E10C1D1422306AB9007094E5 /* MacOSOpenGLContextManager.hpp */; };
 		E10F94B916CD5A8300A31C5F /* OpenGLContextLock.h in Headers */ = {isa = PBXBuildFile; fileRef = E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E114A02F1E1FF2DD00A69E77 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E114A02E1E1FF2DD00A69E77 /* GLKit.framework */; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1235,6 +1237,8 @@
 		E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetalOpenGLContextManager.hpp; sourceTree = "<group>"; };
 		E10C1D0F22306253007094E5 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		E10C1D1022306258007094E5 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		E10C1D1322306AB9007094E5 /* MacOSOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MacOSOpenGLContextManager.cpp; sourceTree = "<group>"; };
+		E10C1D1422306AB9007094E5 /* MacOSOpenGLContextManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MacOSOpenGLContextManager.hpp; sourceTree = "<group>"; };
 		E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLContextLock.h; sourceTree = "<group>"; };
 		E114A02E1E1FF2DD00A69E77 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
@@ -2387,6 +2391,8 @@
 				E10C1D02223048CC007094E5 /* MetalOpenGLContextManager.cpp */,
 				E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */,
 				E1F82A5C1E53532E00A2690B /* IOSOpenGLContextManager.cpp */,
+				E10C1D1422306AB9007094E5 /* MacOSOpenGLContextManager.hpp */,
+				E10C1D1322306AB9007094E5 /* MacOSOpenGLContextManager.cpp */,
 				E179169C1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.h */,
 				E179169B1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.cpp */,
 			);
@@ -2660,6 +2666,7 @@
 				5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */,
 				5C78EDED115C00EC00151A76 /* DynamicStimulusDriver.h in Headers */,
 				5CD621591174FF3D007339B7 /* FreezableVariableContainer.h in Headers */,
+				E10C1D1622306AB9007094E5 /* MacOSOpenGLContextManager.hpp in Headers */,
 				E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */,
 				E10C1D0922305DC2007094E5 /* MetalOpenGLContextManager.hpp in Headers */,
 				E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */,
@@ -3407,6 +3414,7 @@
 				DA2CE12A07E9F8B200C68AEF /* LoadingUtilities.cpp in Sources */,
 				E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */,
 				DA2CE17E07E9F93900C68AEF /* BlockAndProtocol.cpp in Sources */,
+				E10C1D1522306AB9007094E5 /* MacOSOpenGLContextManager.cpp in Sources */,
 				DA2CE18207E9F93900C68AEF /* Experiment.cpp in Sources */,
 				DA2CE18A07E9F93900C68AEF /* Selection.cpp in Sources */,
 				DA2CE18C07E9F93900C68AEF /* States.cpp in Sources */,

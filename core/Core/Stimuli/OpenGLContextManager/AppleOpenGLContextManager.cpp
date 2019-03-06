@@ -8,6 +8,13 @@
 
 #include "AppleOpenGLContextManager.hpp"
 
+#if TARGET_OS_OSX
+#  include "LegacyMacOSOpenGLContextManager.h"
+#  include "MacOSOpenGLContextManager.hpp"
+#elif TARGET_OS_IPHONE
+#  include "IOSOpenGLContextManager.hpp"
+#endif
+
 
 BEGIN_NAMESPACE_MW
 
@@ -96,30 +103,27 @@ auto AppleOpenGLContextManager::getMirrorView() const -> PlatformViewPtr {
 }
 
 
+boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
+#if TARGET_OS_OSX
+    @autoreleasepool {
+        // Only use the modern, Metal-backed OpenGLContextManager on macOS 10.13 and later,
+        // as the window server did not use Metal in earlier releases (so presumably OpenGL
+        // is more efficient there)
+        if (@available(macOS 10.13, *)) {
+            // Check if Metal is supported by attempting to obtain the default device
+            if (id<MTLDevice> metalDevice = MTLCreateSystemDefaultDevice()) {
+                [metalDevice release];
+                return boost::make_shared<MacOSOpenGLContextManager>();
+            }
+        }
+        return boost::make_shared<LegacyMacOSOpenGLContextManager>();
+    }
+#elif TARGET_OS_IPHONE
+    return boost::make_shared<IOSOpenGLContextManager>();
+#else
+#   error Unsupported platform
+#endif
+}
+
+
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

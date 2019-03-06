@@ -34,7 +34,7 @@ public:
     void clearCurrent() override;
     
     void prepareContext(int context_id, bool useColorManagement) override;
-    int createFramebufferTexture(int context_id, int width, int height, bool srgb) override;
+    int createFramebufferTexture(int context_id, bool useColorManagement, int &target, int &width, int &height) override;
     void flushFramebufferTexture(int context_id) override;
     void drawFramebufferTexture(int src_context_id, int dst_context_id) override;
     

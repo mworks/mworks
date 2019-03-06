@@ -39,6 +39,18 @@ MacOSStimulusDisplay::~MacOSStimulusDisplay() {
 }
 
 
+CGDirectDisplayID MacOSStimulusDisplay::getDisplayIDForContext(int contextIndex) const {
+    __block CGDirectDisplayID displayID;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
+        NSView *view = glcm->getView(context_ids.at(contextIndex));
+        NSNumber *screenNumber = view.window.screen.deviceDescription[@"NSScreenNumber"];
+        displayID = screenNumber.unsignedIntValue;
+    });
+    return displayID;
+}
+
+
 void MacOSStimulusDisplay::prepareContext(int contextIndex) {
     CVDisplayLinkRef dl;
     
@@ -56,14 +68,8 @@ void MacOSStimulusDisplay::prepareContext(int contextIndex) {
         throw SimpleException("Unable to set display link output callback");
     }
     
-    @autoreleasepool {
-        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
-        NSOpenGLContext *ctx = glcm->getContext(context_ids.at(contextIndex));
-        CGLContextObj cglContext = ctx.CGLContextObj;
-        CGLPixelFormatObj cglPixelFormat = ctx.pixelFormat.CGLPixelFormatObj;
-        if (kCVReturnSuccess != CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(dl, cglContext, cglPixelFormat)) {
-            throw SimpleException("Unable to associate display link with OpenGL context");
-        }
+    if (kCVReturnSuccess != CVDisplayLinkSetCurrentCGDisplay(dl, getDisplayIDForContext(contextIndex))) {
+        throw SimpleException("Unable to set current display for display link");
     }
     
     if (0 == contextIndex && !useColorManagement) {
@@ -94,15 +100,7 @@ void MacOSStimulusDisplay::setDisplayGamma(const Datum &displayInfo) {
         return;
     }
     
-    __block CGDirectDisplayID displayID;
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
-        NSView *view = glcm->getView(context_ids.at(0));
-        NSNumber *screenNumber = view.window.screen.deviceDescription[@"NSScreenNumber"];
-        displayID = screenNumber.unsignedIntValue;
-    });
-    
-    auto error = CGSetDisplayTransferByFormula(displayID,
+    auto error = CGSetDisplayTransferByFormula(getDisplayIDForContext(0),
                                                0.0, 1.0, 1.0 / redGamma,
                                                0.0, 1.0, 1.0 / greenGamma,
                                                0.0, 1.0, 1.0 / blueGamma);

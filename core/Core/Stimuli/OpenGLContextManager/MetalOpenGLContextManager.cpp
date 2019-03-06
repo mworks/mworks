@@ -39,12 +39,31 @@ namespace {
          return out;
      }
      
+     float3
+     linearToSRGB(float3 linear)
+     {
+         float3 srgb = mix(12.92 * linear,
+                           1.055 * pow(linear, 1.0/2.4) - 0.055,
+                           float3(linear >= 0.0031308));
+         // To exactly replicate the linear-to-sRGB conversion performed by the GPU, we must first map the
+         // floating-point sRGB color components we just computed back to integers in the range [0, 255],
+         // and then re-normalize them to [0.0, 1.0].  Counterintuitively, this rounding process results in
+         // better-looking output, with less visible banding in grayscale gradients, than using non-rounded
+         // values.
+         return round(srgb * 255.0) / 255.0;
+     }
+     
+     constant bool convertToSRGB [[function_constant(0)]];
+     
      fragment float4
      fragmentShader(RasterizerData in [[stage_in]],
                     texture2d<float> colorTexture [[texture(0)]])
      {
          constexpr sampler textureSampler (mag_filter::linear, min_filter::linear);
-         const float4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
+         float4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
+         if (convertToSRGB) {
+             colorSample.rgb = linearToSRGB(colorSample.rgb);
+         }
          return colorSample;
      }
      )");
@@ -107,33 +126,36 @@ namespace {
 }
 
 
-- (BOOL)prepare {
+- (BOOL)prepareUsingColorManagement:(BOOL)useColorManagement error:(NSError **)error {
     _commandQueue = [self.device newCommandQueue];
     
-    NSError *error = nullptr;
     id<MTLLibrary> library = [[self.device newLibraryWithSource:@(librarySource.c_str())
                                                         options:nil
-                                                          error:&error] autorelease];
+                                                          error:error] autorelease];
     if (!library) {
-        mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN,
-                   "Cannot create Metal library: %s",
-                   error.localizedDescription.UTF8String);
         return NO;
     }
     
+    MTLFunctionConstantValues *functionConstantValues = [[[MTLFunctionConstantValues alloc] init] autorelease];
+    const bool convertToSRGB = useColorManagement;
+    [functionConstantValues setConstantValue:&convertToSRGB type:MTLDataTypeBool atIndex:0];
+    
     id<MTLFunction> vertexFunction = [[library newFunctionWithName:@"vertexShader"] autorelease];
-    id<MTLFunction> fragmentFunction = [[library newFunctionWithName:@"fragmentShader"] autorelease];
+    
+    id<MTLFunction> fragmentFunction = [[library newFunctionWithName:@"fragmentShader"
+                                                      constantValues:functionConstantValues
+                                                               error:error] autorelease];
+    if (!fragmentFunction) {
+        return NO;
+    }
     
     MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[[MTLRenderPipelineDescriptor alloc] init] autorelease];
     pipelineStateDescriptor.vertexFunction = vertexFunction;
     pipelineStateDescriptor.fragmentFunction = fragmentFunction;
     pipelineStateDescriptor.colorAttachments[0].pixelFormat = self.colorPixelFormat;
     
-    _pipelineState = [self.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
+    _pipelineState = [self.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:error];
     if (!_pipelineState) {
-        mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN,
-                   "Cannot create Metal render pipeline state: %s",
-                   error.localizedDescription.UTF8String);
         return NO;
     }
     
@@ -143,9 +165,6 @@ namespace {
     _texCoordsBuffer = [self.device newBufferWithBytes:texCoords
                                                 length:sizeof(texCoords)
                                                options:MTLResourceStorageModeShared];
-    
-    CGSize drawableSize = self.drawableSize;
-    glViewport(0, 0, drawableSize.width, drawableSize.height);
     
     return YES;
 }
@@ -188,36 +207,35 @@ namespace {
 BEGIN_NAMESPACE_MW
 
 
-MetalOpenGLContextManager::MetalOpenGLContextManager() :
-    metalDevice(nil)
-{ }
-
-
-MetalOpenGLContextManager::~MetalOpenGLContextManager() {
-    @autoreleasepool {
-        [metalDevice release];
-    }
-}
-
-
-int MetalOpenGLContextManager::createFramebufferTexture(int context_id, int width, int height, bool srgb) {
+int MetalOpenGLContextManager::createFramebufferTexture(int context_id,
+                                                        bool useColorManagement,
+                                                        int &target,
+                                                        int &width,
+                                                        int &height)
+{
     @autoreleasepool {
         GLuint framebufferTexture = 0;
         
         if (auto view = static_cast<MWKMetalView *>(getView(context_id))) {
             {
+                CGSize drawableSize = view.drawableSize;
+                width = drawableSize.width;
+                height = drawableSize.height;
+            }
+            
+            {
                 NSDictionary *pixelBufferAttributes = @{ (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES),
-#if TARGET_OS_IPHONE
-                                                         (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES),
-#else
+#if TARGET_OS_OSX
                                                          (NSString *)kCVPixelBufferOpenGLCompatibilityKey: @(YES),
+#else
+                                                         (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES),
 #endif
                                                          };
                 CVPixelBufferRef _cvPixelBuffer = nullptr;
                 auto status = CVPixelBufferCreate(kCFAllocatorDefault,
                                                   width,
                                                   height,
-                                                  kCVPixelFormatType_32BGRA,
+                                                  kCVPixelFormatType_64RGBAHalf,
                                                   (CFDictionaryRef)pixelBufferAttributes,
                                                   &_cvPixelBuffer);
                 if (status != kCVReturnSuccess) {
@@ -231,7 +249,7 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id, int widt
                 CVMetalTextureCacheRef _cvMetalTextureCache = nullptr;
                 auto status = CVMetalTextureCacheCreate(kCFAllocatorDefault,
                                                         nil,
-                                                        metalDevice,
+                                                        view.device,
                                                         nil,
                                                         &_cvMetalTextureCache);
                 if (status != kCVReturnSuccess) {
@@ -247,7 +265,7 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id, int widt
                                                                         cvMetalTextureCaches.at(context_id).get(),
                                                                         cvPixelBuffers.at(context_id).get(),
                                                                         nil,
-                                                                        MTLPixelFormatBGRA8Unorm,
+                                                                        MTLPixelFormatRGBA16Float,
                                                                         width,
                                                                         height,
                                                                         0,
@@ -260,21 +278,22 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id, int widt
             }
             
             {
-#if TARGET_OS_IPHONE
+#if TARGET_OS_OSX
+                NSOpenGLContext *context = getContext(context_id);
+                CVOpenGLTextureCacheRef _cvOpenGLTextureCache = nullptr;
+                auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
+                                                         nil,
+                                                         context.CGLContextObj,
+                                                         context.pixelFormat.CGLPixelFormatObj,
+                                                         nil,
+                                                         &_cvOpenGLTextureCache);
+#else
                 CVOpenGLESTextureCacheRef _cvOpenGLTextureCache = nullptr;
                 auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
                                                            nil,
                                                            getContext(context_id),
                                                            nil,
                                                            &_cvOpenGLTextureCache);
-#else
-                CVOpenGLTextureCacheRef _cvOpenGLTextureCache = nullptr;
-                auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
-                                                         nil,
-                                                         getContext(context_id).CGLContextObj,
-                                                         getContext(context_id).pixelFormat.CGLPixelFormatObj,
-                                                         nil,
-                                                         &_cvOpenGLTextureCache);
 #endif
                 if (status != kCVReturnSuccess) {
                     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -284,40 +303,42 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id, int widt
             }
             
             {
-#if TARGET_OS_IPHONE
-                CVOpenGLESTextureRef _cvOpenGLTexture = nullptr;
-                auto status = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-                                                                           cvOpenGLTextureCaches.at(context_id).get(),
-                                                                           cvPixelBuffers.at(context_id).get(),
-                                                                           nil,
-                                                                           GL_TEXTURE_2D,
-                                                                           (srgb ? GL_SRGB8_ALPHA8 : GL_RGBA8),
-                                                                           width,
-                                                                           height,
-                                                                           GL_BGRA_EXT,
-                                                                           GL_UNSIGNED_BYTE,
-                                                                           0,
-                                                                           &_cvOpenGLTexture);
-#else
+#if TARGET_OS_OSX
                 CVOpenGLTextureRef _cvOpenGLTexture = nullptr;
                 auto status = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                                          cvOpenGLTextureCaches.at(context_id).get(),
                                                                          cvPixelBuffers.at(context_id).get(),
                                                                          nil,
                                                                          &_cvOpenGLTexture);
+#else
+                CVOpenGLESTextureRef _cvOpenGLTexture = nullptr;
+                auto status = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                                           cvOpenGLTextureCaches.at(context_id).get(),
+                                                                           cvPixelBuffers.at(context_id).get(),
+                                                                           nil,
+                                                                           GL_TEXTURE_2D,
+                                                                           GL_RGBA16F,
+                                                                           width,
+                                                                           height,
+                                                                           GL_RGBA,
+                                                                           GL_HALF_FLOAT,
+                                                                           0,
+                                                                           &_cvOpenGLTexture);
 #endif
                 if (status != kCVReturnSuccess) {
                     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                                           boost::format("Cannot create OpenGL texture (error = %d)") % status);
                 }
                 cvOpenGLTextures[context_id] = CVOpenGLTexturePtr::created(_cvOpenGLTexture);
-            }
-            
-#if TARGET_OS_IPHONE
-            framebufferTexture = CVOpenGLESTextureGetName(cvOpenGLTextures.at(context_id).get());
+                
+#if TARGET_OS_OSX
+                target = CVOpenGLTextureGetTarget(_cvOpenGLTexture);
+                framebufferTexture = CVOpenGLTextureGetName(_cvOpenGLTexture);
 #else
-            framebufferTexture = CVOpenGLTextureGetName(cvOpenGLTextures.at(context_id).get());
+                target = CVOpenGLESTextureGetTarget(_cvOpenGLTexture);
+                framebufferTexture = CVOpenGLESTextureGetName(_cvOpenGLTexture);
 #endif
+            }
         }
         
         return framebufferTexture;

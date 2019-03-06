@@ -449,14 +449,28 @@ void LegacyMacOSOpenGLContextManager::prepareContext(int context_id, bool useCol
 }
 
 
-int LegacyMacOSOpenGLContextManager::createFramebufferTexture(int context_id, int width, int height, bool srgb) {
+int LegacyMacOSOpenGLContextManager::createFramebufferTexture(int context_id,
+                                                              bool useColorManagement,
+                                                              int &target,
+                                                              int &width,
+                                                              int &height)
+{
+    target = GL_TEXTURE_2D;
+    
+    {
+        GLint viewport[4];
+        glGetIntegerv(GL_VIEWPORT, viewport);
+        width = viewport[2];
+        height = viewport[3];
+    }
+    
     auto &framebufferTexture = framebufferTextures[context_id];
     glGenTextures(1, &framebufferTexture);
-    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
+    glBindTexture(target, framebufferTexture);
     
-    glTexImage2D(GL_TEXTURE_2D,
+    glTexImage2D(target,
                  0,
-                 (srgb ? GL_SRGB8_ALPHA8 : GL_RGBA8),
+                 (useColorManagement ? GL_SRGB8_ALPHA8 : GL_RGBA8),
                  width,
                  height,
                  0,
@@ -464,8 +478,10 @@ int LegacyMacOSOpenGLContextManager::createFramebufferTexture(int context_id, in
                  GL_UNSIGNED_INT_8_8_8_8_REV,
                  nullptr);
     
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    glBindTexture(target, 0);
     
     return framebufferTexture;
 }
@@ -649,35 +665,4 @@ void LegacyMacOSOpenGLContextManager::getColorConversionLUTData(const ColorSyncT
 }
 
 
-boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
-    return boost::make_shared<LegacyMacOSOpenGLContextManager>();
-}
-
-
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

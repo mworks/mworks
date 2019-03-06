@@ -1,13 +1,14 @@
 //
-//  IOSOpenGLContextManager.hpp
+//  MacOSOpenGLContextManager.hpp
 //  MWorksCore
 //
-//  Created by Christopher Stawarz on 2/14/17.
-//
+//  Created by Christopher Stawarz on 3/6/19.
 //
 
-#ifndef IOSOpenGLContextManager_hpp
-#define IOSOpenGLContextManager_hpp
+#ifndef MacOSOpenGLContextManager_hpp
+#define MacOSOpenGLContextManager_hpp
+
+#include <IOKit/pwr_mgt/IOPMLib.h>
 
 #include "MetalOpenGLContextManager.hpp"
 
@@ -15,11 +16,11 @@
 BEGIN_NAMESPACE_MW
 
 
-class IOSOpenGLContextManager : public MetalOpenGLContextManager {
+class MacOSOpenGLContextManager : public MetalOpenGLContextManager {
     
 public:
-    IOSOpenGLContextManager();
-    ~IOSOpenGLContextManager();
+    MacOSOpenGLContextManager();
+    ~MacOSOpenGLContextManager();
     
     int newFullscreenContext(int screen_number, bool render_at_full_resolution, bool opaque) override;
     int newMirrorContext(bool render_at_full_resolution) override;
@@ -34,7 +35,7 @@ public:
     void prepareContext(int context_id, bool useColorManagement) override;
     
 private:
-    id<MTLDevice> metalDevice;
+    IOPMAssertionID display_sleep_block;
     
 };
 
@@ -42,4 +43,4 @@ private:
 END_NAMESPACE_MW
 
 
-#endif /* IOSOpenGLContextManager_hpp */
+#endif /* MacOSOpenGLContextManager_hpp */
