@@ -1,5 +1,5 @@
 /**
- *  MacOSOpenGLContextManager.h
+ *  LegacyMacOSOpenGLContextManager.h
  *
  *  Created by David Cox on Thu Dec 05 2002.
  *  Copyright (c) 2002 MIT. All rights reserved.
@@ -17,11 +17,11 @@
 BEGIN_NAMESPACE_MW
 
 
-class MacOSOpenGLContextManager : public AppleOpenGLContextManager {
+class LegacyMacOSOpenGLContextManager : public AppleOpenGLContextManager {
     
 public:
-    MacOSOpenGLContextManager();
-    ~MacOSOpenGLContextManager();
+    LegacyMacOSOpenGLContextManager();
+    ~LegacyMacOSOpenGLContextManager();
     
     int newFullscreenContext(int screen_number, bool render_at_full_resolution, bool opaque) override;
     int newMirrorContext(bool render_at_full_resolution) override;

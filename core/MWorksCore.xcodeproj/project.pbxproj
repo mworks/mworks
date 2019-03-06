@@ -398,8 +398,8 @@
 		E16A21021E5772AE00C48E10 /* ZenStateSystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4688C00EB9061000B01560 /* ZenStateSystemFactory.cpp */; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
-		E179169D1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */; };
-		E179169E1E4E27A700528B91 /* MacOSOpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */; };
+		E179169D1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E179169B1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.cpp */; };
+		E179169E1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E179169C1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.h */; };
 		E17916A21E4E416C00528B91 /* MacOSStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */; };
 		E17916A31E4E416C00528B91 /* MacOSStimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916A41E4E504C00528B91 /* ExpandableList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30C0AD94214009C0B0B /* ExpandableList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1266,8 +1266,8 @@
 		E16A21141E5789B900C48E10 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
-		E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSOpenGLContextManager.cpp; sourceTree = "<group>"; };
-		E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacOSOpenGLContextManager.h; sourceTree = "<group>"; };
+		E179169B1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = LegacyMacOSOpenGLContextManager.cpp; sourceTree = "<group>"; };
+		E179169C1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LegacyMacOSOpenGLContextManager.h; sourceTree = "<group>"; };
 		E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacOSStimulusDisplay.h; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
@@ -2385,10 +2385,10 @@
 				E19CE0D31E897068005586E5 /* AppleOpenGLContextManager.cpp */,
 				E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */,
 				E10C1D02223048CC007094E5 /* MetalOpenGLContextManager.cpp */,
-				E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */,
-				E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */,
 				E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */,
 				E1F82A5C1E53532E00A2690B /* IOSOpenGLContextManager.cpp */,
+				E179169C1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.h */,
+				E179169B1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.cpp */,
 			);
 			name = OpenGLContextManager;
 			path = Core/Stimuli/OpenGLContextManager;
@@ -2665,7 +2665,7 @@
 				E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */,
 				E127D38C133A5CFC00532496 /* Map.h in Headers */,
 				E188BE951D47F23B0001483A /* ZeroMQSocket.hpp in Headers */,
-				E179169E1E4E27A700528B91 /* MacOSOpenGLContextManager.h in Headers */,
+				E179169E1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.h in Headers */,
 				E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */,
 				E104A8D4133B8D3E00D36236 /* ComponentInfo.h in Headers */,
 				E104A8D8133B8D5900D36236 /* ParameterInfo.h in Headers */,
@@ -3456,7 +3456,7 @@
 				E1F7CBB821F22B8A003F48A1 /* dfindex.cpp in Sources */,
 				DA2B6D53098AAAEC00DDE06D /* StandardSystemEventHandler.cpp in Sources */,
 				DA871F2709995B180084304E /* StandardClientCoreBuilder.cpp in Sources */,
-				E179169D1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp in Sources */,
+				E179169D1E4E27A700528B91 /* LegacyMacOSOpenGLContextManager.cpp in Sources */,
 				5C71CD6C09AA507700EAD886 /* GlobalVariable.cpp in Sources */,
 				E1FE64112142BEB700209279 /* MWK2File.cpp in Sources */,
 				5C71CD6E09AA507700EAD886 /* ExpressionVariable.cpp in Sources */,

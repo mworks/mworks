@@ -1,11 +1,11 @@
 /**
- * MacOSOpenGLContextManager.cpp
+ * LegacyMacOSOpenGLContextManager.cpp
  *
  * Created by David Cox on Thu Dec 05 2002.
  * Copyright (c) 2002 MIT. All rights reserved.
  */
 
-#include "MacOSOpenGLContextManager.h"
+#include "LegacyMacOSOpenGLContextManager.h"
 
 #include "ComponentRegistry.h"
 #include "OpenGLUtilities.hpp"
@@ -60,19 +60,22 @@
 BEGIN_NAMESPACE_MW
 
 
-MacOSOpenGLContextManager::MacOSOpenGLContextManager() :
+LegacyMacOSOpenGLContextManager::LegacyMacOSOpenGLContextManager() :
     display_sleep_block(kIOPMNullAssertionID)
 { }
 
 
-MacOSOpenGLContextManager::~MacOSOpenGLContextManager() {
+LegacyMacOSOpenGLContextManager::~LegacyMacOSOpenGLContextManager() {
     // Calling releaseContexts here causes the application to crash at exit.  Since this class is
     // used as a singleton, it doesn't matter, anyway.
     //releaseContexts();
 }
 
 
-int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render_at_full_resolution, bool opaque) {
+int LegacyMacOSOpenGLContextManager::newFullscreenContext(int screen_number,
+                                                          bool render_at_full_resolution,
+                                                          bool opaque)
+{
     @autoreleasepool {
         if (screen_number < 0 || screen_number >= getNumDisplays()) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -163,7 +166,7 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool rend
 }
 
 
-int MacOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) {
+int LegacyMacOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) {
     @autoreleasepool {
         // Determine the width and height of the mirror window
         
@@ -245,7 +248,7 @@ int MacOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) 
 }
 
 
-void MacOSOpenGLContextManager::releaseContexts() {
+void LegacyMacOSOpenGLContextManager::releaseContexts() {
     @autoreleasepool {
         if (kIOPMNullAssertionID != display_sleep_block) {
             (void)IOPMAssertionRelease(display_sleep_block);  // Ignore the return code
@@ -277,7 +280,7 @@ void MacOSOpenGLContextManager::releaseContexts() {
 }
 
 
-int MacOSOpenGLContextManager::getNumDisplays() const {
+int LegacyMacOSOpenGLContextManager::getNumDisplays() const {
     @autoreleasepool {
         if (auto screens = NSScreen.screens) {
             return screens.count;
@@ -287,7 +290,7 @@ int MacOSOpenGLContextManager::getNumDisplays() const {
 }
 
 
-OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
+OpenGLContextLock LegacyMacOSOpenGLContextManager::setCurrent(int context_id) {
     @autoreleasepool {
         if (auto context = getContext(context_id)) {
             [context makeCurrentContext];
@@ -298,7 +301,7 @@ OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
 }
 
 
-void MacOSOpenGLContextManager::clearCurrent() {
+void LegacyMacOSOpenGLContextManager::clearCurrent() {
     @autoreleasepool {
         [NSOpenGLContext clearCurrentContext];
     }
@@ -403,7 +406,7 @@ namespace {
 }
 
 
-void MacOSOpenGLContextManager::prepareContext(int context_id, bool useColorManagement) {
+void LegacyMacOSOpenGLContextManager::prepareContext(int context_id, bool useColorManagement) {
     auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
     auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, (useColorManagement ?
                                                                 colorManagedFragmentShaderSource :
@@ -446,7 +449,7 @@ void MacOSOpenGLContextManager::prepareContext(int context_id, bool useColorMana
 }
 
 
-int MacOSOpenGLContextManager::createFramebufferTexture(int context_id, int width, int height, bool srgb) {
+int LegacyMacOSOpenGLContextManager::createFramebufferTexture(int context_id, int width, int height, bool srgb) {
     auto &framebufferTexture = framebufferTextures[context_id];
     glGenTextures(1, &framebufferTexture);
     gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
@@ -468,12 +471,12 @@ int MacOSOpenGLContextManager::createFramebufferTexture(int context_id, int widt
 }
 
 
-void MacOSOpenGLContextManager::flushFramebufferTexture(int context_id) {
+void LegacyMacOSOpenGLContextManager::flushFramebufferTexture(int context_id) {
     // We don't need to do anything here, as we'll flush the context in drawFramebufferTexture
 }
 
 
-void MacOSOpenGLContextManager::drawFramebufferTexture(int src_context_id, int dst_context_id) {
+void LegacyMacOSOpenGLContextManager::drawFramebufferTexture(int src_context_id, int dst_context_id) {
     @autoreleasepool {
         if (auto context = getContext(dst_context_id)) {
             gl::ProgramUsage programUsage(programs.at(dst_context_id));
@@ -502,7 +505,7 @@ void MacOSOpenGLContextManager::drawFramebufferTexture(int src_context_id, int d
 }
 
 
-bool MacOSOpenGLContextManager::createColorConversionLUT(int context_id) {
+bool LegacyMacOSOpenGLContextManager::createColorConversionLUT(int context_id) {
     auto lutData = getColorConversionLUTData(context_id);
     auto &colorConversionLUT = colorConversionLUTs[context_id];
     
@@ -534,7 +537,7 @@ bool MacOSOpenGLContextManager::createColorConversionLUT(int context_id) {
 }
 
 
-std::vector<float> MacOSOpenGLContextManager::getColorConversionLUTData(int context_id) {
+std::vector<float> LegacyMacOSOpenGLContextManager::getColorConversionLUTData(int context_id) {
     @autoreleasepool {
         std::vector<float> lutData;
         
@@ -555,8 +558,8 @@ std::vector<float> MacOSOpenGLContextManager::getColorConversionLUTData(int cont
 }
 
 
-auto MacOSOpenGLContextManager::createColorSyncTransform(const ColorSyncProfilePtr &srcProfile,
-                                                         const ColorSyncProfilePtr &dstProfile)
+auto LegacyMacOSOpenGLContextManager::createColorSyncTransform(const ColorSyncProfilePtr &srcProfile,
+                                                               const ColorSyncProfilePtr &dstProfile)
     -> ColorSyncTransformPtr
 {
     std::array<CFTypeRef, 3> keys { kColorSyncProfile, kColorSyncRenderingIntent, kColorSyncTransformTag };
@@ -592,8 +595,8 @@ auto MacOSOpenGLContextManager::createColorSyncTransform(const ColorSyncProfileP
 }
 
 
-void MacOSOpenGLContextManager::getColorConversionLUTData(const ColorSyncTransformPtr &transform,
-                                                          std::vector<float> &lutData)
+void LegacyMacOSOpenGLContextManager::getColorConversionLUTData(const ColorSyncTransformPtr &transform,
+                                                                std::vector<float> &lutData)
 {
     auto gridPoints = cf::NumberPtr::created(CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &numGridPoints));
     std::array<CFTypeRef, 1> optKeys { kColorSyncConversionGridPoints };
@@ -647,7 +650,7 @@ void MacOSOpenGLContextManager::getColorConversionLUTData(const ColorSyncTransfo
 
 
 boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
-    return boost::make_shared<MacOSOpenGLContextManager>();
+    return boost::make_shared<LegacyMacOSOpenGLContextManager>();
 }
 
 
