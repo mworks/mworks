@@ -355,6 +355,8 @@
 		E106CF1C1CA4339B001A0928 /* HighPrecisionClockPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */; };
 		E106CF1D1CA4353C001A0928 /* HighPrecisionClock.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E106CF0C1CA42EDC001A0928 /* HighPrecisionClock.bundle */; };
 		E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E10AECD115DE904300E71CA7 /* IPCUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E10C1D05223048CC007094E5 /* MetalOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E10C1D02223048CC007094E5 /* MetalOpenGLContextManager.cpp */; };
+		E10C1D07223048CC007094E5 /* MetalOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */; };
 		E10F94B916CD5A8300A31C5F /* OpenGLContextLock.h in Headers */ = {isa = PBXBuildFile; fileRef = E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E114A02F1E1FF2DD00A69E77 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E114A02E1E1FF2DD00A69E77 /* GLKit.framework */; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1225,6 +1227,8 @@
 		E106CF191CA43380001A0928 /* HighPrecisionClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighPrecisionClock.h; sourceTree = "<group>"; };
 		E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighPrecisionClockPlugin.cpp; sourceTree = "<group>"; };
 		E10AECD115DE904300E71CA7 /* IPCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCUtilities.h; sourceTree = "<group>"; };
+		E10C1D02223048CC007094E5 /* MetalOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MetalOpenGLContextManager.cpp; sourceTree = "<group>"; };
+		E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetalOpenGLContextManager.hpp; sourceTree = "<group>"; };
 		E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLContextLock.h; sourceTree = "<group>"; };
 		E114A02E1E1FF2DD00A69E77 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
@@ -2371,6 +2375,8 @@
 				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
 				E19CE0D41E897068005586E5 /* AppleOpenGLContextManager.hpp */,
 				E19CE0D31E897068005586E5 /* AppleOpenGLContextManager.cpp */,
+				E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */,
+				E10C1D02223048CC007094E5 /* MetalOpenGLContextManager.cpp */,
 				E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */,
 				E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */,
 				E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */,
@@ -2704,6 +2710,7 @@
 				E17917891E4E573C00528B91 /* OpenALContextManager.h in Headers */,
 				E17916F81E4E529900528B91 /* StandardClientCoreBuilder.h in Headers */,
 				E17916DF1E4E51C300528B91 /* Buffers.h in Headers */,
+				E10C1D07223048CC007094E5 /* MetalOpenGLContextManager.hpp in Headers */,
 				E17917721E4E564400528B91 /* StandardDynamicStimulus.h in Headers */,
 				E17917241E4E53E400528B91 /* Experiment.h in Headers */,
 				E17916B91E4E50DB00528B91 /* ZeroMQUtilities.hpp in Headers */,
@@ -3600,6 +3607,7 @@
 				E179175F1E4E55AD00528B91 /* SimpleStaircase.cpp in Sources */,
 				E17916D41E4E516500528B91 /* SelectionVariable.cpp in Sources */,
 				E17916BE1E4E510C00528B91 /* VariableLoad.cpp in Sources */,
+				E10C1D05223048CC007094E5 /* MetalOpenGLContextManager.cpp in Sources */,
 				E179172A1E4E540200528B91 /* Selectable.cpp in Sources */,
 				E179170B1E4E533100528B91 /* ComponentRegistry.cpp in Sources */,
 				E179175D1E4E559B00528B91 /* FitableFunctions.cpp in Sources */,
