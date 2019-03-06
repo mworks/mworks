@@ -15,6 +15,26 @@
 #include <simd/simd.h>
 
 
+@interface MWKEAGLContext : EAGLContext
+
+- (mw::OpenGLContextLock)lockContext;
+
+@end
+
+
+@implementation MWKEAGLContext {
+    mw::OpenGLContextLock::unique_lock::mutex_type mutex;
+}
+
+
+- (mw::OpenGLContextLock)lockContext {
+    return mw::OpenGLContextLock(mw::OpenGLContextLock::unique_lock(mutex));
+}
+
+
+@end
+
+
 namespace {
     const std::string librarySource
     (R"(
@@ -76,10 +96,6 @@ namespace {
 
 @interface MWKMetalView : MTKView
 
-@property(nonatomic, readonly) EAGLContext *context;
-
-- (instancetype)initWithFrame:(CGRect)frameRect device:(id<MTLDevice>)device context:(EAGLContext *)context;
-- (mw::OpenGLContextLock)lockContext;
 - (BOOL)prepare;
 - (void)drawTexture:(id<MTLTexture>)texture;
 
@@ -87,7 +103,6 @@ namespace {
 
 
 @implementation MWKMetalView {
-    mw::OpenGLContextLock::unique_lock::mutex_type mutex;
     id<MTLCommandQueue> _commandQueue;
     id<MTLRenderPipelineState> _pipelineState;
     id<MTLBuffer> _vertexPositionBuffer;
@@ -96,27 +111,12 @@ namespace {
 }
 
 
-- (instancetype)initWithFrame:(CGRect)frameRect device:(id<MTLDevice>)device context:(EAGLContext *)context {
-    self = [super initWithFrame:frameRect device:device];
-    if (self) {
-        _context = [context retain];
-    }
-    return self;
-}
-
-
 - (void)dealloc {
     [_texCoordsBuffer release];
     [_vertexPositionBuffer release];
     [_pipelineState release];
     [_commandQueue release];
-    [_context release];
     [super dealloc];
-}
-
-
-- (mw::OpenGLContextLock)lockContext {
-    return mw::OpenGLContextLock(mw::OpenGLContextLock::unique_lock(mutex));
 }
 
 
@@ -256,10 +256,10 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render
         
         EAGLSharegroup *sharegroup = nil;
         if (contexts.count > 0) {
-            sharegroup = static_cast<EAGLContext *>(contexts[0]).sharegroup;
+            sharegroup = contexts[0].sharegroup;
         }
         
-        EAGLContext *context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:sharegroup];
+        MWKEAGLContext *context = [[MWKEAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:sharegroup];
         if (!context) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL ES context");
         }
@@ -274,10 +274,7 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render
                 if (MWKMetalViewController *viewController = [[MWKMetalViewController alloc] init]) {
                     window.rootViewController = viewController;
                     
-                    if (MWKMetalView *view = [[MWKMetalView alloc] initWithFrame:window.bounds
-                                                                          device:metalDevice
-                                                                         context:context])
-                    {
+                    if (MWKMetalView *view = [[MWKMetalView alloc] initWithFrame:window.bounds device:metalDevice]) {
                         viewController.view = view;
                         view.contentScaleFactor = (render_at_full_resolution ? screen.nativeScale : 1.0);
                         view.paused = YES;
@@ -350,9 +347,9 @@ int IOSOpenGLContextManager::getNumDisplays() const {
 
 OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
     @autoreleasepool {
-        if (auto view = static_cast<MWKMetalView *>(getView(context_id))) {
-            if ([EAGLContext setCurrentContext:view.context]) {
-                return [view lockContext];
+        if (auto context = static_cast<MWKEAGLContext *>(getContext(context_id))) {
+            if ([EAGLContext setCurrentContext:context]) {
+                return [context lockContext];
             }
             merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot set current OpenGL ES context");
         }
@@ -433,7 +430,7 @@ int IOSOpenGLContextManager::createFramebufferTexture(int context_id, int width,
                 CVOpenGLESTextureCacheRef _cvOpenGLESTextureCache = nullptr;
                 auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
                                                            nil,
-                                                           view.context,
+                                                           getContext(context_id),
                                                            nil,
                                                            &_cvOpenGLESTextureCache);
                 if (status != kCVReturnSuccess) {
