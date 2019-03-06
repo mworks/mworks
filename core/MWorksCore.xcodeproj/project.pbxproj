@@ -357,6 +357,10 @@
 		E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E10AECD115DE904300E71CA7 /* IPCUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E10C1D05223048CC007094E5 /* MetalOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E10C1D02223048CC007094E5 /* MetalOpenGLContextManager.cpp */; };
 		E10C1D07223048CC007094E5 /* MetalOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */; };
+		E10C1D0822305DBF007094E5 /* MetalOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E10C1D02223048CC007094E5 /* MetalOpenGLContextManager.cpp */; };
+		E10C1D0922305DC2007094E5 /* MetalOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */; };
+		E10C1D112230626F007094E5 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10C1D0F22306253007094E5 /* Metal.framework */; };
+		E10C1D1222306273007094E5 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10C1D1022306258007094E5 /* MetalKit.framework */; };
 		E10F94B916CD5A8300A31C5F /* OpenGLContextLock.h in Headers */ = {isa = PBXBuildFile; fileRef = E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E114A02F1E1FF2DD00A69E77 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E114A02E1E1FF2DD00A69E77 /* GLKit.framework */; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1229,6 +1233,8 @@
 		E10AECD115DE904300E71CA7 /* IPCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCUtilities.h; sourceTree = "<group>"; };
 		E10C1D02223048CC007094E5 /* MetalOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MetalOpenGLContextManager.cpp; sourceTree = "<group>"; };
 		E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetalOpenGLContextManager.hpp; sourceTree = "<group>"; };
+		E10C1D0F22306253007094E5 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		E10C1D1022306258007094E5 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLContextLock.h; sourceTree = "<group>"; };
 		E114A02E1E1FF2DD00A69E77 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
@@ -1408,6 +1414,8 @@
 				E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */,
 				E114A02F1E1FF2DD00A69E77 /* GLKit.framework in Frameworks */,
 				E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */,
+				E10C1D112230626F007094E5 /* Metal.framework in Frameworks */,
+				E10C1D1222306273007094E5 /* MetalKit.framework in Frameworks */,
 				E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */,
 				E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */,
 				E1DB975316C16C65001481E9 /* libboost_filesystem.a in Frameworks */,
@@ -2439,6 +2447,8 @@
 				E1DB974A16C16C1F001481E9 /* CoreVideo.framework */,
 				E114A02E1E1FF2DD00A69E77 /* GLKit.framework */,
 				E1DB974E16C16C3F001481E9 /* IOKit.framework */,
+				E10C1D0F22306253007094E5 /* Metal.framework */,
+				E10C1D1022306258007094E5 /* MetalKit.framework */,
 				E1DB975C16C16CA1001481E9 /* OpenAL.framework */,
 				E1DB975D16C16CA1001481E9 /* OpenGL.framework */,
 				E1D9BAD42200C80100D63D59 /* libcompression.tbd */,
@@ -2651,6 +2661,7 @@
 				5C78EDED115C00EC00151A76 /* DynamicStimulusDriver.h in Headers */,
 				5CD621591174FF3D007339B7 /* FreezableVariableContainer.h in Headers */,
 				E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */,
+				E10C1D0922305DC2007094E5 /* MetalOpenGLContextManager.hpp in Headers */,
 				E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */,
 				E127D38C133A5CFC00532496 /* Map.h in Headers */,
 				E188BE951D47F23B0001483A /* ZeroMQSocket.hpp in Headers */,
@@ -3497,6 +3508,7 @@
 				5CD6215A1174FF3D007339B7 /* FreezableVariableContainer.cpp in Sources */,
 				E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */,
 				E188BE941D47F23B0001483A /* ZeroMQSocket.cpp in Sources */,
+				E10C1D0822305DBF007094E5 /* MetalOpenGLContextManager.cpp in Sources */,
 				E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */,
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,

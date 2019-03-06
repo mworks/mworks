@@ -46,6 +46,9 @@ private:
 #if TARGET_OS_IPHONE
     using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLESTextureCacheRef>;
     using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLESTextureRef>;
+#else
+    using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLTextureCacheRef>;
+    using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLTextureRef>;
 #endif
     
     std::map<int, CVPixelBufferPtr> cvPixelBuffers;

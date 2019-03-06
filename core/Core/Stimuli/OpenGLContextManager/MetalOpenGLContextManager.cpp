@@ -209,6 +209,8 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id, int widt
                 NSDictionary *pixelBufferAttributes = @{ (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES),
 #if TARGET_OS_IPHONE
                                                          (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES),
+#else
+                                                         (NSString *)kCVPixelBufferOpenGLCompatibilityKey: @(YES),
 #endif
                                                          };
                 CVPixelBufferRef _cvPixelBuffer = nullptr;
@@ -265,6 +267,14 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id, int widt
                                                            getContext(context_id),
                                                            nil,
                                                            &_cvOpenGLTextureCache);
+#else
+                CVOpenGLTextureCacheRef _cvOpenGLTextureCache = nullptr;
+                auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
+                                                         nil,
+                                                         getContext(context_id).CGLContextObj,
+                                                         getContext(context_id).pixelFormat.CGLPixelFormatObj,
+                                                         nil,
+                                                         &_cvOpenGLTextureCache);
 #endif
                 if (status != kCVReturnSuccess) {
                     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -288,6 +298,13 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id, int widt
                                                                            GL_UNSIGNED_BYTE,
                                                                            0,
                                                                            &_cvOpenGLTexture);
+#else
+                CVOpenGLTextureRef _cvOpenGLTexture = nullptr;
+                auto status = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                                         cvOpenGLTextureCaches.at(context_id).get(),
+                                                                         cvPixelBuffers.at(context_id).get(),
+                                                                         nil,
+                                                                         &_cvOpenGLTexture);
 #endif
                 if (status != kCVReturnSuccess) {
                     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -298,6 +315,8 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id, int widt
             
 #if TARGET_OS_IPHONE
             framebufferTexture = CVOpenGLESTextureGetName(cvOpenGLTextures.at(context_id).get());
+#else
+            framebufferTexture = CVOpenGLTextureGetName(cvOpenGLTextures.at(context_id).get());
 #endif
         }
         
