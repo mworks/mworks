@@ -78,7 +78,7 @@ IOSOpenGLContextManager::~IOSOpenGLContextManager() {
 }
 
 
-int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render_at_full_resolution, bool opaque) {
+int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque) {
     //
     // NOTE: We always make iOS windows opaque, as there's nothing to show through them from behind
     //
@@ -106,7 +106,6 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render
                     
                     if (MWKMetalView *view = [[MWKMetalView alloc] initWithFrame:window.bounds device:metalDevice]) {
                         viewController.view = view;
-                        view.contentScaleFactor = (render_at_full_resolution ? screen.nativeScale : 1.0);
                         
                         [window makeKeyAndVisible];
                         
@@ -137,7 +136,7 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render
 }
 
 
-int IOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) {
+int IOSOpenGLContextManager::newMirrorContext() {
     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Mirror windows are not supported on this OS");
 }
 

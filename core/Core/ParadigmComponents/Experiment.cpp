@@ -209,7 +209,6 @@ void Experiment::prepareStimulusDisplay() {
     bool always_display_mirror_window = false;
     int display_to_use = 0;
     bool announce_individual_stimuli = true;
-    bool render_at_full_resolution = true;
     bool use_color_management = true;
     bool make_window_opaque = true;
     
@@ -226,10 +225,6 @@ void Experiment::prepareStimulusDisplay() {
         
         if (val.hasKey(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY)) {
             announce_individual_stimuli = (bool)val.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY);
-        }
-        
-        if (val.hasKey(M_RENDER_AT_FULL_RESOLUTION_KEY)) {
-            render_at_full_resolution = (bool)val.getElement(M_RENDER_AT_FULL_RESOLUTION_KEY);
         }
         
         if (val.hasKey(M_USE_COLOR_MANAGEMENT_KEY)) {
@@ -254,17 +249,15 @@ void Experiment::prepareStimulusDisplay() {
             display_to_use = 1;
         }
         
-        auto new_context = opengl_context_manager->newFullscreenContext(display_to_use,
-                                                                        render_at_full_resolution,
-                                                                        make_window_opaque);
+        auto new_context = opengl_context_manager->newFullscreenContext(display_to_use, make_window_opaque);
         stimulus_display->addContext(new_context);
         
         if (always_display_mirror_window) {
-            auto auxilliary_context = opengl_context_manager->newMirrorContext(render_at_full_resolution);
+            auto auxilliary_context = opengl_context_manager->newMirrorContext();
             stimulus_display->addContext(auxilliary_context);
         }
     } else {
-        auto new_context = opengl_context_manager->newMirrorContext(render_at_full_resolution);
+        auto new_context = opengl_context_manager->newMirrorContext();
         stimulus_display->addContext(new_context);
     }
     

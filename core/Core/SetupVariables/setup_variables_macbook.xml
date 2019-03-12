@@ -38,10 +38,6 @@
                     <value type="integer">1</value>
                 </dictionary_element>    
                 <dictionary_element>
-                    <key>render_at_full_resolution</key>
-                    <value type="integer">1</value>
-                </dictionary_element>
-                <dictionary_element>
                     <key>use_color_management</key>
                     <value type="integer">1</value>
                 </dictionary_element>

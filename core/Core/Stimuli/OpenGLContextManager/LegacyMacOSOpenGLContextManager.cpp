@@ -72,10 +72,7 @@ LegacyMacOSOpenGLContextManager::~LegacyMacOSOpenGLContextManager() {
 }
 
 
-int LegacyMacOSOpenGLContextManager::newFullscreenContext(int screen_number,
-                                                          bool render_at_full_resolution,
-                                                          bool opaque)
-{
+int LegacyMacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque) {
     @autoreleasepool {
         if (screen_number < 0 || screen_number >= getNumDisplays()) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -132,9 +129,7 @@ int LegacyMacOSOpenGLContextManager::newFullscreenContext(int screen_number,
             NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
             
             MWKOpenGLView *fullscreen_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
-            if (render_at_full_resolution) {
-                fullscreen_view.wantsBestResolutionOpenGLSurface = YES;
-            }
+            fullscreen_view.wantsBestResolutionOpenGLSurface = YES;
             fullscreen_view.opaque = opaque;
             [fullscreen_window setContentView:fullscreen_view];
             [fullscreen_view setOpenGLContext:opengl_context];
@@ -166,7 +161,7 @@ int LegacyMacOSOpenGLContextManager::newFullscreenContext(int screen_number,
 }
 
 
-int LegacyMacOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) {
+int LegacyMacOSOpenGLContextManager::newMirrorContext() {
     @autoreleasepool {
         // Determine the width and height of the mirror window
         
@@ -224,9 +219,7 @@ int LegacyMacOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolu
             
             NSRect view_rect = NSMakeRect(0.0, 0.0, mirror_rect.size.width, mirror_rect.size.height);
             MWKOpenGLView *mirror_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
-            if (render_at_full_resolution) {
-                mirror_view.wantsBestResolutionOpenGLSurface = YES;
-            }
+            mirror_view.wantsBestResolutionOpenGLSurface = YES;
             [mirror_window setContentView:mirror_view];
             [mirror_view setOpenGLContext:opengl_context];
             [opengl_context setView:mirror_view];

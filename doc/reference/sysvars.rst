@@ -58,9 +58,6 @@ The following keys are recognized.  If a key is omitted, the default value is us
    * - ``announce_individual_stimuli``
      - True or false, indicating whether stimuli should be announced individually when presented (via `#announceStimulus`_ events), in addition to being announced in `#stimDisplayUpdate`_ events
      - ``true``
-   * - ``render_at_full_resolution``
-     - If true, stimuli are rendered at the full, native resolution of the display.  Otherwise, stimuli are rendered at a resolution where one pixel is equal to one "point", as defined by the operating system; depending on the pixel density of the display, this resolution may be lower than the display's native resolution.
-     - ``true``
    * - ``use_color_management``
      - True or false, indicating whether the stimulus display pipeline should perform `color management <https://en.wikipedia.org/wiki/Color_management>`_.  If color management is enabled, stimuli are rendered in a "linearized" `sRGB color space <https://en.wikipedia.org/wiki/SRGB>`_, and each frame is converted to the target display's color space before being presented.  Otherwise, rendering takes place in the (typically non-linear) color space of the display, and no color conversion is performed.
      - ``true``

@@ -21,8 +21,8 @@ public:
     IOSOpenGLContextManager();
     ~IOSOpenGLContextManager();
     
-    int newFullscreenContext(int screen_number, bool render_at_full_resolution, bool opaque) override;
-    int newMirrorContext(bool render_at_full_resolution) override;
+    int newFullscreenContext(int screen_number, bool opaque) override;
+    int newMirrorContext() override;
     
     void releaseContexts() override;
     

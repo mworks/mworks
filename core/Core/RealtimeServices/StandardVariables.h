@@ -168,7 +168,6 @@ extern shared_ptr<Variable> loadedExperiment;
 #define M_MIRROR_WINDOW_BASE_HEIGHT_KEY		"mirror_window_base_height"
 #define M_REFRESH_RATE_KEY					"refresh_rate_hz"
 #define M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY	"announce_individual_stimuli"
-#define M_RENDER_AT_FULL_RESOLUTION_KEY     "render_at_full_resolution"
 #define M_USE_COLOR_MANAGEMENT_KEY          "use_color_management"
 #define M_SET_DISPLAY_GAMMA_KEY             "set_display_gamma"
 #define M_DISPLAY_GAMMA_RED_KEY             "red_gamma"

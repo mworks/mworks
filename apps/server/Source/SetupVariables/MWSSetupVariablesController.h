@@ -21,7 +21,6 @@
 @property(nonatomic) BOOL alwaysDisplayMirrorWindow;
 @property(nonatomic, strong) NSNumber *mirrorWindowBaseHeight;
 @property(nonatomic) BOOL announceIndividualStimuli;
-@property(nonatomic) BOOL renderAtFullResolution;
 @property(nonatomic) BOOL useColorManagement;
 @property(nonatomic) BOOL setDisplayGamma;
 @property(nonatomic, strong) NSNumber *redGamma;

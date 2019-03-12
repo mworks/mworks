@@ -44,7 +44,6 @@
                 _alwaysDisplayMirrorWindow = getValueWithDefault(mdi, M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, false).getBool();
                 _mirrorWindowBaseHeight = @(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat());
                 _announceIndividualStimuli = getValueWithDefault(mdi, M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY, true).getBool();
-                _renderAtFullResolution = getValueWithDefault(mdi, M_RENDER_AT_FULL_RESOLUTION_KEY, true).getBool();
                 _useColorManagement = getValueWithDefault(mdi, M_USE_COLOR_MANAGEMENT_KEY, true).getBool();
                 _setDisplayGamma = getValueWithDefault(mdi, M_SET_DISPLAY_GAMMA_KEY, false).getBool();
                 _redGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_RED_KEY, 0.0).getFloat());
@@ -153,14 +152,6 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
     [self updateVariable:mw::mainDisplayInfo
                      key:M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY
                    value:bool(announceIndividualStimuli)];
-}
-
-
-- (void)setRenderAtFullResolution:(BOOL)renderAtFullResolution {
-    _renderAtFullResolution = renderAtFullResolution;
-    [self updateVariable:mw::mainDisplayInfo
-                     key:M_RENDER_AT_FULL_RESOLUTION_KEY
-                   value:bool(renderAtFullResolution)];
 }
 
 

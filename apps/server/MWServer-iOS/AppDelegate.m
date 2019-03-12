@@ -25,7 +25,6 @@
 #define DISPLAY_HEIGHT_PREFERENCE @"display_height_preference"
 #define DISPLAY_DISTANCE_PREFERENCE @"display_distance_preference"
 #define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
-#define RENDER_AT_FULL_RESOLUTION_PREFERENCE @"render_at_full_resolution_preference"
 #define USE_COLOR_MANAGEMENT_PREFERENCE @"use_color_management_preference"
 #define DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE @"did_install_example_experiments_preference"
 
@@ -43,7 +42,6 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
       DISPLAY_HEIGHT_PREFERENCE: @(280),
       DISPLAY_DISTANCE_PREFERENCE: @(450),
       ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
-      RENDER_AT_FULL_RESOLUTION_PREFERENCE: @(YES),
       USE_COLOR_MANAGEMENT_PREFERENCE: @(YES),
       DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE: @(NO)
       };
@@ -68,7 +66,6 @@ static void initializeSetupVariables(NSUserDefaults *userDefaults,
     setupVariablesController.alwaysDisplayMirrorWindow = NO;
     setupVariablesController.mirrorWindowBaseHeight = @(0);
     setupVariablesController.announceIndividualStimuli = [userDefaults boolForKey:ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE];
-    setupVariablesController.renderAtFullResolution = [userDefaults boolForKey:RENDER_AT_FULL_RESOLUTION_PREFERENCE];
     setupVariablesController.useColorManagement = [userDefaults boolForKey:USE_COLOR_MANAGEMENT_PREFERENCE];
     
     setupVariablesController.warnOnSkippedRefresh = [userDefaults boolForKey:WARN_ON_SKIPPED_REFRESH_PREFERENCE];

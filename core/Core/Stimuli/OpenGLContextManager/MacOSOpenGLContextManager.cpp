@@ -70,7 +70,7 @@ static id<MTLDevice> getMetalDeviceForScreen(NSScreen *screen) {
 }
 
 
-int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool render_at_full_resolution, bool opaque) {
+int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque) {
     @autoreleasepool {
         if (screen_number < 0 || screen_number >= getNumDisplays()) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -104,10 +104,6 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool rend
                                                                       device:getMetalDeviceForScreen(screen)])
                 {
                     window.contentView = view;
-                    if (!render_at_full_resolution) {
-                        view.layer.contentsScale = 1.0;
-                        view.drawableSize = view.bounds.size;
-                    }
                     view.layer.opaque = opaque;
                     
                     [window makeKeyAndOrderFront:nil];
@@ -145,7 +141,7 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool rend
 }
 
 
-int MacOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) {
+int MacOSOpenGLContextManager::newMirrorContext() {
     @autoreleasepool {
         MWKOpenGLContext *context = [[MWKOpenGLContext alloc] init];
         if (!context) {
@@ -187,10 +183,6 @@ int MacOSOpenGLContextManager::newMirrorContext(bool render_at_full_resolution) 
                                                                       device:metalDevice])
                 {
                     window.contentView = view;
-                    if (!render_at_full_resolution) {
-                        view.layer.contentsScale = 1.0;
-                        view.drawableSize = view.bounds.size;
-                    }
                     
                     [window makeKeyAndOrderFront:nil];
                     
