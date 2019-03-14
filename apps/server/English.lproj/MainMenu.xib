@@ -312,6 +312,7 @@
             <connections>
                 <outlet property="advancedDisplayPreferencesWindow" destination="jSI-LS-Lh6" id="eXF-7n-TP7"/>
                 <outlet property="preferencesWindow" destination="3PL-gq-ATj" id="Nw9-wk-PL2"/>
+                <outlet property="preferencesWindowTabView" destination="Vol-j0-I8A" id="k3A-KG-DPQ"/>
             </connections>
         </customObject>
         <customObject id="YTj-mv-19p" customClass="MWSSetupVariablesController"/>
@@ -661,6 +662,9 @@
                                 </view>
                             </tabViewItem>
                         </tabViewItems>
+                        <connections>
+                            <outlet property="delegate" destination="206" id="gNZ-zF-NI1"/>
+                        </connections>
                     </tabView>
                 </subviews>
             </view>

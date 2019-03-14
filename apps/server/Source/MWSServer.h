@@ -12,9 +12,10 @@
 #import <MWorksCocoa/MWClientServerBase.h>
 
 
-@interface MWSServer : NSObject <NSApplicationDelegate, MWClientServerBase>
+@interface MWSServer : NSObject <NSApplicationDelegate, NSTabViewDelegate, MWClientServerBase>
 
 @property(nonatomic, weak) IBOutlet NSWindow *preferencesWindow;
+@property(nonatomic, weak) IBOutlet NSTabView *preferencesWindowTabView;
 @property(nonatomic, weak) IBOutlet NSWindow *advancedDisplayPreferencesWindow;
 
 - (IBAction)launchDocs:(id)sender;

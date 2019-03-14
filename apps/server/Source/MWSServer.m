@@ -18,6 +18,7 @@
 
 #define DEFAULTS_AUTO_OPEN_CLIENT @"autoOpenClient"
 #define DEFAULTS_AUTO_OPEN_CONSOLE @"autoOpenConsole"
+#define DEFAULTS_CURRENT_PREFERENCES_TAB_INDEX @"currentPreferencesTabIndex"
 
 #define MWORKS_DOC_PATH @"/Library/Application Support/MWorks/Documentation/index.html"
 #define MWORKS_HELP_URL @"https://mworks.tenderapp.com/"
@@ -46,6 +47,7 @@
         defaultValues[LISTENING_PORT_KEY] = @19989;
         defaultValues[DEFAULTS_AUTO_OPEN_CLIENT] = @NO;
         defaultValues[DEFAULTS_AUTO_OPEN_CONSOLE] = @NO;
+        defaultValues[DEFAULTS_CURRENT_PREFERENCES_TAB_INDEX] = @0;
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
     }
@@ -99,6 +101,9 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_OPEN_CONSOLE]) {
         [self toggleConsole:nil];
     }
+    
+    [self.preferencesWindowTabView selectTabViewItemAtIndex:[[NSUserDefaults standardUserDefaults]
+                                                             integerForKey:DEFAULTS_CURRENT_PREFERENCES_TAB_INDEX]];
 }
 
 
@@ -184,6 +189,17 @@
     if (code >= 0) {
         core->registerCallback(code, create_cocoa_event_callback(receiver, selector, on_main), key);
     }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// NSTabViewDelegate methods
+////////////////////////////////////////////////////////////////////////////////
+
+
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
+    NSInteger index = [tabView indexOfTabViewItem:tabViewItem];
+    [[NSUserDefaults standardUserDefaults] setInteger:index forKey:DEFAULTS_CURRENT_PREFERENCES_TAB_INDEX];
 }
 
 
