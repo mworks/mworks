@@ -323,7 +323,7 @@ def add_object_files_to_libpythonall(exclude=()):
 
 @builder
 def openssl(ios=True):
-    version = '1.1.1a'
+    version = '1.1.1b'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -411,7 +411,7 @@ def python3(ios=True):
 
 @builder
 def numpy3(ios=True):
-    version = '1.16.0'
+    version = '1.16.2'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -578,13 +578,13 @@ def libxslt(macos=False, ios=True):
 
 @builder
 def sqlite(ios=True):
-    version = '3260000'
+    version = '3270200'
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
-            download_archive('https://sqlite.org/2018/', tarfile)
+            download_archive('https://sqlite.org/2019/', tarfile)
             unpack_tarfile(tarfile, srcdir)
 
         with workdir(srcdir):
