@@ -1,0 +1,12 @@
+diff -ur numpy-1.16.2/numpy/core/__init__.py numpy/numpy/core/__init__.py
+--- numpy-1.16.2/numpy/core/__init__.py	2019-02-26 09:03:31.000000000 -0500
++++ numpy/numpy/core/__init__.py	2019-03-15 11:03:13.000000000 -0400
+@@ -120,7 +120,7 @@
+ # appearing in an import-time traceback
+ from . import _add_newdocs
+ # add these for module-freeze analysis (like PyInstaller)
+-from . import _dtype_ctypes
++#from . import _dtype_ctypes
+ from . import _internal
+ from . import _dtype
+ from . import _methods
