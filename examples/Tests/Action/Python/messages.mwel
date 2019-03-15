@@ -1,0 +1,5 @@
+protocol {
+    run_python_string ("message('This is a regular message')")
+    run_python_string ("warning('This is a warning message')")
+    run_python_string ("error('This is an error message')")
+}

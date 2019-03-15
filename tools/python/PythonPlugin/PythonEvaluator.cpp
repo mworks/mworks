@@ -208,6 +208,13 @@ void unregister_event_callbacks() {
 }
 
 
+template <void (*func)(MessageDomain, const char *, ...)>
+void message(const std::string &msg) {
+    ScopedGILRelease sgr;
+    func(M_PLUGIN_MESSAGE_DOMAIN, "%s", msg.c_str());
+}
+
+
 PyModuleDef mworkscoreModule = {
     PyModuleDef_HEAD_INIT,
     "mworkscore",
@@ -248,6 +255,10 @@ PyObject * init_mworkscore() {
         def("register_event_callback", register_event_callback_for_name);
         def("register_event_callback", register_event_callback_for_code);
         def("unregister_event_callbacks", unregister_event_callbacks);
+        
+        def("message", message<mprintf>);
+        def("warning", message<mwarning>);
+        def("error", message<merror>);
         
         return module.ptr();
     } catch (const boost::python::error_already_set &) {
