@@ -38,7 +38,6 @@
 		E1A97C37170C847100E3FC03 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1A97C35170C847100E3FC03 /* InfoPlist.strings */; };
 		E1A97C40170C857700E3FC03 /* USBHIDPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A97C3E170C857700E3FC03 /* USBHIDPlugin.cpp */; };
 		E1A97C45170C87B200E3FC03 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A97C44170C87B200E3FC03 /* MWorksCore.framework */; };
-		E1A97C47170C887100E3FC03 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A97C46170C887100E3FC03 /* libboost_system.a */; };
 		E1A97C4E170C88FB00E3FC03 /* USBHID.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1A97C2D170C847100E3FC03 /* USBHID.bundle */; };
 		E1A97C56170C8A7F00E3FC03 /* USBHIDDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A97C54170C8A7F00E3FC03 /* USBHIDDevice.cpp */; };
 		E1A97C58170C900100E3FC03 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A97C57170C900100E3FC03 /* IOKit.framework */; };
@@ -88,7 +87,6 @@
 		E1A97C42170C85ED00E3FC03 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1A97C43170C85ED00E3FC03 /* WARNING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		E1A97C44170C87B200E3FC03 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E1A97C46170C887100E3FC03 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1A97C54170C8A7F00E3FC03 /* USBHIDDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = USBHIDDevice.cpp; sourceTree = "<group>"; };
 		E1A97C55170C8A7F00E3FC03 /* USBHIDDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USBHIDDevice.h; sourceTree = "<group>"; };
 		E1A97C57170C900100E3FC03 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -107,7 +105,6 @@
 				E1CD866E170DF04400AD271B /* CoreAudio.framework in Frameworks */,
 				E1A97C31170C847100E3FC03 /* CoreFoundation.framework in Frameworks */,
 				E1A97C58170C900100E3FC03 /* IOKit.framework in Frameworks */,
-				E1A97C47170C887100E3FC03 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +136,6 @@
 				E1CD866D170DF04400AD271B /* CoreAudio.framework */,
 				E1A97C30170C847100E3FC03 /* CoreFoundation.framework */,
 				E1A97C57170C900100E3FC03 /* IOKit.framework */,
-				E1A97C46170C887100E3FC03 /* libboost_system.a */,
 			);
 			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
@@ -206,6 +202,17 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E1A97C2C170C847100E3FC03 = {
+						ProvisioningStyle = Automatic;
+					};
+					E1A97C48170C88E400E3FC03 = {
+						ProvisioningStyle = Automatic;
+					};
+					E1A97C4F170C892C00E3FC03 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = E1A97C28170C847100E3FC03 /* Build configuration list for PBXProject "USBHID" */;
 			compatibilityVersion = "Xcode 3.2";

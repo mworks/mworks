@@ -40,7 +40,6 @@
 		689708DC0E5A03BB00CE38EA /* HIDFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 689708DB0E5A03BB00CE38EA /* HIDFactory.cpp */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		E12D98AE16BC216E004FEF79 /* HIDPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* HIDPlugin.bundle */; };
-		E15D0AFA16C2B1D300F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF916C2B1D300F331B1 /* libboost_system.a */; };
 		E15D0AFC16C2B21000F331B1 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFB16C2B21000F331B1 /* IOKit.framework */; };
 		E15D0AFE16C2B21F00F331B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFD16C2B21F00F331B1 /* Carbon.framework */; };
 /* End PBXBuildFile section */
@@ -91,7 +90,6 @@
 		689708DB0E5A03BB00CE38EA /* HIDFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HIDFactory.cpp; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* HIDPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HIDPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E15D0AF916C2B1D300F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E15D0AFB16C2B21000F331B1 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		E15D0AFD16C2B21F00F331B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -104,7 +102,6 @@
 				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
 				E15D0AFE16C2B21F00F331B1 /* Carbon.framework in Frameworks */,
 				E15D0AFC16C2B21000F331B1 /* IOKit.framework in Frameworks */,
-				E15D0AFA16C2B1D300F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +127,6 @@
 				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
 				E15D0AFD16C2B21F00F331B1 /* Carbon.framework */,
 				E15D0AFB16C2B21000F331B1 /* IOKit.framework */,
-				E15D0AF916C2B1D300F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -220,6 +216,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					5CFC67CC0F2A84F000552431 = {
+						ProvisioningStyle = Automatic;
+					};
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D98A616BC2148004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "HIDPlugin" */;
 			compatibilityVersion = "Xcode 3.2";

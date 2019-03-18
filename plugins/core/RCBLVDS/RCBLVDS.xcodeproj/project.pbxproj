@@ -39,7 +39,6 @@
 		E12DAD711F69A868004FF673 /* RCBLVDSPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12DAD701F69A868004FF673 /* RCBLVDSPlugin.cpp */; };
 		E12DAD7F1F69A985004FF673 /* RCBLVDS.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E12DAD671F69A6E2004FF673 /* RCBLVDS.bundle */; };
 		E12DAD861F69AEE4004FF673 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E12DAD851F69AEE4004FF673 /* MWorksCore.framework */; };
-		E12DAD881F69AF24004FF673 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E12DAD871F69AF24004FF673 /* libboost_system.a */; };
 		E12DAD8B1F69B0C0004FF673 /* RCBLVDSDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12DAD891F69B0BF004FF673 /* RCBLVDSDevice.cpp */; };
 		E16F5B951F7AAA13003556D8 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E16F5B941F7AAA13003556D8 /* MWLibrary.xml */; };
 		E16F5B971F7AABFE003556D8 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E16F5B961F7AABFE003556D8 /* MWComponents.yaml */; };
@@ -87,7 +86,6 @@
 		E12DAD751F69A8C7004FF673 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E12DAD831F69AE43004FF673 /* RCBLVDS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCBLVDS-Prefix.pch"; sourceTree = "<group>"; };
 		E12DAD851F69AEE4004FF673 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E12DAD871F69AF24004FF673 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E12DAD891F69B0BF004FF673 /* RCBLVDSDevice.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = RCBLVDSDevice.cpp; sourceTree = "<group>"; };
 		E12DAD8A1F69B0C0004FF673 /* RCBLVDSDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RCBLVDSDevice.hpp; sourceTree = "<group>"; };
 		E16F5B941F7AAA13003556D8 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
@@ -109,7 +107,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E12DAD861F69AEE4004FF673 /* MWorksCore.framework in Frameworks */,
-				E12DAD881F69AF24004FF673 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +172,6 @@
 			isa = PBXGroup;
 			children = (
 				E12DAD851F69AEE4004FF673 /* MWorksCore.framework */,
-				E12DAD871F69AF24004FF673 /* libboost_system.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

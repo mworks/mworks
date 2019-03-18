@@ -65,7 +65,6 @@
 		E1E84AFE1D0B2BC400F45D54 /* FirmataPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E84AFD1D0B2BC400F45D54 /* FirmataPlugin.cpp */; };
 		E1E84B0B1D0B2D3800F45D54 /* Firmata.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1E84AF41D0B2B4200F45D54 /* Firmata.bundle */; };
 		E1E84B131D0B30F900F45D54 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E84B121D0B30F900F45D54 /* MWorksCore.framework */; };
-		E1E84B151D0B311C00F45D54 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E84B141D0B311C00F45D54 /* libboost_system.a */; };
 		E1E84B191D0B3AD400F45D54 /* FirmataDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E84B171D0B3AD400F45D54 /* FirmataDevice.cpp */; };
 /* End PBXBuildFile section */
 
@@ -138,7 +137,6 @@
 		E1E84AFD1D0B2BC400F45D54 /* FirmataPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataPlugin.cpp; sourceTree = "<group>"; };
 		E1E84B111D0B2F1600F45D54 /* Firmata-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Firmata-Prefix.pch"; sourceTree = "<group>"; };
 		E1E84B121D0B30F900F45D54 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E1E84B141D0B311C00F45D54 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1E84B171D0B3AD400F45D54 /* FirmataDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataDevice.cpp; sourceTree = "<group>"; };
 		E1E84B181D0B3AD400F45D54 /* FirmataDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataDevice.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,7 +156,6 @@
 				E1E84B131D0B30F900F45D54 /* MWorksCore.framework in Frameworks */,
 				E18A24D51EA0108A0021F560 /* CoreBluetooth.framework in Frameworks */,
 				E1C0E1E21E9D2EC300918349 /* libboost_regex.a in Frameworks */,
-				E1E84B151D0B311C00F45D54 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +285,6 @@
 				E1E84B121D0B30F900F45D54 /* MWorksCore.framework */,
 				E18A24D41EA0108A0021F560 /* CoreBluetooth.framework */,
 				E1C0E1E11E9D2EC300918349 /* libboost_regex.a */,
-				E1E84B141D0B311C00F45D54 /* libboost_system.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

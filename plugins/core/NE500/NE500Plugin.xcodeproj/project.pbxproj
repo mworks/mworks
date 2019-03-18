@@ -40,7 +40,6 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		E126F26E1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E126F26C1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp */; };
 		E12D98B716BC2217004FEF79 /* NE500Plugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* NE500Plugin.bundle */; };
-		E15D0B0016C2B34100F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFF16C2B34100F331B1 /* libboost_system.a */; };
 		E16361131CAB04FF009752BE /* NE500SerialConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16361111CAB04FF009752BE /* NE500SerialConnection.cpp */; };
 		E1810E101CAACB62003001C0 /* NE500Connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1810E0E1CAACB62003001C0 /* NE500Connection.cpp */; };
 		E1810E131CAACDCE003001C0 /* NE500SocketConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1810E111CAACDCE003001C0 /* NE500SocketConnection.cpp */; };
@@ -91,7 +90,6 @@
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E126F26C1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500DeviceChannel.cpp; sourceTree = "<group>"; };
 		E126F26D1BFBAF5F00CFC9FF /* NE500DeviceChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NE500DeviceChannel.h; sourceTree = "<group>"; };
-		E15D0AFF16C2B34100F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E16361111CAB04FF009752BE /* NE500SerialConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500SerialConnection.cpp; sourceTree = "<group>"; };
 		E16361121CAB04FF009752BE /* NE500SerialConnection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NE500SerialConnection.hpp; sourceTree = "<group>"; };
 		E1810E0E1CAACB62003001C0 /* NE500Connection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500Connection.cpp; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
-				E15D0B0016C2B34100F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +128,6 @@
 			isa = PBXGroup;
 			children = (
 				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
-				E15D0AFF16C2B34100F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -226,6 +222,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					5CFC67A50F2A848000552431 = {
+						ProvisioningStyle = Automatic;
+					};
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D98AF16BC21F7004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "NE500Plugin" */;
 			compatibilityVersion = "Xcode 3.2";

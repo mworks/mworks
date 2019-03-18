@@ -37,7 +37,6 @@
 		E10CAA2E20D9402400338421 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10CAA2D20D9402400338421 /* MWorksCore.framework */; };
 		E176036D20D8475A001CA59D /* LayerStimulus.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E176035A20D845C7001CA59D /* LayerStimulus.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E17942BC20D9407B003F2CF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17942BB20D9407B003F2CF1 /* OpenGL.framework */; };
-		E17942BE20D940AB003F2CF1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E17942BD20D940AB003F2CF1 /* libboost_system.a */; };
 		E17942C120D9426C003F2CF1 /* LayerStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */; };
 		E17942C420D957C2003F2CF1 /* MaskStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17942C220D957C2003F2CF1 /* MaskStimulus.cpp */; };
 		E1E7421E20DBF48800DABB50 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E7421D20DBF48800DABB50 /* MWComponents.yaml */; };
@@ -86,7 +85,6 @@
 		E176036520D84683001CA59D /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E176036620D84683001CA59D /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E17942BB20D9407B003F2CF1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		E17942BD20D940AB003F2CF1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LayerStimulus.cpp; sourceTree = "<group>"; };
 		E17942C020D9426C003F2CF1 /* LayerStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LayerStimulus.hpp; sourceTree = "<group>"; };
 		E17942C220D957C2003F2CF1 /* MaskStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MaskStimulus.cpp; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 			files = (
 				E10CAA2E20D9402400338421 /* MWorksCore.framework in Frameworks */,
 				E17942BC20D9407B003F2CF1 /* OpenGL.framework in Frameworks */,
-				E17942BE20D940AB003F2CF1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +130,6 @@
 			children = (
 				E10CAA2D20D9402400338421 /* MWorksCore.framework */,
 				E17942BB20D9407B003F2CF1 /* OpenGL.framework */,
-				E17942BD20D940AB003F2CF1 /* libboost_system.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

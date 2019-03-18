@@ -44,7 +44,6 @@
 		E14742AA193F9BFF00A82D91 /* MWSSetupVariablesController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14742A9193F9BFF00A82D91 /* MWSSetupVariablesController.m */; };
 		E1518A9B1940C25D00ADB7D0 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */; };
 		E15D0AEE16C2ACAA00F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AED16C2ACAA00F331B1 /* AppKit.framework */; };
-		E15D0AF016C2ACB000F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AEF16C2ACB000F331B1 /* libboost_system.a */; };
 		E16A21201E57A49100C48E10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E16A211F1E57A49100C48E10 /* main.m */; };
 		E16A21231E57A49100C48E10 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E16A21221E57A49100C48E10 /* AppDelegate.m */; };
 		E16A21261E57A49100C48E10 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E16A21251E57A49100C48E10 /* ViewController.m */; };
@@ -104,7 +103,6 @@
 		E14742A9193F9BFF00A82D91 /* MWSSetupVariablesController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWSSetupVariablesController.m; sourceTree = "<group>"; };
 		E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E15D0AED16C2ACAA00F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		E15D0AEF16C2ACB000F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E16A21151E579D0F00C48E10 /* iOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_App.xcconfig; sourceTree = "<group>"; };
 		E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_App.xcconfig; sourceTree = "<group>"; };
 		E16A21171E579D0F00C48E10 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 				0E1F31B50C5B1FEA00EB89EA /* MWorksCocoa.framework in Frameworks */,
 				E15D0AEE16C2ACAA00F331B1 /* AppKit.framework in Frameworks */,
 				E1518A9B1940C25D00ADB7D0 /* libboost_filesystem.a in Frameworks */,
-				E15D0AF016C2ACB000F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +213,6 @@
 				0E1F31B40C5B1FEA00EB89EA /* MWorksCocoa.framework */,
 				E15D0AED16C2ACAA00F331B1 /* AppKit.framework */,
 				E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */,
-				E15D0AEF16C2ACB000F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
@@ -553,7 +549,6 @@
 					"-framework",
 					UIKit,
 					"-lboost_filesystem",
-					"-lboost_system",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWServer-iOS";
 				PRODUCT_NAME = MWorks;

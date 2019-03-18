@@ -43,7 +43,6 @@
 		E12D98C916BC2359004FEF79 /* MSSWGamepadPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* MSSWGamepadPlugin.bundle */; };
 		E15D0B0416C2B4BE00F331B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B0316C2B4BE00F331B1 /* Carbon.framework */; };
 		E15D0B0616C2B4C800F331B1 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B0516C2B4C800F331B1 /* IOKit.framework */; };
-		E15D0B0816C2B4CD00F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B0716C2B4CD00F331B1 /* libboost_system.a */; };
 		E1E07EA31C04F346008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07EA21C04F346008DD97E /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
 
@@ -97,7 +96,6 @@
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E15D0B0316C2B4BE00F331B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		E15D0B0516C2B4C800F331B1 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		E15D0B0716C2B4CD00F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1E07EA21C04F346008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,7 +107,6 @@
 				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
 				E15D0B0416C2B4BE00F331B1 /* Carbon.framework in Frameworks */,
 				E15D0B0616C2B4C800F331B1 /* IOKit.framework in Frameworks */,
-				E15D0B0816C2B4CD00F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +132,6 @@
 				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
 				E15D0B0316C2B4BE00F331B1 /* Carbon.framework */,
 				E15D0B0516C2B4C800F331B1 /* IOKit.framework */,
-				E15D0B0716C2B4CD00F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -228,6 +224,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D98C116BC2338004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+					E17B9D5C119CA03000EEBF5D = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MSSWGamepad" */;
 			compatibilityVersion = "Xcode 3.2";

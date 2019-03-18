@@ -350,7 +350,6 @@
 		E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E106CF111CA430D1001A0928 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
-		E106CF121CA430D9001A0928 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E106CF1B1CA43397001A0928 /* HighPrecisionClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E106CF181CA43380001A0928 /* HighPrecisionClock.cpp */; };
 		E106CF1C1CA4339B001A0928 /* HighPrecisionClockPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */; };
 		E106CF1D1CA4353C001A0928 /* HighPrecisionClock.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E106CF0C1CA42EDC001A0928 /* HighPrecisionClock.bundle */; };
@@ -674,25 +673,19 @@
 		E1DB975516C16C73001481E9 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975416C16C73001481E9 /* libboost_regex.a */; };
 		E1DB975716C16C7F001481E9 /* libboost_thread.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975616C16C7F001481E9 /* libboost_thread.a */; };
 		E1DB975916C16C89001481E9 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975816C16C89001481E9 /* libboost_serialization.a */; };
-		E1DB975B16C16C8D001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975C16C16CA1001481E9 /* OpenAL.framework */; };
 		E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975D16C16CA1001481E9 /* OpenGL.framework */; };
 		E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976616C16CC9001481E9 /* libscarab.a */; };
 		E1DB977B16C18DA6001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
-		E1DB977C16C18DA9001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB977D16C18E01001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
-		E1DB977E16C18E03001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB977F16C18E44001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
-		E1DB978016C18E47001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB978116C18FB5001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB978216C18FCC001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975216C16C65001481E9 /* libboost_filesystem.a */; };
 		E1DB978316C18FCE001481E9 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975816C16C89001481E9 /* libboost_serialization.a */; };
-		E1DB978416C18FD1001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB978616C18FE0001481E9 /* libcppunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978516C18FE0001481E9 /* libcppunit.a */; };
 		E1DB978716C1900B001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976616C16CC9001481E9 /* libscarab.a */; };
 		E1DB978816C1933D001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB978916C19340001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
-		E1DB978A16C19344001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DC75081D259C1700D9BC19 /* SerialPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1DC75061D259C1700D9BC19 /* SerialPort.cpp */; };
 		E1DC75091D259C1700D9BC19 /* SerialPort.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1DC75071D259C1700D9BC19 /* SerialPort.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1E4AF411E54AE61001A2159 /* IOSStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */; };
@@ -1313,7 +1306,6 @@
 		E1DB975416C16C73001481E9 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_regex.a"; sourceTree = "<absolute>"; };
 		E1DB975616C16C7F001481E9 /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_thread.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_thread.a"; sourceTree = "<absolute>"; };
 		E1DB975816C16C89001481E9 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_serialization.a"; sourceTree = "<absolute>"; };
-		E1DB975A16C16C8D001481E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1DB975C16C16CA1001481E9 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		E1DB975D16C16CA1001481E9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E1DB976616C16CC9001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
@@ -1352,7 +1344,6 @@
 				E1DB978816C1933D001481E9 /* MWorksCore.framework in Frameworks */,
 				E1DB978916C19340001481E9 /* AppKit.framework in Frameworks */,
 				E1D97A9816CD3C4700E517DF /* IOKit.framework in Frameworks */,
-				E1DB978A16C19344001481E9 /* libboost_system.a in Frameworks */,
 				E13B07F11E292A040071347C /* libxml2.tbd in Frameworks */,
 				E13B07F21E292A0A0071347C /* libxslt.tbd in Frameworks */,
 			);
@@ -1363,7 +1354,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1DB977F16C18E44001481E9 /* MWorksCore.framework in Frameworks */,
-				E1DB978016C18E47001481E9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1382,7 +1372,6 @@
 				E1DB978116C18FB5001481E9 /* MWorksCore.framework in Frameworks */,
 				E1DB978216C18FCC001481E9 /* libboost_filesystem.a in Frameworks */,
 				E1DB978316C18FCE001481E9 /* libboost_serialization.a in Frameworks */,
-				E1DB978416C18FD1001481E9 /* libboost_system.a in Frameworks */,
 				E1381BBB220622B500901506 /* libcompression.tbd in Frameworks */,
 				E1DB978616C18FE0001481E9 /* libcppunit.a in Frameworks */,
 				E1DB978716C1900B001481E9 /* libscarab.a in Frameworks */,
@@ -1395,7 +1384,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1DB977B16C18DA6001481E9 /* MWorksCore.framework in Frameworks */,
-				E1DB977C16C18DA9001481E9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1404,7 +1392,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1DB977D16C18E01001481E9 /* MWorksCore.framework in Frameworks */,
-				E1DB977E16C18E03001481E9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1426,7 +1413,6 @@
 				E1DB975516C16C73001481E9 /* libboost_regex.a in Frameworks */,
 				E1DB975916C16C89001481E9 /* libboost_serialization.a in Frameworks */,
 				E1DB975716C16C7F001481E9 /* libboost_thread.a in Frameworks */,
-				E1DB975B16C16C8D001481E9 /* libboost_system.a in Frameworks */,
 				E1D9BAD62200C81400D63D59 /* libcompression.tbd in Frameworks */,
 				E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */,
 				E1FE641A2142C3CE00209279 /* libsqlite3.a in Frameworks */,
@@ -1441,7 +1427,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E106CF111CA430D1001A0928 /* MWorksCore.framework in Frameworks */,
-				E106CF121CA430D9001A0928 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2470,7 +2455,6 @@
 				E1DB975216C16C65001481E9 /* libboost_filesystem.a */,
 				E1DB975416C16C73001481E9 /* libboost_regex.a */,
 				E1DB975816C16C89001481E9 /* libboost_serialization.a */,
-				E1DB975A16C16C8D001481E9 /* libboost_system.a */,
 				E1DB975616C16C7F001481E9 /* libboost_thread.a */,
 				E1DB978516C18FE0001481E9 /* libcppunit.a */,
 				E1DB976616C16CC9001481E9 /* libscarab.a */,
@@ -3943,7 +3927,6 @@
 					UIKit,
 					"-lboost_filesystem",
 					"-lboost_regex",
-					"-lboost_system",
 					"-lboost_thread",
 					"-lcompression",
 					"-lsqlite3",

@@ -51,7 +51,6 @@
 		5CFE591A0F571B15000C7F30 /* ServersideConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* ServersideConduit.cpp */; };
 		BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MWorksCore.framework */; };
 		E12D98C016BC22CC004FEF79 /* ServersideConduit.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* ServersideConduit.bundle */; };
-		E15D0B0216C2B3E900F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B0116C2B3E900F331B1 /* libboost_system.a */; };
 		E1E07EA11C04F319008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07EA01C04F319008DD97E /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
 
@@ -100,7 +99,6 @@
 		8D5B49B6048680CD000E48DA /* ServersideConduit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ServersideConduit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* mw_plugin.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mw_plugin.plist; sourceTree = "<group>"; };
 		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E15D0B0116C2B3E900F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1E07EA01C04F319008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,7 +108,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */,
-				E15D0B0216C2B3E900F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +133,6 @@
 			isa = PBXGroup;
 			children = (
 				BFBFB0D510446C180019216B /* MWorksCore.framework */,
-				E15D0B0116C2B3E900F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -231,6 +227,20 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				TargetAttributes = {
+					5C3190321375CA55006849EC = {
+						ProvisioningStyle = Automatic;
+					};
+					5CFCAB1E11060985007CE55F = {
+						ProvisioningStyle = Automatic;
+					};
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D98B816BC22AB004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "ServersideConduit" */;
 			compatibilityVersion = "Xcode 3.2";

@@ -39,7 +39,6 @@
 		E12D991416BC2FF4004FEF79 /* PythonBridgePlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D576316048677EA00EA77CD /* PythonBridgePlugin.bundle */; };
 		E12D991616BC3032004FEF79 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E12D991516BC3032004FEF79 /* MWorksCore.framework */; };
 		E15D0B1016C2BB3200F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B0F16C2BB3200F331B1 /* AppKit.framework */; };
-		E15D0B1216C2BB3800F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1116C2BB3800F331B1 /* libboost_system.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,7 +82,6 @@
 		8D576317048677EA00EA77CD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E12D991516BC3032004FEF79 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E15D0B0F16C2BB3200F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		E15D0B1116C2BB3800F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,7 +91,6 @@
 			files = (
 				E12D991616BC3032004FEF79 /* MWorksCore.framework in Frameworks */,
 				E15D0B1016C2BB3200F331B1 /* AppKit.framework in Frameworks */,
-				E15D0B1216C2BB3800F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +114,6 @@
 			children = (
 				E12D991516BC3032004FEF79 /* MWorksCore.framework */,
 				E15D0B0F16C2BB3200F331B1 /* AppKit.framework */,
-				E15D0B1116C2BB3800F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
@@ -186,6 +182,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					5C77F4FD10E96A4E00919719 = {
+						ProvisioningStyle = Automatic;
+					};
+					8D57630D048677EA00EA77CD = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D990C16BC2FE0004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB911E08733D790010E9CD /* Build configuration list for PBXProject "PythonBridgePlugin" */;
 			compatibilityVersion = "Xcode 3.2";

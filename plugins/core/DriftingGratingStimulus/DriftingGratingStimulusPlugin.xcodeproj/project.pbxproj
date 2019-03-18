@@ -43,7 +43,6 @@
 		E184ED2B1F6824D100050F69 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E184ED2A1F6824D100050F69 /* GLKit.framework */; };
 		E1B11F1A1E69DEA3009D877C /* DriftingGratingStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E287D2F0E64A5CD005BE396 /* DriftingGratingStimulus.cpp */; };
 		E1B11F1B1E69DEAA009D877C /* DriftingGratingStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp */; };
-		E1DB979E16C1A904001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979D16C1A904001481E9 /* libboost_system.a */; };
 		E1E07E951C04F1E0008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E941C04F1E0008DD97E /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
 
@@ -94,7 +93,6 @@
 		E1B11F071E69CED1009D877C /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1B11F101E69D09B009D877C /* DriftingGratingStimulus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DriftingGratingStimulus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1B11F171E69D4A5009D877C /* Info-iOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
-		E1DB979D16C1A904001481E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1E07E941C04F1E0008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,7 +104,6 @@
 				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
 				E184ED2B1F6824D100050F69 /* GLKit.framework in Frameworks */,
 				E12D98A516BC205E004FEF79 /* OpenGL.framework in Frameworks */,
-				E1DB979E16C1A904001481E9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +136,6 @@
 				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
 				E184ED2A1F6824D100050F69 /* GLKit.framework */,
 				E12D98A416BC205E004FEF79 /* OpenGL.framework */,
-				E1DB979D16C1A904001481E9 /* libboost_system.a */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -267,6 +263,15 @@
 			attributes = {
 				LastUpgradeCheck = 0410;
 				TargetAttributes = {
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D989B16BC1FA1004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+					E17B9D28119C9E7E00EEBF5D = {
+						ProvisioningStyle = Automatic;
+					};
 					E1B11F0F1E69D09B009D877C = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;

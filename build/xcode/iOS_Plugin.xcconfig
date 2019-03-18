@@ -2,4 +2,4 @@
 #include "_Framework.xcconfig"
 
 DYLIB_INSTALL_NAME_BASE = @executable_path/Frameworks
-OTHER_LDFLAGS = $(inherited) -framework MWorksCore -lboost_system
+OTHER_LDFLAGS = $(inherited) -framework MWorksCore

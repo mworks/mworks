@@ -41,7 +41,6 @@
 		E15C72C41E6DE258001CE0C0 /* WhiteNoiseBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* WhiteNoiseBackground.cpp */; };
 		E15C72C51E6DE25B001CE0C0 /* RandomizeBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */; };
 		E15C72C61E6DE25E001CE0C0 /* WhiteNoiseBackgroundPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp */; };
-		E15D0B2416C2C20300F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B2316C2C20300F331B1 /* libboost_system.a */; };
 		E1E07EA91C04F416008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07EA81C04F416008DD97E /* MWComponents.yaml */; };
 		E1EC6EBE12BBC5B5003C9543 /* RandomizeBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */; };
 		E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */; };
@@ -91,7 +90,6 @@
 		E15C72B71E6DDFC3001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E15C72BD1E6DE0CB001CE0C0 /* WhiteNoiseBackground.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteNoiseBackground.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C72C01E6DE0CC001CE0C0 /* WhiteNoiseBackground-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WhiteNoiseBackground-iOS-Info.plist"; sourceTree = "<group>"; };
-		E15D0B2316C2C20300F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1E07EA81C04F416008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1EC6EBC12BBC5B5003C9543 /* RandomizeBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomizeBackground.h; sourceTree = "<group>"; };
 		E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomizeBackground.cpp; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 			files = (
 				BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */,
 				E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */,
-				E15D0B2416C2C20300F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +135,6 @@
 			children = (
 				BFBFB0D510446C180019216B /* MWorksCore.framework */,
 				E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */,
-				E15D0B2316C2C20300F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
@@ -258,6 +254,15 @@
 			attributes = {
 				LastUpgradeCheck = 0410;
 				TargetAttributes = {
+					5CFCAB1E11060985007CE55F = {
+						ProvisioningStyle = Automatic;
+					};
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					E12A26F81201E2FB00CE8C55 = {
+						ProvisioningStyle = Automatic;
+					};
 					E15C72BC1E6DE0CB001CE0C0 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;

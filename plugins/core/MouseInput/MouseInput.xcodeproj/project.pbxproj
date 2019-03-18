@@ -38,7 +38,6 @@
 		E1620CA517563FBE0068BCF6 /* MouseInputPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1620CA317563FBE0068BCF6 /* MouseInputPlugin.cpp */; };
 		E1620CAF175641A30068BCF6 /* MouseInput.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1620C8E17563F350068BCF6 /* MouseInput.bundle */; };
 		E1620CB6175642760068BCF6 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1620CB5175642760068BCF6 /* MWorksCore.framework */; };
-		E1620CB8175642A10068BCF6 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1620CB7175642A10068BCF6 /* libboost_system.a */; };
 		E1620CBB175644330068BCF6 /* MouseInputDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1620CB9175644330068BCF6 /* MouseInputDevice.cpp */; };
 		E1620CBE17564B4A0068BCF6 /* MouseTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E1620CBD17564B4A0068BCF6 /* MouseTracker.m */; };
 		E1620CBF175653CF0068BCF6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1620C9417563F350068BCF6 /* AppKit.framework */; };
@@ -90,7 +89,6 @@
 		E1620CA7175640410068BCF6 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		E1620CA8175640410068BCF6 /* WARNING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WARNING.txt; sourceTree = "<group>"; };
 		E1620CB5175642760068BCF6 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E1620CB7175642A10068BCF6 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1620CB9175644330068BCF6 /* MouseInputDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseInputDevice.cpp; sourceTree = "<group>"; };
 		E1620CBA175644330068BCF6 /* MouseInputDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseInputDevice.h; sourceTree = "<group>"; };
 		E1620CBC17564B4A0068BCF6 /* MouseTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseTracker.h; sourceTree = "<group>"; };
@@ -110,7 +108,6 @@
 				E1620CBF175653CF0068BCF6 /* AppKit.framework in Frameworks */,
 				E1E74BBC1E2FBFD600F84168 /* GLKit.framework in Frameworks */,
 				E171A17F1757967900B91405 /* OpenGL.framework in Frameworks */,
-				E1620CB8175642A10068BCF6 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,7 +139,6 @@
 				E1620C9417563F350068BCF6 /* AppKit.framework */,
 				E1E74BBB1E2FBFD600F84168 /* GLKit.framework */,
 				E171A17E1757967900B91405 /* OpenGL.framework */,
-				E1620CB7175642A10068BCF6 /* libboost_system.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -212,6 +208,17 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E1620C8D17563F350068BCF6 = {
+						ProvisioningStyle = Automatic;
+					};
+					E1620CA91756418C0068BCF6 = {
+						ProvisioningStyle = Automatic;
+					};
+					E1620CB0175641CE0068BCF6 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = E1620C8917563F350068BCF6 /* Build configuration list for PBXProject "MouseInput" */;
 			compatibilityVersion = "Xcode 3.2";

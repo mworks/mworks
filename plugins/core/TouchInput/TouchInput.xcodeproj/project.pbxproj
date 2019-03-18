@@ -39,7 +39,6 @@
 		E1AEAC0C1EB1146A001150F7 /* TouchInputPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E125AF921E8053AC0068EB25 /* TouchInputPlugin.cpp */; };
 		E1AEAC101EB11549001150F7 /* TouchInput.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1AEAC011EB11212001150F7 /* TouchInput.bundle */; };
 		E1AEAC151EB11622001150F7 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1AEAC141EB11622001150F7 /* MWorksCore.framework */; };
-		E1AEAC171EB11643001150F7 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1AEAC161EB11643001150F7 /* libboost_system.a */; };
 		E1C90F721EB1232800094663 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1C90F711EB1232800094663 /* MWLibrary.xml */; };
 		E1C90F741EB1272C00094663 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1C90F731EB1272C00094663 /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
@@ -89,7 +88,6 @@
 		E1AEAC011EB11212001150F7 /* TouchInput.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TouchInput.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1AEAC031EB11212001150F7 /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
 		E1AEAC141EB11622001150F7 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E1AEAC161EB11643001150F7 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1C90F711EB1232800094663 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1C90F731EB1272C00094663 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,7 +105,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1AEAC151EB11622001150F7 /* MWorksCore.framework in Frameworks */,
-				E1AEAC171EB11643001150F7 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,7 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				E1AEAC141EB11622001150F7 /* MWorksCore.framework */,
-				E1AEAC161EB11643001150F7 /* libboost_system.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

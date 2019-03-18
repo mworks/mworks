@@ -36,7 +36,6 @@
 		E15C72D61E6DF2F6001CE0C0 /* TextStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E4B2C01D883D35006EB80E /* TextStimulus.cpp */; };
 		E15C72D71E6DF2F9001CE0C0 /* TextStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F3746A1D87421800625A44 /* TextStimulusPlugin.cpp */; };
 		E1E4B2B01D883A78006EB80E /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E4B2AF1D883A78006EB80E /* MWorksCore.framework */; };
-		E1E4B2B21D883A88006EB80E /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E4B2B11D883A88006EB80E /* libboost_system.a */; };
 		E1E4B2BA1D883B16006EB80E /* TextStimulus.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1F374611D87410900625A44 /* TextStimulus.bundle */; };
 		E1E4B2C21D883D35006EB80E /* TextStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E4B2C01D883D35006EB80E /* TextStimulus.cpp */; };
 		E1E4B2C41D883F9F006EB80E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E4B2C31D883F9F006EB80E /* OpenGL.framework */; };
@@ -85,7 +84,6 @@
 		E15C72CF1E6DF11A001CE0C0 /* TextStimulus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TextStimulus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C72D21E6DF11A001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1E4B2AF1D883A78006EB80E /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E1E4B2B11D883A88006EB80E /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1E4B2C01D883D35006EB80E /* TextStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = TextStimulus.cpp; sourceTree = "<group>"; };
 		E1E4B2C11D883D35006EB80E /* TextStimulus.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextStimulus.hpp; sourceTree = "<group>"; };
 		E1E4B2C31D883F9F006EB80E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -117,7 +115,6 @@
 				E1E4B2C81D8848B7006EB80E /* CoreGraphics.framework in Frameworks */,
 				E1E4B2CC1D88665B006EB80E /* CoreText.framework in Frameworks */,
 				E1E4B2C41D883F9F006EB80E /* OpenGL.framework in Frameworks */,
-				E1E4B2B21D883A88006EB80E /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +129,6 @@
 				E1E4B2C71D8848B7006EB80E /* CoreGraphics.framework */,
 				E1E4B2CB1D88665B006EB80E /* CoreText.framework */,
 				E1E4B2C31D883F9F006EB80E /* OpenGL.framework */,
-				E1E4B2B11D883A88006EB80E /* libboost_system.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -253,12 +249,15 @@
 					};
 					E1E4B2B41D883B01006EB80E = {
 						CreatedOnToolsVersion = 7.3.1;
+						ProvisioningStyle = Automatic;
 					};
 					E1E4B2BB1D883B2B006EB80E = {
 						CreatedOnToolsVersion = 7.3.1;
+						ProvisioningStyle = Automatic;
 					};
 					E1F374601D87410900625A44 = {
 						CreatedOnToolsVersion = 7.3.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};

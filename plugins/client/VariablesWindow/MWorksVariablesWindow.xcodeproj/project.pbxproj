@@ -40,7 +40,6 @@
 		E14E801C1559A3F70064EA78 /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = E14E801B1559A3F70064EA78 /* Main.xib */; };
 		E15D0B1416C2BC0E00F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1316C2BC0E00F331B1 /* AppKit.framework */; };
 		E15D0B1616C2BC2100F331B1 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1516C2BC2100F331B1 /* MWorksCore.framework */; };
-		E15D0B1816C2BC2900F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1716C2BC2900F331B1 /* libboost_system.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,7 +86,6 @@
 		E14E801B1559A3F70064EA78 /* Main.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
 		E15D0B1316C2BC0E00F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E15D0B1516C2BC2100F331B1 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E15D0B1716C2BC2900F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +95,6 @@
 			files = (
 				E15D0B1616C2BC2100F331B1 /* MWorksCore.framework in Frameworks */,
 				E15D0B1416C2BC0E00F331B1 /* AppKit.framework in Frameworks */,
-				E15D0B1816C2BC2900F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,7 +119,6 @@
 			children = (
 				E15D0B1516C2BC2100F331B1 /* MWorksCore.framework */,
 				E15D0B1316C2BC0E00F331B1 /* AppKit.framework */,
-				E15D0B1716C2BC2900F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
@@ -201,6 +197,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					5C4D298209DDBC890082BF9F = {
+						ProvisioningStyle = Automatic;
+					};
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D991716BC30B6004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksVariablesWindow" */;
 			compatibilityVersion = "Xcode 3.2";

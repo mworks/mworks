@@ -68,7 +68,6 @@
 		E112D940183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E112D93E183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E112D941183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E112D93F183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m */; };
 		E12D98F816BC2964004FEF79 /* MWorksCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 68DAF1B40AC959FA00928168 /* MWorksCocoa.framework */; };
-		E15D0AE916C2AAC600F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AE816C2AAC600F331B1 /* libboost_system.a */; };
 		E15D0AEC16C2AB9000F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AEB16C2AB9000F331B1 /* AppKit.framework */; };
 		E1615726222445B6009C37F3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1615725222445B6009C37F3 /* Media.xcassets */; };
 /* End PBXBuildFile section */
@@ -142,7 +141,6 @@
 		E10743611642C58200518F25 /* MWCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCodec.m; sourceTree = "<group>"; };
 		E112D93E183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MWorksCocoaAdditions.h"; sourceTree = "<group>"; };
 		E112D93F183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MWorksCocoaAdditions.m"; sourceTree = "<group>"; };
-		E15D0AE816C2AAC600F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E15D0AEB16C2AB9000F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1615725222445B6009C37F3 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -154,7 +152,6 @@
 			files = (
 				DADADB7A07FAFC9000F8D324 /* MWorksCore.framework in Frameworks */,
 				E15D0AEC16C2AB9000F331B1 /* AppKit.framework in Frameworks */,
-				E15D0AE916C2AAC600F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,7 +185,6 @@
 			children = (
 				DADADB7907FAFC9000F8D324 /* MWorksCore.framework */,
 				E15D0AEB16C2AB9000F331B1 /* AppKit.framework */,
-				E15D0AE816C2AAC600F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks & Libraries";
 			sourceTree = "<group>";

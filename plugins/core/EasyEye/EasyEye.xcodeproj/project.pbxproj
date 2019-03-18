@@ -36,7 +36,6 @@
 		E110E7761F27853700F62C1B /* EasyEyePlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E110E7751F27853700F62C1B /* EasyEyePlugin.cpp */; };
 		E110E77D1F2785F300F62C1B /* EasyEye.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E110E7681F27843500F62C1B /* EasyEye.bundle */; };
 		E110E7871F27889600F62C1B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E110E7861F27889600F62C1B /* MWorksCore.framework */; };
-		E110E7891F2788DB00F62C1B /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E110E7881F2788DB00F62C1B /* libboost_system.a */; };
 		E110E78C1F278A4E00F62C1B /* EasyEyeDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E110E78A1F278A4E00F62C1B /* EasyEyeDevice.cpp */; };
 		E110E78E1F27CD3100F62C1B /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E110E78D1F27CD3100F62C1B /* MWLibrary.xml */; };
 		E110E7901F27CFB800F62C1B /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E110E78F1F27CFB800F62C1B /* MWComponents.yaml */; };
@@ -83,7 +82,6 @@
 		E110E7751F27853700F62C1B /* EasyEyePlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EasyEyePlugin.cpp; sourceTree = "<group>"; };
 		E110E7841F2787F500F62C1B /* EasyEye-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EasyEye-Prefix.pch"; sourceTree = "<group>"; };
 		E110E7861F27889600F62C1B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E110E7881F2788DB00F62C1B /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E110E78A1F278A4E00F62C1B /* EasyEyeDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EasyEyeDevice.cpp; sourceTree = "<group>"; };
 		E110E78B1F278A4E00F62C1B /* EasyEyeDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EasyEyeDevice.hpp; sourceTree = "<group>"; };
 		E110E78D1F27CD3100F62C1B /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
@@ -97,7 +95,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E110E7891F2788DB00F62C1B /* libboost_system.a in Frameworks */,
 				E110E7871F27889600F62C1B /* MWorksCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -169,7 +166,6 @@
 			isa = PBXGroup;
 			children = (
 				E110E7861F27889600F62C1B /* MWorksCore.framework */,
-				E110E7881F2788DB00F62C1B /* libboost_system.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -410,6 +406,7 @@
 				E110E79B1F27D6CD00F62C1B /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

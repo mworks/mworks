@@ -37,7 +37,6 @@
 		E14D7C551D95B1C200748503 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E14D7C541D95B1C200748503 /* CoreVideo.framework */; };
 		E1556E151D945DA700AE70F9 /* VideoStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */; };
 		E1556E1A1D945F6000AE70F9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1556E191D945F6000AE70F9 /* MWorksCore.framework */; };
-		E1556E1C1D945F7900AE70F9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1556E1B1D945F7900AE70F9 /* libboost_system.a */; };
 		E1556E231D94601E00AE70F9 /* VideoStimulus.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1556E061D945BD600AE70F9 /* VideoStimulus.bundle */; };
 		E1556E2C1D9463B400AE70F9 /* VideoStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */; };
 		E15C72F41E6DFF99001CE0C0 /* VideoStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */; };
@@ -89,7 +88,6 @@
 		E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoStimulusPlugin.cpp; sourceTree = "<group>"; };
 		E1556E171D945E6800AE70F9 /* VideoStimulus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VideoStimulus-Prefix.pch"; sourceTree = "<group>"; };
 		E1556E191D945F6000AE70F9 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E1556E1B1D945F7900AE70F9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoStimulus.cpp; sourceTree = "<group>"; };
 		E1556E2B1D9463B400AE70F9 /* VideoStimulus.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VideoStimulus.hpp; sourceTree = "<group>"; };
 		E15C72D81E6DFBF5001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
@@ -119,7 +117,6 @@
 				E14D7C551D95B1C200748503 /* CoreVideo.framework in Frameworks */,
 				E1FAA1A31D9977A100BA5D9B /* OpenGL.framework in Frameworks */,
 				E1FAA1A51D99BB9400BA5D9B /* libboost_filesystem.a in Frameworks */,
-				E1556E1C1D945F7900AE70F9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,7 +194,6 @@
 				E14D7C541D95B1C200748503 /* CoreVideo.framework */,
 				E1FAA1A21D9977A100BA5D9B /* OpenGL.framework */,
 				E1FAA1A41D99BB9400BA5D9B /* libboost_filesystem.a */,
-				E1556E1B1D945F7900AE70F9 /* libboost_system.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
