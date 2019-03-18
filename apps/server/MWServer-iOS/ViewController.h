@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *listeningAddress;
 @property (weak, nonatomic) IBOutlet UILabel *listeningPort;
+@property (weak, nonatomic) IBOutlet UIButton *chooseExperiment;
 
 - (IBAction)openExperimentChooser:(id)sender;
 

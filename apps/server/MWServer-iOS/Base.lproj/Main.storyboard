@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -70,6 +70,7 @@
                                         <rect key="frame" x="0.0" y="169" width="182" height="38"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                         <state key="normal" title="Choose experiment"/>
+                                        <state key="disabled" title="Experiment loaded"/>
                                         <connections>
                                             <action selector="openExperimentChooser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="A1g-kY-XyH"/>
                                         </connections>
@@ -84,6 +85,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="chooseExperiment" destination="iJz-zG-WUb" id="FSw-in-OTF"/>
                         <outlet property="listeningAddress" destination="f14-rl-QQe" id="k05-2e-LUC"/>
                         <outlet property="listeningPort" destination="BKd-6S-gxR" id="5Az-d3-iIz"/>
                     </connections>

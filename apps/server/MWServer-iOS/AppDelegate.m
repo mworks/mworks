@@ -6,11 +6,9 @@
 //
 //
 
-#define GLES_SILENCE_DEPRECATION
-
 #import "AppDelegate.h"
+#import "ViewController.h"
 
-#include <MWorksCore/AppleOpenGLContextManager.hpp>
 #include <MWorksCore/CoreBuilderForeman.h>
 #include <MWorksCore/Server.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
@@ -29,6 +27,7 @@
 #define DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE @"did_install_example_experiments_preference"
 
 #define EVENT_CALLBACK_KEY "<MWServer-iOS/AppDelegate>"
+#define PERSISTENT_EVENT_CALLBACK_KEY "<MWServer-iOS/AppDelegate-Persistent>"
 
 
 static void registerDefaultSettings(NSUserDefaults *userDefaults) {
@@ -148,6 +147,18 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         
         core->startServer();
         
+        auto systemEventCallback = [](const boost::shared_ptr<mw::Event> &event) {
+            auto &data = event->getData();
+            if (data.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == mw::M_EXPERIMENT_STATE) {
+                auto loaded = data.getElement(M_SYSTEM_PAYLOAD).getElement(M_LOADED).getBool();
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    ViewController *viewController = (ViewController *)(APP_DELEGATE.window.rootViewController);
+                    viewController.chooseExperiment.enabled = !loaded;
+                });
+            }
+        };
+        core->registerCallback(mw::RESERVED_SYSTEM_EVENT_CODE, systemEventCallback, PERSISTENT_EVENT_CALLBACK_KEY);
+        
     } catch (const std::exception &e) {
         self.alert = createInitializationFailureAlert(@(e.what()));
     } catch (...) {
@@ -161,6 +172,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 - (void)applicationWillTerminate:(UIApplication *)application {
     if (core) {
         try {
+            core->unregisterCallbacks(PERSISTENT_EVENT_CALLBACK_KEY);
             core->stopServer();
         } catch (const std::exception &e) {
             NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
@@ -211,8 +223,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 
 - (void)openExperimentRunCloseSheetWithTitle:(NSString *)title runAction:(NSString *)runAction {
     try {
-        auto glcm = boost::dynamic_pointer_cast<mw::AppleOpenGLContextManager>(mw::OpenGLContextManager::instance());
-        UIViewController *fullscreenViewController = glcm->getFullscreenView().window.rootViewController;
+        UIViewController *viewController = UIApplication.sharedApplication.keyWindow.rootViewController;
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
                                                                        message:nil
@@ -221,7 +232,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         [alert addAction:[UIAlertAction actionWithTitle:runAction
                                                   style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction *action) {
-                                                    [fullscreenViewController dismissViewControllerAnimated:YES completion:nil];
+                                                    [viewController dismissViewControllerAnimated:YES completion:nil];
                                                     [self runExperiment];
                                                 }]];
         
@@ -229,10 +240,10 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
                                                   style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction *action) {
                                                     [self closeExperiment];
-                                                    [fullscreenViewController dismissViewControllerAnimated:YES completion:nil];
+                                                    [viewController dismissViewControllerAnimated:YES completion:nil];
                                                 }]];
         
-        [fullscreenViewController presentViewController:alert animated:YES completion:nil];
+        [viewController presentViewController:alert animated:YES completion:nil];
     } catch (const std::exception &e) {
         NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
     } catch (...) {

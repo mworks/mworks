@@ -50,10 +50,13 @@ TouchInputDevice::~TouchInputDevice() {
 
 bool TouchInputDevice::initialize() {
     @autoreleasepool {
+        // Call getCurrentStimulusDisplay() first, as this will ensure that both the stimulus display and
+        // the OpenGL context manager exist
+        auto stimulusDisplay = StimulusDisplay::getCurrentStimulusDisplay();
         auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
         
         // Get the parameters needed by GLKMathUnproject
-        projectionMatrix = StimulusDisplay::getCurrentStimulusDisplay()->getProjectionMatrix();
+        projectionMatrix = stimulusDisplay->getProjectionMatrix();
         {
             auto ctxLock = glcm->setCurrent(0);
             glGetIntegerv(GL_VIEWPORT, viewport.data());

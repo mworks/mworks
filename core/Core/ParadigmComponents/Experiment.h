@@ -290,13 +290,6 @@ class ExperimentFactory : public ComponentFactory {
         
         experiment->setWorkingPath(parameters["working_path"]);
         
-#if TARGET_OS_IPHONE
-        // On iOS, create the StimulusDisplay instance unconditionally, even if the experiment
-        // doesn't use it.  The app uses the entire display in any case, and this saves us the
-        // trouble of finding some other way to alert the user that an experiment is loaded.
-        experiment->getStimulusDisplay();
-#endif
-        
         GlobalCurrentExperiment = experiment;
         
 		return experiment;
