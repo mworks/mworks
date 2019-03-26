@@ -83,7 +83,7 @@ boost::python::object getcodec() {
             codec[code] = name;
         }
     }
-    return codec;
+    return std::move(codec);
 }
 
 
@@ -96,7 +96,7 @@ boost::python::object get_reverse_codec() {
             reverse_codec[name] = code;
         }
     }
-    return reverse_codec;
+    return std::move(reverse_codec);
 }
 
 
