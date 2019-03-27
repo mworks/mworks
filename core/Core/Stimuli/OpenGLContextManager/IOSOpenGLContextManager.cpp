@@ -13,26 +13,6 @@
 #include <Metal/Metal.h>
 
 
-@interface MWKEAGLContext : EAGLContext
-
-- (mw::OpenGLContextLock)lockContext;
-
-@end
-
-
-@implementation MWKEAGLContext {
-    mw::OpenGLContextLock::unique_lock::mutex_type mutex;
-}
-
-
-- (mw::OpenGLContextLock)lockContext {
-    return mw::OpenGLContextLock(mw::OpenGLContextLock::unique_lock(mutex));
-}
-
-
-@end
-
-
 @interface MWKMetalViewController : UIViewController
 @end
 
@@ -89,7 +69,7 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
                                   (boost::format("Invalid screen number (%d)") % screen_number).str());
         }
         
-        MWKEAGLContext *context = [[MWKEAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+        MWKOpenGLContext *context = [[MWKOpenGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
         if (!context) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL ES context");
         }
@@ -166,7 +146,7 @@ int IOSOpenGLContextManager::getNumDisplays() const {
 
 OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
     @autoreleasepool {
-        if (auto context = static_cast<MWKEAGLContext *>(getContext(context_id))) {
+        if (auto context = getContext(context_id)) {
             if ([EAGLContext setCurrentContext:context]) {
                 return [context lockContext];
             }

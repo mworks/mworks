@@ -49,7 +49,7 @@
 {
     // This method is called by the windowing system on the main thread.  Since drawing normally occurs
     // on a non-main thread, we need to acquire the context lock before updating the context.
-    mw::OpenGLContextLock ctxLock(self.openGLContext.CGLContextObj);
+    auto ctxLock = [static_cast<MWKOpenGLContext *>(self.openGLContext) lockContext];
     [super update];
 }
 
@@ -93,7 +93,7 @@ int LegacyMacOSOpenGLContextManager::newFullscreenContext(int screen_number, boo
         };
         
         NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-        NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:nil];
+        MWKOpenGLContext *opengl_context = [[MWKOpenGLContext alloc] initWithFormat:pixel_format shareContext:nil];
         if (!opengl_context) {
             [pixel_format release];
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for fullscreen window");
@@ -196,8 +196,8 @@ int LegacyMacOSOpenGLContextManager::newMirrorContext() {
         };
         
         NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-        NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format
-                                                                     shareContext:getFullscreenContext()];
+        MWKOpenGLContext *opengl_context = [[MWKOpenGLContext alloc] initWithFormat:pixel_format
+                                                                       shareContext:getFullscreenContext()];
         if (!opengl_context) {
             [pixel_format release];
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for mirror window");
@@ -287,7 +287,7 @@ OpenGLContextLock LegacyMacOSOpenGLContextManager::setCurrent(int context_id) {
     @autoreleasepool {
         if (auto context = getContext(context_id)) {
             [context makeCurrentContext];
-            return OpenGLContextLock(context.CGLContextObj);
+            return [context lockContext];
         }
         return OpenGLContextLock();
     }

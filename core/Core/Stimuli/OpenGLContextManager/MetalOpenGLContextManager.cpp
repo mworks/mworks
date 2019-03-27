@@ -279,7 +279,7 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id,
             
             {
 #if TARGET_OS_OSX
-                NSOpenGLContext *context = getContext(context_id);
+                auto context = getContext(context_id);
                 CVOpenGLTextureCacheRef _cvOpenGLTextureCache = nullptr;
                 auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
                                                          nil,

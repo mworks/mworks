@@ -13,37 +13,6 @@
 #include <Metal/Metal.h>
 
 
-@interface MWKOpenGLContext : NSOpenGLContext
-@end
-
-
-@implementation MWKOpenGLContext
-
-
-- (instancetype)init
-{
-    NSOpenGLPixelFormatAttribute pixelFormatAttributes[] =
-    {
-        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
-        NSOpenGLPFAAccelerated,
-        0
-    };
-    NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelFormatAttributes];
-    if (pixelFormat) {
-        self = [super initWithFormat:pixelFormat shareContext:nil];
-        if (self) {
-            // Crash on calls to functions removed from the core profile
-            CGLEnable(self.CGLContextObj, kCGLCECrashOnRemovedFunctions);
-        }
-        [pixelFormat release];
-    }
-    return self;
-}
-
-
-@end
-
-
 BEGIN_NAMESPACE_MW
 
 
@@ -56,6 +25,30 @@ MacOSOpenGLContextManager::~MacOSOpenGLContextManager() {
     // Calling releaseContexts here causes the application to crash at exit.  Since this class is
     // used as a singleton, it doesn't matter, anyway.
     //releaseContexts();
+}
+
+
+static MWKOpenGLContext * createOpenGLContext() {
+    MWKOpenGLContext *context = nil;
+    
+    NSOpenGLPixelFormatAttribute pixelFormatAttributes[] =
+    {
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
+        NSOpenGLPFAAccelerated,
+        0
+    };
+    
+    NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelFormatAttributes];
+    if (pixelFormat) {
+        context = [[MWKOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+        if (context) {
+            // Crash on calls to functions removed from the core profile
+            CGLEnable(context.CGLContextObj, kCGLCECrashOnRemovedFunctions);
+        }
+        [pixelFormat release];
+    }
+    
+    return context;
 }
 
 
@@ -77,7 +70,7 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
                                   (boost::format("Invalid screen number (%d)") % screen_number).str());
         }
         
-        MWKOpenGLContext *context = [[MWKOpenGLContext alloc] init];
+        MWKOpenGLContext *context = createOpenGLContext();
         if (!context) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for fullscreen window");
         }
@@ -143,7 +136,7 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
 
 int MacOSOpenGLContextManager::newMirrorContext() {
     @autoreleasepool {
-        MWKOpenGLContext *context = [[MWKOpenGLContext alloc] init];
+        MWKOpenGLContext *context = createOpenGLContext();
         if (!context) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for mirror window");
         }
@@ -243,7 +236,7 @@ OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
     @autoreleasepool {
         if (auto context = getContext(context_id)) {
             [context makeCurrentContext];
-            return OpenGLContextLock(context.CGLContextObj);
+            return [context lockContext];
         }
         return OpenGLContextLock();
     }

@@ -21,6 +21,19 @@
 #endif
 
 
+@implementation MWKOpenGLContext {
+    mw::OpenGLContextLock::unique_lock::mutex_type mutex;
+}
+
+
+- (mw::OpenGLContextLock)lockContext {
+    return mw::OpenGLContextLock(mw::OpenGLContextLock::unique_lock(mutex));
+}
+
+
+@end
+
+
 BEGIN_NAMESPACE_MW
 
 
@@ -46,7 +59,7 @@ AppleOpenGLContextManager::~AppleOpenGLContextManager() {
 }
 
 
-auto AppleOpenGLContextManager::getContext(int context_id) const -> PlatformContextPtr {
+MWKOpenGLContext * AppleOpenGLContextManager::getContext(int context_id) const  {
     @autoreleasepool {
         if (context_id < 0 || context_id >= contexts.count) {
             merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
@@ -57,7 +70,7 @@ auto AppleOpenGLContextManager::getContext(int context_id) const -> PlatformCont
 }
 
 
-auto AppleOpenGLContextManager::getFullscreenContext() const -> PlatformContextPtr {
+MWKOpenGLContext * AppleOpenGLContextManager::getFullscreenContext() const {
     @autoreleasepool {
         if (contexts.count > 0) {
             return contexts[0];
@@ -67,7 +80,7 @@ auto AppleOpenGLContextManager::getFullscreenContext() const -> PlatformContextP
 }
 
 
-auto AppleOpenGLContextManager::getMirrorContext() const -> PlatformContextPtr {
+MWKOpenGLContext * AppleOpenGLContextManager::getMirrorContext() const  {
     @autoreleasepool {
         if (contexts.count > 1) {
             return contexts[1];

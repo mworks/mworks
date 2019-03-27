@@ -21,6 +21,19 @@
 #include "OpenGLContextManager.h"
 
 
+#if TARGET_OS_OSX
+@interface MWKOpenGLContext : NSOpenGLContext
+#elif TARGET_OS_IPHONE
+@interface MWKOpenGLContext : EAGLContext
+#else
+#error Unsupported platform
+#endif
+
+- (mw::OpenGLContextLock)lockContext;
+
+@end
+
+
 BEGIN_NAMESPACE_MW
 
 
@@ -28,11 +41,9 @@ class AppleOpenGLContextManager : public OpenGLContextManager {
     
 public:
 #if TARGET_OS_OSX
-    using PlatformContextPtr = NSOpenGLContext *;
     using PlatformViewPtr = NSView *;
     using PlatformWindowPtr = NSWindow *;
 #elif TARGET_OS_IPHONE
-    using PlatformContextPtr = EAGLContext *;
     using PlatformViewPtr = UIView *;
     using PlatformWindowPtr = UIWindow *;
 #else
@@ -42,16 +53,16 @@ public:
     AppleOpenGLContextManager();
     ~AppleOpenGLContextManager();
     
-    PlatformContextPtr getContext(int context_id) const;
-    PlatformContextPtr getFullscreenContext() const;
-    PlatformContextPtr getMirrorContext() const;
+    MWKOpenGLContext * getContext(int context_id) const;
+    MWKOpenGLContext * getFullscreenContext() const;
+    MWKOpenGLContext * getMirrorContext() const;
     
     PlatformViewPtr getView(int context_id) const;
     PlatformViewPtr getFullscreenView() const;
     PlatformViewPtr getMirrorView() const;
     
 protected:
-    NSMutableArray<PlatformContextPtr> *contexts;
+    NSMutableArray<MWKOpenGLContext *> *contexts;
     NSMutableArray<PlatformViewPtr> *views;
     NSMutableArray<PlatformWindowPtr> *windows;
     
@@ -62,29 +73,3 @@ END_NAMESPACE_MW
 
 
 #endif /* AppleOpenGLContextManager_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
