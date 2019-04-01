@@ -205,14 +205,6 @@ MWK2Writer::MWK2Writer(const std::string &filename, std::size_t pageSize) :
 }
 
 
-MWK2Writer::~MWK2Writer() {
-    auto result = sqlite3_exec(conn, "VACUUM", nullptr, nullptr, nullptr);
-    if (SQLITE_OK != result) {
-        logSQLError(result, "Cannot vacuum SQL database");
-    }
-}
-
-
 void MWK2Writer::writeEvent(int code, MWTime time, const Datum &data) {
     int result;
     

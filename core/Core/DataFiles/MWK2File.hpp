@@ -52,7 +52,6 @@ class MWK2Writer : public MWK2File {
     
 public:
     explicit MWK2Writer(const std::string &filename, std::size_t pageSize = 16384);
-    ~MWK2Writer();
     
     void writeEvent(int code, MWTime time, const Datum &data);
     void writeEvent(const boost::shared_ptr<Event> &event);

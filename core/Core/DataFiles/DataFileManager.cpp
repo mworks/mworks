@@ -54,8 +54,6 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
         return -1;
     }
     
-    mprintf(M_FILE_MESSAGE_DOMAIN, "Opening data file...");
-    
     // first we need to format the file name with the correct path and
     // extension
     filename = appendDataFileExtension(prependDataFilePath(_filename).string());
@@ -133,8 +131,6 @@ int DataFileManager::closeFile() {
     if (!isFileOpen()) {
         merror(M_FILE_MESSAGE_DOMAIN, "Attempt to close a data file when there isn't one open");
     } else {
-        mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file...");
-        
         running = false;
         eventHandlerThread.join();
         eventBufferReader.reset();
