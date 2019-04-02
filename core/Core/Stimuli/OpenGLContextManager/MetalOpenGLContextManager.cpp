@@ -178,10 +178,9 @@ namespace {
 
 
 - (void)drawRect:(CGRect)rect {
-    id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
-    
     MTLRenderPassDescriptor *renderPassDescriptor = self.currentRenderPassDescriptor;
     if (renderPassDescriptor) {
+        id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
         id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
         
         [renderEncoder setRenderPipelineState:_pipelineState];
@@ -195,9 +194,8 @@ namespace {
         
         [renderEncoder endEncoding];
         [commandBuffer presentDrawable:self.currentDrawable];
+        [commandBuffer commit];
     }
-    
-    [commandBuffer commit];
 }
 
 
