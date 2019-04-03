@@ -1,5 +1,14 @@
 protocol {
+    // Strings
     run_python_string ("message('This is a regular message')")
     run_python_string ("warning('This is a warning message')")
     run_python_string ("error('This is an error message')")
+
+    // Non-strings
+    run_python_string ("message(True)")
+    run_python_string ("warning(123)")
+    run_python_string ("error([1, 2, 3])")
+
+    // Failed conversion to string
+    run_python_file ('messages.py')
 }

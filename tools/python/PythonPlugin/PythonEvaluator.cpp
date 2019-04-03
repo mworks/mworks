@@ -209,9 +209,20 @@ void unregister_event_callbacks() {
 
 
 template <void (*func)(MessageDomain, const char *, ...)>
-void message(const std::string &msg) {
-    ScopedGILRelease sgr;
-    func(M_PLUGIN_MESSAGE_DOMAIN, "%s", msg.c_str());
+void message(const boost::python::object &arg) {
+    auto str = manageNewRef( PyObject_Str(arg.ptr()) );
+    
+    Py_ssize_t utf8Size;
+    auto utf8 = PyUnicode_AsUTF8AndSize(str.ptr(), &utf8Size);
+    if (!utf8) {
+        throw_error_already_set();
+    }
+    
+    const std::string msg(utf8, utf8Size);  // Copy so we can safely release the GIL
+    {
+        ScopedGILRelease sgr;
+        func(M_PLUGIN_MESSAGE_DOMAIN, "%s", msg.c_str());
+    }
 }
 
 

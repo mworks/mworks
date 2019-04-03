@@ -2,7 +2,11 @@
 <marionette_info>
   <expected_messages>
     <message type="whole_message">This is a regular message</message>
-    <message type="whole_message">WARNING: This is a warning message [line 3, column 5]</message>
-    <message type="whole_message">ERROR: This is an error message [line 4, column 5]</message>
+    <message type="whole_message">WARNING: This is a warning message [line 4, column 5]</message>
+    <message type="whole_message">ERROR: This is an error message [line 5, column 5]</message>
+    <message type="whole_message">True</message>
+    <message type="whole_message">WARNING: 123 [line 9, column 5]</message>
+    <message type="whole_message">ERROR: [1, 2, 3] [line 10, column 5]</message>
+    <message type="contains">RuntimeError: conversion to string failed</message>
   </expected_messages>
 </marionette_info>
