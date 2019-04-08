@@ -5,18 +5,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-mouse_input pointer (
-    mouse_position_x = pointer_x
-    mouse_position_y = pointer_y
+var touch_in_progress = false
+
+touch_input pointer (
+    touch_position_x = pointer_x
+    touch_position_y = pointer_y
+    touch_in_progress = touch_in_progress
     )
 
 
 %define reset_pointer_position (x_position, y_position)
-    move_mouse_cursor (
-        device = pointer
-        x_position = x_position
-        y_position = y_position
+    assert (
+        condition = not touch_in_progress
+        message = 'Subject is touching the display too early'
         )
+    pointer_x = x_position
+    pointer_y = y_position
 %end
 
 

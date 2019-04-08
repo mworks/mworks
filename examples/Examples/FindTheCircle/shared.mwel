@@ -1,0 +1,241 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// I/O
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+var pointer_x = 0
+var pointer_y = 0
+
+// The actual pointer device must be declared in a file that includes this one
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Visual stimuli
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+var circle_size = 2
+var circle_x = 0
+
+circle white_circle (
+    x_size = circle_size
+    x_position = circle_x
+    )
+
+
+var square_size = 5
+var square_offset = 7.5
+var pointer_on_red_square = false
+var pointer_on_green_square = false
+var pointer_on_blue_square = false
+
+// Define a macro to reduce redundancy in square declarations
+%define target_square (color, x_position, trigger_flag)
+    fixation_point (
+        color = color
+        x_size = square_size
+        x_position = x_position
+        trigger_width = square_size
+        trigger_watch_x = pointer_x
+        trigger_watch_y = pointer_y
+        trigger_flag = trigger_flag
+        )
+%end
+
+target_square red_square (
+    color = 1,0,0
+    x_position = -square_offset
+    trigger_flag = pointer_on_red_square
+    )
+
+target_square green_square (
+    color = 0,1,0
+    x_position = 0
+    trigger_flag = pointer_on_green_square
+    )
+
+target_square blue_square (
+    color = 0,0,1
+    x_position = square_offset
+    trigger_flag = pointer_on_blue_square
+    )
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Sounds
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+wav_file correct_sound ('sounds/correct.wav')
+wav_file incorrect_sound ('sounds/incorrect.wav')
+wav_file ignored_sound ('sounds/ignored.wav')
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Protocols
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+var num_trials = 0
+var num_correct = 0
+var num_incorrect = 0
+var num_ignored = 0
+
+var red_selected = false
+var green_selected = false
+var blue_selected = false
+
+var selection_timeout = 5s
+
+
+protocol 'Find the Circle' {
+    start_io_device (pointer)
+
+    // Reset result variables
+    num_trials = 0
+    num_correct = 0
+    num_incorrect = 0
+    num_ignored = 0
+
+    trial (nsamples = 10) {
+        task {
+            state 'Start trial' {
+                num_trials += 1
+
+                // This macro must be defined in a file that includes this one
+                reset_pointer_position (
+                    x_position = 0
+                    y_position = square_offset
+                    )
+
+                // Position the circle behind a random square
+                circle_x = square_offset * disc_rand(-1, 1)
+
+                // Queue all stimuli and update the display
+                queue_stimulus (white_circle)
+                queue_stimulus (red_square)
+                queue_stimulus (green_square)
+                queue_stimulus (blue_square)
+                update_display ()
+
+                goto ('Wait for selection')
+            }
+
+            state 'Wait for selection' {
+                start_timer (
+                    timer = selection_timer
+                    duration = selection_timeout
+                    )
+
+                // Handle each possible selection
+                goto (
+                    target = 'Red selected'
+                    when = pointer_on_red_square
+                    )
+                goto (
+                    target = 'Green selected'
+                    when = pointer_on_green_square
+                    )
+                goto (
+                    target = 'Blue selected'
+                    when = pointer_on_blue_square
+                    )
+
+                // If the timeout expires, go to state "No selection"
+                goto (
+                    target = 'No selection'
+                    when = timer_expired(selection_timer)
+                    )
+            }
+
+            state 'Red selected' {
+                red_selected = true
+
+                goto (
+                    target = 'Correct selection'
+                    when = circle_x < 0
+                    )
+                goto ('Incorrect selection')
+            }
+
+            state 'Green selected' {
+                green_selected = true
+
+                goto (
+                    target = 'Correct selection'
+                    when = circle_x == 0
+                    )
+                goto ('Incorrect selection')
+            }
+
+            state 'Blue selected' {
+                blue_selected = true
+
+                goto (
+                    target = 'Correct selection'
+                    when = circle_x > 0
+                    )
+                goto ('Incorrect selection')
+            }
+
+            state 'Correct selection' {
+                num_correct += 1
+                play_sound (correct_sound)
+
+                goto ('Reveal circle')
+            }
+
+            state 'Incorrect selection' {
+                num_incorrect += 1
+                play_sound (incorrect_sound)
+
+                goto ('Reveal circle')
+            }
+
+            state 'No selection' {
+                num_ignored += 1
+                play_sound (ignored_sound)
+
+                goto ('End trial')
+            }
+
+            state 'Reveal circle' {
+                // Dequeue the squares and update the display, revealing the
+                // location of the circle
+                dequeue_stimulus (red_square)
+                dequeue_stimulus (green_square)
+                dequeue_stimulus (blue_square)
+                update_display ()
+
+                wait (2s)
+                goto ('End trial')
+            }
+
+            state 'End trial' {
+                clear_display ()
+
+                red_selected = false
+                green_selected = false
+                blue_selected = false
+
+                wait (1s)
+                yield ()  // End the task
+            }
+        }
+    }
+
+    // Report results to the console
+    report ('$num_correct of $num_trials trials were correct')
+    report ('$num_incorrect of $num_trials trials were incorrect')
+    report ('$num_ignored of $num_trials trials were ignored')
+
+    stop_io_device (pointer)
+}
