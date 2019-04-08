@@ -11,16 +11,20 @@ Launching the Applications
 
 To run an MWorks experiment, you use two applications:
 
-1. *MWClient* is used to control and monitor the experiment, while
-2. *MWServer* handles the actual execution of the experiment.
+1. The *client* is used to control and monitor the experiment, while
+2. the *server* handles the actual execution of the experiment.
 
 In the simplest case, both applications run on the same computer.  However, they can also run on different computers and communicate via `TCP/IP <https://en.wikipedia.org/wiki/Internet_protocol_suite>`_ networking.
 
-In this guide, we assume that both MWServer and MWClient are running on the same macOS system.
+
+Server
+^^^^^^
 
 
-MWServer
-^^^^^^^^
+macOS
+"""""
+
+On macOS, the server application is called *MWServer*.  (For simplicity, this guide assumes that both the server and the client are running on the same macOS system.)
 
 To launch MWServer, navigate to the system-level *Applications* folder, and double click the yellow monkey icon.  After the application launches, click the *Preferences* button.  In the preferences window that opens, navigate to the *Network* tab, and confirm the following settings:
 
@@ -30,19 +34,31 @@ To launch MWServer, navigate to the system-level *Applications* folder, and doub
 If you need to edit either setting, quit and re-open MWServer after making your changes.
 
 
-MWClient
-^^^^^^^^
+iOS
+"""
+
+On iOS, the server application is called *MWorks*.  To launch the app, tap its icon.
+
+After launching, the app displays its current listening address and port.  The listening address is set by the operating system, but you can change the listening port in the "MWorks" section of the system *Settings* app.
+
+
+Client
+^^^^^^
+
+The client application is called *MWClient*.  It is available only on macOS, but it can connect to servers running on both iOS and macOS.
 
 To launch MWClient, navigate to the system-level *Applications* folder, and double click the red monkey icon.  After the application launches, click the red circle with the white *X* next to the words "No connection".
 
-In the panel that opens, you must enter the network address and port for MWServer.  Enter or verify the following values:
+In the panel that opens, you must enter the network address and port for the server.  If the server is running on macOS, enter or verify the following values:
 
 * Address: localhost
 * Port: 19989
 
-Next, click the *Connect* button.  The red circle with an *X* should change in to a green circle with a white check mark, and "No connection" should be replaced with the name of the MWServer instance.
+If the server is running on iOS, enter the listening address and port reported by the *MWorks* app.
 
-MWClient is now connected to MWServer and is ready to load and run an experiment.
+Next, click the *Connect* button.  The red circle with an *X* should change in to a green circle with a white check mark, and "No connection" should be replaced with the name of the server instance.
+
+The client is now connected to the server, and you are ready to load and run an experiment.
 
 
 Loading the Experiment
@@ -50,7 +66,7 @@ Loading the Experiment
 
 To load and run an experiment, you must use the MWClient application.  Click the folder icon next to the words "No Experiment Loaded".  In the panel that opens, next to the words "Choose a New Experiment", click the *Choose* button.  A file selection window will appear.
 
-In the file selection window, select the system's boot disk (e.g. *Macintosh HD*), and navigate to the directory ``/Library/Application Support/MWorks/Examples/FindTheCircle``.  Select the file ``FindTheCircle.mwel``, and click *Open*.  The start button (green circle with right-pointing triangle) should now be enabled, and "No Experiment Loaded" should be replaced by just "Experiment".  Also, an empty, gray stimulus display should open (either fullscreen or in a window, depending on your `configuration <Configuration>`).
+In the file selection window, select the system's boot disk (e.g. *Macintosh HD*), and navigate to the directory ``/Library/Application Support/MWorks/Examples/FindTheCircle``.  Select the file ``FindTheCircle.mwel`` (or ``FindTheCircle-iOS.mwel``, if the server is running on iOS), and click *Open*.  The start button (green circle with right-pointing triangle) should now be enabled, and "No Experiment Loaded" should be replaced by just "Experiment".  Also, an empty, gray stimulus display should open (either fullscreen or in a window, depending on your `configuration <Configuration>`).
 
 
 Opening the Event File
@@ -66,9 +82,14 @@ The event file will close automatically when you close the experiment.  Alternat
 Running the Experiment
 ----------------------
 
-To start the experiment, use MWClient.  Click the start button (green circle with right-pointing triangle), which should immediately change into a stop button (red circle with white square).  The mouse cursor will jump to the stimulus display, which should now contain three squares (red, green, and blue).
+To start the experiment, use MWClient.  Click the start button (green circle with right-pointing triangle), which should immediately change into a stop button (red circle with white square).  The stimulus display should now contain three squares (red, green, and blue).  On macOS, the mouse cursor will jump to the stimulus display.
 
-In this "experiment", a white circle is hidden under a random square, and the goal for the subject is to find it.  To make a guess, move the mouse cursor over the selected square.  Once a choice is made, the squares will disappear, revealing the location of the circle, and a feedback sound will play: a pleasant chime if your guess was correct, an error tone otherwise.  After a short delay, the mouse cursor will return to its initial position, the three squares will reappear, and the selection process repeats, with the circle in a new random location.  If you fail to make a selection within five seconds of the squares appearing, a timeout sound will play, and the next trial will begin (without revealing the circle's location).
+In this "experiment", a white circle is hidden under a random square, and the goal for the subject is to find it.  To make a guess, either:
+
+* move the mouse cursor over the selected square (macOS), or
+* tap the selected square (iOS).
+
+Once a choice is made, the squares will disappear, revealing the location of the circle, and a feedback sound will play: a pleasant chime if your guess was correct, an error tone otherwise.  After a short delay, the three squares will reappear, and the selection process repeats, with the circle in a new random location.  (On macOS, the mouse cursor will return to its initial position.)  If you fail to make a selection within five seconds of the squares appearing, a timeout sound will play, and the next trial will begin (without revealing the circle's location).
 
 The experiment will run for ten trials, after which it will automatically stop.  The stop button should turn back into a start button, and the stimulus display should once again be empty.  To run the experiment again, click the start button.
 
@@ -88,7 +109,7 @@ All messages (informational, warning, and error) produced by an MWorks experimen
 
 Both MWServer and MWClient provide access to the console.  To open the console window in MWServer, click the *Console* button.  To have the console window open automatically when MWServer launches, click the *Preferences* button, select the *General* tab, and check the box next to "Open console window at startup".
 
-To open the console window in MWClient, click the magnifying glass icon.  In the menu that pops up, select "Console (localhost)".
+To open the console window in MWClient, click the magnifying glass icon.  In the menu that pops up, select "Console".
 
 Click the console window's *Clear* button, and run the example experiment again.  When the experiment completes, the console should display messages similar to the following::
 
@@ -114,11 +135,11 @@ Variables Window
 
 `Variables` are a fundamental element of all MWorks experiments.  An experiment's state at any moment is described by the values of its variables.  By changing the values of key variables, you can alter the course of your experiment's execution.
 
-The simplest way to examine or alter the values of an experiment's variables is via MWClient's variables window.  To open the variables window, click the magnifying glass icon.  In the menu that pops up, select "Variables (localhost)".
+The simplest way to examine or alter the values of an experiment's variables is via MWClient's variables window.  To open the variables window, click the magnifying glass icon.  In the menu that pops up, select "Variables".
 
 The variables window organizes variables in to expandable groups.  Experiment-defined variables (i.e. anything that is not a `system variable <sysvars>`) are in a group labeled ``# EXPERIMENT VARIABLES``.  To display the variables and their values, click the disclosure triangle next to the label.
 
-With the experiment variables visible, try running the example experiment again.  You should see ``pointer_x`` and ``pointer_y`` change as you move the mouse pointer, ``num_trials`` increase as trials are completed, and so on.
+With the experiment variables visible, try running the example experiment again.  You should see ``pointer_x`` and ``pointer_y`` change as you move the mouse pointer or tap the screen, ``num_trials`` increase as trials are completed, and so on.
 
 Next, suppose you want to make the experimental task easier (in this case, a *lot* easier).  In the variables window, find the row for the variable ``circle_size``.  (If you have trouble finding it, start typing the variable name in the search box at the bottom of the window, and it will quickly become the only variable visible.)  Double click the variable's value (2), and replace it with a larger value (7).  If you now re-run the experiment, you should have no trouble finding the circle on every trial.
 
@@ -128,4 +149,4 @@ Closing the Experiment
 
 To close the experiment, use MWClient.  Click the folder icon.  In the panel that opens, click *Close Experiment*.  The stimulus display should disappear, and the text next to the folder icon should once again read "No Experiment Loaded".  If an event file was open, it will now be closed.
 
-The experiment is now closed (i.e. unloaded).  At this point, you can load another experiment, or, if your session is complete, you can quit the MWClient and MWServer applications.
+The experiment is now closed (i.e. unloaded).  At this point, you can load another experiment, or, if your session is complete, you can quit the client and server applications.
