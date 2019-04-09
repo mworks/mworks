@@ -60,6 +60,8 @@ Next, click the *Connect* button.  The red circle with an *X* should change in t
 
 The client is now connected to the server, and you are ready to load and run an experiment.
 
+*Note*: The client can disconnect from and reconnect to the server at any time, even if an experiment is loaded or running.  To disconnect, click the green circle with a white check mark.  In the panel that opens, click the *Disconnect* button.  You should once again see the red circle with an *X* next to the words "No connection".  To reconnect, follow the steps described above.
+
 
 Loading the Experiment
 ----------------------
