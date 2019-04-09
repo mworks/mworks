@@ -32,10 +32,10 @@ To use MWorks' data analysis tools for Python, you must first make the ``mworks`
     import sys
     sys.path.insert(0, '/Library/Application Support/MWorks/Scripting/Python')
 
-If you want the ``mworks`` package to be available to *all* Python code you run, you can create an ``mworks.pth`` file in your per-user ``site-packages`` directory.  For example, for Python 2.7, execute the following commands in a Terminal window::
+If you want the ``mworks`` package to be available to *all* Python code you run, you can create an ``mworks.pth`` file in your per-user ``site-packages`` directory.  For example, for Python 3.7, execute the following commands in a Terminal window::
 
-    mkdir -p ~/Library/Python/2.7/lib/python/site-packages
-    echo '/Library/Application Support/MWorks/Scripting/Python' > ~/Library/Python/2.7/lib/python/site-packages/mworks.pth
+    mkdir -p ~/Library/Python/3.7/lib/python/site-packages
+    echo '/Library/Application Support/MWorks/Scripting/Python' > ~/Library/Python/3.7/lib/python/site-packages/mworks.pth
 
 
 Opening and Closing
