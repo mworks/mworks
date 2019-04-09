@@ -7,6 +7,7 @@ import msgpack
 try:
     buffer
 except NameError:
+    # Python 3
     buffer = bytes
 
 

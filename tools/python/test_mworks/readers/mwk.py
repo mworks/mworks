@@ -4,6 +4,7 @@ import struct
 try:
     xrange
 except NameError:
+    # Python 3
     xrange = range
 
 
@@ -15,13 +16,13 @@ class LDOReader(object):
 
     MAGIC = b'\x89CBF\x01\x00\x00'
 
-    INTEGER_N =     0x02
-    INTEGER_P =     0x03
-    OPAQUE =        0x0A
-    LDO_NULL =      0x0B
-    LIST =          0x0C
-    DICTIONARY =    0x0D
-    FLOAT =         0x11
+    INTEGER_N =  0x02
+    INTEGER_P =  0x03
+    OPAQUE =     0x0A
+    NULL =       0x0B
+    LIST =       0x0C
+    DICTIONARY = 0x0D
+    FLOAT =      0x11
 
     def __init__(self, file, string_encoding='utf-8'):
         magic = file.read(len(self.MAGIC))
@@ -42,7 +43,7 @@ class LDOReader(object):
             self.INTEGER_N: self._read_integer_n,
             self.INTEGER_P: self._read_integer_p,
             self.OPAQUE: self._read_opaque,
-            self.LDO_NULL: self._read_null,
+            self.NULL: self._read_null,
             self.LIST: self._read_list,
             self.DICTIONARY: self._read_dict,
             self.FLOAT: self._read_float,
@@ -54,7 +55,7 @@ class LDOReader(object):
         return ord(self._read(1))
 
     def _read_ber(self):
-        # Adapted from http://stackoverflow.com/questions/6776553/
+        # Adapted from https://stackoverflow.com/questions/6776553/
         value = 0
         while True:
             tmp = self._read_ord()
@@ -122,6 +123,11 @@ class MWKReader(object):
         reader = LDOReader(self._fp)
         while True:
             try:
-                yield reader.read()
+                event = reader.read()
+                assert isinstance(event, list)
+                assert len(event) in (2, 3)
+                if len(event) == 2:
+                    event.append(None)
+                yield event
             except EOFError:
                 break
