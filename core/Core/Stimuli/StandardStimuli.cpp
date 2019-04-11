@@ -529,8 +529,91 @@ void ImageStimulus::describeComponent(ComponentInfo &info) {
 ImageStimulus::ImageStimulus(const ParameterValueMap &parameters) :
     BasicTransformStimulus(parameters),
     path(variableOrText(parameters[PATH])),
+    width(0),
+    height(0),
     aspectRatio(1.0)
 { }
+
+
+void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
+    if (loaded)
+        return;
+    
+    // Evaluate and store file path
+    filename = pathFromParameterValue(path).string();
+    
+    //
+    // Obtain image data.  We do this here, rather than in prepare(), so that we don't block the stimulus display
+    // thread by holding the OpenGL context lock.
+    //
+    {
+        //
+        // The procedure used here is adapted from section "Creating a Texture from a Quartz Image Source" in
+        // "OpenGL Programming Guide for Mac":
+        //
+        // https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW31
+        //
+        
+        auto imageSource = loadImageFile(filename, fileHash);
+        auto image = cf::ObjectPtr<CGImageRef>::created(CGImageSourceCreateImageAtIndex(imageSource.get(), 0, nullptr));
+        
+        // If we're not using color management, replace the image's color space with an appropriate
+        // device-dependent one, so that its color values are not altered in any way
+        if (!display->getUseColorManagement()) {
+            cf::ObjectPtr<CGColorSpaceRef> imageColorSpace;
+            
+            switch (CGColorSpaceGetModel(CGImageGetColorSpace(image.get()))) {
+                case kCGColorSpaceModelMonochrome:
+                    imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceGray());
+                    break;
+                case kCGColorSpaceModelRGB:
+                    imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
+                    break;
+                case kCGColorSpaceModelCMYK:
+                    imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceCMYK());
+                    break;
+                default:
+                    throw SimpleException("Image uses an unsupported color model");
+            }
+            
+            image = cf::ObjectPtr<CGImageRef>::created(CGImageCreateCopyWithColorSpace(image.get(),
+                                                                                       imageColorSpace.get()));
+        }
+        
+        width = CGImageGetWidth(image.get());
+        height = CGImageGetHeight(image.get());
+        aspectRatio = double(width) / double(height);
+        data.reset(new std::uint32_t[width * height]);
+        
+        // If we're using color management, convert the image to sRGB.  Otherwise, draw it in the
+        // device-dependent RGB color space.
+        auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(display->getUseColorManagement() ?
+                                                                  CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
+                                                                  CGColorSpaceCreateDeviceRGB());
+        
+        auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(data.get(),
+                                                                                  width,
+                                                                                  height,
+                                                                                  8,
+                                                                                  width * 4,
+                                                                                  colorSpace.get(),
+#if MWORKS_OPENGL_ES
+                                                                                  kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Little));
+#else
+                                                                                  kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
+#endif
+        
+        // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL)
+        CGContextTranslateCTM(context.get(), 0, height);
+        CGContextScaleCTM(context.get(), 1, -1);
+        
+        CGContextSetBlendMode(context.get(), kCGBlendModeCopy);
+        
+        CGContextDrawImage(context.get(), CGRectMake(0, 0, width, height), image.get());
+    }
+    
+    BasicTransformStimulus::load(display);
+}
 
 
 Datum ImageStimulus::getCurrentAnnounceDrawData() {
@@ -603,76 +686,10 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     alphaUniformLocation = glGetUniformLocation(program, "alpha");
     glUniform1i(glGetUniformLocation(program, "imageTexture"), 0);
     
-    // Evaluate and store file path
-    filename = pathFromParameterValue(path).string();
-    
     //
     // Create texture
     //
     {
-        //
-        // The procedure used here is adapted from section "Creating a Texture from a Quartz Image Source" in
-        // "OpenGL Programming Guide for Mac":
-        //
-        // https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW31
-        //
-        
-        auto imageSource = loadImageFile(filename, fileHash);
-        auto image = cf::ObjectPtr<CGImageRef>::created(CGImageSourceCreateImageAtIndex(imageSource.get(), 0, nullptr));
-        
-        // If we're not using color management, replace the image's color space with an appropriate
-        // device-dependent one, so that its color values are not altered in any way
-        if (!display->getUseColorManagement()) {
-            cf::ObjectPtr<CGColorSpaceRef> imageColorSpace;
-            
-            switch (CGColorSpaceGetModel(CGImageGetColorSpace(image.get()))) {
-                case kCGColorSpaceModelMonochrome:
-                    imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceGray());
-                    break;
-                case kCGColorSpaceModelRGB:
-                    imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
-                    break;
-                case kCGColorSpaceModelCMYK:
-                    imageColorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceCMYK());
-                    break;
-                default:
-                    throw SimpleException("Image uses an unsupported color model");
-            }
-            
-            image = cf::ObjectPtr<CGImageRef>::created(CGImageCreateCopyWithColorSpace(image.get(),
-                                                                                       imageColorSpace.get()));
-        }
-        
-        auto width = CGImageGetWidth(image.get());
-        auto height = CGImageGetHeight(image.get());
-        aspectRatio = double(width) / double(height);
-        
-        // If we're using color management, convert the image to sRGB.  Otherwise, draw it in the
-        // device-dependent RGB color space.
-        auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(display->getUseColorManagement() ?
-                                                                  CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
-                                                                  CGColorSpaceCreateDeviceRGB());
-        
-        auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
-                                                                                  width,
-                                                                                  height,
-                                                                                  8,
-                                                                                  width * 4,
-                                                                                  colorSpace.get(),
-#if MWORKS_OPENGL_ES
-                                                                                  kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Little));
-#else
-                                                                                  kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
-#endif
-        
-        // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL)
-        CGContextTranslateCTM(context.get(), 0, height);
-        CGContextScaleCTM(context.get(), 1, -1);
-        
-        CGContextSetBlendMode(context.get(), kCGBlendModeCopy);
-        
-        CGContextDrawImage(context.get(), CGRectMake(0, 0, width, height), image.get());
-        
         glGenTextures(1, &texture);
         gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
         
@@ -691,13 +708,16 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
                      GL_BGRA,
                      GL_UNSIGNED_INT_8_8_8_8_REV,
 #endif
-                     CGBitmapContextGetData(context.get()));
+                     data.get());
         
         glGenerateMipmap(GL_TEXTURE_2D);
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     }
+    
+    // We're done with the image data, so release it to free up memory
+    data.reset();
     
     mprintf("Image loaded into texture_map %u", texture);
     

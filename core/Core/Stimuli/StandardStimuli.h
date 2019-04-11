@@ -201,6 +201,7 @@ public:
     
     explicit ImageStimulus(const Map<ParameterValue> &parameters);
     
+    void load(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 private:
@@ -219,7 +220,11 @@ private:
     const VariablePtr path;
     std::string filename;
     std::string fileHash;
+    
+    std::size_t width;
+    std::size_t height;
     double aspectRatio;
+    std::unique_ptr<std::uint32_t[]> data;
     
     GLint alphaUniformLocation = -1;
     GLuint texture = 0;
