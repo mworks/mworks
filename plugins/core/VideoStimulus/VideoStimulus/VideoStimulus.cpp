@@ -101,6 +101,87 @@ VideoStimulus::~VideoStimulus() {
 }
 
 
+void VideoStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
+    @autoreleasepool {
+        boost::mutex::scoped_lock locker(stim_lock);
+        
+        if (loaded)
+            return;
+        
+        //
+        // Load the video file here, rather than in prepare(), so that we don't block the stimulus display
+        // thread by holding the OpenGL context lock
+        //
+        
+        filePath = pathFromParameterValue(path);
+        NSURL *fileURL = [NSURL fileURLWithPath:@(filePath.string().c_str())];
+        player = [[AVPlayer alloc] initWithURL:fileURL];
+        player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+        
+        videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBufferAttributes];
+        
+        AVPlayerItem *item = player.currentItem;
+        [item addOutput:videoOutput];
+        {
+            auto clock = Clock::instance();
+            auto deadline = clock->getCurrentTimeUS() + 5000000;  // 5s from now
+            while (item.status == AVPlayerItemStatusUnknown) {
+                // Don't loop forever
+                if (clock->getCurrentTimeUS() >= deadline) {
+                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Timeout while waiting for video file to load");
+                }
+                clock->sleepMS(100);
+            }
+        }
+        if (item.status == AVPlayerItemStatusFailed) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  "Cannot load video file",
+                                  item.error.localizedDescription.UTF8String);
+        }
+        
+        BasicTransformStimulus::load(display);
+    }
+}
+
+
+void VideoStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
+    @autoreleasepool {
+        boost::mutex::scoped_lock locker(stim_lock);
+        
+        if (!loaded)
+            return;
+        
+        BasicTransformStimulus::unload(display);
+        
+        //
+        // Unload non-OpenGL resources here, rather than in destroy(), so that we don't block the stimulus display
+        // thread by holding the OpenGL context lock
+        //
+        
+        convertedPixelBuffer.reset();
+        pixelBuffer.reset();
+        
+        [player replaceCurrentItemWithPlayerItem:nil];
+        
+        // Reusing these AVFoundation objects causes problems, so destroy them and
+        // create new ones when needed
+        [videoOutput release];
+        videoOutput = nil;
+        [player release];
+        player = nil;
+        
+        // Need to reset this to zero, otherwise we won't generate new vertex positions
+        // if we load a new video with the same aspect ratio as the old one
+        aspectRatio = 0.0;
+        
+        // Need to reset these to zero, otherwise we won't generate new texture coordinates
+        // if we load a new video with the same frame dimensions as the old one
+        pixelBufferWidth = 0;
+        pixelBufferHeight = 0;
+    }
+}
+
+
 bool VideoStimulus::needDraw(boost::shared_ptr<StimulusDisplay> display) {
     boost::mutex::scoped_lock locker(stim_lock);
     
@@ -176,90 +257,35 @@ gl::Shader VideoStimulus::getFragmentShader() const {
 
 
 void VideoStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
-    @autoreleasepool {
-        boost::mutex::scoped_lock locker(stim_lock);
-        
-        BasicTransformStimulus::prepare(display);
-        
-        filePath = pathFromParameterValue(path);
-        NSURL *fileURL = [NSURL fileURLWithPath:@(filePath.string().c_str())];
-        player = [[AVPlayer alloc] initWithURL:fileURL];
-        player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
-        
-        videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBufferAttributes];
-        
-        AVPlayerItem *item = player.currentItem;
-        [item addOutput:videoOutput];
-        {
-            auto clock = Clock::instance();
-            auto deadline = clock->getCurrentTimeUS() + 5000000;  // 5s from now
-            while (item.status == AVPlayerItemStatusUnknown) {
-                // Don't loop forever
-                if (clock->getCurrentTimeUS() >= deadline) {
-                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Timeout while waiting for video file to load");
-                }
-                clock->sleepMS(100);
-            }
-        }
-        if (item.status == AVPlayerItemStatusFailed) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  "Cannot load video file",
-                                  item.error.localizedDescription.UTF8String);
-        }
-        
-        glGenTextures(1, &texture);
-        
-        glUniform1i(glGetUniformLocation(program, "videoTexture"), 0);
-        alphaUniformLocation = glGetUniformLocation(program, "alpha");
-        
-        glGenBuffers(1, &texCoordsBuffer);
-        gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
+    BasicTransformStimulus::prepare(display);
+    
+    glGenTextures(1, &texture);
+    
+    glUniform1i(glGetUniformLocation(program, "videoTexture"), 0);
+    alphaUniformLocation = glGetUniformLocation(program, "alpha");
+    
+    glGenBuffers(1, &texCoordsBuffer);
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
 #if TARGET_OS_IPHONE
-        VertexPositionArray texCoords {
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 0.0f
-        };
-        glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
+    VertexPositionArray texCoords {
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f
+    };
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
 #endif
-        GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
-        glEnableVertexAttribArray(texCoordsAttribLocation);
-        glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
-    }
+    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
+    glEnableVertexAttribArray(texCoordsAttribLocation);
+    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
 
 void VideoStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
-    @autoreleasepool {
-        boost::mutex::scoped_lock locker(stim_lock);
-        
-        glDeleteBuffers(1, &texCoordsBuffer);
-        glDeleteTextures(1, &texture);
-        
-        convertedPixelBuffer.reset();
-        pixelBuffer.reset();
-        
-        [player replaceCurrentItemWithPlayerItem:nil];
-        
-        // Reusing these AVFoundation objects causes problems, so destroy them and
-        // create new ones when needed
-        [videoOutput release];
-        videoOutput = nil;
-        [player release];
-        player = nil;
-        
-        // Need to reset this to zero, otherwise we won't generate new vertex positions
-        // if we load a new video with the same aspect ratio as the old one
-        aspectRatio = 0.0;
-        
-        // Need to reset these to zero, otherwise we won't generate new texture coordinates
-        // if we load a new video with the same frame dimensions as the old one
-        pixelBufferWidth = 0;
-        pixelBufferHeight = 0;
-        
-        BasicTransformStimulus::destroy(display);
-    }
+    glDeleteBuffers(1, &texCoordsBuffer);
+    glDeleteTextures(1, &texture);
+    
+    BasicTransformStimulus::destroy(display);
 }
 
 

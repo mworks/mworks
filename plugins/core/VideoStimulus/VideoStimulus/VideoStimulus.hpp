@@ -29,6 +29,8 @@ public:
     explicit VideoStimulus(const ParameterValueMap &parameters);
     ~VideoStimulus();
     
+    void load(boost::shared_ptr<StimulusDisplay> display) override;
+    void unload(boost::shared_ptr<StimulusDisplay> display) override;
     bool needDraw(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
