@@ -525,6 +525,8 @@ def zeromq(ios=True):
         if not os.path.isdir(srcdir):
             download_archive('https://github.com/zeromq/libzmq/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
+            with workdir(srcdir):
+                apply_patch('zeromq_pthread_setname.patch')
 
         with workdir(srcdir):
             run_configure_and_make(

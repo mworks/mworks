@@ -1,0 +1,46 @@
+diff -ur zeromq-4.3.1/src/thread.cpp zeromq/src/thread.cpp
+--- zeromq-4.3.1/src/thread.cpp	2019-01-12 11:17:39.000000000 -0500
++++ zeromq/src/thread.cpp	2019-04-16 11:16:09.000000000 -0400
+@@ -178,6 +178,10 @@
+     posix_assert (rc);
+ #endif
+     zmq::thread_t *self = (zmq::thread_t *) arg_;
++#if defined(ZMQ_HAVE_PTHREAD_SETNAME_1)
++    rc = pthread_setname_np (self->_name.c_str());
++    (void)rc;
++#endif
+     self->applySchedulingParameters ();
+     self->_tfn (self->_arg);
+     return NULL;
+@@ -310,9 +314,7 @@
+         return;
+ 
+ #if defined(ZMQ_HAVE_PTHREAD_SETNAME_1)
+-    int rc = pthread_setname_np (name_);
+-    if (rc)
+-        return;
++    _name = name_;
+ #elif defined(ZMQ_HAVE_PTHREAD_SETNAME_2)
+     int rc = pthread_setname_np (_descriptor, name_);
+     if (rc)
+diff -ur zeromq-4.3.1/src/thread.hpp zeromq/src/thread.hpp
+--- zeromq-4.3.1/src/thread.hpp	2019-01-12 11:17:39.000000000 -0500
++++ zeromq/src/thread.hpp	2019-04-16 11:14:47.000000000 -0400
+@@ -37,6 +37,7 @@
+ #include <pthread.h>
+ #endif
+ #include <set>
++#include <string>
+ 
+ namespace zmq
+ {
+@@ -99,6 +100,9 @@
+     void applySchedulingParameters ();
+     thread_fn *_tfn;
+     void *_arg;
++#if defined(ZMQ_HAVE_PTHREAD_SETNAME_1)
++    std::string _name;
++#endif
+ 
+   private:
+     bool _started;
