@@ -13,6 +13,9 @@ description: |
     before any other components are created.  Therefore, the Python code can set
     variable values or perform additional initialization tasks, and other
     components can make use of the results.
+
+    For information on the modules and functions available to your Python code,
+    see `Run Python File`.
 parameters: 
   - 
     name: path
@@ -45,13 +48,89 @@ description: |
     Execute the specified file as `Python <https://www.python.org>`_ source
     code.
 
-    Within the Python code, use ``getvar`` to retrieve the value of an MWorks
-    variable and ``setvar`` to set it, e.g.
+    .. rubric:: Available Modules and Functions
+
+    Python code executed by `Run Python File`, `Run Python String`, a `Python
+    File Resource`, or the `expression parser <Expressions>` functions
+    ``py_eval`` and ``py_call`` can make use of both the `Python standard
+    library <https://docs.python.org/3/library/index.html>`_ and `NumPy
+    <https://www.numpy.org>`_.  In addition, the following MWorks-specific
+    functions are available:
+
+    ``getvar(name)``
+        Returns the value of an MWorks variable.  ``name`` is a string
+        containing the name of the variable.
+
+    ``setvar(name, value)``
+        Sets the value of an MWorks variable.  ``name`` is a string containing
+        the name of the variable, and ``value`` is the new value to assign.
+
+    ``getcodec()``
+        Returns the code-to-name mapping for variables (as a dictionary).
+
+    ``get_reverse_codec()``
+        Returns the name-to-code mapping for variables (as a dictionary).
+
+    ``register_event_callback(name, callback)``
+        Registers an event callback function for an MWorks variable.  ``name``
+        is a string containing the name of the variable, and ``callback`` is a
+        Python function as described below.
+
+    ``register_event_callback(code, callback)``
+        Registers an event callback function for an MWorks variable.  ``code``
+        is the integer code corresponding to the variable, and ``callback`` is a
+        Python function as described below.
+
+    ``register_event_callback(callback)``
+        Registers an event callback function for *all* MWorks variables.
+        ``callback`` is a Python function as described below.  (*Note*: The
+        callback function will be invoked very, very frequently.  Use with
+        caution!)
+
+    ``unregister_event_callbacks()``
+        Unregisters all event callback functions previously registered via
+        Python code.
+
+    ``message(msg)``
+        Generates a normal MWorks message (like `Report / Message`).  ``msg``
+        can be any value, which, after conversion to a string, is used as the
+        text of the message.
+
+    ``warning(msg)``
+        Generates an MWorks warning message.  ``msg`` can be any value, which,
+        after conversion to a string, is used as the text of the message.
+
+    ``error(msg)``
+        Generates an MWorks error message.  ``msg`` can be any value, which,
+        after conversion to a string, is used as the text of the message.
+
+    Event callback functions are invoked whenever a value is assigned to the
+    variable of interest.  They receive a single argument of type ``Event``,
+    which has attributes ``code``, ``time``, and ``data``.  The values of
+    ``code`` and ``time`` are always integers, while the value of ``data`` can
+    be a boolean, integer, float, string, list, or dictionary.
+
+    All MWorks-specific functions are pre-imported in to the ``__main__``
+    module, in which the user-provided Python file or string executes.  To use
+    them in other modules, import them from ``mworkscore``, e.g.
 
     .. code:: python
 
-        x = getvar('x')
-        setvar('x', x + 1)
+        from mworkscore import getvar, setvar
+
+    .. rubric:: Execution Environment
+
+    All user-provided Python code is executed within Python's ``__main__``
+    module. This means that any variables, functions, classes, etc. defined by
+    one Python action or resource file are available to all subsequent ones.
+
+    Due to limitations in the Python interpreter, the Python environment is
+    *not* reset when a new experiment is loaded.  If your Python code expects to
+    run in a "clean slate" environment, it will have to perform the necessary
+    cleanup actions itself.
+
+    Also, event callback functions are never unregistered automatically.  They
+    must be removed explicitly via ``unregister_event_callbacks()``.
 parameters: 
   - 
     name: path
@@ -68,13 +147,8 @@ isa: Run Python Action
 description: |
     Execute the given string as `Python <https://www.python.org>`_ source code.
 
-    Within the Python code, use ``getvar`` to retrieve the value of an MWorks
-    variable and ``setvar`` to set it, e.g.
-
-    .. code:: python
-
-        x = getvar('x')
-        setvar('x', x + 1)
+    For information on the modules and functions available to your Python code,
+    see `Run Python File`.
 parameters: 
   - 
     name: code
