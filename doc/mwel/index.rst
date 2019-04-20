@@ -403,9 +403,24 @@ For the most part, whitespace in MWEL code is ignored.  Specifically, the parser
 
 The exception to this rule is newline (aka line feed) characters, which, while often ignored, are syntactically significant in certain places.  Specifically:
 
-* `Variable declarations`_, `assignments`_, `component declarations`_, and :ref:`macro definitions <macros>` must end with a newline.
+* Newlines are *ignored* within
+
+  * Parenthesized expressions
+  * Subscript expressions
+  * List and dictionary literals
+  * Function call and :ref:`macro definition <macros>` parameter lists
+
+* Newlines are *required* at the end of
+
+  * `Assignments`_
+  * :ref:`Component <component declarations>` and :ref:`variable <variable declarations>` declarations
+  * :ref:`Include statements <includes>`
+  * :ref:`Macro definitions <macros>`
+
 * Name/value pairs in a component declaration's :ref:`parameter list <component declaration parameters>` must be separated by either newlines or semicolons.
 * The statements in a :ref:`statement macro <statement macros>` definition must be separated from the parameter list by a newline.
+
+Wherever a newline is required, a sequence of multiple newlines, optionally separated by non-newline whitespace, is treated as a single newline.
 
 In general, if you follow the coding style used in the preceding examples, you should not need to be concerned about newline placement.
 
