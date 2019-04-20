@@ -396,7 +396,6 @@ For example::
     }
 
 
-
 Whitespace
 ----------
 
@@ -409,3 +408,17 @@ The exception to this rule is newline (aka line feed) characters, which, while o
 * The statements in a :ref:`statement macro <statement macros>` definition must be separated from the parameter list by a newline.
 
 In general, if you follow the coding style used in the preceding examples, you should not need to be concerned about newline placement.
+
+
+Converting To and From XML
+--------------------------
+
+As noted above, when loading an MWEL experiment, MWorks first converts it into XML.  The tool that performs this conversion, ``mwel2xml``, can also be run from the command line (e.g. in the *Terminal* application) as follows::
+
+    /Library/Application\ Support/MWorks/MWEL/mwel2xml exp.mwel > exp.xml
+
+The generated XML includes location information to improve error reporting, as well as embedded copies of both the main MWEL file and any files :ref:`included <includes>` by it.  To omit these extras, pass the option ``--omit-metadata`` to ``mwel2xml``.
+
+Conversely, to convert an existing XML experiment file into MWEL, use the tool ``xml2mwel``::
+
+    /Library/Application\ Support/MWorks/MWEL/xml2mwel exp.xml > exp.mwel
