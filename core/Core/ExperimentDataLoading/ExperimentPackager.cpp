@@ -48,7 +48,7 @@ ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, co
 	mediaFile.seekg(0, std::ios::end);
 	int length = mediaFile.tellg();
 	// if the file was never opened
-	if(length <= 0) {
+	if (length < 0) {
 		mediaFile.close();
         Datum undef;
 		return undef;
