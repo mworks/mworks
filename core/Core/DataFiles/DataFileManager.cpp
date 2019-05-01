@@ -131,6 +131,8 @@ int DataFileManager::closeFile() {
     if (!isFileOpen()) {
         merror(M_FILE_MESSAGE_DOMAIN, "Attempt to close a data file when there isn't one open");
     } else {
+        mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file...");
+        
         running = false;
         eventHandlerThread.join();
         eventBufferReader.reset();
@@ -146,7 +148,7 @@ int DataFileManager::closeFile() {
 
 void DataFileManager::handleEvents() {
     constexpr MWTime nextEventTimeout = 500 * 1000;  // 500ms
-    constexpr std::size_t maxPendingEvents = 100;
+    constexpr std::size_t maxPendingEvents = 1000;
     
     std::vector<boost::shared_ptr<Event>> pendingEvents;
     
@@ -154,28 +156,28 @@ void DataFileManager::handleEvents() {
         // Wait for next event or timeout
         auto event = eventBufferReader->getNextEvent(nextEventTimeout);
         
-        // Collect all currently-available events (up to maxPendingEvents)
+        // Process all currently-available events
         while (event) {
-            if (!excludedEventCodes.count(event->getEventCode())) {
-                pendingEvents.push_back(event);
-                if (pendingEvents.size() >= maxPendingEvents) {
-                    break;
+            // Collect all currently-available events (up to maxPendingEvents)
+            do {
+                if (!excludedEventCodes.count(event->getEventCode())) {
+                    pendingEvents.push_back(event);
                 }
+                event = eventBufferReader->getNextEvent();
+            } while (event && (pendingEvents.size() < maxPendingEvents));
+            
+            // Write pending events
+            if (!pendingEvents.empty()) {
+                try {
+                    mwk2Writer->writeEvents(pendingEvents);
+                } catch (const SimpleException &e) {
+                    merror(M_FILE_MESSAGE_DOMAIN,
+                           "Failed to write %lu events to data file: %s",
+                           pendingEvents.size(),
+                           e.what());
+                }
+                pendingEvents.clear();
             }
-            event = eventBufferReader->getNextEvent();
-        }
-        
-        // Write pending events
-        if (!pendingEvents.empty()) {
-            try {
-                mwk2Writer->writeEvents(pendingEvents);
-            } catch (const SimpleException &e) {
-                merror(M_FILE_MESSAGE_DOMAIN,
-                       "Failed to write %lu events to data file: %s",
-                       pendingEvents.size(),
-                       e.what());
-            }
-            pendingEvents.clear();
         }
     }
     
