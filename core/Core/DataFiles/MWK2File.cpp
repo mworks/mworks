@@ -446,7 +446,7 @@ MWK2Reader::MWK2Reader(const std::string &filename) :
     int result;
     if (SQLITE_OK != (result = sqlite3_open_v2(filename.c_str(),
                                                &conn,
-                                               SQLITE_OPEN_READONLY,
+                                               SQLITE_OPEN_READWRITE,
                                                nullptr)) ||
         SQLITE_OK != (result = sqlite3_create_function(conn,
                                                        "event_data_count",
