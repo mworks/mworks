@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices">
-        <iodevice type="firmata" tag="firmata" serial_port="" bluetooth_local_name="FIRMATA" data_interval="sampling_interval">
+        <iodevice type="firmata" tag="firmata" serial_port="" bluetooth_local_name="MWORKS-FIRMATA-BLE-TEST" data_interval="sampling_interval">
             <iochannel type="firmata_analog_output" tag="pin_9" pin_number="9" value="source"></iochannel>
             <iochannel type="firmata_analog_input" tag="pin_a5" pin_number="a5" value="sink"></iochannel>
         </iodevice>
