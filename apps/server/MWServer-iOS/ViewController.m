@@ -19,6 +19,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     self.listeningAddress.text = APP_DELEGATE.listeningAddress;
     self.listeningPort.text = APP_DELEGATE.listeningPort.stringValue;
+    if (APP_DELEGATE.hideChooseExperimentButton) {
+        [self.chooseExperiment removeFromSuperview];
+    }
     
     [super viewWillAppear:animated];
     

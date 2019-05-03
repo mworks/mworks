@@ -19,6 +19,7 @@
 #define ALLOW_ALT_FAILOVER_PREFERENCE @"allow_alt_failover_preference"
 #define STOP_ON_ERROR_PREFERENCE @"stop_on_error_preference"
 #define WARN_ON_SKIPPED_REFRESH_PREFERENCE @"warn_on_skipped_refresh_preference"
+#define HIDE_CHOOSE_EXPERIMENT_BUTTON_PREFERENCE @"hide_choose_experiment_button_preference"
 #define DISPLAY_WIDTH_PREFERENCE @"display_width_preference"
 #define DISPLAY_HEIGHT_PREFERENCE @"display_height_preference"
 #define DISPLAY_DISTANCE_PREFERENCE @"display_distance_preference"
@@ -37,6 +38,7 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
       ALLOW_ALT_FAILOVER_PREFERENCE: @(YES),
       STOP_ON_ERROR_PREFERENCE: @(NO),
       WARN_ON_SKIPPED_REFRESH_PREFERENCE: @(YES),
+      HIDE_CHOOSE_EXPERIMENT_BUTTON_PREFERENCE: @(NO),
       DISPLAY_WIDTH_PREFERENCE: @(373.33),
       DISPLAY_HEIGHT_PREFERENCE: @(280),
       DISPLAY_DISTANCE_PREFERENCE: @(450),
@@ -144,6 +146,8 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         
         _listeningPort = @([userDefaults integerForKey:LISTENING_PORT_PREFERENCE]);
         core->setListenPort(self.listeningPort.intValue);
+        
+        _hideChooseExperimentButton = [userDefaults boolForKey:HIDE_CHOOSE_EXPERIMENT_BUTTON_PREFERENCE];
         
         core->startServer();
         
