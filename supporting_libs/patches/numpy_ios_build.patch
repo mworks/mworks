@@ -1,7 +1,7 @@
-diff -ur numpy-1.16.0/numpy/distutils/system_info.py numpy/numpy/distutils/system_info.py
---- numpy-1.16.0/numpy/distutils/system_info.py	2019-01-05 17:25:49.000000000 -0500
-+++ numpy/numpy/distutils/system_info.py	2019-01-15 13:23:28.000000000 -0500
-@@ -1893,7 +1893,8 @@
+diff -ur numpy-1.16.2/numpy/distutils/system_info.py numpy/numpy/distutils/system_info.py
+--- numpy-1.16.2/numpy/distutils/system_info.py	2019-02-25 19:30:54.000000000 -0500
++++ numpy/numpy/distutils/system_info.py	2019-05-09 13:23:42.000000000 -0400
+@@ -1906,7 +1906,8 @@
          libraries = [lib.strip().lower() for lib in libraries]
  
          if (sys.platform == 'darwin' and
@@ -11,3 +11,86 @@ diff -ur numpy-1.16.0/numpy/distutils/system_info.py numpy/numpy/distutils/syste
              # Use the system BLAS from Accelerate or vecLib under OSX
              args = []
              link_args = []
+diff -ur numpy-1.16.2/numpy/linalg/lapack_litemodule.c numpy/numpy/linalg/lapack_litemodule.c
+--- numpy-1.16.2/numpy/linalg/lapack_litemodule.c	2019-02-21 19:33:42.000000000 -0500
++++ numpy/numpy/linalg/lapack_litemodule.c	2019-05-09 14:45:40.000000000 -0400
+@@ -287,6 +287,7 @@
+ static PyObject *
+ lapack_lite_xerbla(PyObject *NPY_UNUSED(self), PyObject *args)
+ {
++    /*
+     int info = -1;
+ 
+     NPY_BEGIN_THREADS_DEF;
+@@ -297,6 +298,7 @@
+     if (PyErr_Occurred()) {
+         return NULL;
+     }
++    */
+     Py_RETURN_NONE;
+ }
+ 
+diff -ur numpy-1.16.2/numpy/linalg/umath_linalg.c.src numpy/numpy/linalg/umath_linalg.c.src
+--- numpy-1.16.2/numpy/linalg/umath_linalg.c.src	2019-02-21 19:33:42.000000000 -0500
++++ numpy/numpy/linalg/umath_linalg.c.src	2019-05-09 13:52:58.000000000 -0400
+@@ -283,6 +283,7 @@
+               f2c_doublecomplex a[], int *lda,
+               int *info);
+ 
++/*
+ extern int
+ FNAME(scopy)(int *n,
+              float *sx, int *incx,
+@@ -299,6 +300,52 @@
+ FNAME(zcopy)(int *n,
+              f2c_doublecomplex *sx, int *incx,
+              f2c_doublecomplex *sy, int *incy);
++ */
++
++extern void cblas_scopy(const int N, const float *X, const int incX,
++                        float *Y, const int incY);
++extern void cblas_dcopy(const int N, const double *X, const int incX,
++                        double *Y, const int incY);
++extern void cblas_ccopy(const int N, const void *X, const int incX,
++                        void *Y, const int incY);
++extern void cblas_zcopy(const int N, const void *X, const int incX,
++                        void *Y, const int incY);
++
++static int
++FNAME(scopy)(int *n,
++             float *sx, int *incx,
++             float *sy, int *incy)
++{
++    cblas_scopy(*n, sx, *incx, sy, *incy);
++    return 0;
++}
++
++static int
++FNAME(dcopy)(int *n,
++             double *sx, int *incx,
++             double *sy, int *incy)
++{
++    cblas_dcopy(*n, sx, *incx, sy, *incy);
++    return 0;
++}
++
++static int
++FNAME(ccopy)(int *n,
++             f2c_complex *sx, int *incx,
++             f2c_complex *sy, int *incy)
++{
++    cblas_ccopy(*n, sx, *incx, sy, *incy);
++    return 0;
++}
++
++static int
++FNAME(zcopy)(int *n,
++             f2c_doublecomplex *sx, int *incx,
++             f2c_doublecomplex *sy, int *incy)
++{
++    cblas_zcopy(*n, sx, *incx, sy, *incy);
++    return 0;
++}
+ 
+ extern float
+ FNAME(sdot)(int *n,
