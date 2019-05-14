@@ -411,7 +411,7 @@ def python3(ios=True):
 
 @builder
 def numpy3(ios=True):
-    version = '1.16.2'
+    version = '1.16.3'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -456,7 +456,7 @@ def numpy3(ios=True):
 
 @builder
 def boost(ios=True):
-    version = '1.69.0'
+    version = '1.70.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -468,7 +468,6 @@ def boost(ios=True):
             download_archive('https://dl.bintray.com/boostorg/release/%s/source/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
-                apply_patch('boost_deprecated_include.patch')
                 os.symlink('boost', 'mworks_boost')
                 env = get_clean_env()
                 if building_for_ios:
@@ -581,7 +580,7 @@ def libxslt(macos=False, ios=True):
 
 @builder
 def sqlite(ios=True):
-    version = '3270200'
+    version = '3280000'
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
