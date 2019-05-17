@@ -23,7 +23,6 @@
 #define DISPLAY_WIDTH_PREFERENCE @"display_width_preference"
 #define DISPLAY_HEIGHT_PREFERENCE @"display_height_preference"
 #define DISPLAY_DISTANCE_PREFERENCE @"display_distance_preference"
-#define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
 #define USE_COLOR_MANAGEMENT_PREFERENCE @"use_color_management_preference"
 #define DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE @"did_install_example_experiments_preference"
 
@@ -42,7 +41,6 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
       DISPLAY_WIDTH_PREFERENCE: @(373.33),
       DISPLAY_HEIGHT_PREFERENCE: @(280),
       DISPLAY_DISTANCE_PREFERENCE: @(450),
-      ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
       USE_COLOR_MANAGEMENT_PREFERENCE: @(YES),
       DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE: @(NO)
       };
@@ -66,7 +64,6 @@ static void initializeSetupVariables(NSUserDefaults *userDefaults,
     setupVariablesController.displayRefreshRateHz = @(60.0);
     setupVariablesController.alwaysDisplayMirrorWindow = NO;
     setupVariablesController.mirrorWindowBaseHeight = @(0);
-    setupVariablesController.announceIndividualStimuli = [userDefaults boolForKey:ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE];
     setupVariablesController.useColorManagement = [userDefaults boolForKey:USE_COLOR_MANAGEMENT_PREFERENCE];
     
     setupVariablesController.warnOnSkippedRefresh = [userDefaults boolForKey:WARN_ON_SKIPPED_REFRESH_PREFERENCE];

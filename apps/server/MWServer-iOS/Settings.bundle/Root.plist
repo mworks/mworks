@@ -150,16 +150,6 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Announce stimuli individually</string>
-			<key>Key</key>
-			<string>announce_individual_stimuli_preference</string>
-			<key>DefaultValue</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
 			<string>Use color management</string>
 			<key>Key</key>
 			<string>use_color_management_preference</string>

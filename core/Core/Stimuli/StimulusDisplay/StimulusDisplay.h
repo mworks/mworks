@@ -85,9 +85,7 @@ BEGIN_NAMESPACE_MW
         double mainDisplayRefreshRate;
         MWTime currentOutputTimeUS;
         
-        const bool announceIndividualStimuli;
         bool announceStimuliOnImplicitUpdates;
-        std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
         
         const bool useColorManagement;
@@ -105,9 +103,7 @@ BEGIN_NAMESPACE_MW
         void ensureRefresh(unique_lock &lock);
 
         void announceDisplayUpdate(bool updateIsExplicit);
-        void announceDisplayStack(MWTime time);
         Datum getAnnounceData(bool updateIsExplicit);
-        bool shouldAnnounceStimuli(bool updateIsExplicit) { return updateIsExplicit || announceStimuliOnImplicitUpdates; }
         
         void reportSkippedFrames(double numSkippedFrames) const;
 
@@ -122,7 +118,7 @@ BEGIN_NAMESPACE_MW
                                      double &bottom,
                                      double &top);
 		
-        StimulusDisplay(bool announceIndividualStimuli, bool useColorManagement);
+        explicit StimulusDisplay(bool useColorManagement);
 		virtual ~StimulusDisplay();
 		
 		void addContext(int _context_id);
@@ -152,8 +148,7 @@ BEGIN_NAMESPACE_MW
         double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
         MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
         
-        static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool announceIndividualStimuli,
-                                                                                bool useColorManagement);
+        static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool useColorManagement);
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
 	};
 

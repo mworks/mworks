@@ -27,7 +27,7 @@ class IOSStimulusDisplay : public StimulusDisplay {
 public:
     using DisplayLinkCallback = decltype(&displayLinkCallback);
     
-    IOSStimulusDisplay(bool announceIndividualStimuli, bool useColorManagement);
+    explicit IOSStimulusDisplay(bool useColorManagement);
     ~IOSStimulusDisplay();
     
     CFTimeInterval getCurrentTargetTimestamp() const { return lastTargetTimestamp; }

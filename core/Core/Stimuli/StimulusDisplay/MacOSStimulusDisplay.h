@@ -21,7 +21,7 @@ BEGIN_NAMESPACE_MW
 class MacOSStimulusDisplay : public StimulusDisplay {
     
 public:
-    MacOSStimulusDisplay(bool announceIndividualStimuli, bool useColorManagement);
+    explicit MacOSStimulusDisplay(bool useColorManagement);
     ~MacOSStimulusDisplay();
     
     const CVTimeStamp& getCurrentOutputTimeStamp() const { return currentOutputTimeStamp; }

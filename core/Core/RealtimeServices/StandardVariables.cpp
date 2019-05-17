@@ -118,19 +118,6 @@ BEGIN_NAMESPACE_MW
                                                                                  true, false, M_STRUCTURED, PRIVATE_SYSTEM_VARIABLES));
 		
 		
-		// any stimulus object will announce it appearance and disappearance through this variable
-		//  when they appear/disappear on the screen (open GL), they will be asked to announce
-		//    values by changing this variable
-		registry->createGlobalVariable(
-									   VariableProperties(
-															   Datum((long)0),       // constructor to create default
-															   ANNOUNCE_STIMULUS_TAGNAME, "Announce stimulus",
-															   "A stimulus change has occured", 
-															   M_NEVER,M_WHEN_CHANGED,     // never useer edit, log when changed
-															   true, false, M_STRUCTURED,
-															   PRIVATE_SYSTEM_VARIABLES));  // view                                       
-		
-		
 		registry->createGlobalVariable(
 									   VariableProperties(
 															   Datum((long)0),       // constructor to create default

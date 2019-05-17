@@ -34,10 +34,6 @@
                     <value type="integer">400</value>
                 </dictionary_element>    
                 <dictionary_element>
-                    <key>announce_individual_stimuli</key>
-                    <value type="integer">1</value>
-                </dictionary_element>    
-                <dictionary_element>
                     <key>use_color_management</key>
                     <value type="integer">1</value>
                 </dictionary_element>

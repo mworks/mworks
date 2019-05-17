@@ -208,7 +208,6 @@ void Experiment::prepareStimulusDisplay() {
     
     bool always_display_mirror_window = false;
     int display_to_use = 0;
-    bool announce_individual_stimuli = true;
     bool use_color_management = true;
     bool make_window_opaque = true;
     
@@ -223,10 +222,6 @@ void Experiment::prepareStimulusDisplay() {
             always_display_mirror_window = (bool)val.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY);
         }
         
-        if (val.hasKey(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY)) {
-            announce_individual_stimuli = (bool)val.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY);
-        }
-        
         if (val.hasKey(M_USE_COLOR_MANAGEMENT_KEY)) {
             use_color_management = (bool)val.getElement(M_USE_COLOR_MANAGEMENT_KEY);
         }
@@ -236,8 +231,7 @@ void Experiment::prepareStimulusDisplay() {
         }
     }
     
-    stimulus_display = StimulusDisplay::createPlatformStimulusDisplay(announce_individual_stimuli,
-                                                                      use_color_management);
+    stimulus_display = StimulusDisplay::createPlatformStimulusDisplay(use_color_management);
     
     if (display_to_use >= 0 && (opengl_context_manager->getNumDisplays() > 1 || display_to_use == 0)) {
         if (display_to_use >= opengl_context_manager->getNumDisplays()) {

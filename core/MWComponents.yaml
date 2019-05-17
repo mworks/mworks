@@ -1888,12 +1888,12 @@ parameters:
     name: announce_stimuli_on_implicit_updates
     default: 'YES'
     description: >
+
         Controls the announcement of stimuli during "implicit" display updates
         (i.e. updates requested by running dynamic stimuli and *not* triggered
         by an explicit `Update Stimulus Display` action).  If set to ``NO``,
-        then implicit updates will not generate ``#announceStimulus`` events,
-        and ``#stimDisplayUpdate`` events for implicit updates will contain only
-        the number of stimuli displayed (in place of the usual list of stimulus
+        ``#stimDisplayUpdate`` events for implicit updates will contain only the
+        number of stimuli displayed (in place of the usual list of stimulus
         parameters).
 
 

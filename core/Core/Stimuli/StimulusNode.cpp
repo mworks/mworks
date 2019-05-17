@@ -153,12 +153,6 @@ bool StimulusNode::isPendingRemoval(){
     return pending_removal;
 }
 
-void StimulusNode::announce(Datum announceData, MWTime time) {
-    if (stim != NULL) {
-        stim->announce(announceData, time);
-    }
-}
-
 Datum StimulusNode::getCurrentAnnounceDrawData() {
 	if(stim == NULL) {
     //if(live_stim == NULL) {
@@ -386,14 +380,6 @@ bool StimulusGroupReferenceNode::isPendingVisible(){
  bool StimulusGroupReferenceNode::wasVisibleOnLastUpdate(){          // JJD add
  return (stimulus_nodes->getElement((int)(*index)))->wasVisibleOnLastUpdate();
  }*/
-
-void StimulusGroupReferenceNode::announce(Datum announceData, MWTime time) {
-    int index_value = getIndexValue();
-    int nelements = stimulus_nodes->getNElements();
-    if (index_value >= 0 && index_value < nelements) {
-        (stimulus_nodes->getElement(index_value))->announce(announceData, time);
-    }
-}
 
 Datum StimulusGroupReferenceNode::getCurrentAnnounceDrawData(){
 	int index_value = getIndexValue();

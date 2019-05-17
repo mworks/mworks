@@ -43,7 +43,6 @@
                 _displayRefreshRateHz = @(mdi.getElement(M_REFRESH_RATE_KEY).getFloat());
                 _alwaysDisplayMirrorWindow = getValueWithDefault(mdi, M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, false).getBool();
                 _mirrorWindowBaseHeight = @(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat());
-                _announceIndividualStimuli = getValueWithDefault(mdi, M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY, true).getBool();
                 _useColorManagement = getValueWithDefault(mdi, M_USE_COLOR_MANAGEMENT_KEY, true).getBool();
                 _setDisplayGamma = getValueWithDefault(mdi, M_SET_DISPLAY_GAMMA_KEY, false).getBool();
                 _redGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_RED_KEY, 0.0).getFloat());
@@ -144,14 +143,6 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
     [self updateVariable:mw::mainDisplayInfo
                      key:M_MIRROR_WINDOW_BASE_HEIGHT_KEY
                    value:mirrorWindowBaseHeight.doubleValue];
-}
-
-
-- (void)setAnnounceIndividualStimuli:(BOOL)announceIndividualStimuli {
-    _announceIndividualStimuli = announceIndividualStimuli;
-    [self updateVariable:mw::mainDisplayInfo
-                     key:M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY
-                   value:bool(announceIndividualStimuli)];
 }
 
 

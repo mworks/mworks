@@ -20,7 +20,6 @@
 @property(nonatomic, strong) NSNumber *displayRefreshRateHz;
 @property(nonatomic) BOOL alwaysDisplayMirrorWindow;
 @property(nonatomic, strong) NSNumber *mirrorWindowBaseHeight;
-@property(nonatomic) BOOL announceIndividualStimuli;
 @property(nonatomic) BOOL useColorManagement;
 @property(nonatomic) BOOL setDisplayGamma;
 @property(nonatomic, strong) NSNumber *redGamma;

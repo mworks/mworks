@@ -190,7 +190,6 @@ Stimulus::load_style ParameterValue::convert(const std::string &s, ComponentRegi
 
 
 Stimulus::Stimulus(const ParameterValueMap &parameters) :
-    Announcable(ANNOUNCE_STIMULUS_TAGNAME),
     mw::Component(parameters),
     loaded(false),
     visible(false),
@@ -199,7 +198,6 @@ Stimulus::Stimulus(const ParameterValueMap &parameters) :
 
 
 Stimulus::Stimulus(const std::string &_tag) :
-    Announcable(ANNOUNCE_STIMULUS_TAGNAME),
     mw::Component(_tag),
     loaded(false),
     visible(false),

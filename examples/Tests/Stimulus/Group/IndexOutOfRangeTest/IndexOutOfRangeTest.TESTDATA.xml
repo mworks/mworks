@@ -22,7 +22,6 @@
     <event variable="#announceMessage"/>
     <event variable="#stimDisplayUpdate"/>
     <event variable="#experimentLoadProgress"/>
-    <event variable="#announceStimulus"/>
     <event variable="#requestCalibrator"/>
     <event variable="#announceCurrentState"/>
     <event variable="#announceTrial"/>

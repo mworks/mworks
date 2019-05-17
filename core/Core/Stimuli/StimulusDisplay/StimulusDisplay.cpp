@@ -27,7 +27,7 @@
 BEGIN_NAMESPACE_MW
 
 
-StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli, bool useColorManagement) :
+StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     current_context_index(-1),
     waitingForRefresh(false),
     needDraw(false),
@@ -36,7 +36,6 @@ StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli, bool useColorMa
     displayUpdatesStarted(false),
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
-    announceIndividualStimuli(announceIndividualStimuli),
     announceStimuliOnImplicitUpdates(true),
     useColorManagement(useColorManagement)
 {
@@ -369,7 +368,6 @@ void StimulusDisplay::drawDisplayStack() {
                 
                 Datum individualAnnounce(node->getCurrentAnnounceDrawData());
                 if (!individualAnnounce.isUndefined()) {
-                    stimsToAnnounce.push_back(node);
                     stimAnnouncements.push_back(individualAnnounce);
                 }
             }
@@ -437,26 +435,14 @@ void StimulusDisplay::announceDisplayUpdate(bool updateIsExplicit) {
     
     stimDisplayUpdate->setValue(getAnnounceData(updateIsExplicit), now);
     
-    if (announceIndividualStimuli && shouldAnnounceStimuli(updateIsExplicit)) {
-        announceDisplayStack(now);
-    }
-
-    stimsToAnnounce.clear();
     stimAnnouncements.clear();
-}
-
-
-void StimulusDisplay::announceDisplayStack(MWTime time) {
-    for (size_t i = 0; i < stimsToAnnounce.size(); i++) {
-        stimsToAnnounce[i]->announce(stimAnnouncements[i], time);
-    }
 }
 
 
 Datum StimulusDisplay::getAnnounceData(bool updateIsExplicit) {
     Datum stimAnnounce;
     
-    if (!shouldAnnounceStimuli(updateIsExplicit)) {
+    if (!(updateIsExplicit || announceStimuliOnImplicitUpdates)) {
         // No stim announcements, so just report the number of stimuli drawn
         stimAnnounce = Datum(long(stimAnnouncements.size()));
     } else {

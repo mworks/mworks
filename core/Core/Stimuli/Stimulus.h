@@ -46,7 +46,7 @@ class ParameterValue;
 class StimulusDisplay;
 
 
-class Stimulus : public Announcable, public mw::Component, public FreezableCollection {
+class Stimulus : public mw::Component, public FreezableCollection {
     
 public:
     enum load_style { deferred_load, nondeferred_load, explicit_load  };
