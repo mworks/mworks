@@ -151,7 +151,6 @@ def core_plugins():
     for subdir in ('DriftingGratingStimulus',
                    'EasyEye',
                    'Firmata',
-                   'HIDPlugin',
                    'LayerStimulus',
                    'MouseInput',
                    'MoviePlugin',
