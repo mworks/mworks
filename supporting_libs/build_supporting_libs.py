@@ -489,7 +489,7 @@ def boost(ios=True):
             
         with workdir(srcdir):
             shutil.copy(project_config_jam_orig, project_config_jam)
-            libraries = ['filesystem', 'random', 'regex', 'system', 'thread']
+            libraries = ['filesystem', 'random', 'regex', 'thread']
             if not building_for_ios:
                 libraries += ['serialization']
             run_b2(libraries)
