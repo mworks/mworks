@@ -42,7 +42,6 @@
 		E15C72F41E6DFF99001CE0C0 /* VideoStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */; };
 		E15C72F51E6DFF9D001CE0C0 /* VideoStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */; };
 		E1738F3B1DAD5BDA00B72222 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1738F391DAD5BDA00B72222 /* MWComponents.yaml */; };
-		E1738F3C1DAD5BDA00B72222 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */; };
 		E17B66801FD9966700941E70 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17B667F1FD9966700941E70 /* CoreImage.framework */; };
 		E17B66821FD9972400941E70 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17B66811FD9972400941E70 /* CoreGraphics.framework */; };
 		E1E780101D9D7CC400A04814 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */; };
@@ -96,7 +95,6 @@
 		E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VideoStimulus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C72F01E6DFE43001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1738F391DAD5BDA00B72222 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
-		E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E17B667F1FD9966700941E70 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		E17B66811FD9972400941E70 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -178,7 +176,6 @@
 				E15C72F01E6DFE43001CE0C0 /* Info-iOS.plist */,
 				E1556E171D945E6800AE70F9 /* VideoStimulus-Prefix.pch */,
 				E1738F391DAD5BDA00B72222 /* MWComponents.yaml */,
-				E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -278,6 +275,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E1556DFD1D945BD600AE70F9;
@@ -299,7 +297,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1738F3B1DAD5BDA00B72222 /* MWComponents.yaml in Resources */,
-				E1738F3C1DAD5BDA00B72222 /* MWLibrary.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

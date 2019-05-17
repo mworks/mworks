@@ -217,11 +217,6 @@ def local_client_plugins():
             xcodebuild()
 
 
-@builder('mworks/apps/editor')
-def editor():
-    xcodebuild()
-
-
 @builder('mworks/apps/server')
 def server():
     xcodebuild()

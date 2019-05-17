@@ -43,7 +43,6 @@
 		E1E4B2CA1D886423006EB80E /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E4B2C91D886423006EB80E /* CoreFoundation.framework */; };
 		E1E4B2CC1D88665B006EB80E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E4B2CB1D88665B006EB80E /* CoreText.framework */; };
 		E1F3746B1D87421800625A44 /* TextStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F3746A1D87421800625A44 /* TextStimulusPlugin.cpp */; };
-		E1F5AD151D917CA100B7D8C9 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1F5AD141D917CA100B7D8C9 /* MWLibrary.xml */; };
 		E1F5AD171D917E9D00B7D8C9 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1F5AD161D917E9D00B7D8C9 /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
 
@@ -94,7 +93,6 @@
 		E1F374641D87410900625A44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1F3746A1D87421800625A44 /* TextStimulusPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextStimulusPlugin.cpp; sourceTree = "<group>"; };
 		E1F374721D87441C00625A44 /* TextStimulus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TextStimulus-Prefix.pch"; sourceTree = "<group>"; };
-		E1F5AD141D917CA100B7D8C9 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1F5AD161D917E9D00B7D8C9 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,7 +179,6 @@
 				E15C72D21E6DF11A001CE0C0 /* Info-iOS.plist */,
 				E1F374721D87441C00625A44 /* TextStimulus-Prefix.pch */,
 				E1F5AD161D917E9D00B7D8C9 /* MWComponents.yaml */,
-				E1F5AD141D917CA100B7D8C9 /* MWLibrary.xml */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -266,6 +263,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E1F374581D87410900625A44;
@@ -294,7 +292,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1F5AD171D917E9D00B7D8C9 /* MWComponents.yaml in Resources */,
-				E1F5AD151D917CA100B7D8C9 /* MWLibrary.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

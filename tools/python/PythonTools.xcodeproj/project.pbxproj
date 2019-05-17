@@ -92,7 +92,6 @@
 		E1D3CAA91B1CDD4100E94A2C /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
 		E1D645831B31C1ED0092C428 /* RunPythonAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D645811B31C1ED0092C428 /* RunPythonAction.cpp */; };
 		E1D645861B31C5FF0092C428 /* RunPythonStringAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D645841B31C5FF0092C428 /* RunPythonStringAction.cpp */; };
-		E1D645891B31E2900092C428 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1D645881B31E2900092C428 /* MWLibrary.xml */; };
 		E1DB978E16C1981E001481E9 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978D16C1981E001481E9 /* libboost_serialization.a */; };
 		E1DB979016C19830001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978F16C19830001481E9 /* libboost_filesystem.a */; };
 		E1DB979416C19859001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979316C19859001481E9 /* libscarab.a */; };
@@ -211,7 +210,6 @@
 		E1D645821B31C1ED0092C428 /* RunPythonAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunPythonAction.h; sourceTree = "<group>"; };
 		E1D645841B31C5FF0092C428 /* RunPythonStringAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunPythonStringAction.cpp; sourceTree = "<group>"; };
 		E1D645851B31C5FF0092C428 /* RunPythonStringAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunPythonStringAction.h; sourceTree = "<group>"; };
-		E1D645881B31E2900092C428 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1DB978D16C1981E001481E9 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_serialization.a"; sourceTree = "<absolute>"; };
 		E1DB978F16C19830001481E9 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E1DB979316C19859001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
@@ -424,7 +422,6 @@
 			isa = PBXGroup;
 			children = (
 				E1E07E921C04F17E008DD97E /* MWComponents.yaml */,
-				E1D645881B31E2900092C428 /* MWLibrary.xml */,
 				E1E603A11B1904D2009BA19D /* Info.plist */,
 				E105D17D20FE7D33002E2464 /* Info-iOS.plist */,
 			);
@@ -568,6 +565,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E18D3B6E165537A300D472D0;
@@ -599,7 +597,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1E07E931C04F17E008DD97E /* MWComponents.yaml in Resources */,
-				E1D645891B31E2900092C428 /* MWLibrary.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,7 +3,7 @@
 Experiment Language (MWEL)
 ==========================
 
-MWorks Experiment Language (MWEL) provides a user-friendly, programming-language-like alternative to the `XML <https://en.wikipedia.org/wiki/XML>`_\-based experiments created by MWEditor.  It is designed to be read and written via a text editor and is optimized for conciseness and clarity, with minimal syntactic "noise".
+MWorks Experiment Language (MWEL) provides a user-friendly, programming-language-like alternative to `XML <https://en.wikipedia.org/wiki/XML>`_\-based experiments.  It is designed to be read and written via a text editor and is optimized for conciseness and clarity, with minimal syntactic "noise".
 
 At runtime, MWEL experiments are translated into MWorks' XML, after which they are parsed and executed in exactly the same way as traditional, XML-based experiments.  This ensures that equivalent experiments written in MWEL and XML perform identically.  (However, it also means that some of the limitations of XML-based experiments apply to MWEL-based ones, too.)
 

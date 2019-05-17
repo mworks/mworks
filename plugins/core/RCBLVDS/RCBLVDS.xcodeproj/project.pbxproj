@@ -40,7 +40,6 @@
 		E12DAD7F1F69A985004FF673 /* RCBLVDS.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E12DAD671F69A6E2004FF673 /* RCBLVDS.bundle */; };
 		E12DAD861F69AEE4004FF673 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E12DAD851F69AEE4004FF673 /* MWorksCore.framework */; };
 		E12DAD8B1F69B0C0004FF673 /* RCBLVDSDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12DAD891F69B0BF004FF673 /* RCBLVDSDevice.cpp */; };
-		E16F5B951F7AAA13003556D8 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E16F5B941F7AAA13003556D8 /* MWLibrary.xml */; };
 		E16F5B971F7AABFE003556D8 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E16F5B961F7AABFE003556D8 /* MWComponents.yaml */; };
 		E18A60351F795349002886A6 /* RCBLVDSDigitalInputChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18A60331F795349002886A6 /* RCBLVDSDigitalInputChannel.cpp */; };
 /* End PBXBuildFile section */
@@ -88,7 +87,6 @@
 		E12DAD851F69AEE4004FF673 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E12DAD891F69B0BF004FF673 /* RCBLVDSDevice.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = RCBLVDSDevice.cpp; sourceTree = "<group>"; };
 		E12DAD8A1F69B0C0004FF673 /* RCBLVDSDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RCBLVDSDevice.hpp; sourceTree = "<group>"; };
-		E16F5B941F7AAA13003556D8 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E16F5B961F7AABFE003556D8 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E18A60331F795349002886A6 /* RCBLVDSDigitalInputChannel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RCBLVDSDigitalInputChannel.cpp; sourceTree = "<group>"; };
 		E18A60341F795349002886A6 /* RCBLVDSDigitalInputChannel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RCBLVDSDigitalInputChannel.hpp; sourceTree = "<group>"; };
@@ -163,7 +161,6 @@
 				E110FE751F7BE3E700E9BBB9 /* Info-iOS.plist */,
 				E12DAD831F69AE43004FF673 /* RCBLVDS-Prefix.pch */,
 				E16F5B961F7AABFE003556D8 /* MWComponents.yaml */,
-				E16F5B941F7AAA13003556D8 /* MWLibrary.xml */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -256,6 +253,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E12DAD5E1F69A6E2004FF673;
@@ -284,7 +282,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E16F5B971F7AABFE003556D8 /* MWComponents.yaml in Resources */,
-				E16F5B951F7AAA13003556D8 /* MWLibrary.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

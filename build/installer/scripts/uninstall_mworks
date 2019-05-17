@@ -12,13 +12,13 @@ import time
 mw_files = (
     # Current
     '/Applications/MWClient.app',
-    '/Applications/MWEditor.app',
     '/Applications/MWServer.app',
     '/Library/Application Support/MWorks',
     '/Library/Frameworks/MWorksCocoa.framework',
     '/Library/Frameworks/MWorksCore.framework',
 
     # Legacy
+    '/Applications/MWEditor.app',
     '/Developer/Library/Xcode/Project Templates/MWorks',
     '/Documents/MWorks',
     '/Documents/MonkeyWorks',

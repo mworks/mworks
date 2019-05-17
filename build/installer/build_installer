@@ -12,7 +12,6 @@ installer_root = '/tmp/mw_installer'
 
 app_paths = (
     '/Applications/MWClient.app',
-    '/Applications/MWEditor.app',
     '/Applications/MWServer.app',
     )
 

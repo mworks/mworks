@@ -33,7 +33,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		E14E2D86191295F300534ABB /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E14E2D85191295F300534ABB /* MWLibrary.xml */; };
 		E1A97C31170C847100E3FC03 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A97C30170C847100E3FC03 /* CoreFoundation.framework */; };
 		E1A97C37170C847100E3FC03 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1A97C35170C847100E3FC03 /* InfoPlist.strings */; };
 		E1A97C40170C857700E3FC03 /* USBHIDPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A97C3E170C857700E3FC03 /* USBHIDPlugin.cpp */; };
@@ -77,7 +76,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E14E2D85191295F300534ABB /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1A97C2D170C847100E3FC03 /* USBHID.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = USBHID.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1A97C30170C847100E3FC03 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E1A97C34170C847100E3FC03 /* USBHID-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "USBHID-Info.plist"; sourceTree = "<group>"; };
@@ -160,7 +158,6 @@
 				E1A97C35170C847100E3FC03 /* InfoPlist.strings */,
 				E1A97C38170C847100E3FC03 /* USBHID-Prefix.pch */,
 				E1E07EB21C04F52F008DD97E /* MWComponents.yaml */,
-				E14E2D85191295F300534ABB /* MWLibrary.xml */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -219,6 +216,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E1A97C24170C847100E3FC03;
@@ -239,7 +237,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A97C37170C847100E3FC03 /* InfoPlist.strings in Resources */,
-				E14E2D86191295F300534ABB /* MWLibrary.xml in Resources */,
 				E1E07EB31C04F52F008DD97E /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

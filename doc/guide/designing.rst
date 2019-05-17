@@ -3,7 +3,7 @@ Designing an Experiment
 
 For both new and experienced MWorks users, designing an experiment can be a daunting task.  This guide attempts to break down and explain the elements of experimental design, both to help you better understand the working of existing experiments and to provide you with a mental framework for creating your own.
 
-*Note*: The examples included in and referred to by this guide all use `MWEL <MWEL>`, which is recommended for new experiments.  However, the ideas and tools described here are equally applicable to XML-based experiments created or modified in MWEditor.  Any example files referred to by name can be found in the directory ``/Library/Application Support/MWorks/Examples``.
+*Note*: The examples included in and referred to by this guide all use `MWEL <MWEL>`, which is recommended for new experiments.  However, the ideas and tools described here are equally applicable to XML-based experiments.  Any example files referred to by name can be found in the directory ``/Library/Application Support/MWorks/Examples``.
 
 
 Data Flow

@@ -34,7 +34,6 @@
 
 /* Begin PBXBuildFile section */
 		0E37FBA30E59C3DD008B885D /* MovieStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* MovieStimulusPlugin.cpp */; };
-		0E3A0B530EEDA37500F5C65A /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0E3A0B520EEDA37500F5C65A /* MWLibrary.xml */; };
 		0EDE104C0E58BA690031005B /* MovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE10470E58BA690031005B /* MovieStimulus.cpp */; };
 		5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MWorksCore.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
@@ -87,7 +86,6 @@
 /* Begin PBXFileReference section */
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0E37FBA10E59C3DD008B885D /* MovieStimulusPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovieStimulusPlugin.cpp; sourceTree = "<group>"; };
-		0E3A0B520EEDA37500F5C65A /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		0EDE10470E58BA690031005B /* MovieStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovieStimulus.cpp; sourceTree = "<group>"; };
 		0EDE10480E58BA690031005B /* MovieStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieStimulus.h; sourceTree = "<group>"; };
 		32DBCF630370AF2F00C91783 /* MovieStimulusPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieStimulusPlugin_Prefix.pch; sourceTree = "<group>"; };
@@ -217,7 +215,6 @@
 			isa = PBXGroup;
 			children = (
 				E1E07E9A1C04F287008DD97E /* MWComponents.yaml */,
-				0E3A0B520EEDA37500F5C65A /* MWLibrary.xml */,
 			);
 			name = "Editor Definitions";
 			sourceTree = "<group>";
@@ -322,7 +319,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
-				0E3A0B530EEDA37500F5C65A /* MWLibrary.xml in Resources */,
 				E1E07E9B1C04F287008DD97E /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

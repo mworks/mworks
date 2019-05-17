@@ -34,7 +34,6 @@
 
 /* Begin PBXBuildFile section */
 		5CF9AEBC0FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp */; };
-		5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB091105FB4C007CE55F /* MWLibrary.xml */; };
 		5CFE591A0F571B15000C7F30 /* WhiteNoiseBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* WhiteNoiseBackground.cpp */; };
 		BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MWorksCore.framework */; };
 		E12A26FD1201E31400CE8C55 /* WhiteNoiseBackground.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* WhiteNoiseBackground.bundle */; };
@@ -79,7 +78,6 @@
 /* Begin PBXFileReference section */
 		32DBCF630370AF2F00C91783 /* WhiteNoiseBackground_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteNoiseBackground_Prefix.pch; sourceTree = "<group>"; };
 		5CF9AEB90FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WhiteNoiseBackgroundPlugin.cpp; sourceTree = SOURCE_ROOT; };
-		5CFCAB091105FB4C007CE55F /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		5CFE59180F571B15000C7F30 /* WhiteNoiseBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteNoiseBackground.h; sourceTree = SOURCE_ROOT; };
 		5CFE59190F571B15000C7F30 /* WhiteNoiseBackground.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WhiteNoiseBackground.cpp; sourceTree = SOURCE_ROOT; };
 		8D5B49B6048680CD000E48DA /* WhiteNoiseBackground.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseBackground.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,7 +190,6 @@
 			isa = PBXGroup;
 			children = (
 				E1E07EA81C04F416008DD97E /* MWComponents.yaml */,
-				5CFCAB091105FB4C007CE55F /* MWLibrary.xml */,
 			);
 			name = "Editor Definitions";
 			sourceTree = "<group>";
@@ -297,7 +294,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1E07EA91C04F416008DD97E /* MWComponents.yaml in Resources */,
-				5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
