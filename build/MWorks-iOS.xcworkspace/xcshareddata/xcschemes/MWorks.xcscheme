@@ -112,6 +112,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E1AC73B622B184AB002DDE3C"
+               BuildableName = "FaceRecognizer.framework"
+               BlueprintName = "FaceRecognizer-iOS"
+               ReferencedContainer = "container:../plugins/core/FaceRecognizer/FaceRecognizer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1D54BA11EA699450073D938"
                BuildableName = "Firmata.framework"
                BlueprintName = "Firmata-iOS"

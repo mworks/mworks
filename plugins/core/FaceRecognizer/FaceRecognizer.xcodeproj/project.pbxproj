@@ -1,0 +1,455 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E18C04D32296F371000BF379 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E18C04D42296F371000BF379 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E18C04DD2296F593000BF379 /* CopyFiles */,
+			);
+			dependencies = (
+				E18C04DC2296F590000BF379 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E18C04D62296F381000BF379 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E18C04D72296F381000BF379 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E18C04E02296F5A8000BF379 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E18C04DE2296F59C000BF379 /* FaceRecognizer.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18C04C62296F130000BF379 /* FaceRecognizer.bundle */; };
+		E18C04E22296F62F000BF379 /* FaceRecognizerPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18C04E12296F62F000BF379 /* FaceRecognizerPlugin.cpp */; };
+		E18C04E52296F789000BF379 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18C04E42296F789000BF379 /* MWorksCore.framework */; };
+		E18C04E72296F7EC000BF379 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18C04E62296F7EC000BF379 /* AVFoundation.framework */; };
+		E18C04EB2296F81D000BF379 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18C04EA2296F81D000BF379 /* CoreML.framework */; };
+		E18C04EE22971618000BF379 /* FaceRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18C04EC22971618000BF379 /* FaceRecognizer.cpp */; };
+		E1AC73BE22B188D3002DDE3C /* CameraManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BC4C9A229ECE2600C540B7 /* CameraManager.cpp */; };
+		E1AC73BF22B188D6002DDE3C /* ModelManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BC4C9D229EFDA400C540B7 /* ModelManager.cpp */; };
+		E1AC73C022B188DA002DDE3C /* FaceRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18C04EC22971618000BF379 /* FaceRecognizer.cpp */; };
+		E1AC73C122B188DE002DDE3C /* FaceRecognizerPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18C04E12296F62F000BF379 /* FaceRecognizerPlugin.cpp */; };
+		E1B50BE6229DA30A0021AC72 /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B50BE5229DA3090021AC72 /* Vision.framework */; };
+		E1BC4C9C229ECE2600C540B7 /* CameraManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BC4C9A229ECE2600C540B7 /* CameraManager.cpp */; };
+		E1BC4C9F229EFDA400C540B7 /* ModelManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BC4C9D229EFDA400C540B7 /* ModelManager.cpp */; };
+		E1C9CB5B22C3BAFE00CCA7DE /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1C9CB5A22C3BAFE00CCA7DE /* MWComponents.yaml */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E18C04DB2296F590000BF379 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E18C04BE2296F130000BF379 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E18C04C52296F130000BF379;
+			remoteInfo = FaceRecognizer;
+		};
+		E18C04DF2296F5A8000BF379 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E18C04BE2296F130000BF379 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E18C04D32296F371000BF379;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E18C04DD2296F593000BF379 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E18C04DE2296F59C000BF379 /* FaceRecognizer.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E18C04C62296F130000BF379 /* FaceRecognizer.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceRecognizer.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E18C04C92296F130000BF379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E18C04D02296F1FF000BF379 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E18C04D12296F1FF000BF379 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E18C04D22296F1FF000BF379 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E18C04DA2296F4E1000BF379 /* FaceRecognizer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FaceRecognizer-Prefix.pch"; sourceTree = "<group>"; };
+		E18C04E12296F62F000BF379 /* FaceRecognizerPlugin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FaceRecognizerPlugin.cpp; sourceTree = "<group>"; };
+		E18C04E42296F789000BF379 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E18C04E62296F7EC000BF379 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		E18C04EA2296F81D000BF379 /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
+		E18C04EC22971618000BF379 /* FaceRecognizer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FaceRecognizer.cpp; sourceTree = "<group>"; };
+		E18C04ED22971618000BF379 /* FaceRecognizer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FaceRecognizer.hpp; sourceTree = "<group>"; };
+		E1AC73B722B184AB002DDE3C /* FaceRecognizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FaceRecognizer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1AC73BA22B184AC002DDE3C /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
+		E1B50BE5229DA3090021AC72 /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = SDKROOT; };
+		E1BC4C9A229ECE2600C540B7 /* CameraManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CameraManager.cpp; sourceTree = "<group>"; };
+		E1BC4C9B229ECE2600C540B7 /* CameraManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CameraManager.hpp; sourceTree = "<group>"; };
+		E1BC4C9D229EFDA400C540B7 /* ModelManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ModelManager.cpp; sourceTree = "<group>"; };
+		E1BC4C9E229EFDA400C540B7 /* ModelManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ModelManager.hpp; sourceTree = "<group>"; };
+		E1C9CB5A22C3BAFE00CCA7DE /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E18C04C32296F130000BF379 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E18C04E52296F789000BF379 /* MWorksCore.framework in Frameworks */,
+				E18C04E72296F7EC000BF379 /* AVFoundation.framework in Frameworks */,
+				E18C04EB2296F81D000BF379 /* CoreML.framework in Frameworks */,
+				E1B50BE6229DA30A0021AC72 /* Vision.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1AC73B422B184AB002DDE3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E18C04BD2296F130000BF379 = {
+			isa = PBXGroup;
+			children = (
+				E18C04CF2296F1D0000BF379 /* External Config */,
+				E18C04C82296F130000BF379 /* FaceRecognizer */,
+				E18C04E32296F788000BF379 /* Frameworks */,
+				E18C04C72296F130000BF379 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E18C04C72296F130000BF379 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E18C04C62296F130000BF379 /* FaceRecognizer.bundle */,
+				E1AC73B722B184AB002DDE3C /* FaceRecognizer.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E18C04C82296F130000BF379 /* FaceRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				E1BC4C99229ECDEC00C540B7 /* Helpers */,
+				E18C04ED22971618000BF379 /* FaceRecognizer.hpp */,
+				E18C04EC22971618000BF379 /* FaceRecognizer.cpp */,
+				E18C04E12296F62F000BF379 /* FaceRecognizerPlugin.cpp */,
+				E18C04D92296F4B1000BF379 /* Supporting Files */,
+			);
+			path = FaceRecognizer;
+			sourceTree = "<group>";
+		};
+		E18C04CF2296F1D0000BF379 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E18C04D02296F1FF000BF379 /* macOS.xcconfig */,
+				E18C04D22296F1FF000BF379 /* macOS_Plugin.xcconfig */,
+				E18C04D12296F1FF000BF379 /* iOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E18C04D92296F4B1000BF379 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E18C04C92296F130000BF379 /* Info.plist */,
+				E1AC73BA22B184AC002DDE3C /* Info-iOS.plist */,
+				E18C04DA2296F4E1000BF379 /* FaceRecognizer-Prefix.pch */,
+				E1C9CB5A22C3BAFE00CCA7DE /* MWComponents.yaml */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E18C04E32296F788000BF379 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E18C04E42296F789000BF379 /* MWorksCore.framework */,
+				E18C04E62296F7EC000BF379 /* AVFoundation.framework */,
+				E18C04EA2296F81D000BF379 /* CoreML.framework */,
+				E1B50BE5229DA3090021AC72 /* Vision.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E1BC4C99229ECDEC00C540B7 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E1BC4C9B229ECE2600C540B7 /* CameraManager.hpp */,
+				E1BC4C9A229ECE2600C540B7 /* CameraManager.cpp */,
+				E1BC4C9E229EFDA400C540B7 /* ModelManager.hpp */,
+				E1BC4C9D229EFDA400C540B7 /* ModelManager.cpp */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E1AC73B222B184AB002DDE3C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E18C04C52296F130000BF379 /* FaceRecognizer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E18C04CC2296F130000BF379 /* Build configuration list for PBXNativeTarget "FaceRecognizer" */;
+			buildPhases = (
+				E18C04C22296F130000BF379 /* Sources */,
+				E18C04C32296F130000BF379 /* Frameworks */,
+				E18C04C42296F130000BF379 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FaceRecognizer;
+			productName = FaceRecognizer;
+			productReference = E18C04C62296F130000BF379 /* FaceRecognizer.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		E1AC73B622B184AB002DDE3C /* FaceRecognizer-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1AC73BD22B184AC002DDE3C /* Build configuration list for PBXNativeTarget "FaceRecognizer-iOS" */;
+			buildPhases = (
+				E1AC73B222B184AB002DDE3C /* Headers */,
+				E1AC73B322B184AB002DDE3C /* Sources */,
+				E1AC73B422B184AB002DDE3C /* Frameworks */,
+				E1AC73B522B184AB002DDE3C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FaceRecognizer-iOS";
+			productName = "FaceRecognizer-iOS";
+			productReference = E1AC73B722B184AB002DDE3C /* FaceRecognizer.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E18C04BE2296F130000BF379 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E18C04C52296F130000BF379 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					E18C04D32296F371000BF379 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					E18C04D62296F381000BF379 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					E1AC73B622B184AB002DDE3C = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+				};
+			};
+			buildConfigurationList = E18C04C12296F130000BF379 /* Build configuration list for PBXProject "FaceRecognizer" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E18C04BD2296F130000BF379;
+			productRefGroup = E18C04C72296F130000BF379 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E18C04C52296F130000BF379 /* FaceRecognizer */,
+				E18C04D32296F371000BF379 /* Install */,
+				E18C04D62296F381000BF379 /* Everything */,
+				E1AC73B622B184AB002DDE3C /* FaceRecognizer-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E18C04C42296F130000BF379 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1C9CB5B22C3BAFE00CCA7DE /* MWComponents.yaml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1AC73B522B184AB002DDE3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E18C04C22296F130000BF379 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E18C04EE22971618000BF379 /* FaceRecognizer.cpp in Sources */,
+				E1BC4C9F229EFDA400C540B7 /* ModelManager.cpp in Sources */,
+				E1BC4C9C229ECE2600C540B7 /* CameraManager.cpp in Sources */,
+				E18C04E22296F62F000BF379 /* FaceRecognizerPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1AC73B322B184AB002DDE3C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1AC73BE22B188D3002DDE3C /* CameraManager.cpp in Sources */,
+				E1AC73C022B188DA002DDE3C /* FaceRecognizer.cpp in Sources */,
+				E1AC73BF22B188D6002DDE3C /* ModelManager.cpp in Sources */,
+				E1AC73C122B188DE002DDE3C /* FaceRecognizerPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E18C04DC2296F590000BF379 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E18C04C52296F130000BF379 /* FaceRecognizer */;
+			targetProxy = E18C04DB2296F590000BF379 /* PBXContainerItemProxy */;
+		};
+		E18C04E02296F5A8000BF379 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E18C04D32296F371000BF379 /* Install */;
+			targetProxy = E18C04DF2296F5A8000BF379 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E18C04CA2296F130000BF379 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E18C04CD2296F130000BF379 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E18C04D22296F1FF000BF379 /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FaceRecognizer/FaceRecognizer-Prefix.pch";
+				INFOPLIST_FILE = FaceRecognizer/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.FaceRecognizer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E18C04D52296F371000BF379 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E18C04D02296F1FF000BF379 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E18C04D82296F381000BF379 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E18C04D02296F1FF000BF379 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1AC73BC22B184AC002DDE3C /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E18C04D12296F1FF000BF379 /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FaceRecognizer/FaceRecognizer-Prefix.pch";
+				INFOPLIST_FILE = "FaceRecognizer/Info-iOS.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					AVFoundation,
+					"-framework",
+					CoreML,
+					"-framework",
+					UIKit,
+					"-framework",
+					Vision,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.FaceRecognizer-iOS";
+				PRODUCT_NAME = FaceRecognizer;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E18C04C12296F130000BF379 /* Build configuration list for PBXProject "FaceRecognizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E18C04CA2296F130000BF379 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E18C04CC2296F130000BF379 /* Build configuration list for PBXNativeTarget "FaceRecognizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E18C04CD2296F130000BF379 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E18C04D42296F371000BF379 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E18C04D52296F371000BF379 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E18C04D72296F381000BF379 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E18C04D82296F381000BF379 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1AC73BD22B184AC002DDE3C /* Build configuration list for PBXNativeTarget "FaceRecognizer-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1AC73BC22B184AC002DDE3C /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E18C04BE2296F130000BF379 /* Project object */;
+}

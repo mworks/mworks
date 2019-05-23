@@ -17,6 +17,9 @@
          location = "group:../plugins/core/EasyEye/EasyEye.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:../plugins/core/FaceRecognizer/FaceRecognizer.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:../plugins/core/Firmata/Firmata.xcodeproj">
       </FileRef>
       <FileRef

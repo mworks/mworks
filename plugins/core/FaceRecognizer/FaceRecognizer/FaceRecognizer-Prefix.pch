@@ -1,0 +1,36 @@
+//
+//  FaceRecognizer-Prefix.pch
+//  FaceRecognizer
+//
+//  Created by Christopher Stawarz on 5/23/19.
+//  Copyright © 2019 The MWorks Project. All rights reserved.
+//
+
+#ifndef FaceRecognizer_Prefix_pch
+#define FaceRecognizer_Prefix_pch
+
+#include <TargetConditionals.h>
+
+#ifdef __cplusplus
+
+#include <future>
+
+#include <MWorksCore/CFObjectPtr.h>
+#include <MWorksCore/IODevice.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardComponentFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#ifdef __OBJC__
+
+#import <AVFoundation/AVFoundation.h>
+#import <CoreML/CoreML.h>
+#if TARGET_OS_IPHONE
+#  import <UIKit/UIKit.h>
+#endif
+#import <Vision/Vision.h>
+
+#endif /* defined(__OBJC__) */
+
+#endif /* FaceRecognizer_Prefix_pch */

@@ -1,0 +1,138 @@
+---
+
+
+name: Face Recognizer
+signature: iodevice/face_recognizer
+isa: IODevice
+description: |
+    A face recognizer captures images from a camera and uses a `Core ML
+    <https://developer.apple.com/documentation/coreml>`_ model to classify them.
+    Its intended use is to recognize the faces of specific experimental
+    subjects, but the type of classification it performs depends entirely on the
+    provided model.  For information on obtaining or creating a suitable model,
+    see `Getting a Core ML Model
+    <https://developer.apple.com/documentation/coreml/getting_a_core_ml_model>`_.
+
+    On macOS, a face recognizer can use any camera (internal or external) that
+    is supported by the operating system.  On iOS, it always uses the built-in,
+    front-facing, wide-angle camera.
+parameters: 
+  - 
+    name: model_path
+    required: yes
+    description: |
+        Filesystem path to a Core ML image classification model (i.e. a
+        ``.mlmodel`` file).
+
+        *Note*: The experiment must also declare the model file as a `File
+        Resource`, e.g.::
+
+            resource ('my_model.mlmodel')
+
+            iodevice/face_recognizer my_recognizer (
+                model_path = 'my_model.mlmodel'
+                ...
+                )
+  - 
+    name: region_of_interest
+    default: '[0.0, 0.0, 1.0, 1.0]'
+    description: |
+        Region of the image on which to perform classification.
+
+        The value of this parameter should be a four-element list of the form
+        ``[x_min, y_min, x_max, y_max]``, where *(x_min, y_min)* and *(x_max,
+        y_max)* are the coordinates of the lower-left and upper-right corners,
+        respectively, of the region of interest.  Each coordinate must be
+        normalized to the dimensions of the image and lie between 0.0 and 1.0
+        (inclusive).
+
+        If this parameter is set to the name of a variable, the variable's value
+        can be changed at any time, even while the recognizer is running.  This
+        enables run-time refinement of recognizer performance via changes
+        to the region of interest.
+
+        If this parameter is omitted, its value is not a list, or its value is
+        an empty list, the entire image is used as input to the classifier.
+  - 
+    name: minimum_confidence
+    default: 0.0
+    description: |
+        Minimum confidence for a classification result to be considered valid.
+        Must be between 0.0 and 1.0 (inclusive), where 1 is most confident.
+  - 
+    name: result_history
+    default: 1
+    description: |
+        Number of most recent classifications to consider when applying
+        `required_matches`_. Must be greater than or equal to 1.
+  - 
+    name: required_matches
+    default: 1
+    description: |
+        Number of most recent classifications that must give the same result in
+        order for that result to be considered valid.  Must be between 1 and the
+        value of `result_history`_ (inclusive).
+
+        For example, if ``required_matches`` is 9, and ``result_history`` is 10,
+        then 9 of the 10 most recent classification results must yield the same
+        identifier in order for its value to be reported via the `identifier`_
+        parameter.
+  - 
+    name: identifier
+    required: yes
+    description: |
+        Variable in which to store the most recent classification result (as a
+        string), subject to `minimum_confidence`_ and `required_matches`_.  If
+        classification fails to produce a valid result, the variable is set to
+        an empty string.
+  - 
+    name: confidence
+    required: no
+    description: |
+        Variable in which to store the reported confidence for the most recent
+        classification result.  The value will be between 0.0 and 1.0
+        (inclusive), where 1 is most confident.
+
+        *Note*: The exact meaning of the confidence value depends on the model.
+        If the model does not support confidence estimation, the value will
+        always be 1.
+  - 
+    name: camera_unique_id
+    required: no
+    description: |
+        If this parameter is omitted, and multiple cameras are detected, the
+        face recognizer will fail to initialize.  The error message reporting
+        the failure will include the names and unique ID's of all available
+        cameras.  To allow initialization to succeed, set the value of this
+        parameter to the unique ID of the desired camera.
+
+        *Note*: This parameter is ignored on iOS, where the built-in,
+        front-facing, wide-angle camera is always used.
+  - 
+    name: image_capture_interval
+    required: yes
+    example: 250ms
+    description: |
+        Time interval between image captures.  Must be greater than zero.
+  - 
+    name: image_logging_interval
+    default: 0
+    example: 60s
+    description: |
+        If greater than zero, determines the rate at which captured images are
+        stored in the variable specified by `image_data`_.
+
+        By enabling image logging, you can capture additional images of
+        experimental subjects that can later be used to improve your model. In
+        addition, MWClient's Image Viewer window can display the logged images
+        and provides a convenient interface for viewing and altering the current
+        value of `region_of_interest`_.
+  - 
+    name: image_data
+    required: no
+    description: |
+        Variable in which to store logged images, as controlled by
+        `image_logging_interval`_.  Each image is stored as a string containing
+        `JPEG <https://en.wikipedia.org/wiki/JPEG>`_-encoded data.
+
+
