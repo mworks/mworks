@@ -37,6 +37,7 @@ package_contents = {
 
     'MWorksStandardPlugins':
         (
+        '/Library/Application Support/MWorks/Plugins/Client/ImageViewer.bundle',
         '/Library/Application Support/MWorks/Plugins/Client/MWorksBehavioralWindow.bundle',
         '/Library/Application Support/MWorks/Plugins/Client/MWorksVariablesWindow.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/DriftingGratingStimulusPlugin.bundle',

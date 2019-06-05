@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Image Viewer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="509" height="357"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <value key="minSize" type="size" width="509" height="357"/>
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="509" height="357"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KoC-ex-M91">
+                        <rect key="frame" x="20" y="45" width="127" height="17"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Image data variable:" id="uLE-de-6wV">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E64-ga-pyf">
+                        <rect key="frame" x="20" y="20" width="166" height="17"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Region of interest variable:" id="dGg-76-2E0">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Aeq-bV-gJd">
+                        <rect key="frame" x="192" y="42" width="191" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="JDc-aT-wAq">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="delegate" destination="eRw-Ak-SX0" id="E8U-b7-0J1"/>
+                        </connections>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Uuk-ha-jLA">
+                        <rect key="frame" x="197" y="198" width="116" height="33"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="No Image" id="O7t-kX-Ccv">
+                            <font key="font" metaFont="system" size="27"/>
+                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="8c1-iA-Ry3" customClass="MWImageViewerImageView">
+                        <rect key="frame" x="0.0" y="72" width="509" height="285"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="8Qn-ja-Grt"/>
+                    </imageView>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V8D-A9-UuJ">
+                        <rect key="frame" x="385" y="10" width="110" height="32"/>
+                        <buttonCell key="cell" type="push" title="Clear ROI" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NLd-cR-PjD">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="clearROI:" target="eRw-Ak-SX0" id="qhu-0d-1ag"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ekl-pM-vM2">
+                        <rect key="frame" x="385" y="35" width="110" height="32"/>
+                        <buttonCell key="cell" type="push" title="Update ROI" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rv4-Zk-3UV">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="updateROI:" target="eRw-Ak-SX0" id="vwx-dq-YRn"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AHU-Pd-H5T">
+                        <rect key="frame" x="192" y="17" width="191" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="bCF-e2-P8N">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="delegate" destination="eRw-Ak-SX0" id="26I-Lh-uKX"/>
+                        </connections>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="V8D-A9-UuJ" firstAttribute="trailing" secondItem="ekl-pM-vM2" secondAttribute="trailing" id="0wh-3q-xLD"/>
+                    <constraint firstItem="KoC-ex-M91" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="22" id="5di-8T-zCz"/>
+                    <constraint firstAttribute="trailing" secondItem="8c1-iA-Ry3" secondAttribute="trailing" id="BX1-eq-jA9"/>
+                    <constraint firstItem="Aeq-bV-gJd" firstAttribute="trailing" secondItem="AHU-Pd-H5T" secondAttribute="trailing" id="BbV-lH-mIG"/>
+                    <constraint firstItem="E64-ga-pyf" firstAttribute="top" secondItem="KoC-ex-M91" secondAttribute="bottom" constant="8" symbolic="YES" id="CbE-hZ-8am"/>
+                    <constraint firstItem="ekl-pM-vM2" firstAttribute="leading" secondItem="Aeq-bV-gJd" secondAttribute="trailing" constant="8" symbolic="YES" id="H14-cI-Pho"/>
+                    <constraint firstItem="ekl-pM-vM2" firstAttribute="baseline" secondItem="Aeq-bV-gJd" secondAttribute="baseline" id="ILh-ON-Mo1"/>
+                    <constraint firstAttribute="trailing" secondItem="Aeq-bV-gJd" secondAttribute="trailing" constant="126" id="Iea-OV-iVu"/>
+                    <constraint firstItem="KoC-ex-M91" firstAttribute="leading" secondItem="E64-ga-pyf" secondAttribute="leading" id="JPP-n8-j55"/>
+                    <constraint firstItem="Aeq-bV-gJd" firstAttribute="leading" secondItem="AHU-Pd-H5T" secondAttribute="leading" id="Ny2-va-Xlu"/>
+                    <constraint firstItem="KoC-ex-M91" firstAttribute="baseline" secondItem="Aeq-bV-gJd" secondAttribute="baseline" id="Q55-U4-ylX"/>
+                    <constraint firstAttribute="bottom" secondItem="E64-ga-pyf" secondAttribute="bottom" constant="20" symbolic="YES" id="Thh-bh-V3H"/>
+                    <constraint firstItem="V8D-A9-UuJ" firstAttribute="leading" secondItem="ekl-pM-vM2" secondAttribute="leading" id="Tm8-Gp-Y1v"/>
+                    <constraint firstItem="E64-ga-pyf" firstAttribute="baseline" secondItem="AHU-Pd-H5T" secondAttribute="baseline" id="XcN-hS-JB0"/>
+                    <constraint firstItem="Uuk-ha-jLA" firstAttribute="centerX" secondItem="8c1-iA-Ry3" secondAttribute="centerX" id="ZDo-l1-grS"/>
+                    <constraint firstItem="AHU-Pd-H5T" firstAttribute="leading" secondItem="E64-ga-pyf" secondAttribute="trailing" constant="8" symbolic="YES" id="bHt-na-ydh"/>
+                    <constraint firstItem="Aeq-bV-gJd" firstAttribute="top" secondItem="8c1-iA-Ry3" secondAttribute="bottom" constant="8" symbolic="YES" id="g2i-RC-d4c"/>
+                    <constraint firstItem="8c1-iA-Ry3" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="iGI-4E-fN8"/>
+                    <constraint firstItem="8c1-iA-Ry3" firstAttribute="centerY" secondItem="Uuk-ha-jLA" secondAttribute="centerY" id="keq-YI-aF6"/>
+                    <constraint firstItem="8c1-iA-Ry3" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="xMg-3f-yaV"/>
+                    <constraint firstItem="V8D-A9-UuJ" firstAttribute="baseline" secondItem="AHU-Pd-H5T" secondAttribute="baseline" id="yN5-hp-qRi"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="153.5" y="190.5"/>
+        </window>
+        <customObject id="eRw-Ak-SX0" customClass="MWImageViewerController">
+            <connections>
+                <outlet property="client" destination="-2" id="qkX-hY-avL"/>
+                <outlet property="imageDataVariableTextField" destination="Aeq-bV-gJd" id="X2b-HD-3oX"/>
+                <outlet property="imageView" destination="8c1-iA-Ry3" id="dTp-kD-wd5"/>
+                <outlet property="regionOfInterestVariableTextField" destination="AHU-Pd-H5T" id="xPE-Oa-C7A"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="Vos-Ge-ex5"/>
+            </connections>
+        </customObject>
+    </objects>
+</document>

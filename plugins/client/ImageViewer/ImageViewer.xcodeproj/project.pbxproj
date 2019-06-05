@@ -1,0 +1,329 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E14B0DE722A8084800F3F077 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E14B0DE822A8084800F3F077 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E14B0DEF22A8087000F3F077 /* CopyFiles */,
+			);
+			dependencies = (
+				E14B0DEE22A8086C00F3F077 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E14B0DEA22A8085600F3F077 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E14B0DEB22A8085600F3F077 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E14B0DF222A8088700F3F077 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E14B0DF022A8087900F3F077 /* ImageViewer.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E14B0DDB22A8068300F3F077 /* ImageViewer.bundle */; };
+		E14B0DF522A8094E00F3F077 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E14B0DF422A8094E00F3F077 /* AppKit.framework */; };
+		E14B0DF722A8095F00F3F077 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E14B0DF622A8095F00F3F077 /* MWorksCore.framework */; };
+		E14B0DFC22A80AA200F3F077 /* MWImageViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14B0DFA22A80AA200F3F077 /* MWImageViewerController.m */; };
+		E14B0E0122A80F9B00F3F077 /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = E14B0E0022A80F9B00F3F077 /* Main.xib */; };
+		E1660D2C22A95C7C00F15035 /* MWImageViewerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1660D2B22A95C7C00F15035 /* MWImageViewerImageView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E14B0DED22A8086C00F3F077 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E14B0DD322A8068300F3F077 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E14B0DDA22A8068300F3F077;
+			remoteInfo = ImageViewer;
+		};
+		E14B0DF122A8088700F3F077 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E14B0DD322A8068300F3F077 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E14B0DE722A8084800F3F077;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E14B0DEF22A8087000F3F077 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_CLIENT_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E14B0DF022A8087900F3F077 /* ImageViewer.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E14B0DDB22A8068300F3F077 /* ImageViewer.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageViewer.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E14B0DDE22A8068300F3F077 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E14B0DE522A806D900F3F077 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E14B0DF422A8094E00F3F077 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E14B0DF622A8095F00F3F077 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E14B0DF922A80AA200F3F077 /* MWImageViewerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWImageViewerController.h; sourceTree = "<group>"; };
+		E14B0DFA22A80AA200F3F077 /* MWImageViewerController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWImageViewerController.m; sourceTree = "<group>"; };
+		E14B0DFF22A80BF100F3F077 /* ImageViewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageViewer-Prefix.pch"; sourceTree = "<group>"; };
+		E14B0E0022A80F9B00F3F077 /* Main.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
+		E1660D2A22A95C7C00F15035 /* MWImageViewerImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWImageViewerImageView.h; sourceTree = "<group>"; };
+		E1660D2B22A95C7C00F15035 /* MWImageViewerImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWImageViewerImageView.m; sourceTree = "<group>"; };
+		E19998FD22C138A3009E53EE /* macOS_ClientPlugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_ClientPlugin.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E14B0DD822A8068300F3F077 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E14B0DF722A8095F00F3F077 /* MWorksCore.framework in Frameworks */,
+				E14B0DF522A8094E00F3F077 /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E14B0DD222A8068300F3F077 = {
+			isa = PBXGroup;
+			children = (
+				E14B0DE422A806AF00F3F077 /* External Config */,
+				E14B0DDD22A8068300F3F077 /* ImageViewer */,
+				E14B0DF322A8094E00F3F077 /* Frameworks */,
+				E14B0DDC22A8068300F3F077 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E14B0DDC22A8068300F3F077 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E14B0DDB22A8068300F3F077 /* ImageViewer.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E14B0DDD22A8068300F3F077 /* ImageViewer */ = {
+			isa = PBXGroup;
+			children = (
+				E1660D2A22A95C7C00F15035 /* MWImageViewerImageView.h */,
+				E1660D2B22A95C7C00F15035 /* MWImageViewerImageView.m */,
+				E14B0DF922A80AA200F3F077 /* MWImageViewerController.h */,
+				E14B0DFA22A80AA200F3F077 /* MWImageViewerController.m */,
+				E14B0E0022A80F9B00F3F077 /* Main.xib */,
+				E14B0DFE22A80B3000F3F077 /* Supporting Files */,
+			);
+			path = ImageViewer;
+			sourceTree = "<group>";
+		};
+		E14B0DE422A806AF00F3F077 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E14B0DE522A806D900F3F077 /* macOS.xcconfig */,
+				E19998FD22C138A3009E53EE /* macOS_ClientPlugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E14B0DF322A8094E00F3F077 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E14B0DF622A8095F00F3F077 /* MWorksCore.framework */,
+				E14B0DF422A8094E00F3F077 /* AppKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E14B0DFE22A80B3000F3F077 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E14B0DDE22A8068300F3F077 /* Info.plist */,
+				E14B0DFF22A80BF100F3F077 /* ImageViewer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E14B0DDA22A8068300F3F077 /* ImageViewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E14B0DE122A8068300F3F077 /* Build configuration list for PBXNativeTarget "ImageViewer" */;
+			buildPhases = (
+				E14B0DD722A8068300F3F077 /* Sources */,
+				E14B0DD822A8068300F3F077 /* Frameworks */,
+				E14B0DD922A8068300F3F077 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ImageViewer;
+			productName = ImageViewer;
+			productReference = E14B0DDB22A8068300F3F077 /* ImageViewer.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E14B0DD322A8068300F3F077 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E14B0DDA22A8068300F3F077 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					E14B0DE722A8084800F3F077 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					E14B0DEA22A8085600F3F077 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+				};
+			};
+			buildConfigurationList = E14B0DD622A8068300F3F077 /* Build configuration list for PBXProject "ImageViewer" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E14B0DD222A8068300F3F077;
+			productRefGroup = E14B0DDC22A8068300F3F077 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E14B0DDA22A8068300F3F077 /* ImageViewer */,
+				E14B0DE722A8084800F3F077 /* Install */,
+				E14B0DEA22A8085600F3F077 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E14B0DD922A8068300F3F077 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E14B0E0122A80F9B00F3F077 /* Main.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E14B0DD722A8068300F3F077 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1660D2C22A95C7C00F15035 /* MWImageViewerImageView.m in Sources */,
+				E14B0DFC22A80AA200F3F077 /* MWImageViewerController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E14B0DEE22A8086C00F3F077 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E14B0DDA22A8068300F3F077 /* ImageViewer */;
+			targetProxy = E14B0DED22A8086C00F3F077 /* PBXContainerItemProxy */;
+		};
+		E14B0DF222A8088700F3F077 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E14B0DE722A8084800F3F077 /* Install */;
+			targetProxy = E14B0DF122A8088700F3F077 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E14B0DDF22A8068300F3F077 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E14B0DE222A8068300F3F077 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E19998FD22C138A3009E53EE /* macOS_ClientPlugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ImageViewer/ImageViewer-Prefix.pch";
+				INFOPLIST_FILE = ImageViewer/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ImageViewer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E14B0DE922A8084800F3F077 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E14B0DE522A806D900F3F077 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E14B0DEC22A8085600F3F077 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E14B0DE522A806D900F3F077 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E14B0DD622A8068300F3F077 /* Build configuration list for PBXProject "ImageViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E14B0DDF22A8068300F3F077 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E14B0DE122A8068300F3F077 /* Build configuration list for PBXNativeTarget "ImageViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E14B0DE222A8068300F3F077 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E14B0DE822A8084800F3F077 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E14B0DE922A8084800F3F077 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E14B0DEB22A8085600F3F077 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E14B0DEC22A8085600F3F077 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E14B0DD322A8068300F3F077 /* Project object */;
+}
