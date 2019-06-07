@@ -45,7 +45,7 @@ else:
 common_flags %= os.environ
 
 compile_flags = ('-g -Os -fexceptions -fvisibility=hidden ' +
-                 '-Werror=partial-availability ' +
+                 '-Werror=unguarded-availability ' +
                  common_flags)
 if os.environ['ENABLE_BITCODE'] == 'YES':
     compile_flags += {
