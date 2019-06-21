@@ -628,7 +628,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "# Add an appropriately-named symlink to _mworks_3.so\n/bin/ln -fs _mworks_3.so \"${MW_PYTHON_DIR}\"/mworks/_mworks$(\"${MW_PYTHON_3}\" -c 'import sysconfig ; print(sysconfig.get_config_var(\"EXT_SUFFIX\"))')\n\necho \"Byte-compiling .py files for Python ${MW_PYTHON_VERSION}\"\n\"${MW_PYTHON}\" -m compileall \"${MW_PYTHON_DIR}\"\n\necho \"Byte-compiling .py files for Python ${MW_PYTHON_3_VERSION}\"\n\"${MW_PYTHON_3}\" -m compileall \"${MW_PYTHON_DIR}\"";
+			shellScript = "# Add an appropriately-named symlink to _mworks_3.so\n/bin/ln -fs _mworks_3.so \"${MW_PYTHON_DIR}\"/mworks/_mworks$(\"${MW_PYTHON_3}\" -c 'import sysconfig ; print(sysconfig.get_config_var(\"EXT_SUFFIX\"))')\n\necho \"Byte-compiling .py files for Python ${MW_PYTHON_VERSION}\"\n\"${MW_PYTHON}\" -m compileall \"${MW_PYTHON_DIR}\"\n\necho \"Byte-compiling .py files for Python ${MW_PYTHON_3_VERSION}\"\n\"${MW_PYTHON_3}\" -m compileall \"${MW_PYTHON_DIR}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E1D471BA20FF795C0047BADA /* ShellScript */ = {

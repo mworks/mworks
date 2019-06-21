@@ -95,7 +95,6 @@ int LegacyMacOSOpenGLContextManager::newFullscreenContext(int screen_number, boo
         NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
         MWKOpenGLContext *opengl_context = [[MWKOpenGLContext alloc] initWithFormat:pixel_format shareContext:nil];
         if (!opengl_context) {
-            [pixel_format release];
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for fullscreen window");
         }
         
@@ -138,14 +137,10 @@ int LegacyMacOSOpenGLContextManager::newFullscreenContext(int screen_number, boo
             [fullscreen_window makeKeyAndOrderFront:nil];
             
             [windows addObject:fullscreen_window];
-            [fullscreen_window release];
             [views addObject:fullscreen_view];
-            [fullscreen_view release];
         });
         
         [contexts addObject:opengl_context];
-        [opengl_context release];
-        [pixel_format release];
         
         if (kIOPMNullAssertionID == display_sleep_block) {
             if (kIOReturnSuccess != IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep,
@@ -199,7 +194,6 @@ int LegacyMacOSOpenGLContextManager::newMirrorContext() {
         MWKOpenGLContext *opengl_context = [[MWKOpenGLContext alloc] initWithFormat:pixel_format
                                                                        shareContext:getFullscreenContext()];
         if (!opengl_context) {
-            [pixel_format release];
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for mirror window");
         }
         
@@ -227,14 +221,10 @@ int LegacyMacOSOpenGLContextManager::newMirrorContext() {
             [mirror_window makeKeyAndOrderFront:nil];
             
             [windows addObject:mirror_window];
-            [mirror_window release];
             [views addObject:mirror_view];
-            [mirror_view release];
         });
         
         [contexts addObject:opengl_context];
-        [opengl_context release];
-        [pixel_format release];
         
         return (contexts.count - 1);
     }

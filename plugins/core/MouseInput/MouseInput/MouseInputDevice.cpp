@@ -55,7 +55,7 @@ MouseInputDevice::~MouseInputDevice() {
             [targetView performSelectorOnMainThread:@selector(removeTrackingArea:)
                                          withObject:trackingArea
                                       waitUntilDone:YES];
-            [trackingArea release];
+            trackingArea = nil;
         }
         
         if (tracker) {
@@ -63,12 +63,10 @@ MouseInputDevice::~MouseInputDevice() {
                 // Ensure that cursor is unhidden
                 [tracker performSelectorOnMainThread:@selector(unhideCursor) withObject:nil waitUntilDone:YES];
             }
-            [tracker release];
+            tracker = nil;
         }
         
-        if (targetView) {
-            [targetView release];
-        }
+        targetView = nil;
     }
 }
 
@@ -92,7 +90,6 @@ bool MouseInputDevice::initialize() {
                 targetView = glcm->getFullscreenView();
                 targetContext = glcm->getFullscreenContext();
             }
-            [targetView retain];
             
             // Get the parameters needed by GLKMathUnproject
             projectionMatrix = stimulusDisplay->getProjectionMatrix();

@@ -42,8 +42,8 @@ TouchInputDevice::TouchInputDevice(const ParameterValueMap &parameters) :
 
 TouchInputDevice::~TouchInputDevice() {
     @autoreleasepool {
-        [touchInputRecognizer release];
-        [targetView release];
+        touchInputRecognizer = nil;
+        targetView = nil;
     }
 }
 
@@ -62,7 +62,7 @@ bool TouchInputDevice::initialize() {
             glGetIntegerv(GL_VIEWPORT, viewport.data());
         }
         
-        targetView = [glcm->getView(0) retain];
+        targetView = glcm->getView(0);
         auto sharedThis = component_shared_from_this<TouchInputDevice>();
         touchInputRecognizer = [[MWKTouchInputRecognizer alloc] initWithTouchInputDevice:sharedThis];
         

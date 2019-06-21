@@ -34,7 +34,7 @@ RCBLVDSDevice::RCBLVDSDevice(const ParameterValueMap &parameters) :
 
 RCBLVDSDevice::~RCBLVDSDevice() {
     @autoreleasepool {
-        [urlSession release];
+        urlSession = nil;
     }
 }
 
@@ -63,7 +63,7 @@ bool RCBLVDSDevice::initialize() {
     @autoreleasepool {
         NSURLSessionConfiguration *config = NSURLSessionConfiguration.ephemeralSessionConfiguration;
         config.timeoutIntervalForResource = 2;  // 2-second timeout for requests to complete
-        urlSession = [[NSURLSession sessionWithConfiguration:config] retain];
+        urlSession = [NSURLSession sessionWithConfiguration:config];
         
         std::string statusInfo;
         if (!performRequest("/intan_status.html", statusInfo)) {

@@ -72,7 +72,6 @@ VideoStimulus::VideoStimulus(const ParameterValueMap &parameters) :
             (NSString *)kCVPixelBufferIOSurfaceOpenGLTextureCompatibilityKey: @(YES)
 #endif
         };
-        [pixelBufferAttributes retain];
         
         auto observerCallback = [this](NSNotification *note) {
             boost::mutex::scoped_lock locker(stim_lock);
@@ -85,18 +84,18 @@ VideoStimulus::VideoStimulus(const ParameterValueMap &parameters) :
                                                                                  queue:nullptr
                                                                             usingBlock:observerCallback];
         
-        colorConversionContext = [[CIContext context] retain];
+        colorConversionContext = [CIContext context];
     }
 }
 
 
 VideoStimulus::~VideoStimulus() {
     @autoreleasepool {
-        [colorConversionContext release];
+        colorConversionContext = nil;
         [[NSNotificationCenter defaultCenter] removeObserver:playedToEndObserver];
-        [videoOutput release];
-        [pixelBufferAttributes release];
-        [player release];
+        videoOutput = nil;
+        pixelBufferAttributes = nil;
+        player = nil;
     }
 }
 
@@ -165,9 +164,7 @@ void VideoStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
         
         // Reusing these AVFoundation objects causes problems, so destroy them and
         // create new ones when needed
-        [videoOutput release];
         videoOutput = nil;
-        [player release];
         player = nil;
         
         // Need to reset this to zero, otherwise we won't generate new vertex positions
@@ -385,7 +382,7 @@ bool VideoStimulus::checkForNewPixelBuffer(const boost::shared_ptr<StimulusDispl
                                                   newWidth,
                                                   newHeight,
                                                   kCVPixelFormatType_32BGRA,
-                                                  (CFDictionaryRef)pixelBufferAttributes,
+                                                  (__bridge CFDictionaryRef)pixelBufferAttributes,
                                                   &_convertedPixelBuffer);
                 if (status != kCVReturnSuccess) {
                     merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create pixel buffer (error = %d)", status);

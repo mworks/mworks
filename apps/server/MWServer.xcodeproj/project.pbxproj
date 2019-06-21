@@ -502,7 +502,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
@@ -510,7 +509,6 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = MWServer;
-				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
 		};
@@ -534,7 +532,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "MWServer-iOS/MWServer.entitlements";
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;

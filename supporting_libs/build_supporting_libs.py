@@ -62,6 +62,7 @@ link_flags = common_flags
 
 downloaddir = os.path.abspath('download')
 patchdir = os.path.abspath('patches')
+xcconfigdir = os.path.abspath('../build/xcode')
 builddir = os.environ['TARGET_TEMP_DIR']
 
 prefix = os.environ['BUILT_PRODUCTS_DIR']
@@ -690,13 +691,11 @@ def narrative():
                 xcodebuild,
                 '-project', 'Narrative.xcodeproj',
                 '-configuration', 'Release',
-                '-xcconfig', os.environ['MW_XCODE_DIR'] + '/Development.xcconfig',
+                '-xcconfig', os.path.join(xcconfigdir, 'macOS.xcconfig'),
                 'clean',
                 'build',
                 'INSTALL_PATH=@loader_path/../Frameworks',
-                'SDKROOT=%s' + os.environ['SDKROOT'],
-                'SDKROOT_i386=$(SDKROOT)',
-                'OTHER_CFLAGS=-fvisibility=default',
+                'OTHER_CFLAGS=-fno-objc-arc -fno-objc-weak -fvisibility=default',
                 ])
 
             check_call([

@@ -111,8 +111,6 @@
 		5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupedPluginsWindow.xib; sourceTree = "<group>"; };
 		5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWErrorColorTransformer.h; sourceTree = "<group>"; };
 		5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWErrorColorTransformer.m; sourceTree = "<group>"; };
-		5CE62A60115855F700C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		5CE62A61115855F700C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CEDF81C0D85D7550044D738 /* RedMonkey.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RedMonkey.icns; path = Images/RedMonkey.icns; sourceTree = "<group>"; };
 		5CEDF85B0D85E49D0044D738 /* MWClientInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientInstance.h; sourceTree = "<group>"; };
 		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientInstance.m; sourceTree = "<group>"; };
@@ -139,6 +137,8 @@
 		E1172BA5222723AB00253D14 /* controls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controls.png; path = Images/controls.png; sourceTree = "<group>"; };
 		E15D0AF116C2ADFB00F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E18B840C1552D7C000268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E1C3650622BD618400D1DBF6 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_App.xcconfig; sourceTree = "<group>"; };
 		E1FFCBE318F33DC000FB6EEC /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
 		E1FFCBE418F33DC000FB6EEC /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -250,10 +250,11 @@
 		5CE62A5E115855DB00C757F1 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5CE62A60115855F700C757F1 /* Development.xcconfig */,
-				5CE62A61115855F700C757F1 /* WARNING.txt */,
+				E1C3650622BD618400D1DBF6 /* macOS.xcconfig */,
+				E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */,
 			);
 			name = "External Config";
+			path = ../../build/xcode;
 			sourceTree = "<group>";
 		};
 		5CEDF8180D85D7400044D738 /* Images */ = {
@@ -456,6 +457,7 @@
 /* Begin XCBuildConfiguration section */
 		5C77F49A10E969AC00919719 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C3650622BD618400D1DBF6 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};
@@ -463,26 +465,25 @@
 		};
 		C01FCF4B08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/New Client_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = MWClient;
-				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
 		};
 		C01FCF4F08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CE62A60115855F700C757F1 /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		E12D98FB16BC2AC3004FEF79 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C3650622BD618400D1DBF6 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

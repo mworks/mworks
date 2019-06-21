@@ -3774,7 +3774,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (

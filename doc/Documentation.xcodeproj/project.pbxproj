@@ -115,13 +115,13 @@
 /* Begin XCBuildConfiguration section */
 		E1064A8421DD3B7000A095DF /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1064A8A21DD3C0500A095DF /* macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		E1064A8721DD3B7000A095DF /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1064A8A21DD3C0500A095DF /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -129,6 +129,7 @@
 		};
 		E1064A8D21DD3D6600A095DF /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1064A8A21DD3C0500A095DF /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

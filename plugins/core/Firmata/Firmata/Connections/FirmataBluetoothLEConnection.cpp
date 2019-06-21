@@ -61,19 +61,6 @@
 }
 
 
-- (void)dealloc {
-    [_txCharacteristic release];
-    [_rxCharacteristic release];
-    [_service release];
-    [_peripheral release];
-    [_centralManager release];
-    if (queue) {
-        dispatch_release(queue);
-    }
-    [super dealloc];
-}
-
-
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
 #if TARGET_OS_IPHONE
     if (central.state == CBManagerStatePoweredOn)
@@ -290,7 +277,6 @@ void FirmataBluetoothLEConnection::disconnect() {
                     merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot disconnect from Bluetooth device");
                 }
             }
-            [delegate release];
             delegate = nil;
         }
     }

@@ -42,18 +42,11 @@
     self = [super initWithTarget:target action:@selector(handleGesture)];
     
     if (self) {
-        touchInputRecognizerTarget = [target retain];
+        touchInputRecognizerTarget = target;
         touchInputDeviceWeak = touchInputDevice;
     }
     
-    [target release];
     return self;
-}
-
-
-- (void)dealloc {
-    [touchInputRecognizerTarget release];
-    [super dealloc];
 }
 
 

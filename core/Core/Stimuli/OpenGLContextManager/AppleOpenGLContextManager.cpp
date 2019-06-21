@@ -47,9 +47,10 @@ AppleOpenGLContextManager::AppleOpenGLContextManager() :
 
 AppleOpenGLContextManager::~AppleOpenGLContextManager() {
     @autoreleasepool {
-        [windows release];
-        [views release];
-        [contexts release];
+        // Set these to nil, so that ARC releases them inside the autorelease pool
+        windows = nil;
+        views = nil;
+        contexts = nil;
     }
 }
 
@@ -125,7 +126,6 @@ boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpen
         if (@available(macOS 10.13, *)) {
             // Check if Metal is supported by attempting to obtain the default device
             if (id<MTLDevice> metalDevice = MTLCreateSystemDefaultDevice()) {
-                [metalDevice release];
                 return boost::make_shared<MacOSOpenGLContextManager>();
             }
         }

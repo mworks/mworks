@@ -128,8 +128,6 @@
 		5C8B85001100225400E6D6CD /* MWClientProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientProtocol.h; sourceTree = "<group>"; };
 		5CC88AD0111769DF007914F8 /* MWNotebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWNotebook.h; path = Source/MWNotebook.h; sourceTree = "<group>"; };
 		5CC88AD1111769DF007914F8 /* MWNotebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWNotebook.m; path = Source/MWNotebook.m; sourceTree = "<group>"; };
-		5CE62A151158540100C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		5CE62A161158540100C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWCocoaEventFunctor.cpp; sourceTree = "<group>"; };
 		68915DB90CB678A2007DDDAA /* Broom.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Broom.tif; path = Images/Broom.tif; sourceTree = "<group>"; };
 		68915DBA0CB678A2007DDDAA /* Disk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Disk.png; path = Images/Disk.png; sourceTree = "<group>"; };
@@ -143,6 +141,8 @@
 		E112D93F183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MWorksCocoaAdditions.m"; sourceTree = "<group>"; };
 		E15D0AEB16C2AB9000F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1615725222445B6009C37F3 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		E1F7696F22BD5F8200024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1F7697022BD5F8200024441 /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,10 +234,11 @@
 		5CE62A0C115853B500C757F1 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5CE62A151158540100C757F1 /* Development.xcconfig */,
-				5CE62A161158540100C757F1 /* WARNING.txt */,
+				E1F7696F22BD5F8200024441 /* macOS.xcconfig */,
+				E1F7697022BD5F8200024441 /* macOS_Framework.xcconfig */,
 			);
 			name = "External Config";
+			path = ../build/xcode;
 			sourceTree = "<group>";
 		};
 		DA2FEEE908B3FD9F007E389A /* Source */ = {
@@ -440,6 +441,7 @@
 /* Begin XCBuildConfiguration section */
 		5C77F48610E9698F00919719 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696F22BD5F8200024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};
@@ -447,30 +449,26 @@
 		};
 		DA2A85430871A49C00D99DD8 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7697022BD5F8200024441 /* macOS_Framework.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MWorksCocoa_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = MWorksCocoa;
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Development;
 		};
 		DA2A85470871A49C00D99DD8 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CE62A151158540100C757F1 /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		E12D98F216BC2928004FEF79 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696F22BD5F8200024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

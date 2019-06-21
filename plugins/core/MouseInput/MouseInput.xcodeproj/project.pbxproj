@@ -85,8 +85,6 @@
 		E1620C9B17563F350068BCF6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E1620C9D17563F350068BCF6 /* MouseInput-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MouseInput-Prefix.pch"; sourceTree = "<group>"; };
 		E1620CA317563FBE0068BCF6 /* MouseInputPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseInputPlugin.cpp; sourceTree = "<group>"; };
-		E1620CA7175640410068BCF6 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
-		E1620CA8175640410068BCF6 /* WARNING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WARNING.txt; sourceTree = "<group>"; };
 		E1620CB5175642760068BCF6 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1620CB9175644330068BCF6 /* MouseInputDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseInputDevice.cpp; sourceTree = "<group>"; };
 		E1620CBA175644330068BCF6 /* MouseInputDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseInputDevice.h; sourceTree = "<group>"; };
@@ -95,6 +93,8 @@
 		E171A17E1757967900B91405 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E1E07E981C04F254008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1E74BBB1E2FBFD600F84168 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		E1F7695622BD338E00024441 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1F7695722BD338E00024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,12 +170,12 @@
 		E1620CA6175640170068BCF6 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				E1620CA7175640410068BCF6 /* Development.xcconfig */,
-				E1620CA8175640410068BCF6 /* WARNING.txt */,
+				E1F7695722BD338E00024441 /* macOS.xcconfig */,
+				E1F7695622BD338E00024441 /* macOS_Plugin.xcconfig */,
 			);
 			name = "External Config";
-			path = "/Library/Application Support/MWorks/Developer/Xcode";
-			sourceTree = "<absolute>";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -290,32 +290,25 @@
 /* Begin XCBuildConfiguration section */
 		E1620C9E17563F350068BCF6 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1620CA7175640410068BCF6 /* Development.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Development;
 		};
 		E1620CA117563F350068BCF6 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7695622BD338E00024441 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MouseInput/MouseInput-Prefix.pch";
 				INFOPLIST_FILE = "MouseInput/MouseInput-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		E1620CAB1756418C0068BCF6 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7695722BD338E00024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -323,6 +316,7 @@
 		};
 		E1620CB2175641CE0068BCF6 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7695722BD338E00024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

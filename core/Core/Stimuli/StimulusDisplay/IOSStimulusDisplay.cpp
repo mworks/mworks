@@ -77,7 +77,7 @@ IOSStimulusDisplay::IOSStimulusDisplay(bool useColorManagement) :
 
 IOSStimulusDisplay::~IOSStimulusDisplay() {
     @autoreleasepool {
-        [displayLinks release];
+        displayLinks = nil;
     }
 }
 
@@ -94,7 +94,6 @@ void IOSStimulusDisplay::prepareContext(int contextIndex) {
                                                                                                callback:&displayLinkCallback];
         CADisplayLink *displayLink = [screen displayLinkWithTarget:displayLinkTarget selector:@selector(updateDisplay:)];
         [displayLinks addObject:displayLink];
-        [displayLinkTarget release];
         
         // By default, the display link will invoke the provided selector at the native refresh rate
         // of the display, so there's no need to set its preferredFramesPerSecond property

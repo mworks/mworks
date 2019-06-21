@@ -105,7 +105,6 @@
 {
     [NSEvent removeMonitor:upDownEventMonitor];
     [NSEvent removeMonitor:dragEventMonitor];
-    [super dealloc];
 }
 
 

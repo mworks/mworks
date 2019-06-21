@@ -45,7 +45,6 @@ static MWKOpenGLContext * createOpenGLContext() {
             // Crash on calls to functions removed from the core profile
             CGLEnable(context.CGLContextObj, kCGLCECrashOnRemovedFunctions);
         }
-        [pixelFormat release];
     }
     
     return context;
@@ -59,7 +58,7 @@ static id<MTLDevice> getMetalDeviceForScreen(NSScreen *screen) {
     if (!metalDevice) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Metal is not supported on selected display");
     }
-    return [metalDevice autorelease];
+    return metalDevice;
 }
 
 
@@ -106,15 +105,9 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
                     [windows addObject:window];
                     
                     success = true;
-                    
-                    [view release];
                 }
-                
-                [window release];
             }
         });
-        
-        [context release];
         
         if (!success) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create fullscreen window");
@@ -184,15 +177,9 @@ int MacOSOpenGLContextManager::newMirrorContext() {
                     [windows addObject:window];
                     
                     success = true;
-                    
-                    [view release];
                 }
-                
-                [window release];
             }
         });
-        
-        [context release];
         
         if (!success) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create mirror window");

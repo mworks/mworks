@@ -135,8 +135,6 @@
 		E1503765167FA84D00CF3AEC /* MEXOutputs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEXOutputs.h; sourceTree = "<group>"; };
 		E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = mwfeval.mexmaci64; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1523D66167669BF00069B10 /* MATLABTools-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MATLABTools-Prefix.pch"; sourceTree = "<group>"; };
-		E1523D7716766AE400069B10 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		E1523D7816766AE400069B10 /* WARNING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		E1523D99167673A300069B10 /* mwfeval.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mwfeval.cpp; sourceTree = "<group>"; };
 		E1523DA316767CDE00069B10 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		E1523DA416767E4200069B10 /* TypeInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TypeInfo.h; sourceTree = "<group>"; };
@@ -146,6 +144,7 @@
 		E1D2C104167BB3420030EF33 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1DB979716C19C2D001481E9 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E1DB979916C19C30001481E9 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_serialization.a"; sourceTree = "<absolute>"; };
+		E1F7696E22BD5CC400024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,10 +219,10 @@
 		E1523D7516766ABC00069B10 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				E1523D7716766AE400069B10 /* Development.xcconfig */,
-				E1523D7816766AE400069B10 /* WARNING.txt */,
+				E1F7696E22BD5CC400024441 /* macOS.xcconfig */,
 			);
 			name = "External Config";
+			path = ../../build/xcode;
 			sourceTree = "<group>";
 		};
 		E1523DA216767C7F00069B10 /* Helpers */ = {
@@ -309,6 +308,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E1523D57167669BF00069B10;
@@ -351,7 +351,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if ! [[ -d $MATLAB_DIR ]]; then\n  echo \"MATLAB installation not found\" 1>&2\n  exit 1\nfi";
+			shellScript = "if ! [[ -d $MATLAB_DIR ]]; then\n  echo \"MATLAB installation not found\" 1>&2\n  exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -392,6 +392,7 @@
 /* Begin XCBuildConfiguration section */
 		E12F1A651678E19F007F0ECE /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696E22BD5CC400024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -399,6 +400,7 @@
 		};
 		E12F1A6A1678E53E007F0ECE /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696E22BD5CC400024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -406,9 +408,7 @@
 		};
 		E1523D6D167669BF00069B10 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1523D7716766AE400069B10 /* Development.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				MATLAB_ARCH_i386 = maci;
 				MATLAB_ARCH_x86_64 = maci64;
 				MATLAB_DIR = "/Applications/MATLAB_$(MW_MATLAB_VERSION).app";
@@ -419,6 +419,7 @@
 		};
 		E1523D70167669BF00069B10 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696E22BD5CC400024441 /* macOS.xcconfig */;
 			buildSettings = {
 				EXECUTABLE_EXTENSION = mexmaci64;
 				EXPORTED_SYMBOLS_FILE = "$(MATLAB_DIR)/extern/lib/$(MATLAB_ARCH_$(CURRENT_ARCH))/mexFunction.map";
@@ -445,6 +446,7 @@
 		};
 		E1CEE14D16CA9F39000BCB71 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696E22BD5CC400024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -452,6 +454,7 @@
 		};
 		E1D2C0F0167B9A710030EF33 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696E22BD5CC400024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

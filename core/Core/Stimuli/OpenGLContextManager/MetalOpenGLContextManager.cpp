@@ -103,7 +103,7 @@ namespace {
     id<MTLRenderPipelineState> _pipelineState;
     id<MTLBuffer> _vertexPositionBuffer;
     id<MTLBuffer> _texCoordsBuffer;
-    id<MTLTexture> _texture;  // NOT owned
+    __unsafe_unretained id<MTLTexture> _texture;  // NOT owned
 }
 
 
@@ -117,39 +117,30 @@ namespace {
 }
 
 
-- (void)dealloc {
-    [_texCoordsBuffer release];
-    [_vertexPositionBuffer release];
-    [_pipelineState release];
-    [_commandQueue release];
-    [super dealloc];
-}
-
-
 - (BOOL)prepareUsingColorManagement:(BOOL)useColorManagement error:(NSError **)error {
     _commandQueue = [self.device newCommandQueue];
     
-    id<MTLLibrary> library = [[self.device newLibraryWithSource:@(librarySource.c_str())
-                                                        options:nil
-                                                          error:error] autorelease];
+    id<MTLLibrary> library = [self.device newLibraryWithSource:@(librarySource.c_str())
+                                                       options:nil
+                                                         error:error];
     if (!library) {
         return NO;
     }
     
-    MTLFunctionConstantValues *functionConstantValues = [[[MTLFunctionConstantValues alloc] init] autorelease];
+    MTLFunctionConstantValues *functionConstantValues = [[MTLFunctionConstantValues alloc] init];
     const bool convertToSRGB = useColorManagement;
     [functionConstantValues setConstantValue:&convertToSRGB type:MTLDataTypeBool atIndex:0];
     
-    id<MTLFunction> vertexFunction = [[library newFunctionWithName:@"vertexShader"] autorelease];
+    id<MTLFunction> vertexFunction = [library newFunctionWithName:@"vertexShader"];
     
-    id<MTLFunction> fragmentFunction = [[library newFunctionWithName:@"fragmentShader"
-                                                      constantValues:functionConstantValues
-                                                               error:error] autorelease];
+    id<MTLFunction> fragmentFunction = [library newFunctionWithName:@"fragmentShader"
+                                                     constantValues:functionConstantValues
+                                                              error:error];
     if (!fragmentFunction) {
         return NO;
     }
     
-    MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[[MTLRenderPipelineDescriptor alloc] init] autorelease];
+    MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
     pipelineStateDescriptor.vertexFunction = vertexFunction;
     pipelineStateDescriptor.fragmentFunction = fragmentFunction;
     pipelineStateDescriptor.colorAttachments[0].pixelFormat = self.colorPixelFormat;
@@ -234,7 +225,7 @@ int MetalOpenGLContextManager::createFramebufferTexture(int context_id,
                                                   width,
                                                   height,
                                                   kCVPixelFormatType_64RGBAHalf,
-                                                  (CFDictionaryRef)pixelBufferAttributes,
+                                                  (__bridge CFDictionaryRef)pixelBufferAttributes,
                                                   &_cvPixelBuffer);
                 if (status != kCVReturnSuccess) {
                     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,

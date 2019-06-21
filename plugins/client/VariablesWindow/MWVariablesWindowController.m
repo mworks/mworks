@@ -310,7 +310,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
         searchResultItems = nil;
     } else {
         NSIndexSet *matchingIndexes = [allVariablesItems indexesOfObjectsPassingTest:^BOOL(MWVariableDisplayItem *item, NSUInteger index, BOOL *stop) {
-            return ([item.name rangeOfString:searchText options:NSCaseInsensitiveSearch].location != NSNotFound);
+            return ([item.name rangeOfString:self->searchText options:NSCaseInsensitiveSearch].location != NSNotFound);
         }];
         searchResultItems = [allVariablesItems objectsAtIndexes:matchingIndexes];
     }

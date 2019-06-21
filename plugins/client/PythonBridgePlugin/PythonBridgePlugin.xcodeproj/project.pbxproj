@@ -76,12 +76,12 @@
 		5CA0800710E04F1E00000A95 /* PythonBridgeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonBridgeController.h; sourceTree = "<group>"; };
 		5CA0800810E04F1E00000A95 /* PythonBridgeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonBridgeController.m; sourceTree = "<group>"; };
 		5CA0804310E052B500000A95 /* Main.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
-		5CE62AD511585A4300C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		5CE62AD611585A4300C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		8D576316048677EA00EA77CD /* PythonBridgePlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PythonBridgePlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D576317048677EA00EA77CD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E12D991516BC3032004FEF79 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E15D0B0F16C2BB3200F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E1C3650A22BD63D200D1DBF6 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1C3650B22BD63D200D1DBF6 /* macOS_ClientPlugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_ClientPlugin.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,10 +148,11 @@
 		5CE62AC911585A2E00C757F1 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5CE62AD511585A4300C757F1 /* Development.xcconfig */,
-				5CE62AD611585A4300C757F1 /* WARNING.txt */,
+				E1C3650A22BD63D200D1DBF6 /* macOS.xcconfig */,
+				E1C3650B22BD63D200D1DBF6 /* macOS_ClientPlugin.xcconfig */,
 			);
 			name = "External Config";
+			path = ../../../build/xcode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,8 +266,8 @@
 /* Begin XCBuildConfiguration section */
 		1DEB911B08733D790010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C3650B22BD63D200D1DBF6 /* macOS_ClientPlugin.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -274,19 +275,18 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = PythonBridgePlugin;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		1DEB911F08733D790010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CE62AD511585A4300C757F1 /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		5C77F4FE10E96A4E00919719 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C3650A22BD63D200D1DBF6 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};
@@ -294,6 +294,7 @@
 		};
 		E12D990E16BC2FE0004FEF79 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C3650A22BD63D200D1DBF6 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

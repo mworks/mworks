@@ -86,8 +86,6 @@
 		0E52AED20E93B9780013DFCC /* HIDUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDUtilities.h; sourceTree = "<group>"; };
 		32DBCF630370AF2F00C91783 /* MSSWGamepadPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSWGamepadPlugin_Prefix.pch; sourceTree = "<group>"; };
 		5C4B0A630DC79212001BC518 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		5C78E76B11593BE300151A76 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		5C78E76C11593BE300151A76 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		689708DA0E5A03BB00CE38EA /* MSSWGamepadFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSWGamepadFactory.h; sourceTree = "<group>"; };
 		689708DB0E5A03BB00CE38EA /* MSSWGamepadFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MSSWGamepadFactory.cpp; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* MSSWGamepadPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MSSWGamepadPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +93,8 @@
 		E15D0B0316C2B4BE00F331B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		E15D0B0516C2B4C800F331B1 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		E1E07EA21C04F346008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E1F7695C22BD390300024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1F7695D22BD390300024441 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,10 +187,11 @@
 		5C78E76511593BD000151A76 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5C78E76B11593BE300151A76 /* Development.xcconfig */,
-				5C78E76C11593BE300151A76 /* WARNING.txt */,
+				E1F7695C22BD390300024441 /* macOS.xcconfig */,
+				E1F7695D22BD390300024441 /* macOS_Plugin.xcconfig */,
 			);
 			name = "External Config";
+			path = ../../../build/xcode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,24 +308,24 @@
 /* Begin XCBuildConfiguration section */
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7695D22BD390300024441 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MSSWGamepadPlugin_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = MSSWGamepadPlugin;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C78E76B11593BE300151A76 /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		E12D98C216BC2338004FEF79 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7695C22BD390300024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -332,6 +333,7 @@
 		};
 		E17B9D5D119CA03100EEBF5D /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7695C22BD390300024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};

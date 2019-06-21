@@ -53,7 +53,7 @@ IOSOpenGLContextManager::~IOSOpenGLContextManager() {
         // Calling releaseContexts here causes the application to crash at exit.  Since this class is
         // used as a singleton, it doesn't matter, anyway.
         //releaseContexts();
-        [metalDevice release];
+        metalDevice = nil;
     }
 }
 
@@ -94,18 +94,10 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
                         [windows addObject:window];
                         
                         success = true;
-                        
-                        [view release];
                     }
-                    
-                    [viewController release];
                 }
-                
-                [window release];
             }
         });
-        
-        [context release];
         
         if (!success) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create fullscreen window");

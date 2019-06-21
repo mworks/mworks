@@ -82,8 +82,6 @@
 		E1A97C36170C847100E3FC03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E1A97C38170C847100E3FC03 /* USBHID-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "USBHID-Prefix.pch"; sourceTree = "<group>"; };
 		E1A97C3E170C857700E3FC03 /* USBHIDPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = USBHIDPlugin.cpp; sourceTree = "<group>"; };
-		E1A97C42170C85ED00E3FC03 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		E1A97C43170C85ED00E3FC03 /* WARNING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		E1A97C44170C87B200E3FC03 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1A97C54170C8A7F00E3FC03 /* USBHIDDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = USBHIDDevice.cpp; sourceTree = "<group>"; };
 		E1A97C55170C8A7F00E3FC03 /* USBHIDDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USBHIDDevice.h; sourceTree = "<group>"; };
@@ -92,6 +90,8 @@
 		E1CD866B170DE75B00AD271B /* USBHIDInputChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USBHIDInputChannel.h; sourceTree = "<group>"; };
 		E1CD866D170DF04400AD271B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E1E07EB21C04F52F008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E1F7695E22BD3AB700024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1F7695F22BD3AB700024441 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,10 +165,11 @@
 		E1A97C41170C85D700E3FC03 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				E1A97C42170C85ED00E3FC03 /* Development.xcconfig */,
-				E1A97C43170C85ED00E3FC03 /* WARNING.txt */,
+				E1F7695E22BD3AB700024441 /* macOS.xcconfig */,
+				E1F7695F22BD3AB700024441 /* macOS_Plugin.xcconfig */,
 			);
 			name = "External Config";
+			path = ../../../build/xcode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,33 +284,24 @@
 /* Begin XCBuildConfiguration section */
 		E1A97C39170C847100E3FC03 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1A97C42170C85ED00E3FC03 /* Development.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Development;
 		};
 		E1A97C3C170C847100E3FC03 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7695F22BD3AB700024441 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBHID/USBHID-Prefix.pch";
 				INFOPLIST_FILE = "USBHID/USBHID-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		E1A97C4A170C88E400E3FC03 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7695E22BD3AB700024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -317,6 +309,7 @@
 		};
 		E1A97C51170C892C00E3FC03 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7695E22BD3AB700024441 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
