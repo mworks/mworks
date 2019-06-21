@@ -1,0 +1,440 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1F603AA22BC162000007C61 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1F603AB22BC162000007C61 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1F603B222BC171600007C61 /* CopyFiles */,
+			);
+			dependencies = (
+				E1F603B722BC1A5E00007C61 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E1F603AD22BC162C00007C61 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1F603AE22BC162C00007C61 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1F603B522BC173900007C61 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E1446F3122B7D56E0002B9A9 /* Datum.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1446F3022B7D56E0002B9A9 /* Datum.swift */; };
+		E1658D2422B3E243002F22E1 /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */; };
+		E1658D2B22B3E243002F22E1 /* MWorksSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = E1658D1D22B3E243002F22E1 /* MWorksSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1CD1BCE22B3EAFC008C14EE /* MWKDatum.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CD1BCC22B3EAFC008C14EE /* MWKDatum.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1CD1BCF22B3EAFC008C14EE /* MWKDatum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */; };
+		E1CD1BD422B3EEF8008C14EE /* DatumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD1BD322B3EEF8008C14EE /* DatumTests.swift */; };
+		E1CD1C2322B412ED008C14EE /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD1C2222B412ED008C14EE /* MWorksCore.framework */; };
+		E1F603B322BC172000007C61 /* MWorksSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1658D2522B3E243002F22E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1658D1122B3E242002F22E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1658D1922B3E243002F22E1;
+			remoteInfo = MWorksSwift;
+		};
+		E1F603B422BC173900007C61 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1658D1122B3E242002F22E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1F603AA22BC162000007C61;
+			remoteInfo = Install;
+		};
+		E1F603B622BC1A5E00007C61 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1658D1122B3E242002F22E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1658D1922B3E243002F22E1;
+			remoteInfo = MWorksSwift;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1F603B222BC171600007C61 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+			dstSubfolderSpec = 0;
+			files = (
+				E1F603B322BC172000007C61 /* MWorksSwift.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E1446F3022B7D56E0002B9A9 /* Datum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datum.swift; sourceTree = "<group>"; };
+		E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1658D1D22B3E243002F22E1 /* MWorksSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWorksSwift.h; sourceTree = "<group>"; };
+		E1658D1E22B3E243002F22E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1658D2322B3E243002F22E1 /* MWorksSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWorksSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1658D2A22B3E243002F22E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1CD1BC922B3E359008C14EE /* iOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Framework.xcconfig; sourceTree = "<group>"; };
+		E1CD1BCA22B3E359008C14EE /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
+		E1CD1BCB22B3E359008C14EE /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1CD1BCC22B3EAFC008C14EE /* MWKDatum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKDatum.h; sourceTree = "<group>"; };
+		E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWKDatum.m; sourceTree = "<group>"; };
+		E1CD1BD322B3EEF8008C14EE /* DatumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatumTests.swift; sourceTree = "<group>"; };
+		E1CD1C2022B41148008C14EE /* MWorksSwift-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MWorksSwift-Prefix.pch"; sourceTree = "<group>"; };
+		E1CD1C2222B412ED008C14EE /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E1CD1C2722B4149B008C14EE /* MWKDatum_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKDatum_Private.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1658D1722B3E243002F22E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1CD1C2322B412ED008C14EE /* MWorksCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1658D2022B3E243002F22E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1658D2422B3E243002F22E1 /* MWorksSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1658D1022B3E242002F22E1 = {
+			isa = PBXGroup;
+			children = (
+				E1CD1BC822B3E31D008C14EE /* External Config */,
+				E1658D1C22B3E243002F22E1 /* MWorksSwift */,
+				E1658D2722B3E243002F22E1 /* MWorksSwiftTests */,
+				E1CD1C2122B412ED008C14EE /* Frameworks */,
+				E1658D1B22B3E243002F22E1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1658D1B22B3E243002F22E1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */,
+				E1658D2322B3E243002F22E1 /* MWorksSwiftTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1658D1C22B3E243002F22E1 /* MWorksSwift */ = {
+			isa = PBXGroup;
+			children = (
+				E1CD1BCC22B3EAFC008C14EE /* MWKDatum.h */,
+				E1CD1C2722B4149B008C14EE /* MWKDatum_Private.h */,
+				E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */,
+				E1446F3022B7D56E0002B9A9 /* Datum.swift */,
+				E1658D1D22B3E243002F22E1 /* MWorksSwift.h */,
+				E1CD1C2022B41148008C14EE /* MWorksSwift-Prefix.pch */,
+				E1658D1E22B3E243002F22E1 /* Info.plist */,
+			);
+			path = MWorksSwift;
+			sourceTree = "<group>";
+		};
+		E1658D2722B3E243002F22E1 /* MWorksSwiftTests */ = {
+			isa = PBXGroup;
+			children = (
+				E1CD1BD322B3EEF8008C14EE /* DatumTests.swift */,
+				E1658D2A22B3E243002F22E1 /* Info.plist */,
+			);
+			path = MWorksSwiftTests;
+			sourceTree = "<group>";
+		};
+		E1CD1BC822B3E31D008C14EE /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1CD1BCB22B3E359008C14EE /* macOS.xcconfig */,
+				E1CD1BCA22B3E359008C14EE /* macOS_Framework.xcconfig */,
+				E1CD1BC922B3E359008C14EE /* iOS_Framework.xcconfig */,
+			);
+			name = "External Config";
+			path = ../build/xcode;
+			sourceTree = "<group>";
+		};
+		E1CD1C2122B412ED008C14EE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1CD1C2222B412ED008C14EE /* MWorksCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E1658D1522B3E243002F22E1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1CD1BCE22B3EAFC008C14EE /* MWKDatum.h in Headers */,
+				E1658D2B22B3E243002F22E1 /* MWorksSwift.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E1658D1922B3E243002F22E1 /* MWorksSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1658D2E22B3E243002F22E1 /* Build configuration list for PBXNativeTarget "MWorksSwift" */;
+			buildPhases = (
+				E1658D1522B3E243002F22E1 /* Headers */,
+				E1658D1622B3E243002F22E1 /* Sources */,
+				E1658D1722B3E243002F22E1 /* Frameworks */,
+				E1658D1822B3E243002F22E1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MWorksSwift;
+			productName = MWorksSwift;
+			productReference = E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		E1658D2222B3E243002F22E1 /* MWorksSwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1658D3122B3E243002F22E1 /* Build configuration list for PBXNativeTarget "MWorksSwiftTests" */;
+			buildPhases = (
+				E1658D1F22B3E243002F22E1 /* Sources */,
+				E1658D2022B3E243002F22E1 /* Frameworks */,
+				E1658D2122B3E243002F22E1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E1658D2622B3E243002F22E1 /* PBXTargetDependency */,
+			);
+			name = MWorksSwiftTests;
+			productName = MWorksSwiftTests;
+			productReference = E1658D2322B3E243002F22E1 /* MWorksSwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1658D1122B3E242002F22E1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E1658D1922B3E243002F22E1 = {
+						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
+					};
+					E1658D2222B3E243002F22E1 = {
+						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
+					};
+					E1F603AA22BC162000007C61 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					E1F603AD22BC162C00007C61 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+				};
+			};
+			buildConfigurationList = E1658D1422B3E242002F22E1 /* Build configuration list for PBXProject "MWorksSwift" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E1658D1022B3E242002F22E1;
+			productRefGroup = E1658D1B22B3E243002F22E1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1658D1922B3E243002F22E1 /* MWorksSwift */,
+				E1658D2222B3E243002F22E1 /* MWorksSwiftTests */,
+				E1F603AA22BC162000007C61 /* Install */,
+				E1F603AD22BC162C00007C61 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1658D1822B3E243002F22E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1658D2122B3E243002F22E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1658D1622B3E243002F22E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1CD1BCF22B3EAFC008C14EE /* MWKDatum.m in Sources */,
+				E1446F3122B7D56E0002B9A9 /* Datum.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1658D1F22B3E243002F22E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1CD1BD422B3EEF8008C14EE /* DatumTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1658D2622B3E243002F22E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1658D1922B3E243002F22E1 /* MWorksSwift */;
+			targetProxy = E1658D2522B3E243002F22E1 /* PBXContainerItemProxy */;
+		};
+		E1F603B522BC173900007C61 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1F603AA22BC162000007C61 /* Install */;
+			targetProxy = E1F603B422BC173900007C61 /* PBXContainerItemProxy */;
+		};
+		E1F603B722BC1A5E00007C61 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1658D1922B3E243002F22E1 /* MWorksSwift */;
+			targetProxy = E1F603B622BC1A5E00007C61 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E1658D2C22B3E243002F22E1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1658D2F22B3E243002F22E1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1CD1BCA22B3E359008C14EE /* macOS_Framework.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				DEFINES_MODULE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MWorksSwift/MWorksSwift-Prefix.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = MWorksSwift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksSwift";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+			};
+			name = Development;
+		};
+		E1658D3222B3E243002F22E1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1CD1BCB22B3E359008C14EE /* macOS.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = MWorksSwiftTests/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksSwiftTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Development;
+		};
+		E1F603AC22BC162000007C61 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1CD1BCB22B3E359008C14EE /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1F603AF22BC162C00007C61 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1CD1BCB22B3E359008C14EE /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1658D1422B3E242002F22E1 /* Build configuration list for PBXProject "MWorksSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1658D2C22B3E243002F22E1 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1658D2E22B3E243002F22E1 /* Build configuration list for PBXNativeTarget "MWorksSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1658D2F22B3E243002F22E1 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1658D3122B3E243002F22E1 /* Build configuration list for PBXNativeTarget "MWorksSwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1658D3222B3E243002F22E1 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1F603AB22BC162000007C61 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1F603AC22BC162000007C61 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1F603AE22BC162C00007C61 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1F603AF22BC162C00007C61 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1658D1122B3E242002F22E1 /* Project object */;
+}

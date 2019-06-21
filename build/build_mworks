@@ -84,16 +84,15 @@ def list_subdirs():
                   if os.path.isdir(dir) and (not dir.startswith('.')))
 
 
-def xcodebuild(scheme='Everything'):
+def xcodebuild(scheme='Everything', actions=['clean', 'build']):
     cmd = [xcrun,
            'xcodebuild',
            '-scheme', scheme,
-           'clean',
-           'build',
-           ]
+           ] + actions
 
     if treat_warnings_as_errors:
-        cmd.append('GCC_TREAT_WARNINGS_AS_ERRORS=YES')
+        cmd.extend(['GCC_TREAT_WARNINGS_AS_ERRORS=YES',
+                    'SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'])
 
     if mw_version[0] in string.digits:
         # Use version number only if it starts with a digit.  This
@@ -193,6 +192,13 @@ def matlab_tools():
 @builder('mworks/cocoa')
 def cocoa():
     xcodebuild()
+
+
+@builder('mworks/swift')
+def swift():
+    xcodebuild(scheme = 'MWorksSwift',
+               actions = ['clean', 'build-for-testing', 'test'])
+    xcodebuild(actions=['build'])
 
 
 @builder('mworks/apps/client')

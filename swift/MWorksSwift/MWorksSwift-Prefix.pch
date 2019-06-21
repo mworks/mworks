@@ -1,0 +1,18 @@
+//
+//  MWorksSwift-Prefix.pch
+//  MWorksSwift
+//
+//  Created by Christopher Stawarz on 6/14/19.
+//  Copyright © 2019 The MWorks Project. All rights reserved.
+//
+
+#ifndef MWorksSwift_Prefix_pch
+#define MWorksSwift_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <MWorksCore/GenericData.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* MWorksSwift_Prefix_pch */

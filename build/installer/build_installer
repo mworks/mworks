@@ -32,6 +32,7 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/ZenStateSystemPlugin.bundle',
         '/Library/Frameworks/MWorksCocoa.framework',
         '/Library/Frameworks/MWorksCore.framework',
+        '/Library/Frameworks/MWorksSwift.framework',
         ),
 
     'MWorksStandardPlugins':
