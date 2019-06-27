@@ -29,6 +29,7 @@ public:
     
 protected:
     void assertMessage(MessageType type, const std::string &msg);
+    void assertWarning(const std::string &msg) { assertMessage(M_WARNING_MESSAGE, msg); }
     void assertError(const std::string &msg) { assertMessage(M_ERROR_MESSAGE, msg); }
     
 private:

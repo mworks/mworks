@@ -1872,7 +1872,7 @@ void GenericDataTestFixture::testOperatorModulo() {
         
         // and float
         {
-            Datum d = Datum(true) % Datum(2.9);
+            Datum d = Datum(true) % Datum(2.0);
             CPPUNIT_ASSERT( d.isInteger() );
             CPPUNIT_ASSERT_EQUAL( 1LL, d.getInteger() );
         }
@@ -1915,6 +1915,7 @@ void GenericDataTestFixture::testOperatorModulo() {
             Datum d = Datum(2) % Datum(3.9);
             CPPUNIT_ASSERT( d.isInteger() );
             CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
+            assertWarning("WARNING: Modulus operator will truncate non-integer operand 3.9");
         }
         
         // and other
@@ -1938,7 +1939,7 @@ void GenericDataTestFixture::testOperatorModulo() {
     {
         // and boolean
         {
-            Datum d = Datum(3.9) % Datum(true);
+            Datum d = Datum(3.0) % Datum(true);
             CPPUNIT_ASSERT( d.isInteger() );
             CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
         }
@@ -1948,11 +1949,12 @@ void GenericDataTestFixture::testOperatorModulo() {
             Datum d = Datum(8.9) % Datum(3);
             CPPUNIT_ASSERT( d.isInteger() );
             CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
+            assertWarning("WARNING: Modulus operator will truncate non-integer operand 8.9");
         }
         
         // and float
         {
-            Datum d = Datum(2.9) % Datum(3.9);
+            Datum d = Datum(2.0) % Datum(3.0);
             CPPUNIT_ASSERT( d.isInteger() );
             CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
         }

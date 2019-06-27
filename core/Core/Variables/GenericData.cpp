@@ -1025,14 +1025,27 @@ Datum Datum::operator/(const Datum& other) const {
 }
 
 
+static inline long long getModulusOperand(const Datum &datum) {
+    auto intValue = datum.getInteger();
+    if (datum.isFloat()) {
+        auto floatValue = datum.getFloat();
+        if (double(intValue) != floatValue) {
+            mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Modulus operator will truncate non-integer operand %g", floatValue);
+        }
+    }
+    return intValue;
+}
+
+
 Datum Datum::operator%(const Datum& other) const {
     if (isNumber() && other.isNumber()) {
-        long long divisor = other.getInteger();
+        auto dividend = getModulusOperand(*this);
+        auto divisor = getModulusOperand(other);
         if (divisor == 0) {
             merror(M_SYSTEM_MESSAGE_DOMAIN, "Division by zero");
             return 0;
         }
-        return getInteger() % divisor;
+        return dividend % divisor;
     }
     
     merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot mod %s and %s", getDataTypeName(), other.getDataTypeName());
