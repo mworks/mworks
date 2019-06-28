@@ -48,7 +48,7 @@ circle ball (
 %define update_ball_heading (new_heading)
     ball_offset_x += ball_drift_x
     ball_offset_y += ball_drift_y
-    ball_heading = new_heading % 360
+    ball_heading = fmod(new_heading, 360)
     ball_start_time = next_frame_time()
 %end
 

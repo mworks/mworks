@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">WARNING: Modulus operator will truncate non-integer operand 2.1</message>
+    <message type="whole_message">WARNING: Modulus operator will truncate non-integer operand 3.9</message>
+  </expected_messages>
+</marionette_info>

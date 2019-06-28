@@ -2154,6 +2154,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 		return Datum( boost::math::round(paramlist[0].getFloat()) );
 	}
 	
+    Datum BasicSymbolTable::funcFMOD(const paramlist_type &paramlist)
+    {
+        return Datum( std::fmod(paramlist[0].getFloat(), paramlist[1].getFloat()) );
+    }
+    
 	Datum BasicSymbolTable::funcMIN(const paramlist_type &paramlist)
 	{
         auto &first = paramlist[0];
@@ -2505,6 +2510,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("FLOOR", 1, funcFLOOR);
 		setFunction("ROUND", 1, funcROUND);
 
+        setFunction("FMOD", 2, funcFMOD);
+        
 		setFunction("MIN", 2, funcMIN);
 		setFunction("MAX", 2, funcMAX);
         setFunction("SIZE", 1, funcSIZE);

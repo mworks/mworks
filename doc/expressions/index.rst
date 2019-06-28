@@ -229,6 +229,9 @@ Mathematical
 ``floor(x)``
    Nearest integer not greater than *x*
 
+``fmod(x,y)``
+   Floating-point remainder of *x/y*
+
 ``logn(x)``
    Natural logarithm of *x*
 

@@ -236,6 +236,8 @@ protected:
     /// Return the value of round(x) as a double Datum
     static Datum	funcROUND(const paramlist_type& paramlist);
 
+    static Datum    funcFMOD(const paramlist_type& paramlist);
+    
     static Datum	funcMIN(const paramlist_type& paramlist);
     static Datum	funcMAX(const paramlist_type& paramlist);
     static Datum	funcSIZE(const paramlist_type& paramlist);
