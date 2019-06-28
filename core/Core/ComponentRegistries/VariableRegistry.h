@@ -77,8 +77,6 @@ protected:
 	shared_ptr<GlobalVariable> addGlobalVariable(const VariableProperties &p);
 	shared_ptr<SelectionVariable> addSelectionVariable(const VariableProperties &p);
 	
-	shared_ptr<ConstantVariable> addConstantVariable(Datum value);
-	
 
 public:
 		
@@ -127,7 +125,6 @@ public:
 	shared_ptr<GlobalVariable> createGlobalVariable(const VariableProperties &p);
 	shared_ptr<SelectionVariable> createSelectionVariable(const VariableProperties &p);
 	
-	shared_ptr<ConstantVariable> createConstantVariable(Datum value);
 	shared_ptr<Timer> createTimer(const VariableProperties &p);
 	
 	

@@ -273,15 +273,6 @@ shared_ptr<GlobalVariable> VariableRegistry::addGlobalVariable(const VariablePro
 	return returnref;
 }
 
-shared_ptr<ConstantVariable> VariableRegistry::addConstantVariable(Datum value){
-	
-	
-	shared_ptr<ConstantVariable> returnref(new ConstantVariable(value));
-	returnref->setCodecCode(-1);
-	returnref->setEventTarget(event_buffer);
-	
-	return returnref;
-}
 
 shared_ptr<Timer> VariableRegistry::createTimer(const VariableProperties &props) {
 	VariableProperties *props_copy = new VariableProperties(props);
@@ -338,10 +329,6 @@ shared_ptr<GlobalVariable> VariableRegistry::createGlobalVariable(const Variable
 	shared_ptr<GlobalVariable> var = addGlobalVariable(props);
 	
 	return var;
-}
-
-shared_ptr<ConstantVariable> VariableRegistry::createConstantVariable(Datum value){	
-	return addConstantVariable(value);
 }
 
 
