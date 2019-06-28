@@ -1645,6 +1645,10 @@ void TaskSystemState::addChild(std::map<std::string, std::string> parameters,
 	
 	shared_ptr<Action> as_action = boost::dynamic_pointer_cast<Action, mw::Component>(comp);
 	if(as_action != NULL){
+        if (!transition_list->empty()) {
+            throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN,
+                                  "Actions must be placed before transitions in task system state");
+        }
         return ContainerState::addChild(parameters, reg, comp);
 	}
 	

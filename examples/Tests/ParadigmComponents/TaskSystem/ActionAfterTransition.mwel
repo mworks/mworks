@@ -1,0 +1,13 @@
+protocol {
+    task {
+        state Begin {
+            report ('Before transition')
+            goto ('End')
+        }
+
+        state End {
+            yield ()
+            report ('After transition')  // Not allowed!
+        }
+    }
+}
