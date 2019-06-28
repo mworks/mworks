@@ -193,9 +193,12 @@ class ImageStimulus : public BasicTransformStimulus {
     
 public:
     static const std::string PATH;
+    static const std::string ANNOUNCE_LOAD;
     
     static VertexPositionArray getVertexPositions(double aspectRatio);
-    static cf::ObjectPtr<CGImageSourceRef> loadImageFile(const std::string &filename, std::string &fileHash);
+    static cf::ObjectPtr<CGImageSourceRef> loadImageFile(const std::string &filename,
+                                                         std::string &fileHash,
+                                                         bool announce = true);
     
     static void describeComponent(ComponentInfo &info);
     
@@ -218,6 +221,8 @@ private:
     void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     
     const VariablePtr path;
+    const bool announceLoad;
+    
     std::string filename;
     std::string fileHash;
     

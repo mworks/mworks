@@ -156,5 +156,11 @@ parameters:
         If ``YES``, the stimulus is sized to fill the display.  In this mode,
         `x_size`_, `y_size`_, `x_position`_, `y_position`_, and `rotation`_ are
         ignored.
+  - 
+    name: announce_load
+    default: 'YES'
+    description: >
+        If ``YES``, messages will be posted to the console and event stream when
+        images are loaded or unloaded.
 
 

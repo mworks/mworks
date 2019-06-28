@@ -445,6 +445,7 @@ gl::Shader CircleStimulus::getFragmentShader() const {
 
 
 const std::string ImageStimulus::PATH("path");
+const std::string ImageStimulus::ANNOUNCE_LOAD("announce_load");
 
 
 auto ImageStimulus::getVertexPositions(double aspectRatio) -> VertexPositionArray {
@@ -465,8 +466,13 @@ auto ImageStimulus::getVertexPositions(double aspectRatio) -> VertexPositionArra
 }
 
 
-cf::ObjectPtr<CGImageSourceRef> ImageStimulus::loadImageFile(const std::string &filename, std::string &fileHash) {
-    mprintf("Loading image %s", filename.c_str());
+cf::ObjectPtr<CGImageSourceRef> ImageStimulus::loadImageFile(const std::string &filename,
+                                                             std::string &fileHash,
+                                                             bool announce)
+{
+    if (announce) {
+        mprintf("Loading image %s", filename.c_str());
+    }
     
     @autoreleasepool {
         NSData *imageData = nil;
@@ -521,14 +527,18 @@ cf::ObjectPtr<CGImageSourceRef> ImageStimulus::loadImageFile(const std::string &
 
 void ImageStimulus::describeComponent(ComponentInfo &info) {
     BasicTransformStimulus::describeComponent(info);
+    
     info.setSignature("stimulus/image_file");
+    
     info.addParameter(PATH);
+    info.addParameter(ANNOUNCE_LOAD, "YES");
 }
 
 
 ImageStimulus::ImageStimulus(const ParameterValueMap &parameters) :
     BasicTransformStimulus(parameters),
     path(variableOrText(parameters[PATH])),
+    announceLoad(parameters[ANNOUNCE_LOAD]),
     width(0),
     height(0),
     aspectRatio(1.0)
@@ -554,7 +564,7 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
         // https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW31
         //
         
-        auto imageSource = loadImageFile(filename, fileHash);
+        auto imageSource = loadImageFile(filename, fileHash, announceLoad);
         auto image = cf::ObjectPtr<CGImageRef>::created(CGImageSourceCreateImageAtIndex(imageSource.get(), 0, nullptr));
         
         // If we're not using color management, replace the image's color space with an appropriate
@@ -719,7 +729,9 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     // We're done with the image data, so release it to free up memory
     data.reset();
     
-    mprintf("Image loaded into texture_map %u", texture);
+    if (announceLoad) {
+        mprintf("Image loaded into texture_map %u", texture);
+    }
     
     glGenBuffers(1, &texCoordsBuffer);
     gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
@@ -739,7 +751,10 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
 void ImageStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
     glDeleteBuffers(1, &texCoordsBuffer);
     glDeleteTextures(1, &texture);
-    mprintf("Image unloaded from texture_map %u", texture);
+    
+    if (announceLoad) {
+        mprintf("Image unloaded from texture_map %u", texture);
+    }
     
     BasicTransformStimulus::destroy(display);
 }

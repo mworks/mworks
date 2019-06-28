@@ -477,6 +477,12 @@ parameters:
       - images/image1.png
       - /path/to/image.png
     description: Filesystem path to the image file
+  - 
+    name: announce_load
+    default: 'YES'
+    description: >
+        If ``YES``, messages will be posted to the console and event stream when
+        the image is loaded or unloaded.
 
 
 ---
@@ -1888,7 +1894,6 @@ parameters:
     name: announce_stimuli_on_implicit_updates
     default: 'YES'
     description: >
-
         Controls the announcement of stimuli during "implicit" display updates
         (i.e. updates requested by running dynamic stimuli and *not* triggered
         by an explicit `Update Stimulus Display` action).  If set to ``NO``,
