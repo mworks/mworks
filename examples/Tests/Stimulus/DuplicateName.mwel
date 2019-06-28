@@ -1,0 +1,16 @@
+circle the_circle (
+    x_size = 5
+    x_position = -5
+    )
+
+circle the_circle (
+    x_size = 5
+    x_position = 5
+    )
+
+
+protocol {
+    queue_stimulus (the_circle)
+    update_display ()
+    wait (5s)
+}

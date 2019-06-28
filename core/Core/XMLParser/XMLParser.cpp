@@ -636,7 +636,7 @@ void XMLParser::_processFinalizeDirective(xmlNode *node){
 	if(object == NULL && properties.find("alt") != properties.end()){
 		object = registry->getObject<mw::Component>(properties["alt"]);
         if(object != NULL){
-			registry->registerObject(tag, object, true);
+			registry->registerObject(tag, object);
 		}
 	}
 	

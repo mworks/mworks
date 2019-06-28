@@ -220,7 +220,7 @@ shared_ptr<mw::Component> ComponentRegistry::createNewObject(const std::string &
 }
 
 
-void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Component> component, bool force){	
+void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Component> component) {
 	if(tag_name.empty()){
 		throw SimpleException("Attempt to register a component with an empty name");
 	}
@@ -271,7 +271,19 @@ void ComponentRegistry::registerAltObject(const std::string &tag_name, shared_pt
 }
 
 void ComponentRegistry::registerStimulusNode(const std::string &tag_name, shared_ptr<StimulusNode> stimNode) {
-	stimulus_nodes[tag_name] = stimNode;
+    if (tag_name.empty()) {
+        // It's valid for a stimulus to have no tag (e.g. it could be a member of a stimulus group that is only
+        // accessed by index)
+        return;
+    }
+    if (!stimNode){
+        throw SimpleException("Attempt to register empty stimulus node", tag_name);
+    }
+    auto &slot = stimulus_nodes[tag_name];
+    if (slot) {
+        throw SimpleException(boost::format("A stimulus with the name \"%s\" already exists") % tag_name);
+    }
+    slot = stimNode;
 }
 
 // Instance lookups with some extra parsing smarts

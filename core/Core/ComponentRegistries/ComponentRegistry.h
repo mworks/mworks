@@ -132,7 +132,7 @@ BEGIN_NAMESPACE_MW
 													const std::map<std::string, std::string> &params);
 		
 		
-		void registerObject(std::string tag_name, shared_ptr<mw::Component> component, bool force = false);
+		void registerObject(std::string tag_name, shared_ptr<mw::Component> component);
 		void registerAltObject(const std::string &tag_name, shared_ptr<mw::Component> component);
 		
 		// not sure about this one
