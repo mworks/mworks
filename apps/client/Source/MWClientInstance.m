@@ -1133,7 +1133,11 @@
     
     [workspaceInfo setObject:self.serverURL forKey:@"serverURL"];
     [workspaceInfo setObject:self.serverPort forKey:@"serverPort"];
-    [workspaceInfo setObject:self.clientsideExperimentPath forKey:@"experimentPath"];
+    // clientsideExperimentPath will be nil when the client connects to a server
+    // on which an experiment is already loaded
+    if (self.clientsideExperimentPath) {
+        [workspaceInfo setObject:self.clientsideExperimentPath forKey:@"experimentPath"];
+    }
     if (self.variableSetLoaded) {
         [workspaceInfo setObject:self.variableSetName forKey:@"variableSetName"];
     }
