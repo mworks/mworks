@@ -1,0 +1,7 @@
+var the_var = 0
+selection the_var (values = 1, 2, 3)
+
+
+protocol {
+    the_var = 2
+}

@@ -1,0 +1,10 @@
+var the_var = 0
+
+
+protocol {
+    start_timer (
+        timer = the_var
+        duration = 1
+        )
+    the_var = 2
+}

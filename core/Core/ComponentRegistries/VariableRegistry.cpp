@@ -22,6 +22,7 @@ VariableRegistry::VariableRegistry(shared_ptr<EventBuffer> _buffer) {
 }
 
 void VariableRegistry::reset(){
+    boost::mutex::scoped_lock s_lock(lock);
 
     master_variable_list.clear();
 	
@@ -201,16 +202,31 @@ std::vector<std::string> VariableRegistry::getVariableTagNames() {
 	return tagnames;	
 }
 
-bool VariableRegistry::hasVariable(const char *tagname) const { 
-	return (getVariable(tagname) != NULL); 
-}
-bool VariableRegistry::hasVariable(std::string &tagname) const { 
-	return (getVariable(tagname) != NULL); 
-}
 
-
-int VariableRegistry::getNVariables() { 
+int VariableRegistry::getNVariables() {
+    boost::mutex::scoped_lock s_lock(lock);
 	return master_variable_list.size();
+}
+
+
+void VariableRegistry::registerVariableName(const boost::shared_ptr<Variable> &var) {
+    auto tag = var->getVariableName();
+    if (!tag.empty()) {
+        auto &slot = master_variable_dictionary[tag];
+        if (slot) {
+            throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN,
+                                  boost::format("A variable with the name \"%s\" already exists") % tag);
+        }
+        slot = var;
+    }
+}
+
+
+void VariableRegistry::addVariable(const boost::shared_ptr<Variable> &var) {
+    registerVariableName(var);
+    master_variable_list.push_back(var);
+    var->setCodecCode(master_variable_list.size() + N_RESERVED_CODEC_CODES - 1);
+    var->setEventTarget(event_buffer);
 }
 
 
@@ -219,29 +235,14 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
 {
     // create a new entry and return one instance
 	
-    int variable_context_index = -1;
-	int codec_code = -1;
-	
 	VariableProperties *props_copy = new VariableProperties(props);
-	
     shared_ptr<ScopedVariable> new_variable(new ScopedVariable(props_copy));
-	//GlobalCurrentExperiment->addVariable(new_variable);
     
-    master_variable_list.push_back(new_variable);
-	codec_code = master_variable_list.size() + N_RESERVED_CODEC_CODES - 1;
-    
-    std::string tag = new_variable->getVariableName();
-    if(!tag.empty()){
-        master_variable_dictionary[tag] = new_variable;
-	}
+    addVariable(new_variable);
     
     local_variable_list.push_back(new_variable);
-	variable_context_index = local_variable_list.size() - 1;
-	
-	new_variable->setContextIndex(variable_context_index);
+	new_variable->setContextIndex(local_variable_list.size() - 1);
 	new_variable->setLogging(M_WHEN_CHANGED);
-	new_variable->setCodecCode(codec_code);
-	new_variable->setEventTarget(event_buffer);
 	
     shared_ptr<ScopedVariableEnvironment> env_shared = env.lock();
 	if(env_shared){
@@ -255,37 +256,22 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
 shared_ptr<GlobalVariable> VariableRegistry::addGlobalVariable(const VariableProperties &props) {
 	VariableProperties *copy = new VariableProperties(props);
 	shared_ptr<GlobalVariable> returnref(new GlobalVariable(copy));
-	
-    master_variable_list.push_back(returnref);
-	int codec_code = master_variable_list.size() + N_RESERVED_CODEC_CODES - 1;
-	
-    std::string tag = returnref->getVariableName();
-    if(!tag.empty()){
-        master_variable_dictionary[tag] = returnref;
-	}
     
+    addVariable(returnref);
     
     global_variable_list.push_back(returnref);
-	
-	returnref->setCodecCode(codec_code);
-	returnref->setEventTarget(event_buffer);
 	
 	return returnref;
 }
 
 
 shared_ptr<Timer> VariableRegistry::createTimer(const VariableProperties &props) {
+    boost::mutex::scoped_lock s_lock(lock);
+    
 	VariableProperties *props_copy = new VariableProperties(props);
-	
 	shared_ptr<Timer> new_timer(new Timer(props_copy));
 	
-//	int codec_code = master_variable_list.addReference(new_timer);
-	
-	std::string tag = new_timer->getVariableName();
-	if(!tag.empty()){
-        master_variable_dictionary[tag] = new_timer;
-	}
-	
+    registerVariableName(new_timer);
 	new_timer->setCodecCode(-1);
 	new_timer->setEventTarget(event_buffer);
 	
@@ -295,21 +281,12 @@ shared_ptr<Timer> VariableRegistry::createTimer(const VariableProperties &props)
 
 shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(const VariableProperties &props) {
 	VariableProperties *props_copy = new VariableProperties(props);
-	
 	shared_ptr<SelectionVariable> returnref(new SelectionVariable(props_copy));
-	
-    master_variable_list.push_back(returnref);
-	int codec_code = master_variable_list.size() + N_RESERVED_CODEC_CODES - 1;
     
-	std::string tag = returnref->getVariableName();
-    if(!tag.empty()){
-        master_variable_dictionary[tag] = returnref;
-	}
+    addVariable(returnref);
     
     selection_variable_list.push_back(returnref);
 	
-	returnref->setCodecCode(codec_code);
-	returnref->setEventTarget(event_buffer);
 	return returnref;
 }
 

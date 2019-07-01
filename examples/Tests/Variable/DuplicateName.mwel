@@ -1,0 +1,7 @@
+var the_var = 0
+var the_var = 1
+
+
+protocol {
+    the_var = 2
+}

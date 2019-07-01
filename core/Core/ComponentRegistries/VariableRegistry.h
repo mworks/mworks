@@ -49,9 +49,6 @@ private:
 											   // where all of the events related
 											   // to its variables will be posted
 
-	
-protected:
-    
 	// all variables, in codec order
 	vector< shared_ptr<Variable> > master_variable_list;
 	
@@ -66,6 +63,9 @@ protected:
 	
 	// just the selection variables
 	vector< shared_ptr<Variable> > selection_variable_list;
+    
+    void registerVariableName(const boost::shared_ptr<Variable> &var);
+    void addVariable(const boost::shared_ptr<Variable> &var);
 
 	// ********************************************************
 	// Factory methods
@@ -100,8 +100,7 @@ public:
 	
     vector< shared_ptr<Variable> > getGlobalVariables(){ return global_variable_list; }
 	
-	bool hasVariable(const char *tagname) const;
-	bool hasVariable(std::string &tagname) const;	
+    bool hasVariable(const std::string &tagname) const { return bool(getVariable(tagname)); }
 	
 	int getNVariables();	
 	    
