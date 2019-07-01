@@ -327,7 +327,12 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 - (NSString *)valueForVariable:(NSString *)name {
     mw::Datum value = [variables valueForVariable:name];
-    return @(value.toString(true).c_str());
+    NSString *valueString = @(value.toString(true).c_str());
+    if (!valueString) {
+        // Conversion to text failed, so value must contain binary data
+        valueString = @"<binary data>";
+    }
+    return valueString;
 }
 
 
