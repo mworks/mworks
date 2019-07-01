@@ -133,8 +133,8 @@ namespace low_priority_scheduler{
 			
 			virtual void registerComponents(shared_ptr<ComponentRegistry> registry) {
 				//cerr << "Registering zen scheduler as: " << ZEN_SCHEDULER_PLUGIN_NAME << endl;
-				registry->registerFactory(std::string(ZEN_SCHEDULER_PLUGIN_NAME),
-										  (ComponentFactory *)(new ZenScheduler(shared_ptr<Clock>())));
+				registry->registerFactory(ZEN_SCHEDULER_PLUGIN_NAME,
+                                          boost::make_shared<ZenScheduler>(shared_ptr<Clock>()));
 			}
 		};
 		

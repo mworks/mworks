@@ -15,8 +15,7 @@ BEGIN_NAMESPACE_MW
 
 
 void StandardStateSystemPlugin::registerComponents(shared_ptr<ComponentRegistry> registry) {
-	registry->registerFactory(std::string("ZenStateSystem"),
-							  (ComponentFactory *)(new StandardStateSystemFactory()));
+	registry->registerFactory("ZenStateSystem", boost::make_shared<StandardStateSystemFactory>());
 }	
 
 Plugin *getPlugin(){

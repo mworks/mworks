@@ -17,6 +17,5 @@ Plugin *getPlugin(){
 
 
 void mMSSWGamepadPlugin::registerComponents(shared_ptr<mw::ComponentRegistry> registry) {
-	registry->registerFactory(std::string("iodevice/sidewinder_gamepad"),
-							  (ComponentFactory *)(new mMSSWGamepadFactory()));
+    registry->registerFactory("iodevice/sidewinder_gamepad", boost::make_shared<mMSSWGamepadFactory>());
 }

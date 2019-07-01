@@ -28,8 +28,8 @@ class HighPrecisionClockFactory : public ComponentFactory {
 
 class HighPrecisionClockPlugin : public Plugin {
     void registerComponents(boost::shared_ptr<ComponentRegistry> registry) MW_OVERRIDE {
-        registry->registerFactory("SimpleClock", new SimpleClockFactory);
-        registry->registerFactory("HighPrecisionClock", new HighPrecisionClockFactory);
+        registry->registerFactory("SimpleClock", boost::make_shared<SimpleClockFactory>());
+        registry->registerFactory("HighPrecisionClock", boost::make_shared<HighPrecisionClockFactory>());
         // HighPrecisionClock replaced MachClock, but keep MachClock as an alias to support
         // old configuration files that specify it
         registry->registerFactoryAlias("HighPrecisionClock", "MachClock");
