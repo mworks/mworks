@@ -1,0 +1,29 @@
+var movie_ended = false
+var frame_list_ended = false
+
+movie empty_movie (
+    frames_per_second = 1
+    ended = movie_ended
+    autoplay = true
+    )
+
+frame_list empty_frame_list (
+    ended = frame_list_ended
+    autoplay = true
+    )
+
+
+protocol {
+    movie_ended = false
+    frame_list_ended = false
+
+    queue_stimulus (empty_movie)
+    queue_stimulus (empty_frame_list)
+    update_display ()
+    report ('No stimuli should be drawn')
+
+    wait_for_condition (
+        condition = movie_ended and frame_list_ended
+        timeout = 1s
+        )
+}

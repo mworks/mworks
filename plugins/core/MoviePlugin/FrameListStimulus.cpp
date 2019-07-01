@@ -38,6 +38,9 @@ Datum FrameListStimulus::getCurrentAnnounceDrawData() {
 
 
 void FrameListStimulus::startPlaying() {
+    if (getNumFrames() < 1) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Frame list \"%s\" has no frames to display", getTag().c_str());
+    }
     currentFrameTime = -1;
     currentNominalFrameNumber = -1;
     BaseFrameListStimulus::startPlaying();

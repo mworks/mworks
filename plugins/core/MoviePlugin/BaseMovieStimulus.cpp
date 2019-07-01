@@ -54,6 +54,10 @@ Datum BaseMovieStimulus::getCurrentAnnounceDrawData() {
 
 
 void BaseMovieStimulus::startPlaying() {
+    if (getNumFrames() < 1) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Movie \"%s\" has no frames to display", getTag().c_str());
+    }
+    
     const double frameRate = framesPerSecond->getValue().getFloat();
     const double refreshRate = StimulusDisplay::getCurrentStimulusDisplay()->getMainDisplayRefreshRate();
     

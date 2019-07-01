@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Movie "empty_movie" has no frames to display</message>
+    <message type="whole_message">ERROR: Frame list "empty_frame_list" has no frames to display</message>
+  </expected_messages>
+</marionette_info>
