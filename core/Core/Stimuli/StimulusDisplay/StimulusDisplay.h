@@ -85,6 +85,9 @@ BEGIN_NAMESPACE_MW
         double mainDisplayRefreshRate;
         MWTime currentOutputTimeUS;
         
+        bool paused;
+        bool didDrawWhilePaused;
+        
         bool announceStimuliOnImplicitUpdates;
         std::vector<Datum> stimAnnouncements;
         

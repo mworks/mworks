@@ -38,4 +38,18 @@ protocol {
 
     update_display ()
     wait (4 * period)
+
+    schedule (
+        delay = 0.75 * period
+        duration = 0
+        repeats = 1
+        ) {
+        resume_experiment ()
+    }
+
+    report ('Pausing experiment')
+    pause_experiment ()
+    report ('Resumed paused experiment')
+
+    wait (4 * period)
 }

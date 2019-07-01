@@ -36,6 +36,8 @@ StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     displayUpdatesStarted(false),
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
+    paused(false),
+    didDrawWhilePaused(false),
     announceStimuliOnImplicitUpdates(true),
     useColorManagement(useColorManagement)
 {
@@ -236,39 +238,49 @@ void StimulusDisplay::bindCurrentFramebuffer() {
 void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
     unique_lock lock(display_lock);
     
-    const int newStateSystemMode = data.getInteger();
-    
-    if ((RUNNING == newStateSystemMode) && !displayUpdatesStarted) {
-        
-        displayUpdatesStarted = true;  // Need to set this *before* calling startDisplayUpdates
-        startDisplayUpdates();
-        
-        // Wait for a refresh to complete, so subclass methods that report the current
-        // output time will return a valid value
-        ensureRefresh(lock);
-        
-        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates started (refresh rate: %g Hz)", getMainDisplayRefreshRate());
-    
-    } else if ((IDLE == newStateSystemMode) && displayUpdatesStarted) {
-        
-        // If another thread is waiting for a display refresh, allow it to complete before stopping
-        // the display link
-        while (waitingForRefresh) {
-            refreshCond.wait(lock);
-        }
-        
-        displayUpdatesStarted = false;  // Need to clear this *before* calling stopDisplayUpdates
-        
-        // We need to release the lock before calling stopDisplayUpdates, because
-        // a display update callback could be blocked waiting for the lock, and
-        // attempting to stop a blocked update loop could lead to deadlock
-        lock.unlock();
-        
-        stopDisplayUpdates();
-        currentOutputTimeUS = -1;
-        
-        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
-        
+    switch (data.getInteger()) {
+        case PAUSED:
+            if (displayUpdatesStarted && !paused) {
+                paused = true;
+                didDrawWhilePaused = false;
+            }
+            break;
+            
+        case RUNNING:
+            paused = false;
+            if (!displayUpdatesStarted) {
+                displayUpdatesStarted = true;  // Need to set this *before* calling startDisplayUpdates
+                startDisplayUpdates();
+                
+                // Wait for a refresh to complete, so subclass methods that report the current
+                // output time will return a valid value
+                ensureRefresh(lock);
+                
+                mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates started (refresh rate: %g Hz)", getMainDisplayRefreshRate());
+            }
+            break;
+            
+        case IDLE:
+            if (displayUpdatesStarted) {
+                // If another thread is waiting for a display refresh, allow it to complete before stopping
+                // the display link
+                while (waitingForRefresh) {
+                    refreshCond.wait(lock);
+                }
+                
+                displayUpdatesStarted = false;  // Need to clear this *before* calling stopDisplayUpdates
+                
+                // We need to release the lock before calling stopDisplayUpdates, because
+                // a display update callback could be blocked waiting for the lock, and
+                // attempting to stop a blocked update loop could lead to deadlock
+                lock.unlock();
+                
+                stopDisplayUpdates();
+                currentOutputTimeUS = -1;
+                
+                mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
+            }
+            break;
     }
 }
 
@@ -279,7 +291,7 @@ void StimulusDisplay::refreshMainDisplay() {
     //
     
     const bool updateIsExplicit = needDraw;
-    needDraw = needDraw || redrawOnEveryRefresh;
+    needDraw = needDraw || (redrawOnEveryRefresh && !(paused && didDrawWhilePaused));
     
     if (!needDraw) {
         shared_ptr<StimulusNode> node = display_stack->getFrontmost();
@@ -310,6 +322,10 @@ void StimulusDisplay::refreshMainDisplay() {
         
         popFramebuffer();
         opengl_context_manager->flushFramebufferTexture(context_id);
+        
+        if (paused) {
+            didDrawWhilePaused = true;
+        }
     }
     
     opengl_context_manager->drawFramebufferTexture(context_id);
