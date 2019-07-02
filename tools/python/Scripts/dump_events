@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+
+from mworks.data import MWKFile, ReservedEventCode
+
+
+def dump_events(filename, *tags):
+    with MWKFile(filename) as f:
+        codes = []
+        for t in tags:
+            try:
+                t = int(t)
+            except ValueError:
+                pass
+            codes.append(t)
+            
+        codec = f.codec
+        events = f.get_events_iter(codes=codes)
+        
+        for i, evt in enumerate(events):
+            print('Event %d:' % (i+1))
+            print('  time  = %d' % evt.time)
+            print('  code  = %d' % evt.code)
+            if evt.code in codec:
+                print('  name  = %s' % codec[evt.code])
+            elif evt.code in ReservedEventCode.values:
+                print('  name  = %s' % ReservedEventCode.values[evt.code].name)
+            print('  value = %r\n' % evt.value)
+
+
+if __name__ == '__main__':
+    import sys
+    dump_events(sys.argv[1], *(sys.argv[2:]))

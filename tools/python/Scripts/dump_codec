@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+
+from mworks.data import MWKFile, ReservedEventCode
+
+
+def dump_codec(filename):
+    with MWKFile(filename) as f:
+        codecs = f.get_events(codes=[ReservedEventCode.RESERVED_CODEC_CODE])
+        if len(codecs) == 0:
+            raise RuntimeError('No codec found')
+
+    codec = codecs[0].value
+    print('Found %d codes\n' % len(codec))
+
+    for code in sorted(codec.keys()):
+        print('Code %d:' % code)
+        info = codec[code]
+        assert isinstance(info, dict)
+        for key in sorted(info.keys()):
+            print('  %-22s = %r' % (key, info[key]))
+        print()
+
+
+if __name__ == '__main__':
+    import sys
+    dump_codec(sys.argv[1])

@@ -25,6 +25,7 @@
 			buildPhases = (
 				E18D3BE116554EB700D472D0 /* CopyFiles */,
 				E18D3BEA16554F9100D472D0 /* ShellScript */,
+				E127A89222CBABBC00D58D2B /* CopyFiles */,
 				E1E603A61B190615009BA19D /* CopyFiles */,
 			);
 			dependencies = (
@@ -59,6 +60,8 @@
 		E105D18620FE823D002E2464 /* PythonEvaluator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CF55511F97CB8000F65009 /* PythonEvaluator.cpp */; };
 		E105D18720FE8241002E2464 /* PythonFileResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CF554E1F97A30700F65009 /* PythonFileResource.cpp */; };
 		E105D18820FE8243002E2464 /* PythonPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */; };
+		E127A89322CBABD700D58D2B /* dump_codec in CopyFiles */ = {isa = PBXBuildFile; fileRef = E127A89022CBAB3D00D58D2B /* dump_codec */; };
+		E127A89422CBABDB00D58D2B /* dump_events in CopyFiles */ = {isa = PBXBuildFile; fileRef = E127A89122CBAB3D00D58D2B /* dump_events */; };
 		E16881411FBCA3500049BCDA /* PythonTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3BA716553CCF00D472D0 /* PythonTools.cpp */; };
 		E16881421FBCA3500049BCDA /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
 		E16881431FBCA3500049BCDA /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3BCE1655489C00D472D0 /* PythonDataBindingsHelpers.cpp */; };
@@ -139,6 +142,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		E127A89222CBABBC00D58D2B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PYTHON_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E127A89322CBABD700D58D2B /* dump_codec in CopyFiles */,
+				E127A89422CBABDB00D58D2B /* dump_events in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E18D3BE116554EB700D472D0 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -173,6 +187,8 @@
 		E105D17420FE7662002E2464 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E105D17A20FE7D33002E2464 /* PythonPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PythonPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E105D17D20FE7D33002E2464 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
+		E127A89022CBAB3D00D58D2B /* dump_codec */ = {isa = PBXFileReference; explicitFileType = text.script.python; path = dump_codec; sourceTree = "<group>"; };
+		E127A89122CBAB3D00D58D2B /* dump_events */ = {isa = PBXFileReference; explicitFileType = text.script.python; path = dump_events; sourceTree = "<group>"; };
 		E16881501FBCA3500049BCDA /* _mworks_3.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = _mworks_3.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		E181E04F210F9B520045C955 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "/Library/Application Support/MWorks/Developer/lib/libcrypto.a"; sourceTree = "<absolute>"; };
 		E181E050210F9B560045C955 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "/Library/Application Support/MWorks/Developer/lib/libssl.a"; sourceTree = "<absolute>"; };
@@ -272,6 +288,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E127A88F22CBAAFD00D58D2B /* Python Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				E127A89022CBAB3D00D58D2B /* dump_codec */,
+				E127A89122CBAB3D00D58D2B /* dump_events */,
+			);
+			name = "Python Scripts";
+			path = Scripts;
+			sourceTree = "<group>";
+		};
 		E18D3B6E165537A300D472D0 = {
 			isa = PBXGroup;
 			children = (
@@ -279,6 +305,7 @@
 				E18D3B9D16553B5900D472D0 /* Helpers */,
 				E18D3B7B165537A300D472D0 /* Extension Module */,
 				E18D3BD716554D5F00D472D0 /* Python Modules */,
+				E127A88F22CBAAFD00D58D2B /* Python Scripts */,
 				E1E6039F1B1904D2009BA19D /* PythonPlugin */,
 				E18D3B7C165537A300D472D0 /* Supporting Files */,
 				E18D3BB9165541D500D472D0 /* Frameworks & Libraries */,
