@@ -13,7 +13,7 @@
 #include "PythonDataHelpers.h"
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 class PythonEventCallback : boost::noncopyable {
@@ -221,7 +221,7 @@ public:
 };
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 #endif

@@ -13,7 +13,7 @@
 using boost::python::throw_error_already_set;
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 class ScopedRecursionGuard : boost::noncopyable {
@@ -261,30 +261,4 @@ boost::python::object convert_longlong_to_python(long long ll_val) {
 }
 
 
-END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+END_NAMESPACE_MW_PYTHON

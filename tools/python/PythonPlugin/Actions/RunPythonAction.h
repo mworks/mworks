@@ -12,7 +12,7 @@
 #include "PythonEvaluator.hpp"
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 class RunPythonAction : public Action {
@@ -34,7 +34,7 @@ private:
 };
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 #endif /* !defined(__PythonTools__RunPythonAction__) */

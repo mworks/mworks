@@ -9,7 +9,7 @@
 #include "PythonSimpleConduit.h"
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW_PYTHON
     
     
     class PythonEventListCallback : public PythonEventCallback {
@@ -132,4 +132,4 @@ namespace mw {
     
 
     
-}
+END_NAMESPACE_MW_PYTHON

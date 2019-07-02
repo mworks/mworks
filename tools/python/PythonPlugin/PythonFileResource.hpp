@@ -10,7 +10,7 @@
 #define PythonFileResource_hpp
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 class PythonFileResource : public Component {
@@ -28,7 +28,7 @@ private:
 };
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 #endif /* PythonFileResource_hpp */

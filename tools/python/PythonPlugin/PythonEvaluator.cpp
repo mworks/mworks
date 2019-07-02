@@ -17,7 +17,7 @@
 using namespace boost::python;
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 BEGIN_NAMESPACE()
@@ -537,24 +537,4 @@ inline PyObject * PythonEvaluator::eval() {
 }
 
 
-END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+END_NAMESPACE_MW_PYTHON

@@ -16,7 +16,7 @@
 using namespace boost::python;
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 BOOST_PYTHON_MODULE(_mworks)
@@ -136,7 +136,7 @@ BOOST_PYTHON_MODULE(_mworks)
 }
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 

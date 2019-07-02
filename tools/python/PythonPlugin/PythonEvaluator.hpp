@@ -10,7 +10,7 @@
 #define PythonEvaluator_hpp
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 class PythonEvaluator : boost::noncopyable {
@@ -35,7 +35,7 @@ private:
 };
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 #endif /* PythonEvaluator_hpp */

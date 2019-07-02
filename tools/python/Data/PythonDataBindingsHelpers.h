@@ -12,7 +12,7 @@
 #include "PythonDataHelpers.h"
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 class PythonEventWrapper {
@@ -121,7 +121,7 @@ private:
 };
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 #endif /* !defined(PYTHON_DATA_BINDINGS_HELPERS_H_) */

@@ -9,7 +9,7 @@
 #include "RunPythonStringAction.h"
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 const std::string RunPythonStringAction::CODE("code");
@@ -27,7 +27,7 @@ RunPythonStringAction::RunPythonStringAction(const ParameterValueMap &parameters
 { }
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 

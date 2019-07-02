@@ -11,7 +11,7 @@
 #include "RunPythonStringAction.h"
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 BEGIN_NAMESPACE()
@@ -75,25 +75,4 @@ extern "C" Plugin* getPlugin() {
 }
 
 
-END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+END_NAMESPACE_MW_PYTHON

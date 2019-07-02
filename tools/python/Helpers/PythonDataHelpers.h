@@ -9,7 +9,7 @@
 #define PythonDataHelpers_h_
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 static inline boost::python::object manageNewRef(PyObject *pObj) {
@@ -50,7 +50,7 @@ inline boost::python::object extractEventData(const Event &e) {
 }
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 #endif /* !defined(PythonDataHelpers_h_) */

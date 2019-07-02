@@ -10,7 +10,7 @@
 #define __PythonTools__PythonException__
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 class PythonException : public SimpleException {
@@ -23,7 +23,7 @@ public:
 };
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 #endif /* !defined(__PythonTools__PythonException__) */

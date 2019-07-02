@@ -12,7 +12,7 @@
 #include "RunPythonAction.h"
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 class RunPythonFileAction : public RunPythonAction {
@@ -27,7 +27,7 @@ public:
 };
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 #endif /* !defined(__PythonTools__RunPythonFileAction__) */

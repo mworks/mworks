@@ -16,7 +16,7 @@
 using boost::python::throw_error_already_set;
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 PythonDataFile::PythonDataFile(const std::string &_file_name) :
@@ -218,7 +218,7 @@ void PythonMWK2Writer::commit_transaction() {
 }
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 

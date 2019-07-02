@@ -9,7 +9,7 @@
 #include "RunPythonAction.h"
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 const std::string RunPythonAction::STOP_ON_FAILURE("stop_on_failure");
@@ -47,7 +47,7 @@ bool RunPythonAction::execute() {
 }
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 

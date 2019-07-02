@@ -10,7 +10,7 @@
 #define PythonTools_GILHelpers_h
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 class ScopedGILAcquire : boost::noncopyable {
@@ -47,7 +47,7 @@ public:
 };
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 #endif /* !defined(PythonTools_GILHelpers_h) */

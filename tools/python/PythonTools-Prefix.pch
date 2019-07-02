@@ -48,4 +48,7 @@
 #  include <MWorksCore/IPCEventTransport.h>
 #endif
 
+#define BEGIN_NAMESPACE_MW_PYTHON  BEGIN_NAMESPACE_MW    BEGIN_NAMESPACE(python)
+#define END_NAMESPACE_MW_PYTHON    END_NAMESPACE(python) END_NAMESPACE_MW
+
 #endif /* defined(__cplusplus) */

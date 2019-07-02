@@ -9,7 +9,7 @@
 #include "PythonException.h"
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 static std::string formatException(const std::string &description) {
@@ -42,8 +42,8 @@ static std::string formatException(const std::string &description) {
         
         if ((tracebackModule = PyImport_ImportModule("traceback")) &&
             (formattedExceptionLines = PyObject_CallMethod(tracebackModule,
-                                                           const_cast<char *>("format_exception"),
-                                                           const_cast<char *>("OOO"),
+                                                           "format_exception",
+                                                           "OOO",
                                                            type,
                                                            value,
                                                            traceback)) &&
@@ -79,32 +79,4 @@ PythonException::PythonException(const std::string &message) :
 { }
 
 
-END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+END_NAMESPACE_MW_PYTHON

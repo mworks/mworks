@@ -11,7 +11,7 @@
 #include "PythonEvaluator.hpp"
 
 
-BEGIN_NAMESPACE_MW
+BEGIN_NAMESPACE_MW_PYTHON
 
 
 const std::string PythonFileResource::PATH("path");
@@ -35,7 +35,7 @@ PythonFileResource::PythonFileResource(const ParameterValueMap &parameters) :
 }
 
 
-END_NAMESPACE_MW
+END_NAMESPACE_MW_PYTHON
 
 
 
