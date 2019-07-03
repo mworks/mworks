@@ -782,7 +782,6 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(MW_PYTHON_3_INCLUDEDIR)",
-					"$(MW_PYTHON_3_STDLIB_DIR)/site-packages/numpy/core/include",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "PythonPlugin/Info-iOS.plist";
@@ -823,7 +822,6 @@
 				EXPORTED_SYMBOLS_FILE = "PythonTools-Exports-3.exp";
 				HEADER_SEARCH_PATHS = (
 					"$(MW_PYTHON_3_INCLUDEDIR)",
-					"$(MW_PYTHON_PREFIX)/Extras/lib/python/numpy/core/include",
 					"$(inherited)",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
@@ -844,11 +842,6 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PythonTools-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"NPY_NO_DEPRECATED_API=NPY_1_8_API_VERSION",
-					"PY_ARRAY_UNIQUE_SYMBOL=MWORKS_$(PRODUCT_NAME)_ARRAY_API",
-				);
 			};
 			name = Development;
 		};
@@ -860,7 +853,6 @@
 				EXPORTED_SYMBOLS_FILE = "PythonTools-Exports.exp";
 				HEADER_SEARCH_PATHS = (
 					"$(MW_PYTHON_INCLUDEDIR)",
-					"$(MW_PYTHON_PREFIX)/Extras/lib/python/numpy/core/include",
 					"$(inherited)",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
@@ -903,7 +895,6 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(MW_PYTHON_3_INCLUDEDIR)",
-					"$(MW_PYTHON_3_STDLIB_DIR)/site-packages/numpy/core/include",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = PythonPlugin/Info.plist;

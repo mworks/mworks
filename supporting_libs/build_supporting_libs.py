@@ -614,48 +614,6 @@ def cppunit():
                 )
 
 
-#
-# This isn't needed at present, but keep it around in case Apple ever updates
-# the numpy version that ships with macOS.
-#
-#@builder
-def numpy():
-    # NOTE: We need to use the version of numpy that's distributed with
-    # MACOSX_DEPLOYMENT_TARGET
-    version = {
-        '10.12': '1.8.0',
-        '10.13': '1.8.0',
-        '10.14': '1.8.0',
-        }[os.environ['MACOSX_DEPLOYMENT_TARGET']]
-    srcdir = 'numpy-' + version
-    tarfile = srcdir + '.tar.gz'
-
-    with done_file(srcdir):
-        if not os.path.isdir(srcdir):
-            download_archive_from_sf('numpy/NumPy', version, tarfile)
-            unpack_tarfile(tarfile, srcdir)
-
-        with workdir(srcdir):
-            env = get_updated_env()
-            env['NPY_NUM_BUILD_JOBS'] = num_cores
-
-            check_call([
-                os.environ['MW_PYTHON'],
-                'setup.py',
-                'install',
-                '--install-lib=install',
-                '--install-scripts=install',
-                ],
-                env=env)
-
-            check_call([
-                rsync,
-                '-a',
-                'install/numpy/core/include/numpy',
-                includedir,
-                ])
-
-
 @builder
 def matlab_xunit():
     version = '4.1.0'

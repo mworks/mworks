@@ -1,0 +1,21 @@
+var x = 0
+
+
+protocol {
+    run_python_string ('import numpy')
+    x = 0
+
+    run_python_string ('setvar("x", numpy.bool_(True))')
+    assert (type(x) == 'boolean')
+    assert (x == true)
+
+    run_python_string ('setvar("x", numpy.int16(7))')
+    assert (type(x) == 'integer')
+    assert (x == 7)
+
+    run_python_string ('setvar("x", numpy.float32(8.5))')
+    assert (type(x) == 'float')
+    assert (x == 8.5)
+
+    run_python_string ('del numpy')
+}

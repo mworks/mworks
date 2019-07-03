@@ -1,8 +1,6 @@
 import os
 import shutil
 
-import numpy
-
 from ._mworks import ReservedEventCode, _MWKFile
 
 
@@ -12,8 +10,8 @@ class IndexingException(IOError):
 
 class MWKFile(_MWKFile):
 
-    _default_min_time = numpy.iinfo(numpy.int64).min
-    _default_max_time = numpy.iinfo(numpy.int64).max
+    _default_min_time = -1 << 63
+    _default_max_time = -(_default_min_time + 1)
 
     def __init__(self, file_name):
         super(MWKFile, self).__init__(file_name)

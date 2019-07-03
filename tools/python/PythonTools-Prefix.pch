@@ -45,7 +45,9 @@
 #  include <MWorksCore/AccumulatingConduit.h>
 #  include <MWorksCore/CodecAwareConduit.h>
 #  include <MWorksCore/DataFileReader.hpp>
+#  include <MWorksCore/DataFileUtilities.h>
 #  include <MWorksCore/IPCEventTransport.h>
+#  include <MWorksCore/ScarabServices.h>
 #endif
 
 #define BEGIN_NAMESPACE_MW_PYTHON  BEGIN_NAMESPACE_MW    BEGIN_NAMESPACE(python)

@@ -8,8 +8,6 @@
 
 #include "PythonEvaluator.hpp"
 
-#include <numpy/arrayobject.h>
-
 #include "GILHelpers.h"
 #include "PythonDataHelpers.h"
 #include "PythonException.h"
@@ -351,11 +349,9 @@ PyObject * getGlobalsDict() {
         Py_DECREF(result);
         
         //
-        // Import NumPy C API
+        // Import NumPy types (if available)
         //
-        if (_import_array() < 0) {
-            throw PythonException("Unable to import NumPy C API");
-        }
+        importNumpyTypes();
         
         //
         // Import mworkscore contents into __main__

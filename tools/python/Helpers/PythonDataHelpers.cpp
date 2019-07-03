@@ -7,9 +7,6 @@
 
 #include "PythonDataHelpers.h"
 
-#define NO_IMPORT_ARRAY
-#include <numpy/arrayobject.h>
-
 using boost::python::throw_error_already_set;
 
 
@@ -30,6 +27,40 @@ public:
     }
     
 };
+
+
+static PyObject *numpyBoolType = nullptr;
+static PyObject *numpyIntegerType = nullptr;
+static PyObject *numpyFloatingType = nullptr;
+
+
+void importNumpyTypes() {
+    auto numpyModule = PyImport_ImportModule("numpy");
+    if (!numpyModule ||
+        !(numpyBoolType = PyObject_GetAttrString(numpyModule, "bool_")) ||
+        !(numpyIntegerType = PyObject_GetAttrString(numpyModule, "integer")) ||
+        !(numpyFloatingType = PyObject_GetAttrString(numpyModule, "floating")))
+    {
+        PyErr_Clear();
+    }
+    Py_XDECREF(numpyModule);
+}
+
+
+static inline bool isInstance(PyObject *obj, PyObject *type) {
+    bool result = false;
+    if (type) {
+        switch (PyObject_IsInstance(obj, type)) {
+            case 1:
+                result = true;
+                break;
+            case -1:
+                PyErr_Clear();
+                break;
+        }
+    }
+    return result;
+}
 
 
 static Datum convert_bytes_to_datum(const boost::python::object &obj) {
@@ -54,7 +85,7 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
         
         return Datum(bool(pObj == Py_True));
         
-    } else if (PyArray_IsScalar(pObj, Bool)) {
+    } else if (isInstance(pObj, numpyBoolType)) {
         
         return Datum(bool(PyObject_IsTrue(pObj)));
     
@@ -68,7 +99,7 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
         return Datum(l_val);
 #endif
         
-    } else if (PyArray_IsScalar(pObj, Integer)) {
+    } else if (isInstance(pObj, numpyIntegerType)) {
         
 #if PY_MAJOR_VERSION < 3
         return convert_python_to_datum(manageNewRef(PyNumber_Int(pObj)));
@@ -92,7 +123,7 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
         
         return Datum(value);
         
-    } else if (PyArray_IsScalar(pObj, Floating)) {
+    } else if (isInstance(pObj, numpyFloatingType)) {
         
         return convert_python_to_datum(manageNewRef(PyNumber_Float(pObj)));
         

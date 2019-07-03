@@ -28,6 +28,9 @@ static inline boost::python::object manageBorrowedRef(PyObject *pObj) {
 }
 
 
+void importNumpyTypes();
+
+
 // Convert a Python object into a MWorks Datum
 Datum convert_python_to_datum(const boost::python::object &obj);
 

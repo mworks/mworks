@@ -26,10 +26,6 @@ class StaticExtensionModuleFinder(_StaticExtensionModuleFinder):
 
 sys.meta_path.append(StaticExtensionModuleFinder())
 
-# Need to import numpy.core.multiarray here.  Otherwise, the C _import_array
-# function won't be able to find it.
-import numpy.core.multiarray
-
 
 #
 # Tell OpenSSL where to find the list of trusted root certificates
