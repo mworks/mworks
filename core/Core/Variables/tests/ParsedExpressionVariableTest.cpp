@@ -568,15 +568,65 @@ void ParsedExpressionVariableTestFixture::testStringLiteral() {
     
     // Escaped embedded quotes
     assertString("abc\"'123", "abc\\\"\\'123");
+    assertString("abc \" ' 123", "abc \\\" \\' 123");
     
     // Unescaped embedded quotes
     assertString("abc'123", "abc'123", "\"");
     CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"abc\"123\""), FatalParserException);
+    assertString("abc ' 123", "abc ' 123", "\"");
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"abc \" 123\""), FatalParserException);
     assertString("abc\"123", "abc\"123", "'");
     CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'abc'123'"), FatalParserException);
+    assertString("abc \" 123", "abc \" 123", "'");
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'abc ' 123'"), FatalParserException);
     
     // Other escape sequences
     assertString("\a \b \f \n \r \t \v \\ ? $ \\q", "\\a \\b \\f \\n \\r \\t \\v \\\\ \\? \\$ \\q");
+    
+    // Variable interpolation
+    {
+        createGlobalVariable("x", Datum(1));
+        createGlobalVariable("foo", Datum(2.5));
+        createGlobalVariable("blah", Datum("three"));
+        
+        // Escaped
+        assertString("0$x$foo$blah 4", "0\\$x\\$foo\\$blah 4");
+        assertString("0 $x $foo $blah 4", "0 \\$x \\$foo \\$blah 4");
+        assertString("0${x}${foo}${blah}4", "0\\${x}\\${foo}\\${blah}4");
+        assertString("0 ${x} ${foo} ${blah} 4", "0 \\${x} \\${foo} \\${blah} 4");
+        
+        // Unescaped
+        assertString("012.5three 4", "0$x$foo$blah 4");
+        assertString("0 1 2.5 three 4", "0 $x $foo $blah 4");
+        assertString("012.5three4", "0${x}${foo}${blah}4");
+        assertString("0 1 2.5 three 4", "0 ${x} ${foo} ${blah} 4");
+        
+        // Interpolation only
+        assertString("1", "$x");
+        assertString("1", "${x}");
+        assertString("2.5", "$foo");
+        assertString("2.5", "${foo}");
+        
+        // Complex variable name
+        createGlobalVariable("b1_2c__7", Datum(-7.5));
+        assertString("0-7.5 4", "0$b1_2c__7 4");
+        assertString("0-7.54", "0${b1_2c__7}4");
+        assertString("0 -7.5 4", "0 $b1_2c__7 4");
+        assertString("0 -7.5 4", "0 ${b1_2c__7} 4");
+        
+        // Missing braces
+        assertString("0 1} ${foo 3", "0 $x} ${foo 3");
+        
+        // Intervening spaces
+        assertString("0 $ foo $ {foo} ${ foo} ${foo } 2");
+        
+        // Unknown variable
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("$foo $bar $blah"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("${foo} ${bar} ${blah}"), FatalParserException);
+        
+        // Invalid variable names
+        assertString("0 $1foo ${1foo} $_bar ${_bar} 4");
+    }
 }
 
 

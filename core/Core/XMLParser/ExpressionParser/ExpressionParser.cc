@@ -34,8 +34,8 @@
 
 #include <boost/spirit/include/classic_lists.hpp>
 #include <boost/spirit/include/classic_distinct.hpp>
-#include <boost/spirit/include/classic_escape_char.hpp>
-#include <boost/spirit/include/classic_grammar_def.hpp> 
+#include <boost/spirit/include/classic_grammar_def.hpp>
+#include <boost/spirit/include/classic_confix.hpp>
 
 #ifdef seed
 #undef seed
@@ -78,8 +78,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 			integer_const_id,
 			long_const_id,
 			double_const_id,
-			string_const_id,
 			constant_id,
+            
+            string_literal_id,
+            string_body_part_id,
             
             list_literal_id,
             dict_literal_id,
@@ -136,7 +138,6 @@ namespace stx MW_SYMBOL_PUBLIC {
 					| integer_const
 					| long_const
 					| boolean_const
-					| string_const
 					;
 					
 					boolean_const
@@ -156,13 +157,24 @@ namespace stx MW_SYMBOL_PUBLIC {
 					double_const
 					= strict_real_p
 					;
-					
-					string_const
-					= lexeme_d[
-							   token_node_d[ ('"'  >> *(c_escape_ch_p - '"' )  >> '"' ) |
-                                             ('\'' >> *(c_escape_ch_p - '\'')  >> '\'') ]
-							   ]
-					;
+                    
+                    // *** String literal
+                    
+                    string_literal
+                    = lexeme_d[ confix_p('"',  *string_body_part, '"') |
+                                confix_p('\'', *string_body_part, '\'') ]
+                    ;
+                    
+                    string_body_part
+                    = token_node_d[
+                                   str_p("\\\"") |
+                                   str_p("\\'") |
+                                   str_p("\\$") |
+                                   ( ch_p('$') >> alpha_p >> *(alnum_p | ch_p('_')) ) |
+                                   ( str_p("${") >> alpha_p >> *(alnum_p | ch_p('_')) >> ch_p('}') ) |
+                                   anychar_p
+                                   ]
+                    ;
                     
                     // *** List literal
                     
@@ -204,6 +216,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 					atom_expr
 					= constant
 					| inner_node_d[ ch_p('(') >> expr >> ch_p(')') ]
+                    | string_literal
                     | list_literal
                     | dict_literal
 					| function_call
@@ -300,7 +313,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 					BOOST_SPIRIT_DEBUG_RULE(integer_const);
 					BOOST_SPIRIT_DEBUG_RULE(long_const);
 					BOOST_SPIRIT_DEBUG_RULE(double_const);
-					BOOST_SPIRIT_DEBUG_RULE(string_const);
+                    
+                    BOOST_SPIRIT_DEBUG_RULE(string_literal);
+                    BOOST_SPIRIT_DEBUG_RULE(string_body_part);
                     
                     BOOST_SPIRIT_DEBUG_RULE(list_literal);
                     BOOST_SPIRIT_DEBUG_RULE(dict_literal);
@@ -335,8 +350,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 #endif
 				}
 				
-				/// Rule for a constant: one of the three scalar types integer_const,
-				/// double_const or string_const
+				/// Rule for a constant: one of the scalar types boolean_const, integer_const,
+				/// long_const, or double_const
 				rule<ScannerT, parser_context<>, parser_tag<constant_id> > 		constant;
 				
 				/// Boolean value constant rule: "true" or "false"
@@ -347,8 +362,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 				rule<ScannerT, parser_context<>, parser_tag<long_const_id> > 		long_const;
 				/// Float constant rule: "1234.3"
 				rule<ScannerT, parser_context<>, parser_tag<double_const_id> > 		double_const;
-				/// String constant rule: with quotes "abc"
-				rule<ScannerT, parser_context<>, parser_tag<string_const_id> > 		string_const;
+                
+                /// String literal rule: with quotes "abc" or 'abc'
+                rule<ScannerT, parser_context<>, parser_tag<string_literal_id> >    string_literal;
+                rule<typename lexeme_scanner<ScannerT>::type, parser_context<>, parser_tag<string_body_part_id> >  string_body_part;
                 
                 /// List literal rule: [a,b,c] where a,b,c is a list of exprs
                 rule<ScannerT, parser_context<>, parser_tag<list_literal_id> >      list_literal;
@@ -483,6 +500,58 @@ namespace stx MW_SYMBOL_PUBLIC {
                     return varname;
 				}
 			};
+        
+        /// Parse tree node representing a string literal.
+        class PNStringLiteral : public ParseNode
+        {
+        public:
+            using part_type = std::pair<std::string, bool>;  // bool is true for interpolated variable, false otherwise
+            using partlist_type = std::vector<part_type>;
+            
+        private:
+            const partlist_type partlist;
+            
+        public:
+            explicit PNStringLiteral(partlist_type &&partlist)
+            : partlist(std::move(partlist))
+            {
+            }
+            
+            Datum evaluate(const class SymbolTable &st) const override
+            {
+                std::string str;
+                for (auto &part : partlist) {
+                    if (part.second) {
+                        str.append(st.lookupVariable(part.first).toString());
+                    } else {
+                        str.append(part.first);
+                    }
+                }
+                Datum value;
+                value.setStringQuoted(str);
+                return value;
+            }
+            
+            bool evaluate_const(Datum *) const override
+            {
+                // PNStringLiteral always contains at least one interpolated variable part,
+                // so it's never constant
+                return false;
+            }
+            
+            std::string toString() const override
+            {
+                std::string str;
+                for (auto &part : partlist) {
+                    if (part.second) {
+                        str.append("${" + part.first + "}");
+                    } else {
+                        str.append(part.first);
+                    }
+                }
+                return str;
+            }
+        };
         
         /// Parse tree node representing a list literal.
         class PNListLiteral : public ParseNode
@@ -1449,14 +1518,6 @@ namespace stx MW_SYMBOL_PUBLIC {
 					return new PNConstant(Datum(std::strtod(doubleconst.c_str(), nullptr)));
 				}
 					
-				case string_const_id:
-				{
-                    std::string stringconst(i->value.begin(), i->value.end());
-                    Datum val;
-                    val.setStringQuoted(stringconst);
-					return new PNConstant(val);
-				}
-					
 					// *** Arithmetic node cases
 					
 				case units_expr_id:
@@ -1682,6 +1743,47 @@ namespace stx MW_SYMBOL_PUBLIC {
 					return new PNVariable(varname);
 				}
                     
+                case string_literal_id:
+                {
+                    assert(i->children.size() >= 2);
+                    
+                    PNStringLiteral::partlist_type partlist;
+                    
+                    for (auto &child : i->children) {
+                        std::string part(child.value.begin(), child.value.end());
+                        if (part.size() > 1 && part.at(0) == '$') {
+                            // Create an interpolated variable part
+                            std::string varname;
+                            if (part.at(1) == '{') {
+                                // ${varname} form
+                                varname.assign(part.begin() + 2, part.end() - 1);
+                            } else {
+                                // $varname form
+                                varname.assign(part.begin() + 1, part.end());
+                            }
+                            partlist.emplace_back(std::move(varname), true);
+                        } else if (partlist.empty() || partlist.back().second) {
+                            // Create a constant part
+                            partlist.emplace_back(std::move(part), false);
+                        } else {
+                            // The previous and current parts are both constant, so
+                            // append the latter to the former (thereby minimizing the
+                            // total number of parts)
+                            partlist.back().first.append(part);
+                        }
+                    }
+                    
+                    // If there's only one part, and it's not an interpolated variable,
+                    // return a constant node
+                    if (partlist.size() == 1 && !(partlist.front().second)) {
+                        Datum value;
+                        value.setStringQuoted(partlist.front().first);
+                        return new PNConstant(std::move(value));
+                    }
+                    
+                    return new PNStringLiteral(std::move(partlist));
+                }
+                    
                 case list_literal_id:
                 {
                     std::vector<const class ParseNode*> itemlist;
@@ -1855,8 +1957,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 			rule_names[integer_const_id] = "integer_const";
 			rule_names[long_const_id] = "long_const";
 			rule_names[double_const_id] = "double_const";
-			rule_names[string_const_id] = "string_const";
 			rule_names[constant_id] = "constant";
+            
+            rule_names[string_literal_id] = "string_literal";
+            rule_names[string_body_part_id] = "string_body_part";
             
             rule_names[list_literal_id] = "list_literal";
             rule_names[dict_literal_id] = "dict_literal";
