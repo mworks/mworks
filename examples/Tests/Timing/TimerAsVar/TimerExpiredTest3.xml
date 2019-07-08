@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
-    <variables>
-        <variable tag="theTimer" full_name="some Var" default_value="0" scope="GLOBAL" type="DOUBLE" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"/>
-    </variables>
     <stimuli>
         <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"/>
     </stimuli>
