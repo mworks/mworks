@@ -541,6 +541,45 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
 }
 
 
+static void assertString(const std::string &expected, const std::string &expr, const std::string &delim) {
+    Datum d = ParsedExpressionVariable::evaluateExpression(delim + expr + delim);
+    CPPUNIT_ASSERT( d.isString() );
+    CPPUNIT_ASSERT_EQUAL( expected, d.getString() );
+}
+
+
+static void assertString(const std::string &expected, const std::string &expr) {
+    assertString(expected, expr, "\"");
+    assertString(expected, expr, "'");
+}
+
+
+static void assertString(const std::string &expr) {
+    assertString(expr, expr);
+}
+
+
+void ParsedExpressionVariableTestFixture::testStringLiteral() {
+    // Empty
+    assertString("");
+    
+    // Non-empty
+    assertString("abc 123");
+    
+    // Escaped embedded quotes
+    assertString("abc\"'123", "abc\\\"\\'123");
+    
+    // Unescaped embedded quotes
+    assertString("abc'123", "abc'123", "\"");
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"abc\"123\""), FatalParserException);
+    assertString("abc\"123", "abc\"123", "'");
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'abc'123'"), FatalParserException);
+    
+    // Other escape sequences
+    assertString("\a \b \f \n \r \t \v \\ ? \\q", "\\a \\b \\f \\n \\r \\t \\v \\\\ \\? \\q");
+}
+
+
 void ParsedExpressionVariableTestFixture::testListLiteral() {
     // Empty list
     {
