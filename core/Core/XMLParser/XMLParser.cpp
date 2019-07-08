@@ -207,6 +207,7 @@ void XMLParser::loadFile() {
         
         const char *buffer;
         NSUInteger size;
+        NSData *fileData = nil;
         
         if (!ppPath) {
             // Didn't find a preprocessor directive, so use the file text as-is
@@ -214,7 +215,7 @@ void XMLParser::loadFile() {
             size = [fileText lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
         } else {
             // Found a preprocessor directive, so preprocess the file and use the result
-            NSData *fileData = getPreprocessedFileData(ppPath, filePath);
+            fileData = getPreprocessedFileData(ppPath, filePath);
             buffer = (const char *)[fileData bytes];
             size = [fileData length];
         }
