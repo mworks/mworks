@@ -576,7 +576,7 @@ void ParsedExpressionVariableTestFixture::testStringLiteral() {
     CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'abc'123'"), FatalParserException);
     
     // Other escape sequences
-    assertString("\a \b \f \n \r \t \v \\ ? \\q", "\\a \\b \\f \\n \\r \\t \\v \\\\ \\? \\q");
+    assertString("\a \b \f \n \r \t \v \\ ? $ \\q", "\\a \\b \\f \\n \\r \\t \\v \\\\ \\? \\$ \\q");
 }
 
 

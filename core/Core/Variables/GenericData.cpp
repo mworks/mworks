@@ -482,6 +482,10 @@ std::string Datum::getStringQuoted() const {
                 os += "\\'";
                 break;
                 
+            case '$':
+                os += "\\$";
+                break;
+                
             default:
                 os += c;
                 break;
@@ -692,6 +696,7 @@ void Datum::setStringQuoted(const std::string &s) {
                 case '"':	t += '"';	break;
                 case '\\':	t += '\\';	break;
                 case '?':	t += '?';	break;
+                case '$':	t += '$';	break;
                     
                 default:
                     t += '\\';

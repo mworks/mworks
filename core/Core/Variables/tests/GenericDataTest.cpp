@@ -2531,8 +2531,8 @@ void GenericDataTestFixture::testGetStringQuoted() {
     assertError("ERROR: Cannot convert integer to string");
     
     // String
-    assertEqualStrings(R"("a b c \a \b \f \n \r \t \v \\ \" \' d e f")",
-                       Datum("a b c \a \b \f \n \r \t \v \\ \" ' d e f").getStringQuoted());
+    assertEqualStrings(R"("a b c \a \b \f \n \r \t \v \\ \" \' \$ d e f")",
+                       Datum("a b c \a \b \f \n \r \t \v \\ \" ' $ d e f").getStringQuoted());
 }
 
 
@@ -2562,8 +2562,8 @@ void GenericDataTestFixture::testSetStringQuoted() {
     assertEqualStrings( "", setQuoted("''") );
     
     // Non-empty
-    assertEqualStrings("a b c \a \b \f \n \r \t \v ' \" \\ ? \\q d e f",
-                       setQuoted(R"("a b c \a \b \f \n \r \t \v \' \" \\ \? \q d e f")"));
+    assertEqualStrings("a b c \a \b \f \n \r \t \v ' \" \\ ? $ \\q d e f",
+                       setQuoted(R"("a b c \a \b \f \n \r \t \v \' \" \\ \? \$ \q d e f")"));
 }
 
 
