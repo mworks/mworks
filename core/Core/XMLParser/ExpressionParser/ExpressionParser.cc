@@ -89,7 +89,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 			function_call_id,
 			function_identifier_id,
 			
-			varname_id,
+            varname_id,
+            variable_identifier_id,
 			
 			atom_expr_id,
 			
@@ -170,8 +171,8 @@ namespace stx MW_SYMBOL_PUBLIC {
                                    str_p("\\\"") |
                                    str_p("\\'") |
                                    str_p("\\$") |
-                                   ( ch_p('$') >> alpha_p >> *(alnum_p | ch_p('_')) ) |
-                                   ( str_p("${") >> alpha_p >> *(alnum_p | ch_p('_')) >> ch_p('}') ) |
+                                   ( ch_p('$') >> variable_identifier ) |
+                                   ( str_p("${") >> variable_identifier >> ch_p('}') ) |
                                    anychar_p
                                    ]
                     ;
@@ -198,18 +199,18 @@ namespace stx MW_SYMBOL_PUBLIC {
 					;
 					
 					function_identifier
-					= lexeme_d[ 
-							   token_node_d[ alpha_p >> *(alnum_p | ch_p('_')) ]
-							   ]
+					= lexeme_d[ token_node_d[ variable_identifier ] ]
 					;
 					
-					// *** Variable names
-					
-					varname
-					= lexeme_d[
-                               token_node_d[ alpha_p >> *(alnum_p | ch_p('_')) ]
-                               ]
-					;
+                    // *** Variable names
+                    
+                    varname
+                    = lexeme_d[ token_node_d[ variable_identifier ] ]
+                    ;
+                    
+                    variable_identifier
+                    = alpha_p >> *(alnum_p | ch_p('_'))
+                    ;
 					
 					// *** Valid Expressions, from small to large
 					
@@ -323,8 +324,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 					BOOST_SPIRIT_DEBUG_RULE(function_call);
 					BOOST_SPIRIT_DEBUG_RULE(function_identifier);
 					
-					BOOST_SPIRIT_DEBUG_RULE(varname);
-					
+                    BOOST_SPIRIT_DEBUG_RULE(varname);
+                    BOOST_SPIRIT_DEBUG_RULE(variable_identifier);
+                    
 					BOOST_SPIRIT_DEBUG_RULE(atom_expr);
 					
 					BOOST_SPIRIT_DEBUG_RULE(units_expr);
@@ -378,9 +380,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// are allowed.
 				rule<ScannerT, parser_context<>, parser_tag<function_identifier_id> > 	function_identifier;
 				
-				/// Rule to match a variable name: alphanumeric with _
-				rule<ScannerT, parser_context<>, parser_tag<varname_id> > 		varname;
-				
+                /// Rule to match a variable name: alphanumeric with _
+                rule<ScannerT, parser_context<>, parser_tag<varname_id> >           varname;
+                rule<typename lexeme_scanner<ScannerT>::type, parser_context<>, parser_tag<variable_identifier_id> >  variable_identifier;
+                
 				/// Helper rule which implements () bracket grouping.
 				rule<ScannerT, parser_context<>, parser_tag<atom_expr_id> > 		atom_expr;
 				
@@ -1968,8 +1971,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 			rule_names[function_call_id] = "function_call";
 			rule_names[function_identifier_id] = "function_identifier";
 			
-			rule_names[varname_id] = "varname";
-			
+            rule_names[varname_id] = "varname";
+            rule_names[variable_identifier_id] = "variable_identifier";
+            
 			rule_names[units_expr_id] = "units_expr";
             rule_names[subscript_expr_id] = "subscript_expr";
 			rule_names[unary_expr_id] = "unary_expr";
