@@ -58,10 +58,6 @@ BEGIN_NAMESPACE_MW
         boost::unordered_map< std::string, shared_ptr<mw::Component> > instances;
 		std::map< std::string, shared_ptr<StimulusNode> > stimulus_nodes;
 		std::map< long, std::string > tagnames_by_id;
-		
-        // these regexes are cached at the object / member level to avoid
-        // memory inefficiency at runtime
-        boost::regex u1, strip_it;
             
         boost::unordered_map< std::string, shared_ptr<Variable> > variable_cache;
         boost::unordered_map< std::pair<std::string, GenericDataType>, shared_ptr<Datum> > data_cache;

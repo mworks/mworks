@@ -853,29 +853,51 @@ void ParsedExpressionVariableTestFixture::testExpRandFunction() {
 }
 
 
+void ParsedExpressionVariableTestFixture::testVariableNames() {
+    createGlobalVariable("x", Datum(1));
+    createGlobalVariable("foo", Datum(2.5));
+    createGlobalVariable("b1_2c__7", Datum("three"));
+    
+    // Variable name only
+    CPPUNIT_ASSERT( Datum(1) == ParsedExpressionVariable::evaluateExpression("x") );
+    CPPUNIT_ASSERT( Datum(1) == ParsedExpressionVariable::evaluateExpression("$x") );
+    CPPUNIT_ASSERT( Datum(1) == ParsedExpressionVariable::evaluateExpression("${x}") );
+    CPPUNIT_ASSERT( Datum(2.5) == ParsedExpressionVariable::evaluateExpression("foo") );
+    CPPUNIT_ASSERT( Datum(2.5) == ParsedExpressionVariable::evaluateExpression("$foo") );
+    CPPUNIT_ASSERT( Datum(2.5) == ParsedExpressionVariable::evaluateExpression("${foo}") );
+    CPPUNIT_ASSERT( Datum("three") == ParsedExpressionVariable::evaluateExpression("b1_2c__7") );
+    CPPUNIT_ASSERT( Datum("three") == ParsedExpressionVariable::evaluateExpression("$b1_2c__7") );
+    CPPUNIT_ASSERT( Datum("three") == ParsedExpressionVariable::evaluateExpression("${b1_2c__7}") );
+    
+    // In expression
+    CPPUNIT_ASSERT( Datum(-3.0) == ParsedExpressionVariable::evaluateExpression("2*x - $foo/0.5") );
+    CPPUNIT_ASSERT( Datum("two three four") == ParsedExpressionVariable::evaluateExpression("'two ' + ${b1_2c__7} + ' four'") );
+    {
+        auto expected = Datum { Datum::list_value_type { Datum(1), Datum(2.5), Datum("three") } };
+        auto actual = ParsedExpressionVariable::evaluateExpression("[x, ${foo}, $b1_2c__7]");
+        CPPUNIT_ASSERT( expected == actual );
+    }
+    
+    // Missing braces
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("1 + $x} + 2"), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("3 + ${foo * 5"), FatalParserException);
+    
+    // Intervening spaces
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("1 + $ x + 2"), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("3 + $ {foo} * 5"), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("3 + ${ foo} * 5"), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("3 + ${foo } * 5"), FatalParserException);
+    
+    // Unknown variable
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("3 * bar + 7"), UnknownVariableException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("3 * $bar + 7"), UnknownVariableException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("3 * ${bar} + 7"), UnknownVariableException);
+    
+    // Invalid variable name
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("1 + _x + 2"), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("1 + $1foo + 2"), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("1 + ${_bar} + 2"), FatalParserException);
+}
+
+
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

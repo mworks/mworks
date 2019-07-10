@@ -11,7 +11,6 @@
 #include "ComponentRegistry.h"
 #include "ComponentFactoryException.h"
 #include "GlobalVariable.h"
-#include "UnresolvedReferenceVariable.h"
 #include "BlockAndProtocol.h"
 #include "States.h"
 #include "TrialBuildingBlocks.h"
@@ -36,10 +35,7 @@ BEGIN_NAMESPACE_MW
 
 shared_ptr<ComponentRegistry> ComponentRegistry::shared_component_registry;
 
-ComponentRegistry::ComponentRegistry() :
-        u1("^(.*?\\$.+?)$"),
-        strip_it("^\\s*(.+?)\\s*$")
-{
+ComponentRegistry::ComponentRegistry() {
 
 	// register all of the built-ins here
 	registerFactory("experiment", new ExperimentFactory());
@@ -286,40 +282,22 @@ void ComponentRegistry::registerStimulusNode(const std::string &tag_name, shared
     slot = stimNode;
 }
 
+
 // Instance lookups with some extra parsing smarts
-shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
-
-    shared_ptr<Variable> test = variable_cache[expression]; 
-    if(test != NULL){
-        return test;
+boost::shared_ptr<Variable> ComponentRegistry::getVariable(std::string expression) {
+    auto &var = variable_cache[expression];  // Take a reference, so that we'll add to the cache if needed
+    if (!var) {
+        // Not in the cache, so check the variable registry
+        var = global_variable_registry->getVariable(boost::algorithm::trim_copy(expression));
+        if (!var) {
+            // Not in the variable registry, so try the expression parser, which will throw
+            // UnknownVariableException if the expression contains a bad variable name
+            var = boost::make_shared<ParsedExpressionVariable>(expression);
+        }
     }
-  
-	// Check to see if it can be resolved, or if it will need to be resolved
-	// at runtime
-	boost::smatch unresolved_match;
-
-	bool unresolved = boost::regex_match(expression, unresolved_match, u1);
-	if(unresolved){
-		shared_ptr<ComponentRegistry> registry = ComponentRegistry::getSharedRegistry();
-		shared_ptr<Variable> unresolved_var(new UnresolvedReferenceVariable(expression, registry));
-		return unresolved_var;
-	}
-	
-	boost::smatch strip_match;
-	boost::regex_match(expression, strip_match, strip_it); 
-	
-	shared_ptr<Variable> var = global_variable_registry->getVariable(strip_match[1]);
-  
-    if (var != NULL) {
-        // cache/hash the variable for fast access
-        variable_cache[expression] = var;
-        return var;
-    }
-
-    // The expression parser will throw UnknownVariableException if the expression contains a bad variable
-    // name, so we don't need to catch anything here
-    return shared_ptr<Variable>(new ParsedExpressionVariable(expression));
+    return var;
 }
+
 
 // An alternate getVariable call that includes a default value
 shared_ptr<Variable> ComponentRegistry::getVariable(std::string expression,

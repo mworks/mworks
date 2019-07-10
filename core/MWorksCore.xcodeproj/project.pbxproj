@@ -142,8 +142,6 @@
 		5C4D23AD09DC84160082BF9F /* VectorTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4D233A09DC6F0C0082BF9F /* VectorTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C524E880CAA02C60063B1DC /* TimerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C524E860CAA02C60063B1DC /* TimerTest.cpp */; };
 		5C524E890CAA02C60063B1DC /* TimerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C524E870CAA02C60063B1DC /* TimerTest.h */; };
-		5C643EA10D501E99004A8BD2 /* UnresolvedReferenceVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C643EA20D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */; };
 		5C6DC28D0BCDE16900C3C57A /* ExpandableListTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD3130AD94214009C0B0B /* ExpandableListTest.h */; };
 		5C6DC28E0BCDE16C00C3C57A /* ExpandableListTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E9AD3120AD94214009C0B0B /* ExpandableListTest.cpp */; };
 		5C71CD6C09AA507700EAD886 /* GlobalVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C71CD6809AA507700EAD886 /* GlobalVariable.cpp */; };
@@ -444,8 +442,6 @@
 		E17916D21E4E515C00528B91 /* ScopedVariableContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */; };
 		E17916D31E4E515F00528B91 /* SelectionVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0C4A8409B64DAD0021D3CC /* SelectionVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916D41E4E516500528B91 /* SelectionVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0C4A8509B64DAD0021D3CC /* SelectionVariable.cpp */; };
-		E17916D51E4E516900528B91 /* UnresolvedReferenceVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E17916D61E4E516E00528B91 /* UnresolvedReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */; };
 		E17916D71E4E517100528B91 /* StandardVariables.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1A907E9F95600C68AEF /* StandardVariables.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916D81E4E517700528B91 /* StandardVariables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1A807E9F95600C68AEF /* StandardVariables.cpp */; };
 		E17916D91E4E517A00528B91 /* FreezableVariableContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1014,8 +1010,6 @@
 		5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWorksCoreTest-Info.plist"; sourceTree = "<group>"; };
 		5C524E860CAA02C60063B1DC /* TimerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TimerTest.cpp; sourceTree = "<group>"; };
 		5C524E870CAA02C60063B1DC /* TimerTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TimerTest.h; sourceTree = "<group>"; };
-		5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnresolvedReferenceVariable.h; path = Core/Variables/UnresolvedReferenceVariable.h; sourceTree = "<group>"; };
-		5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UnresolvedReferenceVariable.cpp; path = Core/Variables/UnresolvedReferenceVariable.cpp; sourceTree = "<group>"; };
 		5C71CD6809AA507700EAD886 /* GlobalVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalVariable.cpp; path = Core/Variables/GlobalVariable.cpp; sourceTree = "<group>"; };
 		5C71CD6909AA507700EAD886 /* GlobalVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GlobalVariable.h; path = Core/Variables/GlobalVariable.h; sourceTree = "<group>"; };
 		5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionVariable.cpp; path = Core/Variables/ExpressionVariable.cpp; sourceTree = SOURCE_ROOT; };
@@ -2129,8 +2123,6 @@
 				DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */,
 				5C0C4A8409B64DAD0021D3CC /* SelectionVariable.h */,
 				5C0C4A8509B64DAD0021D3CC /* SelectionVariable.cpp */,
-				5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */,
-				5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */,
 				DA2CE1A907E9F95600C68AEF /* StandardVariables.h */,
 				DA2CE1A807E9F95600C68AEF /* StandardVariables.cpp */,
 				5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */,
@@ -2627,7 +2619,6 @@
 				0E88D1730D04708A00D7D273 /* ComponentFactoryException.h in Headers */,
 				5CDCC8830D2B0E10008E2F19 /* ExpressionParser.h in Headers */,
 				5CEFD82C0D4D1D6200EA9950 /* Exceptions.h in Headers */,
-				5C643EA10D501E99004A8BD2 /* UnresolvedReferenceVariable.h in Headers */,
 				5C8D03C40D56B1AE00454461 /* DummyIODevice.h in Headers */,
 				5C38FBC40DF045F600FA6A18 /* XMLVariableWriter.h in Headers */,
 				5C9186130E3548FA00B64213 /* BiasMonitor.h in Headers */,
@@ -2681,7 +2672,6 @@
 				E17916B51E4E50CB00528B91 /* ZeroMQClient.hpp in Headers */,
 				E17917431E4E54D500528B91 /* LinkedList.h in Headers */,
 				E179170F1E4E534100528B91 /* ComponentFactory.h in Headers */,
-				E17916D51E4E516900528B91 /* UnresolvedReferenceVariable.h in Headers */,
 				E17916CF1E4E514F00528B91 /* ScopedVariableEnvironment.h in Headers */,
 				E17916C31E4E511F00528B91 /* GenericData.h in Headers */,
 				E17917081E4E532200528B91 /* Component.h in Headers */,
@@ -3479,7 +3469,6 @@
 				5CEFD82D0D4D1D6200EA9950 /* Exceptions.cpp in Sources */,
 				5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */,
 				E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */,
-				5C643EA20D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp in Sources */,
 				5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */,
 				5C38FBC50DF045F600FA6A18 /* XMLVariableWriter.cpp in Sources */,
 				5C9186140E3548FA00B64213 /* BiasMonitor.cpp in Sources */,
@@ -3541,7 +3530,6 @@
 				E17917301E4E541C00528B91 /* RandomWORSelection.cpp in Sources */,
 				E17916CC1E4E514500528B91 /* GlobalVariable.cpp in Sources */,
 				E17917611E4E55B500528B91 /* BiasMonitor.cpp in Sources */,
-				E17916D61E4E516E00528B91 /* UnresolvedReferenceVariable.cpp in Sources */,
 				E17916B41E4E50C800528B91 /* ZeroMQConnection.cpp in Sources */,
 				E17916DE1E4E51C000528B91 /* SystemEventFactory.cpp in Sources */,
 				E17917411E4E54A600528B91 /* Timer.cpp in Sources */,

@@ -207,7 +207,13 @@ namespace stx MW_SYMBOL_PUBLIC {
                     // *** Variable names
                     
                     varname
-                    = lexeme_d[ token_node_d[ variable_identifier ] ]
+                    = lexeme_d[
+                               token_node_d[
+                                            variable_identifier |
+                                            ( ch_p('$') >> variable_identifier ) |
+                                            ( str_p("${") >> variable_identifier >> ch_p('}') )
+                                            ]
+                               ]
                     ;
                     
                     variable_identifier
@@ -1737,16 +1743,29 @@ namespace stx MW_SYMBOL_PUBLIC {
 					return node.release();
 				}
 					
-					// *** Variable and Function name place-holder
-					
-				case varname_id:
-				{
-					assert(i->children.size() == 0);
-					
-					std::string varname(i->value.begin(), i->value.end());
-					
-					return new PNVariable(varname);
-				}
+                    // *** Variable and Function name place-holder
+                    
+                case varname_id:
+                {
+                    assert(i->children.size() == 0);
+                    
+                    std::string value(i->value.begin(), i->value.end());
+                    std::string varname;
+                    
+                    if (value.size() > 1 && value.at(0) == '$') {
+                        if (value.at(1) == '{') {
+                            // ${varname} form
+                            varname.assign(value.begin() + 2, value.end() - 1);
+                        } else {
+                            // $varname form
+                            varname.assign(value.begin() + 1, value.end());
+                        }
+                    } else {
+                        varname = std::move(value);
+                    }
+                    
+                    return new PNVariable(std::move(varname));
+                }
                     
                 case string_literal_id:
                 {

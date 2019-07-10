@@ -39,6 +39,7 @@ class ParsedExpressionVariableTestFixture : public FullCoreEnvironmentTestFixtur
     CPPUNIT_TEST( testIntegerOverflow );
     CPPUNIT_TEST( testFloatOverflow );
     CPPUNIT_TEST( testExpRandFunction );
+    CPPUNIT_TEST( testVariableNames );
 	CPPUNIT_TEST_SUITE_END();
 	
     
@@ -61,6 +62,7 @@ public:
     void testIntegerOverflow();
     void testFloatOverflow();
     void testExpRandFunction();
+    void testVariableNames();
 	
 };
 
