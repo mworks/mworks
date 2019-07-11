@@ -163,8 +163,8 @@ namespace stx MW_SYMBOL_PUBLIC {
                     
                     string_literal
                     = lexeme_d[
-                               confix_p( root_node_d[ ch_p('"')  ], *string_body_part, '"' ) |
-                               confix_p( root_node_d[ ch_p('\'') ], *string_body_part, '\'')
+                               confix_p( root_node_d[ ch_p('"')  ], *string_body_part, discard_node_d[ ch_p('"')  ] ) |
+                               confix_p( root_node_d[ ch_p('\'') ], *string_body_part, discard_node_d[ ch_p('\'') ] )
                                ]
                     ;
                     
@@ -521,16 +521,18 @@ namespace stx MW_SYMBOL_PUBLIC {
             
         private:
             const partlist_type partlist;
+            const std::string quote;
             
         public:
-            explicit PNStringLiteral(partlist_type &&partlist)
+            explicit PNStringLiteral(partlist_type &&partlist, const std::string &quote = "\"")
             : partlist(std::move(partlist))
+            , quote(quote)
             {
             }
             
             Datum evaluate(const class SymbolTable &st) const override
             {
-                std::string str;
+                std::string str(quote);
                 for (auto &part : partlist) {
                     if (part.second) {
                         str.append(st.lookupVariable(part.first).toString());
@@ -538,6 +540,8 @@ namespace stx MW_SYMBOL_PUBLIC {
                         str.append(part.first);
                     }
                 }
+                str.append(quote);
+                
                 Datum value;
                 value.setStringQuoted(str);
                 return value;
@@ -552,7 +556,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             
             std::string toString() const override
             {
-                std::string str;
+                std::string str(quote);
                 for (auto &part : partlist) {
                     if (part.second) {
                         str.append("${" + part.first + "}");
@@ -560,6 +564,7 @@ namespace stx MW_SYMBOL_PUBLIC {
                         str.append(part.first);
                     }
                 }
+                str.append(quote);
                 return str;
             }
         };
@@ -1770,9 +1775,7 @@ namespace stx MW_SYMBOL_PUBLIC {
                 case string_literal_id:
                 {
                     PNStringLiteral::partlist_type partlist;
-                    partlist.emplace_back(std::string(i->value.begin(), i->value.end()), false);  // Opening " or '
-                    
-                    assert(i->children.size() > 0);  // At a minimum, there must be a closing " or '
+                    std::string quote(i->value.begin(), i->value.end());  // Opening " or '
                     
                     for (auto &child : i->children) {
                         std::string part(child.value.begin(), child.value.end());
@@ -1787,9 +1790,9 @@ namespace stx MW_SYMBOL_PUBLIC {
                                 varname.assign(part.begin() + 1, part.end());
                             }
                             partlist.emplace_back(std::move(varname), true);
-                        } else if (partlist.back().second) {
-                            // Previous part is an interpolated variable, so create a
-                            // new constant part
+                        } else if (partlist.empty() || partlist.back().second) {
+                            // No previous part, or previous part is an interpolated
+                            // variable, so create a new constant part
                             partlist.emplace_back(std::move(part), false);
                         } else {
                             // The previous and current parts are both constant, so
@@ -1799,15 +1802,20 @@ namespace stx MW_SYMBOL_PUBLIC {
                         }
                     }
                     
-                    // If there's only one part, then there are no interpolated variables.
-                    // Return a constant node.
-                    if (partlist.size() == 1) {
+                    if (partlist.empty()) {
+                        // Empty string.  Return a constant node.
+                        return new PNConstant(Datum(""));
+                    }
+                    
+                    if (partlist.size() == 1 && !(partlist.front().second)) {
+                        // There's only one part, and it's not an interpolated variable.
+                        // Return a constant node.
                         Datum value;
-                        value.setStringQuoted(partlist.front().first);
+                        value.setStringQuoted(quote + partlist.front().first + quote);
                         return new PNConstant(std::move(value));
                     }
                     
-                    return new PNStringLiteral(std::move(partlist));
+                    return new PNStringLiteral(std::move(partlist), quote);
                 }
                     
                 case list_literal_id:
