@@ -637,6 +637,89 @@ void ParsedExpressionVariableTestFixture::testStringLiteral() {
 }
 
 
+static Datum evaluateUnquotedStringLiteral(const std::string &input) {
+    auto parseTree = ParsedExpressionVariable::parseUnquotedStringLiteral(input);
+    return ParsedExpressionVariable::evaluateParseTree(parseTree);
+}
+
+
+static void assertUnquotedString(const std::string &expectedOutput, const std::string &input) {
+    auto d = evaluateUnquotedStringLiteral(input);
+    CPPUNIT_ASSERT( d.isString() );
+    CPPUNIT_ASSERT_EQUAL( expectedOutput, d.getString() );
+}
+
+
+static void assertUnquotedString(const std::string &input) {
+    assertUnquotedString(input, input);
+}
+
+
+void ParsedExpressionVariableTestFixture::testUnquotedStringLiteral() {
+    // Empty
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::parseUnquotedStringLiteral(""), FatalParserException);
+    
+    // Non-empty
+    assertUnquotedString("abc 123");
+    
+    // Escaped embedded quotes
+    assertUnquotedString("abc\"'123", "abc\\\"\\'123");
+    assertUnquotedString("abc \" ' 123", "abc \\\" \\' 123");
+    
+    // Unescaped embedded quotes
+    assertUnquotedString("abc\"'123");
+    assertUnquotedString("abc \" ' 123");
+    
+    // Other escape sequences
+    assertUnquotedString("\a \b \f \n \r \t \v \\ ? $ \\q", "\\a \\b \\f \\n \\r \\t \\v \\\\ \\? \\$ \\q");
+    
+    // Variable interpolation
+    {
+        createGlobalVariable("x", Datum(1));
+        createGlobalVariable("foo", Datum(2.5));
+        createGlobalVariable("blah", Datum("three"));
+        
+        // Escaped
+        assertUnquotedString("0$x$foo$blah 4", "0\\$x\\$foo\\$blah 4");
+        assertUnquotedString("0 $x $foo $blah 4", "0 \\$x \\$foo \\$blah 4");
+        assertUnquotedString("0${x}${foo}${blah}4", "0\\${x}\\${foo}\\${blah}4");
+        assertUnquotedString("0 ${x} ${foo} ${blah} 4", "0 \\${x} \\${foo} \\${blah} 4");
+        
+        // Unescaped
+        assertUnquotedString("012.5three 4", "0$x$foo$blah 4");
+        assertUnquotedString("0 1 2.5 three 4", "0 $x $foo $blah 4");
+        assertUnquotedString("012.5three4", "0${x}${foo}${blah}4");
+        assertUnquotedString("0 1 2.5 three 4", "0 ${x} ${foo} ${blah} 4");
+        
+        // Interpolation only
+        assertUnquotedString("1", "$x");
+        assertUnquotedString("1", "${x}");
+        assertUnquotedString("2.5", "$foo");
+        assertUnquotedString("2.5", "${foo}");
+        
+        // Complex variable name
+        createGlobalVariable("b1_2c__7", Datum(-7.5));
+        assertUnquotedString("0-7.5 4", "0$b1_2c__7 4");
+        assertUnquotedString("0-7.54", "0${b1_2c__7}4");
+        assertUnquotedString("0 -7.5 4", "0 $b1_2c__7 4");
+        assertUnquotedString("0 -7.5 4", "0 ${b1_2c__7} 4");
+        
+        // Missing braces
+        assertUnquotedString("0 1} ${foo 3", "0 $x} ${foo 3");
+        
+        // Intervening spaces
+        assertUnquotedString("0 $ foo $ {foo} ${ foo} ${foo } 2");
+        
+        // Unknown variable
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("$foo $bar $blah"), UnknownVariableException);
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("${foo} ${bar} ${blah}"), UnknownVariableException);
+        
+        // Invalid variable names
+        assertUnquotedString("0 $1foo ${1foo} $_bar ${_bar} 4");
+    }
+}
+
+
 void ParsedExpressionVariableTestFixture::testListLiteral() {
     // Empty list
     {

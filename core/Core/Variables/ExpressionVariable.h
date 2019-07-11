@@ -45,6 +45,14 @@ public:
         }
     }
     
+    static stx::ParseTree parseUnquotedStringLiteral(const std::string &input) {
+        try {
+            return stx::parseUnquotedStringLiteral(input);  // Don't trim the input!
+        } catch (stx::ExpressionParserException &e) {
+            throw FatalParserException("Expression parser error", e.what());
+        }
+    }
+    
     static Datum evaluateParseTree(const stx::ParseTree &tree, const stx::SymbolTable &symbolTable) {
         if (tree.isEmpty()) {
             throw FatalParserException("Internal error", "Expression parse tree is empty");

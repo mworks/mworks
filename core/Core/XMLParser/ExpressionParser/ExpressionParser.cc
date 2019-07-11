@@ -34,6 +34,7 @@
 
 #include <boost/spirit/include/classic_lists.hpp>
 #include <boost/spirit/include/classic_distinct.hpp>
+#define PHOENIX_LIMIT 4  // So we can have 4 grammar entry points
 #include <boost/spirit/include/classic_grammar_def.hpp>
 #include <boost/spirit/include/classic_confix.hpp>
 
@@ -114,6 +115,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 			exprlist_id,
             
             varname_with_subscripts_id,
+            
+            unquoted_string_literal_id,
 		};
 		
 		/// Keyword parser used for matching words with () and spaces as separators.
@@ -123,11 +126,12 @@ namespace stx MW_SYMBOL_PUBLIC {
 		struct ExpressionGrammar : public grammar<ExpressionGrammar>
 		{
 			/// The boost::spirit::classic expression parser grammar definition (for a specific
-			/// scanner) with two entry points.
+			/// scanner) with four entry points.
 			template <typename ScannerT>
 			struct definition : public grammar_def<rule<ScannerT, parser_context<>, parser_tag<expr_id> >,
 			rule<ScannerT, parser_context<>, parser_tag<exprlist_id> >,
-            rule<ScannerT, parser_context<>, parser_tag<varname_with_subscripts_id> > >
+            rule<ScannerT, parser_context<>, parser_tag<varname_with_subscripts_id> >,
+            rule<ScannerT, parser_context<>, parser_tag<unquoted_string_literal_id> > >
 			{
 				/// Real definition function of the grammar.
 				definition(ExpressionGrammar const& /*self*/)
@@ -311,9 +315,16 @@ namespace stx MW_SYMBOL_PUBLIC {
                     = root_node_d[ varname ]
                     >> *( discard_node_d[ ch_p('[') ] >> expr >> discard_node_d[ ch_p(']') ] )
                     ;
-					
-					// Special spirit feature to declare multiple grammar entry points
-					this->start_parsers(expr, exprlist, varname_with_subscripts);
+                    
+                    unquoted_string_literal
+                    = lexeme_d[ +string_body_part ]
+                    ;
+                    
+                    // Special spirit feature to declare multiple grammar entry points
+                    this->start_parsers(expr,
+                                        exprlist,
+                                        varname_with_subscripts,
+                                        unquoted_string_literal);
 					
 #ifdef STX_DEBUG_PARSER
 					BOOST_SPIRIT_DEBUG_RULE(constant);
@@ -357,6 +368,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 					BOOST_SPIRIT_DEBUG_RULE(exprlist);
                     
                     BOOST_SPIRIT_DEBUG_RULE(varname_with_subscripts);
+                    
+                    BOOST_SPIRIT_DEBUG_RULE(unquoted_string_literal);
 #endif
 				}
 				
@@ -432,8 +445,19 @@ namespace stx MW_SYMBOL_PUBLIC {
 				rule<ScannerT, parser_context<>, parser_tag<exprlist_id> >    		exprlist;
                 
                 rule<ScannerT, parser_context<>, parser_tag<varname_with_subscripts_id> >  varname_with_subscripts;
+                
+                rule<ScannerT, parser_context<>, parser_tag<unquoted_string_literal_id> >  unquoted_string_literal;
 			};
 		};
+		
+		/// Iterator type used by spirit's parsers.
+		typedef std::string::const_iterator InputIterT;
+		
+		/// Resulting match tree after parsing
+		typedef tree_match<InputIterT> ParseTreeMatchT;
+		
+		/// The iterator of the match tree used in build_expr()
+		typedef ParseTreeMatchT::const_tree_iterator TreeIterT;
 		
 		// *** Classes representing the nodes in the resulting parse tree, these need
 		// *** not be publicly available via the header file.
@@ -524,7 +548,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             const std::string quote;
             
         public:
-            explicit PNStringLiteral(partlist_type &&partlist, const std::string &quote = "\"")
+            PNStringLiteral(partlist_type &&partlist, const std::string &quote)
             : partlist(std::move(partlist))
             , quote(quote)
             {
@@ -566,6 +590,60 @@ namespace stx MW_SYMBOL_PUBLIC {
                 }
                 str.append(quote);
                 return str;
+            }
+            
+            static ParseNode * buildNode(const TreeIterT &i, const std::string &quote = "\"") {
+                partlist_type partlist;
+                
+                if (i->value.id().to_long() == string_body_part_id) {
+                    // Lone body part (only happens with unquoted string literals)
+                    addPart(partlist, std::string(i->value.begin(), i->value.end()));
+                } else {
+                    // Root node with multiple body parts
+                    for (auto &child : i->children) {
+                        addPart(partlist, std::string(child.value.begin(), child.value.end()));
+                    }
+                }
+                
+                if (partlist.empty()) {
+                    // Empty string.  Return a constant node.
+                    return new PNConstant(Datum(""));
+                }
+                
+                if (partlist.size() == 1 && !(partlist.front().second)) {
+                    // There's only one part, and it's not an interpolated variable.
+                    // Return a constant node.
+                    Datum value;
+                    value.setStringQuoted(quote + partlist.front().first + quote);
+                    return new PNConstant(std::move(value));
+                }
+                
+                return new PNStringLiteral(std::move(partlist), quote);
+            }
+            
+        private:
+            static void addPart(partlist_type &partlist, std::string part) {
+                if (part.size() > 1 && part.at(0) == '$') {
+                    // Create an interpolated variable part
+                    std::string varname;
+                    if (part.at(1) == '{') {
+                        // ${varname} form
+                        varname.assign(part.begin() + 2, part.end() - 1);
+                    } else {
+                        // $varname form
+                        varname.assign(part.begin() + 1, part.end());
+                    }
+                    partlist.emplace_back(std::move(varname), true);
+                } else if (partlist.empty() || partlist.back().second) {
+                    // No previous part, or previous part is an interpolated
+                    // variable, so create a new constant part
+                    partlist.emplace_back(std::move(part), false);
+                } else {
+                    // The previous and current parts are both constant, so
+                    // append the latter to the former (thereby minimizing the
+                    // total number of parts)
+                    partlist.back().first.append(part);
+                }
             }
         };
         
@@ -1490,15 +1568,6 @@ namespace stx MW_SYMBOL_PUBLIC {
 		// *** Functions which translate the resulting parse tree into our expression
 		// *** tree, simultaneously folding constants.
 		
-		/// Iterator type used by spirit's parsers.
-		typedef std::string::const_iterator InputIterT;
-		
-		/// Resulting match tree after parsing
-		typedef tree_match<InputIterT> ParseTreeMatchT;
-		
-		/// The iterator of the match tree used in build_expr()
-		typedef ParseTreeMatchT::const_tree_iterator TreeIterT;
-		
 		/// Build_expr is the constructor method to create a parse tree from the
 		/// AST-tree returned by the spirit parser.
 		static ParseNode* build_expr(TreeIterT const& i)
@@ -1774,48 +1843,8 @@ namespace stx MW_SYMBOL_PUBLIC {
                     
                 case string_literal_id:
                 {
-                    PNStringLiteral::partlist_type partlist;
                     std::string quote(i->value.begin(), i->value.end());  // Opening " or '
-                    
-                    for (auto &child : i->children) {
-                        std::string part(child.value.begin(), child.value.end());
-                        if (part.size() > 1 && part.at(0) == '$') {
-                            // Create an interpolated variable part
-                            std::string varname;
-                            if (part.at(1) == '{') {
-                                // ${varname} form
-                                varname.assign(part.begin() + 2, part.end() - 1);
-                            } else {
-                                // $varname form
-                                varname.assign(part.begin() + 1, part.end());
-                            }
-                            partlist.emplace_back(std::move(varname), true);
-                        } else if (partlist.empty() || partlist.back().second) {
-                            // No previous part, or previous part is an interpolated
-                            // variable, so create a new constant part
-                            partlist.emplace_back(std::move(part), false);
-                        } else {
-                            // The previous and current parts are both constant, so
-                            // append the latter to the former (thereby minimizing the
-                            // total number of parts)
-                            partlist.back().first.append(part);
-                        }
-                    }
-                    
-                    if (partlist.empty()) {
-                        // Empty string.  Return a constant node.
-                        return new PNConstant(Datum(""));
-                    }
-                    
-                    if (partlist.size() == 1 && !(partlist.front().second)) {
-                        // There's only one part, and it's not an interpolated variable.
-                        // Return a constant node.
-                        Datum value;
-                        value.setStringQuoted(quote + partlist.front().first + quote);
-                        return new PNConstant(std::move(value));
-                    }
-                    
-                    return new PNStringLiteral(std::move(partlist), quote);
+                    return PNStringLiteral::buildNode(i, quote);
                 }
                     
                 case list_literal_id:
@@ -1932,7 +1961,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 		
 		/// build_exprlist constructs the vector holding the ParseNode parse tree for
 		/// each parse tree.
-		ParseTreeList build_exprlist(TreeIterT const &i)
+		static ParseTreeList build_exprlist(TreeIterT const &i)
 		{
 #ifdef STX_DEBUG_PARSER
 			std::cout << "In build_exprlist. i->value = " <<
@@ -1957,7 +1986,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 			return ptlist;
 		}
         
-        ParseTreeList build_varname_with_subscripts(TreeIterT const &i, std::string &varname)
+        static ParseTreeList build_varname_with_subscripts(TreeIterT const &i, std::string &varname)
         {
 #ifdef STX_DEBUG_PARSER
             std::cout << "In build_varname_with_subscripts. i->value = " <<
@@ -1980,6 +2009,18 @@ namespace stx MW_SYMBOL_PUBLIC {
             return ptlist;
         }
 		
+        static ParseNode * build_unquoted_string_literal(TreeIterT const &i)
+        {
+#ifdef STX_DEBUG_PARSER
+            std::cout << "In build_unquoted_string_literal. i->value = " <<
+            std::string(i->value.begin(), i->value.end()) <<
+            " i->children.size() = " << i->children.size() <<
+            " i->value.id = " << i->value.id().to_long() << std::endl;
+#endif
+            
+            return PNStringLiteral::buildNode(i);
+        }
+        
 		/// Uses boost::spirit::classic function to convert the parse tree into a XML document.
 		static inline void tree_dump_xml(std::ostream &os, const std::string &input, const tree_parse_info<InputIterT> &info)
 		{
@@ -2025,13 +2066,15 @@ namespace stx MW_SYMBOL_PUBLIC {
 			rule_names[exprlist_id] = "exprlist";
             
             rule_names[varname_with_subscripts_id] = "varname_with_subscripts";
+            
+            rule_names[unquoted_string_literal_id] = "unquoted_string_literal";
 			
 			tree_to_xml(os, info.trees, input.c_str(), rule_names);
 		}
 		
 	} // namespace Grammar
 	
-	const ParseTree parseExpression(const std::string &input)
+	ParseTree parseExpression(const std::string &input)
 	{
 		// instance of the grammar
 		Grammar::ExpressionGrammar g;
@@ -2143,6 +2186,33 @@ namespace stx MW_SYMBOL_PUBLIC {
         }
         
         return Grammar::build_varname_with_subscripts(info.trees.begin(), varname);
+    }
+    
+    ParseTree parseUnquotedStringLiteral(const std::string &input) {
+        // instance of the grammar
+        Grammar::ExpressionGrammar g;
+        
+#ifdef STX_DEBUG_PARSER
+        BOOST_SPIRIT_DEBUG_GRAMMAR(g);
+#endif
+        
+        Grammar::tree_parse_info<Grammar::InputIterT> info =
+        boost::spirit::classic::ast_parse(input.begin(), input.end(),
+                                          g.use_parser<3>(),    // use fourth entry point: unquoted_string_literal
+                                          boost::spirit::classic::space_p);
+        
+        if (!info.full)
+        {
+            std::ostringstream oss;
+            oss << "Syntax error at position "
+            << static_cast<int>(info.stop - input.begin())
+            << " near "
+            << std::string(info.stop, input.end());
+            
+            throw(BadSyntaxException(oss.str()));
+        }
+        
+        return ParseTree( Grammar::build_unquoted_string_literal(info.trees.begin()) );
     }
 	
 	void ParseTreeList::evaluate(std::vector<Datum> &values, const class SymbolTable &st) const

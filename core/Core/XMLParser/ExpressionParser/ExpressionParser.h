@@ -396,7 +396,7 @@ public:
 
 /// Parse the given input expression into a parse tree. The parse tree is
 /// represented by its root node, which can be evaluated.
-const ParseTree parseExpression(const std::string &input);
+ParseTree parseExpression(const std::string &input);
 
 /// Parse the given input expression into a parse tree. The parse tree is then
 /// transformed into a XML tree for better visualisation.
@@ -427,6 +427,8 @@ public:
 ParseTreeList parseExpressionList(const std::string &input);
     
 ParseTreeList parseVarnameWithSubscripts(const std::string &input, std::string &varname);
+    
+ParseTree parseUnquotedStringLiteral(const std::string &input);
 
 } // namespace stx
 
