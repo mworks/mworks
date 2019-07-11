@@ -162,8 +162,10 @@ namespace stx MW_SYMBOL_PUBLIC {
                     // *** String literal
                     
                     string_literal
-                    = lexeme_d[ confix_p('"',  *string_body_part, '"') |
-                                confix_p('\'', *string_body_part, '\'') ]
+                    = lexeme_d[
+                               confix_p( root_node_d[ ch_p('"')  ], *string_body_part, '"' ) |
+                               confix_p( root_node_d[ ch_p('\'') ], *string_body_part, '\'')
+                               ]
                     ;
                     
                     string_body_part
@@ -1748,9 +1750,10 @@ namespace stx MW_SYMBOL_PUBLIC {
                     
                 case string_literal_id:
                 {
-                    assert(i->children.size() >= 2);
-                    
                     PNStringLiteral::partlist_type partlist;
+                    partlist.emplace_back(std::string(i->value.begin(), i->value.end()), false);  // Opening " or '
+                    
+                    assert(i->children.size() > 0);  // At a minimum, there must be a closing " or '
                     
                     for (auto &child : i->children) {
                         std::string part(child.value.begin(), child.value.end());
@@ -1765,8 +1768,9 @@ namespace stx MW_SYMBOL_PUBLIC {
                                 varname.assign(part.begin() + 1, part.end());
                             }
                             partlist.emplace_back(std::move(varname), true);
-                        } else if (partlist.empty() || partlist.back().second) {
-                            // Create a constant part
+                        } else if (partlist.back().second) {
+                            // Previous part is an interpolated variable, so create a
+                            // new constant part
                             partlist.emplace_back(std::move(part), false);
                         } else {
                             // The previous and current parts are both constant, so
@@ -1776,9 +1780,9 @@ namespace stx MW_SYMBOL_PUBLIC {
                         }
                     }
                     
-                    // If there's only one part, and it's not an interpolated variable,
-                    // return a constant node
-                    if (partlist.size() == 1 && !(partlist.front().second)) {
+                    // If there's only one part, then there are no interpolated variables.
+                    // Return a constant node.
+                    if (partlist.size() == 1) {
                         Datum value;
                         value.setStringQuoted(partlist.front().first);
                         return new PNConstant(std::move(value));

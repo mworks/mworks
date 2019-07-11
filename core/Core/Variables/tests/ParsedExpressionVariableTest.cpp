@@ -621,11 +621,18 @@ void ParsedExpressionVariableTestFixture::testStringLiteral() {
         assertString("0 $ foo $ {foo} ${ foo} ${foo } 2");
         
         // Unknown variable
-        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("$foo $bar $blah"), FatalParserException);
-        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("${foo} ${bar} ${blah}"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"$foo $bar $blah\""), UnknownVariableException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'${foo} ${bar} ${blah}'"), UnknownVariableException);
         
         // Invalid variable names
         assertString("0 $1foo ${1foo} $_bar ${_bar} 4");
+    }
+    
+    // In expression list
+    {
+        Datum expected { Datum::list_value_type { Datum("foo"), Datum("bar"), Datum("blah") } };
+        auto actual = ParsedExpressionVariable::evaluateExpression("['foo', 'bar', 'blah']");
+        CPPUNIT_ASSERT( expected == actual );
     }
 }
 
