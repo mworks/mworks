@@ -1,0 +1,31 @@
+var greeting = ''
+var subject = ''
+
+
+%define fail (message)
+    assert (
+        condition = false
+        message = message
+        )
+%end
+
+
+protocol {
+    // Constant text
+    fail ('Hello, World!')
+
+    // Constant expression
+    fail ('"Hello, World!"')
+    fail ('Hello, ' + 'World!')
+
+    greeting = 'Good morning'
+    subject = 'Bob'
+
+    // Non-constant text
+    fail ('$greeting, ${subject}!')
+
+    // Non-constant expression
+    fail ('"$greeting, ${subject}!"')
+    fail (greeting + ', ' + subject + '!')
+    fail (format('%d != %d', 2 + 3, 2 * 3))
+}

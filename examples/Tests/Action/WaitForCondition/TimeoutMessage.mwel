@@ -1,0 +1,33 @@
+var greeting = ''
+var subject = ''
+
+
+%define timeout (message)
+    wait_for_condition (
+        condition = false
+        timeout = 1us
+        timeout_message = message
+        stop_on_timeout = false
+        )
+%end
+
+
+protocol {
+    // Constant text
+    timeout ('Hello, World!')
+
+    // Constant expression
+    timeout ('"Hello, World!"')
+    timeout ('Hello, ' + 'World!')
+
+    greeting = 'Good morning'
+    subject = 'Bob'
+
+    // Non-constant text
+    timeout ('$greeting, ${subject}!')
+
+    // Non-constant expression
+    timeout ('"$greeting, ${subject}!"')
+    timeout (greeting + ', ' + subject + '!')
+    timeout (format('%d != %d', 2 + 3, 2 * 3))
+}

@@ -1,0 +1,7 @@
+protocol {
+    wait_for_condition (
+        condition = true
+        timeout = 1s
+        timeout_message = 'x = $x'
+        )
+}

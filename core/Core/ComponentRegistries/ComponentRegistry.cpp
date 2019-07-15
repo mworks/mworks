@@ -310,6 +310,18 @@ shared_ptr<Variable> ComponentRegistry::getVariable(std::string expression,
 	}
 }
 
+
+boost::shared_ptr<Variable> ComponentRegistry::getParsedString(std::string input) {
+    auto &str = parsed_string_cache[input];  // Take a reference, so that we'll add to the cache if needed
+    if (!str) {
+        // Not in the cache, so try the expression parser.  This will throw UnknownVariableException
+        // if the expression contains an interpolated variable with a bad variable name.
+        str = boost::make_shared<ParsedExpressionVariable>(ParsedExpressionVariable::parseUnquotedStringLiteral(input));
+    }
+    return str;
+}
+
+
 shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expression){
 	
 	// regex for parsing the stimulus string

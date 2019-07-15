@@ -142,7 +142,7 @@ inline VariablePtr variableOrText(const ParameterValue &param) {
     try {
         return VariablePtr(param);
     } catch (const SimpleException &) {
-        return boost::make_shared<ConstantVariable>(param.str());
+        return param.getRegistry()->getParsedString(param.str());
     }
 }
 
@@ -155,30 +155,15 @@ inline VariablePtr optionalVariable(const ParameterValue &param) {
 }
 
 
+inline VariablePtr optionalVariableOrText(const ParameterValue &param) {
+    if (param.empty()) {
+        return VariablePtr();
+    }
+    return variableOrText(param);
+}
+
+
 END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

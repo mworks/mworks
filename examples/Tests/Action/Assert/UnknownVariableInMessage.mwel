@@ -1,0 +1,6 @@
+protocol {
+    assert (
+        condition = true
+        message = 'x = $x'
+        )
+}

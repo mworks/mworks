@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Hello, World! [line 6, column 5; via line 17, column 5]</message>
+    <message type="whole_message">ERROR: Hello, World! [line 6, column 5; via line 20, column 5]</message>
+    <message type="whole_message">ERROR: Hello, World! [line 6, column 5; via line 21, column 5]</message>
+    <message type="whole_message">ERROR: Good morning, Bob! [line 6, column 5; via line 27, column 5]</message>
+    <message type="whole_message">ERROR: Good morning, Bob! [line 6, column 5; via line 30, column 5]</message>
+    <message type="whole_message">ERROR: Good morning, Bob! [line 6, column 5; via line 31, column 5]</message>
+    <message type="whole_message">ERROR: 5 != 6 [line 6, column 5; via line 32, column 5]</message>
+  </expected_messages>
+</marionette_info>

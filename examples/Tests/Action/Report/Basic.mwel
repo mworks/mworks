@@ -1,0 +1,23 @@
+var greeting = ''
+var subject = ''
+
+
+protocol {
+    // Constant text
+    report ('Hello, World!')
+
+    // Constant expression
+    report ('"Hello, World!"')
+    report ('Hello, ' + 'World!')
+
+    greeting = 'Good morning'
+    subject = 'Bob'
+
+    // Non-constant text
+    report ('$greeting, ${subject}!')
+
+    // Non-constant expression
+    report ('"$greeting, ${subject}!"')
+    report (greeting + ', ' + subject + '!')
+    report (format('%d != %d', 2 + 3, 2 * 3))
+}

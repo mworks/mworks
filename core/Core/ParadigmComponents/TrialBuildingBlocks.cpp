@@ -137,76 +137,11 @@ shared_ptr<mw::Component> NextVariableSelectionFactory::createObject(std::map<st
 
 
 /****************************************************************
- *                       MessageAction Methods
- ****************************************************************/
-
-
-const std::string MessageAction::MESSAGE("message");
-
-
-MessageAction::MessageAction(const ParameterValueMap &parameters) :
-    Action(parameters)
-{ }
-
-
-void MessageAction::parseMessage(const std::string &outStr) {
-    stringFragments.clear();
-    error = false;
-    
-    typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-    boost::char_separator<char> sep("", "().,;:|/\\+-*&^!@=<>?$ \t", boost::drop_empty_tokens);
-    tokenizer tokens(outStr, sep);
-    for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter){
-        std::string token = *tok_iter;
-        if(token == "$"){
-            // peek ahead to the next token. if it starts with a word char, this is a variable
-            ++tok_iter;
-            if(tok_iter != tokens.end()){
-                std::string next_token = *tok_iter;
-                boost::regex re("^\\w");
-                if(boost::regex_search(next_token, re)){  // if it's a word
-                    shared_ptr<Variable> var = global_variable_registry->getVariable(next_token);
-                    if(!var) {
-                        error = true;
-                        var = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(std::string("UNKNOWNVAR"))));
-                    }
-                    
-                    stringFragments.push_back(var);
-                    
-                } else { // if it's not a word (an isolated $, apparently)
-                    
-                    shared_ptr<ConstantVariable> c(new ConstantVariable(Datum("$" + next_token)));
-                    stringFragments.push_back(c);
-                }
-                
-            } else {
-                break; // at the end of the token stream
-            }
-        } else {
-            shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(token)));
-            stringFragments.push_back(c);
-        }
-    }         
-}
-
-
-std::string MessageAction::getMessage() const {
-    std::string outStr("");
-    
-    for (std::vector< shared_ptr<Variable> >::const_iterator i = stringFragments.begin();
-         i != stringFragments.end();
-         i++)
-    {
-        outStr.append((*i)->getValue().toString());
-    }
-    
-    return outStr;
-}
-
-
-/****************************************************************
  *                       ReportString Methods
  ****************************************************************/
+
+
+const std::string ReportString::MESSAGE("message");
 
 
 void ReportString::describeComponent(ComponentInfo &info) {
@@ -217,30 +152,16 @@ void ReportString::describeComponent(ComponentInfo &info) {
 
 
 ReportString::ReportString(const ParameterValueMap &parameters) :
-    MessageAction(parameters)
+    Action(parameters),
+    message(variableOrText(parameters[MESSAGE])),
+    clock(Clock::instance())
 {
     setName("Report");
-    parseMessage(parameters[MESSAGE].str());
-}
-
-
-ReportString::ReportString(const std::string &message) {
-    setName("Report");
-    parseMessage(message);
 }
 
 
 bool ReportString::execute() {
-    std::string outStr = getMessage();
-    shared_ptr <Clock> clock = Clock::instance();
-    
-    if(!error) {
-        mprintf("%s (%lld)", outStr.c_str(), clock->getCurrentTimeUS());
-    } else {
-        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-               "%s (%lld)", outStr.c_str(), clock->getCurrentTimeUS());
-    }
-    
+    mprintf("%s (%lld)", message->getValue().getString().c_str(), clock->getCurrentTimeUS());
     return true;
 }
 
@@ -256,40 +177,33 @@ const std::string AssertionAction::STOP_ON_FAILURE("stop_on_failure");
 
 void AssertionAction::describeComponent(ComponentInfo &info) {
     Action::describeComponent(info);
+    
     info.setSignature("action/assert");
+    
     info.addParameter(CONDITION);
-    info.addParameter(MESSAGE, false);
-    info.addParameter(STOP_ON_FAILURE, "0");
+    info.addParameter(ReportString::MESSAGE, false);
+    info.addParameter(STOP_ON_FAILURE, "NO");
 }
 
 
 AssertionAction::AssertionAction(const ParameterValueMap &parameters) :
-    MessageAction(parameters),
+    Action(parameters),
     condition(parameters[CONDITION]),
     stopOnFailure(parameters[STOP_ON_FAILURE])
 {
     setName("Assertion");
     
-    if (!(parameters[MESSAGE].empty())) {
-        parseMessage(parameters[MESSAGE].str());
+    if (!(parameters[ReportString::MESSAGE].empty())) {
+        message = variableOrText(parameters[ReportString::MESSAGE]);
     } else {
-        parseMessage("Condition failed: " + parameters[CONDITION].str());
+        message = boost::make_shared<ConstantVariable>(Datum("Condition failed: " + parameters[CONDITION].str()));
     }
-}
-
-
-AssertionAction::AssertionAction(shared_ptr<Variable> condition, const std::string &message, bool stopOnFailure) :
-    condition(condition),
-    stopOnFailure(stopOnFailure)
-{
-    setName("Assertion");
-    parseMessage(message);
 }
 
 
 bool AssertionAction::execute() {
     if (!(condition->getValue().getBool())) {
-        std::string outStr = getMessage();
+        auto outStr = message->getValue().getString();
         assertionFailure->setValue(outStr);
         merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Assertion: %s", outStr.c_str());
         if (stopOnFailure) {
@@ -490,7 +404,7 @@ const std::string WaitForCondition::STOP_ON_TIMEOUT("stop_on_timeout");
 
 
 void WaitForCondition::describeComponent(ComponentInfo &info) {
-    MessageAction::describeComponent(info);
+    Action::describeComponent(info);
     
     info.setSignature("action/wait_for_condition");
     
@@ -502,7 +416,7 @@ void WaitForCondition::describeComponent(ComponentInfo &info) {
 
 
 WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
-    MessageAction(parameters),
+    Action(parameters),
     condition(parameters[CONDITION]),
     timeout(parameters[TIMEOUT]),
     stopOnTimeout(parameters[STOP_ON_TIMEOUT])
@@ -510,9 +424,9 @@ WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
     setName("WaitForCondition");
     
     if (!(parameters[TIMEOUT_MESSAGE].empty())) {
-        parseMessage(parameters[TIMEOUT_MESSAGE].str());
+        timeoutMessage = variableOrText(parameters[TIMEOUT_MESSAGE]);
     } else {
-        parseMessage("Timeout while waiting for condition: " + parameters[CONDITION].str());
+        timeoutMessage = boost::make_shared<ConstantVariable>(Datum("Timeout while waiting for condition: " + parameters[CONDITION].str()));
     }
 }
 
@@ -533,17 +447,17 @@ bool WaitForCondition::execute() {
 weak_ptr<State> WaitForCondition::next() {
     if (Clock::instance()->getCurrentTimeUS() >= deadline) {
         
-        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "%s", getMessage().c_str());
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "%s", timeoutMessage->getValue().getString().c_str());
         if (stopOnTimeout) {
             merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to wait for condition timeout");
             StateSystem::instance()->stop();
         }
         
-        return MessageAction::next();
+        return Action::next();
         
     } else if (condition->getValue().getBool()) {
         
-        return MessageAction::next();
+        return Action::next();
         
     } else {
     

@@ -60,6 +60,7 @@ BEGIN_NAMESPACE_MW
 		std::map< long, std::string > tagnames_by_id;
             
         boost::unordered_map< std::string, shared_ptr<Variable> > variable_cache;
+        boost::unordered_map< std::string, shared_ptr<Variable> > parsed_string_cache;
         boost::unordered_map< std::pair<std::string, GenericDataType>, shared_ptr<Datum> > data_cache;
     
 	public:
@@ -82,9 +83,10 @@ BEGIN_NAMESPACE_MW
 		void resetInstances(){
 			instances.clear();
 			stimulus_nodes.clear();
-            variable_cache.clear();
-            data_cache.clear();
             tagnames_by_id.clear();
+            variable_cache.clear();
+            parsed_string_cache.clear();
+            data_cache.clear();
 		}
 		
 		// Factory-oriented methods
@@ -194,6 +196,7 @@ BEGIN_NAMESPACE_MW
 		shared_ptr<Variable>	getVariable(std::string expression);
 		shared_ptr<Variable>	getVariable(std::string expression, 
 											std::string default_expression);
+        shared_ptr<Variable>    getParsedString(std::string input);
 		shared_ptr<StimulusNode>	getStimulus(std::string expression);
 		
 		// Utility look-ups to centralize commonly used parsing

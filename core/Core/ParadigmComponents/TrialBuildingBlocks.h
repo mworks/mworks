@@ -87,46 +87,25 @@ private:
 };
 
 
-class MessageAction : public Action {
-    
-protected:
-    std::vector < shared_ptr<Variable> > stringFragments;
-    bool error;
-    
-    void parseMessage(const std::string &msg);
-    std::string getMessage() const;
+class ReportString : public Action {
     
 public:
     static const std::string MESSAGE;
     
-    explicit MessageAction(const Map<ParameterValue> &parameters);
-    MessageAction() { }
-    
-    virtual ~MessageAction() { }
-    
-};
-
-
-class ReportString : public MessageAction {
-    
-public:
     static void describeComponent(ComponentInfo &info);
     
     explicit ReportString(const Map<ParameterValue> &parameters);
-    explicit ReportString(const std::string &message);
     
-    virtual ~ReportString() { }
+    bool execute() override;
     
-    virtual bool execute();
+private:
+    const VariablePtr message;
+    const boost::shared_ptr<Clock> clock;
     
 };
 
 
-class AssertionAction : public MessageAction {
-    
-protected:
-    shared_ptr<Variable> condition;
-    const bool stopOnFailure;
+class AssertionAction : public Action {
     
 public:
     static const std::string CONDITION;
@@ -135,11 +114,13 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit AssertionAction(const Map<ParameterValue> &parameters);
-    AssertionAction(shared_ptr<Variable> condition, const std::string &message, bool stopOnFailure = false);
     
-    virtual ~AssertionAction() { }
+    bool execute() override;
     
-    virtual bool execute();
+private:
+    const VariablePtr condition;
+    VariablePtr message;
+    const bool stopOnFailure;
     
 };
 
@@ -248,7 +229,7 @@ private:
 };
 
 
-class WaitForCondition : public MessageAction {
+class WaitForCondition : public Action {
     
 public:
     static const std::string CONDITION;
@@ -260,12 +241,13 @@ public:
     
     explicit WaitForCondition(const ParameterValueMap &parameters);
     
-    bool execute() MW_OVERRIDE;
-    weak_ptr<State> next() MW_OVERRIDE;
+    bool execute() override;
+    boost::weak_ptr<State> next() override;
     
 private:
-    VariablePtr condition;
-    VariablePtr timeout;
+    const VariablePtr condition;
+    const VariablePtr timeout;
+    VariablePtr timeoutMessage;
     const bool stopOnTimeout;
     
     MWTime deadline;

@@ -44,14 +44,6 @@ void FaceRecognizer::describeComponent(ComponentInfo &info) {
 }
 
 
-static inline VariablePtr optionalVariableOrText(const ParameterValue &param) {
-    if (param.empty()) {
-        return VariablePtr();
-    }
-    return variableOrText(param);
-}
-
-
 FaceRecognizer::FaceRecognizer(const ParameterValueMap &parameters) :
     IODevice(parameters),
     modelPath(pathFromParameterValue(variableOrText(parameters[MODEL_PATH]))),
