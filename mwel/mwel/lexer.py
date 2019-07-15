@@ -158,7 +158,9 @@ class Lexer(object):
         return t
 
     _identifier_re = r'[a-zA-Z][a-zA-Z0-9_]*'
-    @TOKEN(r'((\$\{%s\}[0-9_]*)|(%s))+' % (_identifier_re, _identifier_re))
+    @TOKEN(r'((\$\{%s\}[0-9_]*)|(\$%s)|(%s))+' % (_identifier_re,
+                                                  _identifier_re,
+                                                  _identifier_re))
     def t_IDENTIFIER(self, t):
         return t
 

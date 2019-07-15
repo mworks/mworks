@@ -366,11 +366,16 @@ class TestLexer(unittest.TestCase):
                         ${a1B2c3_4_D}
                         ${ABC}_XYZ
                         a${b}1_2_3${c}d
+                        $a1B2c3_4_D
+                        $ABC_XYZ
+                        a$b1_2_3$cd
+                        ${ABC}123$XYZ456
                         123abc
                         _A
                         ${abc def}
                         ${_A}
                         ${xyz
+                        $_A
                         '''):
             self.assertIdentifier('a')
             self.assertIdentifier('AbC')
@@ -378,6 +383,10 @@ class TestLexer(unittest.TestCase):
             self.assertIdentifier('${a1B2c3_4_D}')
             self.assertIdentifier('${ABC}_XYZ')
             self.assertIdentifier('a${b}1_2_3${c}d')
+            self.assertIdentifier('$a1B2c3_4_D')
+            self.assertIdentifier('$ABC_XYZ')
+            self.assertIdentifier('a$b1_2_3$cd')
+            self.assertIdentifier('${ABC}123$XYZ456')
 
             self.assertNumber('123')
             self.assertIdentifier('abc')
@@ -400,6 +409,10 @@ class TestLexer(unittest.TestCase):
             self.assertError('$')
             self.assertToken('{')
             self.assertIdentifier('xyz')
+
+            self.assertError('$')
+            self.assertError('_')
+            self.assertIdentifier('A')
 
     def test_illegal_char_message(self):
         with self.input('a.b'):
