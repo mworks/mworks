@@ -583,6 +583,13 @@ void ParsedExpressionVariableTestFixture::testStringLiteral() {
     // Other escape sequences
     assertString("\a \b \f \n \r \t \v \\ ? $ \\q", "\\a \\b \\f \\n \\r \\t \\v \\\\ \\? \\$ \\q");
     
+    // In expression list
+    {
+        Datum expected { Datum::list_value_type { Datum("foo"), Datum("bar"), Datum("blah") } };
+        auto actual = ParsedExpressionVariable::evaluateExpression("['foo', 'bar', 'blah']");
+        CPPUNIT_ASSERT( expected == actual );
+    }
+    
     // Variable interpolation
     {
         createGlobalVariable("x", Datum(1));
@@ -628,11 +635,34 @@ void ParsedExpressionVariableTestFixture::testStringLiteral() {
         assertString("0 $1foo ${1foo} $_bar ${_bar} 4");
     }
     
-    // In expression list
+    // Expression interpolation
     {
-        Datum expected { Datum::list_value_type { Datum("foo"), Datum("bar"), Datum("blah") } };
-        auto actual = ParsedExpressionVariable::evaluateExpression("['foo', 'bar', 'blah']");
-        CPPUNIT_ASSERT( expected == actual );
+        // Escaped
+        assertString("2$(1+2)$(1+3)5", "2\\$(1+2)\\$(1+3)5");
+        assertString("2 $( 1 + 2 ) $( 1 + 3 ) 5", "2 \\$( 1 + 2 ) \\$( 1 + 3 ) 5");
+        
+        // Unescaped
+        assertString("2345", "2$(1+2)$(1+3)5");
+        assertString("2 3 4 5", "2 $( 1 + 2 ) $( 1 + 3 ) 5");
+        
+        // Interpolation only
+        assertString("3", "$(1+2)");
+        assertString("9.5", "$( foo  +   7    )");
+        
+        // Nested interpolation
+        assertString("foo 123 bar", "foo $('1' + '$(6-4)' + '3') bar");
+        
+        // Missing parentheses
+        assertString("2 $1+2) $(1+3 5");
+        
+        // Intervening spaces
+        assertString("2 $ (1+2) 4 5 6", "2 $ (1+2) $( 1+3) $(1+4 ) 6");
+        
+        // Invalid expression
+        assertString("3 $(2 + * 3) 7", "$(1+2) $(2 + * 3) $(3 + 4)");
+        
+        // Evaluation failure
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'x + foo = $(x + boo)'"), UnknownVariableException);
     }
 }
 
@@ -716,6 +746,36 @@ void ParsedExpressionVariableTestFixture::testUnquotedStringLiteral() {
         
         // Invalid variable names
         assertUnquotedString("0 $1foo ${1foo} $_bar ${_bar} 4");
+    }
+    
+    // Expression interpolation
+    {
+        // Escaped
+        assertUnquotedString("2$(1+2)$(1+3)5", "2\\$(1+2)\\$(1+3)5");
+        assertUnquotedString("2 $( 1 + 2 ) $( 1 + 3 ) 5", "2 \\$( 1 + 2 ) \\$( 1 + 3 ) 5");
+        
+        // Unescaped
+        assertUnquotedString("2345", "2$(1+2)$(1+3)5");
+        assertUnquotedString("2 3 4 5", "2 $( 1 + 2 ) $( 1 + 3 ) 5");
+        
+        // Interpolation only
+        assertUnquotedString("3", "$(1+2)");
+        assertUnquotedString("9.5", "$( foo  +   7    )");
+        
+        // Nested interpolation
+        assertUnquotedString("foo 123 bar", "foo $('1' + '$(6-4)' + '3') bar");
+        
+        // Missing parentheses
+        assertUnquotedString("2 $1+2) $(1+3 5");
+        
+        // Intervening spaces
+        assertUnquotedString("2 $ (1+2) 4 5 6", "2 $ (1+2) $( 1+3) $(1+4 ) 6");
+        
+        // Invalid expression
+        assertUnquotedString("3 $(2 + * 3) 7", "$(1+2) $(2 + * 3) $(3 + 4)");
+        
+        // Evaluation failure
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("x + foo = $(x + boo)"), UnknownVariableException);
     }
 }
 

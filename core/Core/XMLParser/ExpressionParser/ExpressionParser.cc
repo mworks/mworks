@@ -88,10 +88,9 @@ namespace stx MW_SYMBOL_PUBLIC {
             dict_literal_id,
 			
 			function_call_id,
-			function_identifier_id,
 			
             varname_id,
-            variable_identifier_id,
+            identifier_id,
 			
 			atom_expr_id,
 			
@@ -173,14 +172,13 @@ namespace stx MW_SYMBOL_PUBLIC {
                     ;
                     
                     string_body_part
-                    = token_node_d[
-                                   str_p("\\\"") |
-                                   str_p("\\'") |
-                                   str_p("\\$") |
-                                   ( ch_p('$') >> variable_identifier ) |
-                                   ( str_p("${") >> variable_identifier >> ch_p('}') ) |
-                                   anychar_p
-                                   ]
+                    = str_p("\\\"")
+                    | str_p("\\'")
+                    | str_p("\\$")
+                    | discard_first_node_d[ ch_p('$') >> identifier ]
+                    | inner_node_d[ str_p("${") >> identifier >> ch_p('}') ]
+                    | ( root_node_d[ str_p("$(") ] >> expr >> discard_node_d[ *space_p >> ch_p(')') ] )
+                    | anychar_p
                     ;
                     
                     // *** List literal
@@ -197,31 +195,25 @@ namespace stx MW_SYMBOL_PUBLIC {
                     >> discard_node_d[ ch_p('}') ]
                     ;
 					
-					// *** Function call and function identifier
+					// *** Function call
 					
 					function_call
-					= root_node_d[function_identifier]
-					>> discard_node_d[ ch_p('(') ] >> exprlist >> discard_node_d[ ch_p(')') ]
-					;
-					
-					function_identifier
-					= lexeme_d[ token_node_d[ variable_identifier ] ]
+					= lexeme_d[ identifier ]
+					>> root_node_d[ ch_p('(') ] >> exprlist >> discard_node_d[ ch_p(')') ]
 					;
 					
                     // *** Variable names
                     
                     varname
                     = lexeme_d[
-                               token_node_d[
-                                            variable_identifier |
-                                            ( ch_p('$') >> variable_identifier ) |
-                                            ( str_p("${") >> variable_identifier >> ch_p('}') )
-                                            ]
+                               identifier |
+                               ( discard_node_d[ ch_p('$') ] >> identifier ) |
+                               ( discard_node_d[ str_p("${") ] >> identifier >> discard_node_d[ ch_p('}') ] )
                                ]
                     ;
                     
-                    variable_identifier
-                    = alpha_p >> *(alnum_p | ch_p('_'))
+                    identifier
+                    = token_node_d[ alpha_p >> *(alnum_p | ch_p('_')) ]
                     ;
 					
 					// *** Valid Expressions, from small to large
@@ -341,10 +333,9 @@ namespace stx MW_SYMBOL_PUBLIC {
                     BOOST_SPIRIT_DEBUG_RULE(dict_literal);
 					
 					BOOST_SPIRIT_DEBUG_RULE(function_call);
-					BOOST_SPIRIT_DEBUG_RULE(function_identifier);
 					
                     BOOST_SPIRIT_DEBUG_RULE(varname);
-                    BOOST_SPIRIT_DEBUG_RULE(variable_identifier);
+                    BOOST_SPIRIT_DEBUG_RULE(identifier);
                     
 					BOOST_SPIRIT_DEBUG_RULE(atom_expr);
 					
@@ -397,13 +388,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 				
 				/// Function call rule: func1(a,b,c) where a,b,c is a list of exprs
 				rule<ScannerT, parser_context<>, parser_tag<function_call_id> > 	function_call;
-				/// Function rule to match a function identifier: alphanumeric and _
-				/// are allowed.
-				rule<ScannerT, parser_context<>, parser_tag<function_identifier_id> > 	function_identifier;
 				
                 /// Rule to match a variable name: alphanumeric with _
                 rule<ScannerT, parser_context<>, parser_tag<varname_id> >           varname;
-                rule<typename lexeme_scanner<ScannerT>::type, parser_context<>, parser_tag<variable_identifier_id> >  variable_identifier;
+                rule<typename lexeme_scanner<ScannerT>::type, parser_context<>, parser_tag<identifier_id> >  identifier;
                 
 				/// Helper rule which implements () bracket grouping.
 				rule<ScannerT, parser_context<>, parser_tag<atom_expr_id> > 		atom_expr;
@@ -458,6 +446,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 		
 		/// The iterator of the match tree used in build_expr()
 		typedef ParseTreeMatchT::const_tree_iterator TreeIterT;
+		
+		static ParseNode* build_expr(TreeIterT const& i);
 		
 		// *** Classes representing the nodes in the resulting parse tree, these need
 		// *** not be publicly available via the header file.
@@ -539,30 +529,108 @@ namespace stx MW_SYMBOL_PUBLIC {
         /// Parse tree node representing a string literal.
         class PNStringLiteral : public ParseNode
         {
-        public:
-            using part_type = std::pair<std::string, bool>;  // bool is true for interpolated variable, false otherwise
-            using partlist_type = std::vector<part_type>;
-            
         private:
+            class PNStringLiteralConstantPart : public ParseNode
+            {
+            private:
+                const std::string value;
+                
+            public:
+                explicit PNStringLiteralConstantPart(std::string &&value)
+                : value(std::move(value))
+                {
+                }
+                
+                Datum evaluate(const class SymbolTable &) const override
+                {
+                    return Datum(value);
+                }
+                
+                bool evaluate_const(Datum *dest) const override
+                {
+                    if (dest) {
+                        dest->setString(value);
+                    }
+                    return true;
+                }
+                
+                std::string toString() const override
+                {
+                    return value;
+                }
+            };
+            
+            class PNStringLiteralInterpolatedVariablePart : public ParseNode
+            {
+            private:
+                const std::string varname;
+                
+            public:
+                explicit PNStringLiteralInterpolatedVariablePart(std::string &&varname)
+                : varname(std::move(varname))
+                {
+                }
+                
+                Datum evaluate(const class SymbolTable &st) const override
+                {
+                    return st.lookupVariable(varname);
+                }
+                
+                bool evaluate_const(Datum *) const override
+                {
+                    return false;
+                }
+                
+                std::string toString() const override
+                {
+                    return "${" + varname + "}";
+                }
+            };
+            
+            class PNStringLiteralInterpolatedExprPart : public ParseNode
+            {
+            private:
+                const std::unique_ptr<ParseNode> expr;
+                
+            public:
+                explicit PNStringLiteralInterpolatedExprPart(std::unique_ptr<ParseNode> &&expr)
+                : expr(std::move(expr))
+                {
+                }
+                
+                Datum evaluate(const class SymbolTable &st) const override
+                {
+                    return expr->evaluate(st);
+                }
+                
+                bool evaluate_const(Datum *dest) const override
+                {
+                    return expr->evaluate_const(dest);
+                }
+                
+                std::string toString() const override
+                {
+                    return "$(" + expr->toString() + ")";
+                }
+            };
+            
+            using partlist_type = std::vector<std::unique_ptr<ParseNode>>;
+            
             const partlist_type partlist;
             const std::string quote;
             
-        public:
             PNStringLiteral(partlist_type &&partlist, const std::string &quote)
             : partlist(std::move(partlist))
             , quote(quote)
             {
             }
             
+        public:
             Datum evaluate(const class SymbolTable &st) const override
             {
                 std::string str(quote);
                 for (auto &part : partlist) {
-                    if (part.second) {
-                        str.append(st.lookupVariable(part.first).toString());
-                    } else {
-                        str.append(part.first);
-                    }
+                    str.append(part->evaluate(st).toString());
                 }
                 str.append(quote);
                 
@@ -571,22 +639,26 @@ namespace stx MW_SYMBOL_PUBLIC {
                 return value;
             }
             
-            bool evaluate_const(Datum *) const override
+            bool evaluate_const(Datum *dest) const override
             {
-                // PNStringLiteral always contains at least one interpolated variable part,
-                // so it's never constant
-                return false;
+                if (!dest) return false;
+                bool result = true;
+                std::string str(quote);
+                for (auto &part : partlist) {
+                    Datum partDest;
+                    result = part->evaluate_const(&partDest) && result;
+                    str.append(partDest.toString());
+                }
+                str.append(quote);
+                dest->setStringQuoted(str);
+                return result;
             }
             
             std::string toString() const override
             {
                 std::string str(quote);
                 for (auto &part : partlist) {
-                    if (part.second) {
-                        str.append("${" + part.first + "}");
-                    } else {
-                        str.append(part.first);
-                    }
+                    str.append(part->toString());
                 }
                 str.append(quote);
                 return str;
@@ -595,55 +667,38 @@ namespace stx MW_SYMBOL_PUBLIC {
             static ParseNode * buildNode(const TreeIterT &i, const std::string &quote = "\"") {
                 partlist_type partlist;
                 
-                if (i->value.id().to_long() == string_body_part_id) {
+                const auto node_id = i->value.id().to_long();
+                if (node_id != string_literal_id && node_id != unquoted_string_literal_id) {
                     // Lone body part (only happens with unquoted string literals)
-                    addPart(partlist, std::string(i->value.begin(), i->value.end()));
+                    partlist.emplace_back(buildPartNode(*i));
                 } else {
                     // Root node with multiple body parts
                     for (auto &child : i->children) {
-                        addPart(partlist, std::string(child.value.begin(), child.value.end()));
+                        partlist.emplace_back(buildPartNode(child));
                     }
                 }
                 
-                if (partlist.empty()) {
-                    // Empty string.  Return a constant node.
-                    return new PNConstant(Datum(""));
+                auto node = std::unique_ptr<PNStringLiteral>(new PNStringLiteral(std::move(partlist), quote));
+                Datum constValue;
+                if (node->evaluate_const(&constValue)) {
+                    return new PNConstant(std::move(constValue));
                 }
-                
-                if (partlist.size() == 1 && !(partlist.front().second)) {
-                    // There's only one part, and it's not an interpolated variable.
-                    // Return a constant node.
-                    Datum value;
-                    value.setStringQuoted(quote + partlist.front().first + quote);
-                    return new PNConstant(std::move(value));
-                }
-                
-                return new PNStringLiteral(std::move(partlist), quote);
+                return node.release();
             }
             
         private:
-            static void addPart(partlist_type &partlist, std::string part) {
-                if (part.size() > 1 && part.at(0) == '$') {
-                    // Create an interpolated variable part
-                    std::string varname;
-                    if (part.at(1) == '{') {
-                        // ${varname} form
-                        varname.assign(part.begin() + 2, part.end() - 1);
-                    } else {
-                        // $varname form
-                        varname.assign(part.begin() + 1, part.end());
-                    }
-                    partlist.emplace_back(std::move(varname), true);
-                } else if (partlist.empty() || partlist.back().second) {
-                    // No previous part, or previous part is an interpolated
-                    // variable, so create a new constant part
-                    partlist.emplace_back(std::move(part), false);
-                } else {
-                    // The previous and current parts are both constant, so
-                    // append the latter to the former (thereby minimizing the
-                    // total number of parts)
-                    partlist.back().first.append(part);
+            static ParseNode * buildPartNode(const ParseTreeMatchT::node_t::children_t::value_type &part) {
+                assert(part.children.size() <= 1);
+                std::string value(part.value.begin(), part.value.end());
+                if (part.value.id().to_long() == identifier_id) {
+                    return new PNStringLiteralInterpolatedVariablePart(std::move(value));
                 }
+                if (value == "$(") {
+                    assert(part.children.size() == 1);
+                    auto expr = std::unique_ptr<ParseNode>(build_expr(part.children.begin()));
+                    return new PNStringLiteralInterpolatedExprPart(std::move(expr));
+                }
+                return new PNStringLiteralConstantPart(std::move(value));
             }
         };
         
@@ -1819,25 +1874,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 					
                     // *** Variable and Function name place-holder
                     
-                case varname_id:
+                case identifier_id:
                 {
                     assert(i->children.size() == 0);
-                    
-                    std::string value(i->value.begin(), i->value.end());
-                    std::string varname;
-                    
-                    if (value.size() > 1 && value.at(0) == '$') {
-                        if (value.at(1) == '{') {
-                            // ${varname} form
-                            varname.assign(value.begin() + 2, value.end() - 1);
-                        } else {
-                            // $varname form
-                            varname.assign(value.begin() + 1, value.end());
-                        }
-                    } else {
-                        varname = std::move(value);
-                    }
-                    
+                    std::string varname(i->value.begin(), i->value.end());
                     return new PNVariable(std::move(varname));
                 }
                     
@@ -1903,14 +1943,15 @@ namespace stx MW_SYMBOL_PUBLIC {
                     return new PNDictLiteral(itemlist);
                 }
 					
-				case function_identifier_id:
+				case function_call_id:
 				{
-					std::string funcname(i->value.begin(), i->value.end());
+					assert(i->children.size() > 0);
+					std::string funcname(i->children.front().value.begin(), i->children.front().value.end());
 					std::vector<const class ParseNode*> paramlist;
 					
-					if (i->children.size() > 0)
+					if (i->children.size() > 1)
 					{
-						TreeIterT const& paramlistchild = i->children.begin();
+						TreeIterT const& paramlistchild = i->children.begin() + 1;
 						
 						if (paramlistchild->value.id().to_long() == exprlist_id)
 						{
@@ -2041,10 +2082,9 @@ namespace stx MW_SYMBOL_PUBLIC {
             rule_names[dict_literal_id] = "dict_literal";
 			
 			rule_names[function_call_id] = "function_call";
-			rule_names[function_identifier_id] = "function_identifier";
 			
             rule_names[varname_id] = "varname";
-            rule_names[variable_identifier_id] = "variable_identifier";
+            rule_names[identifier_id] = "identifier";
             
 			rule_names[units_expr_id] = "units_expr";
             rule_names[subscript_expr_id] = "subscript_expr";
