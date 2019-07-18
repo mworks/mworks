@@ -11,21 +11,20 @@ var subject = ''
 
 
 protocol {
-    // Constant text
+    //
+    // Constant
+    //
+    
     fail ('Hello, World!')
 
-    // Constant expression
-    fail ('"Hello, World!"')
-    fail ('Hello, ' + 'World!')
+    //
+    // Non-constant
+    //
 
     greeting = 'Good morning'
     subject = 'Bob'
 
-    // Non-constant text
     fail ('$greeting, ${subject}!')
-
-    // Non-constant expression
-    fail ('"$greeting, ${subject}!"')
-    fail (greeting + ', ' + subject + '!')
-    fail (format('%d != %d', 2 + 3, 2 * 3))
+    fail ('$greeting, $(subject + "!")')
+    fail ('$(2 + 3) != $(2 * 3)')
 }

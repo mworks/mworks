@@ -2,9 +2,6 @@
 <marionette_info>
   <expected_messages>
     <message type="starts_with">Hello, World! </message>
-    <message type="starts_with">Hello, World! </message>
-    <message type="starts_with">Hello, World! </message>
-    <message type="starts_with">Good morning, Bob! </message>
     <message type="starts_with">Good morning, Bob! </message>
     <message type="starts_with">Good morning, Bob! </message>
     <message type="starts_with">5 != 6 </message>

@@ -138,11 +138,16 @@ inline const char* ParameterValue::convert(const std::string &s, ComponentRegist
 }
 
 
+inline VariablePtr parsedText(const ParameterValue &param) {
+    return param.getRegistry()->getParsedString(param.str());
+}
+
+
 inline VariablePtr variableOrText(const ParameterValue &param) {
     try {
         return VariablePtr(param);
     } catch (const SimpleException &) {
-        return param.getRegistry()->getParsedString(param.str());
+        return parsedText(param);
     }
 }
 

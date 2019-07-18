@@ -153,7 +153,7 @@ void ReportString::describeComponent(ComponentInfo &info) {
 
 ReportString::ReportString(const ParameterValueMap &parameters) :
     Action(parameters),
-    message(variableOrText(parameters[MESSAGE])),
+    message(parsedText(parameters[MESSAGE])),
     clock(Clock::instance())
 {
     setName("Report");
@@ -194,7 +194,7 @@ AssertionAction::AssertionAction(const ParameterValueMap &parameters) :
     setName("Assertion");
     
     if (!(parameters[ReportString::MESSAGE].empty())) {
-        message = variableOrText(parameters[ReportString::MESSAGE]);
+        message = parsedText(parameters[ReportString::MESSAGE]);
     } else {
         message = boost::make_shared<ConstantVariable>(Datum("Condition failed: " + parameters[CONDITION].str()));
     }
@@ -424,7 +424,7 @@ WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
     setName("WaitForCondition");
     
     if (!(parameters[TIMEOUT_MESSAGE].empty())) {
-        timeoutMessage = variableOrText(parameters[TIMEOUT_MESSAGE]);
+        timeoutMessage = parsedText(parameters[TIMEOUT_MESSAGE]);
     } else {
         timeoutMessage = boost::make_shared<ConstantVariable>(Datum("Timeout while waiting for condition: " + parameters[CONDITION].str()));
     }

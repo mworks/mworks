@@ -3,21 +3,20 @@ var subject = ''
 
 
 protocol {
-    // Constant text
+    //
+    // Constant message
+    //
+    
     report ('Hello, World!')
 
-    // Constant expression
-    report ('"Hello, World!"')
-    report ('Hello, ' + 'World!')
+    //
+    // Non-constant messsage
+    //
 
     greeting = 'Good morning'
     subject = 'Bob'
 
-    // Non-constant text
     report ('$greeting, ${subject}!')
-
-    // Non-constant expression
-    report ('"$greeting, ${subject}!"')
-    report (greeting + ', ' + subject + '!')
-    report (format('%d != %d', 2 + 3, 2 * 3))
+    report ('$greeting, $(subject + "!")')
+    report ('$(2 + 3) != $(2 * 3)')
 }

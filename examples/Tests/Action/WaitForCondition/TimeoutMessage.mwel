@@ -13,21 +13,20 @@ var subject = ''
 
 
 protocol {
-    // Constant text
+    //
+    // Constant
+    //
+    
     timeout ('Hello, World!')
 
-    // Constant expression
-    timeout ('"Hello, World!"')
-    timeout ('Hello, ' + 'World!')
+    //
+    // Non-constant
+    //
 
     greeting = 'Good morning'
     subject = 'Bob'
 
-    // Non-constant text
     timeout ('$greeting, ${subject}!')
-
-    // Non-constant expression
-    timeout ('"$greeting, ${subject}!"')
-    timeout (greeting + ', ' + subject + '!')
-    timeout (format('%d != %d', 2 + 3, 2 * 3))
+    timeout ('$greeting, $(subject + "!")')
+    timeout ('$(2 + 3) != $(2 * 3)')
 }
