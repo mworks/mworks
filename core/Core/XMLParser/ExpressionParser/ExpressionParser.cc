@@ -642,16 +642,17 @@ namespace stx MW_SYMBOL_PUBLIC {
             bool evaluate_const(Datum *dest) const override
             {
                 if (!dest) return false;
-                bool result = true;
                 std::string str(quote);
                 for (auto &part : partlist) {
                     Datum partDest;
-                    result = part->evaluate_const(&partDest) && result;
+                    if (!(part->evaluate_const(&partDest))) {
+                        return false;
+                    }
                     str.append(partDest.toString());
                 }
                 str.append(quote);
                 dest->setStringQuoted(str);
-                return result;
+                return true;
             }
             
             std::string toString() const override
@@ -933,7 +934,9 @@ namespace stx MW_SYMBOL_PUBLIC {
             {
                 if (!dest) return false;
                 
-                bool b = operand->evaluate_const(dest);
+                if (!(operand->evaluate_const(dest))) {
+                    return false;
+                }
                 
                 if (units == "s") {
                     *dest = (*dest) * Datum(1000000);
@@ -947,7 +950,7 @@ namespace stx MW_SYMBOL_PUBLIC {
                     assert(units == "us");
                 }
                 
-                return b;
+                return true;
             }
             
             /// Return the subnode's string with this operator prepended.
@@ -1059,7 +1062,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 				{
 					if (!dest) return false;
 					
-					bool b = operand->evaluate_const(dest);
+                    if (!(operand->evaluate_const(dest))) {
+                        return false;
+                    }
 					
 					if (op == '-') {
 						*dest = -(*dest);
@@ -1076,7 +1081,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 						assert(op == '+');
 					}
 					
-					return b;
+					return true;
 				}
 				
 				/// Return the subnode's string with this operator prepended.
@@ -1152,8 +1157,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 					
 					Datum vl, vr;
 					
-					bool bl = left->evaluate_const(&vl);
-					bool br = right->evaluate_const(&vr);
+                    if (!(left->evaluate_const(&vl) && right->evaluate_const(&vr))) {
+                        return false;
+                    }
 					
 					if (op == '+') {
 						*dest = vl + vr;
@@ -1171,7 +1177,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 						*dest = vl % vr;
 					}
 					
-					return (bl && br);
+					return true;
 				}
 				
 				/// String representing (operandA op operandB)
@@ -1232,10 +1238,13 @@ namespace stx MW_SYMBOL_PUBLIC {
 				{
 					if (!dest) return false;
 					
-					bool b = operand->evaluate_const(dest);
+                    if (!(operand->evaluate_const(dest))) {
+                        return false;
+                    }
+                    
                     *dest = convert(*dest, type);
                     
-					return b;
+					return true;
 				}
                 
                 static const char * getTypeString(mw::GenericDataType type) {
@@ -1359,8 +1368,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 					
 					Datum vl, vr;
 					
-					bool bl = left->evaluate_const(&vl);
-					bool br = right->evaluate_const(&vr);
+                    if (!(left->evaluate_const(&vl) && right->evaluate_const(&vr))) {
+                        return false;
+                    }
 					
 					switch(op)
 					{
@@ -1392,7 +1402,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 							assert(0);
 					}
 					
-					return (bl && br);
+					return true;
 				}
 				
 				/// String (operandA op operandB)
