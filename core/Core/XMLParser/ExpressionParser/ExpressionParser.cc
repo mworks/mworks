@@ -37,6 +37,7 @@
 #define PHOENIX_LIMIT 4  // So we can have 4 grammar entry points
 #include <boost/spirit/include/classic_grammar_def.hpp>
 #include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_exceptions.hpp>
 
 #ifdef seed
 #undef seed
@@ -118,6 +119,21 @@ namespace stx MW_SYMBOL_PUBLIC {
             unquoted_string_literal_id,
 		};
 		
+        enum class Error {
+            ExpectationFailure
+        };
+        
+        assertion<Error> expect(Error::ExpectationFailure);
+        guard<Error> error_guard;
+        
+        struct ExpectationFailureHandler {
+            template <typename ScannerT, typename ErrorT>
+            error_status<> operator()(ScannerT const&, ErrorT const&) const {
+                return error_status<>(error_status<>::fail);
+            }
+        };
+        ExpectationFailureHandler expectation_failure_handler;
+        
 		/// Keyword parser used for matching words with () and spaces as separators.
 		distinct_parser<> keyword_p("a-zA-Z0-9_");
 		
@@ -172,13 +188,15 @@ namespace stx MW_SYMBOL_PUBLIC {
                     ;
                     
                     string_body_part
-                    = str_p("\\\"")
-                    | str_p("\\'")
-                    | str_p("\\$")
-                    | discard_first_node_d[ ch_p('$') >> identifier ]
-                    | inner_node_d[ str_p("${") >> identifier >> ch_p('}') ]
-                    | ( root_node_d[ str_p("$(") ] >> expr >> discard_node_d[ *space_p >> ch_p(')') ] )
-                    | anychar_p
+                    = error_guard(
+                                  str_p("\\\"") |
+                                  str_p("\\'") |
+                                  str_p("\\$") |
+                                  ( root_node_d[ str_p("$(") ] >> expect(expr) >> discard_node_d[ *space_p >> ch_p(')') ] ) |
+                                  inner_node_d[ str_p("${") >> expect(identifier) >> ch_p('}') ] |
+                                  discard_first_node_d[ ch_p('$') >> expect(identifier) ] |
+                                  anychar_p
+                                  )[expectation_failure_handler]
                     ;
                     
                     // *** List literal

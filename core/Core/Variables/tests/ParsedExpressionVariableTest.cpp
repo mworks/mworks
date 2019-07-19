@@ -622,17 +622,24 @@ void ParsedExpressionVariableTestFixture::testStringLiteral() {
         assertString("0 -7.5 4", "0 ${b1_2c__7} 4");
         
         // Missing braces
-        assertString("0 1} ${foo 3", "0 $x} ${foo 3");
+        assertString("0 1} 3", "0 $x} 3");
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"0 ${foo 3\""), FatalParserException);
         
         // Intervening spaces
-        assertString("0 $ foo $ {foo} ${ foo} ${foo } 2");
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"0 $ foo 2\""), FatalParserException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'0 $ {foo} 2'"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"0 ${ foo} 2\""), FatalParserException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'0 ${foo } 2'"), FatalParserException);
+        
+        // Invalid variable name
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"0 $1foo 4\""), FatalParserException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'0 ${1foo} 4'"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"0 $_bar 4\""), FatalParserException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'0 ${_bar} 4'"), FatalParserException);
         
         // Unknown variable
         CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"$foo $bar $blah\""), UnknownVariableException);
         CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'${foo} ${bar} ${blah}'"), UnknownVariableException);
-        
-        // Invalid variable names
-        assertString("0 $1foo ${1foo} $_bar ${_bar} 4");
     }
     
     // Expression interpolation
@@ -653,13 +660,15 @@ void ParsedExpressionVariableTestFixture::testStringLiteral() {
         assertString("foo 123 bar", "foo $('1' + '$(6-4)' + '3') bar");
         
         // Missing parentheses
-        assertString("2 $1+2) $(1+3 5");
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"2 $1+2) 5\""), FatalParserException);
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'2 $(1+3 5'"), FatalParserException);
         
         // Intervening spaces
-        assertString("2 $ (1+2) 4 5 6", "2 $ (1+2) $( 1+3) $(1+4 ) 6");
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"2 $ (1+2) 6\""), FatalParserException);
+        assertString("2 4 5 6", "2 $( 1+3) $(1+4 ) 6");
         
         // Invalid expression
-        assertString("3 $(2 + * 3) 7", "$(1+2) $(2 + * 3) $(3 + 4)");
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("\"$(1+2) $(2 + * 3) $(3 + 4)\""), FatalParserException);
         
         // Evaluation failure
         CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("'x + foo = $(x + boo)'"), UnknownVariableException);
@@ -735,17 +744,24 @@ void ParsedExpressionVariableTestFixture::testUnquotedStringLiteral() {
         assertUnquotedString("0 -7.5 4", "0 ${b1_2c__7} 4");
         
         // Missing braces
-        assertUnquotedString("0 1} ${foo 3", "0 $x} ${foo 3");
+        assertUnquotedString("0 1} 3", "0 $x} 3");
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("0 ${foo 3"), FatalParserException);
         
         // Intervening spaces
-        assertUnquotedString("0 $ foo $ {foo} ${ foo} ${foo } 2");
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("0 $ foo 2"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("0 $ {foo} 2"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("0 ${ foo} 2"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("0 ${foo } 2"), FatalParserException);
+        
+        // Invalid variable name
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("0 $1foo 4"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("0 ${1foo} 4"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("0 $_bar 4"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("0 ${_bar} 4"), FatalParserException);
         
         // Unknown variable
         CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("$foo $bar $blah"), UnknownVariableException);
         CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("${foo} ${bar} ${blah}"), UnknownVariableException);
-        
-        // Invalid variable names
-        assertUnquotedString("0 $1foo ${1foo} $_bar ${_bar} 4");
     }
     
     // Expression interpolation
@@ -766,13 +782,15 @@ void ParsedExpressionVariableTestFixture::testUnquotedStringLiteral() {
         assertUnquotedString("foo 123 bar", "foo $('1' + '$(6-4)' + '3') bar");
         
         // Missing parentheses
-        assertUnquotedString("2 $1+2) $(1+3 5");
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("2 $1+2) 5"), FatalParserException);
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("2 $(1+3 5"), FatalParserException);
         
         // Intervening spaces
-        assertUnquotedString("2 $ (1+2) 4 5 6", "2 $ (1+2) $( 1+3) $(1+4 ) 6");
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("2 $ (1+2) 6"), FatalParserException);
+        assertUnquotedString("2 4 5 6", "2 $( 1+3) $(1+4 ) 6");
         
         // Invalid expression
-        assertUnquotedString("3 $(2 + * 3) 7", "$(1+2) $(2 + * 3) $(3 + 4)");
+        CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("$(1+2) $(2 + * 3) $(3 + 4)"), FatalParserException);
         
         // Evaluation failure
         CPPUNIT_ASSERT_THROW(evaluateUnquotedStringLiteral("x + foo = $(x + boo)"), UnknownVariableException);
