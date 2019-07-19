@@ -548,13 +548,22 @@ namespace stx MW_SYMBOL_PUBLIC {
         class PNStringLiteral : public ParseNode
         {
         private:
-            class PNStringLiteralConstantPart : public ParseNode
+            enum class PartType {
+                Constant,
+                InterpolatedVariable,
+                InterpolatedExpression
+            };
+            
+            using PartInfoList = std::vector<std::tuple<PartType, std::string, std::unique_ptr<ParseNode>>>;
+            using PartList = std::vector<std::unique_ptr<ParseNode>>;
+            
+            class ConstantPart : public ParseNode
             {
             private:
                 const std::string value;
                 
             public:
-                explicit PNStringLiteralConstantPart(std::string &&value)
+                explicit ConstantPart(std::string &&value)
                 : value(std::move(value))
                 {
                 }
@@ -578,13 +587,13 @@ namespace stx MW_SYMBOL_PUBLIC {
                 }
             };
             
-            class PNStringLiteralInterpolatedVariablePart : public ParseNode
+            class InterpolatedVariablePart : public ParseNode
             {
             private:
                 const std::string varname;
                 
             public:
-                explicit PNStringLiteralInterpolatedVariablePart(std::string &&varname)
+                explicit InterpolatedVariablePart(std::string &&varname)
                 : varname(std::move(varname))
                 {
                 }
@@ -605,13 +614,13 @@ namespace stx MW_SYMBOL_PUBLIC {
                 }
             };
             
-            class PNStringLiteralInterpolatedExprPart : public ParseNode
+            class InterpolatedExpressionPart : public ParseNode
             {
             private:
                 const std::unique_ptr<ParseNode> expr;
                 
             public:
-                explicit PNStringLiteralInterpolatedExprPart(std::unique_ptr<ParseNode> &&expr)
+                explicit InterpolatedExpressionPart(std::unique_ptr<ParseNode> &&expr)
                 : expr(std::move(expr))
                 {
                 }
@@ -632,13 +641,11 @@ namespace stx MW_SYMBOL_PUBLIC {
                 }
             };
             
-            using partlist_type = std::vector<std::unique_ptr<ParseNode>>;
-            
-            const partlist_type partlist;
+            const PartList partList;
             const std::string quote;
             
-            PNStringLiteral(partlist_type &&partlist, const std::string &quote)
-            : partlist(std::move(partlist))
+            PNStringLiteral(PartList &&partList, const std::string &quote)
+            : partList(std::move(partList))
             , quote(quote)
             {
             }
@@ -647,7 +654,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             Datum evaluate(const class SymbolTable &st) const override
             {
                 std::string str(quote);
-                for (auto &part : partlist) {
+                for (auto &part : partList) {
                     str.append(part->evaluate(st).toString());
                 }
                 str.append(quote);
@@ -661,7 +668,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             {
                 if (!dest) return false;
                 std::string str(quote);
-                for (auto &part : partlist) {
+                for (auto &part : partList) {
                     Datum partDest;
                     if (!(part->evaluate_const(&partDest))) {
                         return false;
@@ -676,7 +683,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             std::string toString() const override
             {
                 std::string str(quote);
-                for (auto &part : partlist) {
+                for (auto &part : partList) {
                     str.append(part->toString());
                 }
                 str.append(quote);
@@ -684,20 +691,19 @@ namespace stx MW_SYMBOL_PUBLIC {
             }
             
             static ParseNode * buildNode(const TreeIterT &i, const std::string &quote = "\"") {
-                partlist_type partlist;
-                
+                PartInfoList partInfoList;
                 const auto node_id = i->value.id().to_long();
                 if (node_id != string_literal_id && node_id != unquoted_string_literal_id) {
                     // Lone body part (only happens with unquoted string literals)
-                    partlist.emplace_back(buildPartNode(*i));
+                    addPartInfo(partInfoList, *i);
                 } else {
                     // Root node with multiple body parts
                     for (auto &child : i->children) {
-                        partlist.emplace_back(buildPartNode(child));
+                        addPartInfo(partInfoList, child);
                     }
                 }
                 
-                auto node = std::unique_ptr<PNStringLiteral>(new PNStringLiteral(std::move(partlist), quote));
+                auto node = std::unique_ptr<ParseNode>(new PNStringLiteral(buildPartList(partInfoList), quote));
                 Datum constValue;
                 if (node->evaluate_const(&constValue)) {
                     return new PNConstant(std::move(constValue));
@@ -706,18 +712,52 @@ namespace stx MW_SYMBOL_PUBLIC {
             }
             
         private:
-            static ParseNode * buildPartNode(const ParseTreeMatchT::node_t::children_t::value_type &part) {
+            static void addPartInfo(PartInfoList &partInfoList,
+                                    const ParseTreeMatchT::node_t::children_t::value_type &part)
+            {
                 assert(part.children.size() <= 1);
                 std::string value(part.value.begin(), part.value.end());
                 if (part.value.id().to_long() == identifier_id) {
-                    return new PNStringLiteralInterpolatedVariablePart(std::move(value));
-                }
-                if (value == "$(") {
+                    // Add an interpolated variable part
+                    partInfoList.emplace_back(PartType::InterpolatedVariable, std::move(value));
+                } else if (value == "$(") {
+                    // Add an interpolated expression part
                     assert(part.children.size() == 1);
-                    auto expr = std::unique_ptr<ParseNode>(build_expr(part.children.begin()));
-                    return new PNStringLiteralInterpolatedExprPart(std::move(expr));
+                    partInfoList.emplace_back(PartType::InterpolatedExpression,
+                                              std::move(value),
+                                              std::unique_ptr<ParseNode>(build_expr(part.children.begin())));
+                } else if (partInfoList.empty() || std::get<PartType>(partInfoList.back()) != PartType::Constant) {
+                    // No previous part, or previous part is not constant,
+                    // so add a new constant part
+                    partInfoList.emplace_back(PartType::Constant, std::move(value));
+                } else {
+                    // The previous and current parts are both constant, so
+                    // append the latter's value to the former's (thereby
+                    // minimizing the total number of parts)
+                    std::get<std::string>(partInfoList.back()).append(value);
                 }
-                return new PNStringLiteralConstantPart(std::move(value));
+            }
+            
+            static PartList buildPartList(PartInfoList &partInfoList) {
+                PartList partList;
+                for (auto &partInfo : partInfoList) {
+                    PartType type;
+                    std::string value;
+                    std::unique_ptr<ParseNode> expr;
+                    std::tie(type, value, expr) = std::move(partInfo);
+                    switch (type) {
+                        case PartType::Constant:
+                            partList.emplace_back(new ConstantPart(std::move(value)));
+                            break;
+                        case PartType::InterpolatedVariable:
+                            partList.emplace_back(new InterpolatedVariablePart(std::move(value)));
+                            break;
+                        case PartType::InterpolatedExpression:
+                            partList.emplace_back(new InterpolatedExpressionPart(std::move(expr)));
+                            break;
+                    }
+                }
+                return partList;
             }
         };
         
