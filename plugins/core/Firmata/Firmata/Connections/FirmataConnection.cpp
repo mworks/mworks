@@ -22,7 +22,10 @@ std::unique_ptr<FirmataConnection> FirmataConnection::create(const ParameterValu
 {
     if (bluetoothLocalName.empty()) {
 #if TARGET_OS_OSX
-        const auto path = variableOrText(serialPortPath)->getValue().getString();
+        std::string path;
+        if (!(serialPortPath.empty())) {
+            path = variableOrText(serialPortPath)->getValue().getString();
+        }
         return std::unique_ptr<FirmataConnection>(new FirmataSerialConnection(path));
 #else
         throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Connection via serial port is not supported on this OS");
