@@ -452,13 +452,11 @@ Replicators can also be used to create sets of related `protocols <Protocol>`, `
             step = 1
             ) {
             trial {
-                queue_stimulus (images[index])
+                queue_stimulus (images[${index}])
                 ...
             }
         }
     }
-
-Notice that, in this case, the replicator variable is referred to simply by name (``index``) and *not* like it is in the image declaration (``${index}``).  In fact, if you try to use the latter syntax, you will get an "unknown variable" error at run time.  This is but one of many quirks and limitations that make replicators difficult to understand and use.
 
 
 .. _selection:

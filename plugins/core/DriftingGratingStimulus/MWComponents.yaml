@@ -76,7 +76,18 @@ parameters:
     name: std_dev
     default: 1.0
     deprecated: yes
-    description: Standard deviation of Gaussian mask
+    description: |
+        Standard deviation of Gaussian mask.
+
+        The Gaussian mask is computed on a 2x2 square, centered at the origin,
+        using the equation::
+
+            exp(-1.0 * (dist - mean) * (dist - mean) / (2.0 * std_dev * std_dev))
+
+        where ``dist`` is distance from the center.  The mask is then stretched
+        to cover a rectangle of `x_size`_ by `y_size`_ degrees.  If the x and y
+        sizes are equal, then the mask is scaled by size/2 in both directions,
+        so std_dev has units of size/2 degrees.
   - 
     name: mean
     default: 0.0

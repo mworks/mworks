@@ -913,9 +913,12 @@ parameters:
   - 
     name: message
     required: yes
-    description: >
-        Message text.  You can include variable values in the message by
-        placing a ``$`` before each variable's name (e.g. ``x = $x, y = $y``).
+    description: |
+        Message text.
+
+        To include the values of variables or arbitrary expressions in the
+        message, you can use `variable and expression interpolation <Variable and
+        Expression Interpolation>` (e.g. ``x = $x, y = ${y}, x+y = $(x+y)``).
 
 
 ---
@@ -987,12 +990,12 @@ parameters:
   - 
     name: message
     description: |
-       Error message to report if the assertion fails.  You can include variable
-       values in the message by placing a ``$`` before each variable's name
-       (e.g. ``x = $x, y = $y``).
+        Error message to report if the assertion fails.  If omitted, a default
+        message containing the condition expression is used.
 
-       If omitted, a default message containing the condition expression is
-       used.
+        To include the values of variables or arbitrary expressions in the
+        message, you can use `variable and expression interpolation <Variable and
+        Expression Interpolation>` (e.g. ``x = $x, y = ${y}, x+y = $(x+y)``).
   - 
     name: stop_on_failure
     default: 'NO'
@@ -1156,9 +1159,13 @@ parameters:
     description: Timeout duration (microseconds)
   - 
     name: timeout_message
-    description: >
-       Error message to report if the wait times out.  If omitted, a default
-       message is used.
+    description: |
+        Error message to report if the wait times out.  If omitted, a default
+        message is used.
+
+        To include the values of variables or arbitrary expressions in the
+        message, you can use `variable and expression interpolation <Variable and
+        Expression Interpolation>` (e.g. ``x = $x, y = ${y}, x+y = $(x+y)``).
   - 
     name: stop_on_timeout
     default: 'YES'

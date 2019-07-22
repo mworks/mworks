@@ -53,7 +53,7 @@ The expression parser recognizes literal values for a variety of data types.
          'bar'
          "Hello, world!"
 
-     - Supports some C/C++ `escape sequences <http://en.cppreference.com/w/cpp/language/escape>`_
+     - Supports :ref:`variable and expression interpolation <Variable and Expression Interpolation>` and some C/C++ `escape sequences <http://en.cppreference.com/w/cpp/language/escape>`_
    * - List
      - ::
 
@@ -205,6 +205,32 @@ MWorks `timers <Start Timer>` are implemented as variables.  When used in an exp
 *Note*: ``timer_expired`` (see `Time-Related`_ functions below) actually just passes its input value unchanged.  However, using it may help to clarify the intent of an expression.
 
 
+.. _Variable and Expression Interpolation:
+
+Variable and Expression Interpolation
+-------------------------------------
+
+A string literal can incorporate the value of one or more variables via variable interpolation.  When a string literal containing placeholder text of the form ``$var`` or ``${var}`` is evaluated, the placeholder is replaced with the current value of variable ``var`` (converted to a string).  For example::
+
+    var greeting = 'Hello'
+    var subject = 'World'
+
+    var message = '$greeting, ${subject}!'  // message contains "Hello, World!"
+
+To inhibit variable interpolation, preface the dollar sign with a backslash::
+
+    var text = '123\$abc'  // text contains "123$abc"
+
+A string literal may also incorporate the value of one or more expressions via expression interpolation.  When a string literal containing placeholder text of the form ``$(expr)`` is evaluated, the placeholder is replaced with the result of evaluating the expression, converted to a string.  For example::
+
+    message = '1 + 2 = $(1 + 2)'  // message contains "1 + 2 = 3"
+    text = '$(round(pi())) is a magic number'  // text contains "3 is a magic number"
+
+As with variable interpolation, expression interpolation can be inhibited by prefacing the dollar sign with a backslash::
+
+    text = '123\$abc\$(whee!)'  // text contains "123$abc$(whee!)"
+
+
 Functions
 ---------
 
@@ -308,7 +334,7 @@ Other
    Given *glob_expr*, a string containing a `shell-style file name pattern <http://tomecat.com/jeffy/tttt/glob.html>`_, returns a list of strings containing the names of all matching files (or any empty list, if no files match)
 
 ``format(fmt,...)``
-   `printf-style <http://www.boost.org/doc/libs/1_66_0/libs/format/doc/format.html#printf_directives>`_ string formatting.  *fmt* is the format string, and any subsequent arguments are items to be formatted.
+   `printf-style <https://www.boost.org/doc/libs/release/libs/format/doc/format.html#printf_directives>`_ string formatting.  *fmt* is the format string, and any subsequent arguments are items to be formatted.
 
 ``num_accepted('sel')``
    Takes the name of a selectable object (as a string) and returns the number of accepted selections that have been made on it
