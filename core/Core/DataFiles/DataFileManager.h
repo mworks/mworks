@@ -42,14 +42,14 @@ public:
      * @function openFile
      * @discussion TODO.... issues a M_DATA_FILE_OPENED event
      */
-    int openFile(const Datum &openFileDatum);
-    int openFile(std::string filename, DatumFileOptions opt);
+    bool openFile(const Datum &openFileDatum);
+    bool openFile(std::string filename, DatumFileOptions opt);
     
     /*!
      * @function closeFile
      * @discussion TODO.... issues a M_DATA_FILE_CLOSED event
      */
-    int closeFile();
+    bool closeFile();
     
     bool isFileOpen() const { return eventHandlerThread.joinable(); }
     const std::string& getFilename() const { return filename; }

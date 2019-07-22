@@ -35,23 +35,23 @@ DataFileManager::~DataFileManager() {
 }
 
 
-int DataFileManager::openFile(const Datum &oeDatum) {
+bool DataFileManager::openFile(const Datum &oeDatum) {
     std::string dFile(oeDatum.getElement(DATA_FILE_FILENAME).getString());
     DatumFileOptions opt = (DatumFileOptions)oeDatum.getElement(DATA_FILE_OPTIONS).getInteger();
     
     if(dFile.size() == 0) {
         merror(M_FILE_MESSAGE_DOMAIN, "Attempt to open data file with an empty name");
-        return -1;
+        return false;
     }
     
     return openFile(dFile, opt);
 }
 
 
-int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
+bool DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
     if (isFileOpen()) {
         mwarning(M_FILE_MESSAGE_DOMAIN, "Data file already open at \"%s\"", filename.c_str());
-        return -1;
+        return false;
     }
     
     // first we need to format the file name with the correct path and
@@ -64,7 +64,7 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
             merror(M_FILE_MESSAGE_DOMAIN, "Can't overwrite existing file \"%s\"", filename.c_str());
             global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
                                                                                               M_COMMAND_FAILURE));
-            return -1;
+            return false;
         }
         try {
             boost::filesystem::remove(filepath);
@@ -72,7 +72,7 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
             merror(M_FILE_MESSAGE_DOMAIN, "Can't remove existing file \"%s\": %s", filename.c_str(), e.what());
             global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
                                                                                               M_COMMAND_FAILURE));
-            return -1;
+            return false;
         }
     }
     
@@ -83,7 +83,7 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
         merror(M_FILE_MESSAGE_DOMAIN, "Could not create data file destination directory: %s", e.what());
         global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
                                                                                           M_COMMAND_FAILURE));
-        return -1;
+        return false;
     }
     
     // Create the file
@@ -93,7 +93,7 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
         merror(M_FILE_MESSAGE_DOMAIN, "Could not create file \"%s\": %s", filename.c_str(), e.what());
         global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
                                                                                           M_COMMAND_FAILURE));
-        return -1;
+        return false;
     }
     
     // Generate list of excluded event codes
@@ -123,11 +123,11 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
     // everything went ok so issue the success event
     global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
                                                                                       M_COMMAND_SUCCESS));
-    return 0;
+    return true;
 }
 
 
-int DataFileManager::closeFile() {
+bool DataFileManager::closeFile() {
     if (!isFileOpen()) {
         merror(M_FILE_MESSAGE_DOMAIN, "Attempt to close a data file when there isn't one open");
     } else {
@@ -142,7 +142,7 @@ int DataFileManager::closeFile() {
         global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileClosedResponse(filename.c_str(),
                                                                                           M_COMMAND_SUCCESS));
     }
-    return 0;
+    return true;
 }
 
 
