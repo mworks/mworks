@@ -39,7 +39,7 @@ BEGIN_NAMESPACE_MW
 	boost::filesystem::path prependScriptingPath(const std::string scriptFile);
 	
 	// prepends the platform dependent data path to filename
-	boost::filesystem::path prependDataFilePath(const std::string filename);
+	boost::filesystem::path prependDataFilePath(const std::string &filename);
 	
 	// appends a file extension to filename.
 	std::string appendDataFileExtension(const std::string filename);

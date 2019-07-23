@@ -140,10 +140,17 @@ BEGIN_NAMESPACE_MW
 		return resourcePath() / boost::filesystem::path(file);
 	}
 	
-	boost::filesystem::path prependDataFilePath(const std::string filename) {
-		namespace bf = boost::filesystem;
-		return dataFilePath() / bf::path(filename);
-	}
+    boost::filesystem::path prependDataFilePath(const std::string &filename) {
+        namespace bf = boost::filesystem;
+        auto path = bf::path(filename);
+        // Prepend the standard data file path only if filename is not itself an absolute
+        // path.  This allows users to save data files anywhere they want, so long as they
+        // include an absolute path in the filename.
+        if (!path.is_absolute()) {
+            path = dataFilePath() / path;
+        }
+        return path;
+    }
 	
 	std::string appendDataFileExtension(const std::string filename_) {
 		return appendFileExtension(filename_, DATA_FILE_EXT);
