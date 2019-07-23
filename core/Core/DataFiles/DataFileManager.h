@@ -26,7 +26,7 @@
 #include "SystemEventFactory.h"
 
 #define DATA_FILE_FILENAME	"file"
-#define DATA_FILE_OPTIONS	"options"
+#define DATA_FILE_OVERWRITE	"overwrite"
 
 
 BEGIN_NAMESPACE_MW
@@ -43,7 +43,7 @@ public:
      * @discussion TODO.... issues a M_DATA_FILE_OPENED event
      */
     bool openFile(const Datum &openFileDatum);
-    bool openFile(std::string filename, DatumFileOptions opt);
+    bool openFile(const std::string &filename, bool overwrite);
     
     /*!
      * @function closeFile

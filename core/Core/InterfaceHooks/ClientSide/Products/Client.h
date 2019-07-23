@@ -111,8 +111,7 @@ class Client : public RegistryAwareEventStreamInterface {
          * @param filename A filename to open on the server
          * @param options Unused
          */
-        void sendOpenDataFileEvent(const std::string &filename, 
-                                           const int options = 0);
+        void sendOpenDataFileEvent(const std::string &filename, bool overwrite = false);
 
         /*!
          * @function sendCloseDataFileEvent

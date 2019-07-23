@@ -193,12 +193,9 @@ void  Client::sendResumeEvent() {
     putEvent(SystemEventFactory::resumeExperimentControl());
 }
 
-void  Client::sendOpenDataFileEvent(const std::string &filename, 
-									 const int options) {
+void Client::sendOpenDataFileEvent(const std::string &filename, bool overwrite) {
     if(filename.size() == 0) { return; }
- DatumFileOptions overwrite = options ? M_OVERWRITE : M_NO_OVERWRITE;
-    putEvent(SystemEventFactory::dataFileOpenControl(filename, 
-																	 overwrite));
+    putEvent(SystemEventFactory::dataFileOpenControl(filename, overwrite));
 }
 
 void  Client::sendCloseDataFileEvent(const std::string &filename) {

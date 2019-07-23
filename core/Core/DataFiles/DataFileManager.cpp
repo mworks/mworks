@@ -37,18 +37,18 @@ DataFileManager::~DataFileManager() {
 
 bool DataFileManager::openFile(const Datum &oeDatum) {
     std::string dFile(oeDatum.getElement(DATA_FILE_FILENAME).getString());
-    DatumFileOptions opt = (DatumFileOptions)oeDatum.getElement(DATA_FILE_OPTIONS).getInteger();
+    auto overwrite = oeDatum.getElement(DATA_FILE_OVERWRITE).getBool();
     
     if(dFile.size() == 0) {
         merror(M_FILE_MESSAGE_DOMAIN, "Attempt to open data file with an empty name");
         return false;
     }
     
-    return openFile(dFile, opt);
+    return openFile(dFile, overwrite);
 }
 
 
-bool DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
+bool DataFileManager::openFile(const std::string &_filename, bool overwrite) {
     if (isFileOpen()) {
         mwarning(M_FILE_MESSAGE_DOMAIN, "Data file already open at \"%s\"", filename.c_str());
         return false;
@@ -60,7 +60,7 @@ bool DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
     const auto filepath = boost::filesystem::path(filename);
     
     if (boost::filesystem::exists(filepath)) {
-        if (opt == M_NO_OVERWRITE) {
+        if (!overwrite) {
             merror(M_FILE_MESSAGE_DOMAIN, "Can't overwrite existing file \"%s\"", filename.c_str());
             global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
                                                                                               M_COMMAND_FAILURE));

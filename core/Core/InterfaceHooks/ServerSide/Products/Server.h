@@ -107,14 +107,7 @@ class Server : public RegistryAwareEventStreamInterface {
          * @result Always true. Failure will come in the event sent from the
          * manager.
          */
-        bool openDataFile(const char * path, int options = 0);
-        
-        /*!
-         * @function closeFile
-         * @discussion Closes a data file if one is open.  If it closed
-         * a file a message is sent by the data file manager.
-         */
-        void closeFile();
+        void openDataFile(const std::string &path, bool overwrite = false);
         
         bool isDataFileOpen();
 		

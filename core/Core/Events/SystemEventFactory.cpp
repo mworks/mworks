@@ -272,13 +272,11 @@ shared_ptr<Event> SystemEventFactory::connectedEvent(){
 }
 
 
-shared_ptr<Event> SystemEventFactory::dataFileOpenControl(std::string  filename, 
-													  DatumFileOptions opt) {
-    
+shared_ptr<Event> SystemEventFactory::dataFileOpenControl(const std::string &filename, bool overwrite) {
     Datum dfDatum(M_DICTIONARY, DATA_FILE_OPEN_PAYLOAD_SIZE);
 	
 	dfDatum.addElement(DATA_FILE_FILENAME, filename);
-	dfDatum.addElement(DATA_FILE_OPTIONS, (long)opt);
+	dfDatum.addElement(DATA_FILE_OVERWRITE, overwrite);
 	
     Datum payload(systemEventPackage(M_SYSTEM_CONTROL_PACKAGE, 
 									 M_OPEN_DATA_FILE, 
@@ -289,7 +287,7 @@ shared_ptr<Event> SystemEventFactory::dataFileOpenControl(std::string  filename,
 	return ret;
 }
 
-shared_ptr<Event> SystemEventFactory::closeDataFileControl(std::string filename) {
+shared_ptr<Event> SystemEventFactory::closeDataFileControl(const std::string &filename) {
     Datum dfDatum(M_DICTIONARY, DATA_FILE_CLOSE_PAYLOAD_SIZE);
 	dfDatum.addElement(DATA_FILE_FILENAME, filename);
 	

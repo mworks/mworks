@@ -24,11 +24,6 @@
 BEGIN_NAMESPACE_MW
 
 
-typedef enum {
-    M_OVERWRITE         = 1000,
-    M_NO_OVERWRITE      = 1001,
-} DatumFileOptions;
-
 class SystemEventFactory {
     public:  
 
@@ -63,9 +58,8 @@ class SystemEventFactory {
     static shared_ptr<Event> requestComponentCodecControl();
     static shared_ptr<Event> requestExperimentStateControl();
     static shared_ptr<Event> requestProtocolsControl();
-	static shared_ptr<Event> dataFileOpenControl(std::string filename,
-												   DatumFileOptions opt);
-	static shared_ptr<Event> closeDataFileControl(std::string filename);
+	static shared_ptr<Event> dataFileOpenControl(const std::string &filename, bool overwrite);
+	static shared_ptr<Event> closeDataFileControl(const std::string &filename);
 	static shared_ptr<Event> closeExperimentControl(std::string);
 	static shared_ptr<Event> saveVariablesControl(const std::string &file,
 												   const bool overwrite,

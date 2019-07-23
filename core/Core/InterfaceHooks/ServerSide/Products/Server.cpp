@@ -135,16 +135,8 @@ void Server::startDataFileManager() {
     }
 }
 
-bool Server::openDataFile(const char * path, int options) {
-    putEvent(SystemEventFactory::dataFileOpenControl(path, M_OVERWRITE));
-    return true;
-}
-
-void Server::closeFile() {
-    // TODO this could cause some problems.... but since the data file manager
-    // is a global this and the event handler doesnt care about the name
-    // this will be file for now.
-    putEvent(SystemEventFactory::closeDataFileControl(""));
+void Server::openDataFile(const std::string &path, bool overwrite) {
+    putEvent(SystemEventFactory::dataFileOpenControl(path, overwrite));
 }
 
 bool Server::isDataFileOpen() {
