@@ -224,11 +224,11 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 		case M_OPEN_DATA_FILE:
 		{
 			// issues an event on success
-			GlobalDataFileManager->openFile(sysEvent.getElement(M_SYSTEM_PAYLOAD));
+			DataFileManager::instance()->openFile(sysEvent.getElement(M_SYSTEM_PAYLOAD));
 			break;
 		}
 		case M_CLOSE_DATA_FILE:
-			GlobalDataFileManager->closeFile();
+			DataFileManager::instance()->closeFile();
 			break;
 		case M_SAVE_VARIABLES:
 		{

@@ -42,10 +42,7 @@ void FullCoreEnvironmentTestFixture::tearDown(){
 
   ComponentRegistry::detachSharedRegistryPtr();
 
-	if(GlobalDataFileManager) {
-	  delete GlobalDataFileManager;
-	  GlobalDataFileManager = 0;
-	}
+	DataFileManager::destroy();
 
 	OpenALContextManager::destroy();
 	

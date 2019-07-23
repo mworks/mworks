@@ -463,8 +463,10 @@ shared_ptr<Event> SystemEventFactory::currentExperimentState() {
         }
         
         // If a data file is open, include the file name
-        if (GlobalDataFileManager && GlobalDataFileManager->isFileOpen()) {
-            payload.addElement(M_DATA_FILE_NAME, GlobalDataFileManager->getFilename());
+        if (auto dataFileManager = DataFileManager::instance(false)) {
+            if (dataFileManager->isFileOpen()) {
+                payload.addElement(M_DATA_FILE_NAME, dataFileManager->getFilename());
+            }
         }
     }
     

@@ -31,11 +31,9 @@ Server::Server() :
     listenPort(19989)
 {
     registry = global_variable_registry;
-
-	// dont know where else this would be handled?
-    if(GlobalDataFileManager == NULL) {
-        GlobalDataFileManager = new DataFileManager();
-    }
+    
+    // dont know where else this would be handled?
+    startDataFileManager();
 }
 
 
@@ -130,8 +128,9 @@ bool Server::closeExperiment(){
 }
 
 void Server::startDataFileManager() {
-    if(GlobalDataFileManager == NULL) {
-        GlobalDataFileManager = new DataFileManager();
+    auto dataFileManager = DataFileManager::instance(false);
+    if (!dataFileManager) {
+        DataFileManager::registerInstance(boost::make_shared<DataFileManager>());
     }
 }
 
@@ -140,7 +139,7 @@ void Server::openDataFile(const std::string &path, bool overwrite) {
 }
 
 bool Server::isDataFileOpen() {
-    return GlobalDataFileManager->isFileOpen();
+    return DataFileManager::instance()->isFileOpen();
 }
 
 bool Server::isExperimentRunning() {

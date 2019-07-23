@@ -19,7 +19,7 @@
 BEGIN_NAMESPACE_MW
 
 
-DataFileManager *GlobalDataFileManager;
+SINGLETON_INSTANCE_STATIC_DECLARATION(DataFileManager)
 
 
 DataFileManager::DataFileManager() :

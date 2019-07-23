@@ -23,6 +23,7 @@
 #include <thread>
 
 #include "MWK2File.hpp"
+#include "RegisteredSingleton.h"
 #include "SystemEventFactory.h"
 
 #define DATA_FILE_FILENAME	"file"
@@ -35,6 +36,8 @@ BEGIN_NAMESPACE_MW
 class DataFileManager {
     
 public:
+    REGISTERED_SINGLETON_CODE_INJECTION(DataFileManager)
+    
     DataFileManager();
     ~DataFileManager();
     
@@ -67,9 +70,6 @@ private:
     std::atomic_bool running;
     
 };
-
-
-extern DataFileManager *GlobalDataFileManager;
 
 
 END_NAMESPACE_MW

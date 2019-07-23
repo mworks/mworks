@@ -207,10 +207,11 @@ BEGIN_NAMESPACE_MW
         shared_ptr<Component> openal_context_manager(new OpenALContextManager());
         OpenALContextManager::registerInstance(openal_context_manager);
         
-		
-		if(GlobalDataFileManager != NULL && GlobalDataFileManager->isFileOpen()){
-			GlobalDataFileManager->closeFile();
-		}
+        if (auto dataFileManager = DataFileManager::instance(false)) {
+            if (dataFileManager->isFileOpen()){
+                dataFileManager->closeFile();
+            }
+        }
 		
 		if(announce){
 			
