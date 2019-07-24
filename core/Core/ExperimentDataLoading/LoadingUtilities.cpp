@@ -208,9 +208,7 @@ BEGIN_NAMESPACE_MW
         OpenALContextManager::registerInstance(openal_context_manager);
         
         if (auto dataFileManager = DataFileManager::instance(false)) {
-            if (dataFileManager->isFileOpen()){
-                dataFileManager->closeFile();
-            }
+            dataFileManager->closeFile();
         }
 		
 		if(announce){

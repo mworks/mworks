@@ -127,6 +127,9 @@ enum MessageDomain { M_GENERIC_MESSAGE_DOMAIN		= 0,
 #define M_CURRENT_SAVED_VARIABLES "current saved variables"
 #define M_DATA_FILE_NAME "data file name"
 
+#define M_DATA_FILE_FILENAME  "file"
+#define M_DATA_FILE_OVERWRITE "overwrite"
+
 #define M_SET_EVENT_FORWARDING_NAME   "event_name"
 #define M_SET_EVENT_FORWARDING_STATE  "forward"
 

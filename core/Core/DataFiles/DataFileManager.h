@@ -26,48 +26,43 @@
 #include "RegisteredSingleton.h"
 #include "SystemEventFactory.h"
 
-#define DATA_FILE_FILENAME	"file"
-#define DATA_FILE_OVERWRITE	"overwrite"
-
 
 BEGIN_NAMESPACE_MW
 
 
 class DataFileManager {
     
+    class DataFile {
+    public:
+        static bool create(const std::string &filename, bool overwrite, std::unique_ptr<DataFile> &dataFile);
+        ~DataFile();
+        const std::string & getFilename() const { return filename; }
+        
+    private:
+        explicit DataFile(const std::string &filename);
+        void handleEvents();
+        
+        const std::string filename;
+        const std::unordered_set<int> excludedEventCodes;
+        MWK2Writer mwk2Writer;
+        EventBufferReader eventBufferReader;
+        static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
+        std::atomic_bool running;
+        std::thread eventHandlerThread;
+    };
+    
 public:
     REGISTERED_SINGLETON_CODE_INJECTION(DataFileManager)
     
-    DataFileManager();
-    ~DataFileManager();
-    
-    /*!
-     * @function openFile
-     * @discussion TODO.... issues a M_DATA_FILE_OPENED event
-     */
-    bool openFile(const Datum &openFileDatum);
-    bool openFile(const std::string &filename, bool overwrite);
-    
-    /*!
-     * @function closeFile
-     * @discussion TODO.... issues a M_DATA_FILE_CLOSED event
-     */
-    bool closeFile();
-    
-    bool isFileOpen() const { return eventHandlerThread.joinable(); }
-    const std::string& getFilename() const { return filename; }
+    bool openFile(std::string filename, bool overwrite);
+    void closeFile();
+    std::string getFilename() const;
     
 private:
-    void handleEvents();
+    std::unique_ptr<DataFile> dataFile;
     
-    std::string filename;
-    
-    std::unique_ptr<MWK2Writer> mwk2Writer;
-    std::unordered_set<int> excludedEventCodes;
-    std::unique_ptr<EventBufferReader> eventBufferReader;
-    std::thread eventHandlerThread;
-    static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
-    std::atomic_bool running;
+    using lock_guard = std::lock_guard<std::mutex>;
+    mutable lock_guard::mutex_type mutex;
     
 };
 

@@ -223,9 +223,16 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 			
 		case M_OPEN_DATA_FILE:
 		{
-			// issues an event on success
-			DataFileManager::instance()->openFile(sysEvent.getElement(M_SYSTEM_PAYLOAD));
-			break;
+            auto payload = sysEvent.getElement(M_SYSTEM_PAYLOAD);
+            auto filename = payload.getElement(M_DATA_FILE_FILENAME).getString();
+            auto overwrite = payload.getElement(M_DATA_FILE_OVERWRITE).getBool();
+            if (filename.empty()) {
+                merror(M_FILE_MESSAGE_DOMAIN, "Attempt to open data file with an empty name");
+            } else {
+                // issues an event on success
+                DataFileManager::instance()->openFile(filename, overwrite);
+            }
+            break;
 		}
 		case M_CLOSE_DATA_FILE:
 			DataFileManager::instance()->closeFile();

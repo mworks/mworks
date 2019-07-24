@@ -134,14 +134,6 @@ void Server::startDataFileManager() {
     }
 }
 
-void Server::openDataFile(const std::string &path, bool overwrite) {
-    putEvent(SystemEventFactory::dataFileOpenControl(path, overwrite));
-}
-
-bool Server::isDataFileOpen() {
-    return DataFileManager::instance()->isFileOpen();
-}
-
 bool Server::isExperimentRunning() {
 	shared_ptr <StateSystem> state_system = StateSystem::instance();
 	return state_system->isRunning();

@@ -19,59 +19,22 @@
 BEGIN_NAMESPACE_MW
 
 
-SINGLETON_INSTANCE_STATIC_DECLARATION(DataFileManager)
-
-
-DataFileManager::DataFileManager() :
-    running(false)
-{ }
-
-
-DataFileManager::~DataFileManager() {
-    if (eventHandlerThread.joinable()) {
-        running = false;
-        eventHandlerThread.join();
-    }
-}
-
-
-bool DataFileManager::openFile(const Datum &oeDatum) {
-    std::string dFile(oeDatum.getElement(DATA_FILE_FILENAME).getString());
-    auto overwrite = oeDatum.getElement(DATA_FILE_OVERWRITE).getBool();
-    
-    if(dFile.size() == 0) {
-        merror(M_FILE_MESSAGE_DOMAIN, "Attempt to open data file with an empty name");
-        return false;
-    }
-    
-    return openFile(dFile, overwrite);
-}
-
-
-bool DataFileManager::openFile(const std::string &_filename, bool overwrite) {
-    if (isFileOpen()) {
-        mwarning(M_FILE_MESSAGE_DOMAIN, "Data file already open at \"%s\"", filename.c_str());
-        return false;
-    }
-    
-    // first we need to format the file name with the correct path and
-    // extension
-    filename = appendDataFileExtension(prependDataFilePath(_filename).string());
+bool DataFileManager::DataFile::create(const std::string &filename,
+                                       bool overwrite,
+                                       std::unique_ptr<DataFile> &dataFile)
+{
     const auto filepath = boost::filesystem::path(filename);
     
+    // Check for an existing file
     if (boost::filesystem::exists(filepath)) {
         if (!overwrite) {
             merror(M_FILE_MESSAGE_DOMAIN, "Can't overwrite existing file \"%s\"", filename.c_str());
-            global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
-                                                                                              M_COMMAND_FAILURE));
             return false;
         }
         try {
             boost::filesystem::remove(filepath);
         } catch (const std::exception &e) {
             merror(M_FILE_MESSAGE_DOMAIN, "Can't remove existing file \"%s\": %s", filename.c_str(), e.what());
-            global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
-                                                                                              M_COMMAND_FAILURE));
             return false;
         }
     }
@@ -81,72 +44,51 @@ bool DataFileManager::openFile(const std::string &_filename, bool overwrite) {
         boost::filesystem::create_directories(filepath.parent_path());
     } catch (const std::exception &e) {
         merror(M_FILE_MESSAGE_DOMAIN, "Could not create data file destination directory: %s", e.what());
-        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
-                                                                                          M_COMMAND_FAILURE));
         return false;
     }
     
     // Create the file
     try {
-        mwk2Writer.reset(new MWK2Writer(filename));
+        dataFile.reset(new DataFile(filename));
     } catch (const SimpleException &e) {
         merror(M_FILE_MESSAGE_DOMAIN, "Could not create file \"%s\": %s", filename.c_str(), e.what());
-        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
-                                                                                          M_COMMAND_FAILURE));
         return false;
     }
     
-    // Generate list of excluded event codes
-    excludedEventCodes.clear();
+    return true;
+}
+
+
+DataFileManager::DataFile::~DataFile() {
+    if (eventHandlerThread.joinable()) {
+        running = false;
+        eventHandlerThread.join();
+    }
+}
+
+
+static std::unordered_set<int> getExcludedEventCodes() {
+    std::unordered_set<int> excludedEventCodes;
     for (auto &var : global_variable_registry->getGlobalVariables()) {
         if (var->getProperties()->getExcludeFromDataFile()) {
             excludedEventCodes.insert(var->getCodecCode());
         }
     }
-    
-    // Create the event buffer reader
-    eventBufferReader.reset(new EventBufferReader(global_outgoing_event_buffer));
-    
-    // Start the event handler thread
-    running = true;
-    eventHandlerThread = std::thread([this]() { handleEvents(); });
-    
-    // Announce component codec, variable codec, experiment state, and all current
-    // variable values
-    global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
-    global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
-    global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
-    global_variable_registry->announceAll();
-    
-    mprintf(M_FILE_MESSAGE_DOMAIN, "Opened data file: %s", filename.c_str());
-    
-    // everything went ok so issue the success event
-    global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
-                                                                                      M_COMMAND_SUCCESS));
-    return true;
+    return excludedEventCodes;
 }
 
 
-bool DataFileManager::closeFile() {
-    if (!isFileOpen()) {
-        merror(M_FILE_MESSAGE_DOMAIN, "Attempt to close a data file when there isn't one open");
-    } else {
-        mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file...");
-        
-        running = false;
-        eventHandlerThread.join();
-        eventBufferReader.reset();
-        mwk2Writer.reset();
-        
-        mprintf(M_FILE_MESSAGE_DOMAIN, "Closed data file: %s", filename.c_str());
-        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileClosedResponse(filename.c_str(),
-                                                                                          M_COMMAND_SUCCESS));
-    }
-    return true;
-}
+DataFileManager::DataFile::DataFile(const std::string &filename) :
+    filename(filename),
+    excludedEventCodes(getExcludedEventCodes()),
+    mwk2Writer(filename),
+    eventBufferReader(global_outgoing_event_buffer),
+    running(true),
+    eventHandlerThread([this]() { handleEvents(); })
+{ }
 
 
-void DataFileManager::handleEvents() {
+void DataFileManager::DataFile::handleEvents() {
     constexpr MWTime nextEventTimeout = 500 * 1000;  // 500ms
     constexpr std::size_t maxPendingEvents = 1000;
     
@@ -154,7 +96,7 @@ void DataFileManager::handleEvents() {
     
     while (running) {
         // Wait for next event or timeout
-        auto event = eventBufferReader->getNextEvent(nextEventTimeout);
+        auto event = eventBufferReader.getNextEvent(nextEventTimeout);
         
         // Process all currently-available events
         while (event) {
@@ -163,13 +105,13 @@ void DataFileManager::handleEvents() {
                 if (!excludedEventCodes.count(event->getEventCode())) {
                     pendingEvents.push_back(event);
                 }
-                event = eventBufferReader->getNextEvent();
+                event = eventBufferReader.getNextEvent();
             } while (event && (pendingEvents.size() < maxPendingEvents));
             
             // Write pending events
             if (!pendingEvents.empty()) {
                 try {
-                    mwk2Writer->writeEvents(pendingEvents);
+                    mwk2Writer.writeEvents(pendingEvents);
                 } catch (const SimpleException &e) {
                     merror(M_FILE_MESSAGE_DOMAIN,
                            "Failed to write %lu events to data file: %s",
@@ -183,10 +125,66 @@ void DataFileManager::handleEvents() {
     
     // Write termination event
     try {
-        mwk2Writer->writeEvent(boost::make_shared<Event>(RESERVED_TERMINATION_CODE, Datum()));
+        mwk2Writer.writeEvent(boost::make_shared<Event>(RESERVED_TERMINATION_CODE, Datum()));
     } catch (const SimpleException &e) {
         merror(M_FILE_MESSAGE_DOMAIN, "Failed to write termination event to data file: %s", e.what());
     }
+}
+
+
+SINGLETON_INSTANCE_STATIC_DECLARATION(DataFileManager)
+
+
+bool DataFileManager::openFile(std::string filename, bool overwrite) {
+    lock_guard lock(mutex);
+    
+    if (dataFile) {
+        mwarning(M_FILE_MESSAGE_DOMAIN, "Data file already open at \"%s\"", dataFile->getFilename().c_str());
+        return true;
+    }
+    
+    filename = appendDataFileExtension(prependDataFilePath(filename).string());
+    
+    if (!DataFile::create(filename, overwrite, dataFile)) {
+        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename, M_COMMAND_FAILURE));
+        return false;
+    }
+    
+    // Announce component codec, variable codec, experiment state, and all current
+    // variable values
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+    global_variable_registry->announceAll();
+    
+    mprintf(M_FILE_MESSAGE_DOMAIN, "Opened data file: %s", filename.c_str());
+    
+    // everything went ok so issue the success event
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename, M_COMMAND_SUCCESS));
+    return true;
+}
+
+
+void DataFileManager::closeFile() {
+    lock_guard lock(mutex);
+    if (!dataFile) {
+        return;
+    }
+    mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file...");
+    auto filename = dataFile->getFilename();  // Make a copy to use after dataFile is destroyed
+    dataFile.reset();
+    mprintf(M_FILE_MESSAGE_DOMAIN, "Closed data file: %s", filename.c_str());
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileClosedResponse(filename, M_COMMAND_SUCCESS));
+}
+
+
+std::string DataFileManager::getFilename() const {
+    lock_guard lock(mutex);
+    std::string filename;
+    if (dataFile) {
+        filename = dataFile->getFilename();
+    }
+    return filename;
 }
 
 

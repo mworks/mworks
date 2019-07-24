@@ -93,23 +93,6 @@ class Server : public RegistryAwareEventStreamInterface {
          * and maybe keep a handle to it?
          */
         void startDataFileManager();
-        
-        /*!
-         * @function openDataFile
-         * @discussion Puts an event in the incoming network buffer that
-         * will tell the data file manager to open a file at path.  Options
-         * is useless at this point because it will always over write 
-         * a file.
-         *
-         * @param path A path where you wish to open a data file.
-         * @param options File options to control perhps over writing.  For
-         * now though it is ignored.
-         * @result Always true. Failure will come in the event sent from the
-         * manager.
-         */
-        void openDataFile(const std::string &path, bool overwrite = false);
-        
-        bool isDataFileOpen();
 		
 		bool isExperimentRunning();
 		
