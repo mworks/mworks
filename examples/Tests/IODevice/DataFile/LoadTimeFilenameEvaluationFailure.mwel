@@ -1,0 +1,9 @@
+data_file ('/tmp/$foo')
+
+
+protocol {
+    assert (
+        condition = false
+        message = "The experiment shouldn't be running!"
+        )
+}

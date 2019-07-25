@@ -1,0 +1,12 @@
+var load_time = now()
+
+python_file('utils.py')
+
+data_file ('$(py_call("get_base_name"))$(date(["%Y%m%d-%H%M%S", 3][now() - load_time > 1s]))')
+
+protocol {
+    assert (
+        condition = false
+        message = "The experiment shouldn't be running!"
+        )
+}

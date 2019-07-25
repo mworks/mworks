@@ -1,0 +1,8 @@
+python_file('utils.py')
+
+data_file ('$(py_call("get_base_name"))$(date("%Y%m%d-%H%M%S"))')
+
+
+protocol {
+    report ('This is the experiment')
+}

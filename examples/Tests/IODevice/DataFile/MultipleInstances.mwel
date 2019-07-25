@@ -1,0 +1,10 @@
+data_file ('/tmp/foo')
+data_file ('/tmp/bar')
+
+
+protocol {
+    assert (
+        condition = false
+        message = "The experiment shouldn't be running!"
+        )
+}

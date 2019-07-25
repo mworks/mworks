@@ -357,23 +357,40 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 							[self marionetteAssert:state.getElement(M_EXPERIMENT_PATH).isString()
 									   withMessage:@"system state event 'experiment path' element is not string"]; 
 							
-							if(!state.getElement(M_RUNNING).getBool() && !self.experimentLoaded && !self.stateSystemRunning) {
-								self.experimentLoaded=YES;							
-								[self marionetteAssert:self.sentExperiment
-										   withMessage:@"server reports that experiment is loaded, but client hasn't sent yet"]; 
-								
-								[self marionetteAssert:!self.sentOpenDataFile
-										   withMessage:@"already sent open data file command"];
-								[self marionetteAssert:!self.dataFileOpen
-										   withMessage:@"data file already open"];
-								
-								std::string data_file(MARIONETTE_TEST_DATA_FILE_PREFIX);
-								data_file.append([[[[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] lastPathComponent] stringByDeletingPathExtension] cStringUsingEncoding:NSASCIIStringEncoding]);
-								
-								client->sendOpenDataFileEvent(data_file,
-															  [[NSNumber numberWithBool:YES] intValue]);
-								self.sentOpenDataFile=YES;							
-							}
+                            if (!state.getElement(M_RUNNING).getBool()) {
+                                if (!self.experimentLoaded && !self.stateSystemRunning) {
+                                    self.experimentLoaded=YES;
+                                    [self marionetteAssert:self.sentExperiment
+                                               withMessage:@"server reports that experiment is loaded, but client hasn't sent yet"];
+                                    
+                                    [self marionetteAssert:!self.sentOpenDataFile
+                                               withMessage:@"already sent open data file command"];
+                                    [self marionetteAssert:!self.dataFileOpen
+                                               withMessage:@"data file already open"];
+                                    
+                                    std::string data_file(MARIONETTE_TEST_DATA_FILE_PREFIX);
+                                    data_file.append([[[[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] lastPathComponent] stringByDeletingPathExtension] cStringUsingEncoding:NSASCIIStringEncoding]);
+                                    
+                                    client->sendOpenDataFileEvent(data_file,
+                                                                  [[NSNumber numberWithBool:YES] intValue]);
+                                    self.sentOpenDataFile=YES;
+                                } else if (self.sentRunEvent && !self.sentCloseDataFile) {
+                                    // Pause for a second to give us time to catch events that should *not* happen
+                                    // but still do (e.g. scheduled actions that should have terminated but didn't)
+                                    [NSThread sleepForTimeInterval:1];
+                                    
+                                    if (self.dataFileOpen) {
+                                        std::string data_file(MARIONETTE_TEST_DATA_FILE_PREFIX);
+                                        data_file.append([[[[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] lastPathComponent] stringByDeletingPathExtension] cStringUsingEncoding:NSASCIIStringEncoding]);
+                                        client->sendCloseDataFileEvent(data_file);
+                                    }
+                                    self.sentCloseDataFile = YES;
+                                    if (!self.dataFileOpen && !self.sentCloseExperiment) {
+                                        client->sendCloseExperimentEvent([[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] cStringUsingEncoding:NSASCIIStringEncoding]);
+                                        self.sentCloseExperiment = YES;
+                                    }
+                                }
+                            }
 						} else {
 							if(!self.sentExperiment) {							
 								[self marionetteAssert:!self.sentExperiment
@@ -396,7 +413,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 						
 						[self marionetteAssert:!self.dataFileOpen
 								   withMessage:@"received M_OPEN_DATA_FILE when data file is already opened"]; 
-						self.dataFileOpen = YES;
+                        if (event_data.getElement(M_SYSTEM_PAYLOAD).getElement(0).getInteger() == M_COMMAND_SUCCESS) {
+                            self.dataFileOpen = YES;
+                        }
 						
 						[self marionetteAssert:self.experimentLoaded
 								   withMessage:@"trying to send run command without loading experiment first"]; 
@@ -412,11 +431,10 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 					case M_DATA_FILE_CLOSED:
 						//					[self marionetteAssert:self.sentCloseDataFile && self.dataFileOpen
 						//							   withMessage:@"received M_CLOSE_DATA_FILE without attempting to close"]; 
-						if(self.sentCloseDataFile) {
-							[self marionetteAssert:self.dataFileOpen
-									   withMessage:@"received M_CLOSE_DATA_FILE when data file isn't opened"]; 
-							self.dataFileOpen = NO;
-							
+                        [self marionetteAssert:self.dataFileOpen
+                                   withMessage:@"received M_CLOSE_DATA_FILE when data file isn't opened"];
+                        self.dataFileOpen = NO;
+						if (self.sentCloseDataFile && !self.sentCloseExperiment) {
 							client->sendCloseExperimentEvent([[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] cStringUsingEncoding:NSASCIIStringEncoding]);
 							self.sentCloseExperiment = YES;
 						}
@@ -468,25 +486,12 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 						   withMessage:@"stateSystemRunning is false"]; 
 				break;
 			case IDLE:
-				if (self.stateSystemRunning) {
-                    // Pause for a second to give us time to catch events that should *not* happen
-                    // but still do (e.g. scheduled actions that should have terminated but didn't)
-                    [NSThread sleepForTimeInterval:1];
-                    
-					[self marionetteAssert:self.dataFileOpen
-							   withMessage:@"data file should be open"]; 
-					
-					std::string data_file(MARIONETTE_TEST_DATA_FILE_PREFIX);
-					data_file.append([[[[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] lastPathComponent] stringByDeletingPathExtension] cStringUsingEncoding:NSASCIIStringEncoding]);
-					
-					client->sendCloseDataFileEvent(data_file);
-					self.sentCloseDataFile = YES;
-					self.stateSystemRunning = NO;
-					
-				}
+				self.stateSystemRunning = NO;
 				break;
 			case RUNNING:
-				self.stateSystemRunning = YES;								
+				[self marionetteAssert:self.dataFileOpen
+						   withMessage:@"data file should be open"];
+				self.stateSystemRunning = YES;
 				break;
 			case PAUSED:
 				[self marionetteAssert:self.stateSystemRunning

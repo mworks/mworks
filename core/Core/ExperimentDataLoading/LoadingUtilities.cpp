@@ -209,6 +209,7 @@ BEGIN_NAMESPACE_MW
         
         if (auto dataFileManager = DataFileManager::instance(false)) {
             dataFileManager->closeFile();
+            dataFileManager->clearAutoOpenFilename();
         }
 		
 		if(announce){

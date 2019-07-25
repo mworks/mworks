@@ -54,14 +54,25 @@ class DataFileManager {
 public:
     REGISTERED_SINGLETON_CODE_INJECTION(DataFileManager)
     
-    bool openFile(std::string filename, bool overwrite);
+    bool openFile(const std::string &filename, bool overwrite);
     void closeFile();
     std::string getFilename() const;
     
-private:
-    std::unique_ptr<DataFile> dataFile;
+    void setAutoOpenFilename(const boost::shared_ptr<Variable> &filename);
+    void clearAutoOpenFilename();
+    bool canAutoOpenFile() const;
+    bool autoOpenFile();
     
-    using lock_guard = std::lock_guard<std::mutex>;
+private:
+    static bool openFile(const std::string &filename, bool overwrite, std::unique_ptr<DataFile> &dataFile);
+    static void closeFile(std::unique_ptr<DataFile> &dataFile);
+    
+    std::unique_ptr<DataFile> dataFile;
+    boost::shared_ptr<Variable> autoOpenFilename;
+    
+    // canAutoOpenFile and getFilename are called (via SystemEventFactory::currentExperimentState)
+    // from within openFile, so the mutex must be recursive
+    using lock_guard = std::lock_guard<std::recursive_mutex>;
     mutable lock_guard::mutex_type mutex;
     
 };

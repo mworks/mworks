@@ -20,6 +20,7 @@
 #include "StandardSounds.h"
 #include "Averagers.h"
 #include "SimpleStaircase.h"
+#include "DataFileDevice.hpp"
 #include "DummyIODevice.h"
 #include "LegacyIODevice.h"
 #include "StimulusDisplayDevice.h"
@@ -123,6 +124,7 @@ ComponentRegistry::ComponentRegistry() {
     registerFactory("bias_monitor", new BiasMonitorFactory());
 	
 	// IO devices
+    registerFactory<StandardComponentFactory, DataFileDevice>();
     registerFactory<StandardComponentFactory, DummyIODevice>();
     registerFactory<StandardComponentFactory, IOChannelRequest>();
     registerFactory<StandardComponentFactory, StimulusDisplayDevice>();

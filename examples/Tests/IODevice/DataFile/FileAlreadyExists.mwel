@@ -1,0 +1,11 @@
+python_file('utils.py')
+python_file('file_already_exists.py')
+
+data_file ('$(py_call("get_filename"))')
+
+protocol {
+    assert (
+        condition = false
+        message = "The experiment shouldn't be running!"
+        )
+}

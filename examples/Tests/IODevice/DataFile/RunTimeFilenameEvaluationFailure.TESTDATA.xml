@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Filename evaluation failed: Expression parser error: Argument to function DATE() must be a string</message>
+    <message type="whole_message">ERROR: Failed to open data file.  Experiment will not start.</message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't run, so we expect no events -->
+  </expected_events>
+</marionette_info>

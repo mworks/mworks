@@ -320,23 +320,14 @@
 	sheetOrigin = [[[self window] contentView] convertRect:[[item view] bounds] fromView:[item view]];
 	[self setModalClientInstanceInCharge:[item representedObject]];
 	
-	BOOL is_loaded = [modalClientInstanceInCharge dataFileOpen];
-		
 	NSWindow *sheet_to_use;
-	
-	NSString *dataFileName = [modalClientInstanceInCharge dataFileName];
-	
-	
-	if(dataFileName == Nil){
-		dataFileName = @"/";
-	}
-	
-	if(is_loaded){
+    if (modalClientInstanceInCharge.dataFileWillAutoOpen) {
+        sheet_to_use = dataFileAutoOpenSheet;
+    } else if (modalClientInstanceInCharge.dataFileOpen) {
 		sheet_to_use = dataFileCloseSheet;
 	} else {
 		sheet_to_use = dataFileOpenSheet;
 	}
-	
 	
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -348,6 +339,9 @@
 #pragma clang diagnostic pop
 }
 
+- (IBAction) closeDataFileAutoOpenSheet: (id)sender {
+    [NSApp endSheet: dataFileAutoOpenSheet];
+}
 - (IBAction) closeDataFileOpenSheet: (id)sender {
 	[NSApp endSheet: dataFileOpenSheet];
 }

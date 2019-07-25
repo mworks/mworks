@@ -26,6 +26,7 @@
 	
     IBOutlet NSWindow *variableSetSheet;
     
+    IBOutlet NSWindow *dataFileAutoOpenSheet;
 	IBOutlet NSWindow *dataFileOpenSheet;
 	IBOutlet NSWindow *dataFileCloseSheet;
 	
@@ -103,6 +104,7 @@
 
 // Open / Close Data File
 - (IBAction)launchDataFileSheetForItem:(NSCollectionViewItem *)item;
+- (IBAction) closeDataFileAutoOpenSheet: (id)sender;
 - (IBAction) closeDataFileOpenSheet: (id)sender;
 - (IBAction) closeDataFileCloseSheet: (id)sender;
 - (IBAction) openDataFile: (id) sender;

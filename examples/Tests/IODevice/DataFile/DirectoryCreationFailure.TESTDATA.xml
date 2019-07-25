@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <!-- Standard marionette data file is closed -->
+    <message type="whole_message">Closing data file...</message>
+    <message type="starts_with">Closed data file: </message>
+    <!-- Experiment-defined data file fails to open -->
+    <message type="whole_message">ERROR: Could not create data file destination directory: boost::filesystem::create_directory: Operation not permitted: "/System/Library/mworks_data_file_test"</message>
+    <message type="whole_message">ERROR: Failed to open data file.  Experiment will not start.</message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't run, so we expect no events -->
+  </expected_events>
+</marionette_info>

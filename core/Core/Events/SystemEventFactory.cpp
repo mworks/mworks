@@ -462,8 +462,13 @@ shared_ptr<Event> SystemEventFactory::currentExperimentState() {
             payload.addElement(M_CURRENT_SAVED_VARIABLES, removeFileExtension(filePath.filename().string()));
         }
         
+        auto dataFileManager = DataFileManager::instance();
+        
+        // Let the client know if the experiment will open a data file automatically
+        payload.addElement(M_DATA_FILE_AUTO_OPEN, dataFileManager->canAutoOpenFile());
+        
         // If a data file is open, include the file name
-        auto currentDataFileName = DataFileManager::instance()->getFilename();
+        auto currentDataFileName = dataFileManager->getFilename();
         if (!currentDataFileName.empty()) {
             payload.addElement(M_DATA_FILE_NAME, currentDataFileName);
         }

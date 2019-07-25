@@ -183,20 +183,34 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 		}
 		case M_START_EXPERIMENT:
 		{
-            mprintf(M_SYSTEM_MESSAGE_DOMAIN, "Running MWorks %s", getVersionString().c_str());
-            
-            time_t currentTime;
-            struct tm currentLocalTime;
-            std::array<char, 128> buffer;
-            if (-1 != (currentTime = time(nullptr)) &&
-                localtime_r(&currentTime, &currentLocalTime) &&
-                0 != strftime(buffer.data(), buffer.size(), "%+", &currentLocalTime))
-            {
-                mprintf(M_SYSTEM_MESSAGE_DOMAIN, "Current date/time is %s", buffer.data());
+            if (!DataFileManager::instance()->autoOpenFile()) {
+                // Data file auto-open is configured, but opening the file failed.  Abort.
+                merror(M_SYSTEM_MESSAGE_DOMAIN, "Failed to open data file.  Experiment will not start.");
+                
+                // Announce the experiment state to let the client know that the experiment didn't start
+                global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+            } else {
+                mprintf(M_SYSTEM_MESSAGE_DOMAIN, "Running MWorks %s", getVersionString().c_str());
+                
+                time_t currentTime;
+                struct tm currentLocalTime;
+                std::array<char, 128> buffer;
+                if (-1 != (currentTime = time(nullptr)) &&
+                    localtime_r(&currentTime, &currentLocalTime) &&
+                    0 != strftime(buffer.data(), buffer.size(), "%+", &currentLocalTime))
+                {
+                    mprintf(M_SYSTEM_MESSAGE_DOMAIN, "Current date/time is %s", buffer.data());
+                }
+                
+                if (auto experiment = GlobalCurrentExperiment) {
+                    mprintf(M_SYSTEM_MESSAGE_DOMAIN,
+                            "Using protocol %s",
+                            experiment->getCurrentProtocol()->getName().c_str());
+                }
+                
+                shared_ptr <StateSystem> state_system = StateSystem::instance();
+                state_system->start();
             }
-            
-			shared_ptr <StateSystem> state_system = StateSystem::instance();
-			state_system->start();
 		}
 			break;
 			

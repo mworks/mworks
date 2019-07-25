@@ -1,0 +1,8 @@
+data_file ('/System/Library/mworks_data_file_test/foo')
+
+protocol {
+    assert (
+        condition = false
+        message = "The experiment shouldn't be running!"
+        )
+}

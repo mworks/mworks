@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <!-- Standard marionette data file is closed -->
+    <message type="whole_message">Closing data file...</message>
+    <message type="starts_with">Closed data file: </message>
+    <!-- Experiment-defined data file is opened -->
+    <message type="starts_with">Opened data file: </message>
+    <!-- Experiment runs -->
+    <message type="starts_with">Running MWorks </message>
+    <message type="whole_message">Starting state system....</message>
+    <message type="starts_with">This is the experiment </message>
+  </expected_messages>
+</marionette_info>

@@ -61,6 +61,7 @@
     NSString *variableSetName;
     NSMutableArray *serversideVariableSetNames;
     
+    BOOL dataFileWillAutoOpen;
 	BOOL dataFileOpen;
 	NSString *dataFileName;
 	BOOL dataFileOverwrite;
@@ -129,6 +130,7 @@
 @property NSMutableArray *serversideVariableSetNames;
 
 // Data File state
+@property BOOL dataFileWillAutoOpen;
 @property BOOL dataFileOpen;
 @property(copy, readwrite) NSString *dataFileName;
 @property BOOL dataFileOverwrite;

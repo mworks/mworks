@@ -135,16 +135,22 @@ void DataFileManager::DataFile::handleEvents() {
 SINGLETON_INSTANCE_STATIC_DECLARATION(DataFileManager)
 
 
-bool DataFileManager::openFile(std::string filename, bool overwrite) {
+static inline std::string getFullFilename(const std::string &filename) {
+    return appendDataFileExtension(prependDataFilePath(filename).string());
+}
+
+
+bool DataFileManager::openFile(const std::string &filename, bool overwrite) {
     lock_guard lock(mutex);
-    
     if (dataFile) {
         mwarning(M_FILE_MESSAGE_DOMAIN, "Data file already open at \"%s\"", dataFile->getFilename().c_str());
         return true;
     }
-    
-    filename = appendDataFileExtension(prependDataFilePath(filename).string());
-    
+    return openFile(getFullFilename(filename), overwrite, dataFile);
+}
+
+
+bool DataFileManager::openFile(const std::string &filename, bool overwrite, std::unique_ptr<DataFile> &dataFile) {
     if (!DataFile::create(filename, overwrite, dataFile)) {
         global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename, M_COMMAND_FAILURE));
         return false;
@@ -167,9 +173,13 @@ bool DataFileManager::openFile(std::string filename, bool overwrite) {
 
 void DataFileManager::closeFile() {
     lock_guard lock(mutex);
-    if (!dataFile) {
-        return;
+    if (dataFile) {
+        closeFile(dataFile);
     }
+}
+
+
+void DataFileManager::closeFile(std::unique_ptr<DataFile> &dataFile) {
     mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file...");
     auto filename = dataFile->getFilename();  // Make a copy to use after dataFile is destroyed
     dataFile.reset();
@@ -185,6 +195,62 @@ std::string DataFileManager::getFilename() const {
         filename = dataFile->getFilename();
     }
     return filename;
+}
+
+
+void DataFileManager::setAutoOpenFilename(const boost::shared_ptr<Variable> &filename) {
+    lock_guard lock(mutex);
+    if (autoOpenFilename) {
+        throw SimpleException(M_FILE_MESSAGE_DOMAIN, "Automatic data-file management is already configured");
+    }
+    autoOpenFilename = filename;
+}
+
+
+void DataFileManager::clearAutoOpenFilename() {
+    lock_guard lock(mutex);
+    autoOpenFilename.reset();
+}
+
+
+bool DataFileManager::canAutoOpenFile() const {
+    lock_guard lock(mutex);
+    return bool(autoOpenFilename);
+}
+
+
+bool DataFileManager::autoOpenFile() {
+    lock_guard lock(mutex);
+    
+    if (!autoOpenFilename) {
+        // Nothing to do
+        return true;
+    }
+    
+    // Evaluate the filename
+    std::string filename;
+    try {
+        filename = autoOpenFilename->getValue().getString();
+    } catch (const SimpleException &e) {
+        merror(M_FILE_MESSAGE_DOMAIN, "Filename evaluation failed: %s", e.what());
+        return false;
+    }
+    if (filename.empty()) {
+        merror(M_FILE_MESSAGE_DOMAIN, "Evaluated filename is empty");
+        return false;
+    }
+    filename = getFullFilename(filename);
+    
+    if (dataFile) {
+        if (dataFile->getFilename() == filename) {
+            // The desired file is already open.  Nothing else to do.
+            return true;
+        }
+        // Close the current file
+        closeFile(dataFile);
+    }
+    
+    return openFile(filename, false, dataFile);  // Never overwrite
 }
 
 

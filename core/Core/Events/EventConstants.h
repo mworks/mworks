@@ -125,6 +125,7 @@ enum MessageDomain { M_GENERIC_MESSAGE_DOMAIN		= 0,
 #define M_CURRENT_PROTOCOL "current protocol"
 #define M_SAVED_VARIABLES "saved variables"
 #define M_CURRENT_SAVED_VARIABLES "current saved variables"
+#define M_DATA_FILE_AUTO_OPEN "data file auto open"
 #define M_DATA_FILE_NAME "data file name"
 
 #define M_DATA_FILE_FILENAME  "file"

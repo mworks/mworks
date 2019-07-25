@@ -78,6 +78,7 @@
                             forVariableCode:RESERVED_SYSTEM_EVENT_CODE
                                onMainThread:YES];
 									 
+    [self setDataFileWillAutoOpen:NO];
 	[self setDataFileOpen:false];
 	[self setExperimentLoaded:false];
 	[self setServerConnected:false];
@@ -154,6 +155,7 @@
 @synthesize variableSetLoaded;
 
 // Data File state
+@synthesize dataFileWillAutoOpen;
 @synthesize dataFileOpen;
 @synthesize dataFileName;
 @synthesize dataFileOverwrite;
@@ -267,6 +269,7 @@
 	[self setServerName:Nil];
     [self setVariableSetName:Nil];
     
+    [self setDataFileWillAutoOpen:NO];
     [self setDataFileOpen:NO];
     [self setDataFileName:Nil];
     [self setDataFileOverwrite:NO];
@@ -547,7 +550,7 @@
 	} else {
 		//start
         
-        if (!self.dataFileOpen && appController.shouldAutoOpenDataFile) {
+        if (!(self.dataFileWillAutoOpen || self.dataFileOpen) && appController.shouldAutoOpenDataFile) {
             NSString *userName = NSUserName();
             NSString *experimentBaseName = self.clientsideExperimentPath.lastPathComponent.stringByDeletingPathExtension;
             
@@ -792,6 +795,10 @@
                     if (state.hasKey(M_CURRENT_SAVED_VARIABLES)) {
                         self.variableSetName = [NSString stringWithUTF8String:state.getElement(M_CURRENT_SAVED_VARIABLES).getString().c_str()];
                         self.variableSetLoaded = YES;
+                    }
+                    
+                    if (state.hasKey(M_DATA_FILE_AUTO_OPEN)) {
+                        self.dataFileWillAutoOpen = state.getElement(M_DATA_FILE_AUTO_OPEN).getBool();
                     }
                     
                     if (state.hasKey(M_DATA_FILE_NAME)) {

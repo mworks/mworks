@@ -384,6 +384,10 @@
 		E1457B5014D08F95004D3AD5 /* MWorksCoreTestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */; };
 		E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */; };
 		E146B7E91E1EAB66001C7947 /* OpenGLUtilities.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E148071222EA41BD0094DB1C /* DataFileDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E148071022EA41BD0094DB1C /* DataFileDevice.cpp */; };
+		E148071322EA41BD0094DB1C /* DataFileDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E148071022EA41BD0094DB1C /* DataFileDevice.cpp */; };
+		E148071422EA41BD0094DB1C /* DataFileDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E148071122EA41BD0094DB1C /* DataFileDevice.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E148071522EA41BD0094DB1C /* DataFileDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E148071122EA41BD0094DB1C /* DataFileDevice.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E148A4401E4B75BC002DFB1C /* MWParserTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 5CE30A470CF9FAE400BEB3E3 /* MWParserTransformation.xsl */; };
 		E148A4411E4B75BE002DFB1C /* MWMediaPackagerTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */; };
 		E148A4421E4B76A5002DFB1C /* PlatformDependentServices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE19007E9F94300C68AEF /* PlatformDependentServices.cpp */; };
@@ -1246,6 +1250,8 @@
 		E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksCoreTestMain.cpp; sourceTree = "<group>"; };
 		E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLUtilities.cpp; path = Core/Stimuli/OpenGLUtilities.cpp; sourceTree = "<group>"; };
 		E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OpenGLUtilities.hpp; path = Core/Stimuli/OpenGLUtilities.hpp; sourceTree = "<group>"; };
+		E148071022EA41BD0094DB1C /* DataFileDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileDevice.cpp; sourceTree = "<group>"; };
+		E148071122EA41BD0094DB1C /* DataFileDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataFileDevice.hpp; sourceTree = "<group>"; };
 		E148A4371E4B7106002DFB1C /* MWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16A20D41E5769DF00C48E10 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E16A20DA1E576A3300C48E10 /* HighPrecisionClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HighPrecisionClock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2306,6 +2312,8 @@
 				E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */,
 				E1FE64102142BEB700209279 /* MWK2File.hpp */,
 				E1FE640F2142BEB700209279 /* MWK2File.cpp */,
+				E148071122EA41BD0094DB1C /* DataFileDevice.hpp */,
+				E148071022EA41BD0094DB1C /* DataFileDevice.cpp */,
 			);
 			name = DataFiles;
 			path = Core/DataFiles;
@@ -2533,6 +2541,7 @@
 				DA2CE12B07E9F8B200C68AEF /* LoadingUtilities.h in Headers */,
 				E1FE64132142BEB700209279 /* MWK2File.hpp in Headers */,
 				DA2CE17F07E9F93900C68AEF /* BlockAndProtocol.h in Headers */,
+				E148071422EA41BD0094DB1C /* DataFileDevice.hpp in Headers */,
 				DA2CE18307E9F93900C68AEF /* Experiment.h in Headers */,
 				DA2CE18607E9F93900C68AEF /* Filters.h in Headers */,
 				DA2CE18B07E9F93900C68AEF /* Selection.h in Headers */,
@@ -2773,6 +2782,7 @@
 				E17917621E4E55C200528B91 /* Trigger.h in Headers */,
 				E17916EC1E4E522300528B91 /* Client.h in Headers */,
 				E17916C11E4E511700528B91 /* ExpressionVariable.h in Headers */,
+				E148071522EA41BD0094DB1C /* DataFileDevice.hpp in Headers */,
 				E179174D1E4E552900528B91 /* Exceptions.h in Headers */,
 				E179174C1E4E550A00528B91 /* CFObjectPtr.h in Headers */,
 				E17916BB1E4E510000528B91 /* VariableRegistry.h in Headers */,
@@ -3467,6 +3477,7 @@
 				5CDCC8840D2B0E10008E2F19 /* ExpressionParser.cc in Sources */,
 				E1DC75081D259C1700D9BC19 /* SerialPort.cpp in Sources */,
 				5CEFD82D0D4D1D6200EA9950 /* Exceptions.cpp in Sources */,
+				E148071222EA41BD0094DB1C /* DataFileDevice.cpp in Sources */,
 				5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */,
 				E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */,
 				5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */,
@@ -3591,6 +3602,7 @@
 				E179177D1E4E56CA00528B91 /* Stimulus.cpp in Sources */,
 				E17916BA1E4E50E000528B91 /* ZeroMQUtilities.cpp in Sources */,
 				E17916C21E4E511C00528B91 /* ExpressionVariable.cpp in Sources */,
+				E148071322EA41BD0094DB1C /* DataFileDevice.cpp in Sources */,
 				E17917751E4E566200528B91 /* OpenGLContextManager.cpp in Sources */,
 				E17916F71E4E529600528B91 /* CoreBuilderForeman.cpp in Sources */,
 				E17917711E4E564000528B91 /* DynamicStimulusActions.cpp in Sources */,
