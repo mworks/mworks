@@ -1,0 +1,5 @@
+var x = ''
+
+protocol {
+    x = date(3)
+}

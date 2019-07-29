@@ -324,11 +324,14 @@ Time-Related
 Other
 ^^^^^
 
+``date(fmt)``
+   Returns the current date/time as a string, formatted according to format string *fmt*.  The format string can contain any of the conversion specifiers supported by `strftime <https://en.cppreference.com/w/c/chrono/strftime>`_, as well as arbitrary text.
+
 ``display_bounds()``
-  Returns a dictionary containing the bounds (in degrees) of the main display.  The keys in the dictionary are the strings "left", "right", "bottom", and "top".
+   Returns a dictionary containing the bounds (in degrees) of the main display.  The keys in the dictionary are the strings "left", "right", "bottom", and "top".
 
 ``display_bounds(edge)``
-  Given one of the strings "left", "right", "bottom", or "top", returns the corresponding boundary (in degrees) of the main display
+   Given one of the strings "left", "right", "bottom", or "top", returns the corresponding boundary (in degrees) of the main display
 
 ``filenames(glob_expr)``
    Given *glob_expr*, a string containing a `shell-style file name pattern <http://tomecat.com/jeffy/tttt/glob.html>`_, returns a list of strings containing the names of all matching files (or any empty list, if no files match)

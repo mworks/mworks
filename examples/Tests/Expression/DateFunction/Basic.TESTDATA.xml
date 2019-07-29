@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">result = "date/time is </message>
+    <message type="contains">; time is </message>
+    <message type="starts_with">result = "" </message>
+    <message type="contains"> is silly" </message>
+  </expected_messages>
+</marionette_info>

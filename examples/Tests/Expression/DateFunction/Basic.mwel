@@ -1,0 +1,28 @@
+var format = ''
+
+var result = '' {
+    report('result = "$result"')
+}
+
+
+protocol {
+    // Simple format
+    format = 'date/time is %+'
+    result = date(format)
+    assert (size(result) > size(format))
+
+    // More complicated format
+    format = 'date is %Y/%m/%d; time is %H:%M:%S'
+    result = date(format)
+    assert (size(result) == size(format) + 2)  // +2 for the century
+
+    // Empty format
+    result = date('')
+    assert (size(result) == 0)
+
+    // Very long format, requiring the internal buffer passed to strftime to
+    // be resized several times
+    format = ' is silly'
+    result = date('%Y' * 1000 + format)
+    assert (size(result) == size(format) + 4000)
+}

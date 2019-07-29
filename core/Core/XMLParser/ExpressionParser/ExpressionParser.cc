@@ -2566,6 +2566,36 @@ namespace stx MW_SYMBOL_PUBLIC {
         return Datum( value );
     }
 
+    Datum BasicSymbolTable::funcDATE(const paramlist_type& paramlist)
+    {
+        auto &param = paramlist[0];
+        if (!(param.isString())) {
+            throw BadFunctionCallException("Argument to function DATE() must be a string");
+        }
+        
+        auto &format = param.getString();
+        if (format.empty()) {
+            // An empty format string is silly, but whatever
+            return Datum("");
+        }
+        
+        time_t currentTime;
+        struct tm currentLocalTime;
+        if (-1 == time(&currentTime) ||
+            !localtime_r(&currentTime, &currentLocalTime))
+        {
+            mw::merror(mw::M_GENERIC_MESSAGE_DOMAIN, "Cannot determine current local time.  Returning empty string.");
+            return Datum("");
+        }
+        
+        std::vector<char> buffer(256);
+        while (0 == strftime(buffer.data(), buffer.size(), format.c_str(), &currentLocalTime)) {
+            buffer.resize(2 * buffer.size());
+        }
+        
+        return Datum(buffer.data());
+    }
+    
 	Datum BasicSymbolTable::funcFORMAT(const paramlist_type &paramlist)
 	{
         if (paramlist.size() < 1) {
@@ -2848,6 +2878,7 @@ namespace stx MW_SYMBOL_PUBLIC {
         setFunction("SELECTION", 2, funcSELECTION);
         setFunction("NUM_ACCEPTED", 1, funcNUMACCEPTED);
         
+        setFunction("DATE", 1, funcDATE);
 		setFunction("FORMAT", -1, funcFORMAT);
         setFunction("OSNAME", 0, funcOSNAME);
         setFunction("FILENAMES", 1, funcFILENAMES);

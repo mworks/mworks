@@ -257,6 +257,7 @@ protected:
     static Datum	funcSELECTION(const paramlist_type& paramlist);
     static Datum	funcNUMACCEPTED(const paramlist_type& paramlist);
     
+    static Datum    funcDATE(const paramlist_type& paramlist);
 	static Datum	funcFORMAT(const paramlist_type& paramlist);
     static Datum	funcOSNAME(const paramlist_type& paramlist);
     static Datum	funcFILENAMES(const paramlist_type& paramlist);
