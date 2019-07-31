@@ -474,6 +474,7 @@
                                 <string key="NSValueTransformerName">MWStringTruncateValueTransformer</string>
                             </dictionary>
                         </binding>
+                        <binding destination="379" name="toolTip" keyPath="representedObject.experimentPath" id="Ihk-LD-Ac7"/>
                     </connections>
                 </textField>
                 <textField verticalHuggingPriority="750" id="441">
@@ -711,6 +712,7 @@
                                         <string key="NSValueTransformerName">MWStringTruncateValueTransformer</string>
                                     </dictionary>
                                 </binding>
+                                <binding destination="379" name="toolTip" keyPath="representedObject.dataFileName" id="TV9-gT-bnU"/>
                             </connections>
                         </textField>
                         <button id="465">
@@ -1334,9 +1336,9 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="NSInfo" id="783"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="784">
-                        <rect key="frame" x="39" y="40" width="210" height="38"/>
+                        <rect key="frame" x="39" y="56" width="210" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="This file is located in the directory ~/Documents/MWorks/Data on the remote server" id="785">
+                        <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="This file is located on the machine running the MWorks server application" id="785">
                             <font key="font" metaFont="miniSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1351,17 +1353,20 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="487" name="value" keyPath="modalClientInstanceInCharge.dataFileName.lastPathComponent" id="1302">
+                            <binding destination="487" name="toolTip" keyPath="modalClientInstanceInCharge.dataFileName" id="Qiq-QB-mG6"/>
+                            <binding destination="487" name="value" keyPath="modalClientInstanceInCharge.dataFileName" id="pVO-I5-iUC">
                                 <dictionary key="options">
                                     <string key="NSNoSelectionPlaceholder">No File Loaded</string>
                                     <string key="NSNotApplicablePlaceholder">No File Loaded</string>
                                     <string key="NSNullPlaceholder">No File Loaded</string>
+                                    <string key="NSValueTransformerName">MWStringTruncateValueTransformer</string>
                                 </dictionary>
                             </binding>
                         </connections>
                     </textField>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="416.5" y="150"/>
         </window>
         <window title="Data File Streaming" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="798" userLabel="Open Data File Panel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
@@ -1426,9 +1431,9 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="NSInfo" id="812"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="800">
-                        <rect key="frame" x="39" y="40" width="210" height="33"/>
+                        <rect key="frame" x="39" y="51" width="210" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="Data will be saved in the directory ~/Documents/MWorks/Data on the remote server" id="813">
+                        <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="Data will be saved on the machine running the MWorks server application" id="813">
                             <font key="font" metaFont="miniSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1436,6 +1441,7 @@
                     </textField>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="138.5" y="281.5"/>
         </window>
         <arrayController editable="NO" id="881">
             <declaredKeys>
