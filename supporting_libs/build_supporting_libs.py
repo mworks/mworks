@@ -360,7 +360,7 @@ def openssl(ios=True):
 
 @builder
 def python3(ios=True):
-    version = '3.7.3'
+    version = '3.7.4'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -412,7 +412,7 @@ def python3(ios=True):
 
 @builder
 def numpy3(ios=True):
-    version = '1.16.4'
+    version = '1.17.0'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -517,7 +517,7 @@ def boost(ios=True):
 
 @builder
 def zeromq(ios=True):
-    version = '4.3.1'
+    version = '4.3.2'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -525,8 +525,6 @@ def zeromq(ios=True):
         if not os.path.isdir(srcdir):
             download_archive('https://github.com/zeromq/libzmq/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
-            with workdir(srcdir):
-                apply_patch('zeromq_pthread_setname.patch')
 
         with workdir(srcdir):
             run_configure_and_make(
@@ -581,7 +579,7 @@ def libxslt(macos=False, ios=True):
 
 @builder
 def sqlite(ios=True):
-    version = '3280000'
+    version = '3290000'
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -591,9 +589,12 @@ def sqlite(ios=True):
             unpack_tarfile(tarfile, srcdir)
 
         with workdir(srcdir):
+            extra_compile_flags = '-DSQLITE_DQS=0'  # Recommended as of 3.29.0
+            if building_for_ios:
+                extra_compile_flags = join_flags(extra_compile_flags,
+                                                 '-DSQLITE_NOHAVE_SYSTEM')
             run_configure_and_make(
-                extra_compile_flags = ('-DSQLITE_NOHAVE_SYSTEM'
-                                       if building_for_ios else ''),
+                extra_compile_flags = extra_compile_flags,
                 )
 
 
