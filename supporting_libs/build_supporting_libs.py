@@ -274,6 +274,7 @@ def run_configure_and_make(
     extra_cxxflags = '',
     extra_ldflags = '',
     extra_cppflags = '',
+    ios_host_platform = 'arm-apple-darwin',
     ):
 
     args = [
@@ -288,7 +289,7 @@ def run_configure_and_make(
     # Force configure into cross-compilation mode when building for an
     # iOS device or simulator
     if building_for_ios:
-        args.append('--host=arm-apple-darwin')
+        args.append('--host=' + ios_host_platform)
 
     check_call(
         args = command + args + extra_args,
@@ -320,6 +321,29 @@ def add_object_files_to_libpythonall(exclude=()):
 # Library builders
 #
 ################################################################################
+
+
+@builder
+def libffi(ios=True):
+    version = '3.3-rc0'
+    srcdir = 'libffi-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('https://github.com/libffi/libffi/releases/download/v%s/' % version, tarfile)
+            unpack_tarfile(tarfile, srcdir)
+
+        with workdir(srcdir):
+            other_kwargs = {}
+            if building_for_ios:
+                assert os.environ['ARCHS'] == 'arm64'
+                other_kwargs['ios_host_platform'] = 'aarch64-apple-darwin'
+            run_configure_and_make(
+                extra_args = ['--enable-portable-binary'],
+                extra_cflags = '-std=gnu11',
+                **other_kwargs
+                )
 
 
 @builder
@@ -371,6 +395,7 @@ def python(ios=True):
             download_archive('https://www.python.org/ftp/python/%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
+                apply_patch('python_ctypes.patch')
                 apply_patch('python_static_zlib.patch')
                 if building_for_ios:
                     apply_patch('python_ios_build.patch')
@@ -397,7 +422,7 @@ def python(ios=True):
 
             run_configure_and_make(
                 extra_args = extra_args,
-                extra_cflags = '-fvisibility=default',
+                extra_compile_flags = '-fvisibility=default',
                 )
 
             add_object_files_to_libpythonall(
@@ -425,7 +450,6 @@ def numpy(ios=True):
             with workdir(srcdir):
                 if building_for_ios:
                     apply_patch('numpy_ios_build.patch')
-                    apply_patch('numpy_ios_no_ctypes.patch')
                     apply_patch('numpy_ios_no_private_apis.patch')
 
         with workdir(srcdir):

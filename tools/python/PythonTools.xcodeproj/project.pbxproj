@@ -71,6 +71,7 @@
 		E168814C1FBCA3500049BCDA /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979316C19859001481E9 /* libscarab.a */; };
 		E181E051210F9B7A0045C955 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E181E04F210F9B520045C955 /* libcrypto.a */; };
 		E181E052210F9BAA0045C955 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E181E050210F9B560045C955 /* libssl.a */; };
+		E18334EB22F89705001D2A06 /* libffi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E18334EA22F89705001D2A06 /* libffi.a */; };
 		E18AE4B620FFD52900C3CF38 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B020FFD4F400C3CF38 /* Accelerate.framework */; };
 		E18AE4B720FFD52E00C3CF38 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B120FFD4FE00C3CF38 /* SystemConfiguration.framework */; };
 		E18AE4B820FFD53100C3CF38 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B420FFD50E00C3CF38 /* libedit.tbd */; };
@@ -192,6 +193,7 @@
 		E16881501FBCA3500049BCDA /* _mworks_3.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = _mworks_3.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		E181E04F210F9B520045C955 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "/Library/Application Support/MWorks/Developer/lib/libcrypto.a"; sourceTree = "<absolute>"; };
 		E181E050210F9B560045C955 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "/Library/Application Support/MWorks/Developer/lib/libssl.a"; sourceTree = "<absolute>"; };
+		E18334EA22F89705001D2A06 /* libffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libffi.a; path = "/Library/Application Support/MWorks/Developer/lib/libffi.a"; sourceTree = "<absolute>"; };
 		E18AE4B020FFD4F400C3CF38 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E18AE4B120FFD4FE00C3CF38 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E18AE4B220FFD50500C3CF38 /* libpanel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpanel.tbd; path = usr/lib/libpanel.tbd; sourceTree = SDKROOT; };
@@ -281,6 +283,7 @@
 				E18AE4BB20FFD53900C3CF38 /* libsqlite3.tbd in Frameworks */,
 				E105D17120FE2F1A002E2464 /* libz.tbd in Frameworks */,
 				E181E051210F9B7A0045C955 /* libcrypto.a in Frameworks */,
+				E18334EB22F89705001D2A06 /* libffi.a in Frameworks */,
 				E181E052210F9BAA0045C955 /* libssl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -390,6 +393,7 @@
 				E1DB978F16C19830001481E9 /* libboost_filesystem.a */,
 				E1DB978D16C1981E001481E9 /* libboost_serialization.a */,
 				E181E04F210F9B520045C955 /* libcrypto.a */,
+				E18334EA22F89705001D2A06 /* libffi.a */,
 				E1DB979316C19859001481E9 /* libscarab.a */,
 				E181E050210F9B560045C955 /* libssl.a */,
 			);
@@ -796,6 +800,7 @@
 					"-lsqlite3",
 					"-lz",
 					"-lcrypto",
+					"-lffi",
 					"-lssl",
 					"-force_load",
 					"$(BUILT_PRODUCTS_DIR)/lib/libpython$(MW_PYTHON_3_VERSION)_all.a",
