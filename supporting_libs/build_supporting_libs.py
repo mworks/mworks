@@ -359,7 +359,7 @@ def openssl(ios=True):
 
 
 @builder
-def python3(ios=True):
+def python(ios=True):
     version = '3.7.4'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
@@ -411,7 +411,7 @@ def python3(ios=True):
 
 
 @builder
-def numpy3(ios=True):
+def numpy(ios=True):
     version = '1.17.0'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
@@ -424,6 +424,7 @@ def numpy3(ios=True):
                 apply_patch('numpy_no_ctypes.patch')
                 if building_for_ios:
                     apply_patch('numpy_ios_build.patch')
+                    apply_patch('numpy_ios_no_private_apis.patch')
 
         with workdir(srcdir):
             env = get_clean_env()
