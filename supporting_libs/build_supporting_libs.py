@@ -375,6 +375,8 @@ def python(ios=True):
                 if building_for_ios:
                     apply_patch('python_ios_build.patch')
                     apply_patch('python_ios_disabled_modules.patch')
+                    apply_patch('python_ios_fixes.patch')
+                    apply_patch('python_ios_test_fixes.patch')
                 else:
                     apply_patch('python_macos_10_13_required.patch')
                     apply_patch('python_macos_disabled_modules.patch')
