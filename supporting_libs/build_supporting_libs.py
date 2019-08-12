@@ -421,9 +421,9 @@ def numpy(ios=True):
             download_archive('https://github.com/numpy/numpy/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
-                apply_patch('numpy_no_ctypes.patch')
                 if building_for_ios:
                     apply_patch('numpy_ios_build.patch')
+                    apply_patch('numpy_ios_no_ctypes.patch')
                     apply_patch('numpy_ios_no_private_apis.patch')
 
         with workdir(srcdir):
