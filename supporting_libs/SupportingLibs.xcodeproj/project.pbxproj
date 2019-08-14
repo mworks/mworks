@@ -30,6 +30,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E14CC2BD2304857600554FC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1DF4BAD1C57E0D20081491C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1DF4BBC1C57E95E0081491C;
+			remoteInfo = Everything;
+		};
 		E1DF4BBF1C57E96C0081491C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E1DF4BAD1C57E0D20081491C /* Project object */;
@@ -122,6 +129,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
+		E14CC2BA230484DF00554FC6 /* RunPythonTests */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-Ed -m test -W -uall";
+			buildConfigurationList = E14CC2BB230484DF00554FC6 /* Build configuration list for PBXLegacyTarget "RunPythonTests" */;
+			buildPhases = (
+			);
+			buildToolPath = "$(BUILT_PRODUCTS_DIR)/bin/python$(MW_PYTHON_3_VERSION)";
+			buildWorkingDirectory = "";
+			dependencies = (
+				E14CC2BE2304857600554FC6 /* PBXTargetDependency */,
+			);
+			name = RunPythonTests;
+			passBuildSettingsInEnvironment = 0;
+			productName = RunPythonTests;
+		};
 		E1DF4BB11C57E0D20081491C /* SupportingLibs */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = build_supporting_libs.py;
@@ -181,6 +203,10 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "The MWorks Project";
 				TargetAttributes = {
+					E14CC2BA230484DF00554FC6 = {
+						CreatedOnToolsVersion = 10.3;
+						ProvisioningStyle = Automatic;
+					};
 					E1DF4BB11C57E0D20081491C = {
 						CreatedOnToolsVersion = 7.2;
 						ProvisioningStyle = Automatic;
@@ -215,6 +241,7 @@
 			targets = (
 				E1DF4BB11C57E0D20081491C /* SupportingLibs */,
 				E1DF4BBC1C57E95E0081491C /* Everything */,
+				E14CC2BA230484DF00554FC6 /* RunPythonTests */,
 				E1F298D01E451D7A006842A7 /* SupportingLibs-iOS */,
 				E1FBC8D322FC852700C1B87E /* PythonTests-iOS */,
 			);
@@ -269,6 +296,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E14CC2BE2304857600554FC6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1DF4BBC1C57E95E0081491C /* Everything */;
+			targetProxy = E14CC2BD2304857600554FC6 /* PBXContainerItemProxy */;
+		};
 		E1DF4BC01C57E96C0081491C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E1DF4BB11C57E0D20081491C /* SupportingLibs */;
@@ -301,6 +333,14 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E14CC2BC230484DF00554FC6 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F298CF1E451A6D006842A7 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
 		E1DF4BB21C57E0D20081491C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -359,6 +399,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E14CC2BB230484DF00554FC6 /* Build configuration list for PBXLegacyTarget "RunPythonTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E14CC2BC230484DF00554FC6 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
 		E1DF4BB01C57E0D20081491C /* Build configuration list for PBXProject "SupportingLibs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
