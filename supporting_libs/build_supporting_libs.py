@@ -405,6 +405,7 @@ def python(ios=True):
                 else:
                     apply_patch('python_macos_10_13_required.patch')
                     apply_patch('python_macos_disabled_modules.patch')
+                    apply_patch('python_macos_test_fixes.patch')
 
         with workdir(srcdir):
             extra_args = [
@@ -419,6 +420,11 @@ def python(ios=True):
                     'ac_cv_file__dev_ptmx=no',
                     'ac_cv_file__dev_ptc=no',
                     ]
+            else:
+                # Set MACOSX_DEPLOYMENT_TARGET, so that the correct value is
+                # recorded in the installed sysconfig data
+                extra_args.append('MACOSX_DEPLOYMENT_TARGET=' +
+                                  os.environ['MACOSX_DEPLOYMENT_TARGET'])
 
             run_configure_and_make(
                 extra_args = extra_args,
