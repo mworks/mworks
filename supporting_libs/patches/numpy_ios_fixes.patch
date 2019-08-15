@@ -1,0 +1,12 @@
+diff -ur numpy-1.17.0/numpy/distutils/cpuinfo.py numpy/numpy/distutils/cpuinfo.py
+--- numpy-1.17.0/numpy/distutils/cpuinfo.py	2019-07-26 10:08:49.000000000 -0400
++++ numpy/numpy/distutils/cpuinfo.py	2019-08-14 15:18:23.000000000 -0400
+@@ -30,6 +30,8 @@
+ from numpy.distutils.compat import get_exception
+ 
+ def getoutput(cmd, successful_status=(0,), stacklevel=1):
++    # Can't open a subprocess on iOS
++    return False, ""
+     try:
+         status, output = getstatusoutput(cmd)
+     except EnvironmentError:

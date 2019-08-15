@@ -71,7 +71,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "run_tests"
+            argument = "run_python_tests"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

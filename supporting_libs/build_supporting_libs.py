@@ -450,6 +450,7 @@ def numpy(ios=True):
             with workdir(srcdir):
                 if building_for_ios:
                     apply_patch('numpy_ios_build.patch')
+                    apply_patch('numpy_ios_fixes.patch')
                     apply_patch('numpy_ios_no_private_apis.patch')
 
         with workdir(srcdir):
@@ -480,6 +481,17 @@ def numpy(ios=True):
                 env = env)
 
             add_object_files_to_libpythonall(exclude=['python_xerbla.o'])
+
+        # The numpy test suite requires pytest, so install it and its
+        # dependencies (but outside of any standard location, because we
+        # don't want to distribute it)
+        check_call([
+            os.environ['MW_PYTHON_3'],
+            '-m', 'pip',
+            'install',
+            '--target', os.path.join(prefix, 'pytest'),
+            'pytest',
+            ])
 
 
 @builder

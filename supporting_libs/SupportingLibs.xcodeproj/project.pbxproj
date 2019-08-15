@@ -67,7 +67,7 @@
 		E1FBC8E322FC852800C1B87E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E1FBC8E522FC852800C1B87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1FBC8E622FC852800C1B87E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E1FBC8ED22FC969800C1B87E /* run_tests.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = run_tests.py; sourceTree = "<group>"; };
+		E1FBC8ED22FC969800C1B87E /* run_python_tests.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = run_python_tests.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +86,7 @@
 			children = (
 				E1DF4BB71C57E1570081491C /* External Config */,
 				E1DF4BC11C57F4630081491C /* build_supporting_libs.py */,
+				E1FBC8ED22FC969800C1B87E /* run_python_tests.py */,
 				E1FBC8D622FC852700C1B87E /* PythonTests-iOS */,
 				E1FBC8D522FC852700C1B87E /* Products */,
 			);
@@ -121,7 +122,6 @@
 				E1FBC8E222FC852800C1B87E /* LaunchScreen.storyboard */,
 				E1FBC8E522FC852800C1B87E /* Info.plist */,
 				E1FBC8E622FC852800C1B87E /* main.m */,
-				E1FBC8ED22FC969800C1B87E /* run_tests.py */,
 			);
 			path = "PythonTests-iOS";
 			sourceTree = "<group>";
@@ -131,7 +131,7 @@
 /* Begin PBXLegacyTarget section */
 		E14CC2BA230484DF00554FC6 /* RunPythonTests */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "-Ed -m test -W -uall";
+			buildArgumentsString = "-Ed -m run_python_tests -W -uall";
 			buildConfigurationList = E14CC2BB230484DF00554FC6 /* Build configuration list for PBXLegacyTarget "RunPythonTests" */;
 			buildPhases = (
 			);
@@ -277,7 +277,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "cd \"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}\"\n\nif [[ ! -d bin ]]; then\n  /bin/mkdir bin\n  /bin/ln -s \"../${EXECUTABLE_NAME}\" \"bin/python${MW_PYTHON_3_VERSION}\"\nfi\n\nif [[ ! -d include ]]; then\n  /bin/mkdir include\n  /usr/bin/rsync -a \"${MW_PYTHON_3_INCLUDEDIR}\" include\nfi\n\nif [[ ! -d lib ]]; then\n  /bin/mkdir lib\n  /usr/bin/rsync -a \"${MW_PYTHON_3_STDLIB_DIR}\" lib\n  /usr/bin/find lib -name '*.so' -exec /usr/bin/codesign --force --sign \"$CODE_SIGN_IDENTITY\" {} \\;\nfi\n\n/bin/cp -p \"${SRCROOT}/PythonTests-iOS/run_tests.py\" \"lib/python${MW_PYTHON_3_VERSION}/site-packages\"\n";
+			shellScript = "cd \"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}\"\n\nif [[ ! -d bin ]]; then\n  /bin/mkdir bin\n  /bin/ln -s \"../${EXECUTABLE_NAME}\" \"bin/python${MW_PYTHON_3_VERSION}\"\nfi\n\nif [[ ! -d include ]]; then\n  /bin/mkdir include\n  /usr/bin/rsync -a \"${MW_PYTHON_3_INCLUDEDIR}\" include\nfi\n\nif [[ ! -d lib ]]; then\n  /bin/mkdir lib\n  /usr/bin/rsync -a \"${MW_PYTHON_3_STDLIB_DIR}\" lib\n  /usr/bin/find lib -name '*.so' -exec /usr/bin/codesign --force --sign \"$CODE_SIGN_IDENTITY\" {} \\;\nfi\n\nif [[ ! -d pytest ]]; then\n  /usr/bin/rsync -a \"${BUILT_PRODUCTS_DIR}/pytest\" .\nfi\n\n/bin/cp -p \"${SRCROOT}/run_python_tests.py\" \"lib/python${MW_PYTHON_3_VERSION}/site-packages\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
