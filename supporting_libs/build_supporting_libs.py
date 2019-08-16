@@ -456,6 +456,7 @@ def numpy(ios=True):
             with workdir(srcdir):
                 if building_for_ios:
                     apply_patch('numpy_ios_fixes.patch')
+                    apply_patch('numpy_ios_test_fixes.patch')
 
         with workdir(srcdir):
             env = get_clean_env()
