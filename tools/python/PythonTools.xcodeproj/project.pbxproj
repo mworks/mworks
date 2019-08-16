@@ -72,7 +72,6 @@
 		E181E051210F9B7A0045C955 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E181E04F210F9B520045C955 /* libcrypto.a */; };
 		E181E052210F9BAA0045C955 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E181E050210F9B560045C955 /* libssl.a */; };
 		E18334EB22F89705001D2A06 /* libffi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E18334EA22F89705001D2A06 /* libffi.a */; };
-		E18AE4B620FFD52900C3CF38 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B020FFD4F400C3CF38 /* Accelerate.framework */; };
 		E18AE4B720FFD52E00C3CF38 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B120FFD4FE00C3CF38 /* SystemConfiguration.framework */; };
 		E18AE4B820FFD53100C3CF38 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B420FFD50E00C3CF38 /* libedit.tbd */; };
 		E18AE4B920FFD53400C3CF38 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E18AE4B320FFD50A00C3CF38 /* libncurses.tbd */; };
@@ -194,7 +193,6 @@
 		E181E04F210F9B520045C955 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "/Library/Application Support/MWorks/Developer/lib/libcrypto.a"; sourceTree = "<absolute>"; };
 		E181E050210F9B560045C955 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "/Library/Application Support/MWorks/Developer/lib/libssl.a"; sourceTree = "<absolute>"; };
 		E18334EA22F89705001D2A06 /* libffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libffi.a; path = "/Library/Application Support/MWorks/Developer/lib/libffi.a"; sourceTree = "<absolute>"; };
-		E18AE4B020FFD4F400C3CF38 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E18AE4B120FFD4FE00C3CF38 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E18AE4B220FFD50500C3CF38 /* libpanel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpanel.tbd; path = usr/lib/libpanel.tbd; sourceTree = SDKROOT; };
 		E18AE4B320FFD50A00C3CF38 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
@@ -273,7 +271,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1D3CAA11B1CB7F700E94A2C /* MWorksCore.framework in Frameworks */,
-				E18AE4B620FFD52900C3CF38 /* Accelerate.framework in Frameworks */,
 				E1FD0B8020FD125300A88259 /* CoreFoundation.framework in Frameworks */,
 				E18AE4B720FFD52E00C3CF38 /* SystemConfiguration.framework in Frameworks */,
 				E18AE4C020FFD5A200C3CF38 /* libbz2.tbd in Frameworks */,
@@ -381,7 +378,6 @@
 			isa = PBXGroup;
 			children = (
 				E18D3BB7165541B900D472D0 /* MWorksCore.framework */,
-				E18AE4B020FFD4F400C3CF38 /* Accelerate.framework */,
 				E1FD0B7E20FD123C00A88259 /* CoreFoundation.framework */,
 				E18AE4B120FFD4FE00C3CF38 /* SystemConfiguration.framework */,
 				E18AE4BF20FFD59900C3CF38 /* libbz2.tbd */,
@@ -792,8 +788,6 @@
 				MW_PYTHON_3_PREFIX = "$(BUILT_PRODUCTS_DIR)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-framework",
-					Accelerate,
 					"-framework",
 					CoreFoundation,
 					"-lbz2",

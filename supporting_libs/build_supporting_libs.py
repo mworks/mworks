@@ -455,13 +455,16 @@ def numpy(ios=True):
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 if building_for_ios:
-                    apply_patch('numpy_ios_build.patch')
                     apply_patch('numpy_ios_fixes.patch')
-                    apply_patch('numpy_ios_no_private_apis.patch')
 
         with workdir(srcdir):
             env = get_clean_env()
             env['PYTHONPATH'] = os.environ['MW_PYTHON_3_STDLIB_DIR']
+
+            # Don't use Accelerate, as it seems to make things worse rather
+            # than better
+            env['NPY_BLAS_ORDER'] = ''
+            env['NPY_LAPACK_ORDER'] = ''
 
             if building_for_ios:
                 env.update({
@@ -486,7 +489,7 @@ def numpy(ios=True):
                 ],
                 env = env)
 
-            add_object_files_to_libpythonall(exclude=['python_xerbla.o'])
+            add_object_files_to_libpythonall()
 
         # The numpy test suite requires pytest, so install it and its
         # dependencies (but outside of any standard location, because we

@@ -1,6 +1,7 @@
 import _posixsubprocess
 import os
 import sys
+import tempfile
 import unittest
 
 
@@ -35,7 +36,13 @@ def run_tests():
     # Run NumPy test suite
     import numpy
     sys.path.append(os.path.join(sys.prefix, 'pytest'))
-    numpy.test('full')
+    with tempfile.TemporaryDirectory() as tmpdir:
+        origdir = os.getcwd()
+        os.chdir(tmpdir)
+        try:
+            numpy.test('full')
+        finally:
+            os.chdir(origdir)
 
 
 if __name__ == '__main__':
