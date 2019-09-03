@@ -24,6 +24,9 @@ def main():
     else:
         cmd.extend(['clean', 'build'])
 
+    cmd.extend(['GCC_TREAT_WARNINGS_AS_ERRORS=YES',
+                'SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'])
+
     if args.version:
         cmd.append('MW_VERSION=' + args.version)
 

@@ -88,11 +88,10 @@ def xcodebuild(scheme='Everything', actions=['clean', 'build']):
     cmd = [xcrun,
            'xcodebuild',
            '-scheme', scheme,
-           ] + actions
-
-    if treat_warnings_as_errors:
-        cmd.extend(['GCC_TREAT_WARNINGS_AS_ERRORS=YES',
-                    'SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'])
+           ] + actions + [
+           'GCC_TREAT_WARNINGS_AS_ERRORS=YES',
+           'SWIFT_TREAT_WARNINGS_AS_ERRORS=YES',
+           ]
 
     if mw_version[0] in string.digits:
         # Use version number only if it starts with a digit.  This
@@ -247,7 +246,7 @@ def mwel():
 
 
 def main():
-    global mw_version, treat_warnings_as_errors
+    global mw_version
 
     parser = OptionParser(usage='Usage: %prog [options] [builder_name ...]')
     parser.add_option('--mw-version',
@@ -258,14 +257,9 @@ def main():
                       dest = 'first_builder',
                       metavar = 'BUILDER_NAME',
                       help = 'Start build from given builder')
-    parser.add_option('--treat-warnings-as-errors',
-                      action = 'store_true',
-                      dest = 'treat_warnings_as_errors',
-                      help = 'Treat compiler warnings as errors')
 
     (options, requested_builders) = parser.parse_args()
     mw_version = options.mw_version
-    treat_warnings_as_errors = options.treat_warnings_as_errors
 
     all_builder_names = [builder.__name__ for builder in all_builders]
 
