@@ -49,7 +49,7 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
 
 
 static void initializeSetupVariables(NSUserDefaults *userDefaults,
-                                     MWSSetupVariablesController *setupVariablesController)
+                                     MWKSetupVariablesController *setupVariablesController)
 {
     NSString *serverName = [userDefaults stringForKey:SERVER_NAME_PREFERENCE];
     if (!serverName || serverName.length == 0) {
@@ -124,7 +124,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         
         NSUserDefaults *userDefaults = NSUserDefaults.standardUserDefaults;
         registerDefaultSettings(userDefaults);
-        _setupVariablesController = [[MWSSetupVariablesController alloc] init];
+        _setupVariablesController = [[MWKSetupVariablesController alloc] init];
         initializeSetupVariables(userDefaults, self.setupVariablesController);
         installExampleExperiments(userDefaults);
         

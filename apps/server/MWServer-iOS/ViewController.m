@@ -51,7 +51,7 @@
     // If needed, swap display width and height to match the current device orientation
     //
     
-    MWSSetupVariablesController *setupVariablesController = APP_DELEGATE.setupVariablesController;
+    MWKSetupVariablesController *setupVariablesController = APP_DELEGATE.setupVariablesController;
     double width = setupVariablesController.displayWidth.doubleValue;
     double height = setupVariablesController.displayHeight.doubleValue;
     

@@ -51,6 +51,9 @@
       </FileRef>
    </Group>
    <FileRef
+      location = "group:../swift/MWorksSwift.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:../apps/server/MWServer.xcodeproj">
    </FileRef>
 </Workspace>

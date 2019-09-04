@@ -33,9 +33,19 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E116F7862320216400405FDC /* MWKSetupVariablesController.m in Sources */ = {isa = PBXBuildFile; fileRef = E116F7842320216400405FDC /* MWKSetupVariablesController.m */; };
+		E116F7872320216400405FDC /* MWKSetupVariablesController.h in Headers */ = {isa = PBXBuildFile; fileRef = E116F7852320216400405FDC /* MWKSetupVariablesController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E116F7892320244600405FDC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E116F7882320244500405FDC /* AppKit.framework */; };
+		E116F78B232024B500405FDC /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E116F78A232024B500405FDC /* libboost_filesystem.a */; };
 		E1446F3122B7D56E0002B9A9 /* Datum.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1446F3022B7D56E0002B9A9 /* Datum.swift */; };
 		E1658D2422B3E243002F22E1 /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */; };
 		E1658D2B22B3E243002F22E1 /* MWorksSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = E1658D1D22B3E243002F22E1 /* MWorksSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1719E6F23203DE40083EAF8 /* MWKDatum.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CD1BCC22B3EAFC008C14EE /* MWKDatum.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1719E7023203DEC0083EAF8 /* MWKDatum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */; };
+		E1719E7123203DEF0083EAF8 /* Datum.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1446F3022B7D56E0002B9A9 /* Datum.swift */; };
+		E1719E7223203DF30083EAF8 /* MWKSetupVariablesController.h in Headers */ = {isa = PBXBuildFile; fileRef = E116F7852320216400405FDC /* MWKSetupVariablesController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1719E7323203DF80083EAF8 /* MWKSetupVariablesController.m in Sources */ = {isa = PBXBuildFile; fileRef = E116F7842320216400405FDC /* MWKSetupVariablesController.m */; };
+		E1719E7423203DFC0083EAF8 /* MWorksSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = E1658D1D22B3E243002F22E1 /* MWorksSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CD1BCE22B3EAFC008C14EE /* MWKDatum.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CD1BCC22B3EAFC008C14EE /* MWKDatum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CD1BCF22B3EAFC008C14EE /* MWKDatum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */; };
 		E1CD1BD422B3EEF8008C14EE /* DatumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD1BD322B3EEF8008C14EE /* DatumTests.swift */; };
@@ -81,12 +91,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E116F7842320216400405FDC /* MWKSetupVariablesController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWKSetupVariablesController.m; sourceTree = "<group>"; };
+		E116F7852320216400405FDC /* MWKSetupVariablesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWKSetupVariablesController.h; sourceTree = "<group>"; };
+		E116F7882320244500405FDC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E116F78A232024B500405FDC /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E1446F3022B7D56E0002B9A9 /* Datum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datum.swift; sourceTree = "<group>"; };
 		E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1658D1D22B3E243002F22E1 /* MWorksSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWorksSwift.h; sourceTree = "<group>"; };
 		E1658D1E22B3E243002F22E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1658D2322B3E243002F22E1 /* MWorksSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWorksSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1658D2A22B3E243002F22E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1719E68232039980083EAF8 /* MWorksSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CD1BC922B3E359008C14EE /* iOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Framework.xcconfig; sourceTree = "<group>"; };
 		E1CD1BCA22B3E359008C14EE /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
 		E1CD1BCB22B3E359008C14EE /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -104,6 +119,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1CD1C2322B412ED008C14EE /* MWorksCore.framework in Frameworks */,
+				E116F7892320244600405FDC /* AppKit.framework in Frameworks */,
+				E116F78B232024B500405FDC /* libboost_filesystem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +129,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1658D2422B3E243002F22E1 /* MWorksSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1719E65232039980083EAF8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +158,7 @@
 			children = (
 				E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */,
 				E1658D2322B3E243002F22E1 /* MWorksSwiftTests.xctest */,
+				E1719E68232039980083EAF8 /* MWorksSwift.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -145,6 +170,8 @@
 				E1CD1C2722B4149B008C14EE /* MWKDatum_Private.h */,
 				E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */,
 				E1446F3022B7D56E0002B9A9 /* Datum.swift */,
+				E116F7852320216400405FDC /* MWKSetupVariablesController.h */,
+				E116F7842320216400405FDC /* MWKSetupVariablesController.m */,
 				E1658D1D22B3E243002F22E1 /* MWorksSwift.h */,
 				E1CD1C2022B41148008C14EE /* MWorksSwift-Prefix.pch */,
 				E1658D1E22B3E243002F22E1 /* Info.plist */,
@@ -176,6 +203,8 @@
 			isa = PBXGroup;
 			children = (
 				E1CD1C2222B412ED008C14EE /* MWorksCore.framework */,
+				E116F7882320244500405FDC /* AppKit.framework */,
+				E116F78A232024B500405FDC /* libboost_filesystem.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -188,7 +217,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1CD1BCE22B3EAFC008C14EE /* MWKDatum.h in Headers */,
+				E116F7872320216400405FDC /* MWKSetupVariablesController.h in Headers */,
 				E1658D2B22B3E243002F22E1 /* MWorksSwift.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1719E63232039980083EAF8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1719E6F23203DE40083EAF8 /* MWKDatum.h in Headers */,
+				E1719E7223203DF30083EAF8 /* MWKSetupVariablesController.h in Headers */,
+				E1719E7423203DFC0083EAF8 /* MWorksSwift.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +271,24 @@
 			productReference = E1658D2322B3E243002F22E1 /* MWorksSwiftTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		E1719E67232039980083EAF8 /* MWorksSwift-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1719E6E232039990083EAF8 /* Build configuration list for PBXNativeTarget "MWorksSwift-iOS" */;
+			buildPhases = (
+				E1719E63232039980083EAF8 /* Headers */,
+				E1719E64232039980083EAF8 /* Sources */,
+				E1719E65232039980083EAF8 /* Frameworks */,
+				E1719E66232039980083EAF8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MWorksSwift-iOS";
+			productName = "MWorksSwift-iOS";
+			productReference = E1719E68232039980083EAF8 /* MWorksSwift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -247,6 +305,9 @@
 					E1658D2222B3E243002F22E1 = {
 						CreatedOnToolsVersion = 10.2.1;
 						LastSwiftMigration = 1020;
+					};
+					E1719E67232039980083EAF8 = {
+						CreatedOnToolsVersion = 10.3;
 					};
 					E1F603AA22BC162000007C61 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -272,6 +333,7 @@
 				E1658D2222B3E243002F22E1 /* MWorksSwiftTests */,
 				E1F603AA22BC162000007C61 /* Install */,
 				E1F603AD22BC162C00007C61 /* Everything */,
+				E1719E67232039980083EAF8 /* MWorksSwift-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -291,6 +353,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E1719E66232039980083EAF8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -299,6 +368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1CD1BCF22B3EAFC008C14EE /* MWKDatum.m in Sources */,
+				E116F7862320216400405FDC /* MWKSetupVariablesController.m in Sources */,
 				E1446F3122B7D56E0002B9A9 /* Datum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,6 +378,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1CD1BD422B3EEF8008C14EE /* DatumTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1719E64232039980083EAF8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1719E7023203DEC0083EAF8 /* MWKDatum.m in Sources */,
+				E1719E7323203DF80083EAF8 /* MWKSetupVariablesController.m in Sources */,
+				E1719E7123203DEF0083EAF8 /* Datum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +428,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MWorksSwift/MWorksSwift-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = MWorksSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -369,6 +453,30 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Development;
+		};
+		E1719E6D232039990083EAF8 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1CD1BC922B3E359008C14EE /* iOS_Framework.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MWorksSwift/MWorksSwift-Prefix.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MWorksSwift/Info.plist;
+				OTHER_LDFLAGS = (
+					"-framework",
+					MWorksCore,
+					"-lboost_filesystem",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksSwift-iOS";
+				PRODUCT_NAME = MWorksSwift;
 			};
 			name = Development;
 		};
@@ -411,6 +519,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1658D3222B3E243002F22E1 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1719E6E232039990083EAF8 /* Build configuration list for PBXNativeTarget "MWorksSwift-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1719E6D232039990083EAF8 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

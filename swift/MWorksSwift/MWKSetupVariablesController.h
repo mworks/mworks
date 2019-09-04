@@ -1,5 +1,5 @@
 //
-//  MWSSetupVariablesController.h
+//  MWKSetupVariablesController.h
 //  MWServer
 //
 //  Created by Christopher Stawarz on 6/4/14.
@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 
 
-@interface MWSSetupVariablesController : NSObject
+NS_ASSUME_NONNULL_BEGIN
+
+
+NS_SWIFT_NAME(SetupVariablesController)
+@interface MWKSetupVariablesController : NSObject
 
 @property(nonatomic, copy) NSString *serverName;
 @property(weak, nonatomic, readonly) NSArray *availableDisplays;
@@ -33,21 +37,4 @@
 @end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+NS_ASSUME_NONNULL_END

@@ -266,6 +266,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E1719E67232039980083EAF8"
+               BuildableName = "MWorksSwift.framework"
+               BlueprintName = "MWorksSwift-iOS"
+               ReferencedContainer = "container:../swift/MWorksSwift.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A211B1E57A49100C48E10"
                BuildableName = "MWorks.app"
                BlueprintName = "MWServer-iOS"

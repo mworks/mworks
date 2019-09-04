@@ -7,3 +7,4 @@
 //
 
 #import <MWorksSwift/MWKDatum.h>
+#import <MWorksSwift/MWKSetupVariablesController.h>

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MWSSetupVariablesController.h"
+#import <MWorksSwift/MWorksSwift.h>
 
 #define APP_DELEGATE ((AppDelegate *)(UIApplication.sharedApplication.delegate))
 
@@ -17,7 +17,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIAlertController* alert;
-@property (strong, nonatomic, readonly) MWSSetupVariablesController *setupVariablesController;
+@property (strong, nonatomic, readonly) MWKSetupVariablesController *setupVariablesController;
 @property (strong, nonatomic, readonly) NSString *listeningAddress;
 @property (strong, nonatomic, readonly) NSNumber *listeningPort;
 @property (nonatomic, readonly) BOOL hideChooseExperimentButton;

@@ -315,8 +315,8 @@
                 <outlet property="preferencesWindowTabView" destination="Vol-j0-I8A" id="k3A-KG-DPQ"/>
             </connections>
         </customObject>
-        <customObject id="YTj-mv-19p" customClass="MWSSetupVariablesController"/>
-        <objectController objectClassName="MWSSetupVariablesController" id="Npj-AL-FRl">
+        <customObject id="YTj-mv-19p" customClass="MWKSetupVariablesController"/>
+        <objectController objectClassName="MWKSetupVariablesController" id="Npj-AL-FRl">
             <connections>
                 <outlet property="content" destination="YTj-mv-19p" id="Oa9-BJ-yh5"/>
             </connections>

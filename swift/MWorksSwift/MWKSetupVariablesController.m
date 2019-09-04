@@ -1,24 +1,19 @@
 //
-//  MWSSetupVariablesController.m
+//  MWKSetupVariablesController.m
 //  MWServer
 //
 //  Created by Christopher Stawarz on 6/4/14.
 //
 //
 
-#import "MWSSetupVariablesController.h"
+#import "MWKSetupVariablesController.h"
 
 #if TARGET_OS_OSX
 #  import <AppKit/NSScreen.h>
 #endif
 
-#include <MWorksCore/ComponentRegistry.h>
-#include <MWorksCore/PlatformDependentServices.h>
-#include <MWorksCore/StandardVariables.h>
-#include <MWorksCore/XMLVariableWriter.h>
 
-
-@implementation MWSSetupVariablesController {
+@implementation MWKSetupVariablesController {
     dispatch_queue_t writeQueue;
 }
 
@@ -257,28 +252,3 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

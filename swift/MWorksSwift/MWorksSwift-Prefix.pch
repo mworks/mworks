@@ -11,7 +11,11 @@
 
 #ifdef __cplusplus
 
+#include <MWorksCore/ComponentRegistry.h>
 #include <MWorksCore/GenericData.h>
+#include <MWorksCore/PlatformDependentServices.h>
+#include <MWorksCore/StandardVariables.h>
+#include <MWorksCore/XMLVariableWriter.h>
 
 #endif /* defined(__cplusplus) */
 
