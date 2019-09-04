@@ -445,7 +445,7 @@ def python(ios=True):
 
 @builder
 def numpy(ios=True):
-    version = '1.17.0'
+    version = '1.17.1'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -506,7 +506,7 @@ def numpy(ios=True):
 
 @builder
 def boost(ios=True):
-    version = '1.70.0'
+    version = '1.71.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
