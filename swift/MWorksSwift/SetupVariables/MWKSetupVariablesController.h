@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import <MWorksSwift/MWorksSwiftDefines.h>
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-NS_SWIFT_NAME(SetupVariablesController)
+MWORKSSWIFT_PUBLIC_CLASS
 @interface MWKSetupVariablesController : NSObject
 
 @property(nonatomic, copy) NSString *serverName;

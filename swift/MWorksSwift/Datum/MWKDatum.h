@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <MWorksSwift/MWorksSwiftDefines.h>
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,6 +25,7 @@ typedef NS_ENUM(NSInteger, MWKDatumDataType) {
 } NS_SWIFT_NAME(Datum.DataType);
 
 
+MWORKSSWIFT_PUBLIC_CLASS
 NS_SWIFT_NAME(Datum)
 @interface MWKDatum : NSObject <NSCopying>
 
@@ -41,6 +44,9 @@ NS_SWIFT_NAME(Datum)
 @property(nullable, nonatomic, readonly) NSString *stringValue;
 @property(nullable, nonatomic, readonly) NSArray<MWKDatum *> *listValue;
 @property(nullable, nonatomic, readonly) NSDictionary<MWKDatum *, MWKDatum *> *dictValue;
+
+- (nullable MWKDatum *)objectAtIndexedSubscript:(NSInteger)index;
+- (nullable MWKDatum *)objectForKeyedSubscript:(NSString *)key;
 
 @end
 

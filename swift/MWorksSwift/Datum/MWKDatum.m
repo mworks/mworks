@@ -185,6 +185,46 @@
 }
 
 
+- (nullable MWKDatum *)objectAtIndexedSubscript:(NSInteger)index {
+    MWKDatum *object = nil;
+    switch (self.datum.getDataType()) {
+        case mw::M_LIST: {
+            auto &list = self.datum.getList();
+            if (index >= 0 && index < list.size()) {
+                object = [[self class] datumWithDatum:list.at(index)];
+            }
+            break;
+        }
+            
+        case mw::M_DICTIONARY: {
+            auto &dict = self.datum.getDict();
+            auto iter = dict.find(mw::Datum(static_cast<long long>(index)));
+            if (iter != dict.end()) {
+                object = [[self class] datumWithDatum:iter->second];
+            }
+            break;
+        }
+            
+        default:
+            break;
+    }
+    return object;
+}
+
+
+- (MWKDatum *)objectForKeyedSubscript:(NSString *)key {
+    MWKDatum *object = nil;
+    if (self.datum.isDictionary()) {
+        auto &dict = self.datum.getDict();
+        auto iter = dict.find(mw::Datum(key.UTF8String));
+        if (iter != dict.end()) {
+            object = [[self class] datumWithDatum:iter->second];
+        }
+    }
+    return object;
+}
+
+
 - (BOOL)isEqual:(id)object {
     if ([object isKindOfClass:[MWKDatum class]]) {
         return (self.datum == static_cast<MWKDatum *>(object).datum);

@@ -13,6 +13,8 @@
 #import <MWorksCocoa/MWConsoleController.h>
 #import <MWorksCore/Server.h>
 
+#import <MWorksSwift/MWorksSwift.h>
+
 #define LISTENING_ADDRESS_KEY @"listeningAddressKey"
 #define LISTENING_PORT_KEY @"listeningPortKey"
 
@@ -28,6 +30,7 @@
     NSString *listeningAddress;
     NSInteger listeningPort;
     
+    MWKServer *server;
     boost::shared_ptr<Server> core;
     MWConsoleController *cc;
     
@@ -60,8 +63,9 @@
         listeningAddress = [defaults objectForKey:LISTENING_ADDRESS_KEY];
         listeningPort = [defaults integerForKey:LISTENING_PORT_KEY];
         
-        core = boost::make_shared<Server>();
-        Server::registerInstance(core);
+        // TODO: handle server creation failure!
+        server = [MWKServer serverWithListeningAddress:listeningAddress listeningPort:listeningPort error:NULL];
+        core = Server::instance();
         
         cc = [[MWConsoleController alloc] init];
         [cc setTitle:@"Server Console"];
@@ -89,9 +93,7 @@
     ioActivity = [NSProcessInfo.processInfo beginActivityWithOptions:(NSActivityBackground | NSActivityIdleSystemSleepDisabled)
                                                               reason:@"Prevent I/O throttling"];
     
-    core->setHostname(listeningAddress.UTF8String);
-    core->setListenPort(listeningPort);
-    core->startServer();
+    [server start];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_OPEN_CLIENT]) {
         [NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
@@ -108,7 +110,7 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    core->stopServer();
+    [server stop];
     [NSProcessInfo.processInfo endActivity:ioActivity];
 }
 
@@ -162,12 +164,12 @@
 
 
 - (NSNumber *)codeForTag:(NSString *)tag {
-	return @(core->lookupCodeForTag([tag cStringUsingEncoding:NSASCIIStringEncoding]));
+    return @([server codeForTag:tag]);
 }
 
 
 - (void)unregisterCallbacksWithKey:(const char *)key {
-	core->unregisterCallbacks(key);
+    [server unregisterCallbacksWithKey:@(key)];
 }
 
 

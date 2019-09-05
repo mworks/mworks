@@ -9,11 +9,6 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 
-#include <MWorksCore/CoreBuilderForeman.h>
-#include <MWorksCore/Server.h>
-#include <MWorksCore/StandardServerCoreBuilder.h>
-#include <MWorksCore/ZeroMQUtilities.hpp>
-
 #define SERVER_NAME_PREFERENCE @"server_name_preference"
 #define LISTENING_PORT_PREFERENCE @"listening_port_preference"
 #define ALLOW_ALT_FAILOVER_PREFERENCE @"allow_alt_failover_preference"
@@ -26,8 +21,8 @@
 #define USE_COLOR_MANAGEMENT_PREFERENCE @"use_color_management_preference"
 #define DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE @"did_install_example_experiments_preference"
 
-#define EVENT_CALLBACK_KEY "<MWServer-iOS/AppDelegate>"
-#define PERSISTENT_EVENT_CALLBACK_KEY "<MWServer-iOS/AppDelegate-Persistent>"
+#define EVENT_CALLBACK_KEY @"<MWServer-iOS/AppDelegate>"
+#define PERSISTENT_EVENT_CALLBACK_KEY @"<MWServer-iOS/AppDelegate-Persistent>"
 
 
 static void registerDefaultSettings(NSUserDefaults *userDefaults) {
@@ -97,7 +92,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 
 
 @implementation AppDelegate {
-    boost::shared_ptr<mw::Server> core;
+    MWKServer *server;
     id<NSObject> ioActivity;
 }
 
@@ -114,72 +109,59 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
     ioActivity = [NSProcessInfo.processInfo beginActivityWithOptions:(NSActivityBackground | NSActivityIdleSystemSleepDisabled)
                                                               reason:@"Prevent I/O throttling"];
     
-    try {
-        
-        mw::StandardServerCoreBuilder coreBuilder;
-        mw::CoreBuilderForeman::constructCoreStandardOrder(&coreBuilder);
-        
-        core = boost::make_shared<mw::Server>();
-        mw::Server::registerInstance(core);
-        
-        NSUserDefaults *userDefaults = NSUserDefaults.standardUserDefaults;
-        registerDefaultSettings(userDefaults);
-        _setupVariablesController = [[MWKSetupVariablesController alloc] init];
-        initializeSetupVariables(userDefaults, self.setupVariablesController);
-        installExampleExperiments(userDefaults);
-        
-#if TARGET_OS_SIMULATOR
-        _listeningAddress = @"localhost";
-        core->setHostname(self.listeningAddress.UTF8String);
-#else
-        std::string hostname;
-        if (mw::zeromq::getHostname(hostname)) {
-            _listeningAddress = @(hostname.c_str());
-        } else {
-            // This is less reliable than zeromq::getHostname, so use it only as a fallback
-            _listeningAddress = NSProcessInfo.processInfo.hostName;
-        }
-#endif
-        
-        _listeningPort = @([userDefaults integerForKey:LISTENING_PORT_PREFERENCE]);
-        core->setListenPort(self.listeningPort.intValue);
-        
-        _hideChooseExperimentButton = [userDefaults boolForKey:HIDE_CHOOSE_EXPERIMENT_BUTTON_PREFERENCE];
-        
-        core->startServer();
-        
-        auto systemEventCallback = [](const boost::shared_ptr<mw::Event> &event) {
-            auto &data = event->getData();
-            if (data.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == mw::M_EXPERIMENT_STATE) {
-                auto loaded = data.getElement(M_SYSTEM_PAYLOAD).getElement(M_LOADED).getBool();
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    ViewController *viewController = (ViewController *)(APP_DELEGATE.window.rootViewController);
-                    viewController.chooseExperiment.enabled = !loaded;
-                });
-            }
-        };
-        core->registerCallback(mw::RESERVED_SYSTEM_EVENT_CODE, systemEventCallback, PERSISTENT_EVENT_CALLBACK_KEY);
-        
-    } catch (const std::exception &e) {
-        self.alert = createInitializationFailureAlert(@(e.what()));
-    } catch (...) {
-        self.alert = createInitializationFailureAlert(@"An unknown error occurred");
+    NSError *error = nil;
+    if (![MWKServer constructCore:&error]) {
+        self.alert = createInitializationFailureAlert(error.localizedDescription);
+        return YES;
     }
+    
+    NSUserDefaults *userDefaults = NSUserDefaults.standardUserDefaults;
+    registerDefaultSettings(userDefaults);
+    _setupVariablesController = [[MWKSetupVariablesController alloc] init];
+    initializeSetupVariables(userDefaults, self.setupVariablesController);
+    installExampleExperiments(userDefaults);
+    
+    _listeningAddress = MWKServer.hostName;
+    if (_listeningAddress.length == 0) {
+        // This is less reliable than MWKServer.hostName, so use it only as a fallback
+        _listeningAddress = NSProcessInfo.processInfo.hostName;
+    }
+    
+    _listeningPort = @([userDefaults integerForKey:LISTENING_PORT_PREFERENCE]);
+    _hideChooseExperimentButton = [userDefaults boolForKey:HIDE_CHOOSE_EXPERIMENT_BUTTON_PREFERENCE];
+    
+    server = [MWKServer serverWithListeningAddress:@""  // Bind to all addresses
+                                     listeningPort:self.listeningPort.integerValue
+                                             error:&error];
+    if (!server) {
+        self.alert = createInitializationFailureAlert(error.localizedDescription);
+        return YES;
+    }
+    
+    [server start];
+    
+    MWKEventCallback systemEventCallback = ^(MWKEvent *event) {
+        MWKDatum *data = event.data;
+        if (data[MWKSystemEventKeyPayloadType].numberValue.integerValue == MWKSystemEventPayloadTypeExperimentState) {
+            BOOL loaded = data[MWKSystemEventKeyPayload][MWKSystemEventPayloadKeyLoaded].numberValue.boolValue;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                ViewController *viewController = (ViewController *)(APP_DELEGATE.window.rootViewController);
+                viewController.chooseExperiment.enabled = !loaded;
+            });
+        }
+    };
+    [server registerCallbackWithKey:PERSISTENT_EVENT_CALLBACK_KEY
+                            forCode:MWKReservedEventCodeSystemEvent
+                           callback:systemEventCallback];
     
     return YES;
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    if (core) {
-        try {
-            core->unregisterCallbacks(PERSISTENT_EVENT_CALLBACK_KEY);
-            core->stopServer();
-        } catch (const std::exception &e) {
-            NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
-        } catch (...) {
-            NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
-        }
+    if (server) {
+        [server unregisterCallbacksWithKey:PERSISTENT_EVENT_CALLBACK_KEY];
+        [server stop];
     }
     
     // Release power assertion
@@ -191,133 +173,78 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 
 
 - (void)openExperiment:(NSString *)path completionHandler:(void (^)(BOOL success))completionHandler {
-    try {
-        boost::weak_ptr<mw::Server> weakCore(core);
-        auto systemEventCallback = [weakCore, completionHandler](const boost::shared_ptr<mw::Event> &event) {
-            auto &data = event->getData();
-            if (data.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == mw::M_EXPERIMENT_STATE) {
-                if (auto core = weakCore.lock()) {
-                    core->unregisterCallbacks(EVENT_CALLBACK_KEY);
+    MWKServer * __weak weakServer = server;
+    MWKEventCallback systemEventCallback = ^(MWKEvent *event) {
+        MWKDatum *data = event.data;
+        if (data[MWKSystemEventKeyPayloadType].numberValue.integerValue == MWKSystemEventPayloadTypeExperimentState) {
+            [weakServer unregisterCallbacksWithKey:EVENT_CALLBACK_KEY];
+            BOOL success = data[MWKSystemEventKeyPayload][MWKSystemEventPayloadKeyLoaded].numberValue.boolValue;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionHandler(success);
+                if (success) {
+                    [APP_DELEGATE openExperimentRunCloseSheetWithTitle:@"Experiment ready"
+                                                             runAction:@"Run"];
                 }
-                auto success = data.getElement(M_SYSTEM_PAYLOAD).getElement(M_LOADED).getBool();
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completionHandler(success);
-                    if (success) {
-                        [APP_DELEGATE openExperimentRunCloseSheetWithTitle:@"Experiment ready"
-                                                                 runAction:@"Run"];
-                    }
-                });
-            }
-        };
-        core->registerCallback(mw::RESERVED_SYSTEM_EVENT_CODE, systemEventCallback, EVENT_CALLBACK_KEY);
-        if (!core->openExperiment(path.UTF8String)) {
-            core->unregisterCallbacks(EVENT_CALLBACK_KEY);
-            completionHandler(NO);
+            });
         }
-    } catch (const std::exception &e) {
-        NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
-    } catch (...) {
-        NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
+    };
+    [server registerCallbackWithKey:EVENT_CALLBACK_KEY
+                            forCode:MWKReservedEventCodeSystemEvent
+                           callback:systemEventCallback];
+    if (![server openExperiment:path]) {
+        [server unregisterCallbacksWithKey:EVENT_CALLBACK_KEY];
+        completionHandler(NO);
     }
 }
 
 
 - (void)openExperimentRunCloseSheetWithTitle:(NSString *)title runAction:(NSString *)runAction {
-    try {
-        UIViewController *viewController = UIApplication.sharedApplication.keyWindow.rootViewController;
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        [alert addAction:[UIAlertAction actionWithTitle:runAction
-                                                  style:UIAlertActionStyleDefault
-                                                handler:^(UIAlertAction *action) {
-                                                    [viewController dismissViewControllerAnimated:YES completion:nil];
-                                                    [self runExperiment];
-                                                }]];
-        
-        [alert addAction:[UIAlertAction actionWithTitle:@"Close"
-                                                  style:UIAlertActionStyleDefault
-                                                handler:^(UIAlertAction *action) {
-                                                    [self closeExperiment];
-                                                    [viewController dismissViewControllerAnimated:YES completion:nil];
-                                                }]];
-        
-        [viewController presentViewController:alert animated:YES completion:nil];
-    } catch (const std::exception &e) {
-        NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
-    } catch (...) {
-        NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
-    }
+    UIViewController *viewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:runAction
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [viewController dismissViewControllerAnimated:YES completion:nil];
+                                                [self runExperiment];
+                                            }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"Close"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self->server closeExperiment];
+                                                [viewController dismissViewControllerAnimated:YES completion:nil];
+                                            }]];
+    
+    [viewController presentViewController:alert animated:YES completion:nil];
 }
 
 
 - (void)runExperiment {
-    try {
-        boost::weak_ptr<mw::Server> weakCore(core);
-        auto systemEventCallback = [weakCore](const boost::shared_ptr<mw::Event> &event) {
-            auto &data = event->getData();
-            if (data.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == mw::M_EXPERIMENT_STATE) {
-                auto &state = data.getElement(M_SYSTEM_PAYLOAD);
-                if (state.getElement(M_LOADED).getBool() && !state.getElement(M_RUNNING).getBool()) {
-                    if (auto core = weakCore.lock()) {
-                        core->unregisterCallbacks(EVENT_CALLBACK_KEY);
-                    }
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [APP_DELEGATE openExperimentRunCloseSheetWithTitle:@"Experiment ended"
-                                                                 runAction:@"Run again"];
-                    });
-                }
+    MWKServer * __weak weakServer = server;
+    MWKEventCallback systemEventCallback = ^(MWKEvent *event) {
+        MWKDatum *data = event.data;
+        if (data[MWKSystemEventKeyPayloadType].numberValue.integerValue == MWKSystemEventPayloadTypeExperimentState) {
+            MWKDatum *state = data[MWKSystemEventKeyPayload];
+            if (state[MWKSystemEventPayloadKeyLoaded].numberValue.boolValue &&
+                !(state[MWKSystemEventPayloadKeyRunning].numberValue.boolValue))
+            {
+                [weakServer unregisterCallbacksWithKey:EVENT_CALLBACK_KEY];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [APP_DELEGATE openExperimentRunCloseSheetWithTitle:@"Experiment ended"
+                                                             runAction:@"Run again"];
+                });
             }
-        };
-        core->registerCallback(mw::RESERVED_SYSTEM_EVENT_CODE, systemEventCallback, EVENT_CALLBACK_KEY);
-        core->startExperiment();
-    } catch (const std::exception &e) {
-        NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
-    } catch (...) {
-        NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
-    }
-}
-
-
-- (void)closeExperiment {
-    try {
-        core->closeExperiment();
-    } catch (const std::exception &e) {
-        NSLog(@"Exception in %s: %s", __PRETTY_FUNCTION__, e.what());
-    } catch (...) {
-        NSLog(@"Unknown exception in %s", __PRETTY_FUNCTION__);
-    }
+        }
+    };
+    [server registerCallbackWithKey:EVENT_CALLBACK_KEY
+                            forCode:MWKReservedEventCodeSystemEvent
+                           callback:systemEventCallback];
+    [server startExperiment];
 }
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

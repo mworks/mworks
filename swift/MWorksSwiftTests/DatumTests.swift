@@ -223,4 +223,61 @@ class DatumTests: XCTestCase {
         XCTAssertNil(nonEmptyDatum.listValue)
     }
     
+    func testIndexedSubscript() {
+        // Non-list, non-dict
+        XCTAssertNil(Datum(1)[2])
+        
+        // Empty list
+        XCTAssertNil(Datum([Datum]())[2])
+        
+        // Non-empty list
+        do {
+            let listDatum = Datum([Datum(1.5), Datum("foo"), Datum("bar")])
+            
+            // Invalid indexes
+            XCTAssertNil(listDatum[-1])
+            XCTAssertNil(listDatum[3])
+            
+            // Valid indexes
+            XCTAssertEqual(Datum(1.5), listDatum[0]!)
+            XCTAssertEqual(Datum("foo"), listDatum[1]!)
+            XCTAssertEqual(Datum("bar"), listDatum[2]!)
+        }
+        
+        // Empty dict
+        XCTAssertNil(Datum([Datum: Datum]())[2])
+        
+        // Non-empty dict
+        do {
+            let dictDatum = Datum([Datum(2): Datum("foo"), Datum(-3): Datum("bar")])
+            
+            // Invalid index
+            XCTAssertNil(dictDatum[1])
+            
+            // Valid indexes
+            XCTAssertEqual(Datum("foo"), dictDatum[2]!)
+            XCTAssertEqual(Datum("bar"), dictDatum[-3]!)
+        }
+    }
+    
+    func testKeyedSubscript() {
+        // Non-dict
+        XCTAssertNil(Datum(1)["foo"])
+        
+        // Empty dict
+        XCTAssertNil(Datum([Datum: Datum]())["foo"])
+        
+        // Non-empty dict
+        do {
+            let dictDatum = Datum([Datum("foo"): Datum(2), Datum("bar"): Datum(3)])
+            
+            // Invalid key
+            XCTAssertNil(dictDatum["blah"])
+            
+            // Valid keys
+            XCTAssertEqual(Datum(2), dictDatum["foo"]!)
+            XCTAssertEqual(Datum(3), dictDatum["bar"]!)
+        }
+    }
+    
 }
