@@ -166,12 +166,8 @@
 		E1658D1C22B3E243002F22E1 /* MWorksSwift */ = {
 			isa = PBXGroup;
 			children = (
-				E1CD1BCC22B3EAFC008C14EE /* MWKDatum.h */,
-				E1CD1C2722B4149B008C14EE /* MWKDatum_Private.h */,
-				E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */,
-				E1446F3022B7D56E0002B9A9 /* Datum.swift */,
-				E116F7852320216400405FDC /* MWKSetupVariablesController.h */,
-				E116F7842320216400405FDC /* MWKSetupVariablesController.m */,
+				E16DA58D2321873F002C7ABE /* Datum */,
+				E16DA58E2321875E002C7ABE /* SetupVariables */,
 				E1658D1D22B3E243002F22E1 /* MWorksSwift.h */,
 				E1CD1C2022B41148008C14EE /* MWorksSwift-Prefix.pch */,
 				E1658D1E22B3E243002F22E1 /* Info.plist */,
@@ -186,6 +182,26 @@
 				E1658D2A22B3E243002F22E1 /* Info.plist */,
 			);
 			path = MWorksSwiftTests;
+			sourceTree = "<group>";
+		};
+		E16DA58D2321873F002C7ABE /* Datum */ = {
+			isa = PBXGroup;
+			children = (
+				E1CD1BCC22B3EAFC008C14EE /* MWKDatum.h */,
+				E1CD1C2722B4149B008C14EE /* MWKDatum_Private.h */,
+				E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */,
+				E1446F3022B7D56E0002B9A9 /* Datum.swift */,
+			);
+			path = Datum;
+			sourceTree = "<group>";
+		};
+		E16DA58E2321875E002C7ABE /* SetupVariables */ = {
+			isa = PBXGroup;
+			children = (
+				E116F7852320216400405FDC /* MWKSetupVariablesController.h */,
+				E116F7842320216400405FDC /* MWKSetupVariablesController.m */,
+			);
+			path = SetupVariables;
 			sourceTree = "<group>";
 		};
 		E1CD1BC822B3E31D008C14EE /* External Config */ = {
