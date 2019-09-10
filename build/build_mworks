@@ -189,16 +189,16 @@ def matlab_tools():
         xcodebuild()
 
 
-@builder('mworks/cocoa')
-def cocoa():
-    xcodebuild()
-
-
 @builder('mworks/swift')
 def swift():
     xcodebuild(scheme = 'MWorksSwift',
                actions = ['clean', 'build-for-testing', 'test'])
     xcodebuild(actions=['build'])
+
+
+@builder('mworks/cocoa')
+def cocoa():
+    xcodebuild()
 
 
 @builder('mworks/apps/client')
