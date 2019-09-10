@@ -38,16 +38,16 @@ class DatumTests: XCTestCase {
         XCTAssertEqual(.boolean, falseDatum.dataType)
         
         // Bool value
-        XCTAssertEqual(true, trueDatum.boolValue!)
-        XCTAssertEqual(false, falseDatum.boolValue!)
+        XCTAssertEqual(true, trueDatum.boolValue)
+        XCTAssertEqual(false, falseDatum.boolValue)
         
         // Int value
-        XCTAssertEqual(1, trueDatum.intValue!)
-        XCTAssertEqual(0, falseDatum.intValue!)
+        XCTAssertEqual(1, trueDatum.intValue)
+        XCTAssertEqual(0, falseDatum.intValue)
         
         // Float value
-        XCTAssertEqual(1.0, trueDatum.floatValue!)
-        XCTAssertEqual(0.0, falseDatum.floatValue!)
+        XCTAssertEqual(1.0, trueDatum.floatValue)
+        XCTAssertEqual(0.0, falseDatum.floatValue)
         
         // Other values
         XCTAssertNil(trueDatum.bytesValue)
@@ -67,19 +67,19 @@ class DatumTests: XCTestCase {
         XCTAssertEqual(.integer, negDatum.dataType)
         
         // Bool value
-        XCTAssertEqual(false, zeroDatum.boolValue!)
-        XCTAssertEqual(true, posDatum.boolValue!)
-        XCTAssertEqual(true, negDatum.boolValue!)
+        XCTAssertEqual(false, zeroDatum.boolValue)
+        XCTAssertEqual(true, posDatum.boolValue)
+        XCTAssertEqual(true, negDatum.boolValue)
         
         // Int value
-        XCTAssertEqual(0, zeroDatum.intValue!)
-        XCTAssertEqual(1, posDatum.intValue!)
-        XCTAssertEqual(-2, negDatum.intValue!)
+        XCTAssertEqual(0, zeroDatum.intValue)
+        XCTAssertEqual(1, posDatum.intValue)
+        XCTAssertEqual(-2, negDatum.intValue)
         
         // Float value
-        XCTAssertEqual(0.0, zeroDatum.floatValue!)
-        XCTAssertEqual(1.0, posDatum.floatValue!)
-        XCTAssertEqual(-2.0, negDatum.floatValue!)
+        XCTAssertEqual(0.0, zeroDatum.floatValue)
+        XCTAssertEqual(1.0, posDatum.floatValue)
+        XCTAssertEqual(-2.0, negDatum.floatValue)
         
         // Other values
         XCTAssertNil(zeroDatum.bytesValue)
@@ -99,19 +99,19 @@ class DatumTests: XCTestCase {
         XCTAssertEqual(.float, negDatum.dataType)
         
         // Bool value
-        XCTAssertEqual(false, zeroDatum.boolValue!)
-        XCTAssertEqual(true, posDatum.boolValue!)
-        XCTAssertEqual(true, negDatum.boolValue!)
+        XCTAssertEqual(false, zeroDatum.boolValue)
+        XCTAssertEqual(true, posDatum.boolValue)
+        XCTAssertEqual(true, negDatum.boolValue)
         
         // Int value
-        XCTAssertEqual(0, zeroDatum.intValue!)
-        XCTAssertEqual(1, posDatum.intValue!)
-        XCTAssertEqual(-2, negDatum.intValue!)
+        XCTAssertEqual(0, zeroDatum.intValue)
+        XCTAssertEqual(1, posDatum.intValue)
+        XCTAssertEqual(-2, negDatum.intValue)
         
         // Float value
-        XCTAssertEqual(0.0, zeroDatum.floatValue!)
-        XCTAssertEqual(1.5, posDatum.floatValue!)
-        XCTAssertEqual(-2.5, negDatum.floatValue!)
+        XCTAssertEqual(0.0, zeroDatum.floatValue)
+        XCTAssertEqual(1.5, posDatum.floatValue)
+        XCTAssertEqual(-2.5, negDatum.floatValue)
         
         // Other values
         XCTAssertNil(zeroDatum.bytesValue)
@@ -135,13 +135,13 @@ class DatumTests: XCTestCase {
         XCTAssertEqual(.byteString, dataDatum.dataType)
         
         // Bytes value
-        XCTAssertEqual(emptyValue, emptyDatum.bytesValue!)
-        XCTAssertEqual(textValue, textDatum.bytesValue!)
-        XCTAssertEqual(dataValue, dataDatum.bytesValue!)
+        XCTAssertEqual(emptyValue, emptyDatum.bytesValue)
+        XCTAssertEqual(textValue, textDatum.bytesValue)
+        XCTAssertEqual(dataValue, dataDatum.bytesValue)
         
         // String value
-        XCTAssertEqual("", emptyDatum.stringValue!)
-        XCTAssertEqual("abc 123", textDatum.stringValue!)
+        XCTAssertEqual("", emptyDatum.stringValue)
+        XCTAssertEqual("abc 123", textDatum.stringValue)
         XCTAssertNil(dataDatum.stringValue)
         
         // Other values
@@ -161,12 +161,12 @@ class DatumTests: XCTestCase {
         XCTAssertEqual(.byteString, nonEmptyDatum.dataType)
         
         // Bytes value
-        XCTAssertEqual(Data(), emptyDatum.bytesValue!)
-        XCTAssertEqual(Data("abc 123".utf8), nonEmptyDatum.bytesValue!)
+        XCTAssertEqual(Data(), emptyDatum.bytesValue)
+        XCTAssertEqual(Data("abc 123".utf8), nonEmptyDatum.bytesValue)
         
         // String value
-        XCTAssertEqual("", emptyDatum.stringValue!)
-        XCTAssertEqual("abc 123", nonEmptyDatum.stringValue!)
+        XCTAssertEqual("", emptyDatum.stringValue)
+        XCTAssertEqual("abc 123", nonEmptyDatum.stringValue)
         
         // Other values
         XCTAssertNil(emptyDatum.boolValue)
@@ -185,10 +185,10 @@ class DatumTests: XCTestCase {
         XCTAssertEqual(.list, nonEmptyDatum.dataType)
         
         // List value
-        XCTAssertEqual([Datum](), emptyDatum.listValue!)
-        XCTAssertEqual([Datum(1), Datum(2.0), Datum("three")], nonEmptyDatum.listValue!)
-        XCTAssertNotEqual([Datum(1), Datum(2.0)], nonEmptyDatum.listValue!)
-        XCTAssertNotEqual([Datum(1), Datum(2.0), Datum("tree")], nonEmptyDatum.listValue!)
+        XCTAssertEqual([Datum](), emptyDatum.listValue)
+        XCTAssertEqual([Datum(1), Datum(2.0), Datum("three")], nonEmptyDatum.listValue)
+        XCTAssertNotEqual([Datum(1), Datum(2.0)], nonEmptyDatum.listValue)
+        XCTAssertNotEqual([Datum(1), Datum(2.0), Datum("tree")], nonEmptyDatum.listValue)
         
         // Other values
         XCTAssertNil(emptyDatum.boolValue)
@@ -208,11 +208,11 @@ class DatumTests: XCTestCase {
         XCTAssertEqual(.dictionary, nonEmptyDatum.dataType)
         
         // Dict value
-        XCTAssertEqual([Datum: Datum](), emptyDatum.dictValue!)
-        XCTAssertEqual([Datum(false): Datum(1), Datum(2.0): Datum("three")], nonEmptyDatum.dictValue!)
-        XCTAssertNotEqual([Datum(false): Datum(1)], nonEmptyDatum.dictValue!)
-        XCTAssertNotEqual([Datum(false): Datum(1), Datum(2.5): Datum("three")], nonEmptyDatum.dictValue!)
-        XCTAssertNotEqual([Datum(false): Datum(1), Datum(2.0): Datum("tree")], nonEmptyDatum.dictValue!)
+        XCTAssertEqual([Datum: Datum](), emptyDatum.dictValue)
+        XCTAssertEqual([Datum(false): Datum(1), Datum(2.0): Datum("three")], nonEmptyDatum.dictValue)
+        XCTAssertNotEqual([Datum(false): Datum(1)], nonEmptyDatum.dictValue)
+        XCTAssertNotEqual([Datum(false): Datum(1), Datum(2.5): Datum("three")], nonEmptyDatum.dictValue)
+        XCTAssertNotEqual([Datum(false): Datum(1), Datum(2.0): Datum("tree")], nonEmptyDatum.dictValue)
         
         // Other values
         XCTAssertNil(emptyDatum.boolValue)
@@ -239,9 +239,9 @@ class DatumTests: XCTestCase {
             XCTAssertNil(listDatum[3])
             
             // Valid indexes
-            XCTAssertEqual(Datum(1.5), listDatum[0]!)
-            XCTAssertEqual(Datum("foo"), listDatum[1]!)
-            XCTAssertEqual(Datum("bar"), listDatum[2]!)
+            XCTAssertEqual(Datum(1.5), listDatum[0])
+            XCTAssertEqual(Datum("foo"), listDatum[1])
+            XCTAssertEqual(Datum("bar"), listDatum[2])
         }
         
         // Empty dict
@@ -255,8 +255,8 @@ class DatumTests: XCTestCase {
             XCTAssertNil(dictDatum[1])
             
             // Valid indexes
-            XCTAssertEqual(Datum("foo"), dictDatum[2]!)
-            XCTAssertEqual(Datum("bar"), dictDatum[-3]!)
+            XCTAssertEqual(Datum("foo"), dictDatum[2])
+            XCTAssertEqual(Datum("bar"), dictDatum[-3])
         }
     }
     
@@ -275,8 +275,8 @@ class DatumTests: XCTestCase {
             XCTAssertNil(dictDatum["blah"])
             
             // Valid keys
-            XCTAssertEqual(Datum(2), dictDatum["foo"]!)
-            XCTAssertEqual(Datum(3), dictDatum["bar"]!)
+            XCTAssertEqual(Datum(2), dictDatum["foo"])
+            XCTAssertEqual(Datum(3), dictDatum["bar"])
         }
     }
     
