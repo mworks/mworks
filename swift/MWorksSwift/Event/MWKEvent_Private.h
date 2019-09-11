@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MWKEvent ()
 
-+ (instancetype)eventWithEvent:(const boost::shared_ptr<mw::Event> &)event;
 - (instancetype)initWithEvent:(const boost::shared_ptr<mw::Event> &)event;
 
 @property(nonatomic, readonly) const boost::shared_ptr<mw::Event> &event;

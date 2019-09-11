@@ -9,17 +9,14 @@
 #import <Foundation/Foundation.h>
 
 #import <MWorksSwift/MWorksSwiftDefines.h>
+#import <MWorksSwift/MWKCore.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-@class MWKEvent;
-typedef void (^MWKEventCallback)(MWKEvent *event);
-
-
 MWORKSSWIFT_PUBLIC_CLASS
-@interface MWKServer : NSObject
+@interface MWKServer : MWKCore
 
 + (BOOL)constructCore:(NSError * _Nullable *)error;
 
@@ -31,12 +28,6 @@ MWORKSSWIFT_PUBLIC_CLASS
 
 - (BOOL)start;
 - (BOOL)stop;
-
-- (NSInteger)codeForTag:(NSString *)tag;
-
-- (void)registerCallbackWithKey:(NSString *)key callback:(MWKEventCallback)callback;
-- (void)registerCallbackWithKey:(NSString *)key forCode:(NSInteger)code callback:(MWKEventCallback)callback;
-- (void)unregisterCallbacksWithKey:(NSString *)key;
 
 - (BOOL)openExperiment:(NSString *)path;
 - (BOOL)closeExperiment;

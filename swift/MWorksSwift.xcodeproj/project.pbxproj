@@ -64,6 +64,10 @@
 		E18AD0FC2322D6FE00099E86 /* MWorksSwiftErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = E18AD0F82322D6FE00099E86 /* MWorksSwiftErrors.m */; };
 		E18AD0FF2322E51E00099E86 /* MWorksSwiftDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = E18AD0FE2322E51E00099E86 /* MWorksSwiftDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E18AD1002322E51E00099E86 /* MWorksSwiftDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = E18AD0FE2322E51E00099E86 /* MWorksSwiftDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1B63FE723282981000AA7EB /* MWKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B63FE523282981000AA7EB /* MWKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1B63FE823282981000AA7EB /* MWKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B63FE523282981000AA7EB /* MWKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1B63FE923282981000AA7EB /* MWKCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B63FE623282981000AA7EB /* MWKCore.m */; };
+		E1B63FEA23282981000AA7EB /* MWKCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B63FE623282981000AA7EB /* MWKCore.m */; };
 		E1CD1BCE22B3EAFC008C14EE /* MWKDatum.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CD1BCC22B3EAFC008C14EE /* MWKDatum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CD1BCF22B3EAFC008C14EE /* MWKDatum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */; };
 		E1CD1BD422B3EEF8008C14EE /* DatumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD1BD322B3EEF8008C14EE /* DatumTests.swift */; };
@@ -131,6 +135,10 @@
 		E18AD0F82322D6FE00099E86 /* MWorksSwiftErrors.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWorksSwiftErrors.m; sourceTree = "<group>"; };
 		E18AD0FD2322DA9900099E86 /* MWorksSwiftErrors_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWorksSwiftErrors_Private.h; sourceTree = "<group>"; };
 		E18AD0FE2322E51E00099E86 /* MWorksSwiftDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWorksSwiftDefines.h; sourceTree = "<group>"; };
+		E1B63FE523282981000AA7EB /* MWKCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKCore.h; sourceTree = "<group>"; };
+		E1B63FE623282981000AA7EB /* MWKCore.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWKCore.m; sourceTree = "<group>"; };
+		E1B63FEB23282A34000AA7EB /* MWKCore_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKCore_Private.h; sourceTree = "<group>"; };
+		E1B63FEC23282CB8000AA7EB /* MWKServer_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKServer_Private.h; sourceTree = "<group>"; };
 		E1CD1BC922B3E359008C14EE /* iOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Framework.xcconfig; sourceTree = "<group>"; };
 		E1CD1BCA22B3E359008C14EE /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
 		E1CD1BCB22B3E359008C14EE /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -196,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				E18AD0FE2322E51E00099E86 /* MWorksSwiftDefines.h */,
+				E1B63FE42328295C000AA7EB /* Core */,
 				E18AD0F32322D62F00099E86 /* Errors */,
 				E16DA58D2321873F002C7ABE /* Datum */,
 				E1696F3423268E310003DF7A /* Event */,
@@ -253,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				E16DA59023218879002C7ABE /* MWKServer.h */,
+				E1B63FEC23282CB8000AA7EB /* MWKServer_Private.h */,
 				E16DA59123218879002C7ABE /* MWKServer.m */,
 			);
 			path = Server;
@@ -266,6 +276,16 @@
 				E18AD0F82322D6FE00099E86 /* MWorksSwiftErrors.m */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		E1B63FE42328295C000AA7EB /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E1B63FE523282981000AA7EB /* MWKCore.h */,
+				E1B63FEB23282A34000AA7EB /* MWKCore_Private.h */,
+				E1B63FE623282981000AA7EB /* MWKCore.m */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		E1CD1BC822B3E31D008C14EE /* External Config */ = {
@@ -303,6 +323,7 @@
 				E1658D2B22B3E243002F22E1 /* MWorksSwift.h in Headers */,
 				E18AD0FF2322E51E00099E86 /* MWorksSwiftDefines.h in Headers */,
 				E16DA59223218879002C7ABE /* MWKServer.h in Headers */,
+				E1B63FE723282981000AA7EB /* MWKCore.h in Headers */,
 				E1696F402326EE150003DF7A /* MWKEventConstants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,6 +339,7 @@
 				E1719E7423203DFC0083EAF8 /* MWorksSwift.h in Headers */,
 				E18AD1002322E51E00099E86 /* MWorksSwiftDefines.h in Headers */,
 				E16DA59323218879002C7ABE /* MWKServer.h in Headers */,
+				E1B63FE823282981000AA7EB /* MWKCore.h in Headers */,
 				E1696F412326EE150003DF7A /* MWKEventConstants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,6 +483,7 @@
 				E18AD0FB2322D6FE00099E86 /* MWorksSwiftErrors.m in Sources */,
 				E1696F3923268E5B0003DF7A /* MWKEvent.m in Sources */,
 				E1CD1BCF22B3EAFC008C14EE /* MWKDatum.m in Sources */,
+				E1B63FE923282981000AA7EB /* MWKCore.m in Sources */,
 				E1696F422326EE150003DF7A /* MWKEventConstants.m in Sources */,
 				E116F7862320216400405FDC /* MWKSetupVariablesController.m in Sources */,
 				E1446F3122B7D56E0002B9A9 /* Datum.swift in Sources */,
@@ -483,6 +506,7 @@
 				E18AD0FC2322D6FE00099E86 /* MWorksSwiftErrors.m in Sources */,
 				E1696F3A23268E5B0003DF7A /* MWKEvent.m in Sources */,
 				E1719E7023203DEC0083EAF8 /* MWKDatum.m in Sources */,
+				E1B63FEA23282981000AA7EB /* MWKCore.m in Sources */,
 				E1696F432326EE150003DF7A /* MWKEventConstants.m in Sources */,
 				E1719E7323203DF80083EAF8 /* MWKSetupVariablesController.m in Sources */,
 				E1719E7123203DEF0083EAF8 /* Datum.swift in Sources */,

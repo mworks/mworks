@@ -8,6 +8,7 @@
 
 #import <MWorksSwift/MWorksSwiftDefines.h>
 #import <MWorksSwift/MWorksSwiftErrors.h>
+#import <MWorksSwift/MWKCore.h>
 #import <MWorksSwift/MWKDatum.h>
 #import <MWorksSwift/MWKEvent.h>
 #import <MWorksSwift/MWKEventConstants.h>

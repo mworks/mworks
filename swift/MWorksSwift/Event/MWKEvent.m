@@ -19,11 +19,6 @@ static_assert(sizeof(MWKTime) >= sizeof(mw::MWTime), "MWKTime cannot store mw::M
 }
 
 
-+ (instancetype)eventWithEvent:(const boost::shared_ptr<mw::Event> &)event {
-    return [[self alloc] initWithEvent:event];
-}
-
-
 - (instancetype)initWithEvent:(const boost::shared_ptr<mw::Event> &)event {
     self = [super init];
     if (self) {
