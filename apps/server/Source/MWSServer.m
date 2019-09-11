@@ -9,11 +9,9 @@
 
 #import "MWSServer.h"
 
-#import <MWorksCocoa/MWCocoaEventFunctor.h>
-#import <MWorksCocoa/MWConsoleController.h>
-#import <MWorksCore/Server.h>
-
 #import <MWorksSwift/MWorksSwift.h>
+
+#import <MWorksCocoa/MWConsoleController.h>
 
 #define LISTENING_ADDRESS_KEY @"listeningAddressKey"
 #define LISTENING_PORT_KEY @"listeningPortKey"
@@ -31,7 +29,6 @@
     NSInteger listeningPort;
     
     MWKServer *server;
-    boost::shared_ptr<Server> core;
     MWConsoleController *cc;
     
     id<NSObject> ioActivity;
@@ -58,14 +55,18 @@
 
 
 - (instancetype)init {
-    if ((self = [super init])) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        listeningAddress = [defaults objectForKey:LISTENING_ADDRESS_KEY];
-        listeningPort = [defaults integerForKey:LISTENING_PORT_KEY];
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+    NSString *listeningAddress = [defaults objectForKey:LISTENING_ADDRESS_KEY];
+    NSInteger listeningPort = [defaults integerForKey:LISTENING_PORT_KEY];
+    
+    // TODO: handle server creation failure!
+    MWKServer *server = [MWKServer serverWithListeningAddress:listeningAddress listeningPort:listeningPort error:NULL];
+    
+    if ((self = [super initWithCore:server])) {
+        self->listeningAddress = listeningAddress;
+        self->listeningPort = listeningPort;
         
-        // TODO: handle server creation failure!
-        server = [MWKServer serverWithListeningAddress:listeningAddress listeningPort:listeningPort error:NULL];
-        core = Server::instance();
+        self->server = server;
         
         cc = [[MWConsoleController alloc] init];
         [cc setTitle:@"Server Console"];
@@ -159,42 +160,6 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// MWClientServerBase methods
-////////////////////////////////////////////////////////////////////////////////
-
-
-- (NSNumber *)codeForTag:(NSString *)tag {
-    return @([server codeForTag:tag]);
-}
-
-
-- (void)unregisterCallbacksWithKey:(const char *)key {
-    [server unregisterCallbacksWithKey:@(key)];
-}
-
-
-- (void)registerEventCallbackWithReceiver:(id)receiver
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-                             onMainThread:(BOOL)on_main
-{
-    core->registerCallback(create_cocoa_event_callback(receiver, selector, on_main), key);
-}
-
-
-- (void)registerEventCallbackWithReceiver:(id)receiver
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-                          forVariableCode:(int)code
-                             onMainThread:(BOOL)on_main
-{
-    if (code >= 0) {
-        core->registerCallback(code, create_cocoa_event_callback(receiver, selector, on_main), key);
-    }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
 // NSTabViewDelegate methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -206,29 +171,3 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

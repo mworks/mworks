@@ -33,7 +33,9 @@
 @end
 
 
-@implementation MWConsoleController
+@implementation MWConsoleController {
+    id<MWClientServerBase> delegate;
+}
 
 
 + (void)initialize {

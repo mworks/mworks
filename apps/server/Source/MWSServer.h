@@ -12,7 +12,7 @@
 #import <MWorksCocoa/MWClientServerBase.h>
 
 
-@interface MWSServer : NSObject <NSApplicationDelegate, NSTabViewDelegate, MWClientServerBase>
+@interface MWSServer : MWClientServerBase <NSApplicationDelegate, NSTabViewDelegate>
 
 @property(nonatomic, weak) IBOutlet NSWindow *preferencesWindow;
 @property(nonatomic, weak) IBOutlet NSTabView *preferencesWindowTabView;
@@ -27,30 +27,3 @@
 - (IBAction)toggleConsole:(id)sender;
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

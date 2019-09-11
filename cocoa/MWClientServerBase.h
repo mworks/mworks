@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import <MWorksSwift/MWorksSwift.h>
+
 
 @protocol MWClientServerBase <NSObject>
 
@@ -24,5 +26,14 @@
 
 - (void)unregisterCallbacksWithKey:(const char *)key;
 - (NSNumber *)codeForTag:(NSString *)tag;
+
+@end
+
+
+@interface MWClientServerBase : NSObject <MWClientServerBase>
+
+- (instancetype)initWithCore:(MWKCore *)core;
+
+@property(nonatomic, readonly) MWKCore *core;
 
 @end

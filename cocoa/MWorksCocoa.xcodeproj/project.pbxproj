@@ -70,6 +70,8 @@
 		E12D98F816BC2964004FEF79 /* MWorksCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 68DAF1B40AC959FA00928168 /* MWorksCocoa.framework */; };
 		E15D0AEC16C2AB9000F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AEB16C2AB9000F331B1 /* AppKit.framework */; };
 		E1615726222445B6009C37F3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1615725222445B6009C37F3 /* Media.xcassets */; };
+		E1AC63302329305700DFED1A /* MWClientServerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AC632F2329305700DFED1A /* MWClientServerBase.m */; };
+		E1D2949F23293A1400DA7473 /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D2949E23293A1400DA7473 /* MWorksSwift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +143,8 @@
 		E112D93F183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MWorksCocoaAdditions.m"; sourceTree = "<group>"; };
 		E15D0AEB16C2AB9000F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1615725222445B6009C37F3 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		E1AC632F2329305700DFED1A /* MWClientServerBase.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWClientServerBase.m; sourceTree = "<group>"; };
+		E1D2949E23293A1400DA7473 /* MWorksSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksSwift.framework; path = /Library/Frameworks/MWorksSwift.framework; sourceTree = "<absolute>"; };
 		E1F7696F22BD5F8200024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1F7697022BD5F8200024441 /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DADADB7A07FAFC9000F8D324 /* MWorksCore.framework in Frameworks */,
+				E1D2949F23293A1400DA7473 /* MWorksSwift.framework in Frameworks */,
 				E15D0AEC16C2AB9000F331B1 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				DADADB7907FAFC9000F8D324 /* MWorksCore.framework */,
+				E1D2949E23293A1400DA7473 /* MWorksSwift.framework */,
 				E15D0AEB16C2AB9000F331B1 /* AppKit.framework */,
 			);
 			name = "Frameworks & Libraries";
@@ -250,6 +256,7 @@
 				68F379000C91C456007F1A6C /* MWCocoaEventFunctor.h */,
 				5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */,
 				0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */,
+				E1AC632F2329305700DFED1A /* MWClientServerBase.m */,
 				5C77F7FA10EBADEF00919719 /* CocoaBindingsSetter.h */,
 				5C77F7FB10EBADEF00919719 /* CocoaBindingsSetter.m */,
 				5CC88AD0111769DF007914F8 /* MWNotebook.h */,
@@ -394,6 +401,7 @@
 			files = (
 				0E1F31A00C5B1EB700EB89EA /* MWConsoleController.m in Sources */,
 				0E1F31A20C5B1EB700EB89EA /* MWMessageContainer.m in Sources */,
+				E1AC63302329305700DFED1A /* MWClientServerBase.m in Sources */,
 				0EDBEBA30C721A8200694CA9 /* MWCocoaEvent.m in Sources */,
 				0E727A1C0CB64819000C7B3F /* MWConsoleToolbar.m in Sources */,
 				5CF10C69109F3B7000FFE11A /* MWCocoaEventFunctor.cpp in Sources */,

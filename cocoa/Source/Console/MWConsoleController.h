@@ -34,8 +34,6 @@ const int MWErrorMessageSegment = 1;
 	
 	int messageCodecCode;
 	int maxConsoleLength;
-	
-	id delegate;
 }
 
 - (id)init;
