@@ -6,7 +6,9 @@
 //  Copyright © 2019 The MWorks Project. All rights reserved.
 //
 
-#import "MWKDatum.h"
+#import <MWorksSwift/MWKDatum.h>
+
+#include <MWorksCore/GenericData.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

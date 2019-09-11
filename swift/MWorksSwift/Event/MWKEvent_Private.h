@@ -6,7 +6,9 @@
 //  Copyright © 2019 The MWorks Project. All rights reserved.
 //
 
-#import "MWKEvent.h"
+#import <MWorksSwift/MWKEvent.h>
+
+#include <MWorksCore/Event.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

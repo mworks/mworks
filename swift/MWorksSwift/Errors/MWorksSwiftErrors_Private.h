@@ -6,14 +6,16 @@
 //  Copyright © 2019 The MWorks Project. All rights reserved.
 //
 
-#import "MWorksSwiftErrors.h"
+#import <MWorksSwift/MWorksSwiftErrors.h>
+
+#include <exception>
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-NSError * MWorksSwiftConvertExceptionToNSError(std::exception_ptr eptr);
-void MWorksSwiftLogException(std::exception_ptr eptr);
+MWORKSSWIFT_PUBLIC_EXTERN NSError * MWorksSwiftConvertExceptionToNSError(std::exception_ptr eptr);
+MWORKSSWIFT_PUBLIC_EXTERN void MWorksSwiftLogException(std::exception_ptr eptr);
 
 
 NS_ASSUME_NONNULL_END

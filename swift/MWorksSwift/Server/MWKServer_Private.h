@@ -6,7 +6,9 @@
 //  Copyright © 2019 The MWorks Project. All rights reserved.
 //
 
-#import "MWKServer.h"
+#import <MWorksSwift/MWKServer.h>
+
+#include <MWorksCore/Server.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

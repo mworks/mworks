@@ -6,7 +6,9 @@
 //  Copyright © 2019 The MWorks Project. All rights reserved.
 //
 
-#import "MWKCore.h"
+#import <MWorksSwift/MWKCore.h>
+
+#include <MWorksCore/VariableRegistryInterface.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

@@ -64,6 +64,11 @@
 		E18AD0FC2322D6FE00099E86 /* MWorksSwiftErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = E18AD0F82322D6FE00099E86 /* MWorksSwiftErrors.m */; };
 		E18AD0FF2322E51E00099E86 /* MWorksSwiftDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = E18AD0FE2322E51E00099E86 /* MWorksSwiftDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E18AD1002322E51E00099E86 /* MWorksSwiftDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = E18AD0FE2322E51E00099E86 /* MWorksSwiftDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1AC63312329329D00DFED1A /* MWKCore_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B63FEB23282A34000AA7EB /* MWKCore_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E1AC6332232934DD00DFED1A /* MWorksSwiftErrors_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E18AD0FD2322DA9900099E86 /* MWorksSwiftErrors_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E1AC63332329356800DFED1A /* MWKDatum_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CD1C2722B4149B008C14EE /* MWKDatum_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E1AC6334232935B100DFED1A /* MWKEvent_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E1696F3B23268FD30003DF7A /* MWKEvent_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E1AC63352329361400DFED1A /* MWKServer_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B63FEC23282CB8000AA7EB /* MWKServer_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E1B63FE723282981000AA7EB /* MWKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B63FE523282981000AA7EB /* MWKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1B63FE823282981000AA7EB /* MWKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B63FE523282981000AA7EB /* MWKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1B63FE923282981000AA7EB /* MWKCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B63FE623282981000AA7EB /* MWKCore.m */; };
@@ -316,6 +321,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1AC63332329356800DFED1A /* MWKDatum_Private.h in Headers */,
 				E1696F3723268E5B0003DF7A /* MWKEvent.h in Headers */,
 				E1CD1BCE22B3EAFC008C14EE /* MWKDatum.h in Headers */,
 				E18AD0F92322D6FE00099E86 /* MWorksSwiftErrors.h in Headers */,
@@ -323,8 +329,12 @@
 				E1658D2B22B3E243002F22E1 /* MWorksSwift.h in Headers */,
 				E18AD0FF2322E51E00099E86 /* MWorksSwiftDefines.h in Headers */,
 				E16DA59223218879002C7ABE /* MWKServer.h in Headers */,
+				E1AC6332232934DD00DFED1A /* MWorksSwiftErrors_Private.h in Headers */,
+				E1AC63352329361400DFED1A /* MWKServer_Private.h in Headers */,
+				E1AC63312329329D00DFED1A /* MWKCore_Private.h in Headers */,
 				E1B63FE723282981000AA7EB /* MWKCore.h in Headers */,
 				E1696F402326EE150003DF7A /* MWKEventConstants.h in Headers */,
+				E1AC6334232935B100DFED1A /* MWKEvent_Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
