@@ -2,16 +2,14 @@
 
 COMBINE_HIDPI_IMAGES = YES
 DEBUG_INFORMATION_FORMAT = dwarf
-// Xcode should find frameworks in /Library/Frameworks by default, but
-// sometimes it doesn't, so we explicitly add it to the search path
-FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(LOCAL_LIBRARY_DIR)/Frameworks
 HEADER_SEARCH_PATHS = $(inherited) $(MW_INCLUDE_DIR)
 LIBRARY_SEARCH_PATHS = $(inherited) $(MW_LIB_DIR)
 MACOSX_DEPLOYMENT_TARGET = 10.12
 SDKROOT = macosx
 STRIP_INSTALLED_PRODUCT = NO
 
-MW_APP_SUPPORT_DIR = /Library/Application Support/MWorks
+MW_APP_SUPPORT_DIR = $(LOCAL_LIBRARY_DIR)/Application Support/MWorks
 MW_BIN_DIR = "$(MW_BIN_DIR_UNQUOTED)"
 MW_BIN_DIR_UNQUOTED = $(MW_DEVELOPER_DIR)/bin
 MW_CLIENT_PLUGINS_DIR = $(MW_APP_SUPPORT_DIR)/Plugins/Client
