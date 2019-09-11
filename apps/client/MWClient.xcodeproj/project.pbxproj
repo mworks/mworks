@@ -97,7 +97,7 @@
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* New Client_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "New Client_Prefix.pch"; sourceTree = "<group>"; };
 		5C23D5400D8827670044AC9E /* MWStringTruncateValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWStringTruncateValueTransformer.h; sourceTree = "<group>"; };
 		5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWStringTruncateValueTransformer.m; sourceTree = "<group>"; };
@@ -107,15 +107,15 @@
 		5C55E10B0D8E00A8000E1CB5 /* NSMenuExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuExtensions.h; sourceTree = "<group>"; };
 		5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMenuExtensions.m; sourceTree = "<group>"; };
 		5C6DA5110DEF2237005E496A /* MWGroupedPluginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWGroupedPluginWindowController.h; sourceTree = "<group>"; };
-		5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGroupedPluginWindowController.m; sourceTree = "<group>"; };
+		5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWGroupedPluginWindowController.m; sourceTree = "<group>"; };
 		5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupedPluginsWindow.xib; sourceTree = "<group>"; };
 		5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWErrorColorTransformer.h; sourceTree = "<group>"; };
 		5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWErrorColorTransformer.m; sourceTree = "<group>"; };
 		5CEDF81C0D85D7550044D738 /* RedMonkey.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RedMonkey.icns; path = Images/RedMonkey.icns; sourceTree = "<group>"; };
 		5CEDF85B0D85E49D0044D738 /* MWClientInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientInstance.h; sourceTree = "<group>"; };
-		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientInstance.m; sourceTree = "<group>"; };
+		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWClientInstance.m; sourceTree = "<group>"; };
 		5CEDF8EF0D86247F0044D738 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
-		5CEDF8F00D86247F0044D738 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		5CEDF8F00D86247F0044D738 /* AppController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AppController.m; sourceTree = "<group>"; };
 		5CEDF93D0D862FC60044D738 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		5CEDFA7A0D86C8C90044D738 /* MWServerConnectedIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServerConnectedIconTransformer.h; sourceTree = "<group>"; };
 		5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWServerConnectedIconTransformer.m; sourceTree = "<group>"; };
@@ -467,7 +467,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/New Client_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
