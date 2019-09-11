@@ -21,7 +21,7 @@
 
 #define STATE_SYSTEM_CALLBACK_KEY "MWorksClient::StateSystemCallbackKey"
 
-@interface MWClientInstance : NSObject <MWClientProtocol> {
+@interface MWClientInstance : MWClientServerBase <MWClientProtocol> {
 
 	// The core object that actually does all of the work
 	#ifndef HOLLOW_OUT_FOR_ADC
@@ -152,40 +152,8 @@
 
 
 // Interacting with the internal core object
-- (NSNumber *)codeForTag:(NSString *)tag;
 - (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data;
 - (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data;
-
-// Methods for registering to be notified of events from the core object
-- (void)registerEventCallbackWithReceiver:(id)receiver 
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-                                   onMainThread:(BOOL)on_main;
-
-- (void)registerEventCallbackWithReceiver:(id)receiver 
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-						  forVariableCode:(int)code
-                             onMainThread:(BOOL)on_main;
-
-- (void)registerEventCallbackWithReceiver:(id)receiver 
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-							  forVariable:(NSString *)tag
-                             onMainThread:(BOOL)on_main;
-
-- (void)registerBindingsBridgeWithReceiver:(id)receiver 
-							bindingsKey:(NSString *)bindings_key
-									callbackKey:(const char *)key
-							   forVariable:(NSString *)tag;
-
-
-- (void)unregisterCallbacksWithKey:(const char *)key;
-- (void)unregisterCallbacksWithKey:(const char *)key locking:(BOOL)locking;
-
-// The client object's own method for dealing with events from the core object
-// (delivered via callback)
-//- (void)processEvent:(MWCocoaEvent *)event;
 
 
 // Actions

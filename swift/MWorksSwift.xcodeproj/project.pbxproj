@@ -77,6 +77,11 @@
 		E1CD1BCF22B3EAFC008C14EE /* MWKDatum.m in Sources */ = {isa = PBXBuildFile; fileRef = E1CD1BCD22B3EAFC008C14EE /* MWKDatum.m */; };
 		E1CD1BD422B3EEF8008C14EE /* DatumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD1BD322B3EEF8008C14EE /* DatumTests.swift */; };
 		E1CD1C2322B412ED008C14EE /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD1C2222B412ED008C14EE /* MWorksCore.framework */; };
+		E1D294BB23297B4F00DA7473 /* MWKClient.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D294B923297B4F00DA7473 /* MWKClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D294BC23297B4F00DA7473 /* MWKClient.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D294B923297B4F00DA7473 /* MWKClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D294BD23297B4F00DA7473 /* MWKClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D294BA23297B4F00DA7473 /* MWKClient.m */; };
+		E1D294BE23297B4F00DA7473 /* MWKClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D294BA23297B4F00DA7473 /* MWKClient.m */; };
+		E1D294C023297BB500DA7473 /* MWKClient_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E1D294BF23297BB500DA7473 /* MWKClient_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E1F603B322BC172000007C61 /* MWorksSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -153,6 +158,9 @@
 		E1CD1C2022B41148008C14EE /* MWorksSwift-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MWorksSwift-Prefix.pch"; sourceTree = "<group>"; };
 		E1CD1C2222B412ED008C14EE /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1CD1C2722B4149B008C14EE /* MWKDatum_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKDatum_Private.h; sourceTree = "<group>"; };
+		E1D294B923297B4F00DA7473 /* MWKClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKClient.h; sourceTree = "<group>"; };
+		E1D294BA23297B4F00DA7473 /* MWKClient.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWKClient.m; sourceTree = "<group>"; };
+		E1D294BF23297BB500DA7473 /* MWKClient_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWKClient_Private.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				E18AD0FE2322E51E00099E86 /* MWorksSwiftDefines.h */,
+				E1D294B823297B2000DA7473 /* Client */,
 				E1B63FE42328295C000AA7EB /* Core */,
 				E18AD0F32322D62F00099E86 /* Errors */,
 				E16DA58D2321873F002C7ABE /* Datum */,
@@ -314,6 +323,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E1D294B823297B2000DA7473 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				E1D294B923297B4F00DA7473 /* MWKClient.h */,
+				E1D294BF23297BB500DA7473 /* MWKClient_Private.h */,
+				E1D294BA23297B4F00DA7473 /* MWKClient.m */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -322,10 +341,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1AC63332329356800DFED1A /* MWKDatum_Private.h in Headers */,
+				E1D294C023297BB500DA7473 /* MWKClient_Private.h in Headers */,
 				E1696F3723268E5B0003DF7A /* MWKEvent.h in Headers */,
 				E1CD1BCE22B3EAFC008C14EE /* MWKDatum.h in Headers */,
 				E18AD0F92322D6FE00099E86 /* MWorksSwiftErrors.h in Headers */,
 				E116F7872320216400405FDC /* MWKSetupVariablesController.h in Headers */,
+				E1D294BB23297B4F00DA7473 /* MWKClient.h in Headers */,
 				E1658D2B22B3E243002F22E1 /* MWorksSwift.h in Headers */,
 				E18AD0FF2322E51E00099E86 /* MWorksSwiftDefines.h in Headers */,
 				E16DA59223218879002C7ABE /* MWKServer.h in Headers */,
@@ -347,6 +368,7 @@
 				E18AD0FA2322D6FE00099E86 /* MWorksSwiftErrors.h in Headers */,
 				E1719E7223203DF30083EAF8 /* MWKSetupVariablesController.h in Headers */,
 				E1719E7423203DFC0083EAF8 /* MWorksSwift.h in Headers */,
+				E1D294BC23297B4F00DA7473 /* MWKClient.h in Headers */,
 				E18AD1002322E51E00099E86 /* MWorksSwiftDefines.h in Headers */,
 				E16DA59323218879002C7ABE /* MWKServer.h in Headers */,
 				E1B63FE823282981000AA7EB /* MWKCore.h in Headers */,
@@ -491,6 +513,7 @@
 			files = (
 				E16DA59423218879002C7ABE /* MWKServer.m in Sources */,
 				E18AD0FB2322D6FE00099E86 /* MWorksSwiftErrors.m in Sources */,
+				E1D294BD23297B4F00DA7473 /* MWKClient.m in Sources */,
 				E1696F3923268E5B0003DF7A /* MWKEvent.m in Sources */,
 				E1CD1BCF22B3EAFC008C14EE /* MWKDatum.m in Sources */,
 				E1B63FE923282981000AA7EB /* MWKCore.m in Sources */,
@@ -514,6 +537,7 @@
 			files = (
 				E16DA59523218879002C7ABE /* MWKServer.m in Sources */,
 				E18AD0FC2322D6FE00099E86 /* MWorksSwiftErrors.m in Sources */,
+				E1D294BE23297B4F00DA7473 /* MWKClient.m in Sources */,
 				E1696F3A23268E5B0003DF7A /* MWKEvent.m in Sources */,
 				E1719E7023203DEC0083EAF8 /* MWKDatum.m in Sources */,
 				E1B63FEA23282981000AA7EB /* MWKCore.m in Sources */,

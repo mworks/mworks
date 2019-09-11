@@ -13,6 +13,8 @@
 
 @protocol MWClientServerBase <NSObject>
 
+- (NSNumber *)codeForTag:(NSString *)tag;
+
 - (void)registerEventCallbackWithReceiver:(id)receiver 
                                  selector:(SEL)selector
                               callbackKey:(const char *)key
@@ -24,8 +26,18 @@
                           forVariableCode:(int)code
                              onMainThread:(BOOL)on_main;
 
+- (void)registerEventCallbackWithReceiver:(id)receiver
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                              forVariable:(NSString *)tag
+                             onMainThread:(BOOL)on_main;
+
+- (void)registerBindingsBridgeWithReceiver:(id)receiver
+                               bindingsKey:(NSString *)bindings_key
+                               callbackKey:(const char *)key
+                               forVariable:(NSString *)tag;
+
 - (void)unregisterCallbacksWithKey:(const char *)key;
-- (NSNumber *)codeForTag:(NSString *)tag;
 
 @end
 

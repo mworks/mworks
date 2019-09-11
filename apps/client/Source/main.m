@@ -6,27 +6,18 @@
 //  Copyright Harvard University 2008. All rights reserved.
 //
 
-
-#import "MWorksCore/StandardClientCoreBuilder.h"
-#import "MWorksCore/CoreBuilderForeman.h"
-#import "MWorksCore/Exceptions.h"
-
 #import <Cocoa/Cocoa.h>
 
+#import <MWorksSwift/MWorksSwift.h>
 
-int main(int argc, char *argv[])
-{
 
-    // -----------------------------
-    // Initialize the core
-    // -----------------------------
-    try{
-        mw::CoreBuilderForeman::constructCoreStandardOrder(new mw::StandardClientCoreBuilder());
-    } catch(mw::SimpleException& e){
-        // do nothing
+int main(int argc, char *argv[]) {
+    @autoreleasepool {
+        NSError *error = nil;
+        if (![MWKClient constructCore:&error]) {
+            [NSApplication.sharedApplication presentError:error];
+            return EXIT_FAILURE;
+        }
     }
-    
-    
-    return NSApplicationMain(argc,  (const char **) argv);
-    
+    return NSApplicationMain(argc, (const char **)argv);
 }

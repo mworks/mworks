@@ -32,6 +32,11 @@
 }
 
 
+- (NSNumber *)codeForTag:(NSString *)tag {
+    return @([self.core codeForTag:tag]);
+}
+
+
 - (void)registerEventCallbackWithReceiver:(id)receiver
                                  selector:(SEL)selector
                               callbackKey:(const char *)key
@@ -61,13 +66,41 @@
 }
 
 
-- (void)unregisterCallbacksWithKey:(const char *)key {
-    [self.core unregisterCallbacksWithKey:@(key)];
+- (void)registerEventCallbackWithReceiver:(id)receiver
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                              forVariable:(NSString *)tag
+                             onMainThread:(BOOL)on_main
+{
+    try {
+        self.core.core->registerCallback(tag.UTF8String, create_cocoa_event_callback(receiver, selector, on_main), key);
+    } catch (...) {
+        MWorksSwiftLogException(std::current_exception());
+    }
 }
 
 
-- (NSNumber *)codeForTag:(NSString *)tag {
-    return @([self.core codeForTag:tag]);
+// receiver: the object that will receive the KVC messages
+// bindingsKey: the key (in the bindings sense of the word) in question
+// callbackKey: a unique string to identify this particular callback
+// forVariable: the tag name of the MWorks variable in question
+- (void)registerBindingsBridgeWithReceiver:(id)receiver
+                               bindingsKey:(NSString *)bindings_key
+                               callbackKey:(const char *)key
+                               forVariable:(NSString *)tag
+{
+    try {
+        self.core.core->registerCallback(tag.UTF8String,
+                                         create_bindings_bridge_event_callback(receiver, bindings_key),
+                                         key);
+    } catch (...) {
+        MWorksSwiftLogException(std::current_exception());
+    }
+}
+
+
+- (void)unregisterCallbacksWithKey:(const char *)key {
+    [self.core unregisterCallbacksWithKey:@(key)];
 }
 
 

@@ -11,9 +11,11 @@
 
 #ifdef __cplusplus
 
+#include <MWorksCore/Client.h>
 #include <MWorksCore/CoreBuilderForeman.h>
 #include <MWorksCore/PlatformDependentServices.h>
 #include <MWorksCore/Server.h>
+#include <MWorksCore/StandardClientCoreBuilder.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
 #include <MWorksCore/StandardVariables.h>
 #include <MWorksCore/XMLVariableWriter.h>

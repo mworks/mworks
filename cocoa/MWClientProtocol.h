@@ -22,19 +22,6 @@
 
 - (shared_ptr<mw::Client>) coreClient;
 
-- (void)registerEventCallbackWithReceiver:(id)receiver
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-							  forVariable:(NSString *)tag
-                             onMainThread:(BOOL)on_main;
-
-- (void)registerBindingsBridgeWithReceiver:(id)receiver 
-                               bindingsKey:(NSString *)bindings_key
-                               callbackKey:(const char *)key
-							   forVariable:(NSString *)tag;
-
-- (void)unregisterCallbacksWithKey:(const char *)key locking:(BOOL)locking;
-
 - (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data;
 - (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data;
 

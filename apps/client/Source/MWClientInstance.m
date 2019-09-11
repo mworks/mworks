@@ -16,6 +16,9 @@
 #import <MWorksCocoa/MWNotebook.h>
 #import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
 
+#import <MWorksSwift/MWorksSwift.h>
+#import <MWorksSwift/MWKClient_Private.h>
+
 #define ERROR_MESSAGE_CALLBACK_KEY	"MWClientInstance::client_error_message_callback"
 #define CLIENT_SYSTEM_EVENT_CALLBACK_KEY  "MWClientInstance::system_event_callback"
 #define EXPERIMENT_LOAD_PROGRESS_KEY "MWClientInstance::experiment_load_progress_callback"
@@ -28,12 +31,20 @@
 #define MAX_NUM_RECENT_EXPERIMENTS 20
 
 
-
-@implementation MWClientInstance
+@implementation MWClientInstance {
+    MWKClient *client;
+}
 
 
 - (id)initWithAppController:(AppController *)_controller {
+    // TODO: handle client creation failure!
+    client = [MWKClient client:NULL];
 
+    self = [super initWithCore:client];
+    if (!self) {
+        return nil;
+    }
+    
 	appController = _controller;
 
 	accumulatingErrors = NO;
@@ -42,9 +53,7 @@
     headerColor = [appController uniqueColor];
     [headerBox setFillColor:headerColor];
 
-
-	// TODO: this can theoretically throw; display an error without bringing down the whole show
-    core = shared_ptr <mw::Client>(new mw::Client());
+    core = client.client;
     
     variables = [[MWCodec alloc] initWithClientInstance:self];
 	
@@ -91,10 +100,7 @@
 	pluginWindows = [[NSMutableArray alloc] init];
 	[self loadPlugins];
 	
-    
-    // TODO: this can throw; display an error without bringing down the whole show
-    core->startEventListener();
-	
+    [client startEventListener];
   
 	#define CONNECTION_CHECK_INTERVAL	1.0
     connection_check_timer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)CONNECTION_CHECK_INTERVAL 
@@ -229,7 +235,7 @@
   
   @synchronized(self){
   
-    BOOL actually_connected = core->isConnected();
+    BOOL actually_connected = client.connected;
 
 	if(actually_connected != [self serverConnected]){
 		[self setServerConnected:actually_connected];
@@ -323,12 +329,11 @@
 	
 - (void)connect{
 	
-	string url = [serverURL cStringUsingEncoding:NSASCIIStringEncoding];
 	[self setServerConnecting:YES];
 	
-	BOOL success = core->connectToServer(url, [serverPort intValue]);  
+	BOOL success = [client connectToServer:serverURL port:serverPort.integerValue];
 	// If that didn't work, try launching the server remotely
-	if((!success || !core->isConnected()) && [self launchIfNeeded]){
+	if((!success || !(client.connected)) && [self launchIfNeeded]){
 		//NSLog(@"Attempting to remotely launch server");
 	
 		if([[self serverURL] isEqualToString:@"127.0.0.1"] || [[self serverURL] isEqualToString:@"localhost"]){
@@ -349,12 +354,12 @@
 		}
 
 		[NSThread sleepForTimeInterval:4];
-		success = core->connectToServer(url, [serverPort intValue]);
+		success = [client connectToServer:serverURL port:serverPort.integerValue];
 	}
 	
 	
 	// start checking to see if connected
-	if(success && core->isConnected()){
+	if(success && client.connected){
 		
 		[self enforceConnectedState];
 	
@@ -400,11 +405,11 @@
 	[self setServerConnecting:YES];
 	
 	//[self willChangeValueForKey:@"serverConnected"];
-	core->disconnectClient();
+	[client disconnect];
 	[NSThread sleepForTimeInterval:0.5];
 	
 	// start checking to see if connected
-	if(!core->isConnected()){
+	if(!(client.connected)){
 		[self setServerConnected:NO];
 		[self setServerConnecting:NO];
 		
@@ -420,7 +425,6 @@
 	[self setExperimentLoadProgress:[NSNumber numberWithDouble:0.0]];
 	
 	[self setExperimentName:@"Loading Experiment..."];
-	string path = [[self experimentPath] cStringUsingEncoding:NSASCIIStringEncoding];
 	[self setExperimentLoading:YES];
     self.clientsideExperimentPath = self.experimentPath;
 	[self updateRecentExperiments];
@@ -439,7 +443,7 @@
 	
 	[self startAccumulatingErrors];
   
-	bool success = core->sendExperiment(path);
+	bool success = [client sendExperiment:self.experimentPath];
 
     if(!success){
         [self setExperimentLoading:NO];
@@ -482,10 +486,8 @@
 		experiment_path = @"";
 	}
 
-	string path = [experiment_path cStringUsingEncoding:NSASCIIStringEncoding];
-	
 #ifndef HOLLOW_OUT_FOR_ADC
-	core->sendCloseExperimentEvent(path);
+	[client sendCloseExperimentEvent:experiment_path];
 #endif
   
 	[self setExperimentLoading:NO];
@@ -501,14 +503,14 @@
 - (void) saveVariableSet {
     NSString *variable_save_name = [self variableSetName];
     if(variable_save_name != Nil){
-        core->sendSaveVariablesEvent([variable_save_name cStringUsingEncoding:NSASCIIStringEncoding], 1);
+        [client sendSaveVariablesEvent:variable_save_name overwrite:YES];
     }
 }
 
 - (void) loadVariableSet {
     NSString *variable_load_name = [self variableSetName];
     if(variable_load_name != Nil){
-        core->sendLoadVariablesEvent([variable_load_name cStringUsingEncoding:NSASCIIStringEncoding]);
+        [client sendLoadVariablesEvent:variable_load_name];
     }
 }
 
@@ -518,8 +520,7 @@
 	NSString *filename = [self dataFileName];
 	BOOL overwrite = [self dataFileOverwrite];
 	
-	core->sendOpenDataFileEvent([filename cStringUsingEncoding:NSASCIIStringEncoding],
-								[[NSNumber numberWithBool:overwrite] intValue]);
+	[client sendOpenDataFileEvent:filename overwrite:overwrite];
 
     [notebook addEntry:[NSString stringWithFormat:@"Streaming to data file %@", filename, Nil]];
 #endif
@@ -530,7 +531,7 @@
 #ifndef HOLLOW_OUT_FOR_ADC
 	NSString *filename = [self dataFileName];
 	
-	core->sendCloseDataFileEvent([filename cStringUsingEncoding:NSASCIIStringEncoding]);
+	[client sendCloseDataFileEvent:filename];
     
     [notebook addEntry:[NSString stringWithFormat:@"Closing data file %@", filename, Nil]];
 #endif
@@ -545,7 +546,7 @@
 #ifndef HOLLOW_OUT_FOR_ADC
 	if(isit){
 		//stop
-		core->sendStopEvent();
+		[client sendStopEvent];
         [notebook addEntry:@"Experiment stopped"];
 	} else {
 		//start
@@ -564,9 +565,9 @@
         }
         
 		if([self currentProtocolName] != Nil){
-			core->sendProtocolSelectedEvent([[self currentProtocolName] cStringUsingEncoding:NSASCIIStringEncoding]);
+			[client sendProtocolSelectedEvent:self.currentProtocolName];
 		}
-		core->sendRunEvent();
+		[client sendRunEvent];
         [notebook addEntry:@"Experiment started"];
 	}
 #endif
@@ -580,11 +581,11 @@
 #ifndef HOLLOW_OUT_FOR_ADC
 	if(isit){
 		//resume
-        core->sendResumeEvent();
+        [client sendResumeEvent];
         [notebook addEntry:@"Experiment resumed"];
 	} else {
 		//pause
-        core->sendPauseEvent();
+        [client sendPauseEvent];
         [notebook addEntry:@"Experiment paused"];
 	}
 #endif
@@ -592,12 +593,6 @@
 
 
 // Iteraction with core client
-
-- (NSNumber *)codeForTag:(NSString *)tag {
-	
-  NSNumber *code = [[NSNumber alloc] initWithInt:core->lookupCodeForTag([tag cStringUsingEncoding:NSASCIIStringEncoding])];
-  return code;
-}
 
 - (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data {
 	core->updateValue(code, *data);
@@ -608,71 +603,12 @@
 }
 
 
-- (void)unregisterCallbacksWithKey:(const char *)key {
-	core->unregisterCallbacks(key); // short-circuit
-}
-
-- (void)unregisterCallbacksWithKey:(const char *)key locking:(BOOL)locking {
-	core->unregisterCallbacks(key); // short-circuit
-}
-
-
-- (void)registerEventCallbackWithReceiver:(id)receiver 
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-                             onMainThread:(BOOL)on_main{
-
-	
-    core->registerCallback(create_cocoa_event_callback(receiver, selector, on_main), string(key));
-}
-
-- (void)registerEventCallbackWithReceiver:(id)receiver 
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-                          forVariableCode:(int)code
-                             onMainThread:(BOOL)on_main{
-						  
-	if(code >= 0) {
-        core->registerCallback(code, create_cocoa_event_callback(receiver, selector, on_main), key);
-	}
-}
-
-// Call receiver with a given selector (and the relevant event as an argument) if the mw variable 
-// identified by the specified "tag" name changes
-- (void)registerEventCallbackWithReceiver:(id)receiver 
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-                              forVariable:(NSString *)tag 
-                             onMainThread:(BOOL)on_main
-{
-	
-    core->registerCallback([tag  cStringUsingEncoding:NSASCIIStringEncoding], 
-                           create_cocoa_event_callback(receiver, selector, on_main),
-                           key);
-}
-
-
-// receiver: the object that will receive the KVC messages
-// bindingsKey: the key (in the bindings sense of the word) in question
-// callbackKey: a unique string to identify this particular callback
-// forVariable: the tag name of the MWorks variable in question
-- (void)registerBindingsBridgeWithReceiver:(id)receiver 
-                               bindingsKey:(NSString *)bindings_key
-                               callbackKey:(const char *)key
-                               forVariable:(NSString *)tag {
-	
-	core->registerCallback([tag  cStringUsingEncoding:NSASCIIStringEncoding], 
-                            create_bindings_bridge_event_callback(receiver, bindings_key), 
-                            key);
-}
-
-
 - (void)receiveCodec:(MWCocoaEvent *)event {
     
     // If we've received a new codec, it is possible that some key variables have changed codes
     // As a result, we must find out what they are, and re-register callbacks
 
-    [self unregisterCallbacksWithKey:EXPERIMENT_LOAD_PROGRESS_KEY locking:NO]; // locked from outside callback
+    [self unregisterCallbacksWithKey:EXPERIMENT_LOAD_PROGRESS_KEY];
     [self registerBindingsBridgeWithReceiver:self
                                  bindingsKey:@"experimentLoadProgress"
                                  callbackKey:EXPERIMENT_LOAD_PROGRESS_KEY
@@ -762,7 +698,7 @@
                 [self setExperimentLoaded:state.getElement(M_LOADED).getBool()];
                 if([self experimentLoaded]) {
                     [self setExperimentLoading:NO];
-                    [self unregisterCallbacksWithKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY locking:NO]; // locked from outside callback
+                    [self unregisterCallbacksWithKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY];
                     [self setExperimentPaused:state.getElement(M_PAUSED).getBool()];
                     [self setExperimentRunning: state.getElement(M_RUNNING).getBool()];
                     [self setExperimentName:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_NAME).getString().c_str()
@@ -1056,7 +992,7 @@
 }
 
 - (void)stopAccumulatingErrors{
-	[self unregisterCallbacksWithKey:ERROR_MESSAGE_CALLBACK_KEY locking:YES];
+	[self unregisterCallbacksWithKey:ERROR_MESSAGE_CALLBACK_KEY];
 	
 	[appController willChangeValueForKey:@"modalClientInstanceInCharge"];
 	[appController didChangeValueForKey:@"modalClientInstanceInCharge"];

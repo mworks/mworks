@@ -26,18 +26,6 @@
             mw::CoreBuilderForeman::constructCoreStandardOrder(&coreBuilder);
         });
         result = YES;
-    } catch (mw::ComponentFactoryConflictException &e) {
-        if (error) {
-            *error = [NSError errorWithDomain:MWorksSwiftErrorDomain
-                                         code:MWorksSwiftErrorComponentFactoryConflict
-                                     userInfo:@{
-                                                NSLocalizedDescriptionKey: @(e.getMessage().c_str()),
-                                                NSLocalizedRecoverySuggestionErrorKey:
-                                                    @"You must review your plugins to ensure that multiple plugins"
-                                                    " aren't trying to register functionality under the same XML"
-                                                    " signatures"
-                                                }];
-        }
     } catch (...) {
         if (error) {
             *error = MWorksSwiftConvertExceptionToNSError(std::current_exception());
