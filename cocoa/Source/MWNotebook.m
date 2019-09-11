@@ -7,7 +7,6 @@
 //
 
 #import "MWNotebook.h"
-#import "MworksCore/PlatformDependentServices.h"
 
 
 @implementation MWNotebook
