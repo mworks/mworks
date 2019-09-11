@@ -623,7 +623,7 @@
                              onMainThread:(BOOL)on_main{
 
 	
-    core->registerCallback(create_cocoa_event_callback(receiver, selector, on_main, self), string(key));
+    core->registerCallback(create_cocoa_event_callback(receiver, selector, on_main), string(key));
 }
 
 - (void)registerEventCallbackWithReceiver:(id)receiver 
@@ -633,7 +633,7 @@
                              onMainThread:(BOOL)on_main{
 						  
 	if(code >= 0) {
-        core->registerCallback(code, create_cocoa_event_callback(receiver, selector, on_main, self), key);
+        core->registerCallback(code, create_cocoa_event_callback(receiver, selector, on_main), key);
 	}
 }
 
@@ -647,7 +647,7 @@
 {
 	
     core->registerCallback([tag  cStringUsingEncoding:NSASCIIStringEncoding], 
-                           create_cocoa_event_callback(receiver, selector, on_main, self), 
+                           create_cocoa_event_callback(receiver, selector, on_main),
                            key);
 }
 

@@ -13,9 +13,9 @@
 
 namespace mw{
 
-EventCallback create_cocoa_event_callback(id _receiver, SEL _selector, bool on_main, id _syncobject){
+EventCallback create_cocoa_event_callback(id _receiver, SEL _selector, bool on_main){
 
-    shared_ptr<CocoaEventFunctor> functor_object(new CocoaEventFunctor(_receiver, _selector, on_main, _syncobject));
+    shared_ptr<CocoaEventFunctor> functor_object(new CocoaEventFunctor(_receiver, _selector, on_main));
     return boost::bind(&CocoaEventFunctor::operator(), functor_object, _1);
 }
 

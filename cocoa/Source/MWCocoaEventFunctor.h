@@ -19,7 +19,7 @@
 namespace mw {
     
     
-    EventCallback create_cocoa_event_callback(id _receiver, SEL _selector, bool on_main=true, id _syncobject=Nil);
+    EventCallback create_cocoa_event_callback(id _receiver, SEL _selector, bool on_main=true);
     EventCallback create_bindings_bridge_event_callback(id _receiver, NSString *_bindings_key);
     
     
@@ -29,19 +29,17 @@ namespace mw {
 		private:
 			id receiver;
 			SEL selector;
-			id syncobject;
         bool on_main_thread;
 		public:
 			
 			// constructor - takes pointer to an object and pointer to a member and stores
 			// them in two private variables
-			CocoaEventFunctor(id _receiver, SEL _selector, bool _on_main_thread = true, id _syncobject=Nil)
+			CocoaEventFunctor(id _receiver, SEL _selector, bool _on_main_thread = true)
 			{
         
                 on_main_thread = _on_main_thread;
 				receiver = _receiver;
 				selector = _selector;
-                syncobject = _syncobject;
         
 			};
 			
@@ -58,7 +56,6 @@ namespace mw {
                                                                       andCode:event->getEventCode() 
                                                                       andTime:event->getTime()];
 					
-        //@synchronized(syncobject){
           if([receiver respondsToSelector:selector]) {
             // DDC: 5/08 changed to "OnMainThread"
             // this is to ease development of plugins so that Cocoa drawing calls can be made here
@@ -78,7 +75,6 @@ namespace mw {
             NSString *errorMessage = @"Cannot call selector from specified receiver: ";
             merror(M_CLIENT_MESSAGE_DOMAIN, "%s", [[errorMessage stringByAppendingString:sn] cStringUsingEncoding:NSASCIIStringEncoding]);
           }
-        //}
 				}
 			};         
 		};
