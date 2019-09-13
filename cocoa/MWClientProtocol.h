@@ -11,8 +11,9 @@
 #import <MWorksCore/Client.h>
 #import <MWorksCore/GenericData.h>
 
-#import "MWNotebook.h"
-#import "MWClientServerBase.h"
+#import <MWorksCocoa/MWClientPlugin.h>  // Include for compatibility with existing code
+#import <MWorksCocoa/MWClientServerBase.h>
+#import <MWorksCocoa/MWNotebook.h>
 
 
 @class MWCodec;  // Forward declaration
@@ -33,45 +34,3 @@
 - (NSWindow *)groupedPluginWindow;
 
 @end
-
-
-@protocol MWClientPluginWindowController <NSObject>
-
-- (void)setInGroupedWindow:(BOOL)isInGroupedWindow;
-
-@end
-
-
-@protocol MWClientPluginWorkspaceState <NSObject>
-
-- (NSDictionary *)workspaceState;
-- (void)setWorkspaceState:(NSDictionary *)workspaceState;
-
-@end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
