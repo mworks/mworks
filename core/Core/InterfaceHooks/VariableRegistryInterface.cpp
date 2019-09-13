@@ -50,8 +50,12 @@ std::vector<std::string> VariableRegistryInterface::getVariableTagNames() {
 RegistryAwareEventStreamInterface::RegistryAwareEventStreamInterface(MessageDomain dom) : EventStreamInterface(dom) { }
 
 void RegistryAwareEventStreamInterface::registerCallback(string tagname, EventCallback cb, string callback_key){
-    int code = lookupCodeForTag(tagname);   
-    EventStreamInterface::registerCallback(code, cb, callback_key);
+    int code = lookupCodeForTag(tagname);
+    if (code < 0) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Attempt to register callback for unknown tag: \"%s\"", tagname.c_str());
+    } else {
+        EventStreamInterface::registerCallback(code, cb, callback_key);
+    }
 }
 
 void RegistryAwareEventStreamInterface::registerCallback(EventCallback cb, string callback_key){

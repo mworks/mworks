@@ -67,6 +67,15 @@ static inline mw::EventCallback wrapCallback(MWKEventCallback callback) {
 }
 
 
+- (void)registerCallbackWithKey:(NSString *)key forTag:(NSString *)tag callback:(MWKEventCallback)callback {
+    try {
+        self.core->registerCallback(tag.UTF8String, wrapCallback(callback), key.UTF8String);
+    } catch (...) {
+        MWorksSwiftLogException(std::current_exception());
+    }
+}
+
+
 - (void)unregisterCallbacksWithKey:(NSString *)key {
     try {
         self.core->unregisterCallbacks(key.UTF8String);

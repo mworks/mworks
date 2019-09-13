@@ -25,6 +25,8 @@ MWORKSSWIFT_PUBLIC_CLASS
 
 - (void)registerCallbackWithKey:(NSString *)key callback:(MWKEventCallback)callback;
 - (void)registerCallbackWithKey:(NSString *)key forCode:(NSInteger)code callback:(MWKEventCallback)callback;
+- (void)registerCallbackWithKey:(NSString *)key forTag:(NSString *)tag callback:(MWKEventCallback)callback;
+
 - (void)unregisterCallbacksWithKey:(NSString *)key;
 
 @end
