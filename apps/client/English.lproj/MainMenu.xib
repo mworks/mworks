@@ -1443,26 +1443,6 @@
             </view>
             <point key="canvasLocation" x="138.5" y="281.5"/>
         </window>
-        <arrayController editable="NO" id="881">
-            <declaredKeys>
-                <mutableString>variables.variableName</mutableString>
-                <string>value</string>
-                <string>self</string>
-            </declaredKeys>
-            <connections>
-                <binding destination="379" name="contentArray" keyPath="representedObject.variables.variableNames" id="883">
-                    <dictionary key="options">
-                        <integer key="NSAlwaysPresentsApplicationModalAlerts" value="0"/>
-                        <integer key="NSConditionallySetsEditable" value="1"/>
-                        <integer key="NSDeletesObjectsOnRemove" value="0"/>
-                        <integer key="NSHandlesContentAsCompoundValue" value="0"/>
-                        <integer key="NSRaisesForNotApplicableKeys" value="1"/>
-                        <integer key="NSSelectsAllWhenSettingContent" value="0"/>
-                        <integer key="NSValidatesImmediately" value="1"/>
-                    </dictionary>
-                </binding>
-            </connections>
-        </arrayController>
         <menu id="894" userLabel="Plugins Menu">
             <items>
                 <menuItem isSeparatorItem="YES" id="898">

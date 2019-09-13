@@ -10,6 +10,7 @@
 
 #import <MWorksSwift/MWorksSwiftDefines.h>
 #import <MWorksSwift/MWKCore.h>
+#import <MWorksSwift/MWKDatum.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -43,6 +44,9 @@ MWORKSSWIFT_PUBLIC_CLASS
 
 - (void)sendOpenDataFileEvent:(NSString *)filename overwrite:(BOOL)overwrite;
 - (void)sendCloseDataFileEvent:(NSString *)filename;
+
+- (nullable MWKDatum *)valueForTag:(NSString *)tag;
+- (BOOL)setValue:(MWKDatum *)value forTag:(NSString *)tag;
 
 @end
 

@@ -9,9 +9,10 @@
 #import "MWClientInstance.h"
 
 #import <MWorksCore/StandardVariables.h>
+
+#import <MWorksCocoa/MWClientPlugin.h>
 #import <MWorksCocoa/MWCocoaEvent.h>
 #import <MWorksCocoa/MWCocoaEventFunctor.h>
-#import <MWorksCocoa/MWCodec.h>
 #import <MWorksCocoa/MWConsoleController.h>
 #import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
 
@@ -181,15 +182,13 @@
 			[self disconnect];
 		}
 	} else if([self serverConnected]){
-        NSString *putative_name = [self.variables valueForKey:@"_serverName"];
+        NSString *putative_name = [self.client valueForTag:@"#serverName"].stringValue;
         if(putative_name != [self serverName] && putative_name != Nil){
             [self setServerName: putative_name];
         }
     }
 	
   }
-//	[self enforceConnectedState];
-//	[self setServerName:[self.variables valueForKey:@"_serverName"]];
 }
 
 // Maintaining Overall GUI state
@@ -324,7 +323,7 @@
 		
 		
 		// get the name of the remote setup
-		[self setServerName:[self.variables valueForKey:@"_serverName"]];
+		[self setServerName:[self.client valueForTag:@"#serverName"].stringValue];
 		if([self serverName] == Nil || [[self serverName] length] == 0){
 			[self setServerName:@"Unnamed Server"];
 		}

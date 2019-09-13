@@ -10,6 +10,7 @@
 
 #import "MWorksSwiftErrors_Private.h"
 #import "MWKCore_Private.h"
+#import "MWKDatum_Private.h"
 
 
 @implementation MWKClient {
@@ -203,6 +204,34 @@
     } catch (...) {
         MWorksSwiftLogException(std::current_exception());
     }
+}
+
+
+- (MWKDatum *)valueForTag:(NSString *)tag {
+    MWKDatum *result = nil;
+    try {
+        if (auto var = self.client->getVariable(tag.UTF8String)) {
+            result = [MWKDatum datumWithDatum:var->getValue()];
+        }
+    } catch (...) {
+        MWorksSwiftLogException(std::current_exception());
+    }
+    return result;
+}
+
+
+- (BOOL)setValue:(MWKDatum *)value forTag:(NSString *)tag {
+    BOOL result = NO;
+    NSInteger code = [self codeForTag:tag];
+    if (code >= 0) {
+        try {
+            self.client->updateValue(code, value.datum);
+            result = YES;
+        } catch (...) {
+            MWorksSwiftLogException(std::current_exception());
+        }
+    }
+    return result;
 }
 
 
