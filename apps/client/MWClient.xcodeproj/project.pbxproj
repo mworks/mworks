@@ -63,7 +63,6 @@
 		E154B5322329827B0018E6DA /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E154B5312329827B0018E6DA /* MWorksSwift.framework */; };
 		E15D0AF216C2ADFB00F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF116C2ADFB00F331B1 /* AppKit.framework */; };
 		E18B840D1552D7C000268197 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18B840B1552D7C000268197 /* MainMenu.xib */; };
-		E1FFCBE518F33DC000FB6EEC /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FFCBE418F33DC000FB6EEC /* OrderedDictionary.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,7 +115,7 @@
 		5CEDF85B0D85E49D0044D738 /* MWClientInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientInstance.h; sourceTree = "<group>"; };
 		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWClientInstance.m; sourceTree = "<group>"; };
 		5CEDF8EF0D86247F0044D738 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
-		5CEDF8F00D86247F0044D738 /* AppController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AppController.m; sourceTree = "<group>"; };
+		5CEDF8F00D86247F0044D738 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		5CEDF93D0D862FC60044D738 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		5CEDFA7A0D86C8C90044D738 /* MWServerConnectedIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServerConnectedIconTransformer.h; sourceTree = "<group>"; };
 		5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWServerConnectedIconTransformer.m; sourceTree = "<group>"; };
@@ -141,8 +140,6 @@
 		E18B840C1552D7C000268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1C3650622BD618400D1DBF6 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_App.xcconfig; sourceTree = "<group>"; };
-		E1FFCBE318F33DC000FB6EEC /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
-		E1FFCBE418F33DC000FB6EEC /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,7 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				5C55E10A0D8E007A000E1CB5 /* Extensions */,
-				5CE19A5C0D86D8AA007E2ABA /* BorrowedClasses */,
 				5CEDFA790D86C8A00044D738 /* ValueTransformers */,
 				5CEDF85B0D85E49D0044D738 /* MWClientInstance.h */,
 				5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */,
@@ -240,15 +236,6 @@
 				5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */,
 			);
 			name = Extensions;
-			sourceTree = "<group>";
-		};
-		5CE19A5C0D86D8AA007E2ABA /* BorrowedClasses */ = {
-			isa = PBXGroup;
-			children = (
-				E1FFCBE318F33DC000FB6EEC /* OrderedDictionary.h */,
-				E1FFCBE418F33DC000FB6EEC /* OrderedDictionary.m */,
-			);
-			name = BorrowedClasses;
 			sourceTree = "<group>";
 		};
 		5CE62A5E115855DB00C757F1 /* External Config */ = {
@@ -418,7 +405,6 @@
 				5C55E10D0D8E00A8000E1CB5 /* NSMenuExtensions.m in Sources */,
 				5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */,
 				5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */,
-				E1FFCBE518F33DC000FB6EEC /* OrderedDictionary.m in Sources */,
 				5CFE56580F54A653000C7F30 /* MWURLStringValueTransformer.m in Sources */,
 				E11416F615766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m in Sources */,
 			);

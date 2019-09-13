@@ -67,6 +67,9 @@
 		E10743631642C58200518F25 /* MWCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = E10743611642C58200518F25 /* MWCodec.m */; };
 		E112D940183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E112D93E183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E112D941183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E112D93F183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m */; };
+		E11378FD232BD71F0022EF26 /* MWClientBase.h in Headers */ = {isa = PBXBuildFile; fileRef = E11378FB232BD71F0022EF26 /* MWClientBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E11378FE232BD71F0022EF26 /* MWClientBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E11378FC232BD71F0022EF26 /* MWClientBase.m */; };
+		E1137903232BE3630022EF26 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E1137901232BE3630022EF26 /* OrderedDictionary.m */; };
 		E12D98F816BC2964004FEF79 /* MWorksCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 68DAF1B40AC959FA00928168 /* MWorksCocoa.framework */; };
 		E15D0AEC16C2AB9000F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AEB16C2AB9000F331B1 /* AppKit.framework */; };
 		E1615726222445B6009C37F3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1615725222445B6009C37F3 /* Media.xcassets */; };
@@ -141,6 +144,10 @@
 		E10743611642C58200518F25 /* MWCodec.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWCodec.m; sourceTree = "<group>"; };
 		E112D93E183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MWorksCocoaAdditions.h"; sourceTree = "<group>"; };
 		E112D93F183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MWorksCocoaAdditions.m"; sourceTree = "<group>"; };
+		E11378FB232BD71F0022EF26 /* MWClientBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWClientBase.h; sourceTree = "<group>"; };
+		E11378FC232BD71F0022EF26 /* MWClientBase.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWClientBase.m; sourceTree = "<group>"; };
+		E1137900232BE3630022EF26 /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
+		E1137901232BE3630022EF26 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		E15D0AEB16C2AB9000F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1615725222445B6009C37F3 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		E1AC632F2329305700DFED1A /* MWClientServerBase.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWClientServerBase.m; sourceTree = "<group>"; };
@@ -250,6 +257,7 @@
 		DA2FEEE908B3FD9F007E389A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				E11378FF232BE2F70022EF26 /* BorrowedClasses */,
 				0E1F319A0C5B1EB700EB89EA /* Console */,
 				0EDBEBA00C721A8200694CA9 /* MWCocoaEvent.h */,
 				0EDBEBA10C721A8200694CA9 /* MWCocoaEvent.m */,
@@ -257,6 +265,8 @@
 				5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */,
 				0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */,
 				E1AC632F2329305700DFED1A /* MWClientServerBase.m */,
+				E11378FB232BD71F0022EF26 /* MWClientBase.h */,
+				E11378FC232BD71F0022EF26 /* MWClientBase.m */,
 				5C77F7FA10EBADEF00919719 /* CocoaBindingsSetter.h */,
 				5C77F7FB10EBADEF00919719 /* CocoaBindingsSetter.m */,
 				5CC88AD0111769DF007914F8 /* MWNotebook.h */,
@@ -286,6 +296,16 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		E11378FF232BE2F70022EF26 /* BorrowedClasses */ = {
+			isa = PBXGroup;
+			children = (
+				E1137900232BE3630022EF26 /* OrderedDictionary.h */,
+				E1137901232BE3630022EF26 /* OrderedDictionary.m */,
+			);
+			name = BorrowedClasses;
+			path = Source/BorrowedClasses;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -304,6 +324,7 @@
 				5C8B85011100225400E6D6CD /* MWClientProtocol.h in Headers */,
 				5CC88AD2111769DF007914F8 /* MWNotebook.h in Headers */,
 				E112D940183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.h in Headers */,
+				E11378FD232BD71F0022EF26 /* MWClientBase.h in Headers */,
 				E10743621642C58200518F25 /* MWCodec.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,11 +423,13 @@
 				0E1F31A00C5B1EB700EB89EA /* MWConsoleController.m in Sources */,
 				0E1F31A20C5B1EB700EB89EA /* MWMessageContainer.m in Sources */,
 				E1AC63302329305700DFED1A /* MWClientServerBase.m in Sources */,
+				E11378FE232BD71F0022EF26 /* MWClientBase.m in Sources */,
 				0EDBEBA30C721A8200694CA9 /* MWCocoaEvent.m in Sources */,
 				0E727A1C0CB64819000C7B3F /* MWConsoleToolbar.m in Sources */,
 				5CF10C69109F3B7000FFE11A /* MWCocoaEventFunctor.cpp in Sources */,
 				E112D941183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m in Sources */,
 				5C77F7FD10EBADEF00919719 /* CocoaBindingsSetter.m in Sources */,
+				E1137903232BE3630022EF26 /* OrderedDictionary.m in Sources */,
 				5CC88AD3111769DF007914F8 /* MWNotebook.m in Sources */,
 				E10743631642C58200518F25 /* MWCodec.m in Sources */,
 			);

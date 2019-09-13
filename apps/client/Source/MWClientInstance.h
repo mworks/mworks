@@ -7,12 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <MWorksCore/Client.h>
-#import <MWorksCocoa/MWCocoaEvent.h>
-#import <MWorksCocoa/MWClientProtocol.h>
-#import <MWorksCocoa/MWCodec.h>
+#import <MWorksCocoa/MWClientBase.h>
 #import "MWGroupedPluginWindowController.h"
-//#import "MWNotebook.h"
 #import "AppController.h"
 
 
@@ -21,20 +17,10 @@
 
 #define STATE_SYSTEM_CALLBACK_KEY "MWorksClient::StateSystemCallbackKey"
 
-@interface MWClientInstance : MWClientServerBase <MWClientProtocol> {
-
-	// The core object that actually does all of the work
-	#ifndef HOLLOW_OUT_FOR_ADC
-		shared_ptr<mw::Client> core;
-	#endif
-	
+@interface MWClientInstance : MWClientBase {
 	AppController * appController;
 	
 	int systemCodecCode;
-
-	// A bindings-compatible object in charge of interactions with the codec /
-	// variables registry
-	MWCodec *variables;
 
 	// Maintained state (kept for the sake of bindings, tightly
 	// coupled to state queried from the core object)
@@ -81,7 +67,6 @@
 	BOOL hasExperimentLoadErrors;
     
     MWGroupedPluginWindowController *grouped_plugin_controller;
-    MWNotebook *notebook;
     
     // Cosmetics
     IBOutlet NSBox *headerBox;
@@ -93,15 +78,9 @@
 - (id)initWithAppController:(AppController *)_appController;
 
 // Accessors
-- (shared_ptr<mw::Client>) coreClient;
-@property(strong) MWCodec *variables;
-- (NSArray *)variableNames;
 @property	NSMutableArray *errors;
 
 @property(copy, readwrite) NSAttributedString *errorString;
-
-//@property(readonly) MWNotebook *notebook;
-- (MWNotebook *)notebook;
 
 
 // Connect / disconnect
@@ -151,11 +130,6 @@
 - (void)enforceLoadFailedState;
 
 
-// Interacting with the internal core object
-- (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data;
-- (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data;
-
-
 // Actions
 - (void)connect;
 - (void)disconnect;
@@ -178,7 +152,6 @@
 - (void)showAllPlugins;
 - (void)showPlugin:(int)i;
 - (void)showGroupedPlugins;
-- (NSWindow *)groupedPluginWindow;
 - (void)hideAllPlugins;
 - (NSArray *)pluginWindows;
 - (NSArray *)openPluginWindows;

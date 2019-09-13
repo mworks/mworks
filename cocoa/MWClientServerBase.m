@@ -13,9 +13,7 @@
 #import "MWCocoaEventFunctor.h"
 
 
-@implementation MWClientServerBase {
-    MWKCore *_core;
-}
+@implementation MWClientServerBase
 
 
 - (instancetype)initWithCore:(MWKCore *)core {
@@ -24,11 +22,6 @@
         _core = core;
     }
     return self;
-}
-
-
-- (MWKCore *)core {
-    return _core;
 }
 
 

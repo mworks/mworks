@@ -7,17 +7,13 @@
 //
 
 #import "MWClientInstance.h"
-#import "OrderedDictionary.h"
+
 #import <MWorksCore/StandardVariables.h>
-#import <MWorksCore/Client.h>
 #import <MWorksCocoa/MWCocoaEvent.h>
 #import <MWorksCocoa/MWCocoaEventFunctor.h>
+#import <MWorksCocoa/MWCodec.h>
 #import <MWorksCocoa/MWConsoleController.h>
-#import <MWorksCocoa/MWNotebook.h>
 #import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
-
-#import <MWorksSwift/MWorksSwift.h>
-#import <MWorksSwift/MWKClient_Private.h>
 
 #define ERROR_MESSAGE_CALLBACK_KEY	"MWClientInstance::client_error_message_callback"
 #define CLIENT_SYSTEM_EVENT_CALLBACK_KEY  "MWClientInstance::system_event_callback"
@@ -31,16 +27,14 @@
 #define MAX_NUM_RECENT_EXPERIMENTS 20
 
 
-@implementation MWClientInstance {
-    MWKClient *client;
-}
+@implementation MWClientInstance
 
 
 - (id)initWithAppController:(AppController *)_controller {
     // TODO: handle client creation failure!
-    client = [MWKClient client:NULL];
+    MWKClient *_client = [MWKClient client:NULL];
 
-    self = [super initWithCore:client];
+    self = [super initWithClient:_client];
     if (!self) {
         return nil;
     }
@@ -53,10 +47,6 @@
     headerColor = [appController uniqueColor];
     [headerBox setFillColor:headerColor];
 
-    core = client.client;
-    
-    variables = [[MWCodec alloc] initWithClientInstance:self];
-	
 	protocolNames = [[NSMutableArray alloc] init];
 	errors = [[NSMutableArray alloc] init];
     serversideVariableSetNames = [[NSMutableArray alloc] init];
@@ -92,15 +82,12 @@
 	[self setExperimentLoaded:false];
 	[self setServerConnected:false];
 	[self setLaunchIfNeeded:YES];
-	
-    // create a notebook
-    notebook = [[MWNotebook alloc] init];
     
 	// load plugins
 	pluginWindows = [[NSMutableArray alloc] init];
 	[self loadPlugins];
 	
-    [client startEventListener];
+    [self.client startEventListener];
   
 	#define CONNECTION_CHECK_INTERVAL	1.0
     connection_check_timer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)CONNECTION_CHECK_INTERVAL 
@@ -131,8 +118,6 @@
 }*/
 
 
-
-@synthesize variables;
 
 @synthesize	serverConnected;
 @synthesize serverConnecting;
@@ -174,54 +159,6 @@
 // Cosmetics
 @synthesize headerColor;
 
-- (shared_ptr<mw::Client>)coreClient {
-  return core;
-}
-
-- (MWNotebook *)notebook {
-    return notebook;
-}
-
-- (NSArray *)variableNames {
-    // Return a copy of MWCodec's internal variable names array 
-    return [[variables variableNames] copy];
-}
-
-- (NSDictionary *)varGroups {
-  
-	unsigned int nVars = core->numberOfVariablesInRegistry();
-	
-    // Use OrderedDictionary so that iterating over all groups preserves their ordering (which
-    // is by order of first appearance in the experiment file)
-	OrderedDictionary *allGroups = [[OrderedDictionary alloc] init];
-
-  	for (int i=N_RESERVED_CODEC_CODES; i < nVars + N_RESERVED_CODEC_CODES; ++i) {
-		shared_ptr <mw::Variable> var = core->getVariable(i);
-		
-        if ((var == NULL) || (var->getProperties() == NULL)) {
-            continue;
-        }
-        
-		std::vector <std::string> groups(var->getProperties()->getGroups());
-		std::vector<std::string>::iterator iter = groups.begin();
-		while (iter != groups.end()) {
-			NSString *groupName = [NSString stringWithUTF8String:iter->c_str()];
-			
-			NSMutableArray *aGroup = [allGroups valueForKey:groupName];
-			if(aGroup == nil) {
-				aGroup = [[NSMutableArray alloc] init];
-                [allGroups setValue:aGroup forKey:groupName];
-			}
-			
-			[aGroup addObject:[NSString stringWithUTF8String:var->getProperties()->getTagName().c_str()]];
-			
-			++iter;
-		}
-	}
-	
-	return allGroups;
-}
-
 
 - (void)setServerURL:(NSString *)newServerURL {
     if (![serverURL isEqualToString:newServerURL]) {
@@ -235,7 +172,7 @@
   
   @synchronized(self){
   
-    BOOL actually_connected = client.connected;
+    BOOL actually_connected = self.client.connected;
 
 	if(actually_connected != [self serverConnected]){
 		[self setServerConnected:actually_connected];
@@ -244,7 +181,7 @@
 			[self disconnect];
 		}
 	} else if([self serverConnected]){
-        NSString *putative_name = [variables valueForKey:@"_serverName"];
+        NSString *putative_name = [self.variables valueForKey:@"_serverName"];
         if(putative_name != [self serverName] && putative_name != Nil){
             [self setServerName: putative_name];
         }
@@ -252,7 +189,7 @@
 	
   }
 //	[self enforceConnectedState];
-//	[self setServerName:[variables valueForKey:@"_serverName"]];
+//	[self setServerName:[self.variables valueForKey:@"_serverName"]];
 }
 
 // Maintaining Overall GUI state
@@ -331,9 +268,9 @@
 	
 	[self setServerConnecting:YES];
 	
-	BOOL success = [client connectToServer:serverURL port:serverPort.integerValue];
+	BOOL success = [self.client connectToServer:serverURL port:serverPort.integerValue];
 	// If that didn't work, try launching the server remotely
-	if((!success || !(client.connected)) && [self launchIfNeeded]){
+	if((!success || !(self.client.connected)) && [self launchIfNeeded]){
 		//NSLog(@"Attempting to remotely launch server");
 	
 		if([[self serverURL] isEqualToString:@"127.0.0.1"] || [[self serverURL] isEqualToString:@"localhost"]){
@@ -354,12 +291,12 @@
 		}
 
 		[NSThread sleepForTimeInterval:4];
-		success = [client connectToServer:serverURL port:serverPort.integerValue];
+		success = [self.client connectToServer:serverURL port:serverPort.integerValue];
 	}
 	
 	
 	// start checking to see if connected
-	if(success && client.connected){
+	if(success && self.client.connected){
 		
 		[self enforceConnectedState];
 	
@@ -387,7 +324,7 @@
 		
 		
 		// get the name of the remote setup
-		[self setServerName:[variables valueForKey:@"_serverName"]];
+		[self setServerName:[self.variables valueForKey:@"_serverName"]];
 		if([self serverName] == Nil || [[self serverName] length] == 0){
 			[self setServerName:@"Unnamed Server"];
 		}
@@ -405,11 +342,11 @@
 	[self setServerConnecting:YES];
 	
 	//[self willChangeValueForKey:@"serverConnected"];
-	[client disconnect];
+	[self.client disconnect];
 	[NSThread sleepForTimeInterval:0.5];
 	
 	// start checking to see if connected
-	if(!(client.connected)){
+	if(!(self.client.connected)){
 		[self setServerConnected:NO];
 		[self setServerConnecting:NO];
 		
@@ -443,7 +380,7 @@
 	
 	[self startAccumulatingErrors];
   
-	bool success = [client sendExperiment:self.experimentPath];
+	bool success = [self.client sendExperiment:self.experimentPath];
 
     if(!success){
         [self setExperimentLoading:NO];
@@ -487,7 +424,7 @@
 	}
 
 #ifndef HOLLOW_OUT_FOR_ADC
-	[client sendCloseExperimentEvent:experiment_path];
+	[self.client sendCloseExperimentEvent:experiment_path];
 #endif
   
 	[self setExperimentLoading:NO];
@@ -503,14 +440,14 @@
 - (void) saveVariableSet {
     NSString *variable_save_name = [self variableSetName];
     if(variable_save_name != Nil){
-        [client sendSaveVariablesEvent:variable_save_name overwrite:YES];
+        [self.client sendSaveVariablesEvent:variable_save_name overwrite:YES];
     }
 }
 
 - (void) loadVariableSet {
     NSString *variable_load_name = [self variableSetName];
     if(variable_load_name != Nil){
-        [client sendLoadVariablesEvent:variable_load_name];
+        [self.client sendLoadVariablesEvent:variable_load_name];
     }
 }
 
@@ -520,9 +457,9 @@
 	NSString *filename = [self dataFileName];
 	BOOL overwrite = [self dataFileOverwrite];
 	
-	[client sendOpenDataFileEvent:filename overwrite:overwrite];
+	[self.client sendOpenDataFileEvent:filename overwrite:overwrite];
 
-    [notebook addEntry:[NSString stringWithFormat:@"Streaming to data file %@", filename, Nil]];
+    [self.notebook addEntry:[NSString stringWithFormat:@"Streaming to data file %@", filename, Nil]];
 #endif
 }
 
@@ -531,9 +468,9 @@
 #ifndef HOLLOW_OUT_FOR_ADC
 	NSString *filename = [self dataFileName];
 	
-	[client sendCloseDataFileEvent:filename];
+	[self.client sendCloseDataFileEvent:filename];
     
-    [notebook addEntry:[NSString stringWithFormat:@"Closing data file %@", filename, Nil]];
+    [self.notebook addEntry:[NSString stringWithFormat:@"Closing data file %@", filename, Nil]];
 #endif
 }
 
@@ -546,8 +483,8 @@
 #ifndef HOLLOW_OUT_FOR_ADC
 	if(isit){
 		//stop
-		[client sendStopEvent];
-        [notebook addEntry:@"Experiment stopped"];
+		[self.client sendStopEvent];
+        [self.notebook addEntry:@"Experiment stopped"];
 	} else {
 		//start
         
@@ -565,10 +502,10 @@
         }
         
 		if([self currentProtocolName] != Nil){
-			[client sendProtocolSelectedEvent:self.currentProtocolName];
+			[self.client sendProtocolSelectedEvent:self.currentProtocolName];
 		}
-		[client sendRunEvent];
-        [notebook addEntry:@"Experiment started"];
+		[self.client sendRunEvent];
+        [self.notebook addEntry:@"Experiment started"];
 	}
 #endif
 }
@@ -581,25 +518,14 @@
 #ifndef HOLLOW_OUT_FOR_ADC
 	if(isit){
 		//resume
-        [client sendResumeEvent];
-        [notebook addEntry:@"Experiment resumed"];
+        [self.client sendResumeEvent];
+        [self.notebook addEntry:@"Experiment resumed"];
 	} else {
 		//pause
-        [client sendPauseEvent];
-        [notebook addEntry:@"Experiment paused"];
+        [self.client sendPauseEvent];
+        [self.notebook addEntry:@"Experiment paused"];
 	}
 #endif
-}
-
-
-// Iteraction with core client
-
-- (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data {
-	core->updateValue(code, *data);
-}
-
-- (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data {
-	[self updateVariableWithCode:[[self codeForTag:tag] intValue] withData:data];
 }
 
 
@@ -784,6 +710,7 @@
     [[grouped_plugin_controller window] orderOut:self];
     [grouped_plugin_controller setCustomColor:self.headerColor];
     [grouped_plugin_controller setWindowFrameAutosaveName:self.serverURL];
+    self.groupedPluginWindow = grouped_plugin_controller.window;
     
     // Add console, which is always available
     MWConsoleController *console = [[MWConsoleController alloc] init];
@@ -906,10 +833,6 @@
 	}
 
 	//NSLog(@"showing all (%d) from instance %d", [pluginWindows count], self);
-}
-
-- (NSWindow *)groupedPluginWindow {
-    return [grouped_plugin_controller window];
 }
 
 - (void)showGroupedPlugins {
