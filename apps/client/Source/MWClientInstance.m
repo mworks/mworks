@@ -8,19 +8,15 @@
 
 #import "MWClientInstance.h"
 
-#import <MWorksCore/StandardVariables.h>
-
 #import <MWorksCocoa/MWClientPlugin.h>
-#import <MWorksCocoa/MWCocoaEvent.h>
-#import <MWorksCocoa/MWCocoaEventFunctor.h>
 #import <MWorksCocoa/MWConsoleController.h>
 #import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
 
-#define ERROR_MESSAGE_CALLBACK_KEY	"MWClientInstance::client_error_message_callback"
-#define CLIENT_SYSTEM_EVENT_CALLBACK_KEY  "MWClientInstance::system_event_callback"
-#define EXPERIMENT_LOAD_PROGRESS_KEY "MWClientInstance::experiment_load_progress_callback"
-#define CLIENT_LOAD_MESSAGE_CALLBACK_KEY    "MWClientInstance::load_message_callback"
-#define CLIENT_CODEC_EVENT_CALLBACK_KEY "MWClientInstance::codec_callback"
+#define ERROR_MESSAGE_CALLBACK_KEY	@"MWClientInstance::client_error_message_callback"
+#define CLIENT_SYSTEM_EVENT_CALLBACK_KEY  @"MWClientInstance::system_event_callback"
+#define EXPERIMENT_LOAD_PROGRESS_KEY @"MWClientInstance::experiment_load_progress_callback"
+#define CLIENT_LOAD_MESSAGE_CALLBACK_KEY    @"MWClientInstance::load_message_callback"
+#define CLIENT_CODEC_EVENT_CALLBACK_KEY @"MWClientInstance::codec_callback"
 
 #define DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY @"openPluginWindows"
 #define DEFAULTS_GROUPED_PLUGIN_WINDOW_IS_OPEN_KEY @"groupedPluginWindowIsOpen"
@@ -66,17 +62,19 @@
     self.variableSetLoaded = NO;
     
     // Register a callback to receive codec events
-	[self registerEventCallbackWithReceiver:self 
-                                   selector:@selector(receiveCodec:)
-                                callbackKey:CLIENT_CODEC_EVENT_CALLBACK_KEY
-                            forVariableCode:RESERVED_CODEC_CODE
-                               onMainThread:NO];
+    [self.client registerCallbackWithKey:CLIENT_CODEC_EVENT_CALLBACK_KEY
+                                 forCode:MWKReservedEventCodeCodec
+                                callback:^(MWKEvent *event) {
+                                    [self receiveCodec:event];
+                                }];
     
-    [self registerEventCallbackWithReceiver:self 
-                                   selector:@selector(handleSystemEvent:)
-                                callbackKey:CLIENT_SYSTEM_EVENT_CALLBACK_KEY
-                            forVariableCode:RESERVED_SYSTEM_EVENT_CODE
-                               onMainThread:YES];
+    [self.client registerCallbackWithKey:CLIENT_SYSTEM_EVENT_CALLBACK_KEY
+                                 forCode:MWKReservedEventCodeSystemEvent
+                                callback:^(MWKEvent *event) {
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        [self handleSystemEvent:event];
+                                    });
+                                }];
 									 
     [self setDataFileWillAutoOpen:NO];
 	[self setDataFileOpen:false];
@@ -365,17 +363,13 @@
     self.clientsideExperimentPath = self.experimentPath;
 	[self updateRecentExperiments];
 	
-	[self registerEventCallbackWithReceiver:self 
-                                   selector:@selector(handleLoadMessageEvent:)
-                                callbackKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY
-                                forVariable:@"#announceMessage"
-                               onMainThread:YES];
-	
-	// Bind the messages variable temporarily to the loadingMessages key
-//	[self registerBindingsBridgeWithReceiver:self 
-//							bindingsKey:@"experimentLoadMessage"
-//								callbackKey:LOAD_MESSAGE_CALLBACK_KEY
-//								forVariable:@"#announceMessage"];
+    [self.client registerCallbackWithKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY
+                                  forTag:@"#announceMessage"
+                                callback:^(MWKEvent *event) {
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        [self handleLoadMessageEvent:event];
+                                    });
+                                }];
 	
 	[self startAccumulatingErrors];
   
@@ -528,172 +522,134 @@
 }
 
 
-- (void)receiveCodec:(MWCocoaEvent *)event {
-    
+- (void)receiveCodec:(MWKEvent *)event {
     // If we've received a new codec, it is possible that some key variables have changed codes
     // As a result, we must find out what they are, and re-register callbacks
-
-    [self unregisterCallbacksWithKey:EXPERIMENT_LOAD_PROGRESS_KEY];
-    [self registerBindingsBridgeWithReceiver:self
-                                 bindingsKey:@"experimentLoadProgress"
-                                 callbackKey:EXPERIMENT_LOAD_PROGRESS_KEY
-                                 forVariable:@"#experimentLoadProgress"]; // TODO: use EXPERIMENT_LOAD_PROGRESS_TAGNAME instead
     
+    [self.client unregisterCallbacksWithKey:EXPERIMENT_LOAD_PROGRESS_KEY];
+    [self.client registerCallbackWithKey:EXPERIMENT_LOAD_PROGRESS_KEY
+                                  forTag:@"#experimentLoadProgress"
+                                callback:^(MWKEvent *event) {
+                                    NSNumber *numberValue = event.data.numberValue;
+                                    if (numberValue) {
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            self.experimentLoadProgress = numberValue;
+                                        });
+                                    }
+                                }];
 }
 
 
-- (void)handleSystemEvent:(MWCocoaEvent *)event {
+- (void)handleSystemEvent:(MWKEvent *)event {
+    MWKDatum *data = event.data;
+    NSNumber *payloadType = data[MWKSystemEventKeyPayloadType].numberValue;
     
-    mw::Datum payload(*[event data]);
-    mw::Datum sysEventType(payload.getElement(M_SYSTEM_PAYLOAD_TYPE));
-    
-    if(!sysEventType.isUndefined()) {
-        // The F swich statement ... it's gotta be somewhere
-        switch((mw::SystemPayloadType)sysEventType.getInteger()) {
-            case M_PROTOCOL_PACKAGE:
-            {
-                mw::Datum pp(payload.getElement(M_SYSTEM_PAYLOAD));
-                mw::Datum protocols(pp.getElement(M_PROTOCOLS));
+    if (payloadType) {
+        NSInteger payloadTypeValue = payloadType.integerValue;
+        if (payloadTypeValue == MWKSystemEventPayloadTypeProtocolPackage) {
+            MWKDatum *payload = data[MWKSystemEventKeyPayload];
+            NSArray<MWKDatum *> *protocols = payload[MWKSystemEventPayloadKeyProtocols].listValue;
+            
+            if (protocols && protocols.count > 0) {
+                [protocolNames removeAllObjects];
                 
-                if (protocols.getNElements() > 0) {
-                    [protocolNames removeAllObjects];
-                    
-                    for(int i=0; i<protocols.getNElements(); ++i) {
-                        mw::Datum protocol(protocols[i]);
-                        
-                        NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString().c_str()
-                                                                          encoding:NSASCIIStringEncoding];
-                        
+                for (MWKDatum *protocol in protocols) {
+                    NSString *protocolName = protocol[MWKSystemEventPayloadKeyProtocolName].stringValue;
+                    if (protocolName) {
                         [protocolNames addObject:protocolName];
                     }
-                    
-                    [self willChangeValueForKey:@"protocolNames"];
-                    [self didChangeValueForKey:@"protocolNames"];
-                    
-                    string current_protocol_string = pp.getElement(M_CURRENT_PROTOCOL).getString();
-                    
-                    [self setCurrentProtocolName:[[NSString alloc] initWithCString:current_protocol_string.c_str()
-                                                                          encoding:NSASCIIStringEncoding]];
-                    
-                    if(currentProtocolName == Nil || ([protocolNames indexOfObject:currentProtocolName] == NSNotFound)){
-                        [self setCurrentProtocolName:[protocolNames objectAtIndex:0]];
-                    }
+                }
+                
+                [self willChangeValueForKey:@"protocolNames"];
+                [self didChangeValueForKey:@"protocolNames"];
+                
+                self.currentProtocolName = payload[MWKSystemEventPayloadKeyCurrentProtocolName].stringValue;
+                
+                if(currentProtocolName == Nil || ([protocolNames indexOfObject:currentProtocolName] == NSNotFound)){
+                    [self setCurrentProtocolName:[protocolNames objectAtIndex:0]];
                 }
             }
-                break;
-                
-            case M_DATA_FILE_OPENED:
-            {
-                mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
-                
-                // TODO: kludge MUST be fixed
-                mw::Datum file(event.getElement(1));
-                mw::Datum success(event.getElement(0));
-                
-                if((int)success != M_COMMAND_SUCCESS){
-                    [self setDataFileName:Nil];
-                    [self setDataFileOpen:NO];
-                    break;
-                }
-                
-                [self setDataFileName:[NSString stringWithCString:file.getString().c_str() encoding:NSASCIIStringEncoding]];
+        } else if (payloadTypeValue == MWKSystemEventPayloadTypeDataFileOpened) {
+            MWKDatum *payload = data[MWKSystemEventKeyPayload];
+            
+            // TODO: kludge MUST be fixed
+            NSString *filename = payload[1].stringValue;
+            NSNumber *success = payload[0].numberValue;
+            
+            if (!(success && success.integerValue == MWKSystemEventResponseCodeCommandSuccess)) {
+                [self setDataFileName:Nil];
+                [self setDataFileOpen:NO];
+            } else {
+                self.dataFileName = filename;
                 if([self dataFileName] != Nil){
                     [self setDataFileOpen: YES];
                 }
             }
-                break;
+        } else if (payloadTypeValue == MWKSystemEventPayloadTypeDataFileClosed) {
+            [self setDataFileName:Nil];
+            [self setDataFileOpen: NO];
+        } else if (payloadTypeValue == MWKSystemEventPayloadTypeExperimentState) {
+            MWKDatum *state = data[MWKSystemEventKeyPayload];
+            
+            self.experimentLoaded = state[MWKSystemEventPayloadKeyLoaded].numberValue.boolValue;
+            if([self experimentLoaded]) {
+                [self setExperimentLoading:NO];
+                [self.client unregisterCallbacksWithKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY];
+                self.experimentPaused = state[MWKSystemEventPayloadKeyPaused].numberValue.boolValue;
+                self.experimentRunning = state[MWKSystemEventPayloadKeyRunning].numberValue.boolValue;
+                self.experimentName = state[MWKSystemEventPayloadKeyExperimentName].stringValue;
                 
-            case M_DATA_FILE_CLOSED:
-            {
-                mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
+                if([self experimentName] == Nil){
+                    [self setExperimentName:@"Unnamed Experiment"];
+                }
                 
-                // TODO: kludge MUST be fixed
-                mw::Datum file(event.getElement(1));
+                self.experimentPath = state[MWKSystemEventPayloadKeyExperimentPath].stringValue;
                 
-                [self setDataFileName:Nil];
-                [self setDataFileOpen: NO];
+                [self willChangeValueForKey:@"serversideVariableSetNames"];
                 
-            }
-                break;
-                
-            case M_EXPERIMENT_STATE:
-            {
-                mw::Datum state(payload.getElement(M_SYSTEM_PAYLOAD));
-                
-                [self setExperimentLoaded:state.getElement(M_LOADED).getBool()];
-                if([self experimentLoaded]) {
-                    [self setExperimentLoading:NO];
-                    [self unregisterCallbacksWithKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY];
-                    [self setExperimentPaused:state.getElement(M_PAUSED).getBool()];
-                    [self setExperimentRunning: state.getElement(M_RUNNING).getBool()];
-                    [self setExperimentName:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_NAME).getString().c_str()
-                                                                     encoding:NSASCIIStringEncoding]];
-                    
-                    if([self experimentName] == Nil){
-                        [self setExperimentName:@"Unnamed Experiment"];
-                    }
-                    
-                    [self setExperimentPath:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_PATH).getString().c_str()
-                                                                     encoding:NSASCIIStringEncoding]];
-                    
-                    
-                    [self willChangeValueForKey:@"serversideVariableSetNames"];
-                    
-                    [serversideVariableSetNames removeAllObjects];
-                    mw::Datum svs(state.getElement(M_SAVED_VARIABLES));
-                    
-                    if(svs.isList()) {
-                        for(int i=0; i<svs.getNElements(); ++i) {
-                            mw::Datum set(svs.getElement(i));
-                            
-                            [serversideVariableSetNames addObject:[NSString stringWithCString:set.getString().c_str()
-                                                                                     encoding:NSASCIIStringEncoding]];
+                [serversideVariableSetNames removeAllObjects];
+                NSArray<MWKDatum *> *svs = state[MWKSystemEventPayloadKeySavedVariableSetNames].listValue;
+                if (svs) {
+                    for (MWKDatum *set in svs) {
+                        NSString *setName = set.stringValue;
+                        if (setName) {
+                            [serversideVariableSetNames addObject:setName];
                         }
-                    }
-                    
-                    [self didChangeValueForKey:@"serversideVariableSetNames"];
-                    
-                    if (state.hasKey(M_CURRENT_SAVED_VARIABLES)) {
-                        self.variableSetName = [NSString stringWithUTF8String:state.getElement(M_CURRENT_SAVED_VARIABLES).getString().c_str()];
-                        self.variableSetLoaded = YES;
-                    }
-                    
-                    if (state.hasKey(M_DATA_FILE_AUTO_OPEN)) {
-                        self.dataFileWillAutoOpen = state.getElement(M_DATA_FILE_AUTO_OPEN).getBool();
-                    }
-                    
-                    if (state.hasKey(M_DATA_FILE_NAME)) {
-                        [self setDataFileName:[NSString stringWithCString:state.getElement(M_DATA_FILE_NAME).getString().c_str()
-                                                                 encoding:NSASCIIStringEncoding]];
-                        if ([self dataFileName] != nil) {
-                            [self setDataFileOpen:YES];
-                        }
-                    }
-                    
-                    if(accumulatingErrors){
-                        [self stopAccumulatingErrors];
-                    }
-                    
-                } else {
-                    // Not loaded
-                    if(accumulatingErrors){
-                        [self stopAccumulatingErrors];
-                    }
-                    
-                    if([self hasExperimentLoadErrors]){
-                        [self enforceLoadFailedState];
-                    } else if (!self.experimentLoading) {
-                        [self enforceConnectedState];
                     }
                 }
+                
+                [self didChangeValueForKey:@"serversideVariableSetNames"];
+                
+                self.variableSetName = state[MWKSystemEventPayloadKeyCurrentSavedVariableSetName].stringValue;
+                if (self.variableSetName) {
+                    self.variableSetLoaded = YES;
+                }
+                
+                self.dataFileWillAutoOpen = state[MWKSystemEventPayloadKeyDataFileAutoOpen].numberValue.boolValue;
+                
+                self.dataFileName = state[MWKSystemEventPayloadKeyDataFileName].stringValue;
+                if (self.dataFileName) {
+                    [self setDataFileOpen:YES];
+                }
+                
+                if(accumulatingErrors){
+                    [self stopAccumulatingErrors];
+                }
+                
+            } else {
+                // Not loaded
+                if(accumulatingErrors){
+                    [self stopAccumulatingErrors];
+                }
+                
+                if([self hasExperimentLoadErrors]){
+                    [self enforceLoadFailedState];
+                } else if (!self.experimentLoading) {
+                    [self enforceConnectedState];
+                }
             }
-                break;
-            default:
-                break;
         }
-        
     }
-    
 }
 
 
@@ -897,24 +853,21 @@
 
 
 - (void)startAccumulatingErrors{
-
-	
 	[self clearAccumulatedErrors];
 	
 	accumulatingErrors = YES;
 	
-	NSString *messageTag = [NSString stringWithCString:ANNOUNCE_MESSAGE_VAR_TAGNAME
-									 encoding:NSASCIIStringEncoding];
-	[self registerEventCallbackWithReceiver:self 
-						selector:@selector(handleErrorMessageEvent:)
-						callbackKey:ERROR_MESSAGE_CALLBACK_KEY
-						forVariable:messageTag
-                        onMainThread:YES];
-
+    [self.client registerCallbackWithKey:ERROR_MESSAGE_CALLBACK_KEY
+                                  forTag:@"#announceMessage"
+                                callback:^(MWKEvent *event) {
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        [self handleErrorMessageEvent:event];
+                                    });
+                                }];
 }
 
 - (void)stopAccumulatingErrors{
-	[self unregisterCallbacksWithKey:ERROR_MESSAGE_CALLBACK_KEY];
+	[self.client unregisterCallbacksWithKey:ERROR_MESSAGE_CALLBACK_KEY];
 	
 	[appController willChangeValueForKey:@"modalClientInstanceInCharge"];
 	[appController didChangeValueForKey:@"modalClientInstanceInCharge"];
@@ -930,61 +883,39 @@
 }
 
 
-- (void)handleLoadMessageEvent:(MWCocoaEvent *)event{
-	mw::Datum payload(*[event data]);
-	
-	if(payload.getDataType() != M_DICTIONARY){
-		return;
-	}
-	
-	if(payload.getElement(M_MESSAGE).getDataType() != M_STRING){
-		return;
-	}
-	
-	string message_str(payload.getElement(M_MESSAGE).getString());
-	if(message_str.empty()){
-		return;
-	}
-	NSString *message = [[NSString alloc] initWithCString:message_str.c_str() 
-												 encoding:NSASCIIStringEncoding];
-	self.experimentLoadMessage = message;
+- (void)handleLoadMessageEvent:(MWKEvent *)event{
+    MWKDatum *data = event.data;
+    if (data.dataType != MWKDatumDataTypeDictionary) {
+        return;
+    }
+    
+    NSString *message = data[MWKMessageKeyMessage].stringValue;
+    if (!(message && message.length > 0)) {
+        return;
+    }
+    
+    self.experimentLoadMessage = message;
 }
 
-- (void)handleErrorMessageEvent:(MWCocoaEvent *)event{
-
-
-	//mw::Datum *pl = [event data];
-	mw::Datum payload(*[event data]);
-	
-	if(payload.getDataType() != M_DICTIONARY){
-		return;
-	}
-	
-	if(payload.getElement(M_MESSAGE).getDataType() != M_STRING){
-		return;
-	}
-	
-	string message_str(payload.getElement(M_MESSAGE).getString());
-	if(message_str.empty()){
-		return;
-	}
-	NSString *message = [[NSString alloc] initWithCString:message_str.c_str() 
-												encoding:NSASCIIStringEncoding];
-	
-	int msgType = payload.getElement(M_MESSAGE_TYPE).getInteger();
-	
-//	MWorksTime eventTime = [event time];
-	
-//	NSNumber *time = [[[NSNumber alloc] initWithLongLong:eventTime/1000] autorelease];
-	
-	if(msgType != M_ERROR_MESSAGE){
-		return;
-	}
-	
-	[errors addObject:message];
-	
-	[self setHasExperimentLoadErrors:YES];
-	
+- (void)handleErrorMessageEvent:(MWKEvent *)event{
+    MWKDatum *data = event.data;
+    if (data.dataType != MWKDatumDataTypeDictionary) {
+        return;
+    }
+    
+    NSString *message = data[MWKMessageKeyMessage].stringValue;
+    if (!(message && message.length > 0)) {
+        return;
+    }
+    
+    NSInteger messageType = data[MWKMessageKeyType].numberValue.integerValue;
+    if (messageType != MWKMessageTypeError) {
+        return;
+    }
+    
+    [errors addObject:message];
+    
+    [self setHasExperimentLoadErrors:YES];
 }
 
 - (void)clearAccumulatedErrors{

@@ -10,10 +10,12 @@
 
 #import <MWorksSwift/MWorksSwiftDefines.h>
 #import <MWorksSwift/MWKCore.h>
-#import <MWorksSwift/MWKDatum.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
+
+
+@class MWKDatum;
 
 
 MWORKSSWIFT_PUBLIC_CLASS

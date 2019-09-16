@@ -43,7 +43,6 @@
 		5CEDF82F0D85D7550044D738 /* RedMonkey.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81C0D85D7550044D738 /* RedMonkey.icns */; };
 		5CEDF85D0D85E49D0044D738 /* MWClientInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */; };
 		5CEDF8F10D86247F0044D738 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF8F00D86247F0044D738 /* AppController.m */; };
-		5CEDF93E0D862FC60044D738 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEDF93D0D862FC60044D738 /* MWorksCore.framework */; };
 		5CEDFA7C0D86C8C90044D738 /* MWServerConnectedIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */; };
 		5CFE56580F54A653000C7F30 /* MWURLStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE56570F54A653000C7F30 /* MWURLStringValueTransformer.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -113,10 +112,9 @@
 		5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWErrorColorTransformer.m; sourceTree = "<group>"; };
 		5CEDF81C0D85D7550044D738 /* RedMonkey.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = RedMonkey.icns; path = Images/RedMonkey.icns; sourceTree = "<group>"; };
 		5CEDF85B0D85E49D0044D738 /* MWClientInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientInstance.h; sourceTree = "<group>"; };
-		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWClientInstance.m; sourceTree = "<group>"; };
+		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientInstance.m; sourceTree = "<group>"; };
 		5CEDF8EF0D86247F0044D738 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		5CEDF8F00D86247F0044D738 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
-		5CEDF93D0D862FC60044D738 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		5CEDFA7A0D86C8C90044D738 /* MWServerConnectedIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServerConnectedIconTransformer.h; sourceTree = "<group>"; };
 		5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWServerConnectedIconTransformer.m; sourceTree = "<group>"; };
 		5CFE56560F54A653000C7F30 /* MWURLStringValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWURLStringValueTransformer.h; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CEDF93E0D862FC60044D738 /* MWorksCore.framework in Frameworks */,
 				E154B5322329827B0018E6DA /* MWorksSwift.framework in Frameworks */,
 				5C23D5640D882FFA0044AC9E /* MWorksCocoa.framework in Frameworks */,
 				E15D0AF216C2ADFB00F331B1 /* AppKit.framework in Frameworks */,
@@ -221,7 +218,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks & Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5CEDF93D0D862FC60044D738 /* MWorksCore.framework */,
 				5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */,
 				E154B5312329827B0018E6DA /* MWorksSwift.framework */,
 				E15D0AF116C2ADFB00F331B1 /* AppKit.framework */,
