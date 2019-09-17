@@ -14,11 +14,6 @@
 #import "AppController.h"
 
 
-//#define HOLLOW_OUT_FOR_ADC	0
-
-
-#define STATE_SYSTEM_CALLBACK_KEY "MWorksClient::StateSystemCallbackKey"
-
 @interface MWClientInstance : MWClientBase {
 	AppController * appController;
 	

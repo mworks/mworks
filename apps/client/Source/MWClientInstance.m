@@ -416,9 +416,7 @@
 		experiment_path = @"";
 	}
 
-#ifndef HOLLOW_OUT_FOR_ADC
 	[self.client sendCloseExperimentEventWithPath:experiment_path];
-#endif
   
 	[self setExperimentLoading:NO];
 	[self setExperimentPath:Nil];
@@ -445,35 +443,28 @@
 }
 
 - (void) openDataFile {
-
-#ifndef HOLLOW_OUT_FOR_ADC
 	NSString *filename = [self dataFileName];
 	BOOL overwrite = [self dataFileOverwrite];
 	
 	[self.client sendOpenDataFileEventWithFilename:filename overwrite:overwrite];
 
     [self.notebook addEntry:[NSString stringWithFormat:@"Streaming to data file %@", filename, Nil]];
-#endif
 }
 
 
 - (void) closeDataFile {
-#ifndef HOLLOW_OUT_FOR_ADC
 	NSString *filename = [self dataFileName];
 	
 	[self.client sendCloseDataFileEventWithFilename:filename];
     
     [self.notebook addEntry:[NSString stringWithFormat:@"Closing data file %@", filename, Nil]];
-#endif
 }
 
 
 
 - (void)toggleExperimentRunning:(id)running{
-	
 	BOOL isit = [running boolValue];
 
-#ifndef HOLLOW_OUT_FOR_ADC
 	if(isit){
 		//stop
 		[self.client sendStopEvent];
@@ -500,15 +491,12 @@
 		[self.client sendRunEvent];
         [self.notebook addEntry:@"Experiment started"];
 	}
-#endif
 }
 
 
 - (void)toggleExperimentPaused:(id)paused{
-	
 	BOOL isit = [paused boolValue];
     
-#ifndef HOLLOW_OUT_FOR_ADC
 	if(isit){
 		//resume
         [self.client sendResumeEvent];
@@ -518,7 +506,6 @@
         [self.client sendPauseEvent];
         [self.notebook addEntry:@"Experiment paused"];
 	}
-#endif
 }
 
 
