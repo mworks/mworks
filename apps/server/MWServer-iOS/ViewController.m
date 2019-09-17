@@ -91,7 +91,7 @@
     }
     
     NSURL *xmlURL = urls[xmlIndexes.firstIndex];
-    [APP_DELEGATE openExperiment:xmlURL.path completionHandler:^(BOOL success) {
+    [APP_DELEGATE openExperimentAtPath:xmlURL.path completionHandler:^(BOOL success) {
         if (!success) {
             [self presentExperimentChooserAlertWithTitle:@"Experiment loading failed"
                                                  message:(@"Please include a valid MWorks experiment XML file and all required"

@@ -14,12 +14,20 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
+typedef NS_ENUM(NSInteger, MWKCoreType) {
+    MWKCoreTypeClient,
+    MWKCoreTypeServer
+};
+
+
 @class MWKEvent;
 typedef void (^MWKEventCallback)(MWKEvent *event);
 
 
 MWORKSSWIFT_PUBLIC_CLASS
 @interface MWKCore : NSObject
+
++ (BOOL)constructCoreWithType:(MWKCoreType)type error:(NSError * _Nullable *)error;
 
 - (NSInteger)codeForTag:(NSString *)tag;
 

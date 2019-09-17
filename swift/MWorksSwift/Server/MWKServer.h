@@ -18,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 MWORKSSWIFT_PUBLIC_CLASS
 @interface MWKServer : MWKCore
 
-+ (BOOL)constructCore:(NSError * _Nullable *)error;
-
 @property(class, nonatomic, readonly) NSString *hostName;
 
 + (nullable instancetype)serverWithListeningAddress:(NSString *)address
@@ -29,7 +27,7 @@ MWORKSSWIFT_PUBLIC_CLASS
 - (BOOL)start;
 - (BOOL)stop;
 
-- (BOOL)openExperiment:(NSString *)path;
+- (BOOL)openExperimentAtPath:(NSString *)path;
 - (BOOL)closeExperiment;
 
 - (void)startExperiment;

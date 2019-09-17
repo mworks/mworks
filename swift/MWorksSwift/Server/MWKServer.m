@@ -17,24 +17,6 @@
 }
 
 
-+ (BOOL)constructCore:(NSError **)error {
-    BOOL result = NO;
-    try {
-        static std::once_flag coreConstructedFlag;
-        std::call_once(coreConstructedFlag, []() {
-            mw::StandardServerCoreBuilder coreBuilder;
-            mw::CoreBuilderForeman::constructCoreStandardOrder(&coreBuilder);
-        });
-        result = YES;
-    } catch (...) {
-        if (error) {
-            *error = MWorksSwiftConvertExceptionToNSError(std::current_exception());
-        }
-    }
-    return result;
-}
-
-
 + (NSString *)hostName {
     NSString *result = @"";
     try {
@@ -104,7 +86,7 @@
 }
 
 
-- (BOOL)openExperiment:(NSString *)path {
+- (BOOL)openExperimentAtPath:(NSString *)path {
     BOOL result = NO;
     try {
         result = self.server->openExperiment(path.UTF8String);

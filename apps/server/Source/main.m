@@ -17,7 +17,7 @@
 int main(int argc, char *argv[]) {
     @autoreleasepool {
         NSError *error = nil;
-        if (![MWKServer constructCore:&error]) {
+        if (![MWKCore constructCoreWithType:MWKCoreTypeServer error:&error]) {
             [NSApplication.sharedApplication presentError:error];
             return EXIT_FAILURE;
         }

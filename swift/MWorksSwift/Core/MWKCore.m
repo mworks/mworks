@@ -17,6 +17,41 @@
 }
 
 
++ (BOOL)constructCoreWithType:(MWKCoreType)type error:(NSError **)error {
+    BOOL result = NO;
+    try {
+        static std::once_flag coreConstructedFlag;
+        std::call_once(coreConstructedFlag, [type]() {
+            std::unique_ptr<mw::AbstractCoreBuilder> coreBuilder;
+            if (MWKCoreTypeClient == type) {
+                coreBuilder.reset(new mw::StandardClientCoreBuilder);
+            } else {
+                coreBuilder.reset(new mw::StandardServerCoreBuilder);
+            }
+            mw::CoreBuilderForeman::constructCoreStandardOrder(coreBuilder.get());
+        });
+        result = YES;
+    } catch (mw::ComponentFactoryConflictException &e) {
+        if (error) {
+            *error = [NSError errorWithDomain:MWorksSwiftErrorDomain
+                                         code:MWorksSwiftErrorComponentFactoryConflict
+                                     userInfo:@{
+                                                NSLocalizedDescriptionKey: @(e.getMessage().c_str()),
+                                                NSLocalizedRecoverySuggestionErrorKey:
+                                                    @"You must review your plugins to ensure that multiple plugins"
+                                                    " aren't trying to register functionality under the same XML"
+                                                    " signatures"
+                                                }];
+        }
+    } catch (...) {
+        if (error) {
+            *error = MWorksSwiftConvertExceptionToNSError(std::current_exception());
+        }
+    }
+    return result;
+}
+
+
 - (instancetype)initWithCore:(const boost::shared_ptr<mw::RegistryAwareEventStreamInterface> &)core {
     self = [super init];
     if (self) {

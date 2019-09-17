@@ -22,7 +22,7 @@
 @property (strong, nonatomic, readonly) NSNumber *listeningPort;
 @property (nonatomic, readonly) BOOL hideChooseExperimentButton;
 
-- (void)openExperiment:(NSString *)path completionHandler:(void (^)(BOOL success))completionHandler;
+- (void)openExperimentAtPath:(NSString *)path completionHandler:(void (^)(BOOL success))completionHandler;
 
 @end
 

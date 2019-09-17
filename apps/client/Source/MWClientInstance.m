@@ -29,7 +29,7 @@
 
 - (id)initWithAppController:(AppController *)_controller {
     // TODO: handle client creation failure!
-    MWKClient *_client = [MWKClient client:NULL];
+    MWKClient *_client = [MWKClient clientWithError:NULL];
 
     self = [super initWithClient:_client];
     if (!self) {
@@ -265,7 +265,7 @@
 	
 	[self setServerConnecting:YES];
 	
-	BOOL success = [self.client connectToServer:serverURL port:serverPort.integerValue];
+	BOOL success = [self.client connectToServerAtAddress:serverURL port:serverPort.integerValue];
 	// If that didn't work, try launching the server remotely
 	if((!success || !(self.client.connected)) && [self launchIfNeeded]){
 		//NSLog(@"Attempting to remotely launch server");
@@ -288,7 +288,7 @@
 		}
 
 		[NSThread sleepForTimeInterval:4];
-		success = [self.client connectToServer:serverURL port:serverPort.integerValue];
+		success = [self.client connectToServerAtAddress:serverURL port:serverPort.integerValue];
 	}
 	
 	
@@ -373,7 +373,7 @@
 	
 	[self startAccumulatingErrors];
   
-	bool success = [self.client sendExperiment:self.experimentPath];
+	bool success = [self.client sendExperimentAtPath:self.experimentPath];
 
     if(!success){
         [self setExperimentLoading:NO];
@@ -417,7 +417,7 @@
 	}
 
 #ifndef HOLLOW_OUT_FOR_ADC
-	[self.client sendCloseExperimentEvent:experiment_path];
+	[self.client sendCloseExperimentEventWithPath:experiment_path];
 #endif
   
 	[self setExperimentLoading:NO];
@@ -433,14 +433,14 @@
 - (void) saveVariableSet {
     NSString *variable_save_name = [self variableSetName];
     if(variable_save_name != Nil){
-        [self.client sendSaveVariablesEvent:variable_save_name overwrite:YES];
+        [self.client sendSaveVariablesEventWithVariableSetName:variable_save_name overwrite:YES];
     }
 }
 
 - (void) loadVariableSet {
     NSString *variable_load_name = [self variableSetName];
     if(variable_load_name != Nil){
-        [self.client sendLoadVariablesEvent:variable_load_name];
+        [self.client sendLoadVariablesEventWithVariableSetName:variable_load_name];
     }
 }
 
@@ -450,7 +450,7 @@
 	NSString *filename = [self dataFileName];
 	BOOL overwrite = [self dataFileOverwrite];
 	
-	[self.client sendOpenDataFileEvent:filename overwrite:overwrite];
+	[self.client sendOpenDataFileEventWithFilename:filename overwrite:overwrite];
 
     [self.notebook addEntry:[NSString stringWithFormat:@"Streaming to data file %@", filename, Nil]];
 #endif
@@ -461,7 +461,7 @@
 #ifndef HOLLOW_OUT_FOR_ADC
 	NSString *filename = [self dataFileName];
 	
-	[self.client sendCloseDataFileEvent:filename];
+	[self.client sendCloseDataFileEventWithFilename:filename];
     
     [self.notebook addEntry:[NSString stringWithFormat:@"Closing data file %@", filename, Nil]];
 #endif
@@ -495,7 +495,7 @@
         }
         
 		if([self currentProtocolName] != Nil){
-			[self.client sendProtocolSelectedEvent:self.currentProtocolName];
+			[self.client sendProtocolSelectedEventWithProtocolName:self.currentProtocolName];
 		}
 		[self.client sendRunEvent];
         [self.notebook addEntry:@"Experiment started"];

@@ -18,25 +18,7 @@
 }
 
 
-+ (BOOL)constructCore:(NSError **)error {
-    BOOL result = NO;
-    try {
-        static std::once_flag coreConstructedFlag;
-        std::call_once(coreConstructedFlag, []() {
-            mw::StandardClientCoreBuilder coreBuilder;
-            mw::CoreBuilderForeman::constructCoreStandardOrder(&coreBuilder);
-        });
-        result = YES;
-    } catch (...) {
-        if (error) {
-            *error = MWorksSwiftConvertExceptionToNSError(std::current_exception());
-        }
-    }
-    return result;
-}
-
-
-+ (instancetype)client:(NSError **)error {
++ (instancetype)clientWithError:(NSError **)error {
     MWKClient *result = nil;
     try {
         auto client = boost::make_shared<mw::Client>();
@@ -84,7 +66,7 @@
 }
 
 
-- (BOOL)connectToServer:(NSString *)address port:(NSInteger)port {
+- (BOOL)connectToServerAtAddress:(NSString *)address port:(NSInteger)port {
     BOOL result = NO;
     try {
         result = self.client->connectToServer(address.UTF8String, port);
@@ -106,7 +88,7 @@
 }
 
 
-- (BOOL)sendExperiment:(NSString *)path {
+- (BOOL)sendExperimentAtPath:(NSString *)path {
     BOOL result = NO;
     try {
         result = self.client->sendExperiment(path.UTF8String);
@@ -117,7 +99,7 @@
 }
 
 
-- (void)sendCloseExperimentEvent:(NSString *)path {
+- (void)sendCloseExperimentEventWithPath:(NSString *)path {
     try {
         self.client->sendCloseExperimentEvent(path.UTF8String);
     } catch (...) {
@@ -126,7 +108,7 @@
 }
 
 
-- (void)sendProtocolSelectedEvent:(NSString *)protocolName {
+- (void)sendProtocolSelectedEventWithProtocolName:(NSString *)protocolName {
     try {
         self.client->sendProtocolSelectedEvent(protocolName.UTF8String);
     } catch (...) {
@@ -171,7 +153,7 @@
 }
 
 
-- (void)sendSaveVariablesEvent:(NSString *)variableSetName overwrite:(BOOL)overwrite {
+- (void)sendSaveVariablesEventWithVariableSetName:(NSString *)variableSetName overwrite:(BOOL)overwrite {
     try {
         self.client->sendSaveVariablesEvent(variableSetName.UTF8String, overwrite);
     } catch (...) {
@@ -180,7 +162,7 @@
 }
 
 
-- (void)sendLoadVariablesEvent:(NSString *)variableSetName {
+- (void)sendLoadVariablesEventWithVariableSetName:(NSString *)variableSetName {
     try {
         self.client->sendLoadVariablesEvent(variableSetName.UTF8String);
     } catch (...) {
@@ -189,7 +171,7 @@
 }
 
 
-- (void)sendOpenDataFileEvent:(NSString *)filename overwrite:(BOOL)overwrite {
+- (void)sendOpenDataFileEventWithFilename:(NSString *)filename overwrite:(BOOL)overwrite {
     try {
         self.client->sendOpenDataFileEvent(filename.UTF8String, overwrite);
     } catch (...) {
@@ -198,7 +180,7 @@
 }
 
 
-- (void)sendCloseDataFileEvent:(NSString *)filename {
+- (void)sendCloseDataFileEventWithFilename:(NSString *)filename {
     try {
         self.client->sendCloseDataFileEvent(filename.UTF8String);
     } catch (...) {

@@ -110,7 +110,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
                                                               reason:@"Prevent I/O throttling"];
     
     NSError *error = nil;
-    if (![MWKServer constructCore:&error]) {
+    if (![MWKCore constructCoreWithType:MWKCoreTypeServer error:&error]) {
         self.alert = createInitializationFailureAlert(error.localizedDescription);
         return YES;
     }
@@ -172,7 +172,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 }
 
 
-- (void)openExperiment:(NSString *)path completionHandler:(void (^)(BOOL success))completionHandler {
+- (void)openExperimentAtPath:(NSString *)path completionHandler:(void (^)(BOOL success))completionHandler {
     MWKServer * __weak weakServer = server;
     MWKEventCallback systemEventCallback = ^(MWKEvent *event) {
         MWKDatum *data = event.data;
@@ -191,7 +191,7 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
     [server registerCallbackWithKey:EVENT_CALLBACK_KEY
                             forCode:MWKReservedEventCodeSystemEvent
                            callback:systemEventCallback];
-    if (![server openExperiment:path]) {
+    if (![server openExperimentAtPath:path]) {
         [server unregisterCallbacksWithKey:EVENT_CALLBACK_KEY];
         completionHandler(NO);
     }

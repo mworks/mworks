@@ -16,16 +16,6 @@ NSError * MWorksSwiftConvertExceptionToNSError(std::exception_ptr eptr) {
     NSString *localizedDescription = nil;
     try {
         std::rethrow_exception(eptr);
-    } catch (mw::ComponentFactoryConflictException &e) {
-        return [NSError errorWithDomain:MWorksSwiftErrorDomain
-                                   code:MWorksSwiftErrorComponentFactoryConflict
-                               userInfo:@{
-                                          NSLocalizedDescriptionKey: @(e.getMessage().c_str()),
-                                          NSLocalizedRecoverySuggestionErrorKey:
-                                              @"You must review your plugins to ensure that multiple plugins"
-                                              " aren't trying to register functionality under the same XML"
-                                              " signatures"
-                                          }];
     } catch (const std::exception &e) {
         localizedDescription = @(e.what());
     } catch (...) {

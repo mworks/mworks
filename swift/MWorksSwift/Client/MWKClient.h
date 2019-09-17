@@ -21,31 +21,29 @@ NS_ASSUME_NONNULL_BEGIN
 MWORKSSWIFT_PUBLIC_CLASS
 @interface MWKClient : MWKCore
 
-+ (BOOL)constructCore:(NSError * _Nullable *)error;
-
-+ (nullable instancetype)client:(NSError * _Nullable *)error;
++ (nullable instancetype)clientWithError:(NSError * _Nullable *)error;
 
 - (void)startEventListener;
 
 @property(nonatomic, readonly) BOOL connected;
-- (BOOL)connectToServer:(NSString *)address port:(NSInteger)port;
+- (BOOL)connectToServerAtAddress:(NSString *)address port:(NSInteger)port;
 - (BOOL)disconnect;
 
-- (BOOL)sendExperiment:(NSString *)path;
-- (void)sendCloseExperimentEvent:(NSString *)path;
+- (BOOL)sendExperimentAtPath:(NSString *)path;
+- (void)sendCloseExperimentEventWithPath:(NSString *)path;
 
-- (void)sendProtocolSelectedEvent:(NSString *)protocolName;
+- (void)sendProtocolSelectedEventWithProtocolName:(NSString *)protocolName;
 
 - (void)sendRunEvent;
 - (void)sendStopEvent;
 - (void)sendPauseEvent;
 - (void)sendResumeEvent;
 
-- (void)sendSaveVariablesEvent:(NSString *)variableSetName overwrite:(BOOL)overwrite;
-- (void)sendLoadVariablesEvent:(NSString *)variableSetName;
+- (void)sendSaveVariablesEventWithVariableSetName:(NSString *)variableSetName overwrite:(BOOL)overwrite;
+- (void)sendLoadVariablesEventWithVariableSetName:(NSString *)variableSetName;
 
-- (void)sendOpenDataFileEvent:(NSString *)filename overwrite:(BOOL)overwrite;
-- (void)sendCloseDataFileEvent:(NSString *)filename;
+- (void)sendOpenDataFileEventWithFilename:(NSString *)filename overwrite:(BOOL)overwrite;
+- (void)sendCloseDataFileEventWithFilename:(NSString *)filename;
 
 - (nullable MWKDatum *)valueForTag:(NSString *)tag;
 - (BOOL)setValue:(MWKDatum *)value forTag:(NSString *)tag;
