@@ -603,6 +603,7 @@
                             [serversideVariableSetNames addObject:setName];
                         }
                     }
+                    [serversideVariableSetNames sortUsingSelector:@selector(localizedStandardCompare:)];
                 }
                 
                 [self didChangeValueForKey:@"serversideVariableSetNames"];
