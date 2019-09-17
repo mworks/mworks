@@ -6,9 +6,9 @@
 //  Copyright Harvard University 2008. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
-#import <MWorksSwift/MWorksSwift.h>
+@import MWorksSwift;
 
 
 int main(int argc, char *argv[]) {

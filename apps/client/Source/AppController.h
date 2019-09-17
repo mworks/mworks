@@ -6,7 +6,7 @@
 //  Copyright 2008 Harvard University. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 #define MWORKS_DOC_PATH @"/Library/Application Support/MWorks/Documentation/index.html"
 #define MWORKS_HELP_URL @"https://mworks.tenderapp.com/"

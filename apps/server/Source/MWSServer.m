@@ -9,7 +9,7 @@
 
 #import "MWSServer.h"
 
-#import <MWorksSwift/MWorksSwift.h>
+@import MWorksSwift;
 
 #import <MWorksCocoa/MWConsoleController.h>
 

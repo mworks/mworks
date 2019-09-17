@@ -6,7 +6,7 @@
 //  Copyright 2009 Harvard University. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 @interface MWURLStringValueTransformer : NSValueTransformer {}
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 MIT. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 
 @interface MWExperimentPauseResumeIconTransformer : NSValueTransformer

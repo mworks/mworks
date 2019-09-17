@@ -7,7 +7,7 @@
  * bkennedy on 07/05/07 - Created.
  */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 #import <MWorksCocoa/MWClientServerBase.h>
 

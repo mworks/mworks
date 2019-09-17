@@ -59,8 +59,6 @@
 		E1172BA02227174B00253D14 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E1172B9F2227174B00253D14 /* folder.png */; };
 		E1172BA6222723AB00253D14 /* controls.png in Resources */ = {isa = PBXBuildFile; fileRef = E1172BA5222723AB00253D14 /* controls.png */; };
 		E12D990116BC2AFE004FEF79 /* MWClient.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* MWClient.app */; };
-		E154B5322329827B0018E6DA /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E154B5312329827B0018E6DA /* MWorksSwift.framework */; };
-		E15D0AF216C2ADFB00F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF116C2ADFB00F331B1 /* AppKit.framework */; };
 		E18B840D1552D7C000268197 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18B840B1552D7C000268197 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
@@ -97,7 +95,6 @@
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		32CA4F630368D1EE00C91783 /* New Client_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "New Client_Prefix.pch"; sourceTree = "<group>"; };
 		5C23D5400D8827670044AC9E /* MWStringTruncateValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWStringTruncateValueTransformer.h; sourceTree = "<group>"; };
 		5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWStringTruncateValueTransformer.m; sourceTree = "<group>"; };
 		5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
@@ -133,8 +130,6 @@
 		E1172B9D222711EB00253D14 /* database.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = database.png; path = Images/database.png; sourceTree = "<group>"; };
 		E1172B9F2227174B00253D14 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folder.png; path = Images/folder.png; sourceTree = "<group>"; };
 		E1172BA5222723AB00253D14 /* controls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controls.png; path = Images/controls.png; sourceTree = "<group>"; };
-		E154B5312329827B0018E6DA /* MWorksSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksSwift.framework; path = /Library/Frameworks/MWorksSwift.framework; sourceTree = "<absolute>"; };
-		E15D0AF116C2ADFB00F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E18B840C1552D7C000268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1C3650622BD618400D1DBF6 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_App.xcconfig; sourceTree = "<group>"; };
@@ -145,9 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E154B5322329827B0018E6DA /* MWorksSwift.framework in Frameworks */,
 				5C23D5640D882FFA0044AC9E /* MWorksCocoa.framework in Frameworks */,
-				E15D0AF216C2ADFB00F331B1 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,7 +187,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32CA4F630368D1EE00C91783 /* New Client_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -219,8 +211,6 @@
 			isa = PBXGroup;
 			children = (
 				5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */,
-				E154B5312329827B0018E6DA /* MWorksSwift.framework */,
-				E15D0AF116C2ADFB00F331B1 /* AppKit.framework */,
 			);
 			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
@@ -453,8 +443,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Source/New Client_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = MWClient;
 			};

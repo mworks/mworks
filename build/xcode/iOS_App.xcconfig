@@ -1,1 +1,2 @@
 #include "iOS.xcconfig"
+#include "_App.xcconfig"

@@ -6,7 +6,7 @@
 //  Copyright 2008 Harvard University. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 
 @interface MWExperimentPlayStopIconTransformer : NSValueTransformer

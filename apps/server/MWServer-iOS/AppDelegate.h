@@ -6,9 +6,9 @@
 //
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
-#import <MWorksSwift/MWorksSwift.h>
+@import MWorksSwift;
 
 #define APP_DELEGATE ((AppDelegate *)(UIApplication.sharedApplication.delegate))
 

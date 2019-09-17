@@ -6,8 +6,10 @@
 //  Copyright 2008 Harvard University. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
+
 #import <MWorksCocoa/MWClientBase.h>
+
 #import "MWGroupedPluginWindowController.h"
 #import "AppController.h"
 

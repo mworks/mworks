@@ -6,7 +6,7 @@
 //  Copyright 2008 Harvard University. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 #define TRUNC_MAX_CHARS	30
 #define TRUNC_BEGIN_CHARS	10
