@@ -8,8 +8,6 @@
 
 #include "getEvents.h"
 
-#include <MWorksCore/DataFileReader.hpp>
-
 #include "Array.h"
 #include "Converters.h"
 
@@ -27,7 +25,7 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
     
     std::vector<int> codes;
     std::vector<MWTime> times;
-    boost::container::vector<ArrayPtr> values;
+    std::vector<ArrayPtr> values;
     
     try {
         auto reader = DataFileReader::openDataFile(filename);
@@ -39,16 +37,16 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
         while (reader->nextEvent(code, time, value)) {
             codes.push_back(code);
             times.push_back(time);
-            values.push_back(convertDatumToArray(value));
+            values.emplace_back(convertDatumToArray(value));
         }
     } catch (const std::exception &e) {
-        throwMATLABError("MWorks:DataFileIndexerError", e.what());
+        throwMATLABError("MWorks:DataFileReaderError", e.what());
     }
     
     if (outputs.count() == 3) {
         outputs << codes;
         outputs << times;
-        outputs << values;
+        outputs << std::move(values);
     } else {
         const char *fieldNames[] = {"event_code", "time_us", "data"};
         ArrayPtr result(throw_if_null, mxCreateStructMatrix(1, int(codes.size()), 3, fieldNames));
@@ -66,30 +64,3 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
 
 
 END_NAMESPACE_MW_MATLAB
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

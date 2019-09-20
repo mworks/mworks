@@ -9,14 +9,6 @@
 #ifndef MATLABTools_Array_h
 #define MATLABTools_Array_h
 
-#include <algorithm>
-#include <string>
-#include <vector>
-
-#include <boost/container/vector.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-
 #include "TypeInfo.h"
 
 
@@ -45,7 +37,7 @@ public:
     template<typename T>
     static ArrayPtr createVector(const std::vector<T> &values);
     
-    static ArrayPtr createVector(/*non-const*/ boost::container::vector<ArrayPtr> &values);
+    static ArrayPtr createVector(std::vector<ArrayPtr> &&values);
     
     static ArrayPtr createString(const char *str);
     static ArrayPtr createString(const std::string &str);
@@ -107,7 +99,7 @@ template<typename T>
 inline ArrayPtr Array::createScalar(T value) {
     ArrayPtr result = createMatrix<T>(1, 1);
     *(getData<T>(result)) = value;
-    return boost::move(result);
+    return result;
 }
 
 
@@ -131,7 +123,7 @@ inline ArrayPtr Array::createVector(const T *values, std::size_t size) {
     mxAssert(values, "values is NULL");
     ArrayPtr result = createMatrix<T>(1, size);
     std::copy(values, values+size, getData<T>(result));
-    return boost::move(result);
+    return result;
 }
 
 
@@ -139,12 +131,12 @@ template<typename T>
 inline ArrayPtr Array::createVector(const std::vector<T> &values) {
     // std::vector<bool> is specialized and doesn't necessarily store its data as a contiguous
     // array of bool's, so we can't treat it like other types
-    BOOST_STATIC_ASSERT(!(boost::is_same<T, bool>::value));
-    return createVector(&(values.front()), values.size());
+    BOOST_STATIC_ASSERT(!(std::is_same<T, bool>::value));
+    return createVector(values.data(), values.size());
 }
 
 
-inline ArrayPtr Array::createVector(/*non-const*/ boost::container::vector<ArrayPtr> &values) {
+inline ArrayPtr Array::createVector(std::vector<ArrayPtr> &&values) {
     if (values.empty()) {
         return createEmpty<ArrayPtr>();
     }
@@ -152,7 +144,8 @@ inline ArrayPtr Array::createVector(/*non-const*/ boost::container::vector<Array
     for (std::size_t i = 0; i < values.size(); i++) {
         mxSetCell(result.get(), i, values[i].release());
     }
-    return boost::move(result);
+    values.clear();
+    return result;
 }
 
 
@@ -171,30 +164,3 @@ END_NAMESPACE_MW_MATLAB
 
 
 #endif  // !defined(MATLABTools_Array_h)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

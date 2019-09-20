@@ -9,13 +9,6 @@
 #ifndef __MATLABTools__MEXInputs__
 #define __MATLABTools__MEXInputs__
 
-#include <string>
-#include <unordered_set>
-#include <vector>
-
-#include <boost/filesystem/path.hpp>
-#include <boost/static_assert.hpp>
-
 #include "TypeInfo.h"
 
 
@@ -45,7 +38,7 @@ public:
     MEXInputs& operator>>(std::unordered_set<T> &values);
     
 private:
-    static void needMoreInputs();
+    [[noreturn]] static void needMoreInputs();
     
     template<typename T>
     static T* getData(const mxArray *matrix) {
@@ -53,7 +46,7 @@ private:
         return static_cast<T*>(mxGetData(matrix));
     }
     
-    void invalidInput() const;
+    [[noreturn]] void invalidInput() const;
     
     const mxArray* next() {
         if (count() < 1) needMoreInputs();
@@ -120,28 +113,3 @@ END_NAMESPACE_MW_MATLAB
 
 
 #endif  // !defined(__MATLABTools__MEXInputs__)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

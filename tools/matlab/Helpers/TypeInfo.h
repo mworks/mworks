@@ -122,29 +122,3 @@ END_NAMESPACE_MW_MATLAB
 
 
 #endif  // !defined(MATLABTools_TypeInfo_h)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -8,11 +8,6 @@
 
 #include "Converters.h"
 
-#include <cctype>
-
-#include <boost/algorithm/cxx11/all_of.hpp>
-#include <boost/foreach.hpp>
-
 #include "Array.h"
 
 
@@ -34,62 +29,58 @@ static bool isValidStructFieldName(const Datum::dict_value_type::value_type &ite
     
     return (!str.empty() &&
             std::isalpha(str.at(0)) &&
-            boost::algorithm::all_of(str.begin()+1, str.end(), isAlphanumericOrUnderscore));
+            std::all_of(str.begin()+1, str.end(), isAlphanumericOrUnderscore));
 }
 
 
 static ArrayPtr convertDictionaryToStruct(const Datum &datum) {
     std::vector<const char *> fieldNames;
-    boost::container::vector<ArrayPtr> fieldValues;
+    std::vector<ArrayPtr> fieldValues;
     
     for (auto &item : datum.getDict()) {
         fieldNames.push_back(item.first.getString().c_str());
-        fieldValues.push_back(convertDatumToArray(item.second));
+        fieldValues.emplace_back(convertDatumToArray(item.second));
     }
     
-    ArrayPtr result(throw_if_null, mxCreateStructMatrix(1, 1, int(fieldNames.size()), &(fieldNames.front())));
+    ArrayPtr result(throw_if_null, mxCreateStructMatrix(1, 1, int(fieldNames.size()), fieldNames.data()));
     
     for (std::size_t i = 0; i < fieldNames.size(); i++) {
         mxSetFieldByNumber(result.get(), 0, int(i), fieldValues[i].release());
     }
     
-    return boost::move(result);
+    return result;
 }
 
 
 static ArrayPtr convertDictionaryToMap(const Datum &datum) {
-    boost::container::vector<ArrayPtr> keys;
-    boost::container::vector<ArrayPtr> values;
+    std::vector<ArrayPtr> keys;
+    std::vector<ArrayPtr> values;
     
     for (auto &item : datum.getDict()) {
-        keys.push_back(convertDatumToArray(item.first));
-        values.push_back(convertDatumToArray(item.second));
+        keys.emplace_back(convertDatumToArray(item.first));
+        values.emplace_back(convertDatumToArray(item.second));
     }
     
-    ArrayPtr keySet = Array::createVector(keys);
-    ArrayPtr valueSet = Array::createVector(values);
+    ArrayPtr keySet = Array::createVector(std::move(keys));
+    ArrayPtr valueSet = Array::createVector(std::move(values));
     ArrayPtr result;
     
-#ifdef MATLAB_MEX_FILE
-    mxArray *lhs = NULL;
+    mxArray *lhs = nullptr;
     mxArray *prhs[] = { keySet.get(), valueSet.get() };
     ArrayPtr error(null_ok, mexCallMATLABWithTrap(1, &lhs, 2, prhs, "containers.Map"));
-    if (error.isNull()) {
+    if (!error) {
         result = ArrayPtr(throw_if_null, lhs);
         keySet.destroy();
         valueSet.destroy();
     } else {
         error.destroy();
-#endif  // defined(MATLAB_MEX_FILE)
         const char *fieldNames[] = {"keys", "values"};
         result = ArrayPtr(throw_if_null, mxCreateStructMatrix(1, 1, 2, fieldNames));
         mxSetFieldByNumber(result.get(), 0, 0, keySet.release());
         mxSetFieldByNumber(result.get(), 0, 1, valueSet.release());
-#ifdef MATLAB_MEX_FILE
     }
-#endif
     
-    return boost::move(result);
+    return result;
 }
 
 
@@ -116,16 +107,16 @@ ArrayPtr convertDatumToArray(const Datum &datum) {
         }
             
         case M_LIST: {
-            boost::container::vector<ArrayPtr> items;
+            std::vector<ArrayPtr> items;
             for (auto &item : datum.getList()) {
-                items.push_back(convertDatumToArray(item));
+                items.emplace_back(convertDatumToArray(item));
             }
-            return Array::createVector(items);
+            return Array::createVector(std::move(items));
         }
             
         case M_DICTIONARY: {
             auto &dict = datum.getDict();
-            if (boost::algorithm::all_of(dict.begin(), dict.end(), isValidStructFieldName))
+            if (std::all_of(dict.begin(), dict.end(), isValidStructFieldName))
                 return convertDictionaryToStruct(datum);
             return convertDictionaryToMap(datum);
         }
@@ -133,35 +124,8 @@ ArrayPtr convertDatumToArray(const Datum &datum) {
         default:
             throwMATLABError("MWorks:DataConversionError",
                              boost::format("Cannot convert Datum of unknown type (%d)") % datum.getDataType());
-            return ArrayPtr();  // Never reached
     }
 }
 
 
 END_NAMESPACE_MW_MATLAB
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

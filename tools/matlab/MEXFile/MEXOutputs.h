@@ -28,7 +28,7 @@ public:
         return (numOutputs - (currentOutput + 1));
     }
     
-    MEXOutputs& operator<<(BOOST_RV_REF(ArrayPtr) ptr) {
+    MEXOutputs& operator<<(ArrayPtr &&ptr) {
         next() = ptr.release();
         return (*this);
     }
@@ -38,12 +38,12 @@ public:
         return (*this << Array::createVector(values));
     }
     
-    MEXOutputs& operator<<(boost::container::vector<ArrayPtr> &values) {
-        return (*this << Array::createVector(values));
+    MEXOutputs& operator<<(std::vector<ArrayPtr> &&values) {
+        return (*this << Array::createVector(std::move(values)));
     }
     
 private:
-    static void needMoreOutputs();
+    [[noreturn]]  static void needMoreOutputs();
     
     mxArray*& next() {
         if (count() < 1) needMoreOutputs();
@@ -62,30 +62,3 @@ END_NAMESPACE_MW_MATLAB
 
 
 #endif  // !defined(__MATLABTools__MEXOutputs__)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

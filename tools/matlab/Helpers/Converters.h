@@ -9,8 +9,6 @@
 #ifndef __MATLABTools__Converters__
 #define __MATLABTools__Converters__
 
-#include <MWorksCore/GenericData.h>
-
 #include "Utilities.h"
 
 

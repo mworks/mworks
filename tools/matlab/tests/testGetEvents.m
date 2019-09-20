@@ -75,7 +75,7 @@ function notAFile
 e = getEvents('not_a_file.mwk');
 
 function testNonexistentFile
-assertExceptionThrown(@notAFile, 'MWorks:DataFileIndexerError');
+assertExceptionThrown(@notAFile, 'MWorks:DataFileReaderError');
 
 
 function assertEvents(expected_codes, evts)
@@ -107,7 +107,7 @@ assertEvents([5:max_time], getEvents(getFilename(), [], 5));
 assertEvents([0:10], getEvents(getFilename(), [], -1, 10));
 assertEvents(7, getEvents(getFilename(), [], 7, 7));
 assertTrue(isempty(getEvents(getFilename(), [], 100, 200)));
-assertExceptionThrown(@badTimeRange, 'MWorks:DataFileIndexerError');
+assertExceptionThrown(@badTimeRange, 'MWorks:DataFileReaderError');
 
 
 function testGetEventsByCodeAndTime

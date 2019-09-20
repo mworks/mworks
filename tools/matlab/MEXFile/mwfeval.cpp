@@ -8,9 +8,11 @@
 
 #include "getEvents.h"
 
-using namespace mw::matlab;
+
+BEGIN_NAMESPACE_MW_MATLAB
 
 
+extern "C"
 MW_SYMBOL_PUBLIC
 void mexFunction(int nlhs, mxArray *plhs[],
                  int nrhs, const mxArray *prhs[])
@@ -30,28 +32,4 @@ void mexFunction(int nlhs, mxArray *plhs[],
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+END_NAMESPACE_MW_MATLAB
