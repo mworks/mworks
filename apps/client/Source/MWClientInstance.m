@@ -61,18 +61,18 @@
 	self.variableSetName = Nil;
     self.variableSetLoaded = NO;
     
-    // Register a callback to receive codec events
+    // Register callbacks to receive codec and system events
+    MWClientInstance * __weak weakSelf = self;
     [self.client registerCallbackWithKey:CLIENT_CODEC_EVENT_CALLBACK_KEY
                                  forCode:MWKReservedEventCodeCodec
                                 callback:^(MWKEvent *event) {
-                                    [self receiveCodec:event];
+                                    [weakSelf receiveCodec:event];
                                 }];
-    
     [self.client registerCallbackWithKey:CLIENT_SYSTEM_EVENT_CALLBACK_KEY
                                  forCode:MWKReservedEventCodeSystemEvent
                                 callback:^(MWKEvent *event) {
                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                        [self handleSystemEvent:event];
+                                        [weakSelf handleSystemEvent:event];
                                     });
                                 }];
 									 
@@ -363,11 +363,12 @@
     self.clientsideExperimentPath = self.experimentPath;
 	[self updateRecentExperiments];
 	
+    MWClientInstance * __weak weakSelf = self;
     [self.client registerCallbackWithKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY
                                   forTag:@"#announceMessage"
                                 callback:^(MWKEvent *event) {
                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                        [self handleLoadMessageEvent:event];
+                                        [weakSelf handleLoadMessageEvent:event];
                                     });
                                 }];
 	
@@ -514,13 +515,14 @@
     // As a result, we must find out what they are, and re-register callbacks
     
     [self.client unregisterCallbacksWithKey:EXPERIMENT_LOAD_PROGRESS_KEY];
+    MWClientInstance * __weak weakSelf = self;
     [self.client registerCallbackWithKey:EXPERIMENT_LOAD_PROGRESS_KEY
                                   forTag:@"#experimentLoadProgress"
                                 callback:^(MWKEvent *event) {
                                     NSNumber *numberValue = event.data.numberValue;
                                     if (numberValue) {
                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                            self.experimentLoadProgress = numberValue;
+                                            weakSelf.experimentLoadProgress = numberValue;
                                         });
                                     }
                                 }];
@@ -845,11 +847,12 @@
 	
 	accumulatingErrors = YES;
 	
+    MWClientInstance * __weak weakSelf = self;
     [self.client registerCallbackWithKey:ERROR_MESSAGE_CALLBACK_KEY
                                   forTag:@"#announceMessage"
                                 callback:^(MWKEvent *event) {
                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                        [self handleErrorMessageEvent:event];
+                                        [weakSelf handleErrorMessageEvent:event];
                                     });
                                 }];
 }

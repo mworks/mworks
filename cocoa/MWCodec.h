@@ -18,7 +18,8 @@
 @interface MWCodec : NSObject {
 
     shared_ptr<mw::Client> core;
-	id<MWClientProtocol> clientInstance;
+	// The client instance owns the codec instance, so use a weak reference here
+	id<MWClientProtocol> __weak clientInstance;
 	
 	NSMutableArray *variable_names;
 	NSMutableArray *variable_codes;
