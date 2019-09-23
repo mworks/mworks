@@ -274,6 +274,7 @@
 					"PYTHON_VERSION=\\\"$(MW_PYTHON_VERSION)\\\"",
 				);
 				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.PythonBridgePlugin";
 				PRODUCT_NAME = PythonBridgePlugin;
 			};
 			name = Development;

@@ -301,6 +301,7 @@
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREFIX_HEADER = MWorksBehavioralWindow_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksBehavioralWindow";
 				PRODUCT_NAME = MWorksBehavioralWindow;
 			};
 			name = Development;

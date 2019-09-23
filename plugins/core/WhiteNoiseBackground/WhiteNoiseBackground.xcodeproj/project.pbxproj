@@ -350,6 +350,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WhiteNoiseBackground_Prefix.pch;
 				INFOPLIST_FILE = "WhiteNoiseBackground-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.WhiteNoiseBackground";
 				PRODUCT_NAME = WhiteNoiseBackground;
 			};
 			name = Development;

@@ -490,6 +490,7 @@
 				GCC_PREFIX_HEADER = MWorksCocoa_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksCocoa";
 				PRODUCT_NAME = MWorksCocoa;
 			};
 			name = Development;

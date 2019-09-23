@@ -342,6 +342,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MovingDots_Prefix.pch;
 				INFOPLIST_FILE = "MovingDots-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MovingDots";
 				PRODUCT_NAME = MovingDots;
 			};
 			name = Development;

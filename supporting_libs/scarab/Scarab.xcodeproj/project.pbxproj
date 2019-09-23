@@ -110,7 +110,6 @@
 
 /* Begin PBXFileReference section */
 		0ECA4C740D6DFF4400BD00B2 /* libscarab.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libscarab.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C4BDD8809E258B4008B8AB7 /* Scarab-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Scarab-Info.plist"; sourceTree = "<group>"; };
 		5C4FDA2A059D199E00BC36A7 /* scarab_utilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = scarab_utilities.c; path = "Scarab-0.1.00d19/c/scarab_utilities.c"; sourceTree = SOURCE_ROOT; };
 		5C4FDA2C059D1B1000BC36A7 /* scarab_utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scarab_utilities.h; path = "Scarab-0.1.00d19/c/scarab_utilities.h"; sourceTree = SOURCE_ROOT; };
 		5C5164A60A7012600034E68E /* mem_simple.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mem_simple.c; path = "Scarab-0.1.00d19/c/mem_simple.c"; sourceTree = "<group>"; };
@@ -174,7 +173,6 @@
 				5C4FDA2C059D1B1000BC36A7 /* scarab_utilities.h */,
 				5CF4DEDB0591EAD9002A02B7 /* session.c */,
 				5CF4DEDC0591EAD9002A02B7 /* stream_file.c */,
-				5C4BDD8809E258B4008B8AB7 /* Scarab-Info.plist */,
 				5CF4DEB40591EA4B002A02B7 /* Products */,
 			);
 			sourceTree = "<group>";

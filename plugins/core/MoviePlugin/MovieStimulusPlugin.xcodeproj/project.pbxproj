@@ -419,6 +419,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MovieStimulusPlugin_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MovieStimulus";
 				PRODUCT_NAME = MovieStimulusPlugin;
 			};
 			name = Development;

@@ -3781,6 +3781,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "UnitTests/MarionetteTest-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MarionetteTest";
 				PRODUCT_NAME = MarionetteTest;
 			};
 			name = Development;
@@ -3794,6 +3795,7 @@
 					LOW_PRIORITY_MODE,
 				);
 				INFOPLIST_FILE = "ZenScheduler/LowPrioritySchedulerPlugin-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.LowPrioritySchedulerPlugin";
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
 			};
 			name = Development;
@@ -3821,6 +3823,7 @@
 			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "ZenScheduler/ZenSchedulerPlugin-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ZenSchedulerPlugin";
 				PRODUCT_NAME = ZenSchedulerPlugin;
 			};
 			name = Development;
@@ -3830,6 +3833,7 @@
 			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "ZenStateSystem/ZenStateSystemPlugin-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ZenStateSystemPlugin";
 				PRODUCT_NAME = ZenStateSystemPlugin;
 			};
 			name = Development;
@@ -3864,6 +3868,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "UnitTests/MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(MW_TESTS_DIR)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksCoreTest";
 				PRODUCT_NAME = MWorksCoreTest;
 			};
 			name = Development;

@@ -465,6 +465,7 @@
 			baseConfigurationReference = E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWServer";
 				PRODUCT_NAME = MWServer;
 			};
 			name = Development;

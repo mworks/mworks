@@ -302,6 +302,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MouseInput/MouseInput-Prefix.pch";
 				INFOPLIST_FILE = "MouseInput/MouseInput-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MouseInput";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;

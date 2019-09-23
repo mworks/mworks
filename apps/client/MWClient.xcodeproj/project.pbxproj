@@ -444,6 +444,7 @@
 			baseConfigurationReference = E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWClient";
 				PRODUCT_NAME = MWClient;
 			};
 			name = Development;

@@ -292,6 +292,7 @@
 					"NS_ENFORCE_NSOBJECT_DESIGNATED_INITIALIZER=0",
 				);
 				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksVariablesWindow";
 				PRODUCT_NAME = MWorksVariablesWindow;
 			};
 			name = Development;

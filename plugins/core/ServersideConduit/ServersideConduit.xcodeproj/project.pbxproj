@@ -324,6 +324,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mw_plugin.pch;
 				INFOPLIST_FILE = mw_plugin.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ServersideConduit";
 				PRODUCT_NAME = ServersideConduit;
 			};
 			name = Development;

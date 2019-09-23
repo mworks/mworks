@@ -295,6 +295,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBHID/USBHID-Prefix.pch";
 				INFOPLIST_FILE = "USBHID/USBHID-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.USBHID";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
