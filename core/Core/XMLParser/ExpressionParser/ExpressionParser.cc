@@ -1758,9 +1758,9 @@ namespace stx MW_SYMBOL_PUBLIC {
                 {
                     assert(i->children.size() == 2);
                     
-                    // auto_ptr needed because of possible parse exceptions in build_expr.
-                    std::auto_ptr<const ParseNode> target( build_expr(i->children.begin()) );
-                    std::auto_ptr<const ParseNode> subscript( build_expr(i->children.begin()+1) );
+                    // unique_ptr needed because of possible parse exceptions in build_expr.
+                    std::unique_ptr<const ParseNode> target( build_expr(i->children.begin()) );
+                    std::unique_ptr<const ParseNode> subscript( build_expr(i->children.begin()+1) );
                     
                     return new PNSubscriptExpr(target.release(), subscript.release());
                 }
@@ -1795,10 +1795,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 					char arithop = *i->value.begin();
 					assert(i->children.size() == 2);
 					
-					// auto_ptr needed because of possible parse exceptions in build_expr.
+					// unique_ptr needed because of possible parse exceptions in build_expr.
 					
-					std::auto_ptr<const ParseNode> left( build_expr(i->children.begin()) );
-					std::auto_ptr<const ParseNode> right( build_expr(i->children.begin()+1) );
+					std::unique_ptr<const ParseNode> left( build_expr(i->children.begin()) );
+					std::unique_ptr<const ParseNode> right( build_expr(i->children.begin()+1) );
 					
 					if (left->evaluate_const(NULL) && right->evaluate_const(NULL))
 					{
@@ -1866,10 +1866,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 					
 					std::string arithop(i->value.begin(), i->value.end());
 					
-					// we need auto_ptr because of possible parse exceptions in build_expr.
+					// we need unique_ptr because of possible parse exceptions in build_expr.
 					
-					std::auto_ptr<const ParseNode> left( build_expr(i->children.begin()) );
-					std::auto_ptr<const ParseNode> right( build_expr(i->children.begin()+1) );
+					std::unique_ptr<const ParseNode> left( build_expr(i->children.begin()) );
+					std::unique_ptr<const ParseNode> right( build_expr(i->children.begin()+1) );
 					
 					if (left->evaluate_const(NULL) && right->evaluate_const(NULL))
 					{
@@ -1900,17 +1900,17 @@ namespace stx MW_SYMBOL_PUBLIC {
 					std::string logicop(i->value.begin(), i->value.end());
 					std::transform(logicop.begin(), logicop.end(), logicop.begin(), &_to_lower);
 					
-					// auto_ptr needed because of possible parse exceptions in build_expr.
+					// unique_ptr needed because of possible parse exceptions in build_expr.
 					
-					std::auto_ptr<ParseNode> left( build_expr(i->children.begin()) );
-					std::auto_ptr<ParseNode> right( build_expr(i->children.begin()+1) );
+					std::unique_ptr<ParseNode> left( build_expr(i->children.begin()) );
+					std::unique_ptr<ParseNode> right( build_expr(i->children.begin()+1) );
 					
 					bool constleft = left->evaluate_const(NULL);
 					bool constright = right->evaluate_const(NULL);
 					
 					// a logical node is constant if one of the two ops is constant. so we
 					// construct a calculation node and check later.
-					std::auto_ptr<PNBinaryLogicExpr> node( new PNBinaryLogicExpr(left.release(), right.release(), logicop) );
+					std::unique_ptr<PNBinaryLogicExpr> node( new PNBinaryLogicExpr(left.release(), right.release(), logicop) );
 					
 					if (constleft || constright)
 					{
@@ -1920,7 +1920,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 						if (node->evaluate_const(&both))
 						{
 							// return a constant node instead, node will be deleted by
-							// auto_ptr, left,right by node's destructor.
+							// unique_ptr, left,right by node's destructor.
 							return new PNConstant(both);
 						}
 					}
@@ -2052,10 +2052,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 				{
 					assert(i->children.size() >= 2 && i->children.size() <= 3);
 					
-					// auto_ptr needed because of possible parse exceptions in build_expr.
-					std::auto_ptr<const ParseNode> start( build_expr(i->children.begin()) );
-					std::auto_ptr<const ParseNode> stop( build_expr(i->children.begin()+1) );
-                    std::auto_ptr<const ParseNode> step;
+					// unique_ptr needed because of possible parse exceptions in build_expr.
+					std::unique_ptr<const ParseNode> start( build_expr(i->children.begin()) );
+					std::unique_ptr<const ParseNode> stop( build_expr(i->children.begin()+1) );
+                    std::unique_ptr<const ParseNode> step;
                     if (i->children.size() > 2) {
                         step.reset( build_expr(i->children.begin()+2) );
                     }
