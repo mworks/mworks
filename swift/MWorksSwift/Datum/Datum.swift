@@ -38,15 +38,15 @@ extension Datum {
     }
     
     public var boolValue: Bool? {
-        return __numberValue?.boolValue
+        __numberValue?.boolValue
     }
     
     public var intValue: Int? {
-        return __numberValue?.intValue
+        __numberValue?.intValue
     }
     
     public var floatValue: Double? {
-        return __numberValue?.doubleValue
+        __numberValue?.doubleValue
     }
     
 }
