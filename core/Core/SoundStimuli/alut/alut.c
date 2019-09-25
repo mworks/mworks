@@ -13,6 +13,7 @@
 #include <string.h>
 //#include <memory.h>
 //#include "OpenAL32/Include/alMain.h"
+#define OPENAL_DEPRECATED  // Silence OpenAL deprecation warnings
 #include "OpenAL/al.h"
 
 #include "OpenAL/alc.h"

@@ -199,7 +199,14 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 
 
 - (void)openExperimentRunCloseSheetWithTitle:(NSString *)title runAction:(NSString *)runAction {
-    UIViewController *viewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIViewController *viewController =  nil;
+    for (UIWindow *window in UIApplication.sharedApplication.windows) {
+        if (window.keyWindow) {
+            viewController = window.rootViewController;
+            break;
+        }
+    }
+    NSAssert(viewController, @"Key window not found");
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
                                                                    message:nil

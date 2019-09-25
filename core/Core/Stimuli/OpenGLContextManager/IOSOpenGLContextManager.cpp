@@ -79,9 +79,9 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
-                window.screen = screen;
-                
-                if (MWKMetalViewController *viewController = [[MWKMetalViewController alloc] init]) {
+                if (window.screen != screen) {
+                    merror(M_DISPLAY_MESSAGE_DOMAIN, "Window is not on the requested screen");
+                } else if (MWKMetalViewController *viewController = [[MWKMetalViewController alloc] init]) {
                     window.rootViewController = viewController;
                     
                     if (MWKMetalView *view = [[MWKMetalView alloc] initWithFrame:window.bounds device:metalDevice]) {

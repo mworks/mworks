@@ -10,6 +10,7 @@
  *
  */
 
+#define OPENAL_DEPRECATED  // Silence OpenAL deprecation warnings
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 //#include "alc.h" //customized header for gcc4.2
