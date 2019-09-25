@@ -39,8 +39,8 @@
 	<true/>
 	<key>UIRequiresPersistentWiFi</key>
 	<true/>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Connect to input/output devices via Bluetooth</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>MWorks uses Bluetooth to connect to input/output devices.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>MWorks requires camera access to perform face recognition.</string>
 	<key>UISupportedInterfaceOrientations</key>
