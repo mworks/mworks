@@ -1,2 +1,2 @@
-# Symbols exported by _mworks.so
-_init_mworks
+# Symbols exported by _mworks.abi3.so
+_PyInit__mworks

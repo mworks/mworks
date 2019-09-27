@@ -1,14 +1,23 @@
+import enum
 import os
 import shutil
 
-from ._mworks import ReservedEventCode, _MWKFile
+from . import _mworks
+
+
+class ReservedEventCode(enum.IntEnum):
+
+    RESERVED_CODEC_CODE = _mworks.RESERVED_CODEC_CODE
+    RESERVED_SYSTEM_EVENT_CODE = _mworks.RESERVED_SYSTEM_EVENT_CODE
+    RESERVED_COMPONENT_CODEC_CODE = _mworks.RESERVED_COMPONENT_CODEC_CODE
+    RESERVED_TERMINATION_CODE = _mworks.RESERVED_TERMINATION_CODE
 
 
 class IndexingException(IOError):
     pass
 
 
-class MWKFile(_MWKFile):
+class MWKFile(_mworks._MWKFile):
 
     _default_min_time = -1 << 63
     _default_max_time = -(_default_min_time + 1)
@@ -34,7 +43,7 @@ class MWKFile(_MWKFile):
     def exists(self):
         return os.path.exists(self.file)
 
-    def _prepare_events_iter(self, codes=(), time_range=(None, None)):
+    def get_events_iter(self, codes=(), time_range=(None, None)):
         if not codes:
             codes = []
         else:
@@ -49,17 +58,14 @@ class MWKFile(_MWKFile):
 
         self._select_events(codes, min_time, max_time)
 
-    def get_events_iter(self, **kwargs):
-        self._prepare_events_iter(**kwargs)
         while True:
             evt = self._get_next_event()
-            if evt.empty:
+            if evt is None:
                 break
             yield evt
 
     def get_events(self, **kwargs):
-        self._prepare_events_iter(**kwargs)
-        return self._get_events()
+        return list(self.get_events_iter(**kwargs))
     
     @property
     def codec(self):
@@ -70,7 +76,7 @@ class MWKFile(_MWKFile):
                             self._default_min_time,
                             self._default_max_time)
         e = self._get_next_event()
-        if e.empty:
+        if e is None:
             self._codec = {}
             return self._codec
 
@@ -136,3 +142,13 @@ class MWKFile(_MWKFile):
             return True
         else:
             return False
+
+
+class _MWKWriter(_mworks._MWKWriter):
+    pass
+
+
+class _MWK2Writer(_mworks._MWK2Writer):
+
+    def __init__(self, filename, pagesize=0):
+        super().__init__(filename, pagesize)

@@ -510,9 +510,6 @@ def boost(ios=True):
     tarfile = srcdir + '.tar.bz2'
 
     with done_file(srcdir):
-        project_config_jam = 'project-config.jam'
-        project_config_jam_orig = project_config_jam + '.orig'
-
         if not os.path.isdir(srcdir):
             download_archive('https://dl.bintray.com/boostorg/release/%s/source/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
@@ -530,33 +527,16 @@ def boost(ios=True):
                     './bootstrap.sh',
                     '--with-toolset=clang',
                     '--without-icu',
-                    '--without-libraries=python',  # Configure python manually
+                    '--without-libraries=python',
                     ],
                     env = env,
                     )
-                shutil.move(project_config_jam, project_config_jam_orig)
             
         with workdir(srcdir):
-            shutil.copy(project_config_jam_orig, project_config_jam)
             libraries = ['filesystem', 'random', 'regex', 'thread']
             if not building_for_ios:
                 libraries += ['serialization']
             run_b2(libraries)
-
-            for tag in (() if building_for_ios else ('',)) + ('_3',):
-                shutil.copy(project_config_jam_orig, project_config_jam)
-                with open(project_config_jam, 'a') as fp:
-                    fp.write('\nusing python : %s : %s : %s : %s ;\n' %
-                             (os.environ['MW_PYTHON%s_VERSION' % tag],
-                              # Prevent Boost's build system from running the
-                              # Python executable
-                              '/usr/bin/false',
-                              os.environ['MW_PYTHON%s_INCLUDEDIR' % tag],
-                              os.environ['MW_PYTHON%s_LIBDIR' % tag]))
-                libraries = ['python']
-                # Remove previous build products before building again
-                run_b2(libraries, clean=True)
-                run_b2(libraries)
 
         with workdir(includedir):
             if not os.path.islink('mworks_boost'):

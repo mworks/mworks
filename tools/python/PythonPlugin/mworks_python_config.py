@@ -2,7 +2,7 @@ from importlib.machinery import ExtensionFileLoader, ModuleSpec
 import os
 import sys
 
-from mworkscore import _StaticExtensionModuleFinder
+from _mworkscore import _StaticExtensionModuleFinder
 
 
 __all__ = ()

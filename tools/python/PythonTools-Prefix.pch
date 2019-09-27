@@ -1,56 +1,24 @@
 //
-// Prefix header for all source files of the 'PythonTools' target in the 'PythonTools' project
+// Prefix header for all source files of the 'Extension Module' target in the 'PythonTools' project
 //
 
-#include <TargetConditionals.h>
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-register"
-#  include <Python.h>
-#pragma clang diagnostic pop
-#include <bytesobject.h>
-#include <node.h>
-
-#if TARGET_OS_OSX
-#  include <Scarab/scarab.h>
-#  include <Scarab/scarab_utilities.h>
-#endif
+#define Py_LIMITED_API 0x03050000
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 
 #ifdef __cplusplus
 
-#include <climits>
-#include <cstring>
-#include <string>
-#include <vector>
-
-#include <boost/foreach.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/python.hpp>
-#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
-#include <boost/scope_exit.hpp>
-
-#include <MWorksCore/CFObjectPtr.h>
 #include <MWorksCore/Clock.h>
+#include <MWorksCore/CodecAwareConduit.h>
 #include <MWorksCore/CoreBuilderForeman.h>
-#include <MWorksCore/Exceptions.h>
-#include <MWorksCore/GenericData.h>
+#include <MWorksCore/IPCEventTransport.h>
 #include <MWorksCore/MWK2File.hpp>
-#include <MWorksCore/Plugin.h>
-#include <MWorksCore/Server.h>
-#include <MWorksCore/StandardComponentFactory.h>
+#include <MWorksCore/ScarabServices.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
-#include <MWorksCore/TrialBuildingBlocks.h>
 
-#if TARGET_OS_OSX
-#  include <MWorksCore/AccumulatingConduit.h>
-#  include <MWorksCore/CodecAwareConduit.h>
-#  include <MWorksCore/DataFileReader.hpp>
-#  include <MWorksCore/DataFileUtilities.h>
-#  include <MWorksCore/IPCEventTransport.h>
-#  include <MWorksCore/ScarabServices.h>
-#endif
-
-#define BEGIN_NAMESPACE_MW_PYTHON  BEGIN_NAMESPACE_MW    BEGIN_NAMESPACE(python)
-#define END_NAMESPACE_MW_PYTHON    END_NAMESPACE(python) END_NAMESPACE_MW
+// Use a distinct namespace, so that things don't blow up if a user imports the Python tools
+// via the Python plugin
+#define BEGIN_NAMESPACE_MW_PYTHON  BEGIN_NAMESPACE_MW          BEGIN_NAMESPACE(python_tools)
+#define END_NAMESPACE_MW_PYTHON    END_NAMESPACE(python_tools) END_NAMESPACE_MW
 
 #endif /* defined(__cplusplus) */

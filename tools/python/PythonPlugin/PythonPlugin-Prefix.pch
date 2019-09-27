@@ -1,0 +1,22 @@
+//
+// Prefix header for all source files of the 'PythonPlugin' target in the 'PythonTools' project
+//
+
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+#include <node.h>
+
+#ifdef __cplusplus
+
+#include <boost/scope_exit.hpp>
+
+#include <MWorksCore/CFObjectPtr.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/Server.h>
+#include <MWorksCore/StandardComponentFactory.h>
+#include <MWorksCore/TrialBuildingBlocks.h>
+
+#define BEGIN_NAMESPACE_MW_PYTHON  BEGIN_NAMESPACE_MW    BEGIN_NAMESPACE(python)
+#define END_NAMESPACE_MW_PYTHON    END_NAMESPACE(python) END_NAMESPACE_MW
+
+#endif /* defined(__cplusplus) */

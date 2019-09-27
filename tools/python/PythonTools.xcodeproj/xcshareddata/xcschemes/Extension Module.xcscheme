@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0910"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E18D3B78165537A300D472D0"
-               BuildableName = "_mworks.so"
+               BlueprintIdentifier = "E168813F1FBCA3500049BCDA"
+               BuildableName = "_mworks.abi3.so"
                BlueprintName = "Extension Module"
                ReferencedContainer = "container:PythonTools.xcodeproj">
             </BuildableReference>
@@ -29,8 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Development"
@@ -45,14 +43,12 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E18D3B78165537A300D472D0"
-            BuildableName = "_mworks.so"
+            BlueprintIdentifier = "E168813F1FBCA3500049BCDA"
+            BuildableName = "_mworks.abi3.so"
             BlueprintName = "Extension Module"
             ReferencedContainer = "container:PythonTools.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Development"
@@ -60,6 +56,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "E168813F1FBCA3500049BCDA"
+            BuildableName = "_mworks.abi3.so"
+            BlueprintName = "Extension Module"
+            ReferencedContainer = "container:PythonTools.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Development">

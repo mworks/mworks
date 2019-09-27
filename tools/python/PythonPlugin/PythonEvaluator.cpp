@@ -8,25 +8,24 @@
 
 #include "PythonEvaluator.hpp"
 
-#include "GILHelpers.h"
-#include "PythonDataHelpers.h"
+#include "PythonEvent.hpp"
 #include "PythonException.h"
-
-using namespace boost::python;
 
 
 BEGIN_NAMESPACE_MW_PYTHON
 
 
-BEGIN_NAMESPACE()
+void PythonEvent::Callback::handleCallbackError() {
+    PythonException::logError("Python event callback failed");
+}
 
 
-inline cf::ObjectPtr<CFBundleRef> getBundle() {
+static inline auto getBundle() {
     return cf::ObjectPtr<CFBundleRef>::borrowed(CFBundleGetBundleWithIdentifier(CFSTR(PRODUCT_BUNDLE_IDENTIFIER)));
 }
 
 
-std::string getPathForURL(const cf::ObjectPtr<CFURLRef> &url) {
+static auto getPathForURL(const cf::ObjectPtr<CFURLRef> &url) {
     std::vector<char> path(1024);
     if (!CFURLGetFileSystemRepresentation(url.get(),
                                           true,
@@ -39,14 +38,14 @@ std::string getPathForURL(const cf::ObjectPtr<CFURLRef> &url) {
 }
 
 
-class StaticExtensionModuleFinder {
+class StaticExtensionModuleFinder : public ExtensionType<StaticExtensionModuleFinder> {
     
 public:
     StaticExtensionModuleFinder() :
         bundle(getBundle())
     { }
     
-    std::string getExecutablePath() const {
+    auto getExecutablePath() const {
         auto executableURL = cf::ObjectPtr<CFURLRef>::owned(CFBundleCopyExecutableURL(bundle.get()));
         if (!executableURL) {
             throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Cannot obtain path to Python plugin executable");
@@ -54,11 +53,11 @@ public:
         return getPathForURL(executableURL);
     }
     
-    bool haveInitFuncForName(const std::string &name) const {
+    auto haveInitFuncForName(const std::string &name) const {
         auto functionName = cf::StringPtr::created(CFStringCreateWithCString(kCFAllocatorDefault,
                                                                              ("PyInit_" + name).c_str(),
                                                                              kCFStringEncodingUTF8));
-        return CFBundleGetFunctionPointerForName(bundle.get(), functionName.get());
+        return bool(CFBundleGetFunctionPointerForName(bundle.get(), functionName.get()));
     }
     
 private:
@@ -67,99 +66,69 @@ private:
 };
 
 
+template<>
+PyMethodDef ExtensionType<StaticExtensionModuleFinder>::methods[] = {
+    MethodDef<&StaticExtensionModuleFinder::getExecutablePath>("get_executable_path"),
+    MethodDef<&StaticExtensionModuleFinder::haveInitFuncForName>("have_init_func_for_name"),
+    { }  // Sentinel
+};
+
+
+BEGIN_NAMESPACE()
+
+
 inline boost::shared_ptr<RegistryAwareEventStreamInterface> getCore() {
     return Server::instance();
 }
 
 
-boost::python::object getcodec() {
+auto getcodec() {
     auto core = getCore();
-    boost::python::dict codec;
+    std::map<int, std::string> codec;
     for (auto &name : core->getVariableTagNames()) {
         auto code = core->lookupCodeForTag(name);
         if (code >= 0) {
             codec[code] = name;
         }
     }
-    return std::move(codec);
+    return codec;
 }
 
 
-boost::python::object get_reverse_codec() {
+auto get_reverse_codec() {
     auto core = getCore();
-    boost::python::dict reverse_codec;
+    std::map<std::string, int> reverse_codec;
     for (auto &name : core->getVariableTagNames()) {
         auto code = core->lookupCodeForTag(name);
         if (code >= 0) {
             reverse_codec[name] = code;
         }
     }
-    return std::move(reverse_codec);
+    return reverse_codec;
 }
 
 
-boost::python::object getvar(const std::string &name) {
+auto getvar(const std::string &name) {
     auto var = getCore()->getVariable(name);
     if (!var) {
         throw UnknownVariableException(name);
     }
-    return convert_datum_to_python(var->getValue());
+    return var->getValue();
 }
 
 
-void setvar(const std::string &name, const boost::python::object &value) {
+void setvar(const std::string &name, const Datum &value) {
     auto var = getCore()->getVariable(name);
     if (!var) {
         throw UnknownVariableException(name);
     }
-    Datum val = convert_python_to_datum(value);
     {
         // setValue can perform an arbitrary number of notifications, some of which
         // may trigger blocking I/O operations, so temporarily release the GIL
         ScopedGILRelease sgr;
-        var->setValue(val);
+        var->setValue(value);
     }
 }
-
-
-class EventCallback {
-    
-public:
-    ~EventCallback() {
-        ScopedGILAcquire sga;
-        delete callback;
-    }
-    
-    explicit EventCallback(const boost::python::object &cb) {
-        // The caller already holds the GIL, so we don't need to acquire it
-        callback = new boost::python::object(cb);
-    }
-    
-    // Copy constructor
-    EventCallback(const EventCallback &other) {
-        ScopedGILAcquire sga;
-        callback = new boost::python::object(*other.callback);
-    }
-    
-    // No move construction, copy assignment, or move assignment
-    EventCallback(EventCallback &&other) = delete;
-    EventCallback& operator=(const EventCallback &other) = delete;
-    EventCallback& operator=(EventCallback &&other) = delete;
-    
-    void operator()(boost::shared_ptr<Event> evt) {
-        ScopedGILAcquire sga;
-        try {
-            (*callback)(evt);
-        } catch (const boost::python::error_already_set &) {
-            PythonException::logError("Python event callback failed");
-        }
-    }
-    
-private:
-    // Use a pointer so that we can ensure that the GIL is held when the callback is destroyed
-    boost::python::object *callback = nullptr;
-    
-};
 
 
 const std::string callbacksKey("<PythonPlugin:mworkscore.register_event_callback>");
@@ -175,26 +144,27 @@ const std::string callbacksKey("<PythonPlugin:mworkscore.register_event_callback
 // callbacks_lock, thereby potenially creating a situation where each thread was waiting
 // for the lock held by the other (i.e. deadlock).
 //
-// Note, however, that we must create EventCallback instances *before* we release the GIL.
+// Note, however, that we must create PythonEvent::Callback instances *before* we release
+// the GIL.
 //
 
 
-void register_event_callback(const boost::python::object &callback) {
-    EventCallback cb(callback);
+void _register_event_callback(const ObjectPtr &callback) {
+    PythonEvent::Callback cb(callback);
     ScopedGILRelease sgr;
     getCore()->registerCallback(cb, callbacksKey);
 }
 
 
-void register_event_callback_for_name(const std::string &name, const boost::python::object &callback) {
-    EventCallback cb(callback);
+void _register_event_callback_for_name(const std::string &name, const ObjectPtr &callback) {
+    PythonEvent::Callback cb(callback);
     ScopedGILRelease sgr;
     getCore()->registerCallback(name, cb, callbacksKey);
 }
 
 
-void register_event_callback_for_code(int code, const boost::python::object &callback) {
-    EventCallback cb(callback);
+void _register_event_callback_for_code(int code, const ObjectPtr &callback) {
+    PythonEvent::Callback cb(callback);
     ScopedGILRelease sgr;
     getCore()->registerCallback(code, cb, callbacksKey);
 }
@@ -207,13 +177,13 @@ void unregister_event_callbacks() {
 
 
 template <void (*func)(MessageDomain, const char *, ...)>
-void message(const boost::python::object &arg) {
-    auto str = manageNewRef( PyObject_Str(arg.ptr()) );
+void message(const ObjectPtr &arg) {
+    auto str = ObjectPtr::created(PyObject_Str(arg.get()));
     
     Py_ssize_t utf8Size;
-    auto utf8 = PyUnicode_AsUTF8AndSize(str.ptr(), &utf8Size);
+    auto utf8 = PyUnicode_AsUTF8AndSize(str.get(), &utf8Size);
     if (!utf8) {
-        throw_error_already_set();
+        throw ErrorAlreadySet();
     }
     
     const std::string msg(utf8, utf8Size);  // Copy so we can safely release the GIL
@@ -224,63 +194,39 @@ void message(const boost::python::object &arg) {
 }
 
 
-PyModuleDef mworkscoreModule = {
-    PyModuleDef_HEAD_INIT,
-    "mworkscore",
-    nullptr,
-    -1,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr
+PyMethodDef _mworkscoreMethods[] = {
+    MethodDef<getcodec>("getcodec"),
+    MethodDef<get_reverse_codec>("get_reverse_codec"),
+    MethodDef<getvar>("getvar"),
+    MethodDef<setvar>("setvar"),
+    MethodDef<_register_event_callback>("_register_event_callback"),
+    MethodDef<_register_event_callback_for_name>("_register_event_callback_for_name"),
+    MethodDef<_register_event_callback_for_code>("_register_event_callback_for_code"),
+    MethodDef<unregister_event_callbacks>("unregister_event_callbacks"),
+    MethodDef<message<mprintf>>("message"),
+    MethodDef<message<mwarning>>("warning"),
+    MethodDef<message<merror>>("error"),
+    { }  // Sentinel
 };
 
 
-PyObject * init_mworkscore() {
-    try {
-        auto module = manageBorrowedRef( PyModule_Create(&mworkscoreModule) );
-        boost::python::scope moduleScope(module);
-        
-        class_<StaticExtensionModuleFinder>("_StaticExtensionModuleFinder")
-        .def("get_executable_path", &StaticExtensionModuleFinder::getExecutablePath)
-        .def("have_init_func_for_name", &StaticExtensionModuleFinder::haveInitFuncForName)
-        ;
-        
-        class_<Event>("Event", no_init)
-        .add_property("code", &Event::getEventCode)
-        .add_property("time", extractEventTime)
-        .add_property("data", extractEventData)
-        ;
-        
-        register_ptr_to_python<boost::shared_ptr<Event>>();
-        
-        def("getcodec", getcodec);
-        def("get_reverse_codec", get_reverse_codec);
-        def("getvar", getvar);
-        def("setvar", setvar);
-        
-        def("register_event_callback", register_event_callback);
-        def("register_event_callback", register_event_callback_for_name);
-        def("register_event_callback", register_event_callback_for_code);
-        def("unregister_event_callbacks", unregister_event_callbacks);
-        
-        def("message", message<mprintf>);
-        def("warning", message<mwarning>);
-        def("error", message<merror>);
-        
-        return module.ptr();
-    } catch (const boost::python::error_already_set &) {
-        // Python error already set.  Do nothing.
-    } catch (const std::exception &e) {
-        PyErr_Format(PyExc_RuntimeError,
-                     "Error while initializing Python mworkscore module: %s",
-                     e.what());
-    } catch (...) {
-        PyErr_SetString(PyExc_RuntimeError, "Unknown error while initializing Python mworkscore module");
+PyModuleDef _mworkscoreModule = {
+    PyModuleDef_HEAD_INIT,
+    .m_name = "_mworkscore",
+    .m_size = -1,
+    .m_methods = _mworkscoreMethods
+};
+
+
+PyObject * init__mworkscore() {
+    auto module = ObjectPtr::owned(PyModule_Create(&_mworkscoreModule));
+    if (!module ||
+        !PythonEvent::createType("_mworkscore.Event", module) ||
+        !StaticExtensionModuleFinder::createType("_mworkscore._StaticExtensionModuleFinder", module))
+    {
+        return nullptr;
     }
-    
-    return nullptr;
+    return module.release();
 }
 
 
@@ -312,10 +258,10 @@ PyObject * getGlobalsDict() {
         }
         
         //
-        // Register mworkscore module
+        // Register _mworkscore module
         //
-        if (-1 == PyImport_AppendInittab(mworkscoreModule.m_name, &init_mworkscore)) {
-            throw PythonException("Unable to register Python mworkscore module");
+        if (-1 == PyImport_AppendInittab(_mworkscoreModule.m_name, &init__mworkscore)) {
+            throw PythonException("Unable to register Python _mworkscore module");
         }
         
         //
@@ -494,9 +440,9 @@ bool PythonEvaluator::exec() {
 bool PythonEvaluator::eval(Datum &result) {
     EvalState es;
     try {
-        result = convert_python_to_datum(manageNewRef(eval()));
+        result = convertObjectToDatum(ObjectPtr::owned(eval()));
         return true;
-    } catch (const boost::python::error_already_set &) {
+    } catch (const ErrorAlreadySet &) {
         PythonException::logError("Python evaluation failed");
         return false;
     }
@@ -506,22 +452,22 @@ bool PythonEvaluator::eval(Datum &result) {
 bool PythonEvaluator::call(Datum &result, ArgIter first, ArgIter last) {
     EvalState es;
     try {
-        auto callable = manageNewRef(eval());
+        auto callable = ObjectPtr::created(eval());
         
         const Py_ssize_t numArgs = last - first;
-        auto args = manageNewRef(PyTuple_New(numArgs));
+        auto args = ObjectPtr::created(PyTuple_New(numArgs));
         for (Py_ssize_t argNum = 0; argNum < numArgs; argNum++) {
-            auto arg = convert_datum_to_python(*(first + argNum));
+            auto arg = convertDatumToObject(*(first + argNum));
             // PyTuple_SetItem "steals" the item reference, so we need to INCREF it
-            Py_INCREF(arg.ptr());
-            if (PyTuple_SetItem(args.ptr(), argNum, arg.ptr())) {
-                throw_error_already_set();
+            Py_INCREF(arg.get());
+            if (PyTuple_SetItem(args.get(), argNum, arg.get())) {
+                throw ErrorAlreadySet();
             }
         }
         
-        result = convert_python_to_datum(manageNewRef(PyObject_CallObject(callable.ptr(), args.ptr())));
+        result = convertObjectToDatum(ObjectPtr::owned(PyObject_CallObject(callable.get(), args.get())));
         return true;
-    } catch (const boost::python::error_already_set &) {
+    } catch (const ErrorAlreadySet &) {
         PythonException::logError("Python call failed");
         return false;
     }

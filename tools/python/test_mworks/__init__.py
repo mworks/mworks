@@ -2,11 +2,8 @@ import collections
 import math
 import os
 import sys
+import unittest
 import warnings
-try:
-    long
-except NameError:
-    long = int  # Python 3
 
 import numpy
 
@@ -67,15 +64,6 @@ class TypeConversionTestMixin(object):
         self.assertReceivedEqualsSent(1)
         self.assertReceivedEqualsSent(-2)
 
-        int_info = numpy.iinfo(int)
-        self.assertReceivedEqualsSent(int_info.max)
-        self.assertReceivedEqualsSent(int_info.min)
-
-    def test_long(self):
-        self.assertReceivedEqualsSent(long(0), int)
-        self.assertReceivedEqualsSent(long(1), int)
-        self.assertReceivedEqualsSent(long(-2), int)
-
         # mw::Datum stores integers as long long's, so we should be
         # able to send the full range of long long values, but not
         # values outside that range
@@ -109,25 +97,13 @@ class TypeConversionTestMixin(object):
         self.assertReceivedEqualsSent(b'foo\0')
 
     def test_unicode(self):
-        self.assertReceivedEqualsSent(u'', str)
-        self.assertReceivedEqualsSent(u'foo', str)
-        self.assertReceivedEqualsSent(u' Foo \n Bar ', str)
-        self.assertReceivedEqualsSent(u'foo\0bar', b'foo\0bar')  # Embedded NUL
+        self.assertReceivedEqualsSent('')
+        self.assertReceivedEqualsSent('foo')
+        self.assertReceivedEqualsSent(' Foo \n Bar ')
+        self.assertReceivedEqualsSent('foo\0bar', b'foo\0bar')  # Embedded NUL
 
-        # Try some real Unicode
-        sent = u'a\U0001d11eb'  # U+1D11E is the G clef character
-        self.send(sent)
-        received = self.receive()
-        self.assertIsInstance(received, str)
-        if sys.version_info >= (3,):
-            self.assertEqual(sent, received)
-        else:
-            sent_encoded = sent.encode('utf-8')
-            with warnings.catch_warnings():
-                warnings.simplefilter('ignore', UnicodeWarning)
-                self.assertNotEqual(sent, sent_encoded)
-            self.assertEqual(sent_encoded, received)
-            self.assertEqual(sent, received.decode('utf-8'))
+        # Try some real Unicode.  U+1D11E is the G clef character.
+        self.assertReceivedEqualsSent('a\U0001d11eb')
 
     def test_unicode_with_trailing_nul(self):
         self.assertReceivedEqualsSent(u'foo\0', b'foo\0')
@@ -192,6 +168,7 @@ class TypeConversionTestMixin(object):
         self.send({(1, 2): 3})
         self.assertIsInstance(self.receive(), TypeError)
 
+    @unittest.skip('stable ABI does not include Py_EnterRecursiveCall')
     def test_infinite_recursion(self):
         l = []
         l.append(l)

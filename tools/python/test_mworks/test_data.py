@@ -5,16 +5,11 @@ import random
 import tempfile
 import unittest
 import warnings
-try:
-    long
-except NameError:
-    long = int  # Python 3
 
 import numpy
 
 import mworks.data
-from mworks.data import MWKFile, ReservedEventCode
-from mworks._mworks import EventWrapper, _MWKWriter, _MWK2Writer
+from mworks.data import ReservedEventCode, MWKFile, _MWKWriter, _MWK2Writer
 
 from . import TypeConversionTestMixin
 from .readers.mwk import MWKReader
@@ -139,19 +134,17 @@ class FileTestMixin(object):
     def open_file(self):
         self.fp.open()
 
-    def assertEvent(self, evt, code, time, value):
-        self.assertIsInstance(evt, EventWrapper)
-        self.assertFalse(evt.empty)
+    def assertEvent(self, evt, code, time, data):
         self.assertIsInstance(evt.code, int)
         self.assertEqual(code, evt.code)
-        self.assertIsInstance(evt.time, (int, long))
+        self.assertIsInstance(evt.time, int)
         self.assertEqual(time, evt.time)
-        self.assertIsInstance(evt.value, type(value))
-        self.assertEqual(value, evt.value)
+        self.assertIsInstance(evt.data, type(data))
+        self.assertEqual(data, evt.data)
 
-        # Alternative name for value
-        self.assertIsInstance(evt.data, type(evt.value))
-        self.assertEqual(evt.value, evt.data)
+        # Alternative name for data
+        self.assertIsInstance(evt.value, type(data))
+        self.assertEqual(data, evt.value)
 
 
 class FileBasicsTestMixin(FileTestMixin):
@@ -182,6 +175,11 @@ class FileBasicsTestMixin(FileTestMixin):
         self.create_file()
         os.chmod(self.filename, 0)
         self.assertRaises(RuntimeError, self.open_file)
+
+    def test_already_opened_file(self):
+        self.create_file()
+        self.open_file()
+        self.assertRaises(IOError, self.open_file)
 
     def test_context_manager(self):
         self.assertFalse(self.fp.exists)
@@ -304,7 +302,7 @@ class FileSelectionTestMixin(FileTestMixin):
 
         self.assertSelected([1,2,3], codes=('b', 3, 'd'))
 
-        self.assertRaises(TypeError, self.select, codes=('a', 'c', 'e'))
+        self.assertRaises(ValueError, self.select, codes=('a', 'c', 'e'))
 
 
 class TestMWKFileSelection(MWKTestMixin,
@@ -363,11 +361,11 @@ class RealFileTestMixin(object):
         self.assertIs(codec, self.fp.codec)  # Value is cached
         self.assertIsInstance(codec, dict)
         self.assertTrue(len(codec) > 0)
-        self.assertEqual(len(self.event_counts) - len(ReservedEventCode.values),
+        self.assertEqual(len(self.event_counts) - len(ReservedEventCode),
                          len(codec))
 
         for c in self.event_counts:
-            self.assertTrue((c in codec) or (c in ReservedEventCode.values),
+            self.assertTrue((c in codec) or (c in tuple(ReservedEventCode)),
                             'Code %d not in codec' % c)
 
         reverse_codec = self.fp.reverse_codec
@@ -397,7 +395,7 @@ class RealFileTestMixin(object):
             total_count += count
 
         reserved_code_count = sum(self.event_counts[c]
-                                  for c in ReservedEventCode.values)
+                                  for c in ReservedEventCode)
         self.assertEqual(self.fp.num_events - reserved_code_count,
                          total_count)
 

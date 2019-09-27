@@ -1,12 +1,8 @@
-try:
-    from Queue import Queue
-except ImportError:
-    from queue import Queue  # Python 3
+from queue import Queue
 import random
 import unittest
 
 from mworks.conduit import IPCClientConduit, IPCServerConduit
-from mworks._mworks import Event
 
 from . import TypeConversionTestMixin
 
@@ -64,7 +60,6 @@ class TestConduits(ConduitTestMixin, unittest.TestCase):
 
     def assertReceived(self, data):
         evt = self.receive()
-        self.assertIsInstance(evt, Event)
 
         self.assertIsInstance(evt.code, int)
         self.assertEqual(self.event_code, evt.code)
@@ -94,15 +89,13 @@ class TestConduits(ConduitTestMixin, unittest.TestCase):
         self.client.send_float(self.event_code, 1.2)
         self.assertReceived(1.2)
         self.client.send_float(self.event_code, 12)
-        self.assertReceived(12.0)
+        self.assertReceived(12)
 
     def test_send_integer(self):
         self.client.send_integer(self.event_code, 12)
         self.assertReceived(12)
-        self.assertRaises(TypeError,
-                          self.client.send_integer,
-                          self.event_code,
-                          1.2)
+        self.client.send_integer(self.event_code, 1.2)
+        self.assertReceived(1.2)
 
     def test_send_object(self):
         data = [1, 2.0, 'three']

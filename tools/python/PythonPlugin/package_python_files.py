@@ -59,6 +59,7 @@ if not os.path.isfile(zipfile_path):
 
         os.chdir(os.path.join(os.environ['SRCROOT'], 'PythonPlugin'))
         add_file(fp, 'mworks_python_config.py')
+        add_file(fp, 'mworkscore.py')
 
 # Ditto for root certificates file
 if not os.path.isfile(cacert_path):

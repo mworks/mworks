@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#
+# If pip is not installed or fails to run, install it manually:
+#
+#   curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+#   /Library/Frameworks/Python.framework/Versions/3.X/bin/python3 get-pip.py --no-warn-script-location
+#
+
+mw_python_3=$( \
+    /usr/bin/xcrun xcodebuild -showBuildSettings -project ../supporting_libs/SupportingLibs.xcodeproj | \
+    /usr/bin/grep 'MW_PYTHON_3 = ' | \
+    /usr/bin/awk '{print $NF}' \
+    )
+
+for python3 in /Library/Frameworks/Python.framework/Versions/3.*/bin/python3; do
+    pip3_install="$python3 -m pip install --upgrade --upgrade-strategy eager --no-warn-script-location"
+
+    $python3 -V || exit
+    echo '------------'
+
+    # Ensure we have the latest pip.  Don't pass --user, because pip is
+    # normally installed inside the Python framework, and we want to upgrade
+    # it there.
+    $pip3_install pip || exit
+
+    # All Python 3 versions need msgpack and numpy, because these are used by
+    # the Python tools unit tests
+    $pip3_install --user msgpack numpy || exit
+
+    # The docs are generated with MWorks' "official" Python 3 version, so only
+    # it needs pyaml and Sphinx
+    if [[ "$python3" == "$mw_python_3" ]]; then
+        $pip3_install --user pyaml Sphinx || exit
+    fi
+    echo
+done

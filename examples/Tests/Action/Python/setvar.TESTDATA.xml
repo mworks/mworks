@@ -1,15 +1,9 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="contains">ArgumentError: Python argument types in
-    mworkscore.setvar(str)
-did not match C++ signature:</message>
-    <message type="contains">ArgumentError: Python argument types in
-    mworkscore.setvar(str, int, int)
-did not match C++ signature:</message>
-    <message type="contains">ArgumentError: Python argument types in
-    mworkscore.setvar(int, int)
-did not match C++ signature:</message>
+    <message type="contains">TypeError: function takes exactly 2 arguments (1 given)</message>
+    <message type="contains">TypeError: function takes exactly 2 arguments (3 given)</message>
+    <message type="contains">TypeError: argument 1 must be str, not int</message>
     <message type="contains">RuntimeError: Unknown variable: y</message>
     <message type="contains">TypeError: Cannot convert object of type object</message>
   </expected_messages>
