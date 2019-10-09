@@ -16,7 +16,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class API_AVAILABLE(macos(10.13)) FaceRecognizer : public IODevice, boost::noncopyable {
+class FaceRecognizer : public IODevice, boost::noncopyable {
     
 public:
     static const std::string MODEL_PATH;

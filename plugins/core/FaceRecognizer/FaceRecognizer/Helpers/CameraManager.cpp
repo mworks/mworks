@@ -260,11 +260,7 @@ AVCaptureSession * CameraManager::createCaptureSession(AVCaptureDevice *camera) 
         auto captureOutput = [[AVCapturePhotoOutput alloc] init];
 #else
         auto captureOutput = [[AVCaptureStillImageOutput alloc] init];
-        if (@available(macOS 10.13, *)) {
-            captureOutput.outputSettings = @{ AVVideoCodecKey: AVVideoCodecTypeJPEG };
-        } else {
-            captureOutput.outputSettings = @{ AVVideoCodecKey: AVVideoCodecJPEG };
-        }
+        captureOutput.outputSettings = @{ AVVideoCodecKey: AVVideoCodecTypeJPEG };
 #endif
         if (![captureSession canAddOutput:captureOutput]) {
             merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot add image output to capture session");

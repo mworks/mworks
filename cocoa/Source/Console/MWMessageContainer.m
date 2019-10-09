@@ -41,11 +41,7 @@
         ErrorColor = [NSColor redColor];
         
 		LocalColor = [NSColor textColor];
-        if (@available(macOS 10.13, *)) {
-            RemoteColor = [NSColor colorNamed:@"consoleRemoteTextColor" bundle:[NSBundle bundleForClass:[self class]]];
-        } else {
-            RemoteColor = [NSColor colorWithCalibratedRed:0.2 green:0.2 blue:0.2 alpha:1.0];
-        }
+        RemoteColor = [NSColor colorNamed:@"consoleRemoteTextColor" bundle:[NSBundle bundleForClass:[self class]]];
 
 		//[self initMessageParagraphStyle];
 		

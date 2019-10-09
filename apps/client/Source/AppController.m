@@ -201,7 +201,7 @@
   
   // Display the dialog.  If the OK button was pressed,
   // process the files.
-  if ( [openDlg runModal] == NSFileHandlingPanelOKButton )
+  if ( [openDlg runModal] == NSModalResponseOK )
   {
     // Get an array containing the full filenames of all
     // files and directories selected.
@@ -481,32 +481,7 @@
 
 - (NSColor *)uniqueColor {
     int ind = [[clientInstances arrangedObjects] count] % 6;
-    
-    if (@available(macOS 10.13, *)) {
-        return [NSColor colorNamed:[NSString stringWithFormat:@"uniqueColor%d", ind]];
-    }
-    
-    if(ind == 1){
-        return [NSColor colorWithDeviceRed:194./255. green:192./255 blue:129./255 alpha:1.0];
-    }
-    
-    if(ind == 2){
-        return [NSColor colorWithDeviceRed:209./255. green:206./255 blue:183./255 alpha:1.0];
-    }
-    
-    if(ind == 3){
-        return [NSColor colorWithDeviceRed:189./255. green:181./255 blue:219./255 alpha:1.0];
-    }
-    
-    if(ind == 4){
-        return [NSColor colorWithDeviceRed:196./255. green:225./255 blue:178./255 alpha:1.0];
-    }
-    
-    if(ind == 5){
-        return [NSColor colorWithDeviceRed:181./255. green:181./255 blue:181./255 alpha:1.0];
-    }
-    
-    return [NSColor colorWithDeviceRed:180./255. green:197./255 blue:211./255 alpha:1.0];
+    return [NSColor colorNamed:[NSString stringWithFormat:@"uniqueColor%d", ind]];
 }
 
 
@@ -573,7 +548,7 @@
 - (IBAction)openWorkspace:(id)sender {
     NSOpenPanel *openDlg = [self openPanel];
     [openDlg setTitle:@"Open Workspace"];
-    if ([openDlg runModal] == NSFileHandlingPanelOKButton) {
+    if ([openDlg runModal] == NSModalResponseOK) {
         [self loadWorkspaceFromURL:[[openPanel URLs] lastObject]];
     }
 }
@@ -623,7 +598,7 @@
     [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"json"]];
     [savePanel setAllowsOtherFileTypes:YES];
     
-    if ([savePanel runModal] != NSFileHandlingPanelOKButton) {
+    if ([savePanel runModal] != NSModalResponseOK) {
         return;
     }
     

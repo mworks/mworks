@@ -180,7 +180,7 @@
 	NSSavePanel * save = [NSSavePanel savePanel];
     [save setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
     [save setCanCreateDirectories:YES];
-    if([save runModal] == NSFileHandlingPanelOKButton)  {
+    if([save runModal] == NSModalResponseOK)  {
 		[log writeToURL:[save URL]
 			  atomically:NO
 				encoding:NSASCIIStringEncoding

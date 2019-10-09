@@ -62,12 +62,7 @@
 
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-#if TARGET_OS_IPHONE
-    if (central.state == CBManagerStatePoweredOn)
-#else
-    if (central.state == static_cast<NSInteger>(CBCentralManagerStatePoweredOn))
-#endif
-    {
+    if (central.state == CBManagerStatePoweredOn) {
         notifyCallback(connection);
     }
 }

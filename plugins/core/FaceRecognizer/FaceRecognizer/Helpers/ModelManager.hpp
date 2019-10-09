@@ -13,7 +13,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class API_AVAILABLE(macos(10.13)) ModelManager : boost::noncopyable {
+class ModelManager : boost::noncopyable {
     
 public:
     ModelManager();
