@@ -3,6 +3,7 @@ import random
 import unittest
 
 from mworks.conduit import IPCClientConduit, IPCServerConduit
+from mworks.data import ReservedEventCode
 
 from . import TypeConversionTestMixin
 
@@ -22,7 +23,7 @@ class ConduitTestMixin(object):
         cls.client = cls.client_class(cls.resource_name)
         cls.client.initialize()
 
-        cls.event_code = random.randrange(128)
+        cls.event_code = random.randrange(max(ReservedEventCode) + 1, 128)
         cls.queue = Queue(maxsize=1)
         cls.server.register_callback_for_code(cls.event_code,
                                               cls.event_callback)
