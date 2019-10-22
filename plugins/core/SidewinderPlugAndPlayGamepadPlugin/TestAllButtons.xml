@@ -1,23 +1,20 @@
-## -*- mode: sgml; -*-
-## mwpp="/usr/local/bin/mako-render"
 <?xml version="1.0" standalone="no"?>
-
-<%
-data_types = ('event', 'continuous')
-button_names = ('up', 'down', 'left', 'right', 'trigger_left', 'trigger_right', 'a', 'b', 'x', 'y')
-next_states = tuple(('Test %s press' % name.upper()) for name in button_names[1:]) + ('Exit State System',)
-%>
-
 <monkeyml version="1.0">
     <io_devices tag="IO Devices">
-        % for data_type in data_types:
-            <iodevice tag="gamepad_${data_type}" priority="" data_type="${data_type}" type="sidewinder_gamepad" data_interval="50ms" up="up" down="down" left="left" right="right" trigger_left="trigger_left" trigger_right="trigger_right" a="a" b="b" x="x" y="y"></iodevice>
-        % endfor
+            <iodevice tag="gamepad_event" priority="" data_type="event" type="sidewinder_gamepad" data_interval="50ms" up="up" down="down" left="left" right="right" trigger_left="trigger_left" trigger_right="trigger_right" a="a" b="b" x="x" y="y"></iodevice>
+            <iodevice tag="gamepad_continuous" priority="" data_type="continuous" type="sidewinder_gamepad" data_interval="50ms" up="up" down="down" left="left" right="right" trigger_left="trigger_left" trigger_right="trigger_right" a="a" b="b" x="x" y="y"></iodevice>
     </io_devices>
     <variables tag="Variables">
-        % for name in button_names:
-            <variable tag="${name}" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
-        % endfor
+            <variable tag="up" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+            <variable tag="down" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+            <variable tag="left" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+            <variable tag="right" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+            <variable tag="trigger_left" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+            <variable tag="trigger_right" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+            <variable tag="a" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+            <variable tag="b" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+            <variable tag="x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+            <variable tag="y" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
     </variables>
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli"></stimuli>
@@ -25,42 +22,208 @@ next_states = tuple(('Test %s press' % name.upper()) for name in button_names[1:
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
-        % for data_type in data_types:
-            % for name in button_names:
-                <action type="assignment" tag="Reset ${name}" variable="${name}" value="0"></action>
-            % endfor
-            <task_system tag="Test ${data_type.upper()}" interruptible="YES">
+                <action type="assignment" tag="Reset up" variable="up" value="0"></action>
+                <action type="assignment" tag="Reset down" variable="down" value="0"></action>
+                <action type="assignment" tag="Reset left" variable="left" value="0"></action>
+                <action type="assignment" tag="Reset right" variable="right" value="0"></action>
+                <action type="assignment" tag="Reset trigger_left" variable="trigger_left" value="0"></action>
+                <action type="assignment" tag="Reset trigger_right" variable="trigger_right" value="0"></action>
+                <action type="assignment" tag="Reset a" variable="a" value="0"></action>
+                <action type="assignment" tag="Reset b" variable="b" value="0"></action>
+                <action type="assignment" tag="Reset x" variable="x" value="0"></action>
+                <action type="assignment" tag="Reset y" variable="y" value="0"></action>
+            <task_system tag="Test EVENT" interruptible="YES">
                 <task_system_state tag="Begin State System" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
-                    <action type="report" tag="Report" message="Testing ${data_type.upper()}"></action>
-                    <action tag="Start IO Device" type="start_device_IO" device="gamepad_${data_type}"></action>
+                    <action type="report" tag="Report" message="Testing EVENT"></action>
+                    <action tag="Start IO Device" type="start_device_IO" device="gamepad_event"></action>
                     <action type="if" tag="Conditionally Execute Actions" condition="up || down || left || right">
                         <action type="report" tag="Report" message="Rock D-pad to clear bogus initial values"></action>
                         <action type="wait" tag="Wait" duration="10" duration_units="s"></action>
                     </action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
-                    <transition type="direct" tag="Always Go to ... 2" target="Test ${button_names[0].upper()} press"></transition>
+                    <transition type="direct" tag="Always Go to ... 2" target="Test UP press"></transition>
                 </task_system_state>
-                % for name, next_state in zip(button_names, next_states):
-                    <task_system_state tag="Test ${name.upper()} press" interruptible="YES">
+                    <task_system_state tag="Test UP press" interruptible="YES">
                         <action_marker _unmoveable="1" tag="Actions"></action_marker>
-                        <action type="assert" tag="Assert" condition="${name} == 0" message="" stop_on_failure="1"></action>
-                        <action type="report" tag="Report" message="Press and hold ${name.upper()}"></action>
+                        <action type="assert" tag="Assert" condition="up == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold UP"></action>
                         <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
                         <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
-                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="${name} == 1" target="Test ${name.upper()} release"></transition>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="up == 1" target="Test UP release"></transition>
                         <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
                     </task_system_state>
-                    <task_system_state tag="Test ${name.upper()} release" interruptible="YES">
+                    <task_system_state tag="Test UP release" interruptible="YES">
                         <action_marker _unmoveable="1" tag="Actions"></action_marker>
-                        <action type="assert" tag="Assert" condition="${name} == 1" message="" stop_on_failure="1"></action>
-                        <action type="report" tag="Report" message="Release ${name.upper()}"></action>
+                        <action type="assert" tag="Assert" condition="up == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release UP"></action>
                         <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
                         <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
-                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="${name} == 0" target="${next_state}"></transition>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="up == 0" target="Test DOWN press"></transition>
                         <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
                     </task_system_state>
-                % endfor
+                    <task_system_state tag="Test DOWN press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="down == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold DOWN"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="down == 1" target="Test DOWN release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test DOWN release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="down == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release DOWN"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="down == 0" target="Test LEFT press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test LEFT press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="left == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold LEFT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="left == 1" target="Test LEFT release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test LEFT release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="left == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release LEFT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="left == 0" target="Test RIGHT press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test RIGHT press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="right == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold RIGHT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="right == 1" target="Test RIGHT release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test RIGHT release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="right == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release RIGHT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="right == 0" target="Test TRIGGER_LEFT press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test TRIGGER_LEFT press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="trigger_left == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold TRIGGER_LEFT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="trigger_left == 1" target="Test TRIGGER_LEFT release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test TRIGGER_LEFT release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="trigger_left == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release TRIGGER_LEFT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="trigger_left == 0" target="Test TRIGGER_RIGHT press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test TRIGGER_RIGHT press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="trigger_right == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold TRIGGER_RIGHT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="trigger_right == 1" target="Test TRIGGER_RIGHT release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test TRIGGER_RIGHT release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="trigger_right == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release TRIGGER_RIGHT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="trigger_right == 0" target="Test A press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test A press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="a == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold A"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="a == 1" target="Test A release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test A release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="a == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release A"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="a == 0" target="Test B press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test B press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="b == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold B"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="b == 1" target="Test B release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test B release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="b == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release B"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="b == 0" target="Test X press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test X press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="x == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold X"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="x == 1" target="Test X release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test X release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="x == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release X"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="x == 0" target="Test Y press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test Y press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="y == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold Y"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="y == 1" target="Test Y release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test Y release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="y == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release Y"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="y == 0" target="Exit State System"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
                 <task_system_state tag="Timeout" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
                     <action type="assert" tag="Assert" condition="0" message="Timeout while waiting for input" stop_on_failure="1"></action>
@@ -69,13 +232,228 @@ next_states = tuple(('Test %s press' % name.upper()) for name in button_names[1:
                 </task_system_state>
                 <task_system_state tag="Exit State System" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
-                    <action type="report" tag="Report" message="All ${data_type.upper()} tests pass!"></action>
-                    <action tag="Stop IO Device" type="stop_device_IO" device="gamepad_${data_type}"></action>
+                    <action type="report" tag="Report" message="All EVENT tests pass!"></action>
+                    <action tag="Stop IO Device" type="stop_device_IO" device="gamepad_event"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition tag="Return to parent task system" type="yield"></transition>
                 </task_system_state>
             </task_system>
-        % endfor
+                <action type="assignment" tag="Reset up" variable="up" value="0"></action>
+                <action type="assignment" tag="Reset down" variable="down" value="0"></action>
+                <action type="assignment" tag="Reset left" variable="left" value="0"></action>
+                <action type="assignment" tag="Reset right" variable="right" value="0"></action>
+                <action type="assignment" tag="Reset trigger_left" variable="trigger_left" value="0"></action>
+                <action type="assignment" tag="Reset trigger_right" variable="trigger_right" value="0"></action>
+                <action type="assignment" tag="Reset a" variable="a" value="0"></action>
+                <action type="assignment" tag="Reset b" variable="b" value="0"></action>
+                <action type="assignment" tag="Reset x" variable="x" value="0"></action>
+                <action type="assignment" tag="Reset y" variable="y" value="0"></action>
+            <task_system tag="Test CONTINUOUS" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Report" message="Testing CONTINUOUS"></action>
+                    <action tag="Start IO Device" type="start_device_IO" device="gamepad_continuous"></action>
+                    <action type="if" tag="Conditionally Execute Actions" condition="up || down || left || right">
+                        <action type="report" tag="Report" message="Rock D-pad to clear bogus initial values"></action>
+                        <action type="wait" tag="Wait" duration="10" duration_units="s"></action>
+                    </action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="direct" tag="Always Go to ... 2" target="Test UP press"></transition>
+                </task_system_state>
+                    <task_system_state tag="Test UP press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="up == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold UP"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="up == 1" target="Test UP release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test UP release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="up == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release UP"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="up == 0" target="Test DOWN press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test DOWN press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="down == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold DOWN"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="down == 1" target="Test DOWN release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test DOWN release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="down == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release DOWN"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="down == 0" target="Test LEFT press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test LEFT press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="left == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold LEFT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="left == 1" target="Test LEFT release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test LEFT release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="left == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release LEFT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="left == 0" target="Test RIGHT press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test RIGHT press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="right == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold RIGHT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="right == 1" target="Test RIGHT release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test RIGHT release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="right == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release RIGHT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="right == 0" target="Test TRIGGER_LEFT press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test TRIGGER_LEFT press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="trigger_left == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold TRIGGER_LEFT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="trigger_left == 1" target="Test TRIGGER_LEFT release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test TRIGGER_LEFT release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="trigger_left == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release TRIGGER_LEFT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="trigger_left == 0" target="Test TRIGGER_RIGHT press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test TRIGGER_RIGHT press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="trigger_right == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold TRIGGER_RIGHT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="trigger_right == 1" target="Test TRIGGER_RIGHT release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test TRIGGER_RIGHT release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="trigger_right == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release TRIGGER_RIGHT"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="trigger_right == 0" target="Test A press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test A press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="a == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold A"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="a == 1" target="Test A release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test A release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="a == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release A"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="a == 0" target="Test B press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test B press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="b == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold B"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="b == 1" target="Test B release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test B release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="b == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release B"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="b == 0" target="Test X press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test X press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="x == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold X"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="x == 1" target="Test X release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test X release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="x == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release X"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="x == 0" target="Test Y press"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test Y press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="y == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold Y"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="y == 1" target="Test Y release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test Y release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="y == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release Y"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="y == 0" target="Exit State System"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                <task_system_state tag="Timeout" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assert" tag="Assert" condition="0" message="Timeout while waiting for input" stop_on_failure="1"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Report" message="All CONTINUOUS tests pass!"></action>
+                    <action tag="Stop IO Device" type="stop_device_IO" device="gamepad_continuous"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
         </protocol>
     </experiment>
 </monkeyml>

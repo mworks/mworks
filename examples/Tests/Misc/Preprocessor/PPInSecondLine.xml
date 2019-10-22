@@ -1,5 +1,6 @@
-<?xml version="1.0"?>
-<?mworks mwpp="/usr/local/bin/mako-render"?>
+# Blah blah blah
+# mwpp="/bin/bash"
+cat <<EOF
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables"></variables>
@@ -9,7 +10,8 @@
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
-            <action type="report" tag="Report" message="1 + 2 = ${1+2}"></action>
+            <action type="report" tag="Report" message="1 + 2 = $(echo 1+2 | bc)"></action>
         </protocol>
     </experiment>
 </monkeyml>
+EOF

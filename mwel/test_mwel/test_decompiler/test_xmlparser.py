@@ -41,7 +41,7 @@ class TestXMLParser(ElementCheckMixin, ErrorLoggerMixin, unittest.TestCase):
     def test_success(self):
         src = b'''\
 <?xml version="1.0"?>
-   <?mworks mwpp="/usr/local/bin/mako-render"?>
+   <?mworks mwpp="/bin/bash"?>
 <monkeyml version="1.0">
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
