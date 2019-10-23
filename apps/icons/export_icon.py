@@ -14,6 +14,6 @@ end tell
 
 def export_icon(size, path):
     cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
-    cmd.communicate(acorn_png_export_applescript %
-                    {'size': size, 'path': path})
+    cmd.communicate((acorn_png_export_applescript %
+                     {'size': size, 'path': path}).encode('utf-8'))
     assert cmd.returncode == 0

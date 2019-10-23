@@ -1,6 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
-from __future__ import print_function, unicode_literals
 import argparse
 import socket
 import threading

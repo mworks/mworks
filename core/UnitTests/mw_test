@@ -1,6 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
-from cStringIO import StringIO
+from io import StringIO
 from optparse import OptionParser
 import os
 import random
@@ -71,7 +71,7 @@ def demangle_name(name):
 
 def run_applescript(script):
     cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
-    cmd.communicate(script)
+    cmd.communicate(script.encode('utf-8'))
     if cmd.returncode != 0:
         error(cmd.returncode, 'osascript command failed')
 
@@ -164,11 +164,11 @@ def run_marionette_tests(arch_name, test_names=None):
         else:
             test_name = test_file
 
-        print '(%d/%d) %s:' %  (test_num + 1, len(all_test_names), test_name),
+        print('(%d/%d) %s:' %  (test_num + 1, len(all_test_names), test_name), end=' ')
         sys.stdout.flush()
 
         if missing_features:
-            print 'skipped (requires %s)' % ', '.join(missing_features)
+            print('skipped (requires %s)' % ', '.join(missing_features))
             continue
 
         # For OS X 10.7: Remove any saved state, which can lead to a
@@ -191,11 +191,11 @@ def run_marionette_tests(arch_name, test_names=None):
         cmd = Popen(args, env=env, stderr=PIPE)
         output = cmd.communicate()[1]
         if cmd.returncode == 0:
-            print 'OK'
+            print('OK')
         else:
-            print 'error'
+            print('error')
             for line in output.strip().split('\n'):
-                print '    >', line
+                print('    >', line)
             failed_tests.append(test_name)
 
     if not server_address:
@@ -222,14 +222,14 @@ def run_tests(arch_name, unit_test_names, marionette_test_names):
     elif not unit_test_names:
         failed_tests.extend(run_marionette_tests(arch_name))
 
-    print
+    print()
     if not failed_tests:
-        print 'ALL TESTS PASS'
+        print('ALL TESTS PASS')
     else:
-        print 'FAILURES:\n'
+        print('FAILURES:\n')
         for test_name in failed_tests:
-            print '    %s' % test_name
-    print
+            print('    %s' % test_name)
+    print()
 
     return failed_tests
 
@@ -264,7 +264,7 @@ def main():
     marionette_test_names = []
 
     for name in args:
-        if '::' in demangle_name(name):
+        if b'::' in demangle_name(name):
             unit_test_names.append(name)
         else:
             marionette_test_names.append(name)

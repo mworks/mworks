@@ -150,7 +150,7 @@
 			buildConfigurationList = E1DF4BB41C57E0D20081491C /* Build configuration list for PBXLegacyTarget "SupportingLibs" */;
 			buildPhases = (
 			);
-			buildToolPath = /usr/bin/python;
+			buildToolPath = "$(MW_PYTHON_3)";
 			buildWorkingDirectory = "";
 			dependencies = (
 			);
@@ -164,7 +164,7 @@
 			buildConfigurationList = E1F298D21E451D7A006842A7 /* Build configuration list for PBXLegacyTarget "SupportingLibs-iOS" */;
 			buildPhases = (
 			);
-			buildToolPath = /usr/bin/python;
+			buildToolPath = "$(MW_PYTHON_3)";
 			buildWorkingDirectory = "";
 			dependencies = (
 			);

@@ -1,8 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 from contextlib import contextmanager
 from functools import partial, wraps
-from itertools import izip
 from optparse import OptionParser
 import os
 import os.path
@@ -33,6 +32,7 @@ mw_version = 'CUSTOM'
 
 def announce(msg, *args):
     sys.stderr.write((msg + '\n') % args)
+    sys.stderr.flush()
 
 
 def check_call(args, **kwargs):
@@ -54,7 +54,7 @@ all_builders = []
 required_builder_names = []
 
 def builder(func, build_dir=None, required=False, transient=False):
-    if isinstance(func, basestring):
+    if isinstance(func, str):
         return partial(builder,
                        build_dir = func,
                        required = required,
@@ -281,7 +281,7 @@ def main():
     srcroot = os.path.abspath(os.path.dirname(__file__) + '/../..')
 
     with workdir(srcroot):
-        for builder_name, builder in izip(all_builder_names, all_builders):
+        for builder_name, builder in zip(all_builder_names, all_builders):
             if ((not requested_builders) or
                 (builder_name in requested_builders) or
                 (builder_name in required_builder_names)):

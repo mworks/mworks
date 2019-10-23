@@ -1,11 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
-from __future__ import unicode_literals
 from collections import OrderedDict
-try:
-    xrange
-except NameError:
-    xrange = range  # Python 3
 import re
 import sys
 import textwrap
@@ -22,7 +17,7 @@ def parse_xml(stream):
     tb = ElementTree.TreeBuilder()
 
     def start_element(name, attrs):
-        attrs = OrderedDict(attrs[i:i+2] for i in xrange(0, len(attrs), 2))
+        attrs = OrderedDict(attrs[i:i+2] for i in range(0, len(attrs), 2))
         tb.start(name, attrs)
 
     def character_data(data):

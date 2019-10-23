@@ -5,7 +5,7 @@ import os
 import shutil
 import subprocess
 import sys
-import urllib
+import urllib.parse
 
 
 ################################################################################
@@ -83,7 +83,7 @@ all_builders = []
 
 
 def builder(func):
-    argspec = inspect.getargspec(func)
+    argspec = inspect.getfullargspec(func)
     defaults = dict(zip(argspec[0], argspec[3] or []))
     if building_for_ios:
         if defaults.get('ios', False):
@@ -96,6 +96,7 @@ def builder(func):
 
 def announce(msg, *args):
     sys.stderr.write((msg + '\n') % args)
+    sys.stderr.flush()
 
 
 def check_call(args, **kwargs):
@@ -669,7 +670,7 @@ def narrative():
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
             download_archive_from_sf('narrative/narrative',
-                                     urllib.quote(srcdir.replace('-', ' ')),
+                                     urllib.parse.quote(srcdir.replace('-', ' ')),
                                      zipfile)
             unpack_zipfile(zipfile, srcdir)
 

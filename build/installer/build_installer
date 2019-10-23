@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 import argparse
 import glob
@@ -91,7 +91,7 @@ package_contents = {
 
 def find_optional_plugins():
     standard_components = set()
-    for components in package_contents.itervalues():
+    for components in package_contents.values():
         standard_components.update(components)
 
     optional_plugins = tuple(sorted(
@@ -131,7 +131,8 @@ def build_component_package(package_name):
         component_plist_path,
         ])
 
-    plist = plistlib.readPlist(component_plist_path)
+    with open(component_plist_path, 'rb') as fp:
+        plist = plistlib.load(fp)
 
     for item in plist:
         item['BundleIsVersionChecked'] = False
@@ -139,7 +140,8 @@ def build_component_package(package_name):
             if key in item:
                 item[key] = False
 
-    plistlib.writePlist(plist, component_plist_path)
+    with open(component_plist_path, 'wb') as fp:
+        plistlib.dump(plist, fp)
 
     cmd = [
         '/usr/bin/pkgbuild',
@@ -180,7 +182,7 @@ def main():
 
     check_call(['/bin/rm', '-Rf', installer_root])
 
-    for package_name, contents in package_contents.iteritems():
+    for package_name, contents in package_contents.items():
         for path in contents:
             copy_path(package_name, path)
         if signing_name and package_name == core_components_package_name:
