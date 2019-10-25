@@ -16,13 +16,8 @@
 #define STATUS_ACTIVE   @"Active"
 #define STATUS_TERMINATING  @"Terminating..."
 
+#define DEFAULTS_PYTHON_EXECUTABLE_KEY @"pythonExecutable"
 #define DEFAULTS_SCROLL_TO_BOTTOM_ON_OUTPUT_KEY @"autoScrollPythonOutput"
-
-#ifdef __x86_64__
-#  define PYTHON_ARCH @"x86_64"
-#else
-#  define PYTHON_ARCH @"i386"
-#endif
 
 #import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
 #import <MWorksCore/IPCEventTransport.h>
@@ -69,11 +64,16 @@
 }
 
 
-- (IBAction)launchRecentScript:(id)sender{
- 
+- (void)launchScriptFromScriptChooserSheet:(NSString *)path {
+    if ([self launchScriptAtPath:path]) {
+        [self closeScriptChooserSheet:self];
+    }
+}
+
+
+- (IBAction)launchRecentScript:(id)sender {
     path = [recent_scripts titleOfSelectedItem];
-    [self launchScriptAtPath:path];
-    [self closeScriptChooserSheet:self];
+    [self launchScriptFromScriptChooserSheet:path];
 }
 
 -(void)initConduit {
@@ -89,7 +89,21 @@
     conduit->initialize();
 }
 
--(void)launchScriptAtPath:(NSString *)script_path{
+- (BOOL)launchScriptAtPath:(NSString *)script_path{
+    NSString *pythonExecutable = [NSUserDefaults.standardUserDefaults stringForKey:DEFAULTS_PYTHON_EXECUTABLE_KEY];
+    
+    if (!pythonExecutable) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"No Python executable selected";
+        alert.informativeText = @"Please specify the Python executable to invoke when running the script.";
+        if (script_chooser_sheet.sheetParent) {
+            [alert beginSheetModalForWindow:script_chooser_sheet completionHandler:nil];
+        } else {
+            [alert runModal];
+        }
+        return NO;
+    }
+    
     if (!conduit) {
         [self initConduit];
     }
@@ -97,11 +111,10 @@
     [self setPath:script_path];
     
     python_task = [[NSTask alloc] init];
-    [python_task setLaunchPath: @"/usr/bin/arch"];
+    [python_task setLaunchPath:pythonExecutable];
     
     NSArray *arguments;
-    arguments = [NSArray arrayWithObjects:@"-arch", PYTHON_ARCH,
-                 @"/usr/bin/python" PYTHON_VERSION,
+    arguments = [NSArray arrayWithObjects:
                  script_path,
                  [NSString stringWithCString:CONDUIT_RESOURCE_NAME encoding:NSASCIIStringEncoding],
                  nil];
@@ -136,37 +149,41 @@
     task_check_timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(checkOnPythonTask) userInfo:Nil repeats:YES]; 
     [[NSRunLoop currentRunLoop] addTimer:task_check_timer forMode:NSDefaultRunLoopMode];
     
-    
+    return YES;
 }
 
--(void)launchScriptChooserSheet{
-    
+
+-(void)launchScriptChooserSheet {
     NSWindow *parent_window;
-    
-    if(in_grouped_window){
+    if (in_grouped_window) {
         parent_window = [delegate groupedPluginWindow];
     } else {
         parent_window = [self window];
     }
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [NSApp beginSheet: script_chooser_sheet
-       modalForWindow: parent_window
-        modalDelegate: self
-       didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-          contextInfo: nil];
-#pragma clang diagnostic pop
-    
+    [parent_window beginSheet:script_chooser_sheet completionHandler:nil];
 }
 
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:Nil];
-}
 
 - (IBAction)closeScriptChooserSheet:(id)sender {
-    [NSApp endSheet:script_chooser_sheet];
+    [script_chooser_sheet.sheetParent endSheet:script_chooser_sheet];
+}
+
+
+- (IBAction)choosePythonExecutable:(id)sender {
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    openPanel.canChooseFiles = YES;
+    openPanel.canChooseDirectories = NO;
+    openPanel.resolvesAliases = NO;
+    openPanel.allowsMultipleSelection = NO;
+    openPanel.showsHiddenFiles = YES;
+    openPanel.treatsFilePackagesAsDirectories = YES;
+    
+    if ([openPanel runModal] == NSModalResponseOK) {
+        NSString *path = openPanel.URLs.firstObject.path;
+        if (path) {
+            [NSUserDefaults.standardUserDefaults setObject:path forKey:DEFAULTS_PYTHON_EXECUTABLE_KEY];
+        }
+    }
 }
 
 
@@ -203,9 +220,7 @@
             }
             
             path = file_name;
-            [self launchScriptAtPath:path];
-            [self closeScriptChooserSheet:self];
-            
+            [self launchScriptFromScriptChooserSheet:path];
         }
     }
     
@@ -344,6 +359,11 @@
 - (NSDictionary *)workspaceState {
     NSMutableDictionary *workspaceState = [NSMutableDictionary dictionary];
     
+    NSString *pythonExecutable = [NSUserDefaults.standardUserDefaults stringForKey:DEFAULTS_PYTHON_EXECUTABLE_KEY];
+    if (pythonExecutable) {
+        workspaceState[@"pythonExecutable"] = pythonExecutable;
+    }
+    
     if (python_task) {
         [workspaceState setObject:self.path forKey:@"scriptPath"];
     }
@@ -353,6 +373,11 @@
 
 
 - (void)setWorkspaceState:(NSDictionary *)workspaceState {
+    NSString *newPythonExecutable = workspaceState[@"pythonExecutable"];
+    if (newPythonExecutable && [newPythonExecutable isKindOfClass:[NSString class]]) {
+        [NSUserDefaults.standardUserDefaults setObject:newPythonExecutable forKey:DEFAULTS_PYTHON_EXECUTABLE_KEY];
+    }
+    
     NSString *newPath = [workspaceState objectForKey:@"scriptPath"];
     if (newPath && [newPath isKindOfClass:[NSString class]]) {
         if (python_task) {
@@ -364,29 +389,3 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

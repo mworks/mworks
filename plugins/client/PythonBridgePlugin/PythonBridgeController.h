@@ -55,13 +55,14 @@
 -(void) awakeFromNib;
 
 -(void)initConduit;
--(void)launchScriptAtPath:(NSString *)path;
+-(BOOL)launchScriptAtPath:(NSString *)path;
 -(void)launchScriptChooserSheet;
 -(void)terminateScript;
 
 -(IBAction)loadButtonPress:(id)sender;
 
 - (IBAction)closeScriptChooserSheet:(id)sender;
+- (IBAction)choosePythonExecutable:(id)sender;
 - (IBAction)chooseScript:(id)sender;
 - (IBAction)launchRecentScript:(id)sender;
 
