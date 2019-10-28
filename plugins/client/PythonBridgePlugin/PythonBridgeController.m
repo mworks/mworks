@@ -12,7 +12,6 @@
 #define LOAD_BUTTON_TITLE   @"choose..."
 #define TERMINATE_BUTTON_TITLE  @"terminate"
 #define STATUS_LOADING  @"Loading..."
-#define STATUS_NONE_LOADED @"None loaded"
 #define STATUS_ACTIVE   @"Active"
 #define STATUS_TERMINATING  @"Terminating..."
 
@@ -34,8 +33,8 @@
 -(void)awakeFromNib {
     
     [self setLoadButtonTitle:LOAD_BUTTON_TITLE];
-    [self setPath:Nil];
-    [self setStatus:STATUS_NONE_LOADED];
+    self.path = nil;
+    self.status = nil;
     in_grouped_window = NO;
     self.scrollToBottomOnOutput = [[NSUserDefaults standardUserDefaults]
                                    boolForKey:DEFAULTS_SCROLL_TO_BOTTOM_ON_OUTPUT_KEY];
@@ -136,8 +135,6 @@
     [python_task launch];
     
     [self setLoadButtonTitle:TERMINATE_BUTTON_TITLE];
-    
-    [working_indicator startAnimation:self];
     [self setStatus:STATUS_LOADING];
     
     // Register notifications so that we can get stdout and stderr
@@ -280,33 +277,15 @@
 
 
 - (void)checkOnPythonTask{
-    
-    if(python_task != Nil && [python_task isRunning]){
-        [working_indicator stopAnimation:self];
-    }
-    
     if(python_task == Nil || ![python_task isRunning]){
-        [self setStatus:STATUS_NONE_LOADED];
+        self.path = nil;
+        self.status = nil;
         [self setLoadButtonTitle:LOAD_BUTTON_TITLE];
         [task_check_timer invalidate];
         python_task = Nil;
+    } else {
+        self.status = STATUS_ACTIVE;
     }
-    
-    
-    
-    // read the stderr pipe
-    //data = [python_task_stderr readDataToEndOfFile];
-    //data = [python_task_stderr availableData];
-//    str = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-//    
-//    NSDictionary *attr = [NSDictionary dictionaryWithObject:[NSColor redColor] 
-//                                                     forKey:NSForegroundColorAttributeName];
-//    
-//    attstr = [[NSAttributedString alloc] initWithString:str 
-//                                             attributes:attr];
-//    
-//    [[console_view textStorage] appendAttributedString:attstr];
-//    
 }
 
 
@@ -324,7 +303,8 @@
         conduit.reset();
     }
     
-    [self setStatus:STATUS_NONE_LOADED];
+    self.path = nil;
+    self.status = nil;
     [self setLoadButtonTitle:LOAD_BUTTON_TITLE];
 }
 

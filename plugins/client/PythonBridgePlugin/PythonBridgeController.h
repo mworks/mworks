@@ -40,7 +40,6 @@
     IBOutlet NSView *content_view;
     IBOutlet NSTextView *console_view;
     IBOutlet NSWindow *script_chooser_sheet;
-    IBOutlet NSProgressIndicator *working_indicator;
     IBOutlet NSPopUpButton *recent_scripts;
 
     BOOL in_grouped_window;

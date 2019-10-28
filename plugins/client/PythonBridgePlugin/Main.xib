@@ -28,9 +28,9 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="84">
-                        <rect key="frame" x="17" y="300" width="190" height="17"/>
+                        <rect key="frame" x="17" y="300" width="151" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Current Python Application:" id="85">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Current Python Script:" id="85">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -54,10 +54,10 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="94" name="value" keyPath="status" id="108">
+                            <binding destination="94" name="value" keyPath="status" id="BwU-8k-5PW">
                                 <dictionary key="options">
-                                    <string key="NSNullPlaceholder">Unknown</string>
-                                    <integer key="NSRaisesForNotApplicableKeys" value="0"/>
+                                    <string key="NSNullPlaceholder">None loaded</string>
+                                    <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
                                 </dictionary>
                             </binding>
                         </connections>
@@ -71,13 +71,13 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="94" name="value" keyPath="path" id="104">
+                            <binding destination="94" name="toolTip" keyPath="path" id="de4-cZ-VRi"/>
+                            <binding destination="94" name="value" keyPath="path" id="UF7-o6-0jj">
                                 <dictionary key="options">
-                                    <string key="NSNullPlaceholder">No script launched</string>
-                                    <integer key="NSRaisesForNotApplicableKeys" value="0"/>
+                                    <string key="NSNullPlaceholder">No script selected</string>
+                                    <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
                                 </dictionary>
                             </binding>
-                            <binding destination="94" name="toolTip" keyPath="path" id="de4-cZ-VRi"/>
                         </connections>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92">
@@ -85,7 +85,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="terminate" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="93">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="cellTitle"/>
+                            <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
                         <connections>
                             <action selector="loadButtonPress:" target="94" id="127"/>
@@ -120,10 +120,6 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
-                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="132">
-                        <rect key="frame" x="477" y="245" width="16" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    </progressIndicator>
                     <button fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="154">
                         <rect key="frame" x="18" y="18" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
@@ -137,7 +133,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="123" y="314"/>
+            <point key="canvasLocation" x="122.5" y="313.5"/>
         </window>
         <customObject id="94" customClass="PythonBridgeController">
             <connections>
@@ -147,7 +143,6 @@
                 <outlet property="recent_scripts" destination="133" id="151"/>
                 <outlet property="script_chooser_sheet" destination="109" id="125"/>
                 <outlet property="window" destination="34" id="126"/>
-                <outlet property="working_indicator" destination="132" id="153"/>
             </connections>
         </customObject>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="109" userLabel="Loading Sheet (Window)">
@@ -182,7 +177,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="choose..." bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="121">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="cellTitle"/>
+                            <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
                         <connections>
                             <action selector="chooseScript:" target="94" id="129"/>
@@ -193,7 +188,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="cancel..." bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="120">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="cellTitle"/>
+                            <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeScriptChooserSheet:" target="94" id="130"/>
@@ -204,7 +199,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="launch" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="119">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="cellTitle"/>
+                            <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
                         <connections>
                             <action selector="launchRecentScript:" target="94" id="144"/>
@@ -215,7 +210,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="118">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="cellTitle"/>
+                            <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeScriptChooserSheet:" target="94" id="131"/>
@@ -282,7 +277,7 @@ IA
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="choose..." bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8aU-zJ-HiW">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="cellTitle"/>
+                            <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
                         <connections>
                             <action selector="choosePythonExecutable:" target="94" id="iVl-yJ-BSa"/>
