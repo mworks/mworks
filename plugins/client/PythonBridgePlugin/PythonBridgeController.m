@@ -120,6 +120,10 @@
                  nil];
     [python_task setArguments: arguments];
     
+    NSMutableDictionary<NSString *, NSString *> *environment = [NSProcessInfo.processInfo.environment mutableCopy];
+    environment[@"PYTHONPATH"] = @"/Library/Application Support/MWorks/Scripting/Python";
+    python_task.environment = environment;
+    
     stdout_pipe = [NSPipe pipe];
     stderr_pipe = [NSPipe pipe];
     [python_task setStandardOutput: stdout_pipe];
@@ -127,7 +131,6 @@
     
     python_task_stdout = [stdout_pipe fileHandleForReading];
     python_task_stderr = [stderr_pipe fileHandleForReading];
-    
     
     [self updateRecentScripts];
     [python_task launch];
