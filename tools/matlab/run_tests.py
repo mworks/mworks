@@ -1,4 +1,5 @@
 import glob
+import math
 import os
 import pickle
 import shutil
@@ -6,8 +7,6 @@ import subprocess
 import sys
 import tempfile
 import warnings
-
-import numpy
 
 mw_python_dir = os.environ.get(
     'MW_PYTHON_DIR',
@@ -39,8 +38,13 @@ catch ME
     disp(ME.getReport)
     passed = false;
 end
+pause(1)  %% Give non-main threads time to finish
 quit(~passed)
 ''' % (mw_developer_dir, mw_matlab_dir)
+
+
+int64_min = -1 << 63
+int64_max = -(int64_min + 1)
 
 
 test_data = (
@@ -50,13 +54,13 @@ test_data = (
     ('int_zero', 0),
     ('int_pos', 1),
     ('int_neg', -2),
-    ('int_max', numpy.iinfo(numpy.int64).max),
-    ('int_min', numpy.iinfo(numpy.int64).min),
+    ('int_max', int64_max),
+    ('int_min', int64_min),
     ('float_zero', 0.0),
     ('float_pos', 1.0),
     ('float_neg', -2.2),
-    ('float_inf', numpy.inf),
-    ('float_nan', numpy.nan),
+    ('float_inf', math.inf),
+    ('float_nan', math.nan),
     ('str_empty', ''),
     ('str_text', 'foo bar'),
     ('str_binary', 'foo\0bar'),
@@ -104,12 +108,13 @@ def remove_test_file(filename):
         os.remove(filename)
 
 
-def run_matlab(path, arch, test_file_extension):
+def run_matlab(path, test_file_extension):
+    print('\nRunning %s tests for %s' % (test_file_extension, path))
+    sys.stdout.flush()
     filename = create_test_file(test_file_extension)
     try:
         args = (
             '%s/bin/matlab' % path,
-            '-' + {'i386': 'maci', 'x86_64': 'maci64'}[arch],
             '-nodisplay',
             '-nojvm',
             )
@@ -119,7 +124,7 @@ def run_matlab(path, arch, test_file_extension):
         cmd.stdin.write(matlab_script.encode('utf-8'))
         cmd.stdin.close()
         cmd.wait()
-        print  # Add a newline to the output
+        print()  # Add a newline to the output
         return cmd.returncode
     finally:
         remove_test_file(filename)
@@ -127,10 +132,9 @@ def run_matlab(path, arch, test_file_extension):
 
 def main():
     status = 0
-    for path in glob.iglob('/Applications/MATLAB_R*.app'):
-        for arch in (sys.argv[1:] or ['x86_64']):
-            for test_file_extension in ('.mwk', '.mwk2'):
-                status = run_matlab(path, arch, test_file_extension) or status
+    for path in sorted(glob.iglob('/Applications/MATLAB_R*.app')):
+        for test_file_extension in ('.mwk', '.mwk2'):
+            status = run_matlab(path, test_file_extension) or status
     sys.exit(status)
 
 
