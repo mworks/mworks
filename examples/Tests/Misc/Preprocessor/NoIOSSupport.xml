@@ -1,5 +1,6 @@
 # mwpp="/bin/bash"
 cat <<EOF
+<!-- mwpp="/bin/bash" -->
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables"></variables>
