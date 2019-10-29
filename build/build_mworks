@@ -278,7 +278,7 @@ def main():
             parser.error('unknown builders: ' +
                          ', '.join(repr(name) for name in unknown_builders))
 
-    srcroot = os.path.abspath(os.path.dirname(__file__) + '/../..')
+    srcroot = os.path.abspath((os.path.dirname(__file__) or '.') + '/../..')
 
     with workdir(srcroot):
         for builder_name, builder in zip(all_builder_names, all_builders):

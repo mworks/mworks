@@ -194,8 +194,8 @@ def run_marionette_tests(arch_name, test_names=None):
             print('OK')
         else:
             print('error')
-            for line in output.strip().split('\n'):
-                print('    >', line)
+            for line in output.strip().split(b'\n'):
+                print('    >', line.decode('utf-8'))
             failed_tests.append(test_name)
 
     if not server_address:
