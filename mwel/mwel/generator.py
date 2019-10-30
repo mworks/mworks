@@ -1,4 +1,6 @@
 from __future__ import division, print_function, unicode_literals
+from collections import OrderedDict
+import sys
 import xml.etree.ElementTree as ET
 
 from . import ErrorLogger
@@ -29,6 +31,11 @@ class XMLGenerator(object):
                                                    cmpt.filename)
             if location:
                 params['_location'] = location
+
+        if sys.version_info[:2] >= (3, 8):
+            # For the sake of consistency (and unit testing), preserve the
+            # pre-3.8 ordering of attributes in the output XML
+            params = OrderedDict((key, params[key]) for key in sorted(params))
 
         node = ET.SubElement(parent_node, cmpt.name, params)
 

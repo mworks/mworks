@@ -1,6 +1,6 @@
 #!/bin/bash
 for pyver in 2.7 3; do
-    echo ">>> Python $pyver <<<"
+    python${pyver} -V
     python${pyver} -W default -m unittest "${@:-discover}"
     echo
 done
