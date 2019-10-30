@@ -17,30 +17,10 @@ sys.path.insert(0, mw_python_dir)
 from mworks.data import _MWKWriter, _MWK2Writer
 
 
-mw_developer_dir = os.environ.get(
-    'MW_DEVELOPER_DIR',
-    '/Library/Application Support/MWorks/Developer',
-    )
-
 mw_matlab_dir = os.environ.get(
     'MW_MATLAB_DIR',
     '/Library/Application Support/MWorks/Scripting/MATLAB',
     )
-
-
-matlab_script = '''\
-try
-    addpath('%s/MATLAB/xunit')
-    addpath('%s')
-    cd tests
-    passed = runxunit;
-catch ME
-    disp(ME.getReport)
-    passed = false;
-end
-pause(1)  %% Give non-main threads time to finish
-quit(~passed)
-''' % (mw_developer_dir, mw_matlab_dir)
 
 
 int64_min = -1 << 63
@@ -117,12 +97,12 @@ def run_matlab(path, test_file_extension):
             '%s/bin/matlab' % path,
             '-nodisplay',
             '-nojvm',
+            '-r', 'runTests',
             )
         env = os.environ.copy()
+        env['MW_MATLAB_DIR'] = mw_matlab_dir
         env['MW_MATLAB_TEST_FILENAME'] = filename
-        cmd = subprocess.Popen(args=args, stdin=subprocess.PIPE, env=env)
-        cmd.stdin.write(matlab_script.encode('utf-8'))
-        cmd.stdin.close()
+        cmd = subprocess.Popen(args=args, env=env)
         cmd.wait()
         print()  # Add a newline to the output
         return cmd.returncode

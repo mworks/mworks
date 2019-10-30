@@ -1,17 +1,20 @@
-function testGetCodec
+function tests = testGetCodec
+tests = functiontests(localfunctions);
+
+function testAll(testCase)
 codec = getCodec(getFilename());
 
-assertTrue(isa(codec, 'containers.Map'));
-assertEqual(20, double(codec.Count));
+verifyTrue(testCase, isa(codec, 'containers.Map'));
+verifyEqual(testCase, double(codec.Count), 20);
 
-assertEqual('int64', codec.KeyType);
+verifyEqual(testCase, codec.KeyType, 'int64');
 for k = keys(codec)
-    assertTrue(isa(k{1}, 'int64'));
-    assertTrue(isscalar(k{1}));
+    verifyTrue(testCase, isa(k{1}, 'int64'));
+    verifyTrue(testCase, isscalar(k{1}));
 end
 
-assertEqual('char', codec.ValueType);
+verifyEqual(testCase, codec.ValueType, 'char');
 for v = values(codec)
-    assertTrue(isa(v{1}, 'char'));
-    assertFalse(isempty(v{1}));
+    verifyTrue(testCase, isa(v{1}, 'char'));
+    verifyFalse(testCase, isempty(v{1}));
 end

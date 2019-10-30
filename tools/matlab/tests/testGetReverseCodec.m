@@ -1,17 +1,20 @@
-function testGetReverseCodec
+function tests = testGetReverseCodec
+tests = functiontests(localfunctions);
+
+function testAll(testCase)
 reverse_codec = getReverseCodec(getFilename());
 
-assertTrue(isa(reverse_codec, 'containers.Map'));
-assertEqual(20, double(reverse_codec.Count));
+verifyTrue(testCase, isa(reverse_codec, 'containers.Map'));
+verifyEqual(testCase, double(reverse_codec.Count), 20);
 
-assertEqual('char', reverse_codec.KeyType);
+verifyEqual(testCase, reverse_codec.KeyType, 'char');
 for k = keys(reverse_codec)
-    assertTrue(isa(k{1}, 'char'));
-    assertFalse(isempty(k{1}));
+    verifyTrue(testCase, isa(k{1}, 'char'));
+    verifyFalse(testCase, isempty(k{1}));
 end
 
-assertEqual('int64', reverse_codec.ValueType);
+verifyEqual(testCase, reverse_codec.ValueType, 'int64');
 for v = values(reverse_codec)
-    assertTrue(isa(v{1}, 'int64'));
-    assertTrue(isscalar(v{1}));
+    verifyTrue(testCase, isa(v{1}, 'int64'));
+    verifyTrue(testCase, isscalar(v{1}));
 end

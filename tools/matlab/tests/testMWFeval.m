@@ -1,22 +1,22 @@
-function test_suite = testMWFeval
-test_suite = buildFunctionHandleTestSuite(localfunctions);
+function tests = testMWFeval
+tests = functiontests(localfunctions);
 
 
-function testUnknownFunctionName
-assertExceptionThrown(@() mworks.mwfeval('foo'), 'MWorks:UnknownFunctionName');
+function testUnknownFunctionName(testCase)
+verifyError(testCase, @() mworks.mwfeval('foo'), 'MWorks:UnknownFunctionName');
 
 
-function testNotEnoughInputs
-assertExceptionThrown(@() mworks.mwfeval, 'MWorks:NotEnoughInputs');
+function testNotEnoughInputs(testCase)
+verifyError(testCase, @() mworks.mwfeval, 'MWorks:NotEnoughInputs');
 
 
-function testWrongNumberOfOutputs
+function testWrongNumberOfOutputs(testCase)
 f = @() mworks.mwfeval('getEvents', getFilename, int32([]), int64(0), int64(1));
-assertExceptionThrown(f, 'MWorks:NotEnoughOutputs');
+verifyError(testCase, f, 'MWorks:NotEnoughOutputs');
 
 
-function testInvalidStringInput
-assertExceptionThrown(@() mworks.mwfeval(3), 'MWorks:InvalidInput');
+function testInvalidStringInput(testCase)
+verifyError(testCase, @() mworks.mwfeval(3), 'MWorks:InvalidInput');
 
 
 function scalarHasWrongType
@@ -28,10 +28,10 @@ e = mworks.mwfeval('getEvents', 'foo', int32([]), int64(1+2i), int64(1));
 function scalarIsNotScalar
 e = mworks.mwfeval('getEvents', 'foo', int32([]), int64([1,2]), int64(1));
 
-function testInvalidScalarInput
-assertExceptionThrown(@scalarHasWrongType, 'MWorks:InvalidInput');
-assertExceptionThrown(@scalarIsComplex, 'MWorks:InvalidInput');
-assertExceptionThrown(@scalarIsNotScalar, 'MWorks:InvalidInput');
+function testInvalidScalarInput(testCase)
+verifyError(testCase, @scalarHasWrongType, 'MWorks:InvalidInput');
+verifyError(testCase, @scalarIsComplex, 'MWorks:InvalidInput');
+verifyError(testCase, @scalarIsNotScalar, 'MWorks:InvalidInput');
 
 
 function vectorHasWrongType
@@ -40,6 +40,6 @@ e = mworks.mwfeval('getEvents', 'foo', single([]), int64(0), int64(1));
 function vectorIsComplex
 e = mworks.mwfeval('getEvents', 'foo', int32(1+2i), int64(0), int64(1));
 
-function testInvalidVectorInput
-assertExceptionThrown(@vectorHasWrongType, 'MWorks:InvalidInput');
-assertExceptionThrown(@vectorIsComplex, 'MWorks:InvalidInput');
+function testInvalidVectorInput(testCase)
+verifyError(testCase, @vectorHasWrongType, 'MWorks:InvalidInput');
+verifyError(testCase, @vectorIsComplex, 'MWorks:InvalidInput');

@@ -1,2 +1,2 @@
-function tagmap = getTagMap()
-tagmap = getData(1);
+function tagmap = getTagMap(testCase)
+tagmap = getData(testCase, 1);

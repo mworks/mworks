@@ -1,40 +1,43 @@
-function testGetCodecs
+function tests = testGetCodecs
+tests = functiontests(localfunctions);
+
+function testAll(testCase)
 codec = getCodecs(getFilename());
 
-assertTrue(isvector(codec));
-assertEqual(1, length(codec));
-assertTrue(isstruct(codec));
-assertEqual(2, length(fieldnames(codec)));
+verifyTrue(testCase, isvector(codec));
+verifyEqual(testCase, length(codec), 1);
+verifyTrue(testCase, isstruct(codec));
+verifyEqual(testCase, length(fieldnames(codec)), 2);
 
-assertTrue(isfield(codec, 'time_us'));
-assertInteger(0, codec.time_us);
+verifyTrue(testCase, isfield(codec, 'time_us'));
+verifyInteger(testCase, codec.time_us, 0);
 
-assertTrue(isfield(codec, 'codec'));
+verifyTrue(testCase, isfield(codec, 'codec'));
 codec = codec.codec;
 
-assertTrue(isvector(codec));
-assertEqual(20, length(codec));
-assertTrue(isstruct(codec));
-assertEqual(sort({'code', 'tagname', 'logging', 'defaultvalue', ...
+verifyTrue(testCase, isvector(codec));
+verifyEqual(testCase, length(codec), 20);
+verifyTrue(testCase, isstruct(codec));
+verifyEqual(testCase, sort(fieldnames(codec)), ...
+            sort({'code', 'tagname', 'logging', 'defaultvalue', ...
                   'shortname', 'longname', 'editable', 'nvals', ...
-                  'domain', 'viewable', 'persistant', 'groups'})', ...
-            sort(fieldnames(codec)));
+                  'domain', 'viewable', 'persistant', 'groups'})');
 
 for item = codec
     for f = {'code', 'logging', 'editable', 'nvals', 'domain', ...
              'viewable', 'persistant'}
         value = getfield(item, f{1});
-        assertTrue(isa(value, 'int64'));
-        assertTrue(isscalar(value));
+        verifyTrue(testCase, isa(value, 'int64'));
+        verifyTrue(testCase, isscalar(value));
     end
     
     for f = {'tagname', 'shortname', 'longname'}
         value = getfield(item, f{1});
-        assertTrue(ischar(value));
-        assertFalse(isempty(value));
+        verifyTrue(testCase, ischar(value));
+        verifyFalse(testCase, isempty(value));
     end
     
     groups = item.groups;
-    assertTrue(iscellstr(groups));
-    assertFalse(isempty(groups));
+    verifyTrue(testCase, iscellstr(groups));
+    verifyFalse(testCase, isempty(groups));
 end

@@ -1,5 +1,5 @@
-function test_suite = testGetEvents
-test_suite = buildFunctionHandleTestSuite(localfunctions);
+function tests = testGetEvents
+tests = functiontests(localfunctions);
 
 
 function tooFewInputs
@@ -8,9 +8,9 @@ e = getEvents();
 function tooManyInputs
 e = getEvents(1, 2, 3, 4, 5);
 
-function testBadNumberOfInputs
-assertExceptionThrown(@tooFewInputs, 'MWorks:WrongNumberOfInputs');
-assertExceptionThrown(@tooManyInputs, 'MATLAB:TooManyInputs');
+function testBadNumberOfInputs(testCase)
+verifyError(testCase, @tooFewInputs, 'MWorks:WrongNumberOfInputs');
+verifyError(testCase, @tooManyInputs, 'MATLAB:TooManyInputs');
 
 
 function zeroOutputs
@@ -22,10 +22,10 @@ function twoOutputs
 function fourOutputs
 [a, b, c, d] = getEvents('foo');
 
-function testBadNumberOfOutputs
-assertExceptionThrown(@zeroOutputs, 'MWorks:WrongNumberOfOutputs');
-assertExceptionThrown(@twoOutputs, 'MWorks:WrongNumberOfOutputs');
-assertExceptionThrown(@fourOutputs, 'MWorks:WrongNumberOfOutputs');
+function testBadNumberOfOutputs(testCase)
+verifyError(testCase, @zeroOutputs, 'MWorks:WrongNumberOfOutputs');
+verifyError(testCase, @twoOutputs, 'MWorks:WrongNumberOfOutputs');
+verifyError(testCase, @fourOutputs, 'MWorks:WrongNumberOfOutputs');
 
 
 function filenameNotAString
@@ -58,80 +58,80 @@ e = getEvents('foo', 0, 0, 1.2);
 function maxTimeNotScalar
 e = getEvents('foo', 0, 0, [1,2]);
 
-function testInvalidInputs
-assertExceptionThrown(@filenameNotAString, 'MATLAB:invalidType');
-assertExceptionThrown(@codesNotNumeric, 'MATLAB:invalidType');
-assertExceptionThrown(@codesNotIntegral, 'MATLAB:expectedInteger');
-assertExceptionThrown(@codesNotNonNegative, 'MATLAB:expectedNonnegative');
-assertExceptionThrown(@minTimeNotNumeric, 'MATLAB:invalidType');
-assertExceptionThrown(@minTimeNotIntegral, 'MATLAB:expectedInteger');
-assertExceptionThrown(@minTimeNotScalar, 'MATLAB:expectedScalar');
-assertExceptionThrown(@maxTimeNotNumeric, 'MATLAB:invalidType');
-assertExceptionThrown(@maxTimeNotIntegral, 'MATLAB:expectedInteger');
-assertExceptionThrown(@maxTimeNotScalar, 'MATLAB:expectedScalar');
+function testInvalidInputs(testCase)
+verifyError(testCase, @filenameNotAString, 'MATLAB:invalidType');
+verifyError(testCase, @codesNotNumeric, 'MATLAB:invalidType');
+verifyError(testCase, @codesNotIntegral, 'MATLAB:expectedInteger');
+verifyError(testCase, @codesNotNonNegative, 'MATLAB:expectedNonnegative');
+verifyError(testCase, @minTimeNotNumeric, 'MATLAB:invalidType');
+verifyError(testCase, @minTimeNotIntegral, 'MATLAB:expectedInteger');
+verifyError(testCase, @minTimeNotScalar, 'MATLAB:expectedScalar');
+verifyError(testCase, @maxTimeNotNumeric, 'MATLAB:invalidType');
+verifyError(testCase, @maxTimeNotIntegral, 'MATLAB:expectedInteger');
+verifyError(testCase, @maxTimeNotScalar, 'MATLAB:expectedScalar');
 
 
 function notAFile
 e = getEvents('not_a_file.mwk');
 
-function testNonexistentFile
-assertExceptionThrown(@notAFile, 'MWorks:DataFileReaderError');
+function testNonexistentFile(testCase)
+verifyError(testCase, @notAFile, 'MWorks:DataFileReaderError');
 
 
-function assertEvents(expected_codes, evts)
-assertEvent(evts);
-assertEqual(length(expected_codes), length(evts));
-assertEqual(int32(expected_codes), [evts.event_code]);
-assertEqual(int64(expected_codes), [evts.time_us]);
+function verifyEvents(testCase, evts, expected_codes)
+verifyEvent(testCase, evts);
+verifyEqual(testCase, length(evts), length(expected_codes));
+verifyEqual(testCase, [evts.event_code], int32(expected_codes));
+verifyEqual(testCase, [evts.time_us], int64(expected_codes));
 
 
-function testGetAllEvents
-expected_codes = [0:length(fieldnames(getTagMap()))+1];
-assertEvents(expected_codes, getEvents(getFilename()));
-assertEvents(expected_codes, getEvents(getFilename(), []));
+function testGetAllEvents(testCase)
+expected_codes = [0:length(fieldnames(getTagMap(testCase)))+1];
+verifyEvents(testCase, getEvents(getFilename()), expected_codes);
+verifyEvents(testCase, getEvents(getFilename(), []), expected_codes);
 
 
-function testGetEventsByCode
-assertEvents(7, getEvents(getFilename(), 7));
-assertEvents([3, 9, 15], getEvents(getFilename(), [15, 3, 9, 3]));
-assertEvents([7,8], getEvents(getFilename(), [7, 10000, 8]));
-assertTrue(isempty(getEvents(getFilename(), 10000)));
+function testGetEventsByCode(testCase)
+verifyEvents(testCase, getEvents(getFilename(), 7), 7);
+verifyEvents(testCase, getEvents(getFilename(), [15, 3, 9, 3]), [3, 9, 15]);
+verifyEvents(testCase, getEvents(getFilename(), [7, 10000, 8]), [7,8]);
+verifyTrue(testCase, isempty(getEvents(getFilename(), 10000)));
 
 
 function badTimeRange
 e = getEvents(getFilename(), [], 10, 5);
 
-function testGetEventsByTime
-max_time = length(fieldnames(getTagMap())) + 1;
-assertEvents([5:max_time], getEvents(getFilename(), [], 5));
-assertEvents([0:10], getEvents(getFilename(), [], -1, 10));
-assertEvents(7, getEvents(getFilename(), [], 7, 7));
-assertTrue(isempty(getEvents(getFilename(), [], 100, 200)));
-assertExceptionThrown(@badTimeRange, 'MWorks:DataFileReaderError');
+function testGetEventsByTime(testCase)
+max_time = length(fieldnames(getTagMap(testCase))) + 1;
+verifyEvents(testCase, getEvents(getFilename(), [], 5), [5:max_time]);
+verifyEvents(testCase, getEvents(getFilename(), [], -1, 10), [0:10]);
+verifyEvents(testCase, getEvents(getFilename(), [], 7, 7), 7);
+verifyTrue(testCase, isempty(getEvents(getFilename(), [], 100, 200)));
+verifyError(testCase, @badTimeRange, 'MWorks:DataFileReaderError');
 
 
-function testGetEventsByCodeAndTime
-assertEvents(7:8, getEvents(getFilename(), 5:8, 7));
-assertEvents(5:6, getEvents(getFilename(), 5:8, 0, 6));
-assertEvents(6:7, getEvents(getFilename(), 5:8, 6, 7));
-assertEvents(5:8, getEvents(getFilename(), 5:8, 4, 9));
+function testGetEventsByCodeAndTime(testCase)
+verifyEvents(testCase, getEvents(getFilename(), 5:8, 7), 7:8);
+verifyEvents(testCase, getEvents(getFilename(), 5:8, 0, 6), 5:6);
+verifyEvents(testCase, getEvents(getFilename(), 5:8, 6, 7), 6:7);
+verifyEvents(testCase, getEvents(getFilename(), 5:8, 4, 9), 5:8);
 
 
-function assertSeparateArrays(evts, codes, times, values)
-assertEqual([evts.event_code], int32(codes));
-assertEqual([evts.time_us], times);
-assertEqual({evts.data}, values);
+function verifySeparateArrays(testCase, codes, times, values, evts)
+verifyEqual(testCase, codes, [evts.event_code]);
+verifyEqual(testCase, times, [evts.time_us]);
+verifyEqual(testCase, values, {evts.data});
 
-function testSeparateOutputArrays
+function testSeparateOutputArrays(testCase)
 evts = getEvents(getFilename());
 [codes, times, values] = getEvents(getFilename());
-assertSeparateArrays(evts, codes, times, values);
+verifySeparateArrays(testCase, codes, times, values, evts);
 
 evts = getEvents(getFilename(), [5:10], 4, 8);
 [codes, times, values] = getEvents(getFilename(), [5:10], 4, 8);
-assertSeparateArrays(evts, codes, times, values);
+verifySeparateArrays(testCase, codes, times, values, evts);
 
 [codes, times, values] = getEvents(getFilename(), 10000);
-assertEqual(int32([]), codes);
-assertEqual(int64([]), times);
-assertEqual({}, values);
+verifyEqual(testCase, codes, int32([]));
+verifyEqual(testCase, times, int64([]));
+verifyEqual(testCase, values, {});

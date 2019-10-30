@@ -67,7 +67,6 @@ builddir = os.environ['TARGET_TEMP_DIR']
 
 prefix = os.environ['BUILT_PRODUCTS_DIR']
 frameworksdir = prefix + '/Frameworks'
-matlabdir = prefix + '/MATLAB'
 includedir = prefix + '/include'
 libdir = prefix + '/lib'
 
@@ -645,23 +644,6 @@ def cppunit():
 
 
 @builder
-def matlab_xunit():
-    version = '4.1.0'
-    tag = 'matlab-xunit-'
-    srcdir = tag * 2 + version
-    tarfile = tag + version + '.tar.gz'
-
-    with done_file(srcdir):
-        if not os.path.isdir(srcdir):
-            download_archive('https://github.com/psexton/matlab-xunit/archive/', tarfile)
-            unpack_tarfile(tarfile, srcdir)
-
-        with workdir(srcdir):
-            make_directory(matlabdir)
-            check_call([rsync, '-a', 'src/', matlabdir + '/xunit'])
-
-
-@builder
 def narrative():
     version = '0.1.2'
     srcdir = 'Narrative-' + version
@@ -729,7 +711,6 @@ def main():
             '--exclude=*.la',
             '--exclude=pkgconfig',
             frameworksdir,
-            matlabdir,
             includedir,
             libdir,
             os.environ['MW_DEVELOPER_DIR'],

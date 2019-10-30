@@ -1,12 +1,12 @@
-function data = getData(code)
+function data = getData(testCase, code)
 if ischar(code)
-    data = getData(double(getfield(getTagMap(), code)));
+    data = getData(testCase, double(getfield(getTagMap(testCase), code)));
 else
     e = getEvents(getFilename(), [code]);
-    assertEvent(e);
-    assertTrue(isscalar(e));
-    assertTrue(isa(e.event_code, 'int32'));
-    assertEqual(int32(code), e.event_code);
-    assertInteger(code, e.time_us);
+    verifyEvent(testCase, e);
+    verifyTrue(testCase, isscalar(e));
+    verifyTrue(testCase, isa(e.event_code, 'int32'));
+    verifyEqual(testCase, e.event_code, int32(code));
+    verifyInteger(testCase, e.time_us, code);
     data = e.data;
 end
