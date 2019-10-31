@@ -1,0 +1,17 @@
+//
+//  MWorksPython-Prefix.pch
+//  SupportingLibs
+//
+//  Created by Christopher Stawarz on 10/31/19.
+//  Copyright © 2019 The MWorks Project. All rights reserved.
+//
+
+#ifndef MWorksPython_Prefix_pch
+#define MWorksPython_Prefix_pch
+
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
+#include <CoreFoundation/CoreFoundation.h>
+
+#endif /* MWorksPython_Prefix_pch */

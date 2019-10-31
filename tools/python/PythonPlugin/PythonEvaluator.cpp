@@ -20,60 +20,6 @@ void PythonEvent::Callback::handleCallbackError() {
 }
 
 
-static inline auto getBundle() {
-    return cf::ObjectPtr<CFBundleRef>::borrowed(CFBundleGetBundleWithIdentifier(CFSTR(PRODUCT_BUNDLE_IDENTIFIER)));
-}
-
-
-static auto getPathForURL(const cf::ObjectPtr<CFURLRef> &url) {
-    std::vector<char> path(1024);
-    if (!CFURLGetFileSystemRepresentation(url.get(),
-                                          true,
-                                          reinterpret_cast<UInt8 *>(path.data()),
-                                          path.size()))
-    {
-        throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Cannot convert URL to filesystem path");
-    }
-    return std::string(path.data());
-}
-
-
-class StaticExtensionModuleFinder : public ExtensionType<StaticExtensionModuleFinder> {
-    
-public:
-    StaticExtensionModuleFinder() :
-        bundle(getBundle())
-    { }
-    
-    auto getExecutablePath() const {
-        auto executableURL = cf::ObjectPtr<CFURLRef>::owned(CFBundleCopyExecutableURL(bundle.get()));
-        if (!executableURL) {
-            throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Cannot obtain path to Python plugin executable");
-        }
-        return getPathForURL(executableURL);
-    }
-    
-    auto haveInitFuncForName(const std::string &name) const {
-        auto functionName = cf::StringPtr::created(CFStringCreateWithCString(kCFAllocatorDefault,
-                                                                             ("PyInit_" + name).c_str(),
-                                                                             kCFStringEncodingUTF8));
-        return bool(CFBundleGetFunctionPointerForName(bundle.get(), functionName.get()));
-    }
-    
-private:
-    const cf::ObjectPtr<CFBundleRef> bundle;
-    
-};
-
-
-template<>
-PyMethodDef ExtensionType<StaticExtensionModuleFinder>::methods[] = {
-    MethodDef<&StaticExtensionModuleFinder::getExecutablePath>("get_executable_path"),
-    MethodDef<&StaticExtensionModuleFinder::haveInitFuncForName>("have_init_func_for_name"),
-    { }  // Sentinel
-};
-
-
 BEGIN_NAMESPACE()
 
 
@@ -221,8 +167,7 @@ PyModuleDef _mworkscoreModule = {
 PyObject * init__mworkscore() {
     auto module = ObjectPtr::owned(PyModule_Create(&_mworkscoreModule));
     if (!module ||
-        !PythonEvent::createType("_mworkscore.Event", module) ||
-        !StaticExtensionModuleFinder::createType("_mworkscore._StaticExtensionModuleFinder", module))
+        !PythonEvent::createType("_mworkscore.Event", module))
     {
         return nullptr;
     }
@@ -239,39 +184,17 @@ PyObject * getGlobalsDict() {
     static std::once_flag initFlag;
     std::call_once(initFlag, []() {
         //
-        // Set module search path
-        //
-        {
-            auto zipURL = cf::ObjectPtr<CFURLRef>::owned(CFBundleCopyResourceURL(getBundle().get(),
-                                                                                 CFSTR("python" MW_PYTHON_3_VERSION_MAJOR MW_PYTHON_3_VERSION_MINOR),
-                                                                                 CFSTR("zip"),
-                                                                                 nullptr));
-            if (!zipURL) {
-                throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Cannot obtain path to Python library file");
-            }
-            auto decodedPath = Py_DecodeLocale(getPathForURL(zipURL).c_str(), nullptr);
-            if (!decodedPath) {
-                throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Cannot decode Python module search path");
-            }
-            Py_SetPath(decodedPath);
-            PyMem_RawFree(decodedPath);
-        }
-        
-        //
-        // Register _mworkscore module
-        //
-        if (-1 == PyImport_AppendInittab(_mworkscoreModule.m_name, &init__mworkscore)) {
-            throw PythonException("Unable to register Python _mworkscore module");
-        }
-        
-        //
         // Initialize Python interpreter
         //
-        Py_NoSiteFlag = 1;  // Don't import the "site" module
-        Py_InitializeEx(0);
-        PyEval_InitThreads();
+        if (-1 == PyImport_AppendInittab(_mworkscoreModule.m_name, &init__mworkscore) ||
+            !MWorksPythonInit(false))
+        {
+            // The Python interpreter isn't initialized, so we can't throw PythonException
+            throw SimpleException("Python initialization failed");
+        }
+        
         BOOST_SCOPE_EXIT(void) {
-            // PyEval_InitThreads acquires the GIL, so we must release it on exit
+            // MWorksPythonInit acquires the GIL, so we must release it on exit
             PyEval_ReleaseThread(PyThreadState_Get());
         } BOOST_SCOPE_EXIT_END
         
@@ -286,15 +209,6 @@ PyObject * getGlobalsDict() {
         Py_INCREF(globalsDict);  // Upgrade to owned ref
         
         //
-        // Import mworks_python_config.  (This adds no names to globalsDict.)
-        //
-        PyObject *result = PyRun_String("from mworks_python_config import *", Py_single_input, globalsDict, globalsDict);
-        if (!result) {
-            throw PythonException("Unable to import mworks_python_config");
-        }
-        Py_DECREF(result);
-        
-        //
         // Import NumPy types (if available)
         //
         importNumpyTypes();
@@ -302,7 +216,7 @@ PyObject * getGlobalsDict() {
         //
         // Import mworkscore contents into __main__
         //
-        result = PyRun_String("from mworkscore import *", Py_single_input, globalsDict, globalsDict);
+        PyObject *result = PyRun_String("from mworkscore import *", Py_single_input, globalsDict, globalsDict);
         if (!result) {
             throw PythonException("Unable to import mworkscore contents into Python __main__ module");
         }

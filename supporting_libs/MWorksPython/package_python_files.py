@@ -9,8 +9,7 @@ stdlib_path = os.environ['MW_PYTHON_3_STDLIB_DIR'].replace('"', '')
 
 zipfile_path = os.path.join(os.environ['BUILT_PRODUCTS_DIR'],
                             os.environ['UNLOCALIZED_RESOURCES_FOLDER_PATH'],
-                            'python%s%s.zip' % (os.environ['MW_PYTHON_3_VERSION_MAJOR'],
-                                                os.environ['MW_PYTHON_3_VERSION_MINOR']))
+                            'python.zip')
 
 cacert_file = 'cacert.pem'
 cacert_path = os.path.join(os.environ['BUILT_PRODUCTS_DIR'],
@@ -57,8 +56,10 @@ if not os.path.isfile(zipfile_path):
         os.chdir(os.path.join(stdlib_path, 'site-packages'))
         add_files(fp)
 
-        os.chdir(os.path.join(os.environ['SRCROOT'], 'PythonPlugin'))
-        add_file(fp, 'mworks_python_config.py')
+        os.chdir(os.path.join(os.environ['SRCROOT'], 'MWorksPython'))
+        add_file(fp, 'mworkspython.py')
+        # This is actually part of the Python plugin, but it simplifies
+        # packaging to include it here
         add_file(fp, 'mworkscore.py')
 
 # Ditto for root certificates file

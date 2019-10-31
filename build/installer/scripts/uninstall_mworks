@@ -16,6 +16,7 @@ mw_files = (
     '/Library/Application Support/MWorks',
     '/Library/Frameworks/MWorksCocoa.framework',
     '/Library/Frameworks/MWorksCore.framework',
+    '/Library/Frameworks/MWorksPython.framework',
     '/Library/Frameworks/MWorksSwift.framework',
 
     # Legacy

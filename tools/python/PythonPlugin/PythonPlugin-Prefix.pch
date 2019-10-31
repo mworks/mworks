@@ -6,6 +6,8 @@
 #include <Python.h>
 #include <node.h>
 
+#include <MWorksPython/MWorksPython.h>
+
 #ifdef __cplusplus
 
 #include <boost/scope_exit.hpp>

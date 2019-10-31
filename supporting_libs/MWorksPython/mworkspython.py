@@ -2,7 +2,7 @@ from importlib.machinery import ExtensionFileLoader, ModuleSpec
 import os
 import sys
 
-from _mworkscore import _StaticExtensionModuleFinder
+import _mworkspython
 
 
 __all__ = ()
@@ -12,14 +12,13 @@ __all__ = ()
 # Add finder for statically-linked extension modules
 #
 
-class StaticExtensionModuleFinder(_StaticExtensionModuleFinder):
+class StaticExtensionModuleFinder:
 
     def __init__(self):
-        super().__init__()
-        self.path = self.get_executable_path()
+        self.path = _mworkspython.get_executable_path()
 
     def find_spec(self, fullname, path, target=None):
-        if self.have_init_func_for_name(fullname.split('.')[-1]):
+        if _mworkspython.have_init_func('PyInit_' + fullname.split('.')[-1]):
             return ModuleSpec(fullname,
                               ExtensionFileLoader(fullname, self.path),
                               origin = self.path)
