@@ -85,7 +85,7 @@ def builder(func):
     argspec = inspect.getfullargspec(func)
     defaults = dict(zip(argspec[0], argspec[3] or []))
     if building_for_ios:
-        if defaults.get('ios', False):
+        if defaults.get('ios', True):
             all_builders.append(func)
     else:
         if defaults.get('macos', True):
@@ -225,9 +225,6 @@ def run_b2(libraries, clean=False):
         'link=static',
         'threading=multi',
         'define=boost=mworks_boost',
-        # Unfortunately, Boost.Python won't compile against Python 3.2+ with
-        # Py_LIMITED_API defined
-        #'define=Py_LIMITED_API',
         'cflags=' + compile_flags,
         'cxxflags=' + cxxflags,
         'linkflags=' + link_flags,
@@ -324,8 +321,8 @@ def add_object_files_to_libpythonall(exclude=()):
 
 
 @builder
-def libffi(ios=True):
-    version = '3.3-rc0'
+def libffi():
+    version = '3.3-rc1'
     srcdir = 'libffi-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -347,7 +344,7 @@ def libffi(ios=True):
 
 
 @builder
-def openssl(ios=True):
+def openssl():
     version = '1.1.1d'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
@@ -383,7 +380,7 @@ def openssl(ios=True):
 
 
 @builder
-def python(ios=True):
+def python():
     version = '3.7.4'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
@@ -443,8 +440,8 @@ def python(ios=True):
 
 
 @builder
-def numpy(ios=True):
-    version = '1.17.2'
+def numpy():
+    version = '1.17.3'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -504,7 +501,7 @@ def numpy(ios=True):
 
 
 @builder
-def boost(ios=True):
+def boost():
     version = '1.71.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
@@ -544,7 +541,7 @@ def boost(ios=True):
 
 
 @builder
-def zeromq(ios=True):
+def zeromq():
     version = '4.3.2'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
@@ -567,7 +564,7 @@ def zeromq(ios=True):
 
 
 @builder
-def msgpack(ios=True):
+def msgpack():
     version = '3.2.0'
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
@@ -582,7 +579,7 @@ def msgpack(ios=True):
 
 
 @builder
-def libxslt(macos=False, ios=True):
+def libxslt(macos=False):
     version = '1.1.29'
     srcdir = 'libxslt-' + version
     tarfile = srcdir + '.tar.gz'
@@ -606,14 +603,15 @@ def libxslt(macos=False, ios=True):
 
 
 @builder
-def sqlite(ios=True):
-    version = '3300000'
+def sqlite():
+    release_year = 2019
+    version = '3300100'
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
-            download_archive('https://sqlite.org/2019/', tarfile)
+            download_archive('https://sqlite.org/%d/' % release_year, tarfile)
             unpack_tarfile(tarfile, srcdir)
 
         with workdir(srcdir):
@@ -627,7 +625,7 @@ def sqlite(ios=True):
 
 
 @builder
-def cppunit():
+def cppunit(ios=False):
     version = '1.14.0'
     srcdir = 'cppunit-' + version
     tarfile = srcdir + '.tar.gz'
@@ -644,7 +642,7 @@ def cppunit():
 
 
 @builder
-def narrative():
+def narrative(ios=False):
     version = '0.1.2'
     srcdir = 'Narrative-' + version
     zipfile = srcdir + '.zip'
