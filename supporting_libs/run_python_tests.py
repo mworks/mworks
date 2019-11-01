@@ -1,23 +1,32 @@
 import _posixsubprocess
 import os
+import posix
 import sys
 import tempfile
 import unittest
 
 
 def replace_forbidden_funcs():
-    def replace_func(mod, funcname):
+    def install_stub_func(mod, funcname):
         def stub(*args, **kwargs):
             raise unittest.SkipTest('%s is not allowed on iOS' % funcname)
         setattr(mod, funcname, stub)
 
+    def replace_func(mod, funcname):
+        if hasattr(mod, funcname):
+            install_stub_func(mod, funcname)
+
     replace_func(_posixsubprocess, 'fork_exec')
 
-    for name in ('popen', 'openpty', 'system'):
-        replace_func(os, name)
-    for name in dir(os):
-        if name.startswith(('exec', 'fork', 'spawn')):
-            replace_func(os, name)
+    # Some tests assume os.system is present, so always install a stub
+    install_stub_func(os, 'system')
+
+    for mod in (os, posix):
+        for name in ('openpty', 'popen'):
+            replace_func(mod, name)
+        for name in dir(mod):
+            if name.startswith(('exec', 'fork', 'posix_spawn', 'spawn')):
+                install_stub_func(mod, name)
 
 
 def run_tests():

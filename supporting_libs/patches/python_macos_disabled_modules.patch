@@ -1,7 +1,7 @@
-diff -ur Python-3.7.2/Modules/Setup.dist Python/Modules/Setup.dist
---- Python-3.7.2/Modules/Setup.dist	2018-12-23 16:37:36.000000000 -0500
-+++ Python/Modules/Setup.dist	2019-01-15 12:44:00.000000000 -0500
-@@ -367,3 +367,7 @@
+diff -ur Python-3.8.0/Modules/Setup Python/Modules/Setup
+--- Python-3.8.0/Modules/Setup	2019-10-14 09:34:47.000000000 -0400
++++ Python/Modules/Setup	2019-11-01 14:15:14.000000000 -0400
+@@ -366,3 +366,7 @@
  #
  #_sqlite3 _tkinter _curses pyexpat
  #_codecs_jp _codecs_kr _codecs_tw unicodedata

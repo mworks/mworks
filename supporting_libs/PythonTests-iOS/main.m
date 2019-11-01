@@ -6,10 +6,10 @@
 //  Copyright © 2019 The MWorks Project. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#define Py_BUILD_CORE
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
+
+#import <UIKit/UIKit.h>
 
 #import "AppDelegate.h"
 
@@ -22,7 +22,7 @@ int main(int argc, char * argv[]) {
         return 1;
     }
     Py_SetPythonHome(decodedHome);
-    (void)_Py_UnixMain(argc, argv);
+    (void)Py_BytesMain(argc, argv);
     PyMem_RawFree(decodedHome);
     
     @autoreleasepool {

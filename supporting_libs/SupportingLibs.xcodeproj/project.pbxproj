@@ -752,7 +752,7 @@
 					UIKit,
 					"-lz",
 					"-force_load",
-					"$(BUILT_PRODUCTS_DIR)/lib/libpython$(MW_PYTHON_3_VERSION)m.a",
+					"$(BUILT_PRODUCTS_DIR)/lib/libpython$(MW_PYTHON_3_VERSION).a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.PythonTests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";

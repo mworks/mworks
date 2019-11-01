@@ -1,7 +1,7 @@
-diff -ur Python-3.7.4/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils/tests/test_build_ext.py
---- Python-3.7.4/Lib/distutils/tests/test_build_ext.py	2019-07-08 14:03:50.000000000 -0400
-+++ Python/Lib/distutils/tests/test_build_ext.py	2019-08-15 13:41:20.000000000 -0400
-@@ -418,6 +418,8 @@
+diff -ur Python-3.8.0/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils/tests/test_build_ext.py
+--- Python-3.8.0/Lib/distutils/tests/test_build_ext.py	2019-10-14 09:34:47.000000000 -0400
++++ Python/Lib/distutils/tests/test_build_ext.py	2019-11-01 14:19:38.000000000 -0400
+@@ -427,6 +427,8 @@
          #  the interpreter.
          self._try_compile_deployment_target('==', None)
  
@@ -10,7 +10,7 @@ diff -ur Python-3.7.4/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils
      @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
      def test_deployment_target_too_low(self):
          # Issue 9516: Test that an extension module is not allowed to be
-@@ -425,6 +427,8 @@
+@@ -434,6 +436,8 @@
          self.assertRaises(DistutilsPlatformError,
              self._try_compile_deployment_target, '>', '10.1')
  

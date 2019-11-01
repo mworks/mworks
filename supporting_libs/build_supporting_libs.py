@@ -381,7 +381,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.7.4'
+    version = '3.8.0'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -466,7 +466,7 @@ def numpy():
             if building_for_ios:
                 env.update({
                     '_PYTHON_HOST_PLATFORM': 'darwin-arm',
-                    '_PYTHON_SYSCONFIGDATA_NAME': '_sysconfigdata_m_darwin_darwin',
+                    '_PYTHON_SYSCONFIGDATA_NAME': '_sysconfigdata__darwin_darwin',
                     # numpy's configuration tests link test executuables using
                     # bare cc (without cflags).  Add common_flags to ensure that
                     # linking uses the correct architecture and SDK.

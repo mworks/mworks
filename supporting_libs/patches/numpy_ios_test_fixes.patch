@@ -1,6 +1,6 @@
-diff -ur numpy-1.17.0/numpy/core/tests/test_numeric.py numpy/numpy/core/tests/test_numeric.py
---- numpy-1.17.0/numpy/core/tests/test_numeric.py	2019-07-26 10:10:50.000000000 -0400
-+++ numpy/numpy/core/tests/test_numeric.py	2019-08-16 13:56:20.000000000 -0400
+diff -ur numpy-1.17.3/numpy/core/tests/test_numeric.py numpy/numpy/core/tests/test_numeric.py
+--- numpy-1.17.3/numpy/core/tests/test_numeric.py	2019-10-15 12:42:15.000000000 -0400
++++ numpy/numpy/core/tests/test_numeric.py	2019-11-04 10:10:40.000000000 -0500
 @@ -427,7 +427,10 @@
              assert_array_equal(np.isfinite(self.nf[i:]), ~self.ef[i:])
              assert_array_equal(np.isfinite(self.inff[i:]), ~self.ef[i:])
@@ -13,9 +13,20 @@ diff -ur numpy-1.17.0/numpy/core/tests/test_numeric.py numpy/numpy/core/tests/te
  
      def test_double(self):
          # offset for alignment test
-diff -ur numpy-1.17.0/numpy/core/tests/test_umath.py numpy/numpy/core/tests/test_umath.py
---- numpy-1.17.0/numpy/core/tests/test_umath.py	2019-07-26 10:10:50.000000000 -0400
-+++ numpy/numpy/core/tests/test_umath.py	2019-08-16 14:38:42.000000000 -0400
+diff -ur numpy-1.17.3/numpy/core/tests/test_regression.py numpy/numpy/core/tests/test_regression.py
+--- numpy-1.17.3/numpy/core/tests/test_regression.py	2019-10-15 12:42:15.000000000 -0400
++++ numpy/numpy/core/tests/test_regression.py	2019-11-04 10:13:28.000000000 -0500
+@@ -2501,6 +2501,7 @@
+         #gh-13659, would raise in broadcasting [x=t for x in result]
+         np.array([t])
+ 
++    @pytest.mark.skip('memory allocation fails on iOS')
+     @pytest.mark.skipif(sys.maxsize < 2 ** 31 + 1, reason='overflows 32-bit python')
+     @pytest.mark.skipif(sys.platform == 'win32' and sys.version_info[:2] < (3, 8),
+                         reason='overflows on windows, fixed in bpo-16865')
+diff -ur numpy-1.17.3/numpy/core/tests/test_umath.py numpy/numpy/core/tests/test_umath.py
+--- numpy-1.17.3/numpy/core/tests/test_umath.py	2019-10-15 12:42:15.000000000 -0400
++++ numpy/numpy/core/tests/test_umath.py	2019-11-04 10:10:40.000000000 -0500
 @@ -270,7 +270,13 @@
          # check overflow, underflow
          msg = "Complex floor division overflow/underflow check"
@@ -31,9 +42,9 @@ diff -ur numpy-1.17.0/numpy/core/tests/test_umath.py numpy/numpy/core/tests/test
          assert_equal(y, [1.e+110, 0], err_msg=msg)
  
      def test_floor_division_signed_zero(self):
-diff -ur numpy-1.17.0/numpy/distutils/tests/test_fcompiler.py numpy/numpy/distutils/tests/test_fcompiler.py
---- numpy-1.17.0/numpy/distutils/tests/test_fcompiler.py	2019-07-23 17:03:37.000000000 -0400
-+++ numpy/numpy/distutils/tests/test_fcompiler.py	2019-08-16 10:27:29.000000000 -0400
+diff -ur numpy-1.17.3/numpy/distutils/tests/test_fcompiler.py numpy/numpy/distutils/tests/test_fcompiler.py
+--- numpy-1.17.3/numpy/distutils/tests/test_fcompiler.py	2019-10-15 12:41:00.000000000 -0400
++++ numpy/numpy/distutils/tests/test_fcompiler.py	2019-11-04 10:10:40.000000000 -0500
 @@ -51,6 +51,7 @@
      # is triggered.  Need to use a real compiler instance so that we have
      # non-empty flags to start with (otherwise the "if var and append" check
@@ -42,9 +53,9 @@ diff -ur numpy-1.17.0/numpy/distutils/tests/test_fcompiler.py numpy/numpy/distut
      try:
          with suppress_warnings() as sup:
              sup.record()
-diff -ur numpy-1.17.0/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/distutils/tests/test_fcompiler_gnu.py
---- numpy-1.17.0/numpy/distutils/tests/test_fcompiler_gnu.py	2019-06-15 19:03:55.000000000 -0400
-+++ numpy/numpy/distutils/tests/test_fcompiler_gnu.py	2019-08-16 10:40:02.000000000 -0400
+diff -ur numpy-1.17.3/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/distutils/tests/test_fcompiler_gnu.py
+--- numpy-1.17.3/numpy/distutils/tests/test_fcompiler_gnu.py	2019-08-30 19:11:42.000000000 -0400
++++ numpy/numpy/distutils/tests/test_fcompiler_gnu.py	2019-11-04 10:10:40.000000000 -0500
 @@ -1,5 +1,7 @@
  from __future__ import division, absolute_import, print_function
  
@@ -69,9 +80,9 @@ diff -ur numpy-1.17.0/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/di
  class TestGFortranVersions(object):
      def test_gfortran_version(self):
          fc = numpy.distutils.fcompiler.new_fcompiler(compiler='gnu95')
-diff -ur numpy-1.17.0/numpy/distutils/tests/test_fcompiler_intel.py numpy/numpy/distutils/tests/test_fcompiler_intel.py
---- numpy-1.17.0/numpy/distutils/tests/test_fcompiler_intel.py	2019-06-15 19:03:55.000000000 -0400
-+++ numpy/numpy/distutils/tests/test_fcompiler_intel.py	2019-08-16 11:14:27.000000000 -0400
+diff -ur numpy-1.17.3/numpy/distutils/tests/test_fcompiler_intel.py numpy/numpy/distutils/tests/test_fcompiler_intel.py
+--- numpy-1.17.3/numpy/distutils/tests/test_fcompiler_intel.py	2019-08-30 19:11:42.000000000 -0400
++++ numpy/numpy/distutils/tests/test_fcompiler_intel.py	2019-11-04 10:10:40.000000000 -0500
 @@ -1,5 +1,7 @@
  from __future__ import division, absolute_import, print_function
  
@@ -96,9 +107,9 @@ diff -ur numpy-1.17.0/numpy/distutils/tests/test_fcompiler_intel.py numpy/numpy/
  class TestIntelEM64TFCompilerVersions(object):
      def test_64bit_version(self):
          fc = numpy.distutils.fcompiler.new_fcompiler(compiler='intelem')
-diff -ur numpy-1.17.0/numpy/distutils/tests/test_fcompiler_nagfor.py numpy/numpy/distutils/tests/test_fcompiler_nagfor.py
---- numpy-1.17.0/numpy/distutils/tests/test_fcompiler_nagfor.py	2019-06-15 19:03:55.000000000 -0400
-+++ numpy/numpy/distutils/tests/test_fcompiler_nagfor.py	2019-08-16 10:44:26.000000000 -0400
+diff -ur numpy-1.17.3/numpy/distutils/tests/test_fcompiler_nagfor.py numpy/numpy/distutils/tests/test_fcompiler_nagfor.py
+--- numpy-1.17.3/numpy/distutils/tests/test_fcompiler_nagfor.py	2019-08-30 19:11:42.000000000 -0400
++++ numpy/numpy/distutils/tests/test_fcompiler_nagfor.py	2019-11-04 10:10:40.000000000 -0500
 @@ -1,5 +1,7 @@
  from __future__ import division, absolute_import, print_function
  
@@ -115,9 +126,9 @@ diff -ur numpy-1.17.0/numpy/distutils/tests/test_fcompiler_nagfor.py numpy/numpy
  class TestNagFCompilerVersions(object):
      def test_version_match(self):
          for comp, vs, version in nag_version_strings:
-diff -ur numpy-1.17.0/numpy/lib/tests/test_io.py numpy/numpy/lib/tests/test_io.py
---- numpy-1.17.0/numpy/lib/tests/test_io.py	2019-07-26 10:34:53.000000000 -0400
-+++ numpy/numpy/lib/tests/test_io.py	2019-08-16 10:32:43.000000000 -0400
+diff -ur numpy-1.17.3/numpy/lib/tests/test_io.py numpy/numpy/lib/tests/test_io.py
+--- numpy-1.17.3/numpy/lib/tests/test_io.py	2019-10-15 12:42:15.000000000 -0400
++++ numpy/numpy/lib/tests/test_io.py	2019-11-04 10:10:40.000000000 -0500
 @@ -200,6 +200,7 @@
                  self.arr_reloaded.fid.close()
                  os.remove(self.arr_reloaded.fid.name)
@@ -126,9 +137,9 @@ diff -ur numpy-1.17.0/numpy/lib/tests/test_io.py numpy/numpy/lib/tests/test_io.p
      @pytest.mark.skipif(not IS_64BIT, reason="Needs 64bit platform")
      @pytest.mark.slow
      def test_big_arrays(self):
-diff -ur numpy-1.17.0/numpy/ma/tests/test_core.py numpy/numpy/ma/tests/test_core.py
---- numpy-1.17.0/numpy/ma/tests/test_core.py	2019-07-26 10:10:50.000000000 -0400
-+++ numpy/numpy/ma/tests/test_core.py	2019-08-16 13:34:18.000000000 -0400
+diff -ur numpy-1.17.3/numpy/ma/tests/test_core.py numpy/numpy/ma/tests/test_core.py
+--- numpy-1.17.3/numpy/ma/tests/test_core.py	2019-10-15 12:42:15.000000000 -0400
++++ numpy/numpy/ma/tests/test_core.py	2019-11-04 10:10:40.000000000 -0500
 @@ -2759,7 +2759,15 @@
                  assert_equal(x, y)
                  assert_equal(xm, y)

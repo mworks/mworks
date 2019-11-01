@@ -1,7 +1,7 @@
-diff -ur Python-3.7.4/Lib/test/test_bytes.py Python/Lib/test/test_bytes.py
---- Python-3.7.4/Lib/test/test_bytes.py	2019-07-08 14:03:50.000000000 -0400
-+++ Python/Lib/test/test_bytes.py	2019-08-14 12:23:00.000000000 -0400
-@@ -897,6 +897,7 @@
+diff -ur Python-3.8.0/Lib/test/test_bytes.py Python/Lib/test/test_bytes.py
+--- Python-3.8.0/Lib/test/test_bytes.py	2019-10-14 09:34:47.000000000 -0400
++++ Python/Lib/test/test_bytes.py	2019-11-01 14:28:04.000000000 -0400
+@@ -957,6 +957,7 @@
          _testcapi = test.support.import_module('_testcapi')
          from ctypes import pythonapi, py_object
          from ctypes import (
@@ -9,7 +9,7 @@ diff -ur Python-3.7.4/Lib/test/test_bytes.py Python/Lib/test/test_bytes.py
              c_int, c_uint,
              c_long, c_ulong,
              c_size_t, c_ssize_t,
-@@ -904,6 +905,9 @@
+@@ -964,6 +965,9 @@
  
          PyBytes_FromFormat = pythonapi.PyBytes_FromFormat
          PyBytes_FromFormat.restype = py_object
@@ -19,10 +19,10 @@ diff -ur Python-3.7.4/Lib/test/test_bytes.py Python/Lib/test/test_bytes.py
  
          # basic tests
          self.assertEqual(PyBytes_FromFormat(b'format'),
-diff -ur Python-3.7.4/Lib/test/test_unicode.py Python/Lib/test/test_unicode.py
---- Python-3.7.4/Lib/test/test_unicode.py	2019-07-08 14:03:50.000000000 -0400
-+++ Python/Lib/test/test_unicode.py	2019-08-14 12:20:34.000000000 -0400
-@@ -2448,11 +2448,15 @@
+diff -ur Python-3.8.0/Lib/test/test_unicode.py Python/Lib/test/test_unicode.py
+--- Python-3.8.0/Lib/test/test_unicode.py	2019-10-14 09:34:47.000000000 -0400
++++ Python/Lib/test/test_unicode.py	2019-11-01 14:28:04.000000000 -0400
+@@ -2455,11 +2455,15 @@
          support.import_module('ctypes')
          from ctypes import (
              pythonapi, py_object, sizeof,
@@ -38,10 +38,10 @@ diff -ur Python-3.7.4/Lib/test/test_unicode.py Python/Lib/test/test_unicode.py
  
          def PyUnicode_FromFormat(format, *args):
              cargs = tuple(
-diff -ur Python-3.7.4/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc.c
---- Python-3.7.4/Modules/_ctypes/callproc.c	2019-07-08 14:03:50.000000000 -0400
-+++ Python/Modules/_ctypes/callproc.c	2019-08-14 11:14:09.000000000 -0400
-@@ -765,7 +765,8 @@
+diff -ur Python-3.8.0/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc.c
+--- Python-3.8.0/Modules/_ctypes/callproc.c	2019-10-14 09:34:47.000000000 -0400
++++ Python/Modules/_ctypes/callproc.c	2019-11-01 14:28:04.000000000 -0400
+@@ -795,7 +795,8 @@
                                    ffi_type **atypes,
                                    ffi_type *restype,
                                    void *resmem,
@@ -51,7 +51,7 @@ diff -ur Python-3.7.4/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc
  {
      PyThreadState *_save = NULL; /* For Py_BLOCK_THREADS and Py_UNBLOCK_THREADS */
      PyObject *error_object = NULL;
-@@ -791,9 +792,22 @@
+@@ -818,9 +819,22 @@
      if ((flags & FUNCFLAG_CDECL) == 0)
          cc = FFI_STDCALL;
  #endif
@@ -75,7 +75,7 @@ diff -ur Python-3.7.4/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc
                                 restype,
                                 atypes)) {
          PyErr_SetString(PyExc_RuntimeError,
-@@ -1183,6 +1197,11 @@
+@@ -1180,6 +1194,11 @@
  
      if (-1 == _call_function_pointer(flags, pProc, avalues, atypes,
                                       rtype, resbuf,
@@ -87,11 +87,11 @@ diff -ur Python-3.7.4/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc
                                       Py_SAFE_DOWNCAST(argcount,
                                                        Py_ssize_t,
                                                        int)))
-diff -ur Python-3.7.4/setup.py Python/setup.py
---- Python-3.7.4/setup.py	2019-07-08 14:03:50.000000000 -0400
-+++ Python/setup.py	2019-08-14 09:15:10.000000000 -0400
-@@ -1937,6 +1937,12 @@
-         #       -lGL -lGLU -lXext -lXmu \
+diff -ur Python-3.8.0/setup.py Python/setup.py
+--- Python-3.8.0/setup.py	2019-10-14 09:34:47.000000000 -0400
++++ Python/setup.py	2019-11-01 14:27:24.000000000 -0400
+@@ -1957,6 +1957,12 @@
+         return True
  
      def configure_ctypes_darwin(self, ext):
 +        # Use our libffi, not the one included with Python
@@ -102,15 +102,15 @@ diff -ur Python-3.7.4/setup.py Python/setup.py
 +
          # Darwin (OS X) uses preconfigured files, in
          # the Modules/_ctypes/libffi_osx directory.
-         srcdir = sysconfig.get_config_var('srcdir')
-@@ -1983,7 +1989,10 @@
+         ffi_srcdir = os.path.abspath(os.path.join(self.srcdir, 'Modules',
+@@ -2003,7 +2009,10 @@
                     '_ctypes/cfield.c']
          depends = ['_ctypes/ctypes.h']
  
--        if host_platform == 'darwin':
+-        if MACOS:
 +        # These files aren't necessary, and including them makes ctypes
 +        # callbacks crash the interpreter on iOS
-+        #if host_platform == 'darwin':
++        #if MACOS:
 +        if False:
              sources.append('_ctypes/malloc_closure.c')
              sources.append('_ctypes/darwin/dlfcn_simple.c')
