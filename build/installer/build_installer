@@ -217,7 +217,6 @@ def main():
     check_call([
         '/usr/bin/hdiutil',
         'create',
-        '-fs', 'HFS+',
         '-srcfolder', dmg_contents_dir,
         output_file,
         ])
