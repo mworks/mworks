@@ -1,6 +1,9 @@
-#!/bin/bash
-for pyver in 2.7 3; do
-    python${pyver} -V
-    python${pyver} -W default -m unittest "${@:-discover}"
-    echo
-done
+#!/usr/bin/env python3
+
+import runpy
+import sys
+
+
+if __name__ == '__main__':
+    print('Python %d.%d.%d' % sys.version_info[:3], file=sys.stderr)
+    runpy.run_module('unittest')

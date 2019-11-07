@@ -5,10 +5,12 @@
             "path": ".",
             "folder_exclude_patterns": [
                 "__pycache__",
+                "MWEL.xcodeproj",
                 ],
             "file_exclude_patterns": [
                 "*.swp",
                 ".gitignore",
+                "mwpython.c",
                 ],
         },
     ],

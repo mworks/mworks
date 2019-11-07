@@ -1,0 +1,346 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1D0507523747A29008D4A05 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1D0507623747A29008D4A05 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1D0509723748F1A008D4A05 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+		E1D0508A23748B58008D4A05 /* Test */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1D0508B23748B58008D4A05 /* Build configuration list for PBXAggregateTarget "Test" */;
+			buildPhases = (
+				E1D0508F23748BB4008D4A05 /* ShellScript */,
+			);
+			dependencies = (
+				E1D0508E23748BA0008D4A05 /* PBXTargetDependency */,
+			);
+			name = Test;
+			productName = Test;
+		};
+		E1D0509023748D82008D4A05 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1D0509123748D82008D4A05 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1D0509523748E10008D4A05 /* ShellScript */,
+			);
+			dependencies = (
+				E1D0509423748D97008D4A05 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E1D0508223747DFF008D4A05 /* mwpython.c in Sources */ = {isa = PBXBuildFile; fileRef = E1D0508123747DFF008D4A05 /* mwpython.c */; };
+		E1D0508923747FC0008D4A05 /* MWorksPython.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D0508823747FC0008D4A05 /* MWorksPython.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1D0508D23748BA0008D4A05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1D05068237476FF008D4A05 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1D0507D23747DFF008D4A05;
+			remoteInfo = mwpython;
+		};
+		E1D0509323748D97008D4A05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1D05068237476FF008D4A05 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1D0508A23748B58008D4A05;
+			remoteInfo = Test;
+		};
+		E1D0509623748F1A008D4A05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1D05068237476FF008D4A05 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1D0509023748D82008D4A05;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E1D05073237478DA008D4A05 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1D0507E23747DFF008D4A05 /* mwpython */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mwpython; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1D0508123747DFF008D4A05 /* mwpython.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mwpython.c; sourceTree = "<group>"; };
+		E1D0508823747FC0008D4A05 /* MWorksPython.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksPython.framework; path = /Library/Frameworks/MWorksPython.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1D0507B23747DFF008D4A05 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1D0508923747FC0008D4A05 /* MWorksPython.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1D05067237476FF008D4A05 = {
+			isa = PBXGroup;
+			children = (
+				E1D05072237478BD008D4A05 /* External Config */,
+				E1D0508123747DFF008D4A05 /* mwpython.c */,
+				E1D0508723747FC0008D4A05 /* Frameworks */,
+				E1D0507F23747DFF008D4A05 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1D05072237478BD008D4A05 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1D05073237478DA008D4A05 /* macOS.xcconfig */,
+			);
+			name = "External Config";
+			path = ../build/xcode;
+			sourceTree = "<group>";
+		};
+		E1D0507F23747DFF008D4A05 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1D0507E23747DFF008D4A05 /* mwpython */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1D0508723747FC0008D4A05 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1D0508823747FC0008D4A05 /* MWorksPython.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E1D0507D23747DFF008D4A05 /* mwpython */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1D0508323747DFF008D4A05 /* Build configuration list for PBXNativeTarget "mwpython" */;
+			buildPhases = (
+				E1D0507A23747DFF008D4A05 /* Sources */,
+				E1D0507B23747DFF008D4A05 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = mwpython;
+			productName = mwpython;
+			productReference = E1D0507E23747DFF008D4A05 /* mwpython */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1D05068237476FF008D4A05 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1120;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E1D0507523747A29008D4A05 = {
+						CreatedOnToolsVersion = 11.2;
+					};
+					E1D0507D23747DFF008D4A05 = {
+						CreatedOnToolsVersion = 11.2;
+					};
+					E1D0508A23748B58008D4A05 = {
+						CreatedOnToolsVersion = 11.2;
+					};
+					E1D0509023748D82008D4A05 = {
+						CreatedOnToolsVersion = 11.2;
+					};
+				};
+			};
+			buildConfigurationList = E1D0506B237476FF008D4A05 /* Build configuration list for PBXProject "MWEL" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E1D05067237476FF008D4A05;
+			productRefGroup = E1D0507F23747DFF008D4A05 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1D0507D23747DFF008D4A05 /* mwpython */,
+				E1D0508A23748B58008D4A05 /* Test */,
+				E1D0509023748D82008D4A05 /* Install */,
+				E1D0507523747A29008D4A05 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E1D0508F23748BB4008D4A05 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILT_PRODUCTS_DIR}/mwpython\" run_tests\n";
+			showEnvVarsInLog = 0;
+		};
+		E1D0509523748E10008D4A05 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mwel_dir=\"${MW_APP_SUPPORT_DIR}/MWEL\"\n\n/bin/rm -Rf \"$mwel_dir\"\n/usr/bin/rsync -a mwel mwel2xml xml2mwel \"$mwel_dir\"\n/bin/cp -p \"${BUILT_PRODUCTS_DIR}/mwpython\" \"${mwel_dir}/.python\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1D0507A23747DFF008D4A05 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1D0508223747DFF008D4A05 /* mwpython.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1D0508E23748BA0008D4A05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1D0507D23747DFF008D4A05 /* mwpython */;
+			targetProxy = E1D0508D23748BA0008D4A05 /* PBXContainerItemProxy */;
+		};
+		E1D0509423748D97008D4A05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1D0508A23748B58008D4A05 /* Test */;
+			targetProxy = E1D0509323748D97008D4A05 /* PBXContainerItemProxy */;
+		};
+		E1D0509723748F1A008D4A05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1D0509023748D82008D4A05 /* Install */;
+			targetProxy = E1D0509623748F1A008D4A05 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E1D0506D237476FF008D4A05 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1D0507723747A29008D4A05 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1D05073237478DA008D4A05 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1D0508423747DFF008D4A05 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1D05073237478DA008D4A05 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1D0508C23748B58008D4A05 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1D05073237478DA008D4A05 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1D0509223748D82008D4A05 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1D05073237478DA008D4A05 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1D0506B237476FF008D4A05 /* Build configuration list for PBXProject "MWEL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D0506D237476FF008D4A05 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1D0507623747A29008D4A05 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D0507723747A29008D4A05 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1D0508323747DFF008D4A05 /* Build configuration list for PBXNativeTarget "mwpython" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D0508423747DFF008D4A05 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1D0508B23748B58008D4A05 /* Build configuration list for PBXAggregateTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D0508C23748B58008D4A05 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1D0509123748D82008D4A05 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D0509223748D82008D4A05 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1D05068237476FF008D4A05 /* Project object */;
+}
