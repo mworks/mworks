@@ -113,12 +113,12 @@ backtrace to a file [a.mwel: line 1, column 3; via b.mwel: line 3, column 4]
 class TestToXML(TempFilesMixin, unittest.TestCase):
 
     def toxml(self, *argv):
-        self.stdout = io.BytesIO()
+        self.stdout = io.StringIO()
         self.stderr = io.StringIO()
         return toxml(argv, self.stdout, self.stderr)
 
     def assertOutput(self, stdout='', stderr=''):
-        self.assertEqual(stdout, self.stdout.getvalue().decode('utf-8'))
+        self.assertEqual(stdout, self.stdout.getvalue())
         self.assertEqual(stderr, self.stderr.getvalue())
 
     def test_usage_error(self):
@@ -346,13 +346,7 @@ var 😊 = 1
 
         self.assertEqual(1, self.toxml('my_script', experiment_path))
 
-        if sys.version_info[0] < 3:
-            expected_stderr = '''\
-Illegal character: u'\\ud83d' [inc.mwel: line 2, column 5]
-Illegal character: u'\\ude0a' [inc.mwel: line 2, column 6]
-'''
-        else:
-            expected_stderr = '''\
+        expected_stderr = '''\
 Illegal character: '😊' [inc.mwel: line 2, column 5]
 '''
         self.assertOutput(stderr=expected_stderr)

@@ -56,4 +56,4 @@ class XMLGenerator(object):
 
     def write(self, root, output_stream):
         tree = ET.ElementTree(root)
-        tree.write(output_stream, encoding=str('UTF-8'), xml_declaration=True)
+        tree.write(output_stream, encoding='unicode', xml_declaration=True)

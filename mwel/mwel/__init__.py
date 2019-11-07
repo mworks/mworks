@@ -155,12 +155,7 @@ def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
             ET.SubElement(dict_elem_node, 'value', type='string').text = src
 
     generator.format(root)
-    try:
-        output_stream = stdout.buffer
-    except AttributeError:
-        # Python 2.7
-        output_stream = stdout
-    generator.write(root, output_stream)
+    generator.write(root, stdout)
 
     return 0
 
