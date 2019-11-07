@@ -1,150 +1,219 @@
-#!/usr/bin/python
+#!/bin/zsh
 
-from collections import deque
-from optparse import OptionParser
-import os
-import pwd
-from subprocess import check_call
-import sys
-import time
+#
+# Check for, back up, or remove an existing MWorks installation
+#
+
+set -u
 
 
-mw_files = (
+progname=$0
+
+mw_files=(
     # Current
-    '/Applications/MWClient.app',
-    '/Applications/MWServer.app',
-    '/Library/Application Support/MWorks',
-    '/Library/Frameworks/MWorksCocoa.framework',
-    '/Library/Frameworks/MWorksCore.framework',
-    '/Library/Frameworks/MWorksPython.framework',
-    '/Library/Frameworks/MWorksSwift.framework',
+    '/Applications/MWClient.app'
+    '/Applications/MWServer.app'
+    '/Library/Application Support/MWorks'
+    '/Library/Frameworks/MWorksCocoa.framework'
+    '/Library/Frameworks/MWorksCore.framework'
+    '/Library/Frameworks/MWorksPython.framework'
+    '/Library/Frameworks/MWorksSwift.framework'
 
     # Legacy
-    '/Applications/MWEditor.app',
-    '/Developer/Library/Xcode/Project Templates/MWorks',
-    '/Documents/MWorks',
-    '/Documents/MonkeyWorks',
-    '/Library/Application Support/Developer/Shared/Xcode/Project Templates/MWorks',
-    '/Library/Application Support/MWClient',
-    '/Library/Application Support/MWEditor',
-    '/Library/Application Support/MonkeyWorks',
-    '/Library/Application Support/MonkeyWorksClient',
-    '/Library/Application Support/MonkeyWorksEditor',
-    '/Library/Application Support/NewClient',
-    '/Library/Application Support/NewEditor',
-    '/Library/Frameworks/MonkeyWorksCocoa.framework',
-    '/Library/Frameworks/MonkeyWorksCore.framework',
-    '/Library/Frameworks/Narrative.framework',
-    '/Library/Frameworks/Scarab.framework',
-    '/Library/MonkeyWorks',
-    '/Library/Python/2.6/site-packages/mworks.pth',
-    '/Library/Python/2.7/site-packages/mworks.pth',
+    '/Applications/MWEditor.app'
+    '/Developer/Library/Xcode/Project Templates/MWorks'
+    '/Documents/MWorks'
+    '/Documents/MonkeyWorks'
+    '/Library/Application Support/Developer/Shared/Xcode/Project Templates/MWorks'
+    '/Library/Application Support/MWClient'
+    '/Library/Application Support/MWEditor'
+    '/Library/Application Support/MonkeyWorks'
+    '/Library/Application Support/MonkeyWorksClient'
+    '/Library/Application Support/MonkeyWorksEditor'
+    '/Library/Application Support/NewClient'
+    '/Library/Application Support/NewEditor'
+    '/Library/Frameworks/MonkeyWorksCocoa.framework'
+    '/Library/Frameworks/MonkeyWorksCore.framework'
+    '/Library/Frameworks/Narrative.framework'
+    '/Library/Frameworks/Scarab.framework'
+    '/Library/MonkeyWorks'
+    '/Library/Python/2.6/site-packages/mworks.pth'
+    '/Library/Python/2.7/site-packages/mworks.pth'
     )
 
 
-def announce(msg, *args):
-    sys.stdout.write((msg + '\n') % args)
+usage() {
+    cat <<EOF
+Usage: $progname [options]
+
+Options:
+  --help     show this help message and exit
+  --check    check for installed MWorks files
+  --backup   don't restore, but back up old installation
+  --delete   permanently delete uninstalled files
+  --no-sudo  don't execute commands as the superuser
+EOF
+}
 
 
-def get_userdir(path):
-    return os.path.expanduser(os.path.join('~', path))
+check_installed_files() {
+    local filename
+
+    for filename in $mw_files; do
+        if [[ -e $filename ]]; then
+            echo 'Found installed MWorks files'
+            return 0
+        fi
+    done
+
+    echo 'No installed MWorks files found'
+    return 1
+}
 
 
-def check_installed_files():
-    for filename in mw_files:
-        if os.path.exists(filename):
-            announce('Found installed MWorks files')
-            return True
+rename_existing_directory() {
+    local dirname=$1
+    local timestamp
+    local old_dirname
 
-    announce('No installed MWorks files found')
-    return False
+    if [[ -e $dirname ]]; then
+        timestamp=$(/usr/bin/stat -L -f '%SB' $dirname | /usr/bin/tr : .)
+        old_dirname="$dirname ($timestamp)"
+        echo "Found existing '$dirname'; moving to '$old_dirname'"
+        /bin/mv $dirname $old_dirname || return
+    fi
+
+    return 0
+}
 
 
-def create_directory(dirname):
-    dirlist = deque()
-    while not os.path.exists(dirname):
-        dirlist.appendleft(dirname)
-        dirname = os.path.dirname(dirname)
+create_directory() {
+    local dirname=$1
+    local dirlist=()
+    local username
+
+    while [[ ! -e $dirname ]]; do
+        dirlist=($dirname $dirlist)
+        dirname=$(/usr/bin/dirname $dirname)
+    done
 
     # Since the backup will be created as root but moved/deleted by a
     # normal user, we need to ensure that all created subdirectories
     # have the same owner as the base directory
-    username = pwd.getpwuid(os.stat(dirname).st_uid).pw_name
+    username=$(/usr/bin/stat -L -f '%Su' $dirname)
 
-    for dirname in dirlist:
-        check_call(['/bin/mkdir', dirname])
-        check_call(['/usr/sbin/chown', username, dirname])
+    for dirname in $dirlist; do
+        /bin/mkdir $dirname || return
+        /usr/sbin/chown $username $dirname || return
+    done
 
-
-def rename_existing_directory(dirname):
-    if os.path.exists(dirname):
-        timestamp = time.ctime(os.stat(dirname)[-1]).replace(':', '.')
-        old_dirname = '%s (%s)' % (dirname, timestamp)
-        announce('Found existing "%s"; moving to "%s"', dirname, old_dirname)
-        check_call(['/bin/mv', dirname, old_dirname])
+    return 0
+}
 
 
-def backup_files(backupdir):
-    rename_existing_directory(backupdir)
-    for filename in mw_files:
-        if os.path.exists(filename):
-            announce('Moving "%s" to "%s"', filename, backupdir)
-            destdir = os.path.join(backupdir, os.path.dirname(filename[1:]))
-            create_directory(destdir)
-            check_call(['/bin/mv', filename, destdir])
+backup_files() {
+    local backupdir=$1
+    local filename
+    local destdir
+
+    rename_existing_directory $backupdir || return
+
+    for filename in $mw_files; do
+        if [[ -e $filename ]]; then
+            echo "Moving '$filename' to '$backupdir'"
+            destdir="${backupdir}$(/usr/bin/dirname $filename)"
+            create_directory $destdir || return
+            /bin/mv $filename $destdir || return
+        fi
+    done
+
+    return 0
+}
 
 
-def restore_files(backupdir):
-    if not os.path.isdir(backupdir):
-        return
+restore_files() {
+    local backupdir=$1
+    local filename
+    local srcfile
+    local trashdir
 
-    for filename in mw_files:
-        srcfile = os.path.join(backupdir, filename[1:])
-        if os.path.exists(srcfile):
-            announce('Restoring "%s" from "%s"', filename, backupdir)
-            check_call(['/bin/mv', srcfile, os.path.dirname(filename)])
+    if [[ ! -d $backupdir ]]; then
+        return 0
+    fi
 
-    trashdir = get_userdir('.Trash')
-    rename_existing_directory(os.path.join(trashdir,
-                                           os.path.basename(backupdir)))
-    announce('Moving "%s" to "%s"', backupdir, trashdir)
-    check_call(['/bin/mv', backupdir, trashdir])
+    for filename in $mw_files; do
+        srcfile="${backupdir}${filename}"
+        if [[ -e $srcfile ]]; then
+            echo "Restoring '$filename' from '$backupdir'"
+            /bin/mv $srcfile "$(/usr/bin/dirname $filename)" || return
+        fi
+    done
 
+    trashdir=~/.Trash
+    rename_existing_directory "${trashdir}/$(/usr/bin/basename $backupdir)" || return
+    echo "Moving '$backupdir' to '$trashdir'"
+    /bin/mv $backupdir $trashdir || return
 
-def main():
-    parser = OptionParser()
-    parser.add_option('-c', '--check', action='store_true', dest='check',
-                      help="check for installed MWorks files")
-    parser.add_option('-b', '--backup', action='store_true', dest='backup',
-                      help="don't restore, but back up old installation")
-    parser.add_option('-d', '--delete', action='store_true', dest='delete',
-                      help="permanently delete uninstalled files")
-    parser.add_option('--no-sudo', action='store_false', dest='use_sudo',
-                      default=True,
-                      help="don't execute commands as the superuser")
-    (options, args) = parser.parse_args()
-    
-    if options.check:
-        sys.exit(int(not check_installed_files()))
-
-    # Since we're moving files to/from system directories, we need to
-    # be running as root
-    if options.use_sudo and (os.getuid() != 0):
-        sudo = '/usr/bin/sudo'
-        os.execl(sudo, sudo, sys.executable, *sys.argv)
-
-    backupdir = get_userdir('Desktop/MWorks Backup')
-
-    if options.backup:
-        backup_files(backupdir)
-    else:
-        uninstalldir = get_userdir('.Trash/Uninstalled MWorks')
-        backup_files(uninstalldir)
-        restore_files(backupdir)
-        if options.delete:
-            announce('Deleting "%s"', uninstalldir)
-            check_call(['/bin/rm', '-Rf', uninstalldir])
+    return 0
+}
 
 
-if __name__ == '__main__':
-    main()
+check=0
+backup=0
+delete=0
+use_sudo=1
+
+for arg in $argv; do
+    case $arg in
+        --help)
+            usage
+            exit 0
+            ;;
+
+        --check)
+            check=1
+            ;;
+
+        --backup)
+            backup=1
+            ;;
+
+        --delete)
+            delete=1
+            ;;
+
+        --no-sudo)
+            use_sudo=0
+            ;;
+
+        *)
+            usage
+            exit 2
+            ;;
+    esac
+done
+
+if (( check )); then
+    check_installed_files
+    exit
+fi
+
+if (( use_sudo && ( $(/usr/bin/id -u) != 0 ) )); then
+    exec /usr/bin/sudo $0 $argv
+fi
+
+backupdir=~'/Desktop/MWorks Backup'
+
+if (( backup )); then
+    backup_files $backupdir || exit
+else
+    uninstalldir=~'/.Trash/Uninstalled MWorks'
+    backup_files $uninstalldir || exit
+    restore_files $backupdir || exit
+    if (( delete )); then
+        echo "Deleting '$uninstalldir'"
+        /bin/rm -Rf $uninstalldir || exit
+    fi
+fi
+
+exit 0

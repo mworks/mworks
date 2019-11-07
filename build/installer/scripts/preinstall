@@ -6,13 +6,11 @@
 
 set -u
 
+
 uninstall_mworks="$(/usr/bin/dirname ${0})/uninstall_mworks"
 
-if ! "${uninstall_mworks}" --check; then
-    # No installation detected, nothing to backup
-    exit 0
+if $uninstall_mworks --check; then
+    $uninstall_mworks --backup || exit
 fi
-
-"${uninstall_mworks}" --backup || exit
 
 exit 0
