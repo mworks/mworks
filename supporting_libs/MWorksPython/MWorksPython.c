@@ -136,3 +136,48 @@ error:
 exit:
     return didInitialize;
 }
+
+
+int MWorksPythonMain(int argc, const char **argv) {
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s file\n", argv[0]);
+        return 2;
+    }
+    
+    FILE *fp = fopen(argv[1], "r");
+    if (!fp) {
+        fprintf(stderr, "Can't open file: %s\n", strerror(errno));
+        return 1;
+    }
+    
+    int pyArgc = 0;
+    wchar_t *pyArgv[argc - 1];
+    int result = 1;
+    
+    for (int i = 1; i < argc; i++) {
+        if (!(pyArgv[i - 1] = Py_DecodeLocale(argv[i], NULL))) {
+            fprintf(stderr, "Argument decoding failed\n");
+            goto error;
+        }
+        pyArgc++;
+    }
+    
+    if (!MWorksPythonInit(true)) {
+        fprintf(stderr, "Python initialization failed\n");
+        goto error;
+    }
+    
+    PySys_SetArgvEx(pyArgc, pyArgv, 1);  // Must call this after MWorksPythonInit
+    
+    result = PyRun_SimpleFile(fp, argv[1]);
+    
+    (void)Py_FinalizeEx();
+    
+error:
+    for (int i = 0; i < pyArgc; i++) {
+        PyMem_RawFree(pyArgv[i]);
+    }
+    (void)fclose(fp);
+    
+    return (result != 0);
+}

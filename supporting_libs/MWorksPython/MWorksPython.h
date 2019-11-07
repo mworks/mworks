@@ -12,16 +12,22 @@
 #include <stdbool.h>
 
 
+#pragma GCC visibility push(default)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
- __attribute__((visibility("default")))
+
 bool MWorksPythonInit(bool initSignals);
+int MWorksPythonMain(int argc, const char **argv);
+
 
 #ifdef __cplusplus
 }
 #endif
+
+#pragma GCC visibility pop
 
 
 #endif /* MWorksPython_h */
