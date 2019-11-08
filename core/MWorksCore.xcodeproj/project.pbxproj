@@ -3250,7 +3250,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
+			shellPath = /bin/zsh;
 			shellScript = "# Generate CFBundleVersion from the current date\n/usr/bin/plutil -replace CFBundleVersion -string $(/bin/date '+%Y.%m.%d') \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n";
 			showEnvVarsInLog = 0;
 		};
@@ -3269,7 +3269,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
+			shellPath = /bin/zsh;
 			shellScript = "# Generate CFBundleVersion from the current date\n/usr/bin/plutil -replace CFBundleVersion -string $(/bin/date '+%Y.%m.%d') \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n";
 			showEnvVarsInLog = 0;
 		};

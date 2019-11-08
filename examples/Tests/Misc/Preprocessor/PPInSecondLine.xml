@@ -1,5 +1,5 @@
 # Blah blah blah
-# mwpp="/bin/bash"
+# mwpp="/bin/zsh"
 cat <<EOF
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>

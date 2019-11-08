@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 #
 # If pip is not installed or fails to run, install it manually:
@@ -14,7 +14,7 @@ mw_python_3=$( \
     )
 
 for python3 in /Library/Frameworks/Python.framework/Versions/3.*/bin/python3; do
-    pip3_install="$python3 -m pip install --upgrade --upgrade-strategy eager --no-warn-script-location"
+    pip3_install=( $python3 -m pip install --upgrade --upgrade-strategy eager --no-warn-script-location )
 
     $python3 -V || exit
     echo '------------'

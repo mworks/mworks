@@ -538,7 +538,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
+			shellPath = /bin/zsh;
 			shellScript = "cd \"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}\"\n\nif [[ ! -d bin ]]; then\n  /bin/mkdir bin\n  /bin/ln -s \"../${EXECUTABLE_NAME}\" \"bin/python${MW_PYTHON_3_VERSION}\"\nfi\n\nif [[ ! -d include ]]; then\n  /bin/mkdir include\n  /usr/bin/rsync -a \"${MW_PYTHON_3_INCLUDEDIR}\" include\nfi\n\nif [[ ! -d lib ]]; then\n  /bin/mkdir lib\n  /usr/bin/rsync -a \"${MW_PYTHON_3_STDLIB_DIR}\" lib\n  /usr/bin/find lib -name '*.so' -exec /usr/bin/codesign --force --sign \"$CODE_SIGN_IDENTITY\" {} \\;\nfi\n\nif [[ ! -d pytest ]]; then\n  /usr/bin/rsync -a \"${BUILT_PRODUCTS_DIR}/pytest\" .\nfi\n\n/bin/cp -p \"${SRCROOT}/run_python_tests.py\" \"lib/python${MW_PYTHON_3_VERSION}/site-packages\"\n";
 			showEnvVarsInLog = 0;
 		};

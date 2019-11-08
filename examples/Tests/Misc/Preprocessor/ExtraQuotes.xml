@@ -1,4 +1,4 @@
-# mwpp="/bin/bash""some junk"
+# mwpp="/bin/zsh""some junk"
 cat <<EOF
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
