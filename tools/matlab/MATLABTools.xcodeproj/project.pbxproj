@@ -346,7 +346,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
+			shellPath = /bin/zsh;
 			shellScript = "if ! [[ -d $MATLAB_DIR ]]; then\n  echo \"MATLAB installation not found\" 1>&2\n  exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};

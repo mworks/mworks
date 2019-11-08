@@ -360,7 +360,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
+			shellPath = /bin/zsh;
 			shellScript = "# Generate CFBundleVersion from the current date\n/usr/bin/plutil -replace CFBundleVersion -string $(/bin/date '+%Y.%m.%d') \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n";
 			showEnvVarsInLog = 0;
 		};
@@ -375,7 +375,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
+			shellPath = /bin/zsh;
 			shellScript = "cd \"$BUILT_PRODUCTS_DIR\"\n\n# Copy frameworks and plugins in to the app bundle\n/bin/mkdir -p \"$FRAMEWORKS_FOLDER_PATH\"\n/usr/bin/rsync -aL *.framework \"$FRAMEWORKS_FOLDER_PATH\"\n\n# Generate CFBundleVersion from the current date\ncf_bundle_version=$(/bin/date '+%Y.%m.%d')\n/usr/bin/plutil -replace CFBundleVersion -string \"${cf_bundle_version}\" \"${INFOPLIST_PATH}\"\n\n# Set the version number displayed in Settings\n/usr/bin/sed -i '' -e \"s/__VERSION__/${MW_VERSION} (${cf_bundle_version})/g\" \"${CONTENTS_FOLDER_PATH}/Settings.bundle/Root.plist\"\n\n# Copy example experiments in to the app bundle\nexamples_dir=\"${CONTENTS_FOLDER_PATH}/Examples\"\n/bin/mkdir -p \"$examples_dir\"\nfor file in \"$SRCROOT\"/../../examples/Examples/iOS/*.mwel; do\n    file_basename=$(basename \"$file\")\n    \"${SRCROOT}/../../mwel/mwel2xml\" \"$file\" > \"${examples_dir}/${file_basename%.mwel}.xml\"\ndone\n";
 			showEnvVarsInLog = 0;
 		};
