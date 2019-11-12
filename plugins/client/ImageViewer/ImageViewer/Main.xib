@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KoC-ex-M91">
-                        <rect key="frame" x="20" y="45" width="127" height="17"/>
+                        <rect key="frame" x="20" y="44" width="127" height="16"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Image data variable:" id="uLE-de-6wV">
                             <font key="font" usesAppearanceFont="YES"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -28,7 +28,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E64-ga-pyf">
-                        <rect key="frame" x="20" y="20" width="166" height="17"/>
+                        <rect key="frame" x="20" y="20" width="166" height="16"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Region of interest variable:" id="dGg-76-2E0">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -36,7 +36,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Aeq-bV-gJd">
-                        <rect key="frame" x="192" y="42" width="191" height="22"/>
+                        <rect key="frame" x="192" y="41" width="191" height="21"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="JDc-aT-wAq">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -47,7 +47,7 @@
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Uuk-ha-jLA">
-                        <rect key="frame" x="197" y="198" width="116" height="33"/>
+                        <rect key="frame" x="197" y="198" width="116" height="32"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="No Image" id="O7t-kX-Ccv">
                             <font key="font" metaFont="system" size="27"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
@@ -55,7 +55,7 @@
                         </textFieldCell>
                     </textField>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="8c1-iA-Ry3" customClass="MWImageViewerImageView">
-                        <rect key="frame" x="0.0" y="72" width="509" height="285"/>
+                        <rect key="frame" x="0.0" y="70" width="509" height="287"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="8Qn-ja-Grt"/>
                     </imageView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V8D-A9-UuJ">
@@ -69,7 +69,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ekl-pM-vM2">
-                        <rect key="frame" x="385" y="35" width="110" height="32"/>
+                        <rect key="frame" x="385" y="34" width="110" height="32"/>
                         <buttonCell key="cell" type="push" title="Update ROI" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rv4-Zk-3UV">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -79,7 +79,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AHU-Pd-H5T">
-                        <rect key="frame" x="192" y="17" width="191" height="22"/>
+                        <rect key="frame" x="192" y="17" width="191" height="21"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="bCF-e2-P8N">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -114,6 +114,13 @@
                     <constraint firstItem="V8D-A9-UuJ" firstAttribute="baseline" secondItem="AHU-Pd-H5T" secondAttribute="baseline" id="yN5-hp-qRi"/>
                 </constraints>
             </view>
+            <connections>
+                <binding destination="-2" name="displayPatternTitle1" keyPath="serverURL" id="HpB-Ka-pTP">
+                    <dictionary key="options">
+                        <string key="NSDisplayPattern">Image Viewer (%{title1}@)</string>
+                    </dictionary>
+                </binding>
+            </connections>
             <point key="canvasLocation" x="153.5" y="190.5"/>
         </window>
         <customObject id="eRw-Ak-SX0" customClass="MWImageViewerController">

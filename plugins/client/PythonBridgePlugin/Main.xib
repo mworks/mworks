@@ -133,6 +133,13 @@
                     </button>
                 </subviews>
             </view>
+            <connections>
+                <binding destination="-2" name="displayPatternTitle1" keyPath="serverURL" id="MGT-0w-s73">
+                    <dictionary key="options">
+                        <string key="NSDisplayPattern">Python Script Bridge (%{title1}@)</string>
+                    </dictionary>
+                </binding>
+            </connections>
             <point key="canvasLocation" x="122.5" y="313.5"/>
         </window>
         <customObject id="94" customClass="PythonBridgeController">
