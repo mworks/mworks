@@ -21,6 +21,7 @@
 #define DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY @"openPluginWindows"
 #define DEFAULTS_GROUPED_PLUGIN_WINDOW_IS_OPEN_KEY @"groupedPluginWindowIsOpen"
 
+#define MAX_NUM_RECENT_SERVERS 20
 #define MAX_NUM_RECENT_EXPERIMENTS 20
 
 
@@ -313,6 +314,9 @@
             
             [recentServersMutable removeObject:[self serverURL]];  // In case it's already in the list
             [recentServersMutable insertObject:[self serverURL] atIndex:0];
+            while (recentServersMutable.count > MAX_NUM_RECENT_SERVERS) {
+                [recentServersMutable removeLastObject];
+            }
             
 			[defaults setObject:recentServersMutable forKey:@"recentServers"];
 			[defaults synchronize];

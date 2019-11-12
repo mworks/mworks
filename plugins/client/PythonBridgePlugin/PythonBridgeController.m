@@ -18,6 +18,8 @@
 #define DEFAULTS_PYTHON_EXECUTABLE_KEY @"pythonExecutable"
 #define DEFAULTS_SCROLL_TO_BOTTOM_ON_OUTPUT_KEY @"autoScrollPythonOutput"
 
+#define MAX_NUM_RECENT_SCRIPTS 20
+
 #import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
 #import <MWorksCore/IPCEventTransport.h>
 
@@ -326,14 +328,21 @@
     
     if([self path] != nil){
         [defaults setObject:[self path] forKey:@"lastPythonScript"];
-        [defaults synchronize];
-    }
-    NSArray *recentScripts = [defaults arrayForKey:@"recentPythonScripts"];
-    if([self path] != nil){
-        NSMutableArray *recentScriptsMutable = [NSMutableArray arrayWithArray:recentScripts];
+        
+        NSArray *recentScripts = [defaults arrayForKey:@"recentPythonScripts"];
+        NSMutableArray *recentScriptsMutable;
+        if (recentScripts) {
+            recentScriptsMutable = [recentScripts mutableCopy];
+        } else {
+            recentScriptsMutable = [NSMutableArray array];
+        }
         [recentScriptsMutable removeObject:[self path]];  // In case it's already in the list
         [recentScriptsMutable insertObject:[self path] atIndex:0];
+        while (recentScriptsMutable.count > MAX_NUM_RECENT_SCRIPTS) {
+            [recentScriptsMutable removeLastObject];
+        }
         [defaults setObject:recentScriptsMutable forKey:@"recentPythonScripts"];
+        
         [defaults synchronize];
     }
 }
