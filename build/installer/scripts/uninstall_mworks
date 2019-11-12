@@ -43,7 +43,7 @@ mw_files=(
 
 
 usage() {
-    cat <<EOF
+    /bin/cat <<EOF
 Usage: $progname [options]
 
 Options:

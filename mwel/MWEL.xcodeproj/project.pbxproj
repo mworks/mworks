@@ -224,7 +224,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mwel_dir=\"${MW_APP_SUPPORT_DIR}/MWEL\"\n\n/bin/rm -Rf \"$mwel_dir\"\n/usr/bin/rsync -a mwel mwel2xml xml2mwel \"$mwel_dir\"\n/bin/cp -p \"${BUILT_PRODUCTS_DIR}/mwpython\" \"${mwel_dir}/.python\"\n";
+			shellScript = "mwel_dir=\"${MW_APP_SUPPORT_DIR}/MWEL\"\n\n/bin/rm -Rf \"$mwel_dir\"\n/usr/bin/rsync -a --exclude='*.pyc' --exclude=__pycache__ mwel mwel2xml xml2mwel \"$mwel_dir\"\n${MW_PYTHON_3} -m compileall -q \"$mwel_dir\"\n/bin/cp -p \"${BUILT_PRODUCTS_DIR}/mwpython\" \"${mwel_dir}/.python\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
