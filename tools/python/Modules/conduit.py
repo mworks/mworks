@@ -8,6 +8,13 @@ class _IPCConduit(_mworks._IPCConduit):
                          correct_incoming_timestamps,
                          self._event_transport_type)
 
+    def __enter__(self):
+        self.initialize()
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.finalize()
+
     # The following three methods aren't needed but remain for backwards
     # compatibility
 

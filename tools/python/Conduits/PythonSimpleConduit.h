@@ -132,6 +132,7 @@ public:
         
         ScopedGILRelease sgr;
         conduit->finalize();
+        initialized = false;
     }
     
     void sendData(int code, const Datum &data) {
