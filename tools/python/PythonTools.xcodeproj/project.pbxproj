@@ -164,7 +164,7 @@
 		E105D17D20FE7D33002E2464 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E127A89022CBAB3D00D58D2B /* dump_codec */ = {isa = PBXFileReference; explicitFileType = text.script.python; path = dump_codec; sourceTree = "<group>"; };
 		E127A89122CBAB3D00D58D2B /* dump_events */ = {isa = PBXFileReference; explicitFileType = text.script.python; path = dump_events; sourceTree = "<group>"; };
-		E1348FFE235760D400AF9CB2 /* PythonSimpleConduit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PythonSimpleConduit.cpp; sourceTree = "<group>"; };
+		E1348FFE235760D400AF9CB2 /* PythonSimpleConduit.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = PythonSimpleConduit.cpp; sourceTree = "<group>"; };
 		E1429856234BC454009EB74B /* ExtensionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtensionType.h; sourceTree = "<group>"; };
 		E14781B8234D206700E88119 /* ArgTuple.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArgTuple.h; sourceTree = "<group>"; };
 		E14AA6AD2345070000F859B1 /* PythonPlugin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PythonPlugin-Prefix.pch"; sourceTree = "<group>"; };

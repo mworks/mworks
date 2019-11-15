@@ -8,8 +8,30 @@
 
 #include "PythonSimpleConduit.h"
 
+#import <AppKit/AppKit.h>
+
 
 BEGIN_NAMESPACE_MW_PYTHON
+
+
+static void stopMainLoop() {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NSApplication.sharedApplication stop:nil];
+        // Per the docs, "stop:" "sets a flag that the application checks only after it finishes
+        // dispatching an actual event object", so we send a dummy event to ensure that the main
+        // loop stops ASAP
+        [NSApplication.sharedApplication postEvent:[NSEvent otherEventWithType:NSEventTypeApplicationDefined
+                                                                      location:NSZeroPoint
+                                                                 modifierFlags:0
+                                                                     timestamp:0.0
+                                                                  windowNumber:0
+                                                                       context:nil
+                                                                       subtype:0
+                                                                         data1:0
+                                                                         data2:0]
+                                           atStart:YES];
+    });
+}
 
 
 template<>
@@ -20,6 +42,7 @@ PyMethodDef ExtensionType<PythonIPCConduit>::methods[] = {
     MethodDef<&PythonIPCConduit::registerLocalEventCode>("register_local_event_code"),
     MethodDef<&PythonIPCConduit::finalize>("finalize"),
     MethodDef<&PythonIPCConduit::sendData>("send_data"),
+    MethodDef<stopMainLoop>("_stop_main_loop"),
     { }  // Sentinel
 };
 
