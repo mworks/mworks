@@ -65,7 +65,7 @@
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="86">
                         <rect key="frame" x="17" y="280" width="381" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="/Users/davidcox/Repositories/.../mw_data_analysis2.py" id="87">
+                        <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="/Users/davidcox/Repositories/.../mw_data_analysis2.py" id="87">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -226,7 +226,7 @@
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="133">
                         <rect key="frame" x="16" y="45" width="413" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="136" id="134">
+                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingHead" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="136" id="134">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                             <menu key="menu" title="OtherViews" id="135">
