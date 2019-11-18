@@ -37,11 +37,11 @@ firmata firmata (
         value = bit0
         )
     firmata_digital_input (
-        pin_number = a1
+        pin_number = a2
         value = bit1
         )
     firmata_digital_input (
-        pin_number = a0
+        pin_number = a1
         value = bit2
         )
     firmata_digital_input (
