@@ -322,7 +322,7 @@ def add_object_files_to_libpythonall(exclude=()):
 
 @builder
 def libffi():
-    version = '3.3-rc1'
+    version = '3.3'
     srcdir = 'libffi-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -441,7 +441,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.17.3'
+    version = '1.17.4'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -502,7 +502,7 @@ def numpy():
 
 @builder
 def boost():
-    version = '1.71.0'
+    version = '1.72.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -565,7 +565,7 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '3.2.0'
+    version = '3.2.1'
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
 
