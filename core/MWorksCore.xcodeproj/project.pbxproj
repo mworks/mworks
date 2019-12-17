@@ -856,7 +856,7 @@
 		E1CBF63D16BAF3130057CE48 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+			dstPath = "$(MW_FRAMEWORKS_DIR)";
 			dstSubfolderSpec = 0;
 			files = (
 				E1CBF63E16BAF3190057CE48 /* MWorksCore.framework in CopyFiles */,

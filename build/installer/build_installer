@@ -25,6 +25,7 @@ package_contents = {
         app_paths + (
         '/Library/Application Support/MWorks/Configuration/examples',
         '/Library/Application Support/MWorks/Documentation',
+        '/Library/Application Support/MWorks/Frameworks',
         '/Library/Application Support/MWorks/MWEL',
         '/Library/Application Support/MWorks/Plugins/Core/HighPrecisionClock.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/LowPrioritySchedulerPlugin.bundle',

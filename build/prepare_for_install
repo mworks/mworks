@@ -1,0 +1,31 @@
+#!/bin/zsh
+
+#
+# Prepare for a clean build and installation of MWorks
+#
+
+set -u
+
+
+app_support_dir='/Library/Application Support/MWorks'
+framework_install_dir="${app_support_dir}/Frameworks"
+framework_symlink_dir=/Library/Frameworks
+
+mw_frameworks=(
+    'MWorksCocoa.framework'
+    'MWorksCore.framework'
+    'MWorksPython.framework'
+    'MWorksSwift.framework'
+    )
+
+
+"$(/usr/bin/dirname $0)/installer/scripts/uninstall_mworks" --delete --no-exec-sudo || exit
+
+echo "Creating directory '$app_support_dir'"
+/usr/bin/sudo /bin/mkdir -m 775 "$app_support_dir" || exit
+
+for framework in $mw_frameworks; do
+    framework_symlink="${framework_symlink_dir}/${framework}"
+    echo "Creating symbolic link '$framework_symlink'"
+    /usr/bin/sudo /bin/ln -s "${framework_install_dir}/${framework}" "$framework_symlink" || exit
+done

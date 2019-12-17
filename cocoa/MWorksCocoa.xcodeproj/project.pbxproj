@@ -99,7 +99,7 @@
 		E12D98F716BC295F004FEF79 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+			dstPath = "$(MW_FRAMEWORKS_DIR)";
 			dstSubfolderSpec = 0;
 			files = (
 				E12D98F816BC2964004FEF79 /* MWorksCocoa.framework in CopyFiles */,

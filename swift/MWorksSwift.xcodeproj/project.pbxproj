@@ -113,7 +113,7 @@
 		E1F603B222BC171600007C61 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+			dstPath = "$(MW_FRAMEWORKS_DIR)";
 			dstSubfolderSpec = 0;
 			files = (
 				E1F603B322BC172000007C61 /* MWorksSwift.framework in CopyFiles */,

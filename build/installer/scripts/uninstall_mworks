@@ -47,12 +47,21 @@ usage() {
 Usage: $progname [options]
 
 Options:
-  --help     show this help message and exit
-  --check    check for installed MWorks files
-  --backup   don't restore, but back up old installation
-  --delete   permanently delete uninstalled files
-  --no-sudo  don't execute commands as the superuser
+  --help          show this help message and exit
+  --check         check for installed MWorks files
+  --backup        don't restore, but back up old installation
+  --delete        permanently delete installed files; don't restore
+  --no-exec-sudo  don't re-execute script as the superuser
 EOF
+}
+
+
+installed_file_exists() {
+    local filename=$1
+    # Include -L so that we don't miss broken symlinks, which test false
+    # with -e
+    [[ -e $filename || -L $filename ]]
+    return
 }
 
 
@@ -60,7 +69,7 @@ check_installed_files() {
     local filename
 
     for filename in $mw_files; do
-        if [[ -e $filename ]]; then
+        if installed_file_exists $filename; then
             echo 'Found installed MWorks files'
             return 0
         fi
@@ -68,6 +77,20 @@ check_installed_files() {
 
     echo 'No installed MWorks files found'
     return 1
+}
+
+
+delete_files() {
+    local filename
+
+    for filename in $mw_files; do
+        if installed_file_exists $filename; then
+            echo "Deleting '$filename'"
+            /usr/bin/sudo /bin/rm -Rf $filename || return
+        fi
+    done
+
+    return 0
 }
 
 
@@ -104,7 +127,7 @@ create_directory() {
 
     for dirname in $dirlist; do
         /bin/mkdir $dirname || return
-        /usr/sbin/chown $username $dirname || return
+        /usr/bin/sudo /usr/sbin/chown $username $dirname || return
     done
 
     return 0
@@ -119,11 +142,11 @@ backup_files() {
     rename_existing_directory $backupdir || return
 
     for filename in $mw_files; do
-        if [[ -e $filename ]]; then
+        if installed_file_exists $filename; then
             echo "Moving '$filename' to '$backupdir'"
             destdir="${backupdir}$(/usr/bin/dirname $filename)"
             create_directory $destdir || return
-            /bin/mv $filename $destdir || return
+            /usr/bin/sudo /bin/mv $filename $destdir || return
         fi
     done
 
@@ -143,9 +166,9 @@ restore_files() {
 
     for filename in $mw_files; do
         srcfile="${backupdir}${filename}"
-        if [[ -e $srcfile ]]; then
+        if installed_file_exists $srcfile; then
             echo "Restoring '$filename' from '$backupdir'"
-            /bin/mv $srcfile "$(/usr/bin/dirname $filename)" || return
+            /usr/bin/sudo /bin/mv $srcfile "$(/usr/bin/dirname $filename)" || return
         fi
     done
 
@@ -161,7 +184,7 @@ restore_files() {
 check=0
 backup=0
 delete=0
-use_sudo=1
+exec_sudo=1
 
 for arg in $argv; do
     case $arg in
@@ -182,8 +205,8 @@ for arg in $argv; do
             delete=1
             ;;
 
-        --no-sudo)
-            use_sudo=0
+        --no-exec-sudo)
+            exec_sudo=0
             ;;
 
         *)
@@ -193,13 +216,19 @@ for arg in $argv; do
     esac
 done
 
+# Checking for installed files doesn't require superuser privileges
 if (( check )); then
     check_installed_files
     exit
 fi
 
-if (( use_sudo && ( $(/usr/bin/id -u) != 0 ) )); then
+if (( exec_sudo && ( $(/usr/bin/id -u) != 0 ) )); then
     exec /usr/bin/sudo $0 $argv
+fi
+
+if (( delete )); then
+    delete_files
+    exit
 fi
 
 backupdir=~'/Desktop/MWorks Backup'
@@ -210,10 +239,6 @@ else
     uninstalldir=~'/.Trash/Uninstalled MWorks'
     backup_files $uninstalldir || exit
     restore_files $backupdir || exit
-    if (( delete )); then
-        echo "Deleting '$uninstalldir'"
-        /bin/rm -Rf $uninstalldir || exit
-    fi
 fi
 
 exit 0

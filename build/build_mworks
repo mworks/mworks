@@ -112,9 +112,9 @@ def make(args=[]):
 ################################################################################
 
 
-@builder('mworks/build/installer/scripts')
-def uninstall():
-    check_call(['./uninstall_mworks', '--delete', '--no-sudo'])
+@builder('mworks/build')
+def prepare():
+    check_call(['./prepare_for_install'])
 
 
 @builder('mworks/build/xcode', required=True)
