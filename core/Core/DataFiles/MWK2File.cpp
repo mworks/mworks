@@ -29,10 +29,36 @@ inline void logSQLError(int error, const std::string &description) {
 }
 
 
+//
+// cstawarz (2020/01/06):
+//
+// Setting SQLite's "synchronous" flag to "OFF" [1] may seem dangerous, but I believe it's the correct choice
+// for MWorks.
+//
+// First, when the flag is set to "FULL" or "NORMAL", high levels of non-MWorks disk I/O severely reduce SQLite's
+// write performance.  This can lead to long delays (on the order of hours) in MWorks events being written to disk.
+// If the user force quits MWServer before the backlog is cleared, they can lose data [2].  With "synchronous" set
+// to "OFF", these backups don't occur.
+//
+// Second, the calls to fsync that SQLite makes when "synchronous" is "NORMAL" or higher don't appear to provide
+// the resilience against OS crashes or power loss that the SQLite docs suggest.  The fsync man page [3] states this
+// explicitly and says that an application must use F_FULLFSYNC to be certain that its data is actually written to
+// disk.  While SQLite does support using F_FULLFSYNC [4], enabling this kills MWorks' write performance even under
+// moderate disk I/O loads.
+//
+// Given the clear potential for data loss due to write backlogs and the dubious benefits of fsync for data security,
+// setting "synchronous" to "OFF" seems like our best option.
+//
+// [1] https://sqlite.org/pragma.html#pragma_synchronous
+// [2] https://mworks.tenderapp.com/discussions/problems/413
+// [3] https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/fsync.2.html
+// [4] https://sqlite.org/pragma.html#pragma_fullfsync
+//
 const std::string createTableSQL
 (R"(
  PRAGMA locking_mode = EXCLUSIVE;
  PRAGMA page_size = %1%;
+ PRAGMA synchronous = OFF;
  CREATE TABLE events (
    code INTEGER,
    time INTEGER,
