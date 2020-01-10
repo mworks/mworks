@@ -381,7 +381,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.8.0'
+    version = '3.8.1'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -441,7 +441,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.17.4'
+    version = '1.18.1'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -605,7 +605,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2019
-    version = '3300100'
+    version = '3300100'  # 3.30.1
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -626,7 +626,7 @@ def sqlite():
 
 @builder
 def cppunit(ios=False):
-    version = '1.14.0'
+    version = '1.15.1'
     srcdir = 'cppunit-' + version
     tarfile = srcdir + '.tar.gz'
 

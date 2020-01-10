@@ -28,10 +28,10 @@ for python3 in /Library/Frameworks/Python.framework/Versions/3.*/bin/python3; do
     # the Python tools unit tests
     $pip3_install --user msgpack numpy || exit
 
-    # The docs are generated with MWorks' "official" Python 3 version, so only
-    # it needs pyaml and Sphinx
+    # The remaining packages are needed only by MWorks' "official" Python 3
+    # version
     if [[ "$python3" == "$mw_python_3" ]]; then
-        $pip3_install --user pyaml Sphinx || exit
+        $pip3_install --user Cython pyaml Sphinx || exit
     fi
     echo
 done

@@ -42,17 +42,6 @@ diff -ur numpy-1.17.3/numpy/core/tests/test_umath.py numpy/numpy/core/tests/test
          assert_equal(y, [1.e+110, 0], err_msg=msg)
  
      def test_floor_division_signed_zero(self):
-diff -ur numpy-1.17.3/numpy/distutils/tests/test_fcompiler.py numpy/numpy/distutils/tests/test_fcompiler.py
---- numpy-1.17.3/numpy/distutils/tests/test_fcompiler.py	2019-10-15 12:41:00.000000000 -0400
-+++ numpy/numpy/distutils/tests/test_fcompiler.py	2019-11-04 10:10:40.000000000 -0500
-@@ -51,6 +51,7 @@
-     # is triggered.  Need to use a real compiler instance so that we have
-     # non-empty flags to start with (otherwise the "if var and append" check
-     # will always be false).
-+    pytest.skip('no compilers available on iOS')
-     try:
-         with suppress_warnings() as sup:
-             sup.record()
 diff -ur numpy-1.17.3/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/distutils/tests/test_fcompiler_gnu.py
 --- numpy-1.17.3/numpy/distutils/tests/test_fcompiler_gnu.py	2019-08-30 19:11:42.000000000 -0400
 +++ numpy/numpy/distutils/tests/test_fcompiler_gnu.py	2019-11-04 10:10:40.000000000 -0500
