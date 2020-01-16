@@ -7,7 +7,6 @@
 
 stimulus_display (
     background_color = 0,0,0
-    redraw_on_every_refresh = true
     )
 
 
@@ -26,17 +25,9 @@ var ball_size = 10
 %define ball_position_y_min = -ball_position_y_max
 
 var ball_speed = 20  // Degrees per second
-var ball_start_time = 0
 var ball_heading = 0  // Degrees
-var ball_offset_x = 0
-var ball_offset_y = 0
-
-%define ball_drift = ball_speed * (next_frame_time() - ball_start_time) / 1e6
-%define ball_heading_radians = ball_heading * pi() / 180
-%define ball_drift_x = ball_drift * cos (ball_heading_radians)
-%define ball_drift_y = ball_drift * sin (ball_heading_radians)
-%define ball_position_x = ball_offset_x + ball_drift_x
-%define ball_position_y = ball_offset_y + ball_drift_y
+var ball_position_x = 0
+var ball_position_y = 0
 
 circle ball (
     color = 1,0,0
@@ -45,12 +36,37 @@ circle ball (
     y_position = ball_position_y
     )
 
+var current_elapsed_time = 0
+var previous_elapsed_time = 0
+
+%define ball_delta_r = ball_speed * (current_elapsed_time - previous_elapsed_time) / 1e6
+%define ball_heading_radians = ball_heading * pi() / 180
+
 %define update_ball_heading (new_heading)
-    ball_offset_x += ball_drift_x
-    ball_offset_y += ball_drift_y
     ball_heading = fmod(new_heading, 360)
-    ball_start_time = next_frame_time()
 %end
+
+render_actions update_ball (elapsed_time = current_elapsed_time) {
+    if (previous_elapsed_time == 0) {
+        previous_elapsed_time = current_elapsed_time
+    }
+
+    ball_position_x += ball_delta_r * cos(ball_heading_radians)
+    ball_position_y += ball_delta_r * sin(ball_heading_radians)
+
+    choose {
+        when ((cos(ball_heading_radians) < 0 and ball_position_x <= ball_position_x_min) or
+              (cos(ball_heading_radians) > 0 and ball_position_x >= ball_position_x_max)) {
+            update_ball_heading (180 - ball_heading)
+        }
+        when ((sin(ball_heading_radians) < 0 and ball_position_y <= ball_position_y_min) or
+              (sin(ball_heading_radians) > 0 and ball_position_y >= ball_position_y_max)) {
+            update_ball_heading (-ball_heading)
+        }
+    }
+
+    previous_elapsed_time = current_elapsed_time
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -61,44 +77,14 @@ circle ball (
 
 
 protocol {
-    ball_offset_x = 0
-    ball_offset_y = 0
+    ball_position_x = 0
+    ball_position_y = 0
     ball_heading = rand(0, 360)  // Random heading
-    ball_start_time = next_frame_time ()
+    previous_elapsed_time = 0
 
+    queue_stimulus (update_ball)
     live_queue_stimulus (ball)
     update_display ()
 
-    task {
-        state 'Check for collision' {
-            goto (
-                target = 'Bounce x'
-                when = (cos(ball_heading_radians) < 0) and (ball_position_x <= ball_position_x_min)
-                )
-            goto (
-                target = 'Bounce x'
-                when = (cos(ball_heading_radians) > 0) and (ball_position_x >= ball_position_x_max)
-                )
-            goto (
-                target = 'Bounce y'
-                when = (sin(ball_heading_radians) < 0) and (ball_position_y <= ball_position_y_min)
-                )
-            goto (
-                target = 'Bounce y'
-                when = (sin(ball_heading_radians) > 0) and (ball_position_y >= ball_position_y_max)
-                )
-        }
-
-        state 'Bounce x' {
-            update_ball_heading (180 - ball_heading)
-
-            goto ('Check for collision')
-        }
-
-        state 'Bounce y' {
-            update_ball_heading (-ball_heading)
-
-            goto ('Check for collision')
-        }
-    }
+    wait (60s)
 }

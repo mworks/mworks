@@ -156,6 +156,7 @@ def core_plugins():
                    'MovingDots',
                    'NE500',
                    'RCBLVDS',
+                   'RenderActions',
                    'ServersideConduit',
                    'SidewinderPlugAndPlayGamepadPlugin',
                    'TextStimulus',

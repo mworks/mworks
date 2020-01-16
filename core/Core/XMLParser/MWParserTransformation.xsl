@@ -27,7 +27,6 @@
 			
 			<xsl:apply-templates mode="stimulus_group_create"/>
 			<xsl:apply-templates mode="stimulus_create"/>
-            <xsl:apply-templates mode="stimulus_connect"/>
 			<xsl:apply-templates mode="stimulus_group_connect"/>
 			
 			<xsl:apply-templates mode="sound_create"/>
@@ -40,6 +39,8 @@
 			<xsl:apply-templates mode="action_create"/>
 			<xsl:apply-templates mode="action_connect"/>
 			<xsl:apply-templates mode="spring_loaded_action_connect"/>
+
+			<xsl:apply-templates mode="stimulus_connect"/>
 			
 			<xsl:apply-templates mode="list_connect"/>
 			

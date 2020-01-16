@@ -1,0 +1,52 @@
+var size = 0
+var x_pos = 0
+var elapsed_time = 0
+
+%define cos_theta = cos(2 * pi() * elapsed_time / 5s)
+
+render_actions update_params (elapsed_time = elapsed_time) {
+    // Update size
+    size = 3 * (cos_theta + 1) + 2
+
+    // Update position
+    x_pos = -15 * cos_theta
+}
+
+circle ball (
+    color = 1,0,0
+    x_size = size
+    x_position = x_pos
+    )
+
+
+protocol {
+    queue_stimulus (update_params)
+    live_queue_stimulus (ball)
+    update_display ()
+
+    wait (11s)
+
+    report ('Pausing')
+    pause_dynamic_stimulus (update_params)
+    wait (2s)
+
+    report ('Resuming')
+    unpause_dynamic_stimulus (update_params)
+    wait (6s)
+
+    report ('Pausing')
+    pause_dynamic_stimulus (update_params)
+    wait (2s)
+
+    report ('Resuming')
+    unpause_dynamic_stimulus (update_params)
+    wait (6s)
+
+    report ('Stopping')
+    stop_dynamic_stimulus (update_params)
+    wait (4s)
+
+    report ('Restarting')
+    play_dynamic_stimulus (update_params)
+    wait (12s)
+}

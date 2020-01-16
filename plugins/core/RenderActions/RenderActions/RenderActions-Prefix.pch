@@ -1,0 +1,21 @@
+//
+//  RenderActions-Prefix.pch
+//  RenderActions
+//
+//  Created by Christopher Stawarz on 3/19/19.
+//  Copyright © 2019 The MWorks Project. All rights reserved.
+//
+
+#ifndef RenderActions_Prefix_pch
+#define RenderActions_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardDynamicStimulus.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+#include <MWorksCore/TrialBuildingBlocks.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* RenderActions_Prefix_pch */

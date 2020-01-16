@@ -224,6 +224,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E192B30B23CCD3E200ED486B"
+               BuildableName = "RenderActions.framework"
+               BlueprintName = "RenderActions-iOS"
+               ReferencedContainer = "container:../plugins/core/RenderActions/RenderActions.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72CE1E6DF11A001CE0C0"
                BuildableName = "TextStimulus.framework"
                BlueprintName = "TextStimulus-iOS"

@@ -340,6 +340,8 @@ Advanced Tools and Techniques
 -----------------------------
 
 
+.. _Variable Attached Actions:
+
 Variable-Attached Actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -593,7 +595,17 @@ Stimulus Animation
 
 Although some of MWorks' visual stimuli (such as `videos <Video Stimulus>` and `drifting gratings <Drifting Grating Stimulus>`) are inherently dynamic, most are  designed for static display, with changes to their color, size, position, etc. being made explicitly by the experiment.  However, with a little work, these normally-static stimuli can be animated, opening the door to user-defined dynamic stimulus presentations.
 
-Animating a non-dynamic stimulus involves three steps:
+
+Render Actions
+""""""""""""""
+
+The easiest and most straightforward way to animate a non-dynamic stimulus is to use `Render Actions`.  For a demonstration of moderately complex stimulus animation using this technique, see the example experiment ``BouncingBall.mwel``.
+
+
+Time-Varying Parameter Expressions
+""""""""""""""""""""""""""""""""""
+
+Although `Render Actions` is the right choice for most new experiments, older experiments may employ an alternative technique to animate non-dynamic stimuli.  This technique involves three steps:
 
 1. Writing the stimulus parameters that you want to animate as time-varying expressions,
 2. Arranging for the stimulus display to redraw itself on every display refesh, and
@@ -641,5 +653,3 @@ Finally, to ensure that the stimulus' parameters are re-evaluated every time it 
     start_time = next_frame_time ()
     live_queue_stimulus (ball)
     update_display ()
-
-For a demonstration of more complex stimulus animation, see the example experiment ``BouncingBall.mwel``.

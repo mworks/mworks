@@ -38,6 +38,9 @@
          location = "group:../plugins/core/RCBLVDS/RCBLVDS.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:../plugins/core/RenderActions/RenderActions.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:../plugins/core/TextStimulus/TextStimulus.xcodeproj">
       </FileRef>
       <FileRef

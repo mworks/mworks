@@ -1,0 +1,406 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E15DAE962241306D00A5EA4E /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E15DAE972241306D00A5EA4E /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E15DAE9E224136AB00A5EA4E /* CopyFiles */,
+			);
+			dependencies = (
+				E15DAE9D224136A700A5EA4E /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E15DAE992241307800A5EA4E /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E15DAE9A2241307800A5EA4E /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E15DAEA1224136C600A5EA4E /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E15DAE9F224136B700A5EA4E /* RenderActions.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E15DAE8822412F4F00A5EA4E /* RenderActions.bundle */; };
+		E15DAEA32241386700A5EA4E /* RenderActionsPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E15DAEA22241386700A5EA4E /* RenderActionsPlugin.cpp */; };
+		E15DAEA92241398A00A5EA4E /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15DAEA82241398A00A5EA4E /* MWorksCore.framework */; };
+		E15DAEAC22413A1A00A5EA4E /* RenderActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E15DAEAA22413A1A00A5EA4E /* RenderActions.cpp */; };
+		E15DAEAE22413F4600A5EA4E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E15DAEAD22413F4600A5EA4E /* MWComponents.yaml */; };
+		E192B31323CCEB2A00ED486B /* RenderActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E15DAEAA22413A1A00A5EA4E /* RenderActions.cpp */; };
+		E192B31423CCEB2E00ED486B /* RenderActionsPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E15DAEA22241386700A5EA4E /* RenderActionsPlugin.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E15DAE9C224136A700A5EA4E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E15DAE8022412F4F00A5EA4E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E15DAE8722412F4F00A5EA4E;
+			remoteInfo = RenderActions;
+		};
+		E15DAEA0224136C600A5EA4E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E15DAE8022412F4F00A5EA4E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E15DAE962241306D00A5EA4E;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E15DAE9E224136AB00A5EA4E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E15DAE9F224136B700A5EA4E /* RenderActions.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E15DAE8822412F4F00A5EA4E /* RenderActions.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RenderActions.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15DAE8B22412F4F00A5EA4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E15DAE932241302000A5EA4E /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15DAE942241302000A5EA4E /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E15DAE952241302000A5EA4E /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15DAEA22241386700A5EA4E /* RenderActionsPlugin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderActionsPlugin.cpp; sourceTree = "<group>"; };
+		E15DAEA6224138F500A5EA4E /* RenderActions-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RenderActions-Prefix.pch"; sourceTree = "<group>"; };
+		E15DAEA82241398A00A5EA4E /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E15DAEAA22413A1A00A5EA4E /* RenderActions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderActions.cpp; sourceTree = "<group>"; };
+		E15DAEAB22413A1A00A5EA4E /* RenderActions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderActions.hpp; sourceTree = "<group>"; };
+		E15DAEAD22413F4600A5EA4E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E192B30C23CCD3E200ED486B /* RenderActions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderActions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E192B30F23CCD3E200ED486B /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E15DAE8522412F4F00A5EA4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E15DAEA92241398A00A5EA4E /* MWorksCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E192B30923CCD3E200ED486B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E15DAE7F22412F4F00A5EA4E = {
+			isa = PBXGroup;
+			children = (
+				E15DAE9222412FDE00A5EA4E /* External Config */,
+				E15DAE8A22412F4F00A5EA4E /* RenderActions */,
+				E15DAEA72241398A00A5EA4E /* Frameworks */,
+				E15DAE8922412F4F00A5EA4E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E15DAE8922412F4F00A5EA4E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E15DAE8822412F4F00A5EA4E /* RenderActions.bundle */,
+				E192B30C23CCD3E200ED486B /* RenderActions.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E15DAE8A22412F4F00A5EA4E /* RenderActions */ = {
+			isa = PBXGroup;
+			children = (
+				E15DAEAB22413A1A00A5EA4E /* RenderActions.hpp */,
+				E15DAEAA22413A1A00A5EA4E /* RenderActions.cpp */,
+				E15DAEA22241386700A5EA4E /* RenderActionsPlugin.cpp */,
+				E15DAEA5224138A600A5EA4E /* Supporting Files */,
+			);
+			path = RenderActions;
+			sourceTree = "<group>";
+		};
+		E15DAE9222412FDE00A5EA4E /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E15DAE942241302000A5EA4E /* macOS.xcconfig */,
+				E15DAE932241302000A5EA4E /* macOS_Plugin.xcconfig */,
+				E15DAE952241302000A5EA4E /* iOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E15DAEA5224138A600A5EA4E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E15DAE8B22412F4F00A5EA4E /* Info.plist */,
+				E192B30F23CCD3E200ED486B /* Info-iOS.plist */,
+				E15DAEA6224138F500A5EA4E /* RenderActions-Prefix.pch */,
+				E15DAEAD22413F4600A5EA4E /* MWComponents.yaml */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E15DAEA72241398A00A5EA4E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E15DAEA82241398A00A5EA4E /* MWorksCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E192B30723CCD3E200ED486B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E15DAE8722412F4F00A5EA4E /* RenderActions */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E15DAE8E22412F4F00A5EA4E /* Build configuration list for PBXNativeTarget "RenderActions" */;
+			buildPhases = (
+				E15DAE8422412F4F00A5EA4E /* Sources */,
+				E15DAE8522412F4F00A5EA4E /* Frameworks */,
+				E15DAE8622412F4F00A5EA4E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RenderActions;
+			productName = RenderActions;
+			productReference = E15DAE8822412F4F00A5EA4E /* RenderActions.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		E192B30B23CCD3E200ED486B /* RenderActions-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E192B31223CCD3E200ED486B /* Build configuration list for PBXNativeTarget "RenderActions-iOS" */;
+			buildPhases = (
+				E192B30723CCD3E200ED486B /* Headers */,
+				E192B30823CCD3E200ED486B /* Sources */,
+				E192B30923CCD3E200ED486B /* Frameworks */,
+				E192B30A23CCD3E200ED486B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RenderActions-iOS";
+			productName = "RenderActions-iOS";
+			productReference = E192B30C23CCD3E200ED486B /* RenderActions.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E15DAE8022412F4F00A5EA4E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E15DAE8722412F4F00A5EA4E = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					E15DAE962241306D00A5EA4E = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					E15DAE992241307800A5EA4E = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					E192B30B23CCD3E200ED486B = {
+						CreatedOnToolsVersion = 11.3;
+					};
+				};
+			};
+			buildConfigurationList = E15DAE8322412F4F00A5EA4E /* Build configuration list for PBXProject "RenderActions" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E15DAE7F22412F4F00A5EA4E;
+			productRefGroup = E15DAE8922412F4F00A5EA4E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E15DAE8722412F4F00A5EA4E /* RenderActions */,
+				E15DAE962241306D00A5EA4E /* Install */,
+				E15DAE992241307800A5EA4E /* Everything */,
+				E192B30B23CCD3E200ED486B /* RenderActions-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E15DAE8622412F4F00A5EA4E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E15DAEAE22413F4600A5EA4E /* MWComponents.yaml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E192B30A23CCD3E200ED486B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E15DAE8422412F4F00A5EA4E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E15DAEA32241386700A5EA4E /* RenderActionsPlugin.cpp in Sources */,
+				E15DAEAC22413A1A00A5EA4E /* RenderActions.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E192B30823CCD3E200ED486B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E192B31423CCEB2E00ED486B /* RenderActionsPlugin.cpp in Sources */,
+				E192B31323CCEB2A00ED486B /* RenderActions.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E15DAE9D224136A700A5EA4E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E15DAE8722412F4F00A5EA4E /* RenderActions */;
+			targetProxy = E15DAE9C224136A700A5EA4E /* PBXContainerItemProxy */;
+		};
+		E15DAEA1224136C600A5EA4E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E15DAE962241306D00A5EA4E /* Install */;
+			targetProxy = E15DAEA0224136C600A5EA4E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E15DAE8C22412F4F00A5EA4E /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E15DAE8F22412F4F00A5EA4E /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15DAE932241302000A5EA4E /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RenderActions/RenderActions-Prefix.pch";
+				INFOPLIST_FILE = RenderActions/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.RenderActions";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E15DAE982241306D00A5EA4E /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15DAE942241302000A5EA4E /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E15DAE9B2241307800A5EA4E /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15DAE942241302000A5EA4E /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E192B31123CCD3E200ED486B /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15DAE952241302000A5EA4E /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RenderActions/RenderActions-Prefix.pch";
+				INFOPLIST_FILE = "RenderActions/Info-iOS.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.RenderActions-iOS";
+				PRODUCT_NAME = RenderActions;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E15DAE8322412F4F00A5EA4E /* Build configuration list for PBXProject "RenderActions" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E15DAE8C22412F4F00A5EA4E /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E15DAE8E22412F4F00A5EA4E /* Build configuration list for PBXNativeTarget "RenderActions" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E15DAE8F22412F4F00A5EA4E /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E15DAE972241306D00A5EA4E /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E15DAE982241306D00A5EA4E /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E15DAE9A2241307800A5EA4E /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E15DAE9B2241307800A5EA4E /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E192B31223CCD3E200ED486B /* Build configuration list for PBXNativeTarget "RenderActions-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E192B31123CCD3E200ED486B /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E15DAE8022412F4F00A5EA4E /* Project object */;
+}

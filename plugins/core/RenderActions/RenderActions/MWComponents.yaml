@@ -1,0 +1,115 @@
+---
+
+
+name: Render Actions
+signature: stimulus/render_actions
+isa: Stimulus
+allowed_child: Action
+description: |
+    Render Actions is a special type of stimulus that enables dynamic parameter
+    changes to (i.e. animation of) other stimulus types.
+
+    Like other stimuli, a Render Actions stimulus must be added to the display
+    queue with `Queue Stimulus` and made active with `Update Stimulus Display`.
+    However, instead of drawing to the display like a normal stimulus, a Render
+    Actions instance executes a set of attached `actions <Actions>`.  By
+    changing the values of variables used in the parameters of other stimuli,
+    these actions can alter the appearance of said stimuli on a frame-by-frame
+    basis.
+
+    For example, consider the following `circle stimulus <Ellipse Stimulus>`,
+    whose ``x_position`` and ``x_size`` parameters are given by variables::
+
+        var position = 0
+        var size = 0
+
+        circle ball (
+            color = 1,0,0
+            x_position = position
+            x_size = size
+            )
+
+    By using a Render Actions instance to alter the variables' values, we can
+    turn this normally static circle into an animated one::
+
+        var elapsed_time = 0
+
+        render_actions update_position_and_size (
+            elapsed_time = elapsed_time
+            ) {
+            // Vary position and size sinusoidally with a period of
+            // three seconds
+            position = -15 * cos(2*pi() * elapsed_time / 3s)
+            size = 3 * (sin(2*pi() * elapsed_time / 3s) + 1) + 2
+        }
+
+    Inside our protocol, we can start the animation by queuing both stimuli
+    and updating the stimulus display::
+
+        queue_stimulus (update_position_and_size)
+        live_queue_stimulus (ball)
+        update_display ()
+
+    (*Note*: In order for changes to its position and size to take effect
+    immediately, we must `live queue <Live Queue Stimulus>` the circle.)
+
+    As with other dynamic stimuli, an experiment can `pause <Pause Dynamic
+    Stimulus>`, `resume <Unpause Dynamic Stimulus>`, `stop <Stop Dynamic
+    Stimulus>`, and `restart <Play Dynamic Stimulus>` a Render Actions stimulus.
+    While the stimulus is paused, its attached actions do not execute, and the
+    value reported by `elapsed_time`_ does not increase.  Stopping and
+    restarting the stimulus resets the elapsed time to zero.
+
+    .. rubric:: Restrictions
+
+    Because a Render Actions stimulus executes on the stimulus display update
+    thread, there are some restrictions on the actions that it can perform.
+
+    The following actions must *not* be executed by a Render Actions stimulus
+    (either directly or via `variable-attached actions <Variable Attached
+    Actions>`), as they can cause the MWorks server to deadlock:
+
+    * `Clear Stimulus Display`
+    * `Dequeue Stimulus`
+    * `Live Queue Stimulus`
+    * `Load Stimulus`
+    * `Pause Experiment`
+    * `Queue Stimulus`
+    * `Resume Experiment`
+    * `Stop Experiment`
+    * `Unload Stimulus`
+    * `Update Stimulus Display`
+
+    A Render Actions stimulus can safely use the following actions on other
+    stimuli but not on itself:
+
+    * `Bring Stimulus to Front`
+    * `Pause Dynamic Stimulus`
+    * `Play Dynamic Stimulus`
+    * `Send Stimulus to Back`
+    * `Stop Dynamic Stimulus`
+    * `Unpause Dynamic Stimulus`
+
+parameters: 
+  - 
+    name: elapsed_time
+    description: |
+        Name of a variable in which to store the elapsed time (in microseconds)
+        since the stimulus started playing (either implicitly due to `autoplay`_
+        being ``YES`` or via an explicit `Play Dynamic Stimulus` action).
+
+        If the stimulus has been paused (e.g. via `Pause Dynamic Stimulus` or
+        `Pause Experiment`), the time elapsed while paused is excluded from the
+        reported elapsed time.
+  - 
+    name: autoplay
+    default: 'YES'
+    description: >
+        If ``YES``, the stimulus will begin executing its actions automatically
+        (as if by an implicit `Play Dynamic Stimulus` action) after it has been
+        `queued <Queue Stimulus>` and `Update Stimulus Display` has been
+        invoked.  It will also stop executing automatically (as if by an
+        implicit `Stop Dynamic Stimulus` action) after it has been `dequeued
+        <Dequeue Stimulus>` and `Update Stimulus Display` is invoked.
+
+
