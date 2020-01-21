@@ -1,1 +1,2 @@
-CodeSigning.xcconfig
+iOS_CodeSigning.xcconfig
+macOS_CodeSigning.xcconfig

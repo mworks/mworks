@@ -9,3 +9,5 @@ SDKROOT = iphoneos
 SUPPORTS_MACCATALYST = NO
 TARGETED_DEVICE_FAMILY = 2
 VALIDATE_PRODUCT = YES
+
+#include? "iOS_CodeSigning.xcconfig"
