@@ -131,6 +131,7 @@
 		E1172B9F2227174B00253D14 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folder.png; path = Images/folder.png; sourceTree = "<group>"; };
 		E1172BA5222723AB00253D14 /* controls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controls.png; path = Images/controls.png; sourceTree = "<group>"; };
 		E18B840C1552D7C000268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E19B35AE23D0EE9F0062AB43 /* MWClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MWClient.entitlements; sourceTree = "<group>"; };
 		E1C3650622BD618400D1DBF6 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_App.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,6 +203,7 @@
 				5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				E19B35AE23D0EE9F0062AB43 /* MWClient.entitlements */,
 				E1156285222EF8D600D0451F /* Credits.rtf */,
 			);
 			name = Resources;
@@ -443,6 +445,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C3650722BD618400D1DBF6 /* macOS_App.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MWClient.entitlements;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWClient";
 				PRODUCT_NAME = MWClient;

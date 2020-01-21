@@ -74,6 +74,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E19A426423D2500500BE44AF /* mwpython.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mwpython.entitlements; sourceTree = "<group>"; };
 		E1D05073237478DA008D4A05 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1D0507E23747DFF008D4A05 /* mwpython */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mwpython; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D0508123747DFF008D4A05 /* mwpython.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mwpython.c; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 			children = (
 				E1D05072237478BD008D4A05 /* External Config */,
 				E1D0508123747DFF008D4A05 /* mwpython.c */,
+				E19A426423D2500500BE44AF /* mwpython.entitlements */,
 				E1D0508723747FC0008D4A05 /* Frameworks */,
 				E1D0507F23747DFF008D4A05 /* Products */,
 			);
@@ -277,6 +279,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1D05073237478DA008D4A05 /* macOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = mwpython.entitlements;
+				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;

@@ -106,6 +106,7 @@
 		E16A212D1E57A49100C48E10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E16A212F1E57A49100C48E10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E18B84001552D61100268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E19B35AD23D0D28D0062AB43 /* MWServer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MWServer.entitlements; sourceTree = "<group>"; };
 		E1BB72C31D6B3D240046B14F /* Console.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Console.tiff; sourceTree = "<group>"; };
 		E1CCE03E1E5CD13E00614060 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,6 +177,7 @@
 			children = (
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				E19B35AD23D0D28D0062AB43 /* MWServer.entitlements */,
 				E18B83FF1552D61100268197 /* MainMenu.xib */,
 				E1156287222EF99300D0451F /* Credits.rtf */,
 			);
@@ -464,6 +466,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MWServer.entitlements;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWServer";
 				PRODUCT_NAME = MWServer;

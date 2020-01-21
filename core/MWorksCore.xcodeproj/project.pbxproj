@@ -1223,6 +1223,8 @@
 		E106CF181CA43380001A0928 /* HighPrecisionClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighPrecisionClock.cpp; sourceTree = "<group>"; };
 		E106CF191CA43380001A0928 /* HighPrecisionClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighPrecisionClock.h; sourceTree = "<group>"; };
 		E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighPrecisionClockPlugin.cpp; sourceTree = "<group>"; };
+		E10A1D7F23D75E12003210CC /* MWorksCoreTestRunner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MWorksCoreTestRunner.entitlements; sourceTree = "<group>"; };
+		E10A1D8023D75EC6003210CC /* MarionetteTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MarionetteTest.entitlements; sourceTree = "<group>"; };
 		E10AECD115DE904300E71CA7 /* IPCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCUtilities.h; sourceTree = "<group>"; };
 		E10C1D02223048CC007094E5 /* MetalOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MetalOpenGLContextManager.cpp; sourceTree = "<group>"; };
 		E10C1D03223048CC007094E5 /* MetalOpenGLContextManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetalOpenGLContextManager.hpp; sourceTree = "<group>"; };
@@ -1493,6 +1495,7 @@
 				0E209C660E63067800F00BAD /* MarionetteParserTransformation.xsl */,
 				0EB975970E624D2F00632F05 /* default_test_data.xml */,
 				0E8014140E422E2A00D6DE20 /* MarionetteTest-Info.plist */,
+				E10A1D8023D75EC6003210CC /* MarionetteTest.entitlements */,
 				E1CA92A51B5554EF00DF78B9 /* Marionette.xib */,
 				0EE137C10E429B23009B47B5 /* MWCocoaEvent.h */,
 				0EE137C20E429B23009B47B5 /* MWCocoaEvent.m */,
@@ -1702,6 +1705,7 @@
 				E1B6373D1D4A4B0700116BB3 /* MessageTestFixture.cpp */,
 				E11542181193471F00DDE09D /* mw_test */,
 				5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */,
+				E10A1D7F23D75E12003210CC /* MWorksCoreTestRunner.entitlements */,
 			);
 			name = "Unit Testing";
 			path = UnitTests;
@@ -3774,6 +3778,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = UnitTests/MarionetteTest.entitlements;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
@@ -3856,6 +3862,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = UnitTests/MWorksCoreTestRunner.entitlements;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = MWorksCoreTestRunner;
 			};
