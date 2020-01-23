@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import plistlib
+import subprocess
+import sys
+import time
+
+
+xcrun = '/usr/bin/xcrun'
+
+
+def announce(msg, *args):
+    sys.stderr.write((msg + '\n') % args)
+    sys.stderr.flush()
+
+
+def fail(msg, *args):
+    announce('ERROR: ' + msg, *args)
+    sys.exit(1)
+
+
+def run_altool(*args):
+    cmd = [
+        xcrun,
+        'altool',
+        '--username', username,
+        '--password', password,
+        '--output-format', 'xml',
+        ] + list(args)
+    result = subprocess.run(cmd,
+                            stdin = subprocess.DEVNULL,
+                            capture_output = True)
+    if result.returncode != 0:
+        fail('altool exited with status %d:\n%s',
+             result.returncode,
+             result.stderr.decode('utf-8'))
+    return plistlib.loads(result.stdout)
+
+
+def upload_image(image):
+    output = run_altool(
+        '--notarize-app',
+        '--primary-bundle-id', 'org.mworks-project.' + os.path.basename(image),
+        '--file', image,
+        )
+    return output['notarization-upload']['RequestUUID']
+
+
+def check_status(uuid):
+    output = run_altool('--notarization-info', uuid)
+    info = output['notarization-info']
+    logfileurl = info.get('LogFileURL')
+    if logfileurl:
+        announce('Notarization log file is available at %r', logfileurl)
+    return info['Status']
+
+
+def run_stapler(image):
+    result = subprocess.run([xcrun, 'stapler', 'staple', image])
+    if result.returncode != 0:
+        fail('stapler exited with status %d', result.returncode)
+
+
+def main():
+    global username, password
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--username',
+                        required = True,
+                        help = 'App Store Connect username')
+    parser.add_argument('--password',
+                        required = True,
+                        help = 'app-specific password')
+    parser.add_argument('image', help='installer disk image to notarize')
+
+    args = parser.parse_args()
+    username = args.username
+    password = args.password
+    image = args.image
+
+    announce('Uploading %r for notarization...', image)
+    uuid = upload_image(image)
+    announce('Upload succeeded')
+
+    while True:
+        announce('Sleeping until next status check...')
+        time.sleep(300)  # 5 minutes
+
+        announce('Checking notarization status...')
+        status = check_status(uuid)
+
+        if status == 'in progress':
+            announce('Notarization is in progress')
+        elif status == 'success':
+            announce('Notarization succeeded')
+            break
+        else:
+            fail('Notarization failed with status %r', status)
+
+    announce('Attaching notarization ticket to %r...', image)
+    run_stapler(image)
+
+    announce('Done!')
+
+
+if __name__ == '__main__':
+    main()
