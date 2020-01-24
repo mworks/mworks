@@ -1,0 +1,30 @@
+var start_time = 0
+var done = false
+
+
+protocol {
+    done = false
+
+    schedule (
+        delay = 0
+        duration = 0
+        repeats = 1
+        ) {
+        start_time = now()
+        wait_for_condition (
+            condition = 0
+            timeout = 100s
+            timeout_message = 'Unexpected timeout'
+            )
+        assert (
+            condition = now() - start_time < 1ms
+            stop_on_failure = 0
+            )
+        done = true
+    }
+
+    wait_for_condition (
+        condition = done
+        timeout = 5s
+        )
+}
