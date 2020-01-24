@@ -245,11 +245,14 @@ public:
     boost::weak_ptr<State> next() override;
     
 private:
+    bool stillWaiting() const;
+    
     const VariablePtr condition;
     const VariablePtr timeout;
     VariablePtr timeoutMessage;
     const bool stopOnTimeout;
     
+    const boost::shared_ptr<Clock> clock;
     MWTime deadline;
     
 };

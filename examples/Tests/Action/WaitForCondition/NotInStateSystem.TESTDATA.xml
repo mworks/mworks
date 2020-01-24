@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="whole_message">ERROR: wait_for_condition cannot execute outside of the main state system</message>
+    <message type="whole_message">ERROR: Timeout while waiting for condition: now() > start_time + 50 ms</message>
+    <message type="whole_message">ERROR: The wait timed out; value = 123</message>
+    <message type="whole_message">ERROR: Timeout while waiting for condition: now() > start_time + 50 ms</message>
+    <message type="whole_message">ERROR: Stopping experiment due to wait for condition timeout</message>
   </expected_messages>
 </marionette_info>

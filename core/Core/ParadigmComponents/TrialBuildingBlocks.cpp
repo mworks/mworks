@@ -419,7 +419,8 @@ WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
     Action(parameters),
     condition(parameters[CONDITION]),
     timeout(parameters[TIMEOUT]),
-    stopOnTimeout(parameters[STOP_ON_TIMEOUT])
+    stopOnTimeout(parameters[STOP_ON_TIMEOUT]),
+    clock(Clock::instance())
 {
     setName("WaitForCondition");
     
@@ -432,12 +433,14 @@ WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
 
 
 bool WaitForCondition::execute() {
-    // Ensure that we're executing via the state system and not, e.g., as part of a ScheduledActions instance
-    if (StateSystem::instance()->getCurrentState().lock().get() == this) {
-        deadline = Clock::instance()->getCurrentTimeUS() + MWTime(*timeout);
-    } else {
-        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "wait_for_condition cannot execute outside of the main state system");
-        deadline = -1;
+    deadline = clock->getCurrentTimeUS() + MWTime(*timeout);
+    
+    if (StateSystem::instance()->getCurrentState().lock().get() != this) {
+        // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
+        // then we need to do the wait ourselves, right here
+        while (stillWaiting()) {
+            clock->yield();
+        }
     }
     
     return true;
@@ -445,25 +448,28 @@ bool WaitForCondition::execute() {
 
 
 weak_ptr<State> WaitForCondition::next() {
-    if (Clock::instance()->getCurrentTimeUS() >= deadline) {
-        
+    if (stillWaiting()) {
+        return weak_ptr<State>();
+    }
+    return Action::next();
+}
+
+
+bool WaitForCondition::stillWaiting() const {
+    if (clock->getCurrentTimeUS() >= deadline) {
         merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "%s", timeoutMessage->getValue().getString().c_str());
         if (stopOnTimeout) {
             merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to wait for condition timeout");
             StateSystem::instance()->stop();
         }
-        
-        return Action::next();
-        
-    } else if (condition->getValue().getBool()) {
-        
-        return Action::next();
-        
-    } else {
-    
-        return weak_ptr<State>();
-        
+        return false;
     }
+    
+    if (condition->getValue().getBool()) {
+        return false;
+    }
+    
+    return true;
 }
 
 
