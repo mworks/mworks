@@ -649,11 +649,15 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = MWorksPython/Info.plist;
-				MW_PYTHON_3_PREFIX = "\"$(MW_DEVELOPER_DIR)\"";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)/lib",
+				);
+				MW_PYTHON_3_PREFIX = "$(BUILT_PRODUCTS_DIR)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-force_load",
-					"$(MW_LIB_DIR)/libpython$(MW_PYTHON_3_VERSION)_all.a",
+					"$(BUILT_PRODUCTS_DIR)/lib/libpython$(MW_PYTHON_3_VERSION)_all.a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksPython";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
