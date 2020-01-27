@@ -63,7 +63,7 @@
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     if (central.state == CBManagerStatePoweredOn) {
-        notifyCallback(connection);
+        notifyCallback(self, connection);
     }
 }
 
@@ -80,7 +80,7 @@
         {
             self.peripheral = peripheral;
             [central stopScan];
-            notifyCallback(connection);
+            notifyCallback(self, connection);
         }
     }
 }
@@ -98,7 +98,7 @@ didFailToConnectPeripheral:(CBPeripheral *)peripheral
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     peripheral.delegate = self;
-    notifyCallback(connection);
+    notifyCallback(self, connection);
 }
 
 
@@ -109,7 +109,7 @@ didFailToConnectPeripheral:(CBPeripheral *)peripheral
                    error.localizedDescription.UTF8String);
     } else if (peripheral.services.count > 0) {
         self.service = peripheral.services[0];
-        notifyCallback(connection);
+        notifyCallback(self, connection);
     }
 }
 
@@ -131,7 +131,7 @@ didDiscoverCharacteristicsForService:(CBService *)service
             }
             
             if (self.rxCharacteristic && self.txCharacteristic) {
-                notifyCallback(connection);
+                notifyCallback(self, connection);
                 break;
             }
         }
@@ -148,7 +148,7 @@ didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
                    "Failed to subscribe to updates from Bluetooth device: %s",
                    error.localizedDescription.UTF8String);
     } else {
-        notifyCallback(connection);
+        notifyCallback(self, connection);
     }
 }
 
@@ -163,7 +163,7 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
                    error.localizedDescription.UTF8String);
     } else {
         NSData *data = characteristic.value;
-        dataReceivedCallback(connection, static_cast<const std::uint8_t *>(data.bytes), data.length);
+        dataReceivedCallback(self, connection, static_cast<const std::uint8_t *>(data.bytes), data.length);
     }
 }
 
@@ -177,7 +177,7 @@ didDisconnectPeripheral:(CBPeripheral *)peripheral
                    "Disconnected from Bluetooth device: %s",
                    error.localizedDescription.UTF8String);
     } else {
-        notifyCallback(connection);
+        notifyCallback(self, connection);
     }
 }
 
@@ -188,16 +188,35 @@ didDisconnectPeripheral:(CBPeripheral *)peripheral
 BEGIN_NAMESPACE_MW
 
 
-void FirmataBluetoothLEConnection::notify(FirmataBluetoothLEConnection *connection) {
-    connection->notify();
+void FirmataBluetoothLEConnection::notify(MWKFirmataBluetoothLEDelegate *delegate,
+                                          FirmataBluetoothLEConnection *connection)
+{
+    {
+        unique_lock lock(connection->mutex);
+        if (delegate != connection->delegate) {
+            // Ignore notifications from previous delegates
+            return;
+        }
+        connection->wasNotified = true;
+    }
+    connection->condition.notify_all();
 }
 
 
-void FirmataBluetoothLEConnection::dataReceived(FirmataBluetoothLEConnection *connection,
+void FirmataBluetoothLEConnection::dataReceived(MWKFirmataBluetoothLEDelegate *delegate,
+                                                FirmataBluetoothLEConnection *connection,
                                                 const std::uint8_t *data,
                                                 std::size_t size)
 {
-    connection->dataReceived(data, size);
+    {
+        unique_lock lock(connection->mutex);
+        if (delegate != connection->delegate) {
+            // Ignore received data from previous delegates
+            return;
+        }
+        connection->receivedData.insert(connection->receivedData.end(), data, data + size);
+    }
+    connection->condition.notify_all();
 }
 
 
@@ -273,6 +292,8 @@ void FirmataBluetoothLEConnection::disconnect() {
                 }
             }
             delegate = nil;
+            receivedData.clear();
+            wasNotified = false;
         }
     }
 }
@@ -309,48 +330,4 @@ inline bool FirmataBluetoothLEConnection::wait(unique_lock &lock) {
 }
 
 
-inline void FirmataBluetoothLEConnection::notify() {
-    {
-        unique_lock lock(mutex);
-        wasNotified = true;
-    }
-    condition.notify_all();
-}
-
-
-inline void FirmataBluetoothLEConnection::dataReceived(const std::uint8_t *data, std::size_t size) {
-    {
-        unique_lock lock(mutex);
-        receivedData.insert(receivedData.end(), data, data + size);
-    }
-    condition.notify_all();
-}
-
-
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

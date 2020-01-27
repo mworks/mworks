@@ -20,8 +20,11 @@ BEGIN_NAMESPACE_MW
 
 class FirmataBluetoothLEConnection : public FirmataConnection {
     
-    static void notify(FirmataBluetoothLEConnection *connection);
-    static void dataReceived(FirmataBluetoothLEConnection *connection, const std::uint8_t *data, std::size_t size);
+    static void notify(MWKFirmataBluetoothLEDelegate *delegate, FirmataBluetoothLEConnection *connection);
+    static void dataReceived(MWKFirmataBluetoothLEDelegate *delegate,
+                             FirmataBluetoothLEConnection *connection,
+                             const std::uint8_t *data,
+                             std::size_t size);
     
 public:
     using NotifyCallback = decltype(&notify);
@@ -42,8 +45,6 @@ private:
     using unique_lock = std::unique_lock<std::mutex>;
     
     bool wait(unique_lock &lock);
-    void notify();
-    void dataReceived(const std::uint8_t *data, std::size_t size);
     
     const std::string localName;
     MWKFirmataBluetoothLEDelegate *delegate;
@@ -60,30 +61,3 @@ END_NAMESPACE_MW
 
 
 #endif /* FirmataBluetoothLEConnection_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
