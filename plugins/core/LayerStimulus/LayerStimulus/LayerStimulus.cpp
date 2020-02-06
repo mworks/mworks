@@ -145,17 +145,12 @@ void LayerStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
         
         glTexImage2D(GL_TEXTURE_2D,
                      0,
-                     (display->getUseColorManagement() ? GL_SRGB8_ALPHA8 : GL_RGBA8),
+                     GL_RGBA16F,
                      viewportWidth,
                      viewportHeight,
                      0,
-#if MWORKS_OPENGL_ES
-                     GL_BGRA_EXT,
-                     GL_UNSIGNED_BYTE,
-#else
-                     GL_BGRA,
-                     GL_UNSIGNED_INT_8_8_8_8_REV,
-#endif
+                     GL_RGBA,
+                     GL_HALF_FLOAT,
                      nullptr);
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
