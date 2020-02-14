@@ -28,6 +28,8 @@ BEGIN_NAMESPACE_MW
 
 
 StimulusDisplay::StimulusDisplay(bool useColorManagement) :
+    opengl_context_manager(OpenGLContextManager::instance()),
+    clock(Clock::instance()),
     current_context_index(-1),
     waitingForRefresh(false),
     needDraw(false),
@@ -46,9 +48,6 @@ StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     
 	setDisplayBounds();
     setBackgroundColor(0.5, 0.5, 0.5, 1.0);
-
-    opengl_context_manager = OpenGLContextManager::instance();
-    clock = Clock::instance();
     
     auto callback = [this](const Datum &data, MWorksTime time) {
         stateSystemCallback(data, time);

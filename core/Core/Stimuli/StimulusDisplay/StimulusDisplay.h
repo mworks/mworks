@@ -61,13 +61,13 @@ BEGIN_NAMESPACE_MW
 	
 	class StimulusDisplay : public boost::enable_shared_from_this<StimulusDisplay>, boost::noncopyable {
     protected:
+        const boost::shared_ptr<OpenGLContextManager> opengl_context_manager;
+        const boost::shared_ptr<Clock> clock;
+        
         std::vector<int> context_ids;
 		int current_context_index;
 		shared_ptr< LinkedList<StimulusNode> > display_stack;
         
-        shared_ptr<Clock> clock;
-        shared_ptr<OpenGLContextManager> opengl_context_manager;
-		
 		boost::mutex display_lock;
         typedef boost::mutex::scoped_lock unique_lock;
         boost::condition_variable refreshCond;
