@@ -155,11 +155,18 @@ BEGIN_NAMESPACE_MW
                   e.what());
             unloadExperiment(false);
         }
-		
-		if(GlobalCurrentExperiment == NULL) {
+        
+        auto experiment = GlobalCurrentExperiment;
+		if (!experiment) {
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
 		}
+        
+        // At this point, the display is already cleared.  However, by clearing it again now, *after* all the
+        // stimuli have been created and (probably) loaded, we can "commit" any OpenGL and/or Metal actions
+        // that have been taken.  While it seems like this shouldn't matter much, it appears to have a definite,
+        // beneficial influence on subsequent display-update performance, particularly on iOS.
+        experiment->getStimulusDisplay()->clearDisplay();
         
         // Store the XML source of the experiment in #loadedExperiment, so that it will be
         // recorded in the event stream (unless the experiment itself has already set #loadedExperiment,
