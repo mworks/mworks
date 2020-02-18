@@ -239,6 +239,7 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		
 		
 		// Accessors for stimulus display
+        bool hasStimulusDisplay() const { return bool(stimulus_display); }
 	    shared_ptr<StimulusDisplay> getStimulusDisplay();
     
 
