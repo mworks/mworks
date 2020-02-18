@@ -263,14 +263,20 @@ void VideoStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     
     glGenBuffers(1, &texCoordsBuffer);
     gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
-#if TARGET_OS_IPHONE
     VertexPositionArray texCoords {
         0.0f, 1.0f,
         1.0f, 1.0f,
         0.0f, 0.0f,
         1.0f, 0.0f
     };
+#if TARGET_OS_IPHONE
     glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
+#else
+    // On macOS, the texture coordinates are overwritten every time we get a new video frame.
+    // However, since we may be asked to draw before we've acquired the first frame, we need
+    // to provide initial data for the tex coords buffer.  Otherwise, the application may
+    // crash in glDrawArrays.
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STREAM_DRAW);
 #endif
     GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
     glEnableVertexAttribArray(texCoordsAttribLocation);
