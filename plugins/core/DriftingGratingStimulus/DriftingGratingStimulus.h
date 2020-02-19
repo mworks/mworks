@@ -39,6 +39,8 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 private:
+    using GratingCoordArray = std::array<GLfloat, numVertices>;
+    
     enum class GratingType {
         sinusoid = 1,
         square = 2,

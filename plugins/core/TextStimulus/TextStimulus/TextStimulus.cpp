@@ -137,7 +137,43 @@ void TextStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     display->getCurrentViewportSize(viewportWidth, viewportHeight);
     pixelsPerDegree = double(viewportWidth) / (xMax - xMin);
     pointsPerPixel = displaySizeInPoints.width / double(viewportWidth);
-    texture = 0;
+    
+    glGenTextures(1, &texture);
+    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
+    {
+        // Attempt to provide initial data for the text texture, in hopes that this will force
+        // the driver and/or GPU to allocate memory for it now, at load time, rather than on
+        // first use
+        
+        float sizeX = 0.0;
+        float sizeY = 0.0;
+        getCurrentSize(sizeX, sizeY);
+        
+        std::size_t bitmapWidth = 0;
+        std::size_t bitmapHeight = 0;
+        computeBitmapDimensions(sizeX, sizeY, bitmapWidth, bitmapHeight);
+        const auto numPixels = bitmapWidth * bitmapHeight;
+        
+        if (numPixels > 0) {
+            std::vector<std::uint8_t> data(4 * numPixels, 0);
+            gl::resetPixelStorageUnpackParameters();
+            
+            glTexImage2D(GL_TEXTURE_2D,
+                         0,
+                         (display->getUseColorManagement() ? GL_SRGB8_ALPHA8 : GL_RGBA8),
+                         bitmapWidth,
+                         bitmapHeight,
+                         0,
+#if MWORKS_OPENGL_ES
+                         GL_BGRA_EXT,
+                         GL_UNSIGNED_BYTE,
+#else
+                         GL_BGRA,
+                         GL_UNSIGNED_INT_8_8_8_8_REV,
+#endif
+                         data.data());
+        }
+    }
     
     glUniform1i(glGetUniformLocation(program, "textTexture"), 0);
     
@@ -182,9 +218,18 @@ void TextStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
 }
 
 
+void TextStimulus::computeBitmapDimensions(float width,
+                                           float height,
+                                           std::size_t &bitmapWidth,
+                                           std::size_t &bitmapHeight) const
+{
+    bitmapWidth = (fullscreen ? viewportWidth : (width * pixelsPerDegree));
+    bitmapHeight = (fullscreen ? viewportHeight : (height * pixelsPerDegree));
+}
+
+
 void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display) {
-    if (texture &&
-        (fullscreen || (current_sizex == last_sizex && current_sizey == last_sizey)) &&
+    if ((fullscreen || (current_sizex == last_sizex && current_sizey == last_sizey)) &&
         currentText == lastText &&
         currentFontName == lastFontName &&
         currentFontSize == lastFontSize &&
@@ -197,8 +242,9 @@ void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display
     }
     
     // Create a bitmap context
-    const std::size_t bitmapWidth = (fullscreen ? viewportWidth : (current_sizex * pixelsPerDegree));
-    const std::size_t bitmapHeight = (fullscreen ? viewportHeight : (current_sizey * pixelsPerDegree));
+    std::size_t bitmapWidth = 0;
+    std::size_t bitmapHeight = 0;
+    computeBitmapDimensions(current_sizex, current_sizey, bitmapWidth, bitmapHeight);
     auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(display->getUseColorManagement() ?
                                                               CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
                                                               CGColorSpaceCreateDeviceRGB());
@@ -273,9 +319,6 @@ void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display
     // Create an OpenGL texture from the bitmap context
     //
     
-    if (!texture) {
-        glGenTextures(1, &texture);
-    }
     glBindTexture(GL_TEXTURE_2D, texture);
     
     gl::resetPixelStorageUnpackParameters();

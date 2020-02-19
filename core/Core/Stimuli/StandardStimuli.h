@@ -75,6 +75,7 @@ protected:
     virtual gl::Shader getFragmentShader() const = 0;
     
     virtual VertexPositionArray getVertexPositions() const;
+    void getCurrentSize(float &sizeX, float &sizeY) const;
     virtual GLKMatrix4 getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const;
     
     virtual void setBlendEquation() = 0;

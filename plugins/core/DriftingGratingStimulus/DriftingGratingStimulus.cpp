@@ -317,12 +317,26 @@ void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &
     
     glGenBuffers(1, &gratingCoordBuffer);
     gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingCoordBuffer);
+    GratingCoordArray gratingCoord = {
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    };
+    glBufferData(GL_ARRAY_BUFFER, sizeof(gratingCoord), gratingCoord.data(), GL_STREAM_DRAW);
     GLint gratingCoordAttribLocation = glGetAttribLocation(program, "gratingCoord");
     glEnableVertexAttribArray(gratingCoordAttribLocation);
     glVertexAttribPointer(gratingCoordAttribLocation, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
     
     glGenBuffers(1, &maskCoordsBuffer);
     arrayBufferBinding.bind(maskCoordsBuffer);
+    VertexPositionArray maskCoords = {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 1.0f
+    };
+    glBufferData(GL_ARRAY_BUFFER, sizeof(maskCoords), maskCoords.data(), GL_STREAM_DRAW);
     GLint maskCoordsAttribLocation = glGetAttribLocation(program, "maskCoords");
     glEnableVertexAttribArray(maskCoordsAttribLocation);
     glVertexAttribPointer(maskCoordsAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
@@ -383,7 +397,7 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     const float phase_proportion = phase/(2*M_PI);
     const float cycle_proportion = current_spatial_frequency * std::max(current_sizex, current_sizey);
     
-    std::array<GLfloat, 4 * 1> gratingCoord = {
+    GratingCoordArray gratingCoord = {
         (cycle_proportion * grating_bl) + phase_proportion,
         (cycle_proportion * grating_br) + phase_proportion,
         (cycle_proportion * grating_tl) + phase_proportion,
@@ -401,7 +415,7 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
         mask_x_offset = (1.0/aspect - 1.0) / 2.0;
     }
     
-    std::array<GLfloat, 4 * 2> maskCoords = {
+    VertexPositionArray maskCoords = {
         0 - mask_x_offset, 0 - mask_y_offset,
         1 + mask_x_offset, 0 - mask_y_offset,
         0 - mask_x_offset, 1 + mask_y_offset,

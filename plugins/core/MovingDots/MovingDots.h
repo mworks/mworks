@@ -42,6 +42,7 @@ public:
 private:
     static constexpr GLint componentsPerDot = 2;
     
+    bool computeNumDots(double &newFieldRadius, GLint &newNumDots) const;
     void updateParameters();
     void updateDots();
     void advanceDot(GLint i, GLfloat dt, GLfloat dr);

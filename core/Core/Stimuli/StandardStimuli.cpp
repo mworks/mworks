@@ -164,18 +164,7 @@ void TransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
     if (!fullscreen) {
         current_posx = *xoffset;
         current_posy = *yoffset;
-        if (xscale) {
-            current_sizex = *xscale;
-            if (!yscale) {
-                current_sizey = current_sizex;
-            }
-        }
-        if (yscale) {
-            current_sizey = *yscale;
-            if (!xscale) {
-                current_sizex = current_sizey;
-            }
-        }
+        getCurrentSize(current_sizex, current_sizey);
         current_rot = *rotation;
     }
     
@@ -229,6 +218,22 @@ auto TransformStimulus::getVertexPositions() const -> VertexPositionArray {
         0.0f, 1.0f,
         1.0f, 1.0f
     };
+}
+
+
+void TransformStimulus::getCurrentSize(float &sizeX, float &sizeY) const {
+    if (xscale) {
+        sizeX = *xscale;
+        if (!yscale) {
+            sizeY = sizeX;
+        }
+    }
+    if (yscale) {
+        sizeY = *yscale;
+        if (!xscale) {
+            sizeX = sizeY;
+        }
+    }
 }
 
 

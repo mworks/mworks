@@ -143,6 +143,14 @@ void LayerStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
         GLint viewportWidth, viewportHeight;
         display->getCurrentViewportSize(viewportWidth, viewportHeight);
         
+        // Provide initial data for the framebuffer texture, in hopes that this will force the
+        // driver and/or GPU to allocate memory for it now, at load time, rather than on first
+        // use.  Empirically, this seems to resolve intermittent issues with display update
+        // timing on iOS.
+        std::vector<std::uint16_t> data(4 * viewportWidth * viewportHeight, 0);
+        
+        gl::resetPixelStorageUnpackParameters(alignof(decltype(data)::value_type));
+        
         glTexImage2D(GL_TEXTURE_2D,
                      0,
                      GL_RGBA16F,
@@ -151,7 +159,7 @@ void LayerStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
                      0,
                      GL_RGBA,
                      GL_HALF_FLOAT,
-                     nullptr);
+                     data.data());
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

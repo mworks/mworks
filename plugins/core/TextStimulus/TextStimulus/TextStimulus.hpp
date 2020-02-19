@@ -36,6 +36,10 @@ private:
     void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     
+    void computeBitmapDimensions(float width,
+                                 float height,
+                                 std::size_t &bitmapWidth,
+                                 std::size_t &bitmapHeight) const;
     void bindTexture(const boost::shared_ptr<StimulusDisplay> &display);
     
     static const VertexPositionArray texCoords;

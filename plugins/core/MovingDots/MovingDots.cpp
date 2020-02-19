@@ -118,6 +118,20 @@ void MovingDots::load(shared_ptr<StimulusDisplay> display) {
     
     glGenBuffers(1, &dotPositionBuffer);
     gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(dotPositionBuffer);
+    {
+        // Attempt to provide initial data for the dot position buffer, in hopes that this will
+        // force the driver and/or GPU to allocate memory for it now, at load time, rather than
+        // on first use
+        double newFieldRadius = 0.0;
+        GLint newNumDots = 0;
+        if (computeNumDots(newFieldRadius, newNumDots)) {
+            dotPositions.assign(newNumDots * componentsPerDot, 0.0f);
+            glBufferData(GL_ARRAY_BUFFER,
+                         dotPositions.size() * sizeof(decltype(dotPositions)::value_type),
+                         dotPositions.data(),
+                         GL_STREAM_DRAW);
+        }
+    }
     GLint dotPositionAttribLocation = glGetAttribLocation(program, "dotPosition");
     glEnableVertexAttribArray(dotPositionAttribLocation);
     glVertexAttribPointer(dotPositionAttribLocation, componentsPerDot, GL_FLOAT, GL_FALSE, 0, nullptr);
@@ -171,22 +185,38 @@ Datum MovingDots::getCurrentAnnounceDrawData() {
 }
 
 
+bool MovingDots::computeNumDots(double &newFieldRadius, GLint &newNumDots) const {
+    newFieldRadius = fieldRadius->getValue().getFloat();
+    if (newFieldRadius <= 0.0) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field radius must be greater than 0");
+        return false;
+    }
+    
+    auto newDotDensity = dotDensity->getValue().getFloat();
+    if (newDotDensity <= 0.0) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field density must be greater than 0");
+        return false;
+    }
+    
+    newNumDots = GLint(boost::math::round(newDotDensity * (M_PI * newFieldRadius * newFieldRadius)));
+    if (newNumDots < 1) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field radius and dot density yield 0 dots");
+        return false;
+    }
+    
+    return true;
+}
+
+
 void MovingDots::updateParameters() {
     //
     // Field radius, dot density, and number of dots
     //
     
-    const double newFieldRadius = fieldRadius->getValue().getFloat();
-    const double newDotDensity = dotDensity->getValue().getFloat();
-    const GLint newNumDots = GLint(boost::math::round(newDotDensity * (M_PI * newFieldRadius * newFieldRadius)));
+    double newFieldRadius = 0.0;
+    GLint newNumDots = 0;
     
-    if (newFieldRadius <= 0.0) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field radius must be greater than 0");
-    } else if (newDotDensity <= 0.0) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field density must be greater than 0");
-    } else if (newNumDots < 1) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field radius and dot density yield 0 dots");
-    } else {
+    if (computeNumDots(newFieldRadius, newNumDots)) {
         previousFieldRadius = currentFieldRadius;
         currentFieldRadius = newFieldRadius;
         
