@@ -18,7 +18,7 @@ class MWK2Reader(object):
 
     def __init__(self, filename):
         self._conn = sqlite3.connect(filename)
-        self._unpacker = msgpack.Unpacker(raw=False)
+        self._unpacker = msgpack.Unpacker(raw=False, strict_map_key=False)
 
     def close(self):
         self._conn.close()
