@@ -13,6 +13,7 @@
 
 #include "StandardStimuli.h"
 
+#import <Accelerate/Accelerate.h>
 #import <CoreGraphics/CoreGraphics.h>
 
 #include <boost/uuid/detail/sha1.hpp>
@@ -606,25 +607,36 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
                                                                   CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
                                                                   CGColorSpaceCreateDeviceRGB());
         
-        auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(data.get(),
-                                                                                  width,
-                                                                                  height,
-                                                                                  8,
-                                                                                  width * 4,
-                                                                                  colorSpace.get(),
+        
+        vImage_Buffer buf = {
+            .data = data.get(),
+            .height = height,
+            .width = width,
+            .rowBytes = width * 4
+        };
+        
+        vImage_CGImageFormat format = {
+            .bitsPerComponent = 8,
+            .bitsPerPixel = 32,
+            .colorSpace = colorSpace.get(),
 #if MWORKS_OPENGL_ES
-                                                                                  kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Little));
+            .bitmapInfo = kCGImageAlphaFirst | kCGBitmapByteOrder32Little,
 #else
-                                                                                  kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
+            .bitmapInfo = kCGImageAlphaFirst | kCGBitmapByteOrder32Host,
 #endif
+            .version = 0,
+            .decode = nullptr,
+            .renderingIntent = kCGRenderingIntentPerceptual
+        };
         
-        // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL)
-        CGContextTranslateCTM(context.get(), 0, height);
-        CGContextScaleCTM(context.get(), 1, -1);
-        
-        CGContextSetBlendMode(context.get(), kCGBlendModeCopy);
-        
-        CGContextDrawImage(context.get(), CGRectMake(0, 0, width, height), image.get());
+        auto error = vImageBuffer_InitWithCGImage(&buf,
+                                                  &format,
+                                                  nullptr,
+                                                  image.get(),
+                                                  kvImageNoAllocate);
+        if (kvImageNoError != error) {
+            throw SimpleException(boost::format("Cannot extract image file data (error = %d)") % error);
+        }
     }
     
     BasicTransformStimulus::load(display);
@@ -670,9 +682,8 @@ gl::Shader ImageStimulus::getFragmentShader() const {
      
      void main() {
          vec4 imageColor = texture(imageTexture, varyingTexCoords);
-         // imageColor.rgb has been pre-multiplied by imageColor.a, so we multiply only
-         // by the user-specified alpha here
-         fragColor = alpha * imageColor;
+         fragColor.rgb = imageColor.rgb;
+         fragColor.a = alpha * imageColor.a;
      }
      )");
     
@@ -685,13 +696,6 @@ auto ImageStimulus::getVertexPositions() const -> VertexPositionArray {
         return BasicTransformStimulus::getVertexPositions();
     }
     return getVertexPositions(aspectRatio);
-}
-
-
-void ImageStimulus::setBlendEquation() {
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_ONE, // Source RGB values are pre-multiplied by source alpha
-                GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
@@ -740,11 +744,13 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     
     glGenBuffers(1, &texCoordsBuffer);
     gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
+    // Draw the texture flipped vertically to match OpenGL's coordinate system (origin in
+    // the bottom left corner)
     VertexPositionArray texCoords {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
         0.0f, 1.0f,
-        1.0f, 1.0f
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f
     };
     glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
     GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");

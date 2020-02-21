@@ -1,0 +1,65 @@
+%define size = 7
+%define num_squares = 4
+%define width = size * num_squares
+%define y_offset = 1.2 * size
+
+
+image_file blended_image (
+    path = 'blended_squares.png'
+    x_size = width
+    y_position = y_offset
+    )
+
+
+image_file alpha_image (
+    path = 'alpha_squares.png'
+    x_size = width
+    y_position = -y_offset
+    )
+
+
+%define alpha_square (index, alpha)
+    rectangle (
+        color = 1,0,0
+        x_size = size
+        x_position = (index - num_squares/2) * size + 0.5 * size
+        alpha_multiplier = alpha
+        )
+%end
+
+alpha_square alpha_square_100 (
+    index = 0
+    alpha = 1.0
+    )
+
+alpha_square alpha_square_075 (
+    index = 1
+    alpha = 0.75
+    )
+
+alpha_square alpha_square_050 (
+    index = 2
+    alpha = 0.5
+    )
+
+alpha_square alpha_square_025 (
+    index = 3
+    alpha = 0.25
+    )
+
+
+protocol {
+    queue_stimulus (blended_image)
+
+    queue_stimulus (alpha_square_100)
+    queue_stimulus (alpha_square_075)
+    queue_stimulus (alpha_square_050)
+    queue_stimulus (alpha_square_025)
+
+    queue_stimulus (alpha_image)
+
+    update_display ()
+
+    report ('The colors in all three bands should match')
+    wait (10s)
+}

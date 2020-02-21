@@ -214,8 +214,6 @@ private:
     
     VertexPositionArray getVertexPositions() const override;
     
-    void setBlendEquation() override;
-    
     void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
     void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
     void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
