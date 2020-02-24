@@ -107,6 +107,10 @@ class AlphaBlendedTransformStimulus : public TransformStimulus {
     
 public:
     static const std::string ALPHA_MULTIPLIER;
+    static const std::string SOURCE_BLEND_FACTOR;
+    static const std::string DEST_BLEND_FACTOR;
+    static const std::string SOURCE_ALPHA_BLEND_FACTOR;
+    static const std::string DEST_ALPHA_BLEND_FACTOR;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -116,12 +120,38 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 protected:
+    static constexpr GLenum defaultSourceBlendFactor = GL_SRC_ALPHA;
+    static constexpr GLenum defaultDestBlendFactor = GL_ONE_MINUS_SRC_ALPHA;
+    
+    static GLenum blendFactorFromName(const std::string &name, GLenum fallback);
+    
     void setBlendEquation() override;
     
     const shared_ptr<Variable> alpha_multiplier;
+    const shared_ptr<Variable> sourceBlendFactorName;
+    const shared_ptr<Variable> destBlendFactorName;
+    const shared_ptr<Variable> sourceAlphaBlendFactorName;
+    const shared_ptr<Variable> destAlphaBlendFactorName;
     
     float current_alpha;
+    std::string current_source_blend_factor_name;
+    GLenum current_source_blend_factor;
+    std::string current_dest_blend_factor_name;
+    GLenum current_dest_blend_factor;
+    std::string current_source_alpha_blend_factor_name;
+    GLenum current_source_alpha_blend_factor;
+    std::string current_dest_alpha_blend_factor_name;
+    GLenum current_dest_alpha_blend_factor;
+    
     float last_alpha;
+    std::string last_source_blend_factor_name;
+    GLenum last_source_blend_factor;
+    std::string last_dest_blend_factor_name;
+    GLenum last_dest_blend_factor;
+    std::string last_source_alpha_blend_factor_name;
+    GLenum last_source_alpha_blend_factor;
+    std::string last_dest_alpha_blend_factor_name;
+    GLenum last_dest_alpha_blend_factor;
     
 };
 

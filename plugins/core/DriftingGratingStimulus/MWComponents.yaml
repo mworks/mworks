@@ -58,8 +58,10 @@ parameters:
         (where the value is near zero) will partially or fully erase such
         stimuli, exposing any stimuli beneath the layer.
 
-        When the value of this parameter is ``YES``, `color`_ and
-        `alpha_multiplier`_ are ignored.
+        When the value of this parameter is ``YES``, `color`_,
+        `alpha_multiplier`_, `source_blend_factor`_, `dest_blend_factor`_
+        `source_alpha_blend_factor`_, and `dest_alpha_blend_factor`_ are
+        ignored.
 
         *Note*: For compatibility with existing experiments, the value of this
         parameter can also be one of ``rectangle``, ``ellipse``, or

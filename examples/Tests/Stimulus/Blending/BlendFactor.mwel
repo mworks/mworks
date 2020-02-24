@@ -1,0 +1,138 @@
+%define size = 20
+%define offset = 0.6 * size
+
+
+var expected_red = 0.0
+var expected_green = 0.0
+var expected_blue = 0.0
+
+rectangle expected (
+    color = expected_red, expected_green, expected_blue
+    x_size = size
+    x_position = -offset
+    )
+
+
+%define dest_red = 0.1
+%define dest_green = 0.5
+%define dest_blue = 0.9
+%define dest_alpha = 0.3
+
+rectangle dest (
+    color = dest_red, dest_green, dest_blue
+    alpha_multiplier = dest_alpha
+    // Prevent blending RGB components or alpha with the background
+    source_blend_factor = one
+    dest_blend_factor = zero
+    x_size = size
+    x_position = offset
+    )
+
+
+%define source_red = 0.9
+%define source_green = 0.5
+%define source_blue = 0.1
+%define source_alpha = 0.7
+var source_blend_factor = ''
+var dest_blend_factor = ''
+
+rectangle source (
+    color = source_red, source_green, source_blue
+    alpha_multiplier = source_alpha
+    source_blend_factor = source_blend_factor
+    dest_blend_factor = dest_blend_factor
+    x_size = size
+    x_position = offset
+    )
+
+
+%define update_and_wait ()
+    update_display ()
+    wait (1s)
+%end
+
+
+protocol {
+    live_queue_stimulus (expected)
+    live_queue_stimulus (dest)
+    live_queue_stimulus (source)
+
+    report ('The two squares should have the same color at all times')
+
+    source_blend_factor = 'zero'
+    dest_blend_factor = 'zero'
+    expected_red = 0.0
+    expected_green = 0.0
+    expected_blue = 0.0
+    update_and_wait ()
+
+    source_blend_factor = 'zero'
+    dest_blend_factor = 'one'
+    expected_red = dest_red
+    expected_green = dest_green
+    expected_blue = dest_blue
+    update_and_wait ()
+
+    source_blend_factor = 'one'
+    dest_blend_factor = 'zero'
+    expected_red = source_red
+    expected_green = source_green
+    expected_blue = source_blue
+    update_and_wait ()
+
+    source_blend_factor = 'source_color'
+    dest_blend_factor = 'one_minus_source_color'
+    expected_red = source_red * source_red + dest_red * (1 - source_red)
+    expected_green = source_green * source_green + dest_green * (1 - source_green)
+    expected_blue = source_blue * source_blue + dest_blue * (1 - source_blue)
+    update_and_wait ()
+
+    source_blend_factor = 'one_minus_source_color'
+    dest_blend_factor = 'source_color'
+    expected_red = source_red * (1 - source_red) + dest_red * source_red
+    expected_green = source_green * (1 - source_green) + dest_green * source_green
+    expected_blue = source_blue * (1 - source_blue) + dest_blue * source_blue
+    update_and_wait ()
+
+    source_blend_factor = 'one_minus_dest_color'
+    dest_blend_factor = 'dest_color'
+    expected_red = source_red * (1 - dest_red) + dest_red * dest_red
+    expected_green = source_green * (1 - dest_green) + dest_green * dest_green
+    expected_blue = source_blue * (1 - dest_blue) + dest_blue * dest_blue
+    update_and_wait ()
+
+    source_blend_factor = 'dest_color'
+    dest_blend_factor = 'one_minus_dest_color'
+    expected_red = source_red * dest_red + dest_red * (1 - dest_red)
+    expected_green = source_green * dest_green + dest_green * (1 - dest_green)
+    expected_blue = source_blue * dest_blue + dest_blue * (1 - dest_blue)
+    update_and_wait ()
+
+    source_blend_factor = 'source_alpha'
+    dest_blend_factor = 'one_minus_source_alpha'
+    expected_red = source_red * source_alpha + dest_red * (1 - source_alpha)
+    expected_green = source_green * source_alpha + dest_green * (1 - source_alpha)
+    expected_blue = source_blue * source_alpha + dest_blue * (1 - source_alpha)
+    update_and_wait ()
+
+    source_blend_factor = 'one_minus_source_alpha'
+    dest_blend_factor = 'source_alpha'
+    expected_red = source_red * (1 - source_alpha) + dest_red * source_alpha
+    expected_green = source_green * (1 - source_alpha) + dest_green * source_alpha
+    expected_blue = source_blue * (1 - source_alpha) + dest_blue * source_alpha
+    update_and_wait ()
+
+    source_blend_factor = 'one_minus_dest_alpha'
+    dest_blend_factor = 'dest_alpha'
+    expected_red = source_red * (1 - dest_alpha) + dest_red * dest_alpha
+    expected_green = source_green * (1 - dest_alpha) + dest_green * dest_alpha
+    expected_blue = source_blue * (1 - dest_alpha) + dest_blue * dest_alpha
+    update_and_wait ()
+
+    source_blend_factor = 'dest_alpha'
+    dest_blend_factor = 'one_minus_dest_alpha'
+    expected_red = source_red * dest_alpha + dest_red * (1 - dest_alpha)
+    expected_green = source_green * dest_alpha + dest_green * (1 - dest_alpha)
+    expected_blue = source_blue * dest_alpha + dest_blue * (1 - dest_alpha)
+    update_and_wait ()
+}

@@ -451,9 +451,65 @@ parameters:
   - 
     name: alpha_multiplier
     default: 1.0
+    description: |
+        By default, the alpha multiplier controls the transparency of the
+        stimulus.  ``1.0`` is fully opaque, while ``0.0`` is fully tranparent.
+
+        Changes to the parameters `source_blend_factor`_ and
+        `dest_blend_factor`_ can alter how (or if) the alpha multiplier is used.
+  - 
+    name: source_blend_factor
+    options:
+      - zero
+      - one
+      - source_color
+      - one_minus_source_color
+      - dest_color
+      - one_minus_dest_color
+      - source_alpha
+      - one_minus_source_alpha
+      - dest_alpha
+      - one_minus_dest_alpha
+    default: source_alpha
+    description: |
+        Source blending factor.
+
+        The parameters `source_blend_factor`_, `dest_blend_factor`_,
+        `source_alpha_blend_factor`_, and `dest_alpha_blend_factor`_ provide
+        detailed control over how the color components and alpha multiplier of
+        each fragment of the stimulus (the "source") are combined with the color
+        and alpha values already present in the framebuffer (the "destination"),
+        which in turn result from blending the stimulus display background with
+        any stimuli drawn beneath the source stimulus.  These parameters
+        correspond directly to the four arguments of the `OpenGL
+        <https://www.opengl.org>`_ function `glBlendFuncSeparate
+        <https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBlendFuncSeparate.xhtml>`_.
+        Please refer to that function's reference page for explanations of the
+        different blend factor options.
+
+        *Note*:  Irrespective of the blend factors used, the `blend equation
+        <https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBlendEquation.xhtml>`_
+        is always ``GL_FUNC_ADD``.
+  - 
+    name: dest_blend_factor
+    default: one_minus_source_alpha
     description: >
-        Controls the transparency of the stimulus.  ``1.0`` is fully opaque,
-        while ``0.0`` is fully tranparent.
+        Destination blending factor.  Accepts the same values as
+        `source_blend_factor`_.
+  - 
+    name: source_alpha_blend_factor
+    description: |
+        Source alpha blending factor.  Accepts the same values as
+        `source_blend_factor`_.
+
+        If omitted, the value of `source_blend_factor`_ is used.
+  - 
+    name: dest_alpha_blend_factor
+    description: |
+        Destination alpha blending factor.  Accepts the same values as
+        `source_blend_factor`_.
+
+        If omitted, the value of `dest_blend_factor`_ is used.
 
 
 ---
@@ -469,6 +525,10 @@ description: |
     `y_size`_ must be equal.  When drawn, the larger dimension spans the full
     specified size, while the smaller dimension is scaled to maintain the
     aspect ratio.
+
+    *Note*:  If the image contains an `alpha channel
+    <https://en.wikipedia.org/wiki/Alpha_compositing>`_, the embedded alpha
+    value for each pixel is multiplied by the value of `alpha_multiplier`_.
 parameters: 
   - 
     name: path

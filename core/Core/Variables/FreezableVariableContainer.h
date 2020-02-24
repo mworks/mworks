@@ -96,6 +96,13 @@ public:
     
     virtual shared_ptr<Variable> registerVariable(const ParameterValue &param, bool check_for_duplicates = false);
     
+    virtual shared_ptr<Variable> registerOptionalVariable(shared_ptr<Variable> var, bool check_for_duplicates = false) {
+        if (var) {
+            var = registerVariable(var, check_for_duplicates);
+        }
+        return var;
+    }
+    
     // Individually "freeze" 
     virtual void freeze(bool should_freeze = true){
         

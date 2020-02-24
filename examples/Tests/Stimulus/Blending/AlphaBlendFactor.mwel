@@ -1,0 +1,122 @@
+stimulus_display (background_color = 0, 0, 0)
+
+
+var red = 0.0
+var green = 0.0
+var blue = 0.0
+
+var expected_alpha = 0.0
+
+%define source_alpha = 0.8
+%define dest_alpha = 0.2
+
+var source_alpha_blend_factor = ''
+var dest_alpha_blend_factor = ''
+
+%define size = 20
+
+
+frame_list frame_list (loop = true) {
+    rectangle (
+        color = red, green, blue
+        alpha_multiplier = expected_alpha
+        x_size = size
+        )
+
+    layer {
+        rectangle  (
+            alpha_multiplier = dest_alpha
+            // Prevent blending alpha with the layer background
+            source_alpha_blend_factor = one
+            dest_alpha_blend_factor = zero
+            x_size = size
+            )
+
+        rectangle (
+            color = red, green, blue
+            alpha_multiplier = source_alpha
+            // Prevent blending RGB components with dest
+            source_blend_factor = one
+            dest_blend_factor = zero
+            source_alpha_blend_factor = source_alpha_blend_factor
+            dest_alpha_blend_factor = dest_alpha_blend_factor
+            x_size = size
+            )
+    }
+}
+
+
+%define rand_rgb() rand(0.5, 1.0)
+
+%define update_and_wait ()
+    red = rand_rgb()
+    green = rand_rgb()
+    blue = rand_rgb()
+    unpause_dynamic_stimulus (frame_list)
+    wait (1s)
+    pause_dynamic_stimulus (frame_list)
+%end
+
+
+protocol {
+    live_queue_stimulus (frame_list)
+    update_display ()
+    play_dynamic_stimulus (frame_list)
+
+    report ('The square should change color but never flicker')
+
+    source_alpha_blend_factor = 'zero'
+    dest_alpha_blend_factor = 'zero'
+    expected_alpha = 0.0
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'zero'
+    dest_alpha_blend_factor = 'one'
+    expected_alpha = dest_alpha
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'one'
+    dest_alpha_blend_factor = 'zero'
+    expected_alpha = source_alpha
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'source_color'
+    dest_alpha_blend_factor = 'one_minus_source_color'
+    expected_alpha = source_alpha * source_alpha + dest_alpha * (1 - source_alpha)
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'one_minus_source_color'
+    dest_alpha_blend_factor = 'source_color'
+    expected_alpha = source_alpha * (1 - source_alpha) + dest_alpha * source_alpha
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'dest_color'
+    dest_alpha_blend_factor = 'one_minus_dest_color'
+    expected_alpha = source_alpha * dest_alpha + dest_alpha * (1 - dest_alpha)
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'one_minus_dest_color'
+    dest_alpha_blend_factor = 'dest_color'
+    expected_alpha = source_alpha * (1 - dest_alpha) + dest_alpha * dest_alpha
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'source_alpha'
+    dest_alpha_blend_factor = 'one_minus_source_alpha'
+    expected_alpha = source_alpha * source_alpha + dest_alpha * (1 - source_alpha)
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'one_minus_source_alpha'
+    dest_alpha_blend_factor = 'source_alpha'
+    expected_alpha = source_alpha * (1 - source_alpha) + dest_alpha * source_alpha
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'dest_alpha'
+    dest_alpha_blend_factor = 'one_minus_dest_alpha'
+    expected_alpha = source_alpha * dest_alpha + dest_alpha * (1 - dest_alpha)
+    update_and_wait ()
+
+    source_alpha_blend_factor = 'one_minus_dest_alpha'
+    dest_alpha_blend_factor = 'dest_alpha'
+    expected_alpha = source_alpha * (1 - dest_alpha) + dest_alpha * dest_alpha
+    update_and_wait ()
+}

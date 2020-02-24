@@ -13,6 +13,10 @@ description: |
     `y_size`_ must be equal.  When drawn, the larger dimension spans the full
     specified size, while the smaller dimension is scaled to maintain the
     aspect ratio.
+
+    *Note*:  If the video contains an `alpha channel
+    <https://en.wikipedia.org/wiki/Alpha_compositing>`_, the embedded alpha
+    value for each pixel is multiplied by the value of `alpha_multiplier`_.
 parameters: 
   - 
     name: path

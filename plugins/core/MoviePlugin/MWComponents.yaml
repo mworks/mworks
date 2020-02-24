@@ -102,10 +102,8 @@ isa: Base Movie Stimulus
 description: |
     A movie stimulus that gets its frames from a directory of image files.
 
-    *Note*:  To preserve each image's aspect ratio on screen, `x_size`_ and
-    `y_size`_ must be equal.  When drawn, the larger dimension spans the full
-    specified size, while the smaller dimension is scaled to maintain the
-    aspect ratio.
+    *Note*:  In addition to the parameters described below, this stimulus also
+    accepts all the parameters of `Image Stimulus` (excluding ``path``).
 parameters: 
   - 
     name: directory_path
@@ -115,52 +113,5 @@ parameters:
 
         *All* non-hidden files in this directory must be images.  The frames are
         ordered according to the lexical sort order of the file names.
-  - 
-    name: x_size
-    example: 5.0
-    description: |
-        Horizontal size (degrees).
-
-        If omitted, the value of `y_size`_ is used.  It is an error to omit both
-        x_size and y_size (unless `fullscreen`_ is ``YES``).
-  - 
-    name: y_size
-    example: 5.0
-    description: |
-        Vertical size (degrees).
-
-        If omitted, the value of `x_size`_ is used.  It is an error to omit both
-        x_size and y_size (unless `fullscreen`_ is ``YES``).
-  - 
-    name: x_position
-    default: 0.0
-    description: Horizontal center position (degrees)
-  - 
-    name: y_position
-    default: 0.0
-    description: Vertical center position (degrees)
-  - 
-    name: rotation
-    default: 0.0
-    description: Rotation (degrees)
-  - 
-    name: alpha_multiplier
-    default: 1.0
-    description: >
-        Controls the transparency of the stimulus.  ``1.0`` is fully opaque,
-        while ``0.0`` is fully tranparent.
-  - 
-    name: fullscreen
-    default: 'NO'
-    description: >
-        If ``YES``, the stimulus is sized to fill the display.  In this mode,
-        `x_size`_, `y_size`_, `x_position`_, `y_position`_, and `rotation`_ are
-        ignored.
-  - 
-    name: announce_load
-    default: 'YES'
-    description: >
-        If ``YES``, messages will be posted to the console and event stream when
-        images are loaded or unloaded.
 
 
