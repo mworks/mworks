@@ -12,14 +12,10 @@
 BEGIN_NAMESPACE_MW
 
 
-FirmataSerialConnection::FirmataSerialConnection(const std::string &path) :
+FirmataSerialConnection::FirmataSerialConnection(FirmataConnectionClient &client, const std::string &path) :
+    FirmataConnection(client),
     path(path)
 { }
-
-
-FirmataSerialConnection::~FirmataSerialConnection() {
-    disconnect();
-}
 
 
 bool FirmataSerialConnection::connect() {

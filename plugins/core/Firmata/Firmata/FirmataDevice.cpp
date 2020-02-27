@@ -8,40 +8,11 @@
 
 #include "FirmataDevice.hpp"
 
+#include "FirmataMessageTypes.h"
 #include "FirmataServoChannel.hpp"
 
 
 BEGIN_NAMESPACE_MW
-
-
-//
-// Message types
-//
-
-enum {
-    DIGITAL_MESSAGE         = 0x90, // send data for a digital port (collection of 8 pins)
-    ANALOG_MESSAGE          = 0xE0, // send data for an analog pin (or PWM)
-    REPORT_ANALOG           = 0xC0, // enable analog input by pin #
-    REPORT_DIGITAL          = 0xD0, // enable digital input by port pair
-    
-    SET_PIN_MODE            = 0xF4, // set a pin to INPUT/OUTPUT/PWM/etc
-    SET_DIGITAL_PIN_VALUE   = 0xF5, // set value of an individual digital pin
-    
-    REPORT_VERSION          = 0xF9, // report protocol version
-    SYSTEM_RESET            = 0xFF, // reset from MIDI
-    
-    START_SYSEX             = 0xF0, // start a MIDI Sysex message
-    END_SYSEX               = 0xF7, // end a MIDI Sysex message
-    
-    SERVO_CONFIG            = 0x70, // set minPulse, maxPulse
-    REPORT_FIRMWARE         = 0x79, // report name and version of the firmware
-    EXTENDED_ANALOG         = 0x6F, // analog write (PWM, Servo, etc) to any pin
-    CAPABILITY_QUERY        = 0x6B, // ask for supported modes and resolution of all pins
-    CAPABILITY_RESPONSE     = 0x6C, // reply with supported modes and resolution
-    ANALOG_MAPPING_QUERY    = 0x69, // ask for mapping of analog to pin numbers
-    ANALOG_MAPPING_RESPONSE = 0x6A, // reply with mapping info
-    SAMPLING_INTERVAL       = 0x7A  // set the poll rate of the main loop
-};
 
 
 const std::string FirmataDevice::SERIAL_PORT("serial_port");
@@ -62,7 +33,7 @@ void FirmataDevice::describeComponent(ComponentInfo &info) {
 
 FirmataDevice::FirmataDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
-    connection(FirmataConnection::create(parameters[SERIAL_PORT], parameters[BLUETOOTH_LOCAL_NAME])),
+    connection(FirmataConnection::create(*this, parameters[SERIAL_PORT], parameters[BLUETOOTH_LOCAL_NAME])),
     samplingIntervalUS(0),
     deviceProtocolVersionReceived(false),
     deviceProtocolVersionMajor(0),
@@ -83,11 +54,7 @@ FirmataDevice::FirmataDevice(const ParameterValueMap &parameters) :
 
 
 FirmataDevice::~FirmataDevice() {
-    if (receiveDataThread.joinable()) {
-        continueReceivingData.clear();
-        receiveDataThread.join();
-    }
-    connection->disconnect();
+    connection->finalize();
 }
 
 
@@ -104,31 +71,18 @@ void FirmataDevice::addChild(std::map<std::string, std::string> parameters,
 
 
 bool FirmataDevice::initialize() {
+    unique_lock lock(mutex);
+    
     mprintf(M_IODEVICE_MESSAGE_DOMAIN, "Configuring Firmata device \"%s\"...", getTag().c_str());
     
-    if (!connection->connect()) {
-        return false;
-    }
-    
-    continueReceivingData.test_and_set();
-    receiveDataThread = std::thread([this]() {
-        receiveData();
-    });
-    
-    // Wait for connection to be established
-    Clock::instance()->sleepMS(3000);
-    
+    if (!connection->initialize() ||
+        !sendData({ REPORT_VERSION, SYSTEM_RESET }) ||
+        !checkProtocolVersion(lock) ||
+        !getDeviceInfo(lock) ||
+        !processChannelRequests() ||
+        !configurePins())
     {
-        unique_lock lock(mutex);
-        
-        if (!sendData({ REPORT_VERSION, SYSTEM_RESET }) ||
-            !checkProtocolVersion(lock) ||
-            !getDeviceInfo(lock) ||
-            !processChannelRequests() ||
-            !configurePins())
-        {
-            return false;
-        }
+        return false;
     }
     
     mprintf(M_IODEVICE_MESSAGE_DOMAIN, "Firmata device \"%s\" is ready", getTag().c_str());
@@ -629,281 +583,70 @@ bool FirmataDevice::sendExtendedAnalogMessage(int pinNumber, int pinMode, int va
 }
 
 
-inline bool FirmataDevice::sendData(const std::vector<std::uint8_t> &data) {
-    return connection->write(data);
+void FirmataDevice::receivedProtocolVersion(std::uint8_t protocolVersionMajor, std::uint8_t protocolVersionMinor) {
+    {
+        unique_lock lock(mutex);
+        deviceProtocolVersionMajor = protocolVersionMajor;
+        deviceProtocolVersionMinor = protocolVersionMinor;
+        deviceProtocolVersionReceived = true;
+    }
+    condition.notify_all();
 }
 
 
-void FirmataDevice::receiveData() {
-    std::array<std::uint8_t, 3> message;
-    std::size_t bytesReceived = 0;
-    std::size_t bytesExpected = 1;
-    MWTime currentCommandTime = 0;
-    std::uint8_t currentCommand = 0;
-    std::uint8_t currentSysexCommand = 0;
-    std::uint8_t currentPinNumber = 0;
-    std::vector<std::uint8_t> currentPinModeInfo;
-    
-    while (continueReceivingData.test_and_set()) {
-        // Since this is the only thread that reads from the serial port, we don't need a lock here
-        auto result = connection->read(message.at(bytesReceived), bytesExpected - bytesReceived);
-        
-        if (-1 == result) {
-            
-            //
-            // It would be nice if we tried to re-connect.  However, most Arduinos will reset the
-            // running sketch upon connection, meaning we'd have to re-initialize everything.
-            // Just give up.
-            //
-            merror(M_IODEVICE_MESSAGE_DOMAIN,
-                   "Aborting all attempts to receive data from Firmata device \"%s\"",
-                   getTag().c_str());
-            return;
-            
-        } else if (result > 0) {
-            
-            bytesReceived += result;
-            
-            if (bytesReceived == 1) {
-                
-                //
-                // Start processing new message
-                //
-                
-                currentCommandTime = Clock::instance()->getCurrentTimeUS();
-                
-                currentCommand = message.at(0);
-                if (currentCommand < 0xF0) {
-                    currentCommand &= 0xF0;
+void FirmataDevice::receivedCapabilityInfo(const PinModesMap &modesForPin) {
+    {
+        unique_lock lock(mutex);
+        this->modesForPin = modesForPin;
+        capabilityInfoReceived = true;
+    }
+    condition.notify_all();
+}
+
+
+void FirmataDevice::receivedAnalogMappingInfo(const AnalogChannelPinMap &pinForAnalogChannel) {
+    {
+        unique_lock lock(mutex);
+        this->pinForAnalogChannel = pinForAnalogChannel;
+        analogMappingInfoReceived = true;
+    }
+    condition.notify_all();
+}
+
+
+void FirmataDevice::receivedDigitalMessage(std::uint8_t portNum, const PortStateArray &portState, MWTime time) {
+    unique_lock lock(mutex);
+    if (running) {
+        const auto &port = ports.at(portNum);
+        for (std::size_t bitNum = 0; bitNum < port.size(); bitNum++) {
+            const auto &channel = port.at(bitNum);
+            if (channel && channel->isDigital() && channel->isInput()) {
+                const auto pinNumber = getPinNumber(portNum, bitNum);
+                const bool value = portState.at(bitNum / 7) & (1 << (bitNum % 7));
+                if (channel->getValueForPin(pinNumber).getBool() != value) {
+                    channel->setValueForPin(pinNumber, value, time);
                 }
-                
-                switch (currentCommand) {
-                        
-                    case DIGITAL_MESSAGE:
-                        bytesExpected = 3;
-                        break;
-                        
-                    case ANALOG_MESSAGE:
-                        bytesExpected = 3;
-                        break;
-                        
-                    case REPORT_VERSION:
-                        bytesExpected = 3;
-                        break;
-                        
-                    case START_SYSEX:
-                        bytesExpected = 2;
-                        break;
-                        
-                    default:
-                        mwarning(M_IODEVICE_MESSAGE_DOMAIN,
-                                 "Received unexpected command (0x%02hhX) from Firmata device \"%s\"",
-                                 currentCommand,
-                                 getTag().c_str());
-                        bytesReceived = 0;
-                        break;
-                        
-                }
-                
-            } else if (currentCommand == START_SYSEX) {
-                
-                //
-                // Handle SysEx message
-                //
-                
-                if (bytesExpected == 2) {
-                    
-                    currentSysexCommand = message.at(1);
-                    
-                    switch (currentSysexCommand) {
-                        case REPORT_FIRMWARE:
-                            // Ignored
-                            break;
-                            
-                        case CAPABILITY_RESPONSE: {
-                            unique_lock lock(mutex);
-                            modesForPin.clear();
-                            currentPinNumber = 0;
-                            break;
-                        }
-                            
-                        case ANALOG_MAPPING_RESPONSE: {
-                            unique_lock lock(mutex);
-                            pinForAnalogChannel.clear();
-                            currentPinNumber = 0;
-                            break;
-                        }
-                            
-                        default:
-                            mwarning(M_IODEVICE_MESSAGE_DOMAIN,
-                                     "Received unexpected SysEx command (0x%02hhX) from Firmata device \"%s\"",
-                                     currentSysexCommand,
-                                     getTag().c_str());
-                            break;
-                    }
-                    
-                    bytesExpected = 3;
-                    
-                } else if (message.at(2) == END_SYSEX) {
-                    
-                    switch (currentSysexCommand) {
-                        case CAPABILITY_RESPONSE: {
-                            {
-                                unique_lock lock(mutex);
-                                capabilityInfoReceived = true;
-                            }
-                            condition.notify_all();
-                            break;
-                        }
-                            
-                        case ANALOG_MAPPING_RESPONSE: {
-                            {
-                                unique_lock lock(mutex);
-                                analogMappingInfoReceived = true;
-                            }
-                            condition.notify_all();
-                            break;
-                        }
-                    }
-                    
-                    bytesReceived = 0;
-                    bytesExpected = 1;
-                    
-                } else {
-                    
-                    switch (currentSysexCommand) {
-                        case CAPABILITY_RESPONSE: {
-                            const auto modeInfo = message.at(2);
-                            if (modeInfo != 0x7F) {
-                                currentPinModeInfo.push_back(modeInfo);
-                            } else {
-                                if (!(currentPinModeInfo.empty())) {
-                                    unique_lock lock(mutex);
-                                    auto &currentPinModes = modesForPin[currentPinNumber];
-                                    for (std::size_t i = 0; i < currentPinModeInfo.size() - 1; i += 2) {
-                                        currentPinModes[currentPinModeInfo.at(i)] = currentPinModeInfo.at(i + 1);
-                                    }
-                                    currentPinModeInfo.clear();
-                                }
-                                currentPinNumber++;
-                            }
-                            break;
-                        }
-                            
-                        case ANALOG_MAPPING_RESPONSE: {
-                            const auto channelNumber = message.at(2);
-                            if (channelNumber != 127) {
-                                unique_lock lock(mutex);
-                                pinForAnalogChannel[channelNumber] = currentPinNumber;
-                            }
-                            currentPinNumber++;
-                            break;
-                        }
-                    }
-                    
-                    // Still waiting for END_SYSEX
-                    bytesReceived--;
-                    
-                }
-            
-            } else if (bytesReceived == bytesExpected) {
-                
-                //
-                // Finish processing current message
-                //
-                
-                switch (currentCommand) {
-                        
-                    case DIGITAL_MESSAGE:
-                        if (running) {
-                            const std::size_t portNum = (message.at(0) & 0x0F);
-                            const std::array<std::uint8_t, 2> portState = { message.at(1), message.at(2) };
-                            const auto &port = ports.at(portNum);
-                            
-                            for (std::size_t bitNum = 0; bitNum < port.size(); bitNum++) {
-                                const auto &channel = port.at(bitNum);
-                                if (channel && channel->isDigital() && channel->isInput()) {
-                                    const auto pinNumber = getPinNumber(portNum, bitNum);
-                                    const bool value = portState.at(bitNum / 7) & (1 << (bitNum % 7));
-                                    if (channel->getValueForPin(pinNumber).getBool() != value) {
-                                        channel->setValueForPin(pinNumber, value, currentCommandTime);
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                        
-                    case ANALOG_MESSAGE:
-                        if (running) {
-                            const auto channelNumber = (message.at(0) & 0x0F);
-                            const auto iter = pinForAnalogChannel.find(channelNumber);
-                            if (iter != pinForAnalogChannel.end()) {
-                                const auto pinNumber = iter->second;
-                                const auto &channel = getChannelForPin(pinNumber);
-                                if (channel && channel->isAnalog() && channel->isInput()) {
-                                    int value = 0;
-                                    value |= (message.at(1) & 0x7F) << 0;  // LSB
-                                    value |= (message.at(2) & 0x7F) << 7;  // MSB
-                                    auto floatValue = double(value) / getMaximumValueForPinMode(pinNumber, PIN_MODE_ANALOG);
-                                    // The user expects analog samples at a steady rate, so set the value unconditionally
-                                    channel->setValueForPin(pinNumber, floatValue, currentCommandTime);
-                                }
-                            }
-                        }
-                        break;
-                        
-                    case REPORT_VERSION: {
-                        {
-                            unique_lock lock(mutex);
-                            deviceProtocolVersionMajor = message.at(1);
-                            deviceProtocolVersionMinor = message.at(2);
-                            deviceProtocolVersionReceived = true;
-                        }
-                        condition.notify_all();
-                        break;
-                    }
-                        
-                    default:
-                        break;
-                        
-                }
-                
-                bytesReceived = 0;
-                bytesExpected = 1;
-                
             }
-            
+        }
+    }
+}
+
+
+void FirmataDevice::receivedAnalogMessage(std::uint8_t channelNumber, int value, MWTime time) {
+    unique_lock lock(mutex);
+    if (running) {
+        const auto iter = pinForAnalogChannel.find(channelNumber);
+        if (iter != pinForAnalogChannel.end()) {
+            const auto pinNumber = iter->second;
+            const auto &channel = getChannelForPin(pinNumber);
+            if (channel && channel->isAnalog() && channel->isInput()) {
+                auto floatValue = double(value) / getMaximumValueForPinMode(pinNumber, PIN_MODE_ANALOG);
+                // The user expects analog samples at a steady rate, so set the value unconditionally
+                channel->setValueForPin(pinNumber, floatValue, time);
+            }
         }
     }
 }
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

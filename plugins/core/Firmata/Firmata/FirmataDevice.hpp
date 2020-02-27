@@ -16,7 +16,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class FirmataDevice : public IODevice, boost::noncopyable {
+class FirmataDevice : public IODevice, public FirmataConnectionClient, boost::noncopyable {
     
 public:
     static const std::string SERIAL_PORT;
@@ -80,8 +80,14 @@ private:
     bool setDigitalOutput(int pinNumber, bool value);
     bool setServo(int pinNumber, double value);
     bool sendExtendedAnalogMessage(int pinNumber, int pinMode, int value);
-    bool sendData(const std::vector<std::uint8_t> &data);
-    void receiveData();
+    bool sendData(const std::vector<std::uint8_t> &data) { return connection->sendData(data); }
+    
+    const std::string & getDeviceName() const override { return getTag(); }
+    void receivedProtocolVersion(std::uint8_t protocolVersionMajor, std::uint8_t protocolVersionMinor) override;
+    void receivedCapabilityInfo(const PinModesMap &modesForPin) override;
+    void receivedAnalogMappingInfo(const AnalogChannelPinMap &pinForAnalogChannel) override;
+    void receivedDigitalMessage(std::uint8_t portNum, const PortStateArray &portState, MWTime time) override;
+    void receivedAnalogMessage(std::uint8_t channelNumber, int value, MWTime time) override;
     
     const std::unique_ptr<FirmataConnection> connection;
     MWTime samplingIntervalUS;
@@ -90,21 +96,18 @@ private:
     
     unique_lock::mutex_type mutex;
     std::condition_variable condition;
-    std::thread receiveDataThread;
-    std::atomic_flag continueReceivingData;
     
     bool deviceProtocolVersionReceived;
     std::uint8_t deviceProtocolVersionMajor;
     std::uint8_t deviceProtocolVersionMinor;
     
     bool capabilityInfoReceived;
-    std::map<std::uint8_t, std::map<std::uint8_t, std::uint8_t>> modesForPin;
+    PinModesMap modesForPin;
     
     bool analogMappingInfoReceived;
-    std::map<std::uint8_t, std::uint8_t> pinForAnalogChannel;
+    AnalogChannelPinMap pinForAnalogChannel;
     
-    static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
-    std::atomic_bool running;
+    bool running;
     
 };
 
@@ -113,31 +116,3 @@ END_NAMESPACE_MW
 
 
 #endif /* FirmataDevice_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

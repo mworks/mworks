@@ -121,6 +121,7 @@
 		E1C0E1E11E9D2EC300918349 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_regex.a"; sourceTree = "<absolute>"; };
 		E1C0E1E31E9D436400918349 /* FirmataAnalogOutputChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataAnalogOutputChannel.cpp; sourceTree = "<group>"; };
 		E1C0E1E41E9D436400918349 /* FirmataAnalogOutputChannel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataAnalogOutputChannel.hpp; sourceTree = "<group>"; };
+		E1C94D59240849D8005DC98F /* FirmataMessageTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirmataMessageTypes.h; sourceTree = "<group>"; };
 		E1D54B9A1EA696CB0073D938 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1D54B9B1EA696CB0073D938 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1D54B9C1EA696CB0073D938 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -244,6 +245,7 @@
 		E1E84AF61D0B2B4200F45D54 /* Firmata */ = {
 			isa = PBXGroup;
 			children = (
+				E1C94D59240849D8005DC98F /* FirmataMessageTypes.h */,
 				E18A24CA1E9FFC490021F560 /* Connections */,
 				E18B6D361D0F195700087249 /* Channels */,
 				E1E84B181D0B3AD400F45D54 /* FirmataDevice.hpp */,

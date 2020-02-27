@@ -220,16 +220,13 @@ void FirmataBluetoothLEConnection::dataReceived(MWKFirmataBluetoothLEDelegate *d
 }
 
 
-FirmataBluetoothLEConnection::FirmataBluetoothLEConnection(const std::string &localName) :
+FirmataBluetoothLEConnection::FirmataBluetoothLEConnection(FirmataConnectionClient &client,
+                                                           const std::string &localName) :
+    FirmataConnection(client),
     localName(localName),
     delegate(nil),
     wasNotified(false)
 { }
-
-
-FirmataBluetoothLEConnection::~FirmataBluetoothLEConnection() {
-    disconnect();
-}
 
 
 bool FirmataBluetoothLEConnection::connect() {

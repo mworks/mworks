@@ -30,19 +30,18 @@ public:
     using NotifyCallback = decltype(&notify);
     using DataReceivedCallback = decltype(&dataReceived);
     
-    explicit FirmataBluetoothLEConnection(const std::string &localName);
-    ~FirmataBluetoothLEConnection();
+    FirmataBluetoothLEConnection(FirmataConnectionClient &client, const std::string &localName);
     
     const std::string& getLocalName() const { return localName; }
+    
+private:
+    using unique_lock = std::unique_lock<std::mutex>;
     
     bool connect() override;
     void disconnect() override;
     
     ssize_t read(std::uint8_t &data, std::size_t size) override;
     bool write(const std::vector<std::uint8_t> &data) override;
-    
-private:
-    using unique_lock = std::unique_lock<std::mutex>;
     
     bool wait(unique_lock &lock);
     

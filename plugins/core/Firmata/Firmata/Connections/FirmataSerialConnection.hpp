@@ -18,16 +18,15 @@ BEGIN_NAMESPACE_MW
 class FirmataSerialConnection : public FirmataConnection {
     
 public:
-    explicit FirmataSerialConnection(const std::string &path);
-    ~FirmataSerialConnection();
+    FirmataSerialConnection(FirmataConnectionClient &client, const std::string &path);
     
+private:
     bool connect() override;
     void disconnect() override;
     
     ssize_t read(std::uint8_t &data, std::size_t size) override;
     bool write(const std::vector<std::uint8_t> &data) override;
     
-private:
     const std::string path;
     SerialPort serialPort;
     
