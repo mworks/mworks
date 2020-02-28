@@ -38,6 +38,22 @@ parameters:
     description: >
         Sampling interval for analog inputs.  Must be a whole number of
         milliseconds.
+  - 
+    name: reconnect_interval
+    default: 0
+    example: 10s
+    description: |
+        If the Firmata device disconnects unexpectedly (e.g. due to power
+        failure), and the value of this parameter is greater than zero, then the
+        device will attempt to reconnect at this interval.
+
+        For example, if this parameter is set to ``10s``, then, upon
+        disconnection, the device will wait for 10 seconds and then try to
+        reconnect.  If the reconnection attempt fails, the device will wait for
+        another 10 seconds, then try again, and so on.
+
+        If the value of this parameter is zero, the device will never attempt to
+        reconnect.
 
 
 ---

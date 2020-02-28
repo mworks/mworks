@@ -22,6 +22,7 @@ public:
     static const std::string SERIAL_PORT;
     static const std::string BLUETOOTH_LOCAL_NAME;
     static const std::string DATA_INTERVAL;
+    static const std::string RECONNECT_INTERVAL;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -80,17 +81,21 @@ private:
     bool setDigitalOutput(int pinNumber, bool value);
     bool setServo(int pinNumber, double value);
     bool sendExtendedAnalogMessage(int pinNumber, int pinMode, int value);
-    bool sendData(const std::vector<std::uint8_t> &data) { return connection->sendData(data); }
+    bool sendData(const std::vector<std::uint8_t> &data);
     
     const std::string & getDeviceName() const override { return getTag(); }
+    MWTime getReconnectInterval() const override { return reconnectIntervalUS; }
     void receivedProtocolVersion(std::uint8_t protocolVersionMajor, std::uint8_t protocolVersionMinor) override;
     void receivedCapabilityInfo(const PinModesMap &modesForPin) override;
     void receivedAnalogMappingInfo(const AnalogChannelPinMap &pinForAnalogChannel) override;
     void receivedDigitalMessage(std::uint8_t portNum, const PortStateArray &portState, MWTime time) override;
     void receivedAnalogMessage(std::uint8_t channelNumber, int value, MWTime time) override;
+    void disconnected() override;
+    void reconnected() override;
     
     const std::unique_ptr<FirmataConnection> connection;
     MWTime samplingIntervalUS;
+    const MWTime reconnectIntervalUS;
     std::vector<boost::shared_ptr<FirmataChannel>> requestedChannels;
     std::array<std::array<boost::shared_ptr<FirmataChannel>, numPinsPerPort>, numPorts> ports;
     
@@ -107,6 +112,7 @@ private:
     bool analogMappingInfoReceived;
     AnalogChannelPinMap pinForAnalogChannel;
     
+    bool connected;
     bool running;
     
 };

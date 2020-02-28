@@ -42,7 +42,7 @@ std::unique_ptr<FirmataConnection> FirmataConnection::create(FirmataConnectionCl
 FirmataConnection::FirmataConnection(FirmataConnectionClient &client) :
     client(client),
     clock(Clock::instance()),
-    receivingData(false)
+    running(false)
 { }
 
 
@@ -51,28 +51,34 @@ bool FirmataConnection::initialize() {
         return false;
     }
     
-    receivingData = true;
-    receiveDataThread = std::thread([this]() {
-        receiveData();
+    running = true;
+    runThread = std::thread([this]() {
+        run();
     });
-    
-    // Wait for connection to be established
-    clock->sleepMS(3000);
     
     return true;
 }
 
 
 void FirmataConnection::finalize() {
-    if (receiveDataThread.joinable()) {
-        receivingData = false;
-        receiveDataThread.join();
+    if (runThread.joinable()) {
+        running = false;
+        runThread.join();
     }
     disconnect();
 }
 
 
-void FirmataConnection::receiveData() {
+void FirmataConnection::run() {
+    while (running) {
+        if (!receiveData()) {
+            reconnect();
+        }
+    }
+}
+
+
+bool FirmataConnection::receiveData() {
     std::array<std::uint8_t, 3> message;
     std::size_t bytesReceived = 0;
     std::size_t bytesExpected = 1;
@@ -84,20 +90,12 @@ void FirmataConnection::receiveData() {
     std::uint8_t currentPinNumber = 0;
     std::vector<std::uint8_t> currentPinModeInfo;
     
-    while (receivingData) {
+    while (running) {
         auto result = read(message.at(bytesReceived), bytesExpected - bytesReceived);
         
         if (-1 == result) {
             
-            //
-            // It would be nice if we tried to re-connect.  However, most Arduinos will reset the
-            // running sketch upon connection, meaning we'd have to re-initialize everything.
-            // Just give up.
-            //
-            merror(M_IODEVICE_MESSAGE_DOMAIN,
-                   "Aborting all attempts to receive data from Firmata device \"%s\"",
-                   client.getDeviceName().c_str());
-            return;
+            return false;
             
         } else if (result > 0) {
             
@@ -271,6 +269,64 @@ void FirmataConnection::receiveData() {
             }
             
         }
+    }
+    
+    return true;
+}
+
+
+void FirmataConnection::reconnect() {
+    disconnect();
+    client.disconnected();
+    
+    const auto reconnectIntervalUS = client.getReconnectInterval();
+    if (reconnectIntervalUS <= 0) {
+        // Client doesn't want us to attempt reconnection.  Just abort.
+        merror(M_IODEVICE_MESSAGE_DOMAIN, "Disconnected from Firmata device \"%s\"", client.getDeviceName().c_str());
+        running = false;
+        return;
+    }
+    
+    merror(M_IODEVICE_MESSAGE_DOMAIN,
+           "Disconnected from Firmata device \"%s\"; will try to reconnect in %g seconds",
+           client.getDeviceName().c_str(),
+           double(reconnectIntervalUS) / 1e6);
+    
+    while (running) {
+        
+        // Perform an "active" wait, so that we can exit promptly if finalize() is called
+        const auto waitStopTime = clock->getCurrentTimeUS() + reconnectIntervalUS;
+        while (true) {
+            if (!running) {
+                return;
+            }
+            if (clock->getCurrentTimeUS() >= waitStopTime) {
+                break;
+            }
+            clock->yield();
+        }
+        
+        mprintf(M_IODEVICE_MESSAGE_DOMAIN,
+                "Attempting to reconnect to Firmata device \"%s\"...",
+                client.getDeviceName().c_str());
+        
+        if (connect()) {
+            mprintf(M_IODEVICE_MESSAGE_DOMAIN,
+                    "Successfully reconnected to Firmata device \"%s\"",
+                    client.getDeviceName().c_str());
+            client.reconnected();
+            return;
+        }
+        
+        merror(M_IODEVICE_MESSAGE_DOMAIN,
+               "Failed to reconnect to Firmata device \"%s\"; will try again in %g seconds",
+               client.getDeviceName().c_str(),
+               double(reconnectIntervalUS) / 1e6);
+        
+        // Disconnect to ensure that we start in a clean state on the next
+        // reconnection attempt
+        disconnect();
+        
     }
 }
 

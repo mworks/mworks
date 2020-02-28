@@ -39,6 +39,7 @@
     mw::FirmataBluetoothLEConnection *connection;
     mw::FirmataBluetoothLEConnection::NotifyCallback notifyCallback;
     mw::FirmataBluetoothLEConnection::DataReceivedCallback dataReceivedCallback;
+    mw::FirmataBluetoothLEConnection::DisconnectedCallback disconnectedCallback;
     dispatch_queue_t queue;
 }
 
@@ -46,12 +47,14 @@
 - (instancetype)initWithConnection:(mw::FirmataBluetoothLEConnection *)_connection
                     notifyCallback:(mw::FirmataBluetoothLEConnection::NotifyCallback)_notifyCallback
               dataReceivedCallback:(mw::FirmataBluetoothLEConnection::DataReceivedCallback)_dataReceivedCallback
+              disconnectedCallback:(mw::FirmataBluetoothLEConnection::DisconnectedCallback)_disconnectedCallback
 {
     self = [super init];
     if (self) {
         connection = _connection;
         notifyCallback = _notifyCallback;
         dataReceivedCallback = _dataReceivedCallback;
+        disconnectedCallback = _disconnectedCallback;
         queue = dispatch_queue_create(nullptr, dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL,
                                                                                        QOS_CLASS_USER_INITIATED,
                                                                                        0));
@@ -176,6 +179,7 @@ didDisconnectPeripheral:(CBPeripheral *)peripheral
         mw::merror(mw::M_IODEVICE_MESSAGE_DOMAIN,
                    "Disconnected from Bluetooth device: %s",
                    error.localizedDescription.UTF8String);
+        disconnectedCallback(self, connection);
     } else {
         notifyCallback(self, connection);
     }
@@ -220,12 +224,25 @@ void FirmataBluetoothLEConnection::dataReceived(MWKFirmataBluetoothLEDelegate *d
 }
 
 
+void FirmataBluetoothLEConnection::disconnected(MWKFirmataBluetoothLEDelegate *delegate,
+                                                FirmataBluetoothLEConnection *connection)
+{
+    unique_lock lock(connection->mutex);
+    if (delegate != connection->delegate) {
+        // Ignore disconnections from previous delegates
+        return;
+    }
+    connection->connected = false;
+}
+
+
 FirmataBluetoothLEConnection::FirmataBluetoothLEConnection(FirmataConnectionClient &client,
                                                            const std::string &localName) :
     FirmataConnection(client),
     localName(localName),
     delegate(nil),
-    wasNotified(false)
+    wasNotified(false),
+    connected(false)
 { }
 
 
@@ -235,7 +252,8 @@ bool FirmataBluetoothLEConnection::connect() {
     @autoreleasepool {
         delegate = [[MWKFirmataBluetoothLEDelegate alloc] initWithConnection:this
                                                               notifyCallback:&notify
-                                                        dataReceivedCallback:&dataReceived];
+                                                        dataReceivedCallback:&dataReceived
+                                                        disconnectedCallback:&disconnected];
         if (!wait(lock)) {
             merror(M_IODEVICE_MESSAGE_DOMAIN, "Bluetooth is not available");
             return false;
@@ -252,7 +270,7 @@ bool FirmataBluetoothLEConnection::connect() {
             merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot connect to Bluetooth device");
             return false;
         }
-
+        
         [delegate.peripheral discoverServices:@[[CBUUID UUIDWithString:UART_SERVICE_UUID]]];
         if (!wait(lock)) {
             merror(M_IODEVICE_MESSAGE_DOMAIN, "Bluetooth device does not provide the required service");
@@ -273,6 +291,8 @@ bool FirmataBluetoothLEConnection::connect() {
             return false;
         }
         
+        connected = true;
+        
         return true;
     }
 }
@@ -282,7 +302,10 @@ void FirmataBluetoothLEConnection::disconnect() {
     unique_lock lock(mutex);
     @autoreleasepool {
         if (delegate) {
-            if (delegate.peripheral) {
+            if (delegate.peripheral &&
+                (delegate.peripheral.state == CBPeripheralStateConnecting ||
+                 delegate.peripheral.state == CBPeripheralStateConnected))
+            {
                 [delegate.centralManager cancelPeripheralConnection:delegate.peripheral];
                 if (!wait(lock)) {
                     merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot disconnect from Bluetooth device");
@@ -291,6 +314,7 @@ void FirmataBluetoothLEConnection::disconnect() {
             delegate = nil;
             receivedData.clear();
             wasNotified = false;
+            connected = false;
         }
     }
 }
@@ -298,6 +322,10 @@ void FirmataBluetoothLEConnection::disconnect() {
 
 ssize_t FirmataBluetoothLEConnection::read(std::uint8_t &data, std::size_t size) {
     unique_lock lock(mutex);
+    if (!connected) {
+        merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot read from Bluetooth device: Not connected");
+        return -1;
+    }
     if (receivedData.empty()) {
         if (!condition.wait_for(lock, std::chrono::milliseconds(500), [this]() { return !(receivedData.empty()); })) {
             return 0;
@@ -312,6 +340,10 @@ ssize_t FirmataBluetoothLEConnection::read(std::uint8_t &data, std::size_t size)
 
 bool FirmataBluetoothLEConnection::write(const std::vector<std::uint8_t> &data) {
     unique_lock lock(mutex);
+    if (!connected) {
+        merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot write to Bluetooth device: Not connected");
+        return false;
+    }
     @autoreleasepool {
         [delegate.peripheral writeValue:[NSData dataWithBytes:data.data() length:data.size()]
                       forCharacteristic:delegate.rxCharacteristic

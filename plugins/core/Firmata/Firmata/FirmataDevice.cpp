@@ -18,6 +18,7 @@ BEGIN_NAMESPACE_MW
 const std::string FirmataDevice::SERIAL_PORT("serial_port");
 const std::string FirmataDevice::BLUETOOTH_LOCAL_NAME("bluetooth_local_name");
 const std::string FirmataDevice::DATA_INTERVAL("data_interval");
+const std::string FirmataDevice::RECONNECT_INTERVAL("reconnect_interval");
 
 
 void FirmataDevice::describeComponent(ComponentInfo &info) {
@@ -28,6 +29,7 @@ void FirmataDevice::describeComponent(ComponentInfo &info) {
     info.addParameter(SERIAL_PORT, false);
     info.addParameter(BLUETOOTH_LOCAL_NAME, false);
     info.addParameter(DATA_INTERVAL, false);
+    info.addParameter(RECONNECT_INTERVAL, "0");
 }
 
 
@@ -35,11 +37,13 @@ FirmataDevice::FirmataDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
     connection(FirmataConnection::create(*this, parameters[SERIAL_PORT], parameters[BLUETOOTH_LOCAL_NAME])),
     samplingIntervalUS(0),
+    reconnectIntervalUS(parameters[RECONNECT_INTERVAL]),
     deviceProtocolVersionReceived(false),
     deviceProtocolVersionMajor(0),
     deviceProtocolVersionMinor(0),
     capabilityInfoReceived(false),
     analogMappingInfoReceived(false),
+    connected(false),
     running(false)
 {
     if (!(parameters[DATA_INTERVAL].empty())) {
@@ -49,6 +53,9 @@ FirmataDevice::FirmataDevice(const ParameterValueMap &parameters) :
         } else if (samplingIntervalUS % 1000 != 0) {
             throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Data interval must be a whole number of milliseconds");
         }
+    }
+    if (reconnectIntervalUS < 0) {
+        throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Reconnection interval must be >=0");
     }
 }
 
@@ -75,13 +82,19 @@ bool FirmataDevice::initialize() {
     
     mprintf(M_IODEVICE_MESSAGE_DOMAIN, "Configuring Firmata device \"%s\"...", getTag().c_str());
     
-    if (!connection->initialize() ||
-        !sendData({ REPORT_VERSION, SYSTEM_RESET }) ||
-        !checkProtocolVersion(lock) ||
+    if (!connection->initialize()) {
+        return false;
+    }
+    
+    connected = true;
+
+    if (!checkProtocolVersion(lock) ||
         !getDeviceInfo(lock) ||
         !processChannelRequests() ||
         !configurePins())
     {
+        connection->finalize();
+        connected = false;
         return false;
     }
     
@@ -120,6 +133,10 @@ bool FirmataDevice::stopDeviceIO() {
 
 
 bool FirmataDevice::checkProtocolVersion(unique_lock &lock) {
+    if (!sendData({ REPORT_VERSION })) {
+        return false;
+    }
+    
     // Wait for receipt of protocol version
     if (!condition.wait_for(lock, std::chrono::seconds(2), [this]() { return deviceProtocolVersionReceived; })) {
         merror(M_IODEVICE_MESSAGE_DOMAIN,
@@ -258,6 +275,10 @@ bool FirmataDevice::processChannelRequests() {
 
 
 bool FirmataDevice::configurePins() {
+    if (!sendData({ SYSTEM_RESET })) {
+        return false;
+    }
+    
     if (samplingIntervalUS) {
         const auto samplingIntervalMS = samplingIntervalUS / 1000;
         if (!sendData({ START_SYSEX,
@@ -583,6 +604,15 @@ bool FirmataDevice::sendExtendedAnalogMessage(int pinNumber, int pinMode, int va
 }
 
 
+bool FirmataDevice::sendData(const std::vector<std::uint8_t> &data) {
+    if (connected) {
+        return connection->sendData(data);
+    }
+    merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot send data to Firmata device \"%s\": Not connected", getTag().c_str());
+    return false;
+}
+
+
 void FirmataDevice::receivedProtocolVersion(std::uint8_t protocolVersionMajor, std::uint8_t protocolVersionMinor) {
     {
         unique_lock lock(mutex);
@@ -645,6 +675,37 @@ void FirmataDevice::receivedAnalogMessage(std::uint8_t channelNumber, int value,
                 channel->setValueForPin(pinNumber, floatValue, time);
             }
         }
+    }
+}
+
+
+void FirmataDevice::disconnected() {
+    unique_lock lock(mutex);
+    connected = false;
+}
+
+
+void FirmataDevice::reconnected() {
+    unique_lock lock(mutex);
+    
+    if (!deviceProtocolVersionReceived ||
+        !capabilityInfoReceived ||
+        !analogMappingInfoReceived)
+    {
+        // We're still in initial configuration.  Don't do anything here.
+        return;
+    }
+    
+    connected = true;
+    
+    // We're going to assume that we've reconnected to the same device and not request the
+    // protocol version and device info again.  However, as the connection may have failed
+    // because the device lost power, we do need to reset, reconfigure, and (if running)
+    // restart I/O.
+    if (!configurePins() ||
+        (running && !startIO()))
+    {
+        running = false;
     }
 }
 

@@ -25,10 +25,12 @@ class FirmataBluetoothLEConnection : public FirmataConnection {
                              FirmataBluetoothLEConnection *connection,
                              const std::uint8_t *data,
                              std::size_t size);
+    static void disconnected(MWKFirmataBluetoothLEDelegate *delegate, FirmataBluetoothLEConnection *connection);
     
 public:
     using NotifyCallback = decltype(&notify);
     using DataReceivedCallback = decltype(&dataReceived);
+    using DisconnectedCallback = decltype(&disconnected);
     
     FirmataBluetoothLEConnection(FirmataConnectionClient &client, const std::string &localName);
     
@@ -52,6 +54,8 @@ private:
     unique_lock::mutex_type mutex;
     std::condition_variable condition;
     bool wasNotified;
+    
+    bool connected;
     
 };
 

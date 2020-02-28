@@ -23,12 +23,16 @@ public:
     virtual ~FirmataConnectionClient() { }
     
     virtual const std::string & getDeviceName() const = 0;
+    virtual MWTime getReconnectInterval() const = 0;
     
     virtual void receivedProtocolVersion(std::uint8_t protocolVersionMajor, std::uint8_t protocolVersionMinor) = 0;
     virtual void receivedCapabilityInfo(const PinModesMap &modesForPin) = 0;
     virtual void receivedAnalogMappingInfo(const AnalogChannelPinMap &pinForAnalogChannel) = 0;
     virtual void receivedDigitalMessage(std::uint8_t portNum, const PortStateArray &portState, MWTime time) = 0;
     virtual void receivedAnalogMessage(std::uint8_t channelNumber, int value, MWTime time) = 0;
+    
+    virtual void disconnected() = 0;
+    virtual void reconnected() = 0;
     
 };
 
@@ -48,7 +52,9 @@ public:
     void finalize();
     
 private:
-    void receiveData();
+    void run();
+    bool receiveData();
+    void reconnect();
     
     virtual bool connect() = 0;
     virtual void disconnect() = 0;
@@ -61,8 +67,8 @@ private:
     const boost::shared_ptr<Clock> clock;
     
     static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
-    std::atomic_bool receivingData;
-    std::thread receiveDataThread;
+    std::atomic_bool running;
+    std::thread runThread;
     
 };
 

@@ -19,7 +19,14 @@ FirmataSerialConnection::FirmataSerialConnection(FirmataConnectionClient &client
 
 
 bool FirmataSerialConnection::connect() {
-    return serialPort.connect(path, B57600);
+    if (!serialPort.connect(path, B57600)) {
+        return false;
+    }
+    
+    // Wait for connection to be fully established
+    Clock::instance()->sleepMS(3000);
+    
+    return true;
 }
 
 
