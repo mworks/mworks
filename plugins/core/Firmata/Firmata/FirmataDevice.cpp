@@ -18,6 +18,7 @@ BEGIN_NAMESPACE_MW
 const std::string FirmataDevice::SERIAL_PORT("serial_port");
 const std::string FirmataDevice::BLUETOOTH_LOCAL_NAME("bluetooth_local_name");
 const std::string FirmataDevice::DATA_INTERVAL("data_interval");
+const std::string FirmataDevice::CONNECTED("connected");
 const std::string FirmataDevice::RECONNECT_INTERVAL("reconnect_interval");
 
 
@@ -29,6 +30,7 @@ void FirmataDevice::describeComponent(ComponentInfo &info) {
     info.addParameter(SERIAL_PORT, false);
     info.addParameter(BLUETOOTH_LOCAL_NAME, false);
     info.addParameter(DATA_INTERVAL, false);
+    info.addParameter(CONNECTED, false);
     info.addParameter(RECONNECT_INTERVAL, "0");
 }
 
@@ -37,6 +39,7 @@ FirmataDevice::FirmataDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
     connection(FirmataConnection::create(*this, parameters[SERIAL_PORT], parameters[BLUETOOTH_LOCAL_NAME])),
     samplingIntervalUS(0),
+    connectedVar(optionalVariable(parameters[CONNECTED])),
     reconnectIntervalUS(parameters[RECONNECT_INTERVAL]),
     deviceProtocolVersionReceived(false),
     deviceProtocolVersionMajor(0),
@@ -86,7 +89,7 @@ bool FirmataDevice::initialize() {
         return false;
     }
     
-    connected = true;
+    setConnected(true);
 
     if (!checkProtocolVersion(lock) ||
         !getDeviceInfo(lock) ||
@@ -94,7 +97,7 @@ bool FirmataDevice::initialize() {
         !configurePins())
     {
         connection->finalize();
-        connected = false;
+        setConnected(false);
         return false;
     }
     
@@ -681,7 +684,7 @@ void FirmataDevice::receivedAnalogMessage(std::uint8_t channelNumber, int value,
 
 void FirmataDevice::disconnected() {
     unique_lock lock(mutex);
-    connected = false;
+    setConnected(false);
 }
 
 
@@ -696,7 +699,7 @@ void FirmataDevice::reconnected() {
         return;
     }
     
-    connected = true;
+    setConnected(true);
     
     // We're going to assume that we've reconnected to the same device and not request the
     // protocol version and device info again.  However, as the connection may have failed

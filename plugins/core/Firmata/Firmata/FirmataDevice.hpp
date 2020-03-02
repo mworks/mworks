@@ -22,6 +22,7 @@ public:
     static const std::string SERIAL_PORT;
     static const std::string BLUETOOTH_LOCAL_NAME;
     static const std::string DATA_INTERVAL;
+    static const std::string CONNECTED;
     static const std::string RECONNECT_INTERVAL;
     
     static void describeComponent(ComponentInfo &info);
@@ -38,7 +39,7 @@ public:
     bool stopDeviceIO() override;
     
 private:
-    using unique_lock = std::unique_lock<std::mutex>;
+    using unique_lock = std::unique_lock<std::recursive_mutex>;
     
     static constexpr std::uint8_t protocolVersionMajor = 2;
     static constexpr std::uint8_t protocolVersionMinor = 5;
@@ -69,6 +70,13 @@ private:
         return minAnalogChannelNumber - 1;
     }
     
+    void setConnected(bool value) {
+        connected = value;
+        if (connectedVar && connectedVar->getValue().getBool() != value) {
+            connectedVar->setValue(Datum(value));
+        }
+    }
+    
     bool checkProtocolVersion(unique_lock &lock);
     bool getDeviceInfo(unique_lock &lock);
     bool processChannelRequests();
@@ -95,12 +103,13 @@ private:
     
     const std::unique_ptr<FirmataConnection> connection;
     MWTime samplingIntervalUS;
+    const VariablePtr connectedVar;
     const MWTime reconnectIntervalUS;
     std::vector<boost::shared_ptr<FirmataChannel>> requestedChannels;
     std::array<std::array<boost::shared_ptr<FirmataChannel>, numPinsPerPort>, numPorts> ports;
     
     unique_lock::mutex_type mutex;
-    std::condition_variable condition;
+    std::condition_variable_any condition;
     
     bool deviceProtocolVersionReceived;
     std::uint8_t deviceProtocolVersionMajor;

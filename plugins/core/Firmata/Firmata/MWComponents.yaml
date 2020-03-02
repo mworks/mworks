@@ -39,6 +39,15 @@ parameters:
         Sampling interval for analog inputs.  Must be a whole number of
         milliseconds.
   - 
+    name: connected
+    description: |
+        Variable in which to store connection state of the Firmata device (true
+        if currently connected, false otherwise).
+
+        Normally, the device should be connected at all times.  However, by
+        monitoring the value of the specified variable, you can detect and
+        respond to unexpected disconnections.
+  - 
     name: reconnect_interval
     default: 0
     example: 10s
