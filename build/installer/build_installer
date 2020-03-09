@@ -112,7 +112,15 @@ def get_tmp_path(package, path):
 def copy_path(package, path):
     destdir = get_tmp_path(package, os.path.dirname(path))
     check_call(['/bin/mkdir', '-p', destdir])
-    check_call(['/usr/bin/rsync', '-a', path, destdir])
+    check_call([
+        '/usr/bin/rsync',
+        '-a',
+        # Code signing configs are user specific and don't belong in an
+        # installer intended for distribution
+        '--exclude=*_CodeSigning.xcconfig',
+        path,
+        destdir,
+        ])
 
 
 def build_component_package(package_name):
