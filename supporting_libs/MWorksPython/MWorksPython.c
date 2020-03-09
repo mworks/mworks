@@ -86,10 +86,12 @@ static PyObject * init__mworkspython() {
 
 
 bool MWorksPythonInit(bool initSignals) {
+    PyConfig config;
     CFBundleRef bundle = NULL;
     CFURLRef zipURL = NULL;
     char zipPath[1024];
     wchar_t *decodedZipPath = NULL;
+    PyStatus status;
     PyObject *mworkspythonModule = NULL;
     
     // Changes made by PyImport_AppendInittab aren't undone by Py_FinalizeEx, so we keep track of them
@@ -108,6 +110,8 @@ bool MWorksPythonInit(bool initSignals) {
         didAppendInittab = true;
     }
     
+    PyConfig_InitIsolatedConfig(&config);
+    
     if (!(bundle = getBundle()) ||
         !(zipURL = CFBundleCopyResourceURL(bundle, CFSTR("python"), CFSTR("zip"), NULL)) ||
         !CFURLGetFileSystemRepresentation(zipURL, true, (UInt8 *)zipPath, sizeof(zipPath)) ||
@@ -116,10 +120,18 @@ bool MWorksPythonInit(bool initSignals) {
         goto error;
     }
     
-    Py_SetPath(decodedZipPath);
+    config.module_search_paths_set = 1;
+    status = PyConfig_SetWideStringList(&config, &(config.module_search_paths), 1, &decodedZipPath);
+    if (PyStatus_Exception(status)) {
+        goto error;
+    }
     
-    Py_NoSiteFlag = 1;  // Don't import the "site" module
-    Py_InitializeEx(initSignals);  // Calls PyEval_InitThreads and thereby acquires the GIL
+    config.site_import = 0;  // Don't import the "site" module
+    config.install_signal_handlers = initSignals;
+    status = Py_InitializeFromConfig(&config);  // Calls PyEval_InitThreads and thereby acquires the GIL
+    if (PyStatus_Exception(status)) {
+        goto error;
+    }
     
     if (!(mworkspythonModule = PyImport_ImportModule("mworkspython"))) {
         (void)Py_FinalizeEx();  // Finalize so that caller can try again
@@ -132,6 +144,7 @@ error:
     Py_XDECREF(mworkspythonModule);
     PyMem_RawFree(decodedZipPath);
     if (zipURL) CFRelease(zipURL);
+    PyConfig_Clear(&config);
     
 exit:
     return didInitialize;
