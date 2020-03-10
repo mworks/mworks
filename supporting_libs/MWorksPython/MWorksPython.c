@@ -86,12 +86,13 @@ static PyObject * init__mworkspython() {
 
 
 bool MWorksPythonInit(bool initSignals) {
+    PyPreConfig preConfig;
+    PyStatus status;
     PyConfig config;
     CFBundleRef bundle = NULL;
     CFURLRef zipURL = NULL;
     char zipPath[1024];
     wchar_t *decodedZipPath = NULL;
-    PyStatus status;
     PyObject *mworkspythonModule = NULL;
     
     // Changes made by PyImport_AppendInittab aren't undone by Py_FinalizeEx, so we keep track of them
@@ -108,6 +109,13 @@ bool MWorksPythonInit(bool initSignals) {
             goto exit;
         }
         didAppendInittab = true;
+    }
+    
+    PyPreConfig_InitIsolatedConfig(&preConfig);
+    preConfig.utf8_mode = 1;
+    status = Py_PreInitialize(&preConfig);
+    if (PyStatus_Exception(status)) {
+        goto exit;
     }
     
     PyConfig_InitIsolatedConfig(&config);

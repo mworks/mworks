@@ -1,5 +1,5 @@
 //
-// If #mainScreenInfo's make_window_opaque key is set to false, this experiment
+// If #mainScreenInfo’s make_window_opaque key is set to false, this experiment
 // will display the desktop background through a fullscreen, elliptical
 // aperture.  Everything outside the ellipse will be black.
 //
