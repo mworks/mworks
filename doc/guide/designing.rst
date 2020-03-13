@@ -29,7 +29,7 @@ Each time an input device receives new data, it assigns the relevant value(s) to
 
 Conversely, when an experiment needs to send data to or perform an action in the outside world, it assigns values to one or more variables associated with an output device.  The output device watches those variables, and whenever one of them is assigned a new value, it takes appropriate action based on that value.
 
-As an example, consider the typical flow of eye-tracking data in an MWorks experiment.  Raw eye positions are received from an eye tracker (e.g. an `EyeLink <EyeLink Device>`) and assigned to variables::
+As an example, consider the typical flow of eye-tracking data in an MWorks experiment.  Raw eye positions are received from an eye tracker (e.g. an `EyeLink <https://www.sr-research.com>`_) and assigned to variables::
 
     var eye_h_raw = 0
     var eye_v_raw = 0
