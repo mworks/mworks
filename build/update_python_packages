@@ -7,11 +7,30 @@
 #   /Library/Frameworks/Python.framework/Versions/3.X/bin/python3 get-pip.py --no-warn-script-location
 #
 
-mw_python_3=$( \
-    /usr/bin/xcrun xcodebuild -showBuildSettings -project ../supporting_libs/SupportingLibs.xcodeproj | \
-    /usr/bin/grep 'MW_PYTHON_3 = ' | \
-    /usr/bin/awk '{print $NF}' \
-    )
+/usr/bin/xcrun xcodebuild -showBuildSettings -project ../supporting_libs/SupportingLibs.xcodeproj | \
+while read setting_name setting_sep setting_value; do
+    case "$setting_name" in
+        MW_PYTHON_3)
+            mw_python_3="$setting_value"
+            ;;
+
+        MW_PYTHON_3_VERSION)
+            mw_python_3_version="$setting_value"
+            ;;
+
+        *)
+            ;;
+    esac
+done
+
+# Confirm that MWorks' "official" Python 3 version is installed
+if [[ ! -f "$mw_python_3" ]]; then
+    /bin/cat >&2 <<EOF
+Required Python version not found.  Please download and install the latest
+release of Python $mw_python_3_version from https://www.python.org/downloads/ .
+EOF
+    exit 1
+fi
 
 for python3 in /Library/Frameworks/Python.framework/Versions/3.*/bin/python3; do
     pip3_install=( $python3 -m pip install --upgrade --upgrade-strategy eager --no-warn-script-location )
