@@ -108,7 +108,7 @@ def check_call(args, **kwargs):
     if 0 != cmd.returncode:
         announce('Command exited with status %d and output:\n%s',
                  cmd.returncode,
-                 output)
+                 output.decode())
         sys.exit(1)
 
 
@@ -588,6 +588,8 @@ def libxslt(macos=False):
         if not os.path.isdir(srcdir):
             download_archive('ftp://xmlsoft.org/libxslt/', tarfile)
             unpack_tarfile(tarfile, srcdir)
+            with workdir(srcdir):
+                apply_patch('libxslt_no_libxml_cflags.patch')
 
         with workdir(srcdir):
             run_configure_and_make(
