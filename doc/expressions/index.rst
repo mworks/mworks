@@ -243,6 +243,15 @@ Mathematical
 ``abs(x)``
    Absolute value of *x*
 
+``acos(x)``
+   Arc cosine of *x* (in radians)
+
+``asin(x)``
+   Arc sine of *x* (in radians)
+
+``atan(x)``
+   Arc tangent of *x* (in radians)
+
 ``ceil(x)``
    Nearest integer not less than *x*
 

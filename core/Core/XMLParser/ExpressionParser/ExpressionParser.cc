@@ -2422,7 +2422,22 @@ namespace stx MW_SYMBOL_PUBLIC {
 	{
 		return Datum( std::tan(paramlist[0].getFloat()) );
 	}
-	
+    
+    Datum BasicSymbolTable::funcASIN(const paramlist_type &paramlist)
+    {
+        return Datum( std::asin(paramlist[0].getFloat()) );
+    }
+    
+    Datum BasicSymbolTable::funcACOS(const paramlist_type &paramlist)
+    {
+        return Datum( std::acos(paramlist[0].getFloat()) );
+    }
+    
+    Datum BasicSymbolTable::funcATAN(const paramlist_type &paramlist)
+    {
+        return Datum( std::atan(paramlist[0].getFloat()) );
+    }
+    
 	Datum BasicSymbolTable::funcABS(const paramlist_type &paramlist)
 	{
 		if (paramlist[0].isInteger()) {
@@ -2846,7 +2861,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("SIN", 1, funcSIN);
 		setFunction("COS", 1, funcCOS);
 		setFunction("TAN", 1, funcTAN);
-		
+        
+        setFunction("ASIN", 1, funcASIN);
+        setFunction("ACOS", 1, funcACOS);
+        setFunction("ATAN", 1, funcATAN);
+        
 		setFunction("ABS", 1, funcABS);
 		setFunction("EXP", 1, funcEXP);
 		setFunction("LOGN", 1, funcLOGN);

@@ -1,0 +1,13 @@
+protocol {
+    assert (asin(-1.0) == -pi() / 2)
+    assert (asin(0.0) == 0.0)
+    assert (asin(1.0) == pi() / 2)
+
+    assert (acos(-1.0) == pi())
+    assert (acos(0.0) == pi() / 2)
+    assert (acos(1.0) == 0.0)
+
+    assert (atan(-1.0) == -pi() / 4)
+    assert (atan(0.0) == 0.0)
+    assert (atan(1.0) == pi() / 4)
+}

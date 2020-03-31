@@ -212,6 +212,10 @@ protected:
     /// Return the value of tan(x) as a double Datum
     static Datum	funcTAN(const paramlist_type& paramlist);
 
+    static Datum    funcASIN(const paramlist_type& paramlist);
+    static Datum    funcACOS(const paramlist_type& paramlist);
+    static Datum    funcATAN(const paramlist_type& paramlist);
+
     /// Return the value of abs(x) or fabs(f)
     static Datum	funcABS(const paramlist_type& paramlist);
 
