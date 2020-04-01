@@ -280,7 +280,7 @@ IA
                         </connections>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eVK-HJ-Ip9">
-                        <rect key="frame" x="170" y="163" width="89" height="18"/>
+                        <rect key="frame" x="170" y="163" width="89" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="choose..." bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8aU-zJ-HiW">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
