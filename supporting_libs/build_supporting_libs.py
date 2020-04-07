@@ -627,6 +627,23 @@ def sqlite():
 
 
 @builder
+def libusb(ios=False):
+    version = '1.0.23'
+    srcdir = 'libusb-' + version
+    tarfile = srcdir + '.tar.bz2'
+
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('https://github.com/libusb/libusb/releases/download/v%s/' % version, tarfile)
+            unpack_tarfile(tarfile, srcdir)
+
+        with workdir(srcdir):
+            run_configure_and_make(
+                extra_args = ['--disable-silent-rules'],
+                )
+
+
+@builder
 def cppunit(ios=False):
     version = '1.15.1'
     srcdir = 'cppunit-' + version
