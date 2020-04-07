@@ -345,7 +345,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '1.1.1d'
+    version = '1.1.1f'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -381,7 +381,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.8.1'
+    version = '3.8.2'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -441,7 +441,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.18.1'
+    version = '1.18.2'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -607,7 +607,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2020
-    version = '3310000'  # 3.31.0
+    version = '3310100'  # 3.31.1
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
