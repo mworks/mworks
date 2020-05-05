@@ -14,6 +14,18 @@
 BEGIN_NAMESPACE_MW
 
 
+bool initializeScarab() {
+    static std::once_flag initFlag;
+    static bool success = false;
+    std::call_once(initFlag, []() {
+        if (0 == scarab_init(0)) {
+            success = true;
+        }
+    });
+    return success;
+}
+
+
 scarab_datum_ptr datumToScarabDatum(const Datum &d) {
     switch (d.getDataType()) {
         case M_INTEGER:

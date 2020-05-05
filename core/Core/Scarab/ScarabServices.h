@@ -20,6 +20,10 @@ inline void intrusive_ptr_release(ScarabDatum *d) { scarab_free_datum(d); }
 BEGIN_NAMESPACE_MW
 
 
+// Perform one-time initialization of the Scarab library.  Calls after the first
+// have no effect and simply return the result of the first call.
+bool initializeScarab();
+
 using scarab_datum_ptr = boost::intrusive_ptr<ScarabDatum>;
 scarab_datum_ptr datumToScarabDatum(const Datum &d);
 Datum scarabDatumToDatum(ScarabDatum *datum);

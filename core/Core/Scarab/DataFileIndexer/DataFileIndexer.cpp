@@ -29,13 +29,9 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file) :
     number_of_events(0),
     events_per_block(0)
 {
-    // Perform one-time initialization of Scarab library
-    static std::once_flag scarabInitFlag;
-    std::call_once(scarabInitFlag, []() {
-        if (scarab_init(0) != 0) {
-            throw DataFileIndexerError("Scarab initialization failed");
-        }
-    });
+    if (!initializeScarab()) {
+        throw DataFileIndexerError("Scarab initialization failed");
+    }
     
     const std::string uri("ldobinary:file_readonly://" + data_file.string());
     session = scarab_session_connect(uri.c_str());

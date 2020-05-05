@@ -29,7 +29,7 @@ static PyModuleDef _mworksModule = {
 
 PyMODINIT_FUNC
 PyInit__mworks() {
-    if (scarab_init(0) != 0) {
+    if (!initializeScarab()) {
         PyErr_SetString(PyExc_RuntimeError, "Scarab initialization failed");
         return nullptr;
     }
