@@ -39,6 +39,11 @@
 }
 
 
+- (id<MWKClient>)clientCore {
+    return self.client;
+}
+
+
 @end
 
 

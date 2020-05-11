@@ -189,6 +189,19 @@
 }
 
 
+- (nullable MWKDatum *)valueForCode:(NSInteger)code {
+    MWKDatum *result = nil;
+    try {
+        if (auto var = self.client->getVariable(code)) {
+            result = [MWKDatum datumWithDatum:var->getValue()];
+        }
+    } catch (...) {
+        MWorksSwiftLogException(std::current_exception());
+    }
+    return result;
+}
+
+
 - (MWKDatum *)valueForTag:(NSString *)tag {
     MWKDatum *result = nil;
     try {
@@ -202,18 +215,39 @@
 }
 
 
-- (BOOL)setValue:(MWKDatum *)value forTag:(NSString *)tag {
+- (BOOL)setValue:(MWKDatum *)value forCode:(NSInteger)code {
     BOOL result = NO;
-    NSInteger code = [self codeForTag:tag];
-    if (code >= 0) {
-        try {
-            self.client->updateValue(code, value.datum);
-            result = YES;
-        } catch (...) {
-            MWorksSwiftLogException(std::current_exception());
-        }
+    try {
+        self.client->updateValue(code, value.datum);
+        result = YES;
+    } catch (...) {
+        MWorksSwiftLogException(std::current_exception());
     }
     return result;
+}
+
+
+- (BOOL)setValue:(MWKDatum *)value forTag:(NSString *)tag {
+    NSInteger code = [self codeForTag:tag];
+    if (code >= 0) {
+        return [self setValue:value forCode:code];
+    }
+    return NO;
+}
+
+
+- (void)logMessage:(NSString *)message {
+    mw::mprintf(mw::M_CLIENT_MESSAGE_DOMAIN, "%s", message.UTF8String);
+}
+
+
+- (void)logWarning:(NSString *)warning {
+    mw::mwarning(mw::M_CLIENT_MESSAGE_DOMAIN, "%s", warning.UTF8String);
+}
+
+
+- (void)logError:(NSString *)error {
+    mw::merror(mw::M_CLIENT_MESSAGE_DOMAIN, "%s", error.UTF8String);
 }
 
 

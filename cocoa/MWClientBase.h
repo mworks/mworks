@@ -9,6 +9,7 @@
 
 #import <MWorksSwift/MWorksSwift.h>
 
+#import <MWorksCocoa/MWClientPlugin.h>
 #import <MWorksCocoa/MWClientServerBase.h>
 #import <MWorksCocoa/MWNotebook.h>
 
@@ -19,7 +20,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface MWClientBase : MWClientServerBase
+@interface MWClientBase : MWClientServerBase <MWClientPluginHost>
 
 - (instancetype)initWithClient:(MWKClient *)client;
 

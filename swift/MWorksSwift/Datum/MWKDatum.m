@@ -14,6 +14,41 @@
 }
 
 
++ (instancetype)datumWithBool:(BOOL)value {
+    return [[self alloc] initWithBool:value];
+}
+
+
++ (instancetype)datumWithInt:(NSInteger)value {
+    return [(MWKDatum *)[self alloc] initWithInt:value];
+}
+
+
++ (instancetype)datumWithFloat:(double)value {
+    return [(MWKDatum *)[self alloc] initWithFloat:value];
+}
+
+
++ (instancetype)datumWithBytes:(NSData *)value {
+    return [[self alloc] initWithBytes:value];
+}
+
+
++ (instancetype)datumWithString:(NSString *)value {
+    return [[self alloc] initWithString:value];
+}
+
+
++ (instancetype)datumWithList:(NSArray<MWKDatum *> *)value {
+    return [[self alloc] initWithList:value];
+}
+
+
++ (instancetype)datumWithDict:(NSDictionary<MWKDatum *, MWKDatum *> *)value {
+    return [[self alloc] initWithDict:value];
+}
+
+
 - (instancetype)initWithBool:(BOOL)value {
     self = [super init];
     if (self) {

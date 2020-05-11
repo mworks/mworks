@@ -7,6 +7,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import <MWorksSwift/MWorksSwift.h>
+
+
+@protocol MWClientPluginHost <NSObject>
+
+@property(nonatomic, readonly) id<MWKClient> clientCore;
+
+@end
+
 
 @protocol MWClientPluginWindowController <NSObject>
 

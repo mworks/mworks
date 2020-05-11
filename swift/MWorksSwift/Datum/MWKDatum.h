@@ -29,6 +29,14 @@ MWORKSSWIFT_PUBLIC_CLASS
 NS_SWIFT_NAME(Datum)
 @interface MWKDatum : NSObject <NSCopying>
 
++ (instancetype)datumWithBool:(BOOL)value NS_REFINED_FOR_SWIFT;
++ (instancetype)datumWithInt:(NSInteger)value NS_REFINED_FOR_SWIFT;
++ (instancetype)datumWithFloat:(double)value NS_REFINED_FOR_SWIFT;
++ (instancetype)datumWithBytes:(NSData *)value NS_REFINED_FOR_SWIFT;
++ (instancetype)datumWithString:(NSString *)value NS_REFINED_FOR_SWIFT;
++ (instancetype)datumWithList:(NSArray<MWKDatum *> *)value NS_REFINED_FOR_SWIFT;
++ (instancetype)datumWithDict:(NSDictionary<MWKDatum *, MWKDatum *> *)value NS_REFINED_FOR_SWIFT;
+
 - (instancetype)initWithBool:(BOOL)value NS_REFINED_FOR_SWIFT;
 - (instancetype)initWithInt:(NSInteger)value NS_REFINED_FOR_SWIFT;
 - (instancetype)initWithFloat:(double)value NS_REFINED_FOR_SWIFT;

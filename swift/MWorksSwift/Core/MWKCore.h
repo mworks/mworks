@@ -24,10 +24,7 @@ typedef NS_ENUM(NSInteger, MWKCoreType) {
 typedef void (^MWKEventCallback)(MWKEvent *event);
 
 
-MWORKSSWIFT_PUBLIC_CLASS
-@interface MWKCore : NSObject
-
-+ (BOOL)constructCoreWithType:(MWKCoreType)type error:(NSError * _Nullable *)error;
+@protocol MWKCore <NSObject>
 
 - (NSInteger)codeForTag:(NSString *)tag;
 
@@ -36,6 +33,14 @@ MWORKSSWIFT_PUBLIC_CLASS
 - (void)registerCallbackWithKey:(NSString *)key forTag:(NSString *)tag callback:(MWKEventCallback)callback;
 
 - (void)unregisterCallbacksWithKey:(NSString *)key;
+
+@end
+
+
+MWORKSSWIFT_PUBLIC_CLASS
+@interface MWKCore : NSObject <MWKCore>
+
++ (BOOL)constructCoreWithType:(MWKCoreType)type error:(NSError * _Nullable *)error;
 
 @end
 

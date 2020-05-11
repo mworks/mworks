@@ -18,8 +18,22 @@ NS_ASSUME_NONNULL_BEGIN
 @class MWKDatum;
 
 
+@protocol MWKClient <MWKCore>
+
+- (nullable MWKDatum *)valueForCode:(NSInteger)code;
+- (nullable MWKDatum *)valueForTag:(NSString *)tag;
+- (BOOL)setValue:(MWKDatum *)value forCode:(NSInteger)code;
+- (BOOL)setValue:(MWKDatum *)value forTag:(NSString *)tag;
+
+- (void)logMessage:(NSString *)message;
+- (void)logWarning:(NSString *)warning;
+- (void)logError:(NSString *)error;
+
+@end
+
+
 MWORKSSWIFT_PUBLIC_CLASS
-@interface MWKClient : MWKCore
+@interface MWKClient : MWKCore <MWKClient>
 
 + (nullable instancetype)clientWithError:(NSError * _Nullable *)error;
 
@@ -44,9 +58,6 @@ MWORKSSWIFT_PUBLIC_CLASS
 
 - (void)sendOpenDataFileEventWithFilename:(NSString *)filename overwrite:(BOOL)overwrite;
 - (void)sendCloseDataFileEventWithFilename:(NSString *)filename;
-
-- (nullable MWKDatum *)valueForTag:(NSString *)tag;
-- (BOOL)setValue:(MWKDatum *)value forTag:(NSString *)tag;
 
 @end
 
