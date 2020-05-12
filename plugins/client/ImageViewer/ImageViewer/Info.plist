@@ -21,6 +21,6 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2019 The MWorks Project. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string></string>
+	<string>MWImageViewerController</string>
 </dict>
 </plist>

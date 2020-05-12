@@ -8,184 +8,124 @@
 
 #import "MWImageViewerController.h"
 
-#define DEFAULTS_IMAGE_DATA_VARIABLE_KEY @"Image Viewer - image data variable"
-#define DEFAULTS_REGION_OF_INTEREST_VARIABLE_KEY @"Image Viewer - region of interest variable"
-
-#define IMAGE_VIEWER_CALLBACK_KEY "MWImageViewerController callback key"
-
-#define WORKSPACE_IMAGE_DATA_VARIABLE_KEY @"imageDataVariable"
-#define WORKSPACE_REGION_OF_INTEREST_VARIABLE_KEY @"regionOfInterestVariable"
-
 
 @implementation MWImageViewerController {
-    int imageDataVariableCode;
-    int regionOfInterestVariableCode;
+    id imageDataVariableProperty;
+    id regionOfInterestVariableProperty;
     NSLayoutConstraint *imageViewAspectRatioConstraint;
 }
 
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    
-    imageDataVariableCode = -1;
-    regionOfInterestVariableCode = -1;
-    
-    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-    NSString *imageDataVariableName = [defaults stringForKey:DEFAULTS_IMAGE_DATA_VARIABLE_KEY];
-    if (imageDataVariableName) {
-        self.imageDataVariableTextField.stringValue = imageDataVariableName;
+// Silence warnings from compiler that view won't be synthesized automatically
+@dynamic view;
+
+
+- (instancetype)initWithClient:(id<MWKClient>)client {
+    self = [super initWithClient:client];
+    if (self) {
+        self.title = @"Image Viewer";
+        
+        _imageDataVariable = @"";
+        _regionOfInterestVariable = @"";
+        
+        imageDataVariableProperty =
+            [self registerStoredPropertyWithName:NSStringFromSelector(@selector(imageDataVariable))
+                                     defaultsKey:@"Image Viewer - image data variable"
+                                    handleEvents:YES];
+        regionOfInterestVariableProperty =
+            [self registerStoredPropertyWithName:NSStringFromSelector(@selector(regionOfInterestVariable))
+                                     defaultsKey:@"Image Viewer - region of interest variable"
+                                    handleEvents:YES];
     }
-    NSString *regionOfInterestVariableName = [defaults stringForKey:DEFAULTS_REGION_OF_INTEREST_VARIABLE_KEY];
-    if (regionOfInterestVariableName) {
-        self.regionOfInterestVariableTextField.stringValue = regionOfInterestVariableName;
-    }
+    return self;
 }
 
 
-- (void)controlTextDidEndEditing:(NSNotification *)notification {
-    NSTextField *textField = notification.object;
-    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-    if (textField == self.imageDataVariableTextField) {
-        [defaults setObject:textField.stringValue forKey:DEFAULTS_IMAGE_DATA_VARIABLE_KEY];
-    } else if (textField == self.regionOfInterestVariableTextField) {
-        [defaults setObject:textField.stringValue forKey:DEFAULTS_REGION_OF_INTEREST_VARIABLE_KEY];
+- (BOOL)validateWorkspaceValue:(id)value forStoredProperty:(id)property {
+    if (property == imageDataVariableProperty || property == regionOfInterestVariableProperty) {
+        return [value isKindOfClass:[NSString class]] && ((NSString *)value).length > 0;
     }
-    
-    [self registerEventCallbacks];
+    return YES;
 }
 
 
-- (void)setClient:(id<MWClientProtocol>)client {
-    _client = client;
-    [self registerEventCallbacks];
-}
-
-
-- (void)registerEventCallbacks {
-    [self.client unregisterCallbacksWithKey:IMAGE_VIEWER_CALLBACK_KEY];
-    
-    [self.client registerEventCallbackWithReceiver:self
-                                          selector:@selector(codecReceived:)
-                                       callbackKey:IMAGE_VIEWER_CALLBACK_KEY
-                                   forVariableCode:RESERVED_CODEC_CODE
-                                      onMainThread:YES];
-    
-    {
-        imageDataVariableCode = -1;
-        NSString *imageDataVariableName = self.imageDataVariableTextField.stringValue;
-        if (imageDataVariableName && imageDataVariableName.length > 0) {
-            imageDataVariableCode = [self.client codeForTag:imageDataVariableName].intValue;
-            if (imageDataVariableCode < 0) {
-                mwarning(M_CLIENT_MESSAGE_DOMAIN,
-                         "Image viewer can't find variable \"%s\"",
-                         imageDataVariableName.UTF8String);
-            } else {
-                [self.client registerEventCallbackWithReceiver:self
-                                                      selector:@selector(imageDataReceived:)
-                                                   callbackKey:IMAGE_VIEWER_CALLBACK_KEY
-                                               forVariableCode:imageDataVariableCode
-                                                  onMainThread:YES];
-            }
-        }
-    }
-    
-    {
-        regionOfInterestVariableCode = -1;
-        NSString *regionOfInterestVariableName = self.regionOfInterestVariableTextField.stringValue;
-        if (regionOfInterestVariableName && regionOfInterestVariableName.length > 0) {
-            regionOfInterestVariableCode = [self.client codeForTag:regionOfInterestVariableName].intValue;
-            if (regionOfInterestVariableCode < 0) {
-                mwarning(M_CLIENT_MESSAGE_DOMAIN,
-                         "Image viewer can't find variable \"%s\"",
-                         regionOfInterestVariableName.UTF8String);
-            } else {
-                [self.client registerEventCallbackWithReceiver:self
-                                                      selector:@selector(regionOfInterestReceived:)
-                                                   callbackKey:IMAGE_VIEWER_CALLBACK_KEY
-                                               forVariableCode:regionOfInterestVariableCode
-                                                  onMainThread:YES];
-            }
-        }
+- (void)handleEvent:(MWKEvent *)event forStoredProperty:(id)property {
+    if (property == imageDataVariableProperty) {
+        [self imageDataReceived:event];
+    } else if (property == regionOfInterestVariableProperty) {
+        [self regionOfInterestReceived:event];
     }
 }
 
 
-- (void)codecReceived:(MWCocoaEvent *)event {
-    [self registerEventCallbacks];
-}
-
-
-- (void)imageDataReceived:(MWCocoaEvent *)event {
+- (void)imageDataReceived:(MWKEvent *)event {
     NSImage *image = nil;
     
-    Datum &data = *(event.data);
-    if (data.isString()) {
-        auto &imageData = data.getString();
-        auto imageDataSize = imageData.size();
-        if (imageDataSize > 0) {
-            image = [[NSImage alloc] initWithData:[NSData dataWithBytes:imageData.c_str() length:imageDataSize]];
-        }
+    NSData *imageData = event.data.bytesValue;
+    if (imageData && imageData.length > 0) {
+        image = [[NSImage alloc] initWithData:imageData];
     }
     
-    [self.imageView removeConstraint:imageViewAspectRatioConstraint];
-    if (image) {
-        NSSize imageSize = image.size;
-        if (!NSEqualSizes(imageSize, NSZeroSize)) {
-            imageViewAspectRatioConstraint = [self.imageView.heightAnchor constraintEqualToAnchor:self.imageView.widthAnchor
-                                                                                       multiplier:(imageSize.height / imageSize.width)];
-            imageViewAspectRatioConstraint.active = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.imageView removeConstraint:self->imageViewAspectRatioConstraint];
+        if (image) {
+            NSSize imageSize = image.size;
+            if (!NSEqualSizes(imageSize, NSZeroSize)) {
+                self->imageViewAspectRatioConstraint = [self.imageView.heightAnchor constraintEqualToAnchor:self.imageView.widthAnchor
+                                                                                                 multiplier:(imageSize.height / imageSize.width)];
+                self->imageViewAspectRatioConstraint.active = YES;
+            }
         }
-    }
-    
-    self.imageView.image = image;
+        self.imageView.image = image;
+    });
 }
 
 
-static bool extractRegionOfInterest(const Datum &datum, NSRect &regionOfInterest) {
-    if (!datum.isList()) {
-        // Non-list is OK and means no region of intereset
-        return true;
-    }
+- (void)regionOfInterestReceived:(MWKEvent *)event {
+    __block NSRect regionOfInterest = NSZeroRect;
     
-    auto &list = datum.getList();
-    if (list.empty()) {
-        // Empty list is OK and means no region of interest
-        return true;
-    } else if (list.size() != 4) {
-        return false;
-    }
-    
-    std::vector<double> values;
-    for (auto &item : list) {
-        if (!item.isNumber()) {
-            return false;
+    BOOL roiIsValid = ^{
+        NSArray<MWKDatum *> *list = event.data.listValue;
+        if (!list) {
+            // Non-list is OK and means no region of intereset
+            return YES;
         }
-        values.push_back(item.getFloat());
-        if (values.back() < 0.0 || values.back() > 1.0) {
-            return false;
+        
+        if (list.count == 0) {
+            // Empty list is OK and means no region of interest
+            return YES;
+        } else if (list.count != 4) {
+            return NO;
         }
+        
+        NSMutableArray<NSNumber *> *values = [NSMutableArray arrayWithCapacity:4];
+        for (MWKDatum *item in list) {
+            NSNumber *number = item.numberValue;
+            if (!number || number.doubleValue < 0.0 || number.doubleValue > 1.0) {
+                return NO;
+            }
+            [values addObject:number];
+        }
+        
+        double minX = values[0].doubleValue;
+        double minY = values[1].doubleValue;
+        double maxX = values[2].doubleValue;
+        double maxY = values[3].doubleValue;
+        
+        if (minX >= maxX || minY >= maxY) {
+            return NO;
+        }
+        
+        regionOfInterest = NSMakeRect(minX, minY, maxX - minX, maxY - minY);
+        return YES;
+    }();
+    if (!roiIsValid) {
+        [self postError:@"Region of interest is invalid"];
     }
     
-    auto &minX = values.at(0);
-    auto &minY = values.at(1);
-    auto &maxX = values.at(2);
-    auto &maxY = values.at(3);
-    
-    if (minX >= maxX || minY >= maxY) {
-        return false;
-    }
-    
-    regionOfInterest = NSMakeRect(minX, minY, maxX - minX, maxY - minY);
-    return true;
-}
-
-
-- (void)regionOfInterestReceived:(MWCocoaEvent *)event {
-    NSRect regionOfInterest = NSZeroRect;
-    if (!extractRegionOfInterest(*(event.data), regionOfInterest)) {
-        merror(M_CLIENT_MESSAGE_DOMAIN, "Image viewer: region of interest is invalid");
-    }
-    self.imageView.regionOfInterest = regionOfInterest;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.imageView.regionOfInterest = regionOfInterest;
+    });
 }
 
 
@@ -193,17 +133,16 @@ static bool extractRegionOfInterest(const Datum &datum, NSRect &regionOfInterest
     NSRect newROI = self.imageView.selectedRegion;
     if (!NSEqualRects(newROI, NSZeroRect)) {
         self.imageView.selectedRegion = NSZeroRect;
-        if (regionOfInterestVariableCode < 0) {
-            self.imageView.regionOfInterest = NSZeroRect;
-        } else {
+        MWKDatum *value = [MWKDatum datumWithList:@[
+            [MWKDatum datumWithFloat:NSMinX(newROI)],
+            [MWKDatum datumWithFloat:NSMinY(newROI)],
+            [MWKDatum datumWithFloat:NSMaxX(newROI)],
+            [MWKDatum datumWithFloat:NSMaxY(newROI)]
+        ]];
+        if ([self.client setValue:value forTag:self.regionOfInterestVariable]) {
             self.imageView.regionOfInterest = newROI;
-            Datum value { Datum::list_value_type {
-                Datum { NSMinX(newROI) },
-                Datum { NSMinY(newROI) },
-                Datum { NSMaxX(newROI) },
-                Datum { NSMaxY(newROI) }
-            } };
-            [self.client updateVariableWithCode:regionOfInterestVariableCode withData:&value];
+        } else {
+            self.imageView.regionOfInterest = NSZeroRect;
         }
     }
 }
@@ -212,48 +151,10 @@ static bool extractRegionOfInterest(const Datum &datum, NSRect &regionOfInterest
 - (IBAction)clearROI:(id)sender {
     self.imageView.selectedRegion = NSZeroRect;
     if (!NSEqualRects(self.imageView.regionOfInterest, NSZeroRect)) {
+        MWKDatum *value = [MWKDatum datumWithList:@[]];
+        [self.client setValue:value forTag:self.regionOfInterestVariable];
         self.imageView.regionOfInterest = NSZeroRect;
-        if (regionOfInterestVariableCode >= 0) {
-            Datum value { Datum::list_value_type { } };
-            [self.client updateVariableWithCode:regionOfInterestVariableCode withData:&value];
-        }
     }
-}
-
-
-- (NSDictionary *)workspaceState {
-    NSMutableDictionary *workspaceState = [NSMutableDictionary dictionary];
-    
-    NSString *imageDataVariableName = self.imageDataVariableTextField.stringValue;
-    if (imageDataVariableName && imageDataVariableName.length > 0) {
-        workspaceState[WORKSPACE_IMAGE_DATA_VARIABLE_KEY] = imageDataVariableName;
-    }
-    
-    NSString *regionOfInterestVariableName = self.regionOfInterestVariableTextField.stringValue;
-    if (regionOfInterestVariableName && regionOfInterestVariableName.length > 0) {
-        workspaceState[WORKSPACE_REGION_OF_INTEREST_VARIABLE_KEY] = regionOfInterestVariableName;
-    }
-    
-    return workspaceState;
-}
-
-
-- (void)setWorkspaceState:(NSDictionary *)workspaceState {
-    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-    
-    NSString *imageDataVariableName = workspaceState[WORKSPACE_IMAGE_DATA_VARIABLE_KEY];
-    if (imageDataVariableName && [imageDataVariableName isKindOfClass:[NSString class]]) {
-        self.imageDataVariableTextField.stringValue = imageDataVariableName;
-        [defaults setObject:imageDataVariableName forKey:DEFAULTS_IMAGE_DATA_VARIABLE_KEY];
-    }
-    
-    NSString *regionOfInterestVariableName = workspaceState[WORKSPACE_REGION_OF_INTEREST_VARIABLE_KEY];
-    if (regionOfInterestVariableName && [regionOfInterestVariableName isKindOfClass:[NSString class]]) {
-        self.regionOfInterestVariableTextField.stringValue = regionOfInterestVariableName;
-        [defaults setObject:regionOfInterestVariableName forKey:DEFAULTS_REGION_OF_INTEREST_VARIABLE_KEY];
-    }
-    
-    [self registerEventCallbacks];
 }
 
 
