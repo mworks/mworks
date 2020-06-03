@@ -8,10 +8,6 @@
 
 #import "MWClientInstance.h"
 
-#import <MWorksCocoa/MWClientPlugin.h>
-#import <MWorksCocoa/MWConsoleController.h>
-#import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
-
 #define ERROR_MESSAGE_CALLBACK_KEY	@"MWClientInstance::client_error_message_callback"
 #define CLIENT_SYSTEM_EVENT_CALLBACK_KEY  @"MWClientInstance::system_event_callback"
 #define EXPERIMENT_LOAD_PROGRESS_KEY @"MWClientInstance::experiment_load_progress_callback"

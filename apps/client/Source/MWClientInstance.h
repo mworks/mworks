@@ -8,7 +8,7 @@
 
 @import Cocoa;
 
-#import <MWorksCocoa/MWClientBase.h>
+@import MWorksCocoa;
 
 #import "MWGroupedPluginWindowController.h"
 #import "AppController.h"

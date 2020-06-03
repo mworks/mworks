@@ -11,8 +11,6 @@
 
 @import MWorksSwift;
 
-#import <MWorksCocoa/MWConsoleController.h>
-
 #define LISTENING_ADDRESS_KEY @"listeningAddressKey"
 #define LISTENING_PORT_KEY @"listeningPortKey"
 

@@ -8,7 +8,7 @@
 
 #import "MWGroupedPluginWindowController.h"
 
-#import <MWorksCocoa/MWClientPlugin.h>
+@import MWorksCocoa;
 
 
 @interface MWGroupedPluginWindowController(PrivateMethods)

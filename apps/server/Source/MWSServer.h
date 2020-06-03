@@ -9,7 +9,7 @@
 
 @import Cocoa;
 
-#import <MWorksCocoa/MWClientServerBase.h>
+@import MWorksCocoa;
 
 
 @interface MWSServer : MWClientServerBase <NSApplicationDelegate, NSTabViewDelegate>

@@ -34,7 +34,6 @@
 
 /* Begin PBXBuildFile section */
 		5C23D5420D8827670044AC9E /* MWStringTruncateValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */; };
-		5C23D5640D882FFA0044AC9E /* MWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */; };
 		5C23D6770D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */; };
 		5C55E10D0D8E00A8000E1CB5 /* NSMenuExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */; };
 		5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */; };
@@ -97,7 +96,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5C23D5400D8827670044AC9E /* MWStringTruncateValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWStringTruncateValueTransformer.h; sourceTree = "<group>"; };
 		5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWStringTruncateValueTransformer.m; sourceTree = "<group>"; };
-		5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
 		5C23D6750D8878810044AC9E /* MWExperimentPlayStopIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentPlayStopIconTransformer.h; sourceTree = "<group>"; };
 		5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentPlayStopIconTransformer.m; sourceTree = "<group>"; };
 		5C55E10B0D8E00A8000E1CB5 /* NSMenuExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuExtensions.h; sourceTree = "<group>"; };
@@ -141,7 +139,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C23D5640D882FFA0044AC9E /* MWorksCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,7 +176,6 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = "New Client";
@@ -207,14 +203,6 @@
 				E1156285222EF8D600D0451F /* Credits.rtf */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		5C55E10A0D8E007A000E1CB5 /* Extensions */ = {
