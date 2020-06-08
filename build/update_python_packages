@@ -38,10 +38,10 @@ for python3 in /Library/Frameworks/Python.framework/Versions/3.*/bin/python3; do
     $python3 -V || exit
     echo '------------'
 
-    # Ensure we have the latest pip.  Don't pass --user, because pip is
-    # normally installed inside the Python framework, and we want to upgrade
-    # it there.
-    $pip3_install pip || exit
+    # Ensure we have the latest pip, setuptools, and wheel.  Don't pass --user,
+    # because these packages are normally installed inside the Python framework,
+    # and we want to upgrade them there.
+    $pip3_install pip setuptools wheel || exit
 
     # All Python 3 versions need msgpack and numpy, because these are used by
     # the Python tools unit tests
