@@ -102,7 +102,9 @@ public:
     Datum(GenericDataType type, double arg);
     
     template<typename T>
-    explicit Datum(const std::vector<T> &list) {
+    explicit Datum(const std::vector<T> &list) :
+        Datum()
+    {
         *this = Datum(list_value_type());
         for (auto &item : list) {
             listValue.emplace_back(item);
@@ -110,7 +112,9 @@ public:
     }
     
     template<typename T1, typename T2>
-    Datum(const std::map<T1, T2> &dict) {
+    Datum(const std::map<T1, T2> &dict) :
+        Datum()
+    {
         *this = Datum(dict_value_type());
         for (auto &item : dict) {
             dictValue[Datum(item.first)] = Datum(item.second);
