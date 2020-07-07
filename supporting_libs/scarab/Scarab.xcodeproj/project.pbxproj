@@ -83,7 +83,7 @@
 		E1CBF62A16BAEEF20057CE48 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(MW_INCLUDE_DIR_UNQUOTED)/Scarab";
+			dstPath = "$(MW_INCLUDE_DIR)/Scarab";
 			dstSubfolderSpec = 0;
 			files = (
 				E1CBF62B16BAEF120057CE48 /* scarab.h in CopyFiles */,
@@ -99,7 +99,7 @@
 		E1CBF63216BAEF160057CE48 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(MW_LIB_DIR_UNQUOTED)";
+			dstPath = "$(MW_LIB_DIR)";
 			dstSubfolderSpec = 0;
 			files = (
 				E1CBF63316BAEF210057CE48 /* libscarab.a in CopyFiles */,

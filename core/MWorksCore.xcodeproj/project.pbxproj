@@ -902,7 +902,7 @@
 		E1CBF66C16BAFC2C0057CE48 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(MW_BIN_DIR_UNQUOTED)";
+			dstPath = "$(MW_BIN_DIR)";
 			dstSubfolderSpec = 0;
 			files = (
 				E1CBF66D16BAFC410057CE48 /* mw_test in CopyFiles */,
