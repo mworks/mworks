@@ -36,6 +36,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 - (void)addMessageNodes:(NSArray *)messageNodes toArray:(NSMutableArray *)array replaceExisting:(BOOL)replaceExisting;
 - (void)marionetteAssert:(BOOL)test withMessage:(NSString *)assert_message;
 - (void)marionetteAssert:(NSString *)assert_message;
+- (void)marionetteWarn:(NSString *)warning_message;
 - (void)checkMessageStructure:(Datum *)event_data;
 - (BOOL)checkErrorMessageForKnownErrors:(NSString *)message;
 @end
@@ -54,6 +55,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 		client->startEventListener();
 		
 		asserted=NO;
+        warned = NO;
 		
 		state_system_running = NO;
 		experiment_ended = NO;
@@ -250,6 +252,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 @synthesize sentRunEvent=sent_run_event;
 @synthesize stateSystemRunning=state_system_running;
 @synthesize asserted=asserted;
+@synthesize warned=warned;
 @synthesize experimentEnded=experiment_ended;
 @synthesize experimentLoaded=experiment_loaded;
 @synthesize sentExperiment=sent_experiment;
@@ -283,7 +286,13 @@ Datum _getNumber(const string &expression, const GenericDataType type);
         [self marionetteAssert:!client->isConnected()
                    withMessage:@"client should no longer be connected"];
 		
-		exit(self.asserted);
+        int rc = 0;
+        if (self.asserted) {
+            rc = 1;
+        } else if (self.warned) {
+            rc = 2;
+        }
+        exit(rc);
 	}
 }
 
@@ -536,24 +545,39 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 				}
 			}
 			
-			if(((type == M_ERROR_MESSAGE) || (type == M_WARNING_MESSAGE)) && check_error_message) {
-				[self marionetteAssert:[self checkErrorMessageForKnownErrors:message]
-						   withMessage:message]; 
-			}
-			
-		}		
+            if ((type == M_ERROR_MESSAGE || type == M_WARNING_MESSAGE) &&
+                check_error_message &&
+                ![self checkErrorMessageForKnownErrors:message])
+            {
+                switch (type) {
+                    case M_ERROR_MESSAGE:
+                        [self marionetteAssert:message];
+                        break;
+                    case M_WARNING_MESSAGE:
+                        [self marionetteWarn:message];
+                        break;
+                    default:
+                        break;
+                }
+            }
+		}
 	}
 }
 
 - (void)marionetteAssert:(BOOL)test withMessage:(NSString *)assert_message {
-	if(!test) {
-		self.asserted = YES;
-		NSLog(@"%@", assert_message);
-	}
+    if (!test) {
+        [self marionetteAssert:assert_message];
+    }
 }
 
 - (void)marionetteAssert:(NSString *)assert_message {
-	[self marionetteAssert:NO withMessage:assert_message];
+    self.asserted = YES;
+    NSLog(@"%@", assert_message);
+}
+
+- (void)marionetteWarn:(NSString *)warning_message {
+    self.warned = YES;
+    NSLog(@"%@", warning_message);
 }
 
 

@@ -21,6 +21,7 @@ using namespace mw;
 	BOOL state_system_running;
 	BOOL experiment_ended;
 	BOOL asserted;
+    BOOL warned;
     
     NSDate *lastEventReceivedDate;
 	
@@ -34,7 +35,7 @@ using namespace mw;
 @property (nonatomic, strong) NSMutableArray *expectedMessages;
 @property (nonatomic, strong) NSMutableArray *expectedEvents;
 @property (nonatomic, assign) BOOL sentRunEvent, stateSystemRunning;
-@property (nonatomic, assign) BOOL asserted, experimentEnded;
+@property (nonatomic, assign) BOOL asserted, warned, experimentEnded;
 @property (nonatomic, assign) BOOL experimentLoaded, sentExperiment, sentCloseExperiment;
 @property (nonatomic, assign) BOOL sentOpenDataFile, sentCloseDataFile, dataFileOpen;
 

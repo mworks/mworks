@@ -27,6 +27,9 @@ marionette_test = os.path.join(tests_dir, ('MarionetteTest.app/Contents/'
 test_file_extensions = ('.xml', '.mwel', '.mwtest')
 test_data_suffix = 'TESTDATA.xml'
 
+error_tests = []
+warning_tests = []
+
 
 marionette_prep_applescript = """
 
@@ -65,8 +68,8 @@ def error(status, msg, *args):
     sys.exit(status)
 
 
-def demangle_name(name):
-    return check_output(['/usr/bin/c++filt', name])
+def is_unit_test(name):
+    return (b'::' in check_output(['/usr/bin/c++filt', name]))
 
 
 def run_applescript(script):
@@ -89,14 +92,9 @@ def run_unit_tests(arch_name, test_names=None):
 
         results = minidom.parse(output)
 
-    failed_tests = results.getElementsByTagName('FailedTests')[0]
-    failed_tests = [test.firstChild.data for test in
-                    failed_tests.getElementsByTagName('Name')]
-
-    # Ensure consistent output order for test names
-    failed_tests.sort()
-
-    return failed_tests
+    failures = results.getElementsByTagName('FailedTests')[0]
+    error_tests.extend([test.firstChild.data for test in
+                        failures.getElementsByTagName('Name')])
 
 
 def iter_marionette_tests(top_dir=test_file_dir):
@@ -132,8 +130,6 @@ def run_marionette_tests(arch_name, test_names=None):
     if not server_address:
         # Ensure that server starts fresh
         run_applescript(quit_server_applescript)
-
-    failed_tests = []
 
     for test_num, test_file in enumerate(all_test_names):
         if not os.path.isfile(test_file):
@@ -193,45 +189,55 @@ def run_marionette_tests(arch_name, test_names=None):
         if cmd.returncode == 0:
             print('OK')
         else:
-            print('error')
+            if cmd.returncode == 2:
+                print('warning')
+                warning_tests.append(test_name)
+            else:
+                print('error')
+                error_tests.append(test_name)
             for line in output.strip().split(b'\n'):
                 print('    >', line.decode('utf-8'))
-            failed_tests.append(test_name)
 
     if not server_address:
         # Quit server
         run_applescript(quit_server_applescript)
 
-    # Ensure consistent output order for test names
-    failed_tests.sort()
-
-    return failed_tests
-
 
 def run_tests(arch_name, unit_test_names, marionette_test_names):
-    failed_tests = []
+    global error_tests, warning_tests
+
+    error_tests = []
+    warning_tests = []
 
     if unit_test_names:
-        failed_tests.extend(run_unit_tests(arch_name, unit_test_names))
+        run_unit_tests(arch_name, unit_test_names)
     elif not (marionette_test_names or skip_unit_tests):
-        failed_tests.extend(run_unit_tests(arch_name))
+        run_unit_tests(arch_name)
 
     if marionette_test_names:
-        failed_tests.extend(run_marionette_tests(arch_name,
-                                                 marionette_test_names))
+        run_marionette_tests(arch_name, marionette_test_names)
     elif not unit_test_names:
-        failed_tests.extend(run_marionette_tests(arch_name))
+        run_marionette_tests(arch_name)
 
-    print()
-    if not failed_tests:
-        print('ALL TESTS PASS')
+    # Ensure consistent output order for test names, with unit tests listed
+    # before marionette tests
+    key = (lambda name: ((0, name) if is_unit_test(name) else (1, name)))
+    error_tests.sort(key=key)
+    warning_tests.sort(key=key)
+
+    if not (error_tests or warning_tests):
+        print('\nALL TESTS PASS')
     else:
-        print('FAILURES:\n')
-        for test_name in failed_tests:
-            print('    %s' % test_name)
+        if warning_tests:
+            print('\nWARNINGS:\n')
+            for test_name in warning_tests:
+                print('    %s' % test_name)
+        # Print failures last, so they're easy to find at the end of the output
+        if error_tests:
+            print('\nFAILURES:\n')
+            for test_name in error_tests:
+                print('    %s' % test_name)
     print()
-
-    return failed_tests
 
 
 def main():
@@ -264,14 +270,20 @@ def main():
     marionette_test_names = []
 
     for name in args:
-        if b'::' in demangle_name(name):
+        if is_unit_test(name):
             unit_test_names.append(name)
         else:
             marionette_test_names.append(name)
 
-    failed_tests = run_tests(opts.arch, unit_test_names, marionette_test_names)
+    run_tests(opts.arch, unit_test_names, marionette_test_names)
 
-    sys.exit(bool(failed_tests))
+    if error_tests:
+        rc = 1
+    elif warning_tests:
+        rc = 2
+    else:
+        rc = 0
+    sys.exit(rc)
 
 
 if __name__ == '__main__':
