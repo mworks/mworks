@@ -381,7 +381,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.8.2'
+    version = '3.8.4'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -441,7 +441,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.18.4'
+    version = '1.19.0'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -488,15 +488,17 @@ def numpy():
 
             add_object_files_to_libpythonall()
 
-        # The numpy test suite requires pytest, so install it and its
-        # dependencies (but outside of any standard location, because we
-        # don't want to distribute it)
+        # The numpy test suite requires hypothesis, pytest, and setuptools, so
+        # install them and their dependencies (but outside of any standard
+        # location, because we don't want to distribute them)
         check_call([
             os.environ['MW_PYTHON_3'],
             '-m', 'pip',
             'install',
             '--target', os.path.join(prefix, 'pytest'),
+            'hypothesis',
             'pytest',
+            'setuptools',
             ])
 
 
@@ -565,7 +567,7 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '3.2.1'
+    version = '3.3.0'
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -607,7 +609,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2020
-    version = '3310100'  # 3.31.1
+    version = '3320300'  # 3.32.3
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -726,7 +728,6 @@ def main():
             rsync,
             '-a',
             '-m',
-            '--exclude=include/G*',
             '--exclude=include/ffi*.h',
             '--exclude=include/openssl/',
             '--exclude=lib/cmake/',
