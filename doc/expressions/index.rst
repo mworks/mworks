@@ -252,6 +252,9 @@ Mathematical
 ``atan(x)``
    Arc tangent of *x* (in radians)
 
+``atan2(y,x)``
+   Arc tangent of *y/x* (in radians), using the signs of the arguments to determine the correct quadrant
+
 ``ceil(x)``
    Nearest integer not less than *x*
 
