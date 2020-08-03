@@ -171,6 +171,20 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
 }
 
 
+- (void)peripheral:(CBPeripheral *)peripheral
+didWriteValueForCharacteristic:(CBCharacteristic *)characteristic
+             error:(NSError *)error
+{
+    if (error) {
+        mw::merror(mw::M_IODEVICE_MESSAGE_DOMAIN,
+                   "Failed to send updated service characteristic value to Bluetooth device: %s",
+                   error.localizedDescription.UTF8String);
+    } else {
+        notifyCallback(self, connection);
+    }
+}
+
+
 - (void)centralManager:(CBCentralManager *)central
 didDisconnectPeripheral:(CBPeripheral *)peripheral
                  error:(NSError *)error
@@ -347,15 +361,19 @@ bool FirmataBluetoothLEConnection::write(const std::vector<std::uint8_t> &data) 
     @autoreleasepool {
         [delegate.peripheral writeValue:[NSData dataWithBytes:data.data() length:data.size()]
                       forCharacteristic:delegate.rxCharacteristic
-                                   type:CBCharacteristicWriteWithoutResponse];
+                                   type:CBCharacteristicWriteWithResponse];
+        if (!wait(lock, std::chrono::milliseconds(500))) {
+            merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot write to Bluetooth device");
+            return false;
+        }
         return true;
     }
 }
 
 
-inline bool FirmataBluetoothLEConnection::wait(unique_lock &lock) {
+inline bool FirmataBluetoothLEConnection::wait(unique_lock &lock, std::chrono::milliseconds timeout) {
     wasNotified = false;
-    return condition.wait_for(lock, std::chrono::seconds(5), [this]() { return wasNotified; });
+    return condition.wait_for(lock, timeout, [this]() { return wasNotified; });
 }
 
 

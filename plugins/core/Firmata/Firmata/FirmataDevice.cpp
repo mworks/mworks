@@ -247,24 +247,7 @@ bool FirmataDevice::processChannelRequests() {
                 if (auto sharedThis = weakThis.lock()) {
                     unique_lock lock(sharedThis->mutex);
                     if (sharedThis->running) {
-                        for (auto pinNumber : pinNumbers) {
-                            switch (channel->getType()) {
-                                case FirmataChannel::Type::Analog:
-                                    sharedThis->setAnalogOutput(pinNumber,
-                                                                channel->getValueForPin(pinNumber).getFloat());
-                                    break;
-                                    
-                                case FirmataChannel::Type::Digital:
-                                    sharedThis->setDigitalOutput(pinNumber,
-                                                                 channel->getValueForPin(pinNumber).getBool());
-                                    break;
-                                    
-                                case FirmataChannel::Type::Servo:
-                                    sharedThis->setServo(pinNumber,
-                                                         channel->getValueForPin(pinNumber).getFloat());
-                                    break;
-                            }
-                        }
+                        sharedThis->updateOutputChannel(channel, pinNumbers);
                     }
                 }
             };
@@ -520,6 +503,45 @@ bool FirmataDevice::stopIO() {
 }
 
 
+void FirmataDevice::updateOutputChannel(const boost::shared_ptr<FirmataChannel> &channel,
+                                        const std::vector<int> &pinNumbers)
+{
+    switch (channel->getType()) {
+        case FirmataChannel::Type::Analog:
+            for (auto pinNumber : pinNumbers) {
+                setAnalogOutput(pinNumber, channel->getValueForPin(pinNumber).getFloat());
+            }
+            break;
+            
+        case FirmataChannel::Type::Digital: {
+            // Combine the updates for all pins in to a single message, so that the pins of word output channels
+            // are updated as close to simultaneously as possible
+            std::vector<std::uint8_t> data;
+            for (auto pinNumber : pinNumbers) {
+                data.push_back(SET_DIGITAL_PIN_VALUE);
+                data.push_back(pinNumber);
+                data.push_back(channel->getValueForPin(pinNumber).getBool());
+            }
+            if (!sendData(data)) {
+                for (auto pinNumber : pinNumbers) {
+                    merror(M_IODEVICE_MESSAGE_DOMAIN,
+                           "Cannot set digital output value on pin %d of Firmata device \"%s\"",
+                           pinNumber,
+                           getTag().c_str());
+                }
+            }
+            break;
+        }
+            
+        case FirmataChannel::Type::Servo:
+            for (auto pinNumber : pinNumbers) {
+                setServo(pinNumber, channel->getValueForPin(pinNumber).getFloat());
+            }
+            break;
+    }
+}
+
+
 inline int FirmataDevice::getResolutionForPinMode(int pinNumber, int pinMode) const {
     return modesForPin.at(pinNumber).at(pinMode);
 }
@@ -543,19 +565,6 @@ bool FirmataDevice::setAnalogOutput(int pinNumber, double value) {
     if (!sendExtendedAnalogMessage(pinNumber, PIN_MODE_PWM, intValue)) {
         merror(M_IODEVICE_MESSAGE_DOMAIN,
                "Cannot set analog output value on pin %d of Firmata device \"%s\"",
-               pinNumber,
-               getTag().c_str());
-        return false;
-    }
-    
-    return true;
-}
-
-
-bool FirmataDevice::setDigitalOutput(int pinNumber, bool value) {
-    if (!sendData({ SET_DIGITAL_PIN_VALUE, std::uint8_t(pinNumber), value })) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN,
-               "Cannot set digital output value on pin %d of Firmata device \"%s\"",
                pinNumber,
                getTag().c_str());
         return false;

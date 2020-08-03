@@ -45,7 +45,7 @@ private:
     ssize_t read(std::uint8_t &data, std::size_t size) override;
     bool write(const std::vector<std::uint8_t> &data) override;
     
-    bool wait(unique_lock &lock);
+    bool wait(unique_lock &lock, std::chrono::milliseconds timeout = std::chrono::milliseconds(5000));
     
     const std::string localName;
     MWKFirmataBluetoothLEDelegate *delegate;
