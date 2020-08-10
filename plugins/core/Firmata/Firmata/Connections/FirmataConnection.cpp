@@ -87,6 +87,10 @@ bool FirmataConnection::receiveData() {
     std::uint8_t currentSysexCommand = 0;
     FirmataConnectionClient::PinModesMap modesForPin;
     FirmataConnectionClient::AnalogChannelPinMap pinForAnalogChannel;
+    bool digitalPulsePinNumberReceived = false;
+    std::uint8_t digitalPulsePinNumber = 0;
+    int digitalPulseDurationShift = 0;
+    MWTime digitalPulseDurationMS = 0;
     std::uint8_t currentPinNumber = 0;
     std::vector<std::uint8_t> currentPinModeInfo;
     
@@ -167,6 +171,12 @@ bool FirmataConnection::receiveData() {
                             currentPinNumber = 0;
                             break;
                             
+                        case MWORKS_DIGITAL_PULSE:
+                            digitalPulsePinNumberReceived = false;
+                            digitalPulseDurationShift = 0;
+                            digitalPulseDurationMS = 0;
+                            break;
+                            
                         default:
                             mwarning(M_IODEVICE_MESSAGE_DOMAIN,
                                      "Received unexpected SysEx command (0x%02hhX) from Firmata device \"%s\"",
@@ -186,6 +196,14 @@ bool FirmataConnection::receiveData() {
                             
                         case ANALOG_MAPPING_RESPONSE:
                             client.receivedAnalogMappingInfo(pinForAnalogChannel);
+                            break;
+                            
+                        case MWORKS_DIGITAL_PULSE:
+                            if (digitalPulsePinNumberReceived) {
+                                client.receivedDigitalPulseMessage(digitalPulsePinNumber,
+                                                                   digitalPulseDurationMS,
+                                                                   currentCommandTime);
+                            }
                             break;
                     }
                     
@@ -220,6 +238,16 @@ bool FirmataConnection::receiveData() {
                             currentPinNumber++;
                             break;
                         }
+                            
+                        case MWORKS_DIGITAL_PULSE:
+                            if (!digitalPulsePinNumberReceived) {
+                                digitalPulsePinNumber = message.at(2);
+                                digitalPulsePinNumberReceived = true;
+                            } else {
+                                digitalPulseDurationMS |= (MWTime(message.at(2) & 0x7F) << digitalPulseDurationShift);
+                                digitalPulseDurationShift += 7;
+                            }
+                            break;
                     }
                     
                     // Still waiting for END_SYSEX

@@ -32,7 +32,12 @@ enum {
     CAPABILITY_RESPONSE     = 0x6C, // reply with supported modes and resolution
     ANALOG_MAPPING_QUERY    = 0x69, // ask for mapping of analog to pin numbers
     ANALOG_MAPPING_RESPONSE = 0x6A, // reply with mapping info
-    SAMPLING_INTERVAL       = 0x7A  // set the poll rate of the main loop
+    SAMPLING_INTERVAL       = 0x7A, // set the poll rate of the main loop
+    
+    // Per the Firmata protocol spec, sysex feature ID's 0x01-0x0F are reserved for
+    // user-defined commands
+    MWORKS_DIGITAL_PULSE        = 0x01,
+    MWORKS_REPORT_DIGITAL_PULSE = 0x02
 };
 
 

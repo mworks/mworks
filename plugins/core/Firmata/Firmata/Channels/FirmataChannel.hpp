@@ -24,14 +24,22 @@ enum {
     PIN_MODE_PWM    = 0x03, // digital pin in PWM output mode
     PIN_MODE_SERVO  = 0x04, // digital pin in Servo output mode
     
-    PIN_MODE_PULLUP = 0x0B  // enable internal pull-up resistor for pin
+    PIN_MODE_PULLUP = 0x0B, // enable internal pull-up resistor for pin
+    
+    // It'd be nice if the Firmata protocol allocated a range of pin modes for user
+    // applications.  Since the "maximum" pin mode is IGNORE (0x7F), reserving
+    // 0x70-0x7E would leave 15 pin modes available for applications (which neatly
+    // mirrors the 15 reserved sysex feature ID's).  We've chosen our custom pin
+    // modes as if this were the case.
+    MWORKS_PIN_MODE_INPUT_PULSE  = 0x70,
+    MWORKS_PIN_MODE_OUTPUT_PULSE = 0x71
 };
 
 
 class FirmataChannel : public Component, protected stx::EmptySymbolTable {
     
 public:
-    enum class Type { Analog, Digital, Servo };
+    enum class Type { Analog, Digital, DigitalPulse, Servo };
     enum class Direction { Input, Output };
     
     explicit FirmataChannel(const ParameterValueMap &parameters);
@@ -46,6 +54,7 @@ public:
     virtual Type getType() const = 0;
     bool isAnalog() const { return getType() == Type::Analog; }
     bool isDigital() const { return getType() == Type::Digital; }
+    bool isDigitalPulse() const { return getType() == Type::DigitalPulse; }
     
     virtual Direction getDirection() const = 0;
     bool isInput() const { return getDirection() == Direction::Input; }
@@ -71,29 +80,3 @@ END_NAMESPACE_MW
 
 
 #endif /* FirmataChannel_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

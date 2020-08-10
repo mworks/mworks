@@ -1,0 +1,5 @@
+%define bluetooth_local_name = 'MWORKS-FIRMATA-BLE-TEST'
+%define comm_delay_tolerance = 35ms
+%define duration_tolerance = comm_delay_tolerance
+
+%include '../Pulse.inc'

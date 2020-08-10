@@ -13,6 +13,8 @@
 #include "FirmataDigitalInputPullupChannel.hpp"
 #include "FirmataDigitalOutputChannel.hpp"
 #include "FirmataWordOutputChannel.hpp"
+#include "FirmataDigitalInputPulseChannel.hpp"
+#include "FirmataDigitalOutputPulseChannel.hpp"
 #include "FirmataServoChannel.hpp"
 
 
@@ -28,6 +30,8 @@ class FirmataPlugin : public Plugin {
         registry->registerFactory<StandardComponentFactory, FirmataDigitalInputPullupChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataDigitalOutputChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataWordOutputChannel>();
+        registry->registerFactory<StandardComponentFactory, FirmataDigitalInputPulseChannel>();
+        registry->registerFactory<StandardComponentFactory, FirmataDigitalOutputPulseChannel>();
         registry->registerFactory<StandardComponentFactory, FirmataServoChannel>();
     }
 };

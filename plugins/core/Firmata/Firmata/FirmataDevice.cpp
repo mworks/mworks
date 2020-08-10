@@ -387,6 +387,37 @@ bool FirmataDevice::startIO() {
                         break;
                     }
                         
+                    case FirmataChannel::Type::DigitalPulse: {
+                        switch (channel->getDirection()) {
+                            case FirmataChannel::Direction::Input:
+                                if (!sendData({ START_SYSEX,
+                                                MWORKS_REPORT_DIGITAL_PULSE,
+                                                std::uint8_t(pinNumber),
+                                                1,
+                                                END_SYSEX }))
+                                {
+                                    merror(M_IODEVICE_MESSAGE_DOMAIN,
+                                           "Cannot enable reporting of digital input pulses on pin %d of "
+                                           "Firmata device \"%s\"",
+                                           pinNumber,
+                                           getTag().c_str());
+                                    return false;
+                                }
+                                break;
+                                
+                            case FirmataChannel::Direction::Output:
+                                if (!sendDigitalPulseMessage(pinNumber, 0)) {
+                                    merror(M_IODEVICE_MESSAGE_DOMAIN,
+                                           "Cannot initialize digital output pulses on pin %d of Firmata device \"%s\"",
+                                           pinNumber,
+                                           getTag().c_str());
+                                    return false;
+                                }
+                                break;
+                        }
+                        break;
+                    }
+                        
                     case FirmataChannel::Type::Servo: {
                         if (channel->isOutput()) {
                             if (!setServo(pinNumber,
@@ -471,6 +502,37 @@ bool FirmataDevice::stopIO() {
                         break;
                     }
                         
+                    case FirmataChannel::Type::DigitalPulse: {
+                        switch (channel->getDirection()) {
+                            case FirmataChannel::Direction::Input:
+                                if (!sendData({ START_SYSEX,
+                                                MWORKS_REPORT_DIGITAL_PULSE,
+                                                std::uint8_t(pinNumber),
+                                                0,
+                                                END_SYSEX }))
+                                {
+                                    merror(M_IODEVICE_MESSAGE_DOMAIN,
+                                           "Cannot disable reporting of digital input pulses on pin %d of "
+                                           "Firmata device \"%s\"",
+                                           pinNumber,
+                                           getTag().c_str());
+                                    return false;
+                                }
+                                break;
+                                
+                            case FirmataChannel::Direction::Output:
+                                if (!sendDigitalPulseMessage(pinNumber, 0)) {
+                                    merror(M_IODEVICE_MESSAGE_DOMAIN,
+                                           "Cannot reset digital output pulses on pin %d of Firmata device \"%s\"",
+                                           pinNumber,
+                                           getTag().c_str());
+                                    return false;
+                                }
+                                break;
+                        }
+                        break;
+                    }
+                        
                     case FirmataChannel::Type::Servo: {
                         // We don't really know what the "ground" state is for a servo, so just
                         // leave it where it is
@@ -532,6 +594,27 @@ void FirmataDevice::updateOutputChannel(const boost::shared_ptr<FirmataChannel> 
             }
             break;
         }
+            
+        case FirmataChannel::Type::DigitalPulse:
+            for (auto pinNumber : pinNumbers) {
+                auto duration = channel->getValueForPin(pinNumber).getInteger();
+                if (duration < 1000) {
+                    merror(M_IODEVICE_MESSAGE_DOMAIN,
+                           "Firmata digital output pulse duration must be >=1ms; %lld us is not valid",
+                           duration);
+                } else if (duration % 1000 != 0) {
+                    merror(M_IODEVICE_MESSAGE_DOMAIN,
+                           "Firmata digital output pulse duration must be a whole number of milliseconds; "
+                           "%g ms is not valid",
+                           double(duration) / 1000.0);
+                } else if (!sendDigitalPulseMessage(pinNumber, duration / 1000 /*us to ms*/)) {
+                    merror(M_IODEVICE_MESSAGE_DOMAIN,
+                           "Cannot send digital output pulse on pin %d of Firmata device \"%s\"",
+                           pinNumber,
+                           getTag().c_str());
+                }
+            }
+            break;
             
         case FirmataChannel::Type::Servo:
             for (auto pinNumber : pinNumbers) {
@@ -616,6 +699,24 @@ bool FirmataDevice::sendExtendedAnalogMessage(int pinNumber, int pinMode, int va
 }
 
 
+bool FirmataDevice::sendDigitalPulseMessage(int pinNumber, MWTime durationMS) {
+    std::vector<std::uint8_t> data = { START_SYSEX, MWORKS_DIGITAL_PULSE, std::uint8_t(pinNumber) };
+    
+    do {
+        data.push_back(durationMS & 0x7F);
+        durationMS >>= 7;
+    } while (durationMS);
+    
+    data.push_back(END_SYSEX);
+    
+    if (!sendData(data)) {
+        return false;
+    }
+    
+    return true;
+}
+
+
 bool FirmataDevice::sendData(const std::vector<std::uint8_t> &data) {
     if (connected) {
         return connection->sendData(data);
@@ -686,6 +787,17 @@ void FirmataDevice::receivedAnalogMessage(std::uint8_t channelNumber, int value,
                 // The user expects analog samples at a steady rate, so set the value unconditionally
                 channel->setValueForPin(pinNumber, floatValue, time);
             }
+        }
+    }
+}
+
+
+void FirmataDevice::receivedDigitalPulseMessage(std::uint8_t pinNumber, MWTime durationMS, MWTime time) {
+    unique_lock lock(mutex);
+    if (running) {
+        const auto &channel = getChannelForPin(pinNumber);
+        if (channel && channel->isDigitalPulse() && channel->isInput()) {
+            channel->setValueForPin(pinNumber, durationMS * 1000 /*ms to us*/, time);
         }
     }
 }

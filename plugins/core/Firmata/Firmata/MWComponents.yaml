@@ -223,6 +223,72 @@ parameters:
 ---
 
 
+name: Firmata Digital Input Pulse Channel
+signature: iochannel/firmata_digital_input_pulse
+isa: Firmata Channel
+description: |
+    Digital input pulse channel on a `Firmata Device`.
+
+    A digital input pulse channel measures the duration of input "pulses" on its
+    associated pin.  Whenever the pin transitions to high/true, the Firmata
+    device records the pulse start time (as measured by its onboard clock). 
+    When the pin transitions back to low/false, the device subtracts the start
+    time from the current time and reports the elapsed duration to MWorks.
+
+    *Note*: Firmata devices always report pulse durations in milliseconds. 
+    MWorks converts these to microseconds before assigning them to `value`_.
+parameters: 
+  - 
+    name: pin_number
+    required: yes
+    example: 13
+    description: Input pin number
+  - 
+    name: value
+    required: yes
+    description: >
+        Variable in which to store measured pulse duration (in microseconds)
+
+
+---
+
+
+name: Firmata Digital Output Pulse Channel
+signature: iochannel/firmata_digital_output_pulse
+isa: Firmata Channel
+description: |
+    Digital output pulse channel on a `Firmata Device`.
+
+    A digital output pulse channel triggers output "pulses" on its associated
+    pin.  Whenever a pulse duration is assigned to `value`_, MWorks sends a
+    pulse command to the Firmata device.  Upon receiving the command, the device
+    sets the pin to high/true.  Once the requested interval (as measured by the
+    device's onboard clock) has elapsed, the device sets the pin back to
+    low/false.
+
+    *Note*: Firmata devices require pulse durations to be specified in
+    milliseconds.  MWorks converts durations assigned to `value`_ from
+    microseconds to milliseconds before sending them to the device.
+parameters: 
+  - 
+    name: pin_number
+    required: yes
+    example: 4
+    description: Output pin number
+  - 
+    name: value
+    required: yes
+    description: |
+        Variable from which to read pulse duration (in microseconds). 
+        `Assigning <Assign Variable>` a value to the variable causes the pulse
+        to begin immediately.
+
+        *Note*: Pulse durations must be whole numbers of milliseconds.
+
+
+---
+
+
 name: Firmata Servo Channel
 signature: iochannel/firmata_servo
 isa: Firmata Channel

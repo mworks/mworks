@@ -89,6 +89,7 @@ private:
     bool setAnalogOutput(int pinNumber, double value);
     bool setServo(int pinNumber, double value);
     bool sendExtendedAnalogMessage(int pinNumber, int pinMode, int value);
+    bool sendDigitalPulseMessage(int pinNumber, MWTime durationMS);
     bool sendData(const std::vector<std::uint8_t> &data);
     
     const std::string & getDeviceName() const override { return getTag(); }
@@ -98,6 +99,7 @@ private:
     void receivedAnalogMappingInfo(const AnalogChannelPinMap &pinForAnalogChannel) override;
     void receivedDigitalMessage(std::uint8_t portNum, const PortStateArray &portState, MWTime time) override;
     void receivedAnalogMessage(std::uint8_t channelNumber, int value, MWTime time) override;
+    void receivedDigitalPulseMessage(std::uint8_t pinNumber, MWTime durationMS, MWTime time) override;
     void disconnected() override;
     void reconnected() override;
     

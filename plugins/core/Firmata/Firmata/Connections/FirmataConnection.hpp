@@ -30,6 +30,7 @@ public:
     virtual void receivedAnalogMappingInfo(const AnalogChannelPinMap &pinForAnalogChannel) = 0;
     virtual void receivedDigitalMessage(std::uint8_t portNum, const PortStateArray &portState, MWTime time) = 0;
     virtual void receivedAnalogMessage(std::uint8_t channelNumber, int value, MWTime time) = 0;
+    virtual void receivedDigitalPulseMessage(std::uint8_t pinNumber, MWTime durationMS, MWTime time) = 0;
     
     virtual void disconnected() = 0;
     virtual void reconnected() = 0;

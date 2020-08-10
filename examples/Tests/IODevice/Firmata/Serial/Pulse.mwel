@@ -1,0 +1,5 @@
+%define bluetooth_local_name = ''
+%define comm_delay_tolerance = 5ms
+%define duration_tolerance = 10ms
+
+%include '../Pulse.inc'
