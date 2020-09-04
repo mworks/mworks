@@ -31,6 +31,7 @@ MWORKSSWIFT_PUBLIC_CLASS
 - (BOOL)closeExperiment;
 
 - (void)startExperiment;
+- (void)stopExperiment;
 
 @end
 

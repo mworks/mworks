@@ -158,6 +158,11 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 }
 
 
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [server stopExperiment];  // No-op if experiment is not loaded or not running
+}
+
+
 - (void)applicationWillTerminate:(UIApplication *)application {
     if (server) {
         [server unregisterCallbacksWithKey:PERSISTENT_EVENT_CALLBACK_KEY];

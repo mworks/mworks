@@ -117,4 +117,13 @@
 }
 
 
+- (void)stopExperiment {
+    try {
+        self.server->stopExperiment();
+    } catch (...) {
+        MWorksSwiftLogException(std::current_exception());
+    }
+}
+
+
 @end
