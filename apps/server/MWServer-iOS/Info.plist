@@ -37,6 +37,8 @@
 	<true/>
 	<key>UIRequiresPersistentWiFi</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>MWorks uses Bluetooth to connect to input/output devices.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>MWorks uses Bluetooth to connect to input/output devices.</string>
 	<key>NSCameraUsageDescription</key>
