@@ -17,6 +17,7 @@
 #include <condition_variable>
 #include <mutex>
 
+#include <boost/serialization/library_version_type.hpp>
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/version.hpp>

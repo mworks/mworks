@@ -505,7 +505,7 @@ def numpy():
 
 @builder
 def boost():
-    version = '1.73.0'
+    version = '1.74.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -545,7 +545,7 @@ def boost():
 
 @builder
 def zeromq():
-    version = '4.3.2'
+    version = '4.3.3'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -610,7 +610,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2020
-    version = '3320300'  # 3.32.3
+    version = '3330000'  # 3.33.0
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
