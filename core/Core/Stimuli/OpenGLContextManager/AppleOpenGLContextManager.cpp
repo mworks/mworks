@@ -9,7 +9,6 @@
 #include "AppleOpenGLContextManager.hpp"
 
 #if TARGET_OS_OSX
-#  include "LegacyMacOSOpenGLContextManager.h"
 #  include "MacOSOpenGLContextManager.hpp"
 #elif TARGET_OS_IPHONE
 #  include "IOSOpenGLContextManager.hpp"
@@ -120,11 +119,12 @@ auto AppleOpenGLContextManager::getMirrorView() const -> PlatformViewPtr {
 boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
 #if TARGET_OS_OSX
     @autoreleasepool {
+        // TODO: Remove test for Metal when MACOSX_DEPLOYMENT_TARGET >= 10.14
         // Check if Metal is supported by attempting to obtain the default device
         if (id<MTLDevice> metalDevice = MTLCreateSystemDefaultDevice()) {
             return boost::make_shared<MacOSOpenGLContextManager>();
         }
-        return boost::make_shared<LegacyMacOSOpenGLContextManager>();
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Metal is not supported on this system");
     }
 #elif TARGET_OS_IPHONE
     return boost::make_shared<IOSOpenGLContextManager>();
