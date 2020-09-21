@@ -9,6 +9,7 @@
 #import "ViewController.h"
 
 @import MobileCoreServices;
+@import UniformTypeIdentifiers;
 
 #import "AppDelegate.h"
 
@@ -65,10 +66,8 @@
 
 
 - (IBAction)openExperimentChooser:(id)sender {
-    UIDocumentPickerViewController *controller =
-    [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[(NSString *)kUTTypeItem]
-                                                           inMode:UIDocumentPickerModeImport];
-    
+    UIDocumentPickerViewController *controller = [[UIDocumentPickerViewController alloc] initForOpeningContentTypes:@[UTTypeItem]
+                                                                                                             asCopy:YES];
     controller.delegate = self;
     controller.allowsMultipleSelection = YES;
     [self presentViewController:controller animated:YES completion:nil];
