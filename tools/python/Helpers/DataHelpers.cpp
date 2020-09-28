@@ -82,7 +82,7 @@ Datum convertObjectToDatum(const ObjectPtr &obj) {
         throw ErrorAlreadySet();
     }
     
-    if (obj.get() == Py_None) {
+    if (obj.isNone()) {
         return Datum();
     }
     

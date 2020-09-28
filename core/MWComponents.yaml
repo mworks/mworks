@@ -515,9 +515,31 @@ parameters:
 ---
 
 
+name: Base Image Stimulus
+abstract: yes
+isa: Basic Transform Stimulus
+parameters: 
+  - 
+    name: alpha_multiplier
+    default: 1.0
+    description: |
+        By default, the alpha multiplier controls the transparency of the
+        stimulus.  ``1.0`` is fully opaque, while ``0.0`` is fully tranparent.
+
+        Changes to the parameters `source_blend_factor`_ and
+        `dest_blend_factor`_ can alter how (or if) the alpha multiplier is used.
+
+        *Note*:  If the image contains an `alpha channel
+        <https://en.wikipedia.org/wiki/Alpha_compositing>`_, the embedded alpha
+        value for each pixel is multiplied by the value of this parameter.
+
+
+---
+
+
 name: Image Stimulus
 signature: stimulus/image_file
-isa: Basic Transform Stimulus
+isa: Base Image Stimulus
 description: |
     An image stimulus loaded from any standard-format image file.
 
@@ -525,10 +547,6 @@ description: |
     `y_size`_ must be equal.  When drawn, the larger dimension spans the full
     specified size, while the smaller dimension is scaled to maintain the
     aspect ratio.
-
-    *Note*:  If the image contains an `alpha channel
-    <https://en.wikipedia.org/wiki/Alpha_compositing>`_, the embedded alpha
-    value for each pixel is multiplied by the value of `alpha_multiplier`_.
 parameters: 
   - 
     name: path

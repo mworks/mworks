@@ -1,0 +1,46 @@
+resource ('background.gz')
+python_file ('image_gen.py')
+
+
+var pixel_buffer_format = 'RGB8'
+var pixel_buffer_width = 768
+var pixel_buffer_height = 512
+var elapsed_time = 0
+var period = 8s
+
+python_image image (
+    pixel_buffer_format = pixel_buffer_format
+    pixel_buffer_width = pixel_buffer_width
+    pixel_buffer_height = pixel_buffer_height
+    pixel_buffer_expr = 'render()'
+    elapsed_time = elapsed_time
+    x_size = 20
+    deferred = explicit
+    )
+
+
+%define test_format (format)
+    pixel_buffer_format = format
+    run_python_string ('reset()')
+    load_stimulus (image)
+    queue_stimulus (image)
+    update_display ()
+    wait (0.75 * period)
+    pause_dynamic_stimulus (image)
+    wait (0.25 * period)
+    unpause_dynamic_stimulus (image)
+    wait (1.25 * period)
+    dequeue_stimulus (image)
+    update_display ()
+    unload_stimulus (image)
+    wait (1s)
+%end
+
+
+protocol {
+    test_format ('RGB8')
+    test_format ('sRGB8')
+    test_format ('RGBA8')
+    test_format ('sRGBA8')
+    test_format ('RGBA16F')
+}

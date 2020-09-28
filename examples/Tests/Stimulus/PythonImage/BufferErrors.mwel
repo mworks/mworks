@@ -1,0 +1,43 @@
+var ended = false
+
+%define bad_image (expr)
+    python_image (
+        pixel_buffer_format = 'sRGBA8'
+        pixel_buffer_width = 512
+        pixel_buffer_height = 512
+        pixel_buffer_expr = expr
+        x_size = 20
+        )
+%end
+
+frame_list images (
+    ended = ended
+    autoplay = true
+    ) {
+    // Evaluation failure
+    bad_image ('x + / 2')
+
+    // Not a buffer
+    bad_image ('3')
+
+    // Can't get buffer data
+    bad_image ('np.flipud(np.array([[1,2],[3,4]]))')
+
+    // Empty buffer
+    bad_image ("b''")
+
+    // Wrong number of bytes
+    bad_image ("b'abcd' * 512 * 512 + b'z'")
+}
+
+
+protocol {
+    run_python_string ('import numpy as np')
+    ended = false
+    queue_stimulus (images)
+    update_display ()
+    wait_for_condition (
+        condition = ended
+        timeout = 1s
+        )
+}

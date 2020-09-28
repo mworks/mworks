@@ -73,6 +73,10 @@ public:
         return (*this);
     }
     
+    bool isNone() const noexcept {
+        return (obj == Py_None);
+    }
+    
     PyObject* get() const noexcept {
         return obj;
     }

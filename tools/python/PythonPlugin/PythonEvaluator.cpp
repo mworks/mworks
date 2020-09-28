@@ -275,51 +275,42 @@ PyCodeObject * compile(const std::string &code, bool isExpr) {
 }
 
 
-class EvalState : boost::noncopyable {
+END_NAMESPACE()
+
+
+PythonEvaluator::EvalState::EvalState() :
+    //
+    // Save the current working directory
+    //
+    cwdfd(open(".", O_RDONLY))
+{
+    if (-1 == cwdfd) {
+        merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to open current working directory: %s", strerror(errno));
+    }
     
-public:
-    EvalState() :
-        //
-        // Save the current working directory
-        //
-        cwdfd(open(".", O_RDONLY))
-    {
-        if (-1 == cwdfd) {
-            merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to open current working directory: %s", strerror(errno));
-        }
-        
-        //
-        // Change the current working directory to the experiment's working path, so that Python code can
-        // use relative paths to resource files
-        //
-        if (auto experiment = GlobalCurrentExperiment) {
-            auto &workingPath = experiment->getWorkingPath();
-            if (!(workingPath.empty())) {
-                if (-1 == chdir(workingPath.c_str())) {
-                    merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to change directory: %s", strerror(errno));
-                }
+    //
+    // Change the current working directory to the experiment's working path, so that Python code can
+    // use relative paths to resource files
+    //
+    if (auto experiment = GlobalCurrentExperiment) {
+        auto &workingPath = experiment->getWorkingPath();
+        if (!(workingPath.empty())) {
+            if (-1 == chdir(workingPath.c_str())) {
+                merror(M_PLUGIN_MESSAGE_DOMAIN, "Unable to change directory: %s", strerror(errno));
             }
         }
     }
-    
-    ~EvalState() {
-        //
-        // Restore the current working directory
-        //
-        if (-1 != cwdfd) {
-            (void)fchdir(cwdfd);
-            (void)close(cwdfd);
-        }
+}
+
+PythonEvaluator::EvalState::~EvalState() {
+    //
+    // Restore the current working directory
+    //
+    if (-1 != cwdfd) {
+        (void)fchdir(cwdfd);
+        (void)close(cwdfd);
     }
-    
-private:
-    ScopedGILAcquire sga;
-    const int cwdfd;
-    
-};
-
-
-END_NAMESPACE()
+}
 
 
 PythonEvaluator::PythonEvaluator(const boost::filesystem::path &filePath) :
@@ -385,11 +376,6 @@ bool PythonEvaluator::call(Datum &result, ArgIter first, ArgIter last) {
         PythonException::logError("Python call failed");
         return false;
     }
-}
-
-
-inline PyObject * PythonEvaluator::eval() {
-    return PyEval_EvalCode(reinterpret_cast<PyObject *>(codeObject), globalsDict, globalsDict);
 }
 
 

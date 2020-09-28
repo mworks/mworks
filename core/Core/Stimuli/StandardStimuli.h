@@ -220,13 +220,39 @@ private:
 };
 
 
-class ImageStimulus : public BasicTransformStimulus {
+class BaseImageStimulus : public BasicTransformStimulus {
+    
+public:
+    static VertexPositionArray getVertexPositions(double aspectRatio);
+    
+    using BasicTransformStimulus::BasicTransformStimulus;
+    
+protected:
+    gl::Shader getVertexShader() const override;
+    gl::Shader getFragmentShader() const override;
+    
+    VertexPositionArray getVertexPositions() const override;
+    
+    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    
+    virtual double getAspectRatio() const = 0;
+    
+    GLint alphaUniformLocation = -1;
+    GLuint texture = 0;
+    GLuint texCoordsBuffer = 0;
+    
+};
+
+
+class ImageStimulus : public BaseImageStimulus {
     
 public:
     static const std::string PATH;
     static const std::string ANNOUNCE_LOAD;
     
-    static VertexPositionArray getVertexPositions(double aspectRatio);
     static cf::ObjectPtr<CGImageSourceRef> loadImageFile(const std::string &filename,
                                                          std::string &fileHash,
                                                          bool announce = true);
@@ -239,15 +265,10 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    gl::Shader getVertexShader() const override;
-    gl::Shader getFragmentShader() const override;
-    
-    VertexPositionArray getVertexPositions() const override;
-    
     void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
     void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    
+    double getAspectRatio() const override;
     
     const VariablePtr path;
     const bool announceLoad;
@@ -257,12 +278,7 @@ private:
     
     std::size_t width;
     std::size_t height;
-    double aspectRatio;
     std::unique_ptr<std::uint32_t[]> data;
-    
-    GLint alphaUniformLocation = -1;
-    GLuint texture = 0;
-    GLuint texCoordsBuffer = 0;
     
 };
 
@@ -271,26 +287,3 @@ END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

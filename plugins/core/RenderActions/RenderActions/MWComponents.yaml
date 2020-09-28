@@ -3,7 +3,7 @@
 
 name: Render Actions
 signature: stimulus/render_actions
-isa: Stimulus
+isa: [Stimulus, Dynamic Stimulus Base]
 allowed_child: Action
 description: |
     Render Actions is a special type of stimulus that enables dynamic parameter

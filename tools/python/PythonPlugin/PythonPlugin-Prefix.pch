@@ -15,7 +15,9 @@
 #include <MWorksCore/CFObjectPtr.h>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/Server.h>
-#include <MWorksCore/StandardComponentFactory.h>
+#include <MWorksCore/StandardDynamicStimulus.h>
+#include <MWorksCore/StandardStimuli.h>
+#include <MWorksCore/StandardStimulusFactory.h>
 #include <MWorksCore/TrialBuildingBlocks.h>
 
 #define BEGIN_NAMESPACE_MW_PYTHON  BEGIN_NAMESPACE_MW    BEGIN_NAMESPACE(python)

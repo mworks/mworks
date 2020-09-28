@@ -7,6 +7,7 @@
 //
 
 #include "PythonFileResource.hpp"
+#include "PythonImage.hpp"
 #include "RunPythonFileAction.h"
 #include "RunPythonStringAction.h"
 
@@ -59,6 +60,7 @@ END_NAMESPACE()
 class PythonPlugin : public Plugin {
     void registerComponents(boost::shared_ptr<ComponentRegistry> registry) override {
         registry->registerFactory<StandardComponentFactory, PythonFileResource>();
+        registry->registerFactory<StandardStimulusFactory, PythonImage>();
         registry->registerFactory<StandardComponentFactory, RunPythonFileAction>();
         registry->registerFactory<StandardComponentFactory, RunPythonStringAction>();
         

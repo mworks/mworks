@@ -551,11 +551,7 @@ gl::Shader CircleStimulus::getFragmentShader() const {
 }
 
 
-const std::string ImageStimulus::PATH("path");
-const std::string ImageStimulus::ANNOUNCE_LOAD("announce_load");
-
-
-auto ImageStimulus::getVertexPositions(double aspectRatio) -> VertexPositionArray {
+auto BaseImageStimulus::getVertexPositions(double aspectRatio) -> VertexPositionArray {
     if (aspectRatio > 1.0) {
         return VertexPositionArray {
             0.0f, GLfloat(0.5 - 0.5/aspectRatio),
@@ -571,6 +567,104 @@ auto ImageStimulus::getVertexPositions(double aspectRatio) -> VertexPositionArra
         GLfloat((1.0 - aspectRatio)/2.0 + aspectRatio), 1.0f
     };
 }
+
+
+gl::Shader BaseImageStimulus::getVertexShader() const {
+    static const std::string source
+    (R"(
+     uniform mat4 mvpMatrix;
+     in vec4 vertexPosition;
+     in vec2 texCoords;
+     out vec2 varyingTexCoords;
+     
+     void main() {
+         gl_Position = mvpMatrix * vertexPosition;
+         varyingTexCoords = texCoords;
+     }
+     )");
+    
+    return gl::createShader(GL_VERTEX_SHADER, source);
+}
+
+
+gl::Shader BaseImageStimulus::getFragmentShader() const {
+    static const std::string source
+    (R"(
+     uniform float alpha;
+     uniform sampler2D imageTexture;
+     in vec2 varyingTexCoords;
+     out vec4 fragColor;
+     
+     void main() {
+         vec4 imageColor = texture(imageTexture, varyingTexCoords);
+         fragColor.rgb = imageColor.rgb;
+         fragColor.a = alpha * imageColor.a;
+     }
+     )");
+    
+    return gl::createShader(GL_FRAGMENT_SHADER, source);
+}
+
+
+auto BaseImageStimulus::getVertexPositions() const -> VertexPositionArray {
+    if (fullscreen) {
+        return BasicTransformStimulus::getVertexPositions();
+    }
+    return getVertexPositions(getAspectRatio());
+}
+
+
+void BaseImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
+    BasicTransformStimulus::prepare(display);
+    
+    alphaUniformLocation = glGetUniformLocation(program, "alpha");
+    glUniform1i(glGetUniformLocation(program, "imageTexture"), 0);
+    
+    glGenTextures(1, &texture);
+    
+    glGenBuffers(1, &texCoordsBuffer);
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
+    // Draw the texture flipped vertically to match OpenGL's coordinate system (origin in
+    // the bottom left corner)
+    VertexPositionArray texCoords {
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f
+    };
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
+    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
+    glEnableVertexAttribArray(texCoordsAttribLocation);
+    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+}
+
+
+void BaseImageStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
+    glDeleteBuffers(1, &texCoordsBuffer);
+    glDeleteTextures(1, &texture);
+    
+    BasicTransformStimulus::destroy(display);
+}
+
+
+void BaseImageStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
+    BasicTransformStimulus::preDraw(display);
+    
+    glUniform1f(alphaUniformLocation, current_alpha);
+    
+    glBindTexture(GL_TEXTURE_2D, texture);
+}
+
+
+void BaseImageStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    BasicTransformStimulus::postDraw(display);
+}
+
+
+const std::string ImageStimulus::PATH("path");
+const std::string ImageStimulus::ANNOUNCE_LOAD("announce_load");
 
 
 cf::ObjectPtr<CGImageSourceRef> ImageStimulus::loadImageFile(const std::string &filename,
@@ -633,7 +727,7 @@ cf::ObjectPtr<CGImageSourceRef> ImageStimulus::loadImageFile(const std::string &
 
 
 void ImageStimulus::describeComponent(ComponentInfo &info) {
-    BasicTransformStimulus::describeComponent(info);
+    BaseImageStimulus::describeComponent(info);
     
     info.setSignature("stimulus/image_file");
     
@@ -643,12 +737,11 @@ void ImageStimulus::describeComponent(ComponentInfo &info) {
 
 
 ImageStimulus::ImageStimulus(const ParameterValueMap &parameters) :
-    BasicTransformStimulus(parameters),
+    BaseImageStimulus(parameters),
     path(variableOrText(parameters[PATH])),
     announceLoad(parameters[ANNOUNCE_LOAD]),
     width(0),
-    height(0),
-    aspectRatio(1.0)
+    height(0)
 { }
 
 
@@ -699,7 +792,6 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
         
         width = CGImageGetWidth(image.get());
         height = CGImageGetHeight(image.get());
-        aspectRatio = double(width) / double(height);
         data.reset(new std::uint32_t[width * height]);
         
         // If we're using color management, convert the image to sRGB.  Otherwise, draw it in the
@@ -740,12 +832,12 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
         }
     }
     
-    BasicTransformStimulus::load(display);
+    BaseImageStimulus::load(display);
 }
 
 
 Datum ImageStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData = BasicTransformStimulus::getCurrentAnnounceDrawData();
+    Datum announceData = BaseImageStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE,STIM_TYPE_IMAGE);
     announceData.addElement(STIM_FILENAME,filename);  
@@ -755,62 +847,13 @@ Datum ImageStimulus::getCurrentAnnounceDrawData() {
 }
 
 
-gl::Shader ImageStimulus::getVertexShader() const {
-    static const std::string source
-    (R"(
-     uniform mat4 mvpMatrix;
-     in vec4 vertexPosition;
-     in vec2 texCoords;
-     out vec2 varyingTexCoords;
-     
-     void main() {
-         gl_Position = mvpMatrix * vertexPosition;
-         varyingTexCoords = texCoords;
-     }
-     )");
-    
-    return gl::createShader(GL_VERTEX_SHADER, source);
-}
-
-
-gl::Shader ImageStimulus::getFragmentShader() const {
-    static const std::string source
-    (R"(
-     uniform float alpha;
-     uniform sampler2D imageTexture;
-     in vec2 varyingTexCoords;
-     out vec4 fragColor;
-     
-     void main() {
-         vec4 imageColor = texture(imageTexture, varyingTexCoords);
-         fragColor.rgb = imageColor.rgb;
-         fragColor.a = alpha * imageColor.a;
-     }
-     )");
-    
-    return gl::createShader(GL_FRAGMENT_SHADER, source);
-}
-
-
-auto ImageStimulus::getVertexPositions() const -> VertexPositionArray {
-    if (fullscreen) {
-        return BasicTransformStimulus::getVertexPositions();
-    }
-    return getVertexPositions(aspectRatio);
-}
-
-
 void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
-    BasicTransformStimulus::prepare(display);
-    
-    alphaUniformLocation = glGetUniformLocation(program, "alpha");
-    glUniform1i(glGetUniformLocation(program, "imageTexture"), 0);
+    BaseImageStimulus::prepare(display);
     
     //
-    // Create texture
+    // Prepare texture
     //
     {
-        glGenTextures(1, &texture);
         gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
         
         gl::resetPixelStorageUnpackParameters();
@@ -842,73 +885,21 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     if (announceLoad) {
         mprintf("Image loaded into texture_map %u", texture);
     }
-    
-    glGenBuffers(1, &texCoordsBuffer);
-    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
-    // Draw the texture flipped vertically to match OpenGL's coordinate system (origin in
-    // the bottom left corner)
-    VertexPositionArray texCoords {
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 0.0f
-    };
-    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
-    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
-    glEnableVertexAttribArray(texCoordsAttribLocation);
-    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
 
 void ImageStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
-    glDeleteBuffers(1, &texCoordsBuffer);
-    glDeleteTextures(1, &texture);
+    BaseImageStimulus::destroy(display);
     
     if (announceLoad) {
         mprintf("Image unloaded from texture_map %u", texture);
     }
-    
-    BasicTransformStimulus::destroy(display);
 }
 
 
-void ImageStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    BasicTransformStimulus::preDraw(display);
-    
-    glUniform1f(alphaUniformLocation, current_alpha);
-    
-    glBindTexture(GL_TEXTURE_2D, texture);
-}
-
-
-void ImageStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    glBindTexture(GL_TEXTURE_2D, 0);
-    
-    BasicTransformStimulus::postDraw(display);
+double ImageStimulus::getAspectRatio() const {
+    return double(width) / double(height);
 }
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

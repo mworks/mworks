@@ -26,6 +26,67 @@ parameters:
 ---
 
 
+name: Python Image Stimulus
+signature: stimulus/python_image
+isa: [Base Image Stimulus, Dynamic Stimulus Base]
+description: |
+    An image stimulus whose content is generated dynamically by Python code.
+
+    For information on the modules and functions available to your Python code,
+    see `Run Python File`.
+
+    *Note*:  To preserve the image's aspect ratio on screen, `x_size`_ and
+    `y_size`_ must be equal.  When drawn, the larger dimension spans the full
+    specified size, while the smaller dimension is scaled to maintain the
+    aspect ratio.
+parameters: 
+  - 
+    name: pixel_buffer_format
+    required: yes
+    options: [RGB8, sRGB8, RGBA8, sRGBA8, RGBA16F]
+    description: Pixel buffer format
+  - 
+    name: pixel_buffer_width
+    required: yes
+    example: 512
+    description: Pixel buffer width
+  - 
+    name: pixel_buffer_height
+    required: yes
+    example: 512
+    description: Pixel buffer height
+  - 
+    name: pixel_buffer_expr
+    required: yes
+    example:
+      - render_scene()
+      - img.update()
+    description: Pixel buffer expression
+  - 
+    name: elapsed_time
+    description: |
+        Name of a variable in which to store the elapsed time (in microseconds)
+        since the stimulus started playing (either implicitly due to `autoplay`_
+        being ``YES`` or via an explicit `Play Dynamic Stimulus` action).
+
+        If the stimulus has been paused (e.g. via `Pause Dynamic Stimulus` or
+        `Pause Experiment`), the time elapsed while paused is excluded from the
+        reported elapsed time.
+  - 
+    name: autoplay
+    default: 'YES'
+    description: >
+        If ``YES``, the stimulus will start playing automatically (as if by an
+        implicit `Play Dynamic Stimulus` action) after it has been `queued
+        <Queue Stimulus>` and `Update Stimulus Display` has been invoked.  It
+        will also stop playing automatically (as if by an implicit `Stop Dynamic
+        Stimulus` action) after it has been `dequeued <Dequeue Stimulus>` and
+        `Update Stimulus Display` is invoked.
+
+
+---
+
+
 name: Run Python Action
 abstract: yes
 isa: Action
@@ -51,9 +112,10 @@ description: |
     .. rubric:: Available Modules and Functions
 
     Python code executed by `Run Python File`, `Run Python String`, a `Python
-    File Resource`, or the `expression parser <Expressions>` functions
-    ``py_eval`` and ``py_call`` can make use of both the `Python standard
-    library <https://docs.python.org/3/library/index.html>`_ and `NumPy
+    File Resource`, a `Python Image Stimulus`, or the `expression parser
+    <Expressions>` functions ``py_eval`` and ``py_call`` can make use of both
+    the `Python standard library
+    <https://docs.python.org/3/library/index.html>`_ and `NumPy
     <https://www.numpy.org>`_.  In addition, the following MWorks-specific
     functions are available:
 

@@ -1,0 +1,95 @@
+//
+// This experiment draws six grayscale gradients.  The colors in all of them
+// should match, regardless of whether color management is enabled.  The RGB8
+// and RGBA8 gradients should show banding in the dark (left) end when color
+// management is enabled.  The sRGB8 and sRGBA8 gradients should show banding in
+// the light (right) end when color management is *not* enabled.
+//
+// This experiment also tests the case where pixel_buffer_expr evaluates to None
+// (meaning that the image texture doesn't need to be updated).
+//
+
+python_file ('gradient.py')
+
+
+%define x_size = 0.95 * (display_bounds('right') - display_bounds('left'))
+%define y_size = 4
+%define y_position (index)  (3.0 - 1.2 * index) * y_size
+
+var pixel_buffer_width = 2000
+var pixel_buffer_height = pixel_buffer_width * y_size / x_size
+
+
+drifting_grating grating_gradient (
+    spatial_frequency = 1 / x_size
+    speed = 0
+    grating_type = sawtooth
+    mask = rectangle
+    x_size = x_size
+    y_size = y_size
+    y_position = y_position(0)
+    autoplay = true
+    )
+
+python_image rgb8_gradient (
+    pixel_buffer_format = 'RGB8'
+    pixel_buffer_width = pixel_buffer_width
+    pixel_buffer_height = pixel_buffer_height
+    pixel_buffer_expr = 'gradients.pop("RGB8")'
+    x_size = x_size
+    y_position = y_position(1)
+    )
+
+python_image srgb8_gradient (
+    pixel_buffer_format = 'sRGB8'
+    pixel_buffer_width = pixel_buffer_width
+    pixel_buffer_height = pixel_buffer_height
+    pixel_buffer_expr = 'gradients.pop("sRGB8")'
+    x_size = x_size
+    y_position = y_position(2)
+    )
+
+python_image rgba8_gradient (
+    pixel_buffer_format = 'RGBA8'
+    pixel_buffer_width = pixel_buffer_width
+    pixel_buffer_height = pixel_buffer_height
+    pixel_buffer_expr = 'gradients.pop("RGBA8")'
+    x_size = x_size
+    y_position = y_position(3)
+    )
+
+python_image srgba8_gradient (
+    pixel_buffer_format = 'sRGBA8'
+    pixel_buffer_width = pixel_buffer_width
+    pixel_buffer_height = pixel_buffer_height
+    pixel_buffer_expr = 'gradients.pop("sRGBA8")'
+    x_size = x_size
+    y_position = y_position(4)
+    )
+
+python_image rgba16f_gradient (
+    pixel_buffer_format = 'RGBA16F'
+    pixel_buffer_width = pixel_buffer_width
+    pixel_buffer_height = pixel_buffer_height
+    pixel_buffer_expr = 'gradients.pop("RGBA16F")'
+    x_size = x_size
+    y_position = y_position(5)
+    )
+
+
+protocol {
+    run_python_string ('gradients.create()')
+
+    queue_stimulus (grating_gradient)
+    queue_stimulus (rgb8_gradient)
+    queue_stimulus (srgb8_gradient)
+    queue_stimulus (rgba8_gradient)
+    queue_stimulus (srgba8_gradient)
+    queue_stimulus (rgba16f_gradient)
+
+    assert (py_eval('len(gradients)') == 5)
+    update_display ()
+    assert (py_eval('len(gradients)') == 0)
+
+    wait (20s)
+}

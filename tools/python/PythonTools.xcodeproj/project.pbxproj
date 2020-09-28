@@ -58,6 +58,9 @@
 		E105D18720FE8241002E2464 /* PythonFileResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CF554E1F97A30700F65009 /* PythonFileResource.cpp */; };
 		E105D18820FE8243002E2464 /* PythonPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */; };
 		E1104557234668B700212127 /* PythonPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1E6039E1B1904D2009BA19D /* PythonPlugin.bundle */; };
+		E11DCEA825262B59004162B7 /* PythonImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11DCEA625262B59004162B7 /* PythonImage.cpp */; };
+		E11DCEA925262B59004162B7 /* PythonImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11DCEA625262B59004162B7 /* PythonImage.cpp */; };
+		E11DCEC12526606E004162B7 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E11DCEC025266058004162B7 /* OpenGL.framework */; };
 		E127A89322CBABD700D58D2B /* dump_codec in CopyFiles */ = {isa = PBXBuildFile; fileRef = E127A89022CBAB3D00D58D2B /* dump_codec */; };
 		E127A89422CBABDB00D58D2B /* dump_events in CopyFiles */ = {isa = PBXBuildFile; fileRef = E127A89122CBAB3D00D58D2B /* dump_events */; };
 		E1348FFF235760D400AF9CB2 /* PythonSimpleConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1348FFE235760D400AF9CB2 /* PythonSimpleConduit.cpp */; };
@@ -162,6 +165,9 @@
 		E105D17420FE7662002E2464 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E105D17A20FE7D33002E2464 /* PythonPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PythonPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E105D17D20FE7D33002E2464 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
+		E11DCEA625262B59004162B7 /* PythonImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PythonImage.cpp; sourceTree = "<group>"; };
+		E11DCEA725262B59004162B7 /* PythonImage.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PythonImage.hpp; sourceTree = "<group>"; };
+		E11DCEC025266058004162B7 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E127A89022CBAB3D00D58D2B /* dump_codec */ = {isa = PBXFileReference; explicitFileType = text.script.python; path = dump_codec; sourceTree = "<group>"; };
 		E127A89122CBAB3D00D58D2B /* dump_events */ = {isa = PBXFileReference; explicitFileType = text.script.python; path = dump_events; sourceTree = "<group>"; };
 		E1348FFE235760D400AF9CB2 /* PythonSimpleConduit.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = PythonSimpleConduit.cpp; sourceTree = "<group>"; };
@@ -231,6 +237,7 @@
 			files = (
 				E1D3CAA11B1CB7F700E94A2C /* MWorksCore.framework in Frameworks */,
 				E1944CDC236B75EA0069B656 /* MWorksPython.framework in Frameworks */,
+				E11DCEC12526606E004162B7 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +330,7 @@
 			children = (
 				E18D3BB7165541B900D472D0 /* MWorksCore.framework */,
 				E1944CDB236B75EA0069B656 /* MWorksPython.framework */,
+				E11DCEC025266058004162B7 /* OpenGL.framework */,
 				E1DB978F16C19830001481E9 /* libboost_filesystem.a */,
 				E1DB978D16C1981E001481E9 /* libboost_serialization.a */,
 				E1DB979316C19859001481E9 /* libscarab.a */,
@@ -373,6 +381,8 @@
 				E1CF55511F97CB8000F65009 /* PythonEvaluator.cpp */,
 				E1CF554F1F97A30700F65009 /* PythonFileResource.hpp */,
 				E1CF554E1F97A30700F65009 /* PythonFileResource.cpp */,
+				E11DCEA725262B59004162B7 /* PythonImage.hpp */,
+				E11DCEA625262B59004162B7 /* PythonImage.cpp */,
 				E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */,
 				E1E603A01B1904D2009BA19D /* Supporting Files */,
 			);
@@ -563,6 +573,7 @@
 				E1DCF20E23577AF700562BA3 /* PythonEvent.cpp in Sources */,
 				E105D18620FE823D002E2464 /* PythonEvaluator.cpp in Sources */,
 				E105D18420FE8236002E2464 /* RunPythonStringAction.cpp in Sources */,
+				E11DCEA925262B59004162B7 /* PythonImage.cpp in Sources */,
 				E105D18220FE822C002E2464 /* RunPythonAction.cpp in Sources */,
 				E105D18720FE8241002E2464 /* PythonFileResource.cpp in Sources */,
 			);
@@ -591,6 +602,7 @@
 				E19EB9F2235656A400402436 /* PythonEvent.cpp in Sources */,
 				E19C4CBA1B1E21BE005380F0 /* PythonException.cpp in Sources */,
 				E1D3CAA71B1CCE3400E94A2C /* RunPythonFileAction.cpp in Sources */,
+				E11DCEA825262B59004162B7 /* PythonImage.cpp in Sources */,
 				E1D645861B31C5FF0092C428 /* RunPythonStringAction.cpp in Sources */,
 				E1D3CAA01B1CB5E700E94A2C /* PythonPlugin.cpp in Sources */,
 			);
@@ -638,6 +650,8 @@
 					"$(inherited)",
 					"-framework",
 					MWorksPython,
+					"-framework",
+					OpenGLES,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.PythonPlugin-iOS";
 				PRODUCT_NAME = PythonPlugin;

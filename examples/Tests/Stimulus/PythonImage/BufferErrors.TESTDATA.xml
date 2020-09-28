@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message"><![CDATA[ERROR: Pixel buffer expression evaluation failed:   File "<string>", line 1
+    x + / 2
+        ^
+SyntaxError: invalid syntax
+]]></message>
+    <message type="whole_message">ERROR: Pixel buffer object does not support the Python buffer interface</message>
+    <message type="starts_with">ERROR: Cannot access pixel buffer data: </message>
+    <message type="whole_message">ERROR: Pixel buffer object contains no data</message>
+    <message type="whole_message">ERROR: Pixel buffer data contains wrong number of bytes (expected 1048576, got 1048577)</message>
+  </expected_messages>
+</marionette_info>

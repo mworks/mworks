@@ -1,0 +1,66 @@
+resource ('background.gz')
+python_file ('image_gen.py')
+
+
+var pixel_buffer_format = 'sRGBA8'
+var pixel_buffer_width = 768
+var pixel_buffer_height = 512
+var elapsed_time = 0
+var period = 8s
+
+var x_size = 15
+var y_size = 15
+var x_pos = -5
+var y_pos = -5
+var rotation = 0
+var alpha = 1
+
+python_image image (
+    pixel_buffer_format = pixel_buffer_format
+    pixel_buffer_width = pixel_buffer_width
+    pixel_buffer_height = pixel_buffer_height
+    pixel_buffer_expr = 'render()'
+    elapsed_time = elapsed_time
+    x_size = x_size
+    y_size = y_size
+    x_position = x_pos
+    y_position = y_pos
+    rotation = rotation
+    alpha_multiplier = alpha
+    )
+
+
+%define pause ()
+    wait (0.25 * period)
+%end
+
+protocol {
+    run_python_string ('reset()')
+    live_queue_stimulus (image)
+    update_display ()
+    pause ()
+
+    // Change x size
+    x_size = 0.5 * x_size
+    pause ()
+
+    // Change y size
+    y_size = 1.5 * y_size
+    pause ()
+
+    // Change x position
+    x_pos = 7
+    pause ()
+
+    // Change y position
+    y_pos = 3
+    pause ()
+
+    // Change rotation
+    rotation = 45
+    pause ()
+
+    // Change alpha
+    alpha = 0.2
+    pause ()
+}
