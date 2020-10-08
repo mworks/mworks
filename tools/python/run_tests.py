@@ -18,4 +18,8 @@ def main():
 
 
 if __name__ == '__main__':
+    if not sys.warnoptions:
+        import os, warnings
+        warnings.simplefilter('error')
+        os.environ['PYTHONWARNINGS'] = 'error'
     main()

@@ -146,7 +146,7 @@ class TypeConversionTestMixin(object):
         self.assertReceivedEqualsSent({'a': {'b': {'c': {'d': 'e'}}}})
 
     def test_custom_mapping(self):
-        class MyMapping(collections.Mapping):
+        class MyMapping(collections.abc.Mapping):
             def __init__(self, d):
                 self._d = d
             def __getitem__(self, key):

@@ -324,9 +324,10 @@ class RealFileTestMixin(object):
         cls.event_counts = defaultdict(lambda: 0)
         cls.event_times = []
 
-        for evt in cls.file_reader(cls.filename):
-            cls.event_counts[evt[0]] += 1
-            cls.event_times.append(evt[1])
+        with cls.file_reader(cls.filename) as reader:
+            for evt in reader:
+                cls.event_counts[evt[0]] += 1
+                cls.event_times.append(evt[1])
 
         cls.event_counts = dict(cls.event_counts)
         cls.event_times = numpy.array(cls.event_times)

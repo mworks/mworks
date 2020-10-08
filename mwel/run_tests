@@ -5,5 +5,9 @@ import sys
 
 
 if __name__ == '__main__':
+    if not sys.warnoptions:
+        import os, warnings
+        warnings.simplefilter('error')
+        os.environ['PYTHONWARNINGS'] = 'error'
     print('Python %d.%d.%d' % sys.version_info[:3], file=sys.stderr)
     runpy.run_module('unittest')
