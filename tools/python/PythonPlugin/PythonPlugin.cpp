@@ -24,7 +24,7 @@ Datum py_eval(const stx::SymbolTable::paramlist_type &paramlist)
         throw stx::BadFunctionCallException("Function PY_EVAL() requires a string parameter");
     }
     
-    PythonEvaluator evaluator(paramlist[0].getString(), true);
+    PythonStringEvaluator evaluator(paramlist[0].getString(), true);
     Datum result;
     if (evaluator.eval(result)) {
         return result;
@@ -44,7 +44,7 @@ Datum py_call(const stx::SymbolTable::paramlist_type &paramlist)
         throw stx::BadFunctionCallException("First parameter to function PY_CALL() must be a string");
     }
     
-    PythonEvaluator evaluator(paramlist[0].getString(), true);
+    PythonStringEvaluator evaluator(paramlist[0].getString(), true);
     Datum result;
     if (evaluator.call(result, paramlist.begin() + 1, paramlist.end())) {
         return result;

@@ -22,13 +22,12 @@ public:
     
     static void describeComponent(ComponentInfo &info);
     
-    RunPythonAction(const ParameterValueMap &parameters, const boost::filesystem::path &filePath);
-    RunPythonAction(const ParameterValueMap &parameters, const std::string &code);
+    RunPythonAction(const ParameterValueMap &parameters, std::unique_ptr<PythonEvaluator> &&evaluator);
     
     bool execute() override;
     
 private:
-    PythonEvaluator evaluator;
+    const std::unique_ptr<PythonEvaluator> evaluator;
     const bool stopOnFailure;
     
 };
@@ -38,22 +37,3 @@ END_NAMESPACE_MW_PYTHON
 
 
 #endif /* !defined(__PythonTools__RunPythonAction__) */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

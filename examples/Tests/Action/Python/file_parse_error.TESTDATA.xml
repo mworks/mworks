@@ -4,10 +4,7 @@
     <message type="contains"><![CDATA[line 1
     y = 1 - * 2
             ^
-SyntaxError: invalid syntax]]></message>
-    <message type="starts_with">ERROR: Failed to parse experiment </message>
+SyntaxError: invalid syntax
+ [at line 14]]]></message>
   </expected_messages>
-  <expected_events>
-    <!-- The experiment shouldn't load, so we don't expect the normal state-system events -->
-  </expected_events>
 </marionette_info>

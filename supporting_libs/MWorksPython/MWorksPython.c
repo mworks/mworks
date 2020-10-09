@@ -136,7 +136,7 @@ bool MWorksPythonInit(bool initSignals) {
     
     config.site_import = 0;  // Don't import the "site" module
     config.install_signal_handlers = initSignals;
-    status = Py_InitializeFromConfig(&config);  // Calls PyEval_InitThreads and thereby acquires the GIL
+    status = Py_InitializeFromConfig(&config);  // Creates and acquires the GIL
     if (PyStatus_Exception(status)) {
         goto error;
     }

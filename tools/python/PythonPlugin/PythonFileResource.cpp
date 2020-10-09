@@ -28,7 +28,7 @@ PythonFileResource::PythonFileResource(const ParameterValueMap &parameters) :
     Component(parameters),
     path(parameters[PATH])
 {
-    PythonEvaluator evaluator(path);
+    PythonFileEvaluator evaluator(path);
     if (!(evaluator.exec())) {
         throw SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "Python file execution failed");
     }
@@ -36,22 +36,3 @@ PythonFileResource::PythonFileResource(const ParameterValueMap &parameters) :
 
 
 END_NAMESPACE_MW_PYTHON
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

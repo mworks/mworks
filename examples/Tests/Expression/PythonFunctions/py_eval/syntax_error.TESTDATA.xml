@@ -5,9 +5,10 @@
     a = 3
       ^
 SyntaxError: invalid syntax]]></message>
-    <message type="starts_with">ERROR: Failed to parse experiment </message>
+    <message type="contains"><![CDATA[File "<string>", line 1
+    a = 3
+      ^
+SyntaxError: invalid syntax
+ [line 4, column 12]]]></message>
   </expected_messages>
-  <expected_events>
-    <!-- The experiment shouldn't load, so we don't expect the normal state-system events -->
-  </expected_events>
 </marionette_info>

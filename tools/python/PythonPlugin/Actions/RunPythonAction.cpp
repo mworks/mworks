@@ -21,22 +21,15 @@ void RunPythonAction::describeComponent(ComponentInfo &info) {
 }
 
 
-RunPythonAction::RunPythonAction(const ParameterValueMap &parameters, const boost::filesystem::path &filePath) :
+RunPythonAction::RunPythonAction(const ParameterValueMap &parameters, std::unique_ptr<PythonEvaluator> &&evaluator) :
     Action(parameters),
-    evaluator(filePath),
-    stopOnFailure(parameters[STOP_ON_FAILURE])
-{ }
-
-
-RunPythonAction::RunPythonAction(const ParameterValueMap &parameters, const std::string &code) :
-    Action(parameters),
-    evaluator(code),
+    evaluator(std::move(evaluator)),
     stopOnFailure(parameters[STOP_ON_FAILURE])
 { }
 
 
 bool RunPythonAction::execute() {
-    if (!(evaluator.exec())) {
+    if (!(evaluator->exec())) {
         if (stopOnFailure) {
             merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to failed Python execution");
             StateSystem::instance()->stop();
@@ -48,30 +41,3 @@ bool RunPythonAction::execute() {
 
 
 END_NAMESPACE_MW_PYTHON
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

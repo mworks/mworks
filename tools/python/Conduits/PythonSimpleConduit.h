@@ -36,9 +36,12 @@ public:
     }
     
     void init(const std::string &resource_name, bool correct_incoming_timestamps, int event_transport_type) {
+#if defined(Py_LIMITED_API) && Py_LIMITED_API+0 <= 0x03060000
         // We'll be calling Python code in non-Python background threads, so ensure that the
-        // GIL is initialized
+        // GIL is initialized.  (This is necessary only in Python 3.6 and earlier.  PyEval_InitThreads
+        // is deprecated as of Python 3.9 and will be removed in 3.11.)
         PyEval_InitThreads();
+#endif
         
         // Need to hold the GIL until *after* we call PyEval_InitThreads
         ScopedGILRelease sgr;

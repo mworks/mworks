@@ -24,35 +24,8 @@ void RunPythonFileAction::describeComponent(ComponentInfo &info) {
 
 RunPythonFileAction::RunPythonFileAction(const ParameterValueMap &parameters) :
     // Converting to boost::filesystem::path buys us some useful path expansion and validation
-    RunPythonAction(parameters, pathFromParameterValue(variableOrText(parameters[PATH])))
+    RunPythonAction(parameters, std::make_unique<PythonFileEvaluator>(pathFromParameterValue(variableOrText(parameters[PATH]))))
 { }
 
 
 END_NAMESPACE_MW_PYTHON
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

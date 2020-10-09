@@ -1,13 +1,10 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="contains"><![CDATA[Python compilation failed:   File "<string>", line 1
+    <message type="contains"><![CDATA[Python execution failed:   File "<string>", line 1
     x = 1 + / 2
             ^
-SyntaxError: invalid syntax]]></message>
-    <message type="starts_with">ERROR: Failed to parse experiment </message>
+SyntaxError: invalid syntax
+ [at line 11]]]></message>
   </expected_messages>
-  <expected_events>
-    <!-- The experiment shouldn't load, so we don't expect the normal state-system events -->
-  </expected_events>
 </marionette_info>

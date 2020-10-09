@@ -23,35 +23,8 @@ void RunPythonStringAction::describeComponent(ComponentInfo &info) {
 
 
 RunPythonStringAction::RunPythonStringAction(const ParameterValueMap &parameters) :
-    RunPythonAction(parameters, parameters[CODE].str())
+    RunPythonAction(parameters, std::make_unique<PythonStringEvaluator>(parameters[CODE].str()))
 { }
 
 
 END_NAMESPACE_MW_PYTHON
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

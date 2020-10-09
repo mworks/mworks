@@ -54,7 +54,7 @@ class ScopedRecursionGuard : boost::noncopyable {
     
 public:
     explicit ScopedRecursionGuard(const char *where) {
-#ifndef Py_LIMITED_API
+#if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x03090000
         if (Py_EnterRecursiveCall(where)) {
             throw ErrorAlreadySet();
         }
@@ -62,7 +62,7 @@ public:
     }
     
     ~ScopedRecursionGuard() {
-#ifndef Py_LIMITED_API
+#if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x03090000
         Py_LeaveRecursiveCall();
 #endif
     }

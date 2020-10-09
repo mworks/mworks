@@ -14,6 +14,7 @@ mw_python_dir = os.environ.get(
 sys.path.insert(0, mw_python_dir)
 
 import mworks
+import mworks._mworks
 
 assert (os.path.dirname(mworks.__file__) ==
         os.path.join(mw_python_dir, 'mworks')), 'Wrong mworks package!'
@@ -168,7 +169,8 @@ class TypeConversionTestMixin(object):
         self.send({(1, 2): 3})
         self.assertIsInstance(self.receive(), TypeError)
 
-    @unittest.skip('stable ABI does not include Py_EnterRecursiveCall')
+    @unittest.skipIf(mworks._mworks._Py_LIMITED_API < 0x03090000,
+                     'stable ABI does not include Py_EnterRecursiveCall')
     def test_infinite_recursion(self):
         l = []
         l.append(l)

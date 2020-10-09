@@ -46,7 +46,8 @@ PyInit__mworks() {
         PyModule_AddIntMacro(module.get(), RESERVED_COMPONENT_CODEC_CODE) ||
         PyModule_AddIntMacro(module.get(), RESERVED_TERMINATION_CODE) ||
         PyModule_AddIntConstant(module.get(), "server_event_transport", EventTransport::server_event_transport) ||
-        PyModule_AddIntConstant(module.get(), "client_event_transport", EventTransport::client_event_transport))
+        PyModule_AddIntConstant(module.get(), "client_event_transport", EventTransport::client_event_transport) ||
+        PyModule_AddIntConstant(module.get(), "_Py_LIMITED_API", Py_LIMITED_API))
     {
         return nullptr;
     }
