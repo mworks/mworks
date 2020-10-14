@@ -345,7 +345,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '1.1.1g'
+    version = '1.1.1h'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -381,7 +381,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.8.5'
+    version = '3.8.6'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -442,7 +442,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.19.1'
+    version = '1.19.2'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
