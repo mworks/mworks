@@ -47,7 +47,7 @@ private:
     const bool useMirrorWindow;
     
     GLKMatrix4 projectionMatrix;
-    std::array<GLint, 4> viewport;
+    std::array<int, 4> viewport;
     
     NSView *targetView;
     MWKMouseTracker *tracker;
@@ -62,29 +62,3 @@ END_NAMESPACE_MW
 
 
 #endif /* !defined(__MouseInput__MouseInputDevice__) */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

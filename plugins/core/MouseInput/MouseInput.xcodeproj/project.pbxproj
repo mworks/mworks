@@ -41,7 +41,6 @@
 		E1620CBB175644330068BCF6 /* MouseInputDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1620CB9175644330068BCF6 /* MouseInputDevice.cpp */; };
 		E1620CBE17564B4A0068BCF6 /* MouseTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E1620CBD17564B4A0068BCF6 /* MouseTracker.m */; };
 		E1620CBF175653CF0068BCF6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1620C9417563F350068BCF6 /* AppKit.framework */; };
-		E171A17F1757967900B91405 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E171A17E1757967900B91405 /* OpenGL.framework */; };
 		E1E07E991C04F254008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E981C04F254008DD97E /* MWComponents.yaml */; };
 		E1E74BBC1E2FBFD600F84168 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E74BBB1E2FBFD600F84168 /* GLKit.framework */; };
 /* End PBXBuildFile section */
@@ -90,7 +89,6 @@
 		E1620CBA175644330068BCF6 /* MouseInputDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseInputDevice.h; sourceTree = "<group>"; };
 		E1620CBC17564B4A0068BCF6 /* MouseTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseTracker.h; sourceTree = "<group>"; };
 		E1620CBD17564B4A0068BCF6 /* MouseTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MouseTracker.m; sourceTree = "<group>"; };
-		E171A17E1757967900B91405 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E1E07E981C04F254008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1E74BBB1E2FBFD600F84168 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E1F7695622BD338E00024441 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 				E1620CB6175642760068BCF6 /* MWorksCore.framework in Frameworks */,
 				E1620CBF175653CF0068BCF6 /* AppKit.framework in Frameworks */,
 				E1E74BBC1E2FBFD600F84168 /* GLKit.framework in Frameworks */,
-				E171A17F1757967900B91405 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +133,6 @@
 				E1620CB5175642760068BCF6 /* MWorksCore.framework */,
 				E1620C9417563F350068BCF6 /* AppKit.framework */,
 				E1E74BBB1E2FBFD600F84168 /* GLKit.framework */,
-				E171A17E1757967900B91405 /* OpenGL.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

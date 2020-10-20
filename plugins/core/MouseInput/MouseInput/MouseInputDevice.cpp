@@ -79,29 +79,23 @@ bool MouseInputDevice::initialize() {
             auto stimulusDisplay = StimulusDisplay::getCurrentStimulusDisplay();
             auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
             
-            // Get the target view and context
-            MWKOpenGLContext *targetContext = nil;
             if (useMirrorWindow) {
-                // If there's no mirror window, getMirrorView and getMirrorContext will return the fullscreen
-                // window's view and context, respectively
+                // If there's no mirror window, getMirrorView will return the fullscreen window's view
                 targetView = glcm->getMirrorView();
-                targetContext = glcm->getMirrorContext();
             } else {
                 targetView = glcm->getFullscreenView();
-                targetContext = glcm->getFullscreenContext();
             }
             
-            // Get the parameters needed by GLKMathUnproject
             projectionMatrix = stimulusDisplay->getProjectionMatrix();
-            [targetContext makeCurrentContext];
-            auto ctxLock = [targetContext lockContext];
-            glGetIntegerv(GL_VIEWPORT, viewport.data());
         }
         
         tracker = [[MWKMouseTracker alloc] initWithMouseInputDevice:component_shared_from_this<MouseInputDevice>()];
         tracker.shouldHideCursor = hideCursor;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
+            NSRect backingBounds = [targetView convertRectToBacking:targetView.bounds];
+            viewport = { 0, 0, int(NSWidth(backingBounds)), int(NSHeight(backingBounds)) };
+            
             trackingArea = [[NSTrackingArea alloc] initWithRect:[targetView bounds]
                                                         options:(NSTrackingMouseEnteredAndExited |
                                                                  NSTrackingMouseMoved |
@@ -153,7 +147,7 @@ void MouseInputDevice::postMouseLocation(NSPoint location) const {
     GLKVector3 locationInDegrees = GLKMathUnproject(GLKVector3Make(locationInPixels.x, locationInPixels.y, 0.0),
                                                     GLKMatrix4Identity,
                                                     projectionMatrix,
-                                                    const_cast<GLint *>(viewport.data()),
+                                                    const_cast<int *>(viewport.data()),
                                                     &success);
     
     if (!success) {
@@ -176,7 +170,7 @@ void MouseInputDevice::moveMouseCursor(double xPos, double yPos) const {
         GLKVector3 locationInPixels = GLKMathProject(GLKVector3Make(xPos, yPos, 0.0),
                                                      GLKMatrix4Identity,
                                                      projectionMatrix,
-                                                     const_cast<GLint *>(viewport.data()));
+                                                     const_cast<int *>(viewport.data()));
         __block CGError error = kCGErrorSuccess;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -214,29 +208,3 @@ void MouseInputDevice::updateMousePosition(double x, double y) const {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
