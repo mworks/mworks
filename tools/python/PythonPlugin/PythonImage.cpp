@@ -41,8 +41,9 @@ PythonImage::PythonImage(const ParameterValueMap &parameters) :
     pixelBufferFormat(variableOrText(parameters[PIXEL_BUFFER_FORMAT])),
     pixelBufferWidth(parameters[PIXEL_BUFFER_WIDTH]),
     pixelBufferHeight(parameters[PIXEL_BUFFER_HEIGHT]),
-    pixelBufferExprEvaluator(parameters[PIXEL_BUFFER_EXPR].str(), true),
+    pixelBufferExpr(parameters[PIXEL_BUFFER_EXPR].str()),
     elapsedTime(optionalVariable(parameters[ELAPSED_TIME])),
+    pixelBufferExprEvaluator(pixelBufferExpr, true),
     width(0),
     height(0),
     expectedBytes(0)
@@ -58,6 +59,7 @@ Datum PythonImage::getCurrentAnnounceDrawData() {
     announceData.addElement(PIXEL_BUFFER_FORMAT, format);
     announceData.addElement(PIXEL_BUFFER_WIDTH, width);
     announceData.addElement(PIXEL_BUFFER_HEIGHT, height);
+    announceData.addElement(PIXEL_BUFFER_EXPR, pixelBufferExpr);
     
     return announceData;
 }

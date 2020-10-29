@@ -44,8 +44,10 @@ private:
     const VariablePtr pixelBufferFormat;
     const VariablePtr pixelBufferWidth;
     const VariablePtr pixelBufferHeight;
-    PythonStringEvaluator pixelBufferExprEvaluator;
+    const std::string pixelBufferExpr;
     const VariablePtr elapsedTime;
+    
+    PythonStringEvaluator pixelBufferExprEvaluator;
     
     std::string format;
     int width;
