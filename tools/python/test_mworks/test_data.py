@@ -401,7 +401,7 @@ class RealFileTestMixin(object):
                          total_count)
 
     def test_select_multiple_codes(self):
-        codes = random.sample(self.event_counts.keys(), 5)
+        codes = random.sample(list(self.event_counts.keys()), 5)
         expected_count = sum(self.event_counts[c] for c in codes)
         self.assertEqual(expected_count, self.count(codes=codes))
 
