@@ -21,6 +21,7 @@ class DriftingGratingStimulus : public DriftingGratingStimulusBase {
     
 public:
     static const std::string DIRECTION;
+    static const std::string CENTRAL_STARTING_PHASE;
     static const std::string STARTING_PHASE;
     static const std::string FREQUENCY;
     static const std::string SPEED;
@@ -73,6 +74,7 @@ private:
     void stopPlaying() override;
     
     const boost::shared_ptr<Variable> direction_in_degrees;
+    const boost::shared_ptr<Variable> central_starting_phase;
     const boost::shared_ptr<Variable> starting_phase;
     const boost::shared_ptr<Variable> spatial_frequency;
     const boost::shared_ptr<Variable> speed;

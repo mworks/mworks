@@ -1,0 +1,147 @@
+python_file ('get_current_phase.py')
+
+
+var base_size = 15
+var direction = 0
+var x_position_1 = -11
+var x_position_2 = 11
+
+%define backing_square (color, x_position)
+    rectangle (
+        color = color
+        x_size = base_size
+        x_position = x_position
+        rotation = direction
+        )
+%end
+
+backing_square sq1 (
+    color = 1,0,0
+    x_position = x_position_1
+    )
+
+backing_square sq2 (
+    color = 0,1,0
+    x_position = x_position_2
+    )
+
+
+var speed = 0
+var starting_phase = 0
+var x_size = base_size
+var y_size = base_size
+
+%define grating (central_starting_phase, starting_phase, x_position)
+    drifting_grating (
+        grating_type = 'triangle'
+        spatial_frequency = 3 / base_size
+        speed = speed
+        direction = direction
+        central_starting_phase = central_starting_phase
+        starting_phase = starting_phase
+        x_size = x_size
+        y_size = y_size
+        x_position = x_position
+        alpha_multiplier = 0.8
+        autoplay = true
+        )
+%end
+
+grating dg1 (
+    central_starting_phase = ''
+    starting_phase = starting_phase
+    x_position = x_position_1
+    )
+
+grating dg2 (
+    central_starting_phase = starting_phase
+    starting_phase = ''
+    x_position = x_position_2
+    )
+
+
+%define current_phase_label (tag, x_position)
+    text (
+        text = py_eval('get_current_phase("' + tag + '")')
+        font_name = 'Helvetica'
+        font_size = 32
+        text_alignment = center
+        color = 0,0,0
+        x_size = base_size
+        y_size = 5
+        x_position = x_position
+        y_position = -14
+        )
+%end
+
+current_phase_label dg1_current_phase (
+    tag = 'dg1'
+    x_position = x_position_1
+    )
+
+current_phase_label dg2_current_phase (
+    tag = 'dg2'
+    x_position = x_position_2
+    )
+
+
+var elapsed_time = 0
+var rotation_period = 10s
+
+render_actions update_params (
+    elapsed_time = elapsed_time
+    autoplay = false
+    ) {
+    direction = 360 * (elapsed_time / rotation_period)
+    x_size = base_size + 2 * sin(2 * pi() * elapsed_time / rotation_period)
+    y_size = base_size - 2 * sin(2 * pi() * elapsed_time / rotation_period)
+}
+
+
+var interactive = false
+
+%define test_starting_phase (starting_phase)
+    direction = 0
+    starting_phase = starting_phase
+    x_size = base_size
+    y_size = base_size
+    if (interactive) {
+        wait (100ms)  // Give phase labels a chance to update
+        pause_experiment ()
+    }
+    play_dynamic_stimulus (update_params)
+    wait_for_condition (
+        condition = direction >= 360
+        timeout = 1.5 * rotation_period
+        )
+    stop_dynamic_stimulus (update_params)
+%end
+
+
+protocol {
+    queue_stimulus (update_params)
+    live_queue_stimulus (sq1)
+    live_queue_stimulus (sq2)
+    live_queue_stimulus (dg1)
+    live_queue_stimulus (dg2)
+    live_queue_stimulus (dg1_current_phase)
+    live_queue_stimulus (dg2_current_phase)
+    update_display ()
+
+    test_starting_phase (0)
+    test_starting_phase (90)
+    test_starting_phase (180)
+    test_starting_phase (270)
+
+    stop_dynamic_stimulus (dg1)
+    stop_dynamic_stimulus (dg2)
+    direction = 0
+    speed = 1
+    starting_phase = 0
+    x_size = base_size
+    y_size = base_size
+    play_dynamic_stimulus (dg1)
+    play_dynamic_stimulus (dg2)
+    wait (rotation_period)
+    speed = 0
+}

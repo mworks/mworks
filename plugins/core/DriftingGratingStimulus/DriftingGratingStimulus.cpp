@@ -14,6 +14,7 @@ BEGIN_NAMESPACE_MW
 
 
 const std::string DriftingGratingStimulus::DIRECTION("direction");
+const std::string DriftingGratingStimulus::CENTRAL_STARTING_PHASE("central_starting_phase");
 const std::string DriftingGratingStimulus::STARTING_PHASE("starting_phase");
 const std::string DriftingGratingStimulus::FREQUENCY("spatial_frequency");
 const std::string DriftingGratingStimulus::SPEED("speed");
@@ -32,7 +33,8 @@ void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
     info.setSignature("stimulus/drifting_grating");
     
     info.addParameter(DIRECTION, "0.0");
-    info.addParameter(STARTING_PHASE, "0.0");
+    info.addParameter(CENTRAL_STARTING_PHASE, false);
+    info.addParameter(STARTING_PHASE, false);
     info.addParameter(FREQUENCY);
     info.addParameter(SPEED);
     info.addParameter(COMPUTE_PHASE_INCREMENTALLY, "NO");
@@ -79,7 +81,8 @@ auto DriftingGratingStimulus::maskTypeFromName(const std::string &name) -> MaskT
 DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parameters) :
     DriftingGratingStimulusBase(parameters),
     direction_in_degrees(registerVariable(parameters[DIRECTION])),
-    starting_phase(registerVariable(parameters[STARTING_PHASE])),
+    central_starting_phase(registerOptionalVariable(optionalVariable(parameters[CENTRAL_STARTING_PHASE]))),
+    starting_phase(registerOptionalVariable(optionalVariable(parameters[STARTING_PHASE]))),
     spatial_frequency(registerVariable(parameters[FREQUENCY])),
     speed(registerVariable(parameters[SPEED])),
     computePhaseIncrementally(parameters[COMPUTE_PHASE_INCREMENTALLY]),
@@ -92,7 +95,13 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
     lastElapsedSeconds(-1.0),
     displayWidth(0.0),
     displayHeight(0.0)
-{ }
+{
+    if (central_starting_phase && starting_phase) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, (boost::format("Only one of %1% and %2% may be specified")
+                                                         % CENTRAL_STARTING_PHASE
+                                                         % STARTING_PHASE));
+    }
+}
 
 
 Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
@@ -102,7 +111,7 @@ Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
     
     announceData.addElement(STIM_TYPE, "drifting_grating");
     announceData.addElement(DIRECTION, last_direction_in_degrees);
-    announceData.addElement(STARTING_PHASE, last_starting_phase);
+    announceData.addElement((central_starting_phase ? CENTRAL_STARTING_PHASE : STARTING_PHASE), last_starting_phase);
     announceData.addElement("current_phase", last_phase*(180/M_PI));
     announceData.addElement(FREQUENCY, last_spatial_frequency);
     announceData.addElement(SPEED, last_speed);
@@ -394,8 +403,9 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     const float grating_tr = 1+d;
     const float grating_tl = grating_bl+g;
     
-    const float phase_proportion = phase/(2*M_PI);
     const float cycle_proportion = current_spatial_frequency * std::max(current_sizex, current_sizey);
+    const float phase_offset = (central_starting_phase ? M_PI * cycle_proportion : 0.0);
+    const float phase_proportion = (phase - phase_offset) / (2.0 * M_PI);
     
     GratingCoordArray gratingCoord = {
         (cycle_proportion * grating_bl) + phase_proportion,
@@ -431,7 +441,13 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
 
 void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
     current_direction_in_degrees = direction_in_degrees->getValue().getFloat();
-    current_starting_phase = starting_phase->getValue().getFloat();
+    if (central_starting_phase) {
+        current_starting_phase = central_starting_phase->getValue().getFloat();
+    } else if (starting_phase) {
+        current_starting_phase = starting_phase->getValue().getFloat();
+    } else {
+        current_starting_phase = 0.0;
+    }
     current_spatial_frequency = spatial_frequency->getValue().getFloat();
     current_speed = speed->getValue().getFloat();
     current_grating_type_name = gratingTypeName->getValue().getString();
