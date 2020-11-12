@@ -401,6 +401,7 @@ def python():
                     apply_patch('python_ios_private_api.patch')
                     apply_patch('python_ios_test_fixes.patch')
                 else:
+                    apply_patch('python_macos_11_0_required.patch')
                     apply_patch('python_macos_disabled_modules.patch')
                     apply_patch('python_macos_test_fixes.patch')
 

@@ -1,5 +1,6 @@
 #include "Base.xcconfig"
 
+ARCHS = arm64
 DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
 ENABLE_BITCODE = NO
 IPHONEOS_DEPLOYMENT_TARGET = 14.2

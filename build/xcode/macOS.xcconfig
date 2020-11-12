@@ -1,5 +1,6 @@
 #include "Base.xcconfig"
 
+ARCHS = x86_64
 COMBINE_HIDPI_IMAGES = YES
 DEBUG_INFORMATION_FORMAT = dwarf
 FRAMEWORK_SEARCH_PATHS = $(inherited) "$(MW_FRAMEWORKS_DIR)" $(LOCAL_LIBRARY_DIR)/Frameworks
