@@ -11,6 +11,7 @@
 
 #include <TargetConditionals.h>
 #if TARGET_OS_OSX
+#  define GL_SILENCE_DEPRECATION
 #  include <Cocoa/Cocoa.h>
 #elif TARGET_OS_IPHONE
 #  define GLES_SILENCE_DEPRECATION

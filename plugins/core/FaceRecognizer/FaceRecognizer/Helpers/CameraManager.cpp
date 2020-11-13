@@ -144,43 +144,38 @@ cf::DataPtr CameraManager::captureImage() {
 bool CameraManager::acquireCameraAccess() {
     bool accessGranted = false;
     
-    if (@available(macOS 10.14, *)) {
-        switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]) {
-            case AVAuthorizationStatusNotDetermined: {
-                // Use a shared promise, because the user can still grant or deny access (and thereby invoke the
-                // completion handler) after this method times out and exits
-                auto p = std::make_shared<std::promise<bool>>();
-                auto f = p->get_future();
-                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo
-                                         completionHandler:[p](BOOL granted) { p->set_value(granted); }];
-                mprintf(M_IODEVICE_MESSAGE_DOMAIN, "Waiting for user authorization to access the camera...");
-                if (std::future_status::ready != f.wait_for(std::chrono::seconds(60))) {
-                    merror(M_IODEVICE_MESSAGE_DOMAIN, "Timed out waiting for user authorization to access the camera");
-                } else if (!f.get()) {
-                    merror(M_IODEVICE_MESSAGE_DOMAIN, "User denied access to the camera");
-                } else {
-                    mprintf(M_IODEVICE_MESSAGE_DOMAIN, "User granted access to the camera");
-                    accessGranted = true;
-                }
-                break;
-            }
-                
-            case AVAuthorizationStatusRestricted:
-                merror(M_IODEVICE_MESSAGE_DOMAIN, "User is not allowed to access the camera");
-                break;
-                
-            case AVAuthorizationStatusDenied:
-                merror(M_IODEVICE_MESSAGE_DOMAIN, "User previously denied access to the camera");
-                break;
-                
-            case AVAuthorizationStatusAuthorized:
-                // User previously granted access to the camera
+    switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]) {
+        case AVAuthorizationStatusNotDetermined: {
+            // Use a shared promise, because the user can still grant or deny access (and thereby invoke the
+            // completion handler) after this method times out and exits
+            auto p = std::make_shared<std::promise<bool>>();
+            auto f = p->get_future();
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo
+                                     completionHandler:[p](BOOL granted) { p->set_value(granted); }];
+            mprintf(M_IODEVICE_MESSAGE_DOMAIN, "Waiting for user authorization to access the camera...");
+            if (std::future_status::ready != f.wait_for(std::chrono::seconds(60))) {
+                merror(M_IODEVICE_MESSAGE_DOMAIN, "Timed out waiting for user authorization to access the camera");
+            } else if (!f.get()) {
+                merror(M_IODEVICE_MESSAGE_DOMAIN, "User denied access to the camera");
+            } else {
+                mprintf(M_IODEVICE_MESSAGE_DOMAIN, "User granted access to the camera");
                 accessGranted = true;
-                break;
+            }
+            break;
         }
-    } else {
-        // Authorization isn't required on macOS 10.13 and earlier
-        accessGranted = true;
+            
+        case AVAuthorizationStatusRestricted:
+            merror(M_IODEVICE_MESSAGE_DOMAIN, "User is not allowed to access the camera");
+            break;
+            
+        case AVAuthorizationStatusDenied:
+            merror(M_IODEVICE_MESSAGE_DOMAIN, "User previously denied access to the camera");
+            break;
+            
+        case AVAuthorizationStatusAuthorized:
+            // User previously granted access to the camera
+            accessGranted = true;
+            break;
     }
     
     return accessGranted;

@@ -356,7 +356,7 @@
 	[client_instance setDataFileName:[modalDataFileField stringValue]];
 	
 	BOOL overwrite = NO;
-	if([modalDataFileOverwriteCheckBox state] == NSOnState){
+	if([modalDataFileOverwriteCheckBox state] == NSControlStateValueOn){
 		overwrite = YES;
 	}
 	

@@ -12,6 +12,8 @@
 #include <TargetConditionals.h>
 #if TARGET_OS_IPHONE
 #  define GLES_SILENCE_DEPRECATION
+#elif TARGET_OS_OSX
+#  define GL_SILENCE_DEPRECATION
 #endif
 
 #include <unordered_set>

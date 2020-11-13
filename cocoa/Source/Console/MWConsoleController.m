@@ -159,12 +159,12 @@
 
 
 - (IBAction)setScrollToBottomOnMessage:(id)sender {
-    scrollToBottomOnMessage = ([scrollToBottomSwitch state] == NSOnState);
+    scrollToBottomOnMessage = ([scrollToBottomSwitch state] == NSControlStateValueOn);
 }
 
 
 - (IBAction)setAlertFocus:(id)sender {
-    grabFocusOnError = ([alertSwitch state] == NSOnState);
+    grabFocusOnError = ([alertSwitch state] == NSControlStateValueOn);
 }
 
 

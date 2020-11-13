@@ -1,5 +1,1 @@
 #include "macOS_Plugin.xcconfig"
-
-// The following can be removed when MACOSX_DEPLOYMENT_TARGET >= 10.14.4
-ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @loader_path/../Frameworks
