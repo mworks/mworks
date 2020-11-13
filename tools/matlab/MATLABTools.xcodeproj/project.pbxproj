@@ -409,7 +409,7 @@
 				MATLAB_ARCH_x86_64 = maci64;
 				MATLAB_DIR = "/Applications/MATLAB_$(MW_MATLAB_VERSION).app";
 				MW_MATLAB_DIR = "$(MW_SCRIPTING_DIR)/MATLAB";
-				MW_MATLAB_VERSION = R2017b;
+				MW_MATLAB_VERSION = R2018b;
 			};
 			name = Development;
 		};
