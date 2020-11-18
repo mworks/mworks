@@ -31,6 +31,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>MWorks uses Bluetooth to connect to input/output devices.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>MWorks requires camera access to perform face recognition.</string>
 </dict>
