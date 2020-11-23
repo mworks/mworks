@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <permitted_error_messages>
+    <message type="whole_message" max_matches="1">WARNING: Skipped 2 display refresh cycles</message>
+  </permitted_error_messages>
+</marionette_info>
