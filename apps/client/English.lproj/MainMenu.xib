@@ -764,7 +764,7 @@
                             </connections>
                         </textField>
                         <button id="478">
-                            <rect key="frame" x="288" y="14" width="25" height="17"/>
+                            <rect key="frame" x="279" y="11" width="26" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="circular" image="NSRevealFreestandingTemplate" imagePosition="left" alignment="left" controlSize="mini" allowsMixedState="YES" imageScaling="proportionallyUpOrDown" id="479">
                                 <behavior key="behavior" lightByContents="YES"/>
