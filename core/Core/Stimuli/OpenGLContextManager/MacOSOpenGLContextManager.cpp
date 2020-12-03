@@ -266,4 +266,9 @@ void MacOSOpenGLContextManager::prepareContext(int context_id, bool useColorMana
 }
 
 
+boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
+    return boost::make_shared<MacOSOpenGLContextManager>();
+}
+
+
 END_NAMESPACE_MW

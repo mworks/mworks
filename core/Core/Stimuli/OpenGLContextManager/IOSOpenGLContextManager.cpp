@@ -212,4 +212,9 @@ void IOSOpenGLContextManager::prepareContext(int context_id, bool useColorManage
 }
 
 
+boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
+    return boost::make_shared<IOSOpenGLContextManager>();
+}
+
+
 END_NAMESPACE_MW

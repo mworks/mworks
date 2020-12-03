@@ -99,7 +99,6 @@ namespace {
 
 
 @implementation MWKMetalView {
-    id<MTLCommandQueue> _commandQueue;
     id<MTLRenderPipelineState> _pipelineState;
     id<MTLBuffer> _vertexPositionBuffer;
     id<MTLBuffer> _texCoordsBuffer;
@@ -112,14 +111,13 @@ namespace {
     if (self) {
         self.paused = YES;
         self.enableSetNeedsDisplay = NO;
+        _commandQueue = [self.device newCommandQueue];
     }
     return self;
 }
 
 
 - (BOOL)prepareUsingColorManagement:(BOOL)useColorManagement error:(NSError **)error {
-    _commandQueue = [self.device newCommandQueue];
-    
     id<MTLLibrary> library = [self.device newLibraryWithSource:@(librarySource.c_str())
                                                        options:nil
                                                          error:error];
@@ -171,7 +169,7 @@ namespace {
 - (void)drawRect:(CGRect)rect {
     MTLRenderPassDescriptor *renderPassDescriptor = self.currentRenderPassDescriptor;
     if (renderPassDescriptor) {
-        id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
+        id<MTLCommandBuffer> commandBuffer = [self.commandQueue commandBuffer];
         id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
         
         [renderEncoder setRenderPipelineState:_pipelineState];

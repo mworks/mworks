@@ -11,10 +11,8 @@
 #include "AppleOpenGLContextManager.hpp"
 #include "CFObjectPtr.h"
 
-#include <MetalKit/MetalKit.h>
 
-
-@interface MWKMetalView : MTKView
+@interface MWKMetalView ()
 
 - (BOOL)prepareUsingColorManagement:(BOOL)useColorManagement error:(NSError **)error;
 

@@ -8,12 +8,6 @@
 
 #include "AppleOpenGLContextManager.hpp"
 
-#if TARGET_OS_OSX
-#  include "MacOSOpenGLContextManager.hpp"
-#elif TARGET_OS_IPHONE
-#  include "IOSOpenGLContextManager.hpp"
-#endif
-
 
 @implementation MWKOpenGLContext {
     mw::OpenGLContextLock::unique_lock::mutex_type mutex;
@@ -85,7 +79,7 @@ MWKOpenGLContext * AppleOpenGLContextManager::getMirrorContext() const  {
 }
 
 
-auto AppleOpenGLContextManager::getView(int context_id) const -> PlatformViewPtr {
+MWKMetalView * AppleOpenGLContextManager::getView(int context_id) const  {
     @autoreleasepool {
         if (context_id < 0 || context_id >= views.count) {
             merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
@@ -96,7 +90,7 @@ auto AppleOpenGLContextManager::getView(int context_id) const -> PlatformViewPtr
 }
 
 
-auto AppleOpenGLContextManager::getFullscreenView() const -> PlatformViewPtr {
+MWKMetalView * AppleOpenGLContextManager::getFullscreenView() const {
     @autoreleasepool {
         if (views.count > 0) {
             return views[0];
@@ -106,24 +100,13 @@ auto AppleOpenGLContextManager::getFullscreenView() const -> PlatformViewPtr {
 }
 
 
-auto AppleOpenGLContextManager::getMirrorView() const -> PlatformViewPtr {
+MWKMetalView * AppleOpenGLContextManager::getMirrorView() const {
     @autoreleasepool {
         if (views.count > 1) {
             return views[1];
         }
         return getFullscreenView();
     }
-}
-
-
-boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
-#if TARGET_OS_OSX
-    return boost::make_shared<MacOSOpenGLContextManager>();
-#elif TARGET_OS_IPHONE
-    return boost::make_shared<IOSOpenGLContextManager>();
-#else
-#   error Unsupported platform
-#endif
 }
 
 

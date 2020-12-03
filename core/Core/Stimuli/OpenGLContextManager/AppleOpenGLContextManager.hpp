@@ -19,6 +19,8 @@
 #  include <OpenGLES/EAGL.h>
 #endif
 
+#include <MetalKit/MetalKit.h>
+
 #include "OpenGLContextManager.h"
 
 
@@ -35,6 +37,13 @@
 @end
 
 
+@interface MWKMetalView : MTKView
+
+@property(nonatomic, readonly) id<MTLCommandQueue> commandQueue;
+
+@end
+
+
 BEGIN_NAMESPACE_MW
 
 
@@ -42,10 +51,8 @@ class AppleOpenGLContextManager : public OpenGLContextManager {
     
 public:
 #if TARGET_OS_OSX
-    using PlatformViewPtr = NSView *;
     using PlatformWindowPtr = NSWindow *;
 #elif TARGET_OS_IPHONE
-    using PlatformViewPtr = UIView *;
     using PlatformWindowPtr = UIWindow *;
 #else
 #   error Unsupported platform
@@ -58,13 +65,13 @@ public:
     MWKOpenGLContext * getFullscreenContext() const;
     MWKOpenGLContext * getMirrorContext() const;
     
-    PlatformViewPtr getView(int context_id) const;
-    PlatformViewPtr getFullscreenView() const;
-    PlatformViewPtr getMirrorView() const;
+    MWKMetalView * getView(int context_id) const;
+    MWKMetalView * getFullscreenView() const;
+    MWKMetalView * getMirrorView() const;
     
 protected:
     NSMutableArray<MWKOpenGLContext *> *contexts;
-    NSMutableArray<PlatformViewPtr> *views;
+    NSMutableArray<MWKMetalView *> *views;
     NSMutableArray<PlatformWindowPtr> *windows;
     
 };
