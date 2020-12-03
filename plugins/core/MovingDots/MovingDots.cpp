@@ -101,7 +101,7 @@ void MovingDots::load(shared_ptr<StimulusDisplay> display) {
     double xMin, xMax, yMin, yMax;
     display->getDisplayBounds(xMin, xMax, yMin, yMax);
     GLint width, height;
-    display->getCurrentViewportSize(width, height);
+    gl::getCurrentViewportSize(width, height);
     dotSizeToPixels = double(width) / (xMax - xMin);
     
     auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);

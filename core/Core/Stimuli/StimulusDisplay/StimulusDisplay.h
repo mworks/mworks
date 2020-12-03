@@ -132,7 +132,6 @@ BEGIN_NAMESPACE_MW
 		OpenGLContextLock setCurrent(int i);	
 		int getCurrentContextIndex() { return current_context_index; }
         
-        void getCurrentViewportSize(GLint &width, GLint &height);
         void pushFramebuffer(GLuint framebuffer, const std::vector<GLenum> &drawBuffers = { GL_COLOR_ATTACHMENT0 });
         void popFramebuffer();
         void bindCurrentFramebuffer();

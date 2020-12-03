@@ -183,6 +183,7 @@ struct VertexArrayBinding : boost::noncopyable {
 };
 
 
+void getCurrentViewportSize(GLint &width, GLint &height);
 std::unordered_set<std::string> getSupportedExtensions();
 void logErrors();
 void resetPixelStorageUnpackParameters(GLint alignment = 4);

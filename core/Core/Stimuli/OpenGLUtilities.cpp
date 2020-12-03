@@ -117,6 +117,14 @@ Program createProgram(const std::vector<GLuint> &shaders) {
 }
 
 
+void getCurrentViewportSize(GLint &width, GLint &height) {
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    width = viewport[2];
+    height = viewport[3];
+}
+
+
 std::unordered_set<std::string> getSupportedExtensions() {
     std::unordered_set<std::string> supportedExtensions;
     

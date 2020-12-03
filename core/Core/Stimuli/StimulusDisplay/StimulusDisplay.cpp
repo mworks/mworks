@@ -198,14 +198,6 @@ void StimulusDisplay::allocateFramebufferStorage(int contextIndex) {
 }
 
 
-void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
-    GLint viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    width = viewport[2];
-    height = viewport[3];
-}
-
-
 void StimulusDisplay::pushFramebuffer(GLuint framebuffer, const std::vector<GLenum> &drawBuffers) {
     framebufferStack.emplace_back(framebuffer, drawBuffers);
     bindCurrentFramebuffer();

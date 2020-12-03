@@ -141,7 +141,7 @@ void LayerStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
         gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
         
         GLint viewportWidth, viewportHeight;
-        display->getCurrentViewportSize(viewportWidth, viewportHeight);
+        gl::getCurrentViewportSize(viewportWidth, viewportHeight);
         
         // Provide initial data for the framebuffer texture, in hopes that this will force the
         // driver and/or GPU to allocate memory for it now, at load time, rather than on first

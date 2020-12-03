@@ -134,7 +134,7 @@ void TextStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
         displaySizeInPoints = displayView.frame.size;
     });
     
-    display->getCurrentViewportSize(viewportWidth, viewportHeight);
+    gl::getCurrentViewportSize(viewportWidth, viewportHeight);
     pixelsPerDegree = double(viewportWidth) / (xMax - xMin);
     pointsPerPixel = displaySizeInPoints.width / double(viewportWidth);
     
