@@ -160,7 +160,7 @@ int MacOSOpenGLContextManager::newMirrorContext() {
             {
                 id<MTLDevice> metalDevice = nil;
                 if (views.count > 0) {
-                    metalDevice = static_cast<MWKMetalView *>(views[0]).device;
+                    metalDevice = views[0].device;
                 } else {
                     metalDevice = getMetalDeviceForScreen(window.screen);
                 }
@@ -239,7 +239,7 @@ void MacOSOpenGLContextManager::clearCurrent() {
 
 void MacOSOpenGLContextManager::prepareContext(int context_id, bool useColorManagement) {
     @autoreleasepool {
-        if (auto view = static_cast<MWKMetalView *>(getView(context_id))) {
+        if (auto view = getView(context_id)) {
             __block bool success = false;
             
             dispatch_sync(dispatch_get_main_queue(), ^{

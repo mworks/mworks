@@ -9,13 +9,13 @@
 #ifndef IOSOpenGLContextManager_hpp
 #define IOSOpenGLContextManager_hpp
 
-#include "MetalOpenGLContextManager.hpp"
+#include "AppleOpenGLContextManager.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class IOSOpenGLContextManager : public MetalOpenGLContextManager {
+class IOSOpenGLContextManager : public AppleOpenGLContextManager {
     
 public:
     IOSOpenGLContextManager();

@@ -158,7 +158,7 @@ void IOSOpenGLContextManager::clearCurrent() {
 
 void IOSOpenGLContextManager::prepareContext(int context_id, bool useColorManagement) {
     @autoreleasepool {
-        if (auto view = static_cast<MWKMetalView *>(getView(context_id))) {
+        if (auto view = getView(context_id)) {
             __block bool success = false;
             
             dispatch_sync(dispatch_get_main_queue(), ^{

@@ -10,13 +10,13 @@
 
 #include <IOKit/pwr_mgt/IOPMLib.h>
 
-#include "MetalOpenGLContextManager.hpp"
+#include "AppleOpenGLContextManager.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class MacOSOpenGLContextManager : public MetalOpenGLContextManager {
+class MacOSOpenGLContextManager : public AppleOpenGLContextManager {
     
 public:
     MacOSOpenGLContextManager();
