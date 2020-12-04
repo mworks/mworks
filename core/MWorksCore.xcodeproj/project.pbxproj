@@ -2164,8 +2164,8 @@
 				5C4D254E09DCBB9A0082BF9F /* tests */,
 				E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */,
 				E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */,
-				DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */,
 				DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */,
+				DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */,
 				DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */,
 				DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */,
 				E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */,
@@ -2366,10 +2366,10 @@
 				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
 				E19CE0D41E897068005586E5 /* AppleOpenGLContextManager.hpp */,
 				E19CE0D31E897068005586E5 /* AppleOpenGLContextManager.cpp */,
-				E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */,
-				E1F82A5C1E53532E00A2690B /* IOSOpenGLContextManager.cpp */,
 				E10C1D1422306AB9007094E5 /* MacOSOpenGLContextManager.hpp */,
 				E10C1D1322306AB9007094E5 /* MacOSOpenGLContextManager.cpp */,
+				E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */,
+				E1F82A5C1E53532E00A2690B /* IOSOpenGLContextManager.cpp */,
 			);
 			name = OpenGLContextManager;
 			path = Core/Stimuli/OpenGLContextManager;

@@ -92,12 +92,10 @@ BEGIN_NAMESPACE_MW
         std::vector<Datum> stimAnnouncements;
         
         const bool useColorManagement;
-        GLuint framebuffer = 0;
-        std::vector<std::pair<GLuint, std::vector<GLenum>>> framebufferStack;
+        int framebuffer_id;
         
         virtual void prepareContext(int contextIndex) = 0;
         virtual void setMainDisplayRefreshRate() = 0;
-        void allocateFramebufferStorage(int contextIndex);
 		
 		void setDisplayBounds();
         void refreshMainDisplay();
@@ -131,10 +129,6 @@ BEGIN_NAMESPACE_MW
         int getNContexts() { return (context_ids.empty() ? 0 : 1); }
 		OpenGLContextLock setCurrent(int i);	
 		int getCurrentContextIndex() { return current_context_index; }
-        
-        void pushFramebuffer(GLuint framebuffer, const std::vector<GLenum> &drawBuffers = { GL_COLOR_ATTACHMENT0 });
-        void popFramebuffer();
-        void bindCurrentFramebuffer();
 		
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);

@@ -64,12 +64,15 @@ public:
     MWKMetalView * getFullscreenView() const;
     MWKMetalView * getMirrorView() const;
     
-    int createFramebufferTexture(int context_id, bool useColorManagement, int &target, int &width, int &height) override;
-    void flushFramebufferTexture(int context_id) override;
-    void drawFramebufferTexture(int src_context_id, int dst_context_id) override;
+    int createFramebuffer(int context_id, bool useColorManagement) override;
+    void pushFramebuffer(int context_id, int framebuffer_id) override;
+    void popFramebuffer(int context_id) override;
+    void flushFramebuffer(int context_id, int framebuffer_id) override;
+    void presentFramebuffer(int src_context_id, int framebuffer_id, int dst_context_id) override;
+    void releaseFramebuffer(int context_id, int framebuffer_id) override;
     
 protected:
-    void releaseFramebufferTextures();
+    void releaseFramebuffers();
     
     NSMutableArray<MWKOpenGLContext *> *contexts;
     NSMutableArray<MWKMetalView *> *views;
@@ -80,22 +83,50 @@ protected:
 #endif
     
 private:
-    using CVPixelBufferPtr = cf::ObjectPtr<CVPixelBufferRef>;
-    using CVMetalTextureCachePtr = cf::ObjectPtr<CVMetalTextureCacheRef>;
-    using CVMetalTexturePtr = cf::ObjectPtr<CVMetalTextureRef>;
+    struct FramebufferStack {
+        FramebufferStack(MWKMetalView *view, MWKOpenGLContext *context);
+        
+        int createFramebuffer();
+        void pushFramebuffer(int framebuffer_id);
+        void popFramebuffer();
+        void bindCurrentFramebuffer() const;
+        id<MTLTexture> getFramebufferTexture(int framebuffer_id) const;
+        void releaseFramebuffer(int framebuffer_id);
+        
+    private:
+        using CVPixelBufferPoolPtr = cf::ObjectPtr<CVPixelBufferPoolRef>;
+        using CVPixelBufferPtr = cf::ObjectPtr<CVPixelBufferRef>;
+        using CVMetalTextureCachePtr = cf::ObjectPtr<CVMetalTextureCacheRef>;
+        using CVMetalTexturePtr = cf::ObjectPtr<CVMetalTextureRef>;
 #if TARGET_OS_OSX
-    using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLTextureCacheRef>;
-    using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLTextureRef>;
+        using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLTextureCacheRef>;
+        using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLTextureRef>;
 #else
-    using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLESTextureCacheRef>;
-    using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLESTextureRef>;
+        using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLESTextureCacheRef>;
+        using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLESTextureRef>;
 #endif
+        
+        struct Framebuffer {
+            CVPixelBufferPtr cvPixelBuffer;
+            CVMetalTexturePtr cvMetalTexture;
+            CVOpenGLTexturePtr cvOpenGLTexture;
+            GLuint glFramebuffer = 0;
+        };
+        
+        std::size_t width;
+        std::size_t height;
+        CVPixelBufferPoolPtr cvPixelBufferPool;
+        CVMetalTextureCachePtr cvMetalTextureCache;
+        CVOpenGLTextureCachePtr cvOpenGLTextureCache;
+        std::map<int, Framebuffer> framebuffers;
+        std::vector<Framebuffer> stack;
+    };
     
-    std::map<int, CVPixelBufferPtr> cvPixelBuffers;
-    std::map<int, CVMetalTextureCachePtr> cvMetalTextureCaches;
-    std::map<int, CVMetalTexturePtr> cvMetalTextures;
-    std::map<int, CVOpenGLTextureCachePtr> cvOpenGLTextureCaches;
-    std::map<int, CVOpenGLTexturePtr> cvOpenGLTextures;
+    FramebufferStack & getFramebufferStack(int context_id) {
+        return framebufferStacks.try_emplace(context_id, views[context_id], contexts[context_id]).first->second;
+    }
+    
+    std::map<int, FramebufferStack> framebufferStacks;
     
 };
 

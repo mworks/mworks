@@ -197,7 +197,7 @@ void MacOSOpenGLContextManager::releaseContexts() {
             display_sleep_block = kIOPMNullAssertionID;
         }
         
-        releaseFramebufferTextures();
+        releaseFramebuffers();
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             for (NSWindow *window in windows) {

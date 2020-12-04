@@ -115,7 +115,7 @@ int IOSOpenGLContextManager::newMirrorContext() {
 
 void IOSOpenGLContextManager::releaseContexts() {
     @autoreleasepool {
-        releaseFramebufferTextures();
+        releaseFramebuffers();
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             for (UIWindow *window in windows) {

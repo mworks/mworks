@@ -41,7 +41,8 @@ StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     paused(false),
     didDrawWhilePaused(false),
     announceStimuliOnImplicitUpdates(true),
-    useColorManagement(useColorManagement)
+    useColorManagement(useColorManagement),
+    framebuffer_id(-1)
 {
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
@@ -169,60 +170,8 @@ void StimulusDisplay::addContext(int _context_id){
     
     if (0 == contextIndex) {
         setMainDisplayRefreshRate();
-        allocateFramebufferStorage(contextIndex);
+        framebuffer_id = opengl_context_manager->createFramebuffer(_context_id, useColorManagement);
     }
-}
-
-
-void StimulusDisplay::allocateFramebufferStorage(int contextIndex) {
-    glGenFramebuffers(1, &framebuffer);
-    gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
-    
-    int textureTarget;
-    int viewportWidth, viewportHeight;
-    auto framebufferTexture = opengl_context_manager->createFramebufferTexture(context_ids.at(contextIndex),
-                                                                               useColorManagement,
-                                                                               textureTarget,
-                                                                               viewportWidth,
-                                                                               viewportHeight);
-    
-    glBindTexture(textureTarget, framebufferTexture);
-    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, textureTarget, framebufferTexture, 0);
-    glBindTexture(textureTarget, 0);
-    
-    if (GL_FRAMEBUFFER_COMPLETE != glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER)) {
-        throw SimpleException("OpenGL framebuffer setup failed");
-    }
-    
-    glViewport(0, 0, viewportWidth, viewportHeight);
-}
-
-
-void StimulusDisplay::pushFramebuffer(GLuint framebuffer, const std::vector<GLenum> &drawBuffers) {
-    framebufferStack.emplace_back(framebuffer, drawBuffers);
-    bindCurrentFramebuffer();
-}
-
-
-void StimulusDisplay::popFramebuffer() {
-    if (framebufferStack.empty()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: No framebuffer to pop");
-        return;
-    }
-    framebufferStack.pop_back();
-    bindCurrentFramebuffer();
-}
-
-
-void StimulusDisplay::bindCurrentFramebuffer() {
-    if (framebufferStack.empty()) {
-        // Bind default framebuffer
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        return;
-    }
-    auto &framebufferInfo = framebufferStack.back();
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebufferInfo.first);
-    glDrawBuffers(framebufferInfo.second.size(), framebufferInfo.second.data());
 }
 
 
@@ -305,21 +254,21 @@ void StimulusDisplay::refreshMainDisplay() {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_id);
     
     if (needDraw) {
-        pushFramebuffer(framebuffer);
+        opengl_context_manager->pushFramebuffer(context_id, framebuffer_id);
         
         current_context_index = contextIndex;
         drawDisplayStack();
         current_context_index = -1;
         
-        popFramebuffer();
-        opengl_context_manager->flushFramebufferTexture(context_id);
+        opengl_context_manager->popFramebuffer(context_id);
+        opengl_context_manager->flushFramebuffer(context_id, framebuffer_id);
         
         if (paused) {
             didDrawWhilePaused = true;
         }
     }
     
-    opengl_context_manager->drawFramebufferTexture(context_id);
+    opengl_context_manager->presentFramebuffer(context_id, framebuffer_id);
     
     if (needDraw) {
         announceDisplayUpdate(updateIsExplicit);
@@ -330,8 +279,9 @@ void StimulusDisplay::refreshMainDisplay() {
 
 
 void StimulusDisplay::refreshMirrorDisplay(int contextIndex) const {
-    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids.at(contextIndex));
-    opengl_context_manager->drawFramebufferTexture(context_ids.at(0), context_ids.at(contextIndex));
+    const int context_id = context_ids.at(contextIndex);
+    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_id);
+    opengl_context_manager->presentFramebuffer(context_ids.at(0), framebuffer_id, context_id);
 }
 
 
