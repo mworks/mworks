@@ -966,9 +966,9 @@
 		0EDB6FB00B2F1B9F00C60ED8 /* DataFileTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataFileTest.h; sourceTree = "<group>"; };
 		0EE137C10E429B23009B47B5 /* MWCocoaEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCocoaEvent.h; sourceTree = "<group>"; };
 		0EE137C20E429B23009B47B5 /* MWCocoaEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCocoaEvent.m; sourceTree = "<group>"; };
-		0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisteredSingleton.h; path = Core/Utilities/RegisteredSingleton.h; sourceTree = "<group>"; };
-		0EF2B66F0EBB6ED70088F58F /* RegisteredSingletonTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisteredSingletonTests.h; path = Core/Utilities/tests/RegisteredSingletonTests.h; sourceTree = "<group>"; };
-		0EF2B6700EBB6ED70088F58F /* RegisteredSingletonTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RegisteredSingletonTests.cpp; path = Core/Utilities/tests/RegisteredSingletonTests.cpp; sourceTree = "<group>"; };
+		0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisteredSingleton.h; sourceTree = "<group>"; };
+		0EF2B66F0EBB6ED70088F58F /* RegisteredSingletonTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisteredSingletonTests.h; sourceTree = "<group>"; };
+		0EF2B6700EBB6ED70088F58F /* RegisteredSingletonTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RegisteredSingletonTests.cpp; sourceTree = "<group>"; };
 		0EFC713E0EDBAF6800FFABA8 /* ScheduledActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScheduledActions.h; path = Core/ParadigmComponents/ScheduledActions.h; sourceTree = "<group>"; };
 		0EFC713F0EDBAF6800FFABA8 /* ScheduledActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScheduledActions.cpp; path = Core/ParadigmComponents/ScheduledActions.cpp; sourceTree = "<group>"; };
 		0EFC71610EDBB14000FFABA8 /* PulseAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PulseAction.h; path = Core/ParadigmComponents/PulseAction.h; sourceTree = "<group>"; };
@@ -1032,7 +1032,7 @@
 		5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LegacyBuffers.h; path = Core/Events/LegacyBuffers.h; sourceTree = "<group>"; };
 		5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyBuffers.cpp; path = Core/Events/LegacyBuffers.cpp; sourceTree = "<group>"; };
 		5C7CF4ED0BC6B48D00434931 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
-		5C866A98086E1E43006CBE6F /* MWorksTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWorksTypes.h; path = Core/MWorksTypes.h; sourceTree = "<group>"; };
+		5C866A98086E1E43006CBE6F /* MWorksTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksTypes.h; sourceTree = "<group>"; };
 		5C8D03C20D56B1AE00454461 /* DummyIODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DummyIODevice.h; path = Core/IODevices/DummyIODevice.h; sourceTree = "<group>"; };
 		5C8D03C30D56B1AE00454461 /* DummyIODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DummyIODevice.cpp; path = Core/IODevices/DummyIODevice.cpp; sourceTree = "<group>"; };
 		5C9186110E3548FA00B64213 /* BiasMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BiasMonitor.h; path = Core/AdaptiveOptimizers/BiasMonitor.h; sourceTree = "<group>"; };
@@ -1180,8 +1180,8 @@
 		DA2CE1AB07E9F95600C68AEF /* StateSystem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StateSystem.h; path = Core/RealtimeServices/StateSystem.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1AC07E9F95600C68AEF /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Timer.cpp; path = Core/RealtimeServices/Timer.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1AD07E9F95600C68AEF /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Timer.h; path = Core/RealtimeServices/Timer.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1AE07E9F95600C68AEF /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Utilities.cpp; path = Core/RealtimeServices/Utilities.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE1AF07E9F95600C68AEF /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Core/RealtimeServices/Utilities.h; sourceTree = SOURCE_ROOT; };
+		DA2CE1AE07E9F95600C68AEF /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
+		DA2CE1AF07E9F95600C68AEF /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabServices.cpp; sourceTree = "<group>"; };
 		DA2CE1C107E9F96500C68AEF /* ScarabServices.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabServices.h; sourceTree = "<group>"; };
 		DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLContextManager.cpp; sourceTree = "<group>"; };
@@ -1239,7 +1239,7 @@
 		E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileReader.cpp; sourceTree = "<group>"; };
 		E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataFileReader.hpp; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
-		E127D3AC133A615C00532496 /* MWorksMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWorksMacros.h; path = Core/MWorksMacros.h; sourceTree = "<group>"; };
+		E127D3AC133A615C00532496 /* MWorksMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksMacros.h; sourceTree = "<group>"; };
 		E13464E51D4BA32B00E4CF08 /* MessagePackAdaptorTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessagePackAdaptorTests.cpp; sourceTree = "<group>"; };
 		E13464E61D4BA32B00E4CF08 /* MessagePackAdaptorTests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessagePackAdaptorTests.hpp; sourceTree = "<group>"; };
 		E13464E91D4BD8B200E4CF08 /* ZeroMQConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQConnection.cpp; sourceTree = "<group>"; };
@@ -1250,8 +1250,8 @@
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
 		E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCoreTestMain.h; sourceTree = "<group>"; };
 		E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksCoreTestMain.cpp; sourceTree = "<group>"; };
-		E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLUtilities.cpp; path = Core/Stimuli/OpenGLUtilities.cpp; sourceTree = "<group>"; };
-		E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OpenGLUtilities.hpp; path = Core/Stimuli/OpenGLUtilities.hpp; sourceTree = "<group>"; };
+		E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLUtilities.cpp; sourceTree = "<group>"; };
+		E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenGLUtilities.hpp; sourceTree = "<group>"; };
 		E148071022EA41BD0094DB1C /* DataFileDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileDevice.cpp; sourceTree = "<group>"; };
 		E148071122EA41BD0094DB1C /* DataFileDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataFileDevice.hpp; sourceTree = "<group>"; };
 		E148A4371E4B7106002DFB1C /* MWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1263,8 +1263,8 @@
 		E16A20FE1E57727600C48E10 /* ZenSchedulerPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenSchedulerPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
 		E16A20FF1E57728300C48E10 /* ZenStateSystemPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
 		E16A21141E5789B900C48E10 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
-		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
-		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
+		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachUtilities.h; sourceTree = "<group>"; };
+		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachUtilities.cpp; sourceTree = "<group>"; };
 		E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacOSStimulusDisplay.h; sourceTree = "<group>"; };
 		E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = BlankScreenStimulus.cpp; sourceTree = "<group>"; };
@@ -1277,9 +1277,9 @@
 		E188BE8F1D47CAAC0001483A /* ZeroMQClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQClient.hpp; sourceTree = "<group>"; };
 		E188BE921D47F23B0001483A /* ZeroMQSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQSocket.cpp; sourceTree = "<group>"; };
 		E188BE931D47F23B0001483A /* ZeroMQSocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQSocket.hpp; sourceTree = "<group>"; };
-		E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFObjectPtr.h; path = Core/Utilities/CFObjectPtr.h; sourceTree = "<group>"; };
-		E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StimulusDisplayDevice.h; path = Core/Stimuli/StimulusDisplayDevice.h; sourceTree = "<group>"; };
-		E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusDisplayDevice.cpp; path = Core/Stimuli/StimulusDisplayDevice.cpp; sourceTree = "<group>"; };
+		E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFObjectPtr.h; sourceTree = "<group>"; };
+		E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StimulusDisplayDevice.h; sourceTree = "<group>"; };
+		E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StimulusDisplayDevice.cpp; sourceTree = "<group>"; };
 		E19B79241D525CCC00110665 /* ZeroMQUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQUtilities.cpp; sourceTree = "<group>"; };
 		E19B79251D525CCC00110665 /* ZeroMQUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQUtilities.hpp; sourceTree = "<group>"; };
 		E19B79281D525E2200110665 /* ZeroMQUtilityTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQUtilityTests.cpp; sourceTree = "<group>"; };
@@ -1315,8 +1315,8 @@
 		E1DB976616C16CC9001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
 		E1DB977716C17068001481E9 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		E1DB978516C18FE0001481E9 /* libcppunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcppunit.a; path = "/Library/Application Support/MWorks/Developer/lib/libcppunit.a"; sourceTree = "<absolute>"; };
-		E1DC75061D259C1700D9BC19 /* SerialPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerialPort.cpp; path = Core/Utilities/SerialPort.cpp; sourceTree = "<group>"; };
-		E1DC75071D259C1700D9BC19 /* SerialPort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SerialPort.hpp; path = Core/Utilities/SerialPort.hpp; sourceTree = "<group>"; };
+		E1DC75061D259C1700D9BC19 /* SerialPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerialPort.cpp; sourceTree = "<group>"; };
+		E1DC75071D259C1700D9BC19 /* SerialPort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SerialPort.hpp; sourceTree = "<group>"; };
 		E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = IOSStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IOSStimulusDisplay.hpp; sourceTree = "<group>"; };
 		E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Framework.xcconfig; sourceTree = "<group>"; };
@@ -1564,7 +1564,7 @@
 				0EF2B66F0EBB6ED70088F58F /* RegisteredSingletonTests.h */,
 				0EF2B6700EBB6ED70088F58F /* RegisteredSingletonTests.cpp */,
 			);
-			name = tests;
+			path = tests;
 			sourceTree = "<group>";
 		};
 		0EFC713D0EDBAF4200FFABA8 /* Actions */ = {
@@ -1983,8 +1983,11 @@
 				E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */,
 				E1DC75071D259C1700D9BC19 /* SerialPort.hpp */,
 				E1DC75061D259C1700D9BC19 /* SerialPort.cpp */,
+				E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */,
+				E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */,
 			);
 			name = Utilities;
+			path = Core/Utilities;
 			sourceTree = "<group>";
 		};
 		8E9B9D8708A7E7A40003AFA3 /* Transforms */ = {
@@ -2175,12 +2178,8 @@
 				E1815FAB25810DEB004D8156 /* StandardStimuli */,
 				E179169F1E4E3BA100528B91 /* StimulusDisplay */,
 				5C4D254E09DCBB9A0082BF9F /* tests */,
-				E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */,
-				E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */,
 				DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */,
 				DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */,
-				E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */,
-				E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */,
 				5C76674D0C1BB28C00B1203C /* StimulusNode.h */,
 				5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */,
 				E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */,
@@ -2395,6 +2394,8 @@
 				E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */,
 				E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */,
 				E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */,
+				E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */,
+				E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */,
 			);
 			name = StimulusDisplay;
 			path = Core/Stimuli/StimulusDisplay;
