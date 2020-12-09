@@ -27,6 +27,8 @@
 
 BEGIN_NAMESPACE_MW
 
+inline namespace legacy_standard_stimuli {
+
 
 class BlankScreen : public Stimulus {
     
@@ -282,6 +284,8 @@ private:
     
 };
 
+
+} // inline namespace legacy_standard_stimuli
 
 END_NAMESPACE_MW
 
