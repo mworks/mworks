@@ -8,23 +8,24 @@
 #ifndef BlankScreenStimulus_hpp
 #define BlankScreenStimulus_hpp
 
-#include "Stimulus.h"
+#include "MetalStimulus.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class BlankScreen : public Stimulus {
+class BlankScreen : public MetalStimulus {
     
 public:
     static const std::string COLOR;
     
     static void describeComponent(ComponentInfo &info);
     
-    explicit BlankScreen(const Map<ParameterValue> &parameters);
+    explicit BlankScreen(const ParameterValueMap &parameters);
     
-    void draw(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
+    
+    void draw(id<MTLCommandBuffer> commandBuffer, MTLRenderPassDescriptor *renderPassDescriptor) override;
     
 private:
     VariablePtr r;
