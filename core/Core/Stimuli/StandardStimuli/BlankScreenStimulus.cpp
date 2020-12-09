@@ -11,17 +11,17 @@
 BEGIN_NAMESPACE_MW
 
 
-const std::string BlankScreen::COLOR("color");
+const std::string BlankScreenStimulus::COLOR("color");
 
 
-void BlankScreen::describeComponent(ComponentInfo &info) {
+void BlankScreenStimulus::describeComponent(ComponentInfo &info) {
     MetalStimulus::describeComponent(info);
     info.setSignature("stimulus/blank_screen");
     info.addParameter(COLOR, "0.5,0.5,0.5");
 }
 
 
-BlankScreen::BlankScreen(const ParameterValueMap &parameters) :
+BlankScreenStimulus::BlankScreenStimulus(const ParameterValueMap &parameters) :
     MetalStimulus(parameters)
 {
     ParsedColorTrio pct(parameters[COLOR]);
@@ -31,7 +31,7 @@ BlankScreen::BlankScreen(const ParameterValueMap &parameters) :
 }
 
 
-Datum BlankScreen::getCurrentAnnounceDrawData() {
+Datum BlankScreenStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = MetalStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, STIM_TYPE_BLANK);
@@ -43,7 +43,7 @@ Datum BlankScreen::getCurrentAnnounceDrawData() {
 }
 
 
-void BlankScreen::draw(id<MTLCommandBuffer> commandBuffer, MTLRenderPassDescriptor *renderPassDescriptor) {
+void BlankScreenStimulus::draw(id<MTLCommandBuffer> commandBuffer, MTLRenderPassDescriptor *renderPassDescriptor) {
     current_r = r->getValue().getFloat();
     current_g = g->getValue().getFloat();
     current_b = b->getValue().getFloat();

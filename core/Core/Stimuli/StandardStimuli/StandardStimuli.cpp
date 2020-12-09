@@ -15,7 +15,7 @@ BEGIN_NAMESPACE_MW
 
 
 void registerStandardStimuli(ComponentRegistry &registry) {
-    registry.registerFactory<StandardStimulusFactory, BlankScreen>();
+    registry.registerFactory<StandardStimulusFactory, BlankScreenStimulus>();
 }
 
 

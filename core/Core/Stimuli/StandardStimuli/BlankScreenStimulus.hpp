@@ -14,14 +14,14 @@
 BEGIN_NAMESPACE_MW
 
 
-class BlankScreen : public MetalStimulus {
+class BlankScreenStimulus : public MetalStimulus {
     
 public:
     static const std::string COLOR;
     
     static void describeComponent(ComponentInfo &info);
     
-    explicit BlankScreen(const ParameterValueMap &parameters);
+    explicit BlankScreenStimulus(const ParameterValueMap &parameters);
     
     Datum getCurrentAnnounceDrawData() override;
     
