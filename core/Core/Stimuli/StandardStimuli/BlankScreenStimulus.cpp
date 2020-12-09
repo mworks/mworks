@@ -7,6 +7,7 @@
 
 #include "BlankScreenStimulus.hpp"
 
+#include "AppleOpenGLContextManager.hpp"
 #include "ParameterValue.h"
 
 
@@ -38,8 +39,20 @@ void BlankScreen::draw(boost::shared_ptr<StimulusDisplay> display) {
     current_g = g->getValue().getFloat();
     current_b = b->getValue().getFloat();
     
-    glClearColor(current_r, current_g, current_b, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glFlush();
+    
+    auto contextManager = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
+    
+    MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
+    renderPassDescriptor.colorAttachments[0].texture = contextManager->getCurrentFramebufferTexture(0);
+    renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+    renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(current_r, current_g, current_b, 1.0);
+    
+    id<MTLCommandBuffer> commandBuffer = [contextManager->getView(0).commandQueue commandBuffer];
+    id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+    [renderEncoder endEncoding];
+    [commandBuffer commit];
     
     last_r = current_r;
     last_g = current_g;

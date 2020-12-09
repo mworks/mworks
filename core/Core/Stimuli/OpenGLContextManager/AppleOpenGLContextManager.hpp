@@ -71,6 +71,8 @@ public:
     void presentFramebuffer(int src_context_id, int framebuffer_id, int dst_context_id) override;
     void releaseFramebuffer(int context_id, int framebuffer_id) override;
     
+    id<MTLTexture> getCurrentFramebufferTexture(int context_id);
+    
 protected:
     void releaseFramebuffers();
     
@@ -87,11 +89,13 @@ private:
         FramebufferStack(MWKMetalView *view, MWKOpenGLContext *context);
         
         int createFramebuffer();
+        id<MTLTexture> getFramebufferTexture(int framebuffer_id) const;
+        void releaseFramebuffer(int framebuffer_id);
+        
         void pushFramebuffer(int framebuffer_id);
         void popFramebuffer();
         void bindCurrentFramebuffer() const;
-        id<MTLTexture> getFramebufferTexture(int framebuffer_id) const;
-        void releaseFramebuffer(int framebuffer_id);
+        id<MTLTexture> getCurrentFramebufferTexture() const;
         
     private:
         using CVPixelBufferPoolPtr = cf::ObjectPtr<CVPixelBufferPoolRef>;

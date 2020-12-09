@@ -349,6 +349,16 @@ void AppleOpenGLContextManager::releaseFramebuffer(int context_id, int framebuff
 }
 
 
+id<MTLTexture> AppleOpenGLContextManager::getCurrentFramebufferTexture(int context_id) {
+    @autoreleasepool {
+        if (auto view = getView(context_id)) {
+            return getFramebufferStack(context_id).getCurrentFramebufferTexture();
+        }
+        return nil;
+    }
+}
+
+
 void AppleOpenGLContextManager::releaseFramebuffers() {
     framebufferStacks.clear();
 }
@@ -518,6 +528,26 @@ int AppleOpenGLContextManager::FramebufferStack::createFramebuffer() {
 }
 
 
+id<MTLTexture> AppleOpenGLContextManager::FramebufferStack::getFramebufferTexture(int framebuffer_id) const {
+    auto iter = framebuffers.find(framebuffer_id);
+    if (iter == framebuffers.end()) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid framebuffer ID: %d", framebuffer_id);
+        return nil;
+    }
+    return CVMetalTextureGetTexture(iter->second.cvMetalTexture.get());
+}
+
+
+void AppleOpenGLContextManager::FramebufferStack::releaseFramebuffer(int framebuffer_id) {
+    auto iter = framebuffers.find(framebuffer_id);
+    if (iter == framebuffers.end()) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid framebuffer ID: %d", framebuffer_id);
+        return;
+    }
+    framebuffers.erase(iter);
+}
+
+
 void AppleOpenGLContextManager::FramebufferStack::pushFramebuffer(int framebuffer_id) {
     auto iter = framebuffers.find(framebuffer_id);
     if (iter == framebuffers.end()) {
@@ -552,23 +582,12 @@ void AppleOpenGLContextManager::FramebufferStack::bindCurrentFramebuffer() const
 }
 
 
-id<MTLTexture> AppleOpenGLContextManager::FramebufferStack::getFramebufferTexture(int framebuffer_id) const {
-    auto iter = framebuffers.find(framebuffer_id);
-    if (iter == framebuffers.end()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid framebuffer ID: %d", framebuffer_id);
+id<MTLTexture> AppleOpenGLContextManager::FramebufferStack::getCurrentFramebufferTexture() const {
+    if (stack.empty()) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: no current framebuffer texture");
         return nil;
     }
-    return CVMetalTextureGetTexture(iter->second.cvMetalTexture.get());
-}
-
-
-void AppleOpenGLContextManager::FramebufferStack::releaseFramebuffer(int framebuffer_id) {
-    auto iter = framebuffers.find(framebuffer_id);
-    if (iter == framebuffers.end()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid framebuffer ID: %d", framebuffer_id);
-        return;
-    }
-    framebuffers.erase(iter);
+    return CVMetalTextureGetTexture(stack.back().cvMetalTexture.get());
 }
 
 

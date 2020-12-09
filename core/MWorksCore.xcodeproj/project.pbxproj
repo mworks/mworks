@@ -1267,7 +1267,7 @@
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacOSStimulusDisplay.h; sourceTree = "<group>"; };
-		E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlankScreenStimulus.cpp; sourceTree = "<group>"; };
+		E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = BlankScreenStimulus.cpp; sourceTree = "<group>"; };
 		E1815FAD25810ED5004D8156 /* BlankScreenStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BlankScreenStimulus.hpp; sourceTree = "<group>"; };
 		E181600225811EB0004D8156 /* LegacyStandardStimuli.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = LegacyStandardStimuli.cpp; sourceTree = "<group>"; };
 		E181600325811EB0004D8156 /* LegacyStandardStimuli.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LegacyStandardStimuli.hpp; sourceTree = "<group>"; };
