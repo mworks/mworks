@@ -130,7 +130,7 @@ ComponentRegistry::ComponentRegistry() {
     registerFactory<StandardComponentFactory, StimulusDisplayDevice>();
 	
 	// stimuli
-    registerFactory<StandardStimulusFactory, BlankScreen>();
+    registerStandardStimuli(*this);
     registerFactory<StandardStimulusFactory, ImageStimulus>();
     registerFactory<StandardStimulusFactory, RectangleStimulus>();
     registerFactory<StandardStimulusFactory, CircleStimulus>();
