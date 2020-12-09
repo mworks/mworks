@@ -1,23 +1,12 @@
-/**
- * StandardStimuli.h
- *
- * Description:
- *
- * NOTE:  All objects that inherit from Stimulus and contain pointer data 
- * must implement a copy constructor and a destructor.  It is also advised to
- * make a private = operator.
- *
- * History:
- * Dave Cox on ??/??/?? - Created.
- * Paul Jankunas on 05/23/05 - Fixed spacing.  Added copy constructors, 
- *                          destructors, and = operator to object that are
- *                          added to ExpandableLists.
- *
- * Copyright 2005 MIT.  All rights reserved.
- */
+//
+//  LegacyStandardStimuli.hpp
+//  MWorksCore
+//
+//  Created by Christopher Stawarz on 12/9/20.
+//
 
-#ifndef _STANDARD_STIMULI_H
-#define _STANDARD_STIMULI_H
+#ifndef LegacyStandardStimuli_hpp
+#define LegacyStandardStimuli_hpp
 
 #include <ImageIO/ImageIO.h>
 
@@ -290,4 +279,4 @@ private:
 END_NAMESPACE_MW
 
 
-#endif
+#endif /* LegacyStandardStimuli_hpp */

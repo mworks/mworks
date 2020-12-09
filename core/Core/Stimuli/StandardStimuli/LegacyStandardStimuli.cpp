@@ -1,17 +1,11 @@
-/**
- * StandardStimuli.cpp
- *
- * History:
- * Dave Cox on ??/??/?? - Created.
- * Paul Jankunas on 05/23/05 - Fixed spacing.  Added copy constructors, 
- *      destructors, and = operator to object that are added 
- *      to ExpandableLists.  Changed constructors to copy objects instead
- *      of just copying pointers.
- *
- * Copyright 2005 MIT.  All rights reserved.
- */
+//
+//  LegacyStandardStimuli.cpp
+//  MWorksCore
+//
+//  Created by Christopher Stawarz on 12/9/20.
+//
 
-#include "StandardStimuli.h"
+#include "LegacyStandardStimuli.hpp"
 
 #import <Accelerate/Accelerate.h>
 #import <CoreGraphics/CoreGraphics.h>
