@@ -31,8 +31,8 @@ private:
     VariablePtr g;
     VariablePtr b;
     
-    float current_r, current_g, current_b;
-    float last_r, last_g, last_b;
+    double current_r, current_g, current_b;
+    double last_r, last_g, last_b;
     
 };
 

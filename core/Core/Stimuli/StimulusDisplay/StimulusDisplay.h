@@ -13,6 +13,8 @@
 #include <map>
 #include <vector>
 
+#include <GLKit/GLKMath.h>
+
 #include <boost/noncopyable.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
@@ -22,7 +24,6 @@
 #include "Clock.h"
 #include "LinkedList.h"
 #include "OpenGLContextLock.h"
-#include "OpenGLUtilities.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -78,7 +79,7 @@ BEGIN_NAMESPACE_MW
 		
 		double left, right, top, bottom; // display bounds
         GLKMatrix4 projectionMatrix;
-        GLclampf backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha;  // background color
+        double backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha;  // background color
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
         std::atomic_bool displayUpdatesStarted;
@@ -133,7 +134,7 @@ BEGIN_NAMESPACE_MW
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
 		
-        void setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+        void setBackgroundColor(double red, double green, double blue, double alpha);
         void setRedrawOnEveryRefresh(bool redrawOnEveryRefresh);
         void setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates);
         bool getUseColorManagement() const { return useColorManagement; }

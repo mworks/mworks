@@ -146,7 +146,7 @@ void StimulusDisplay::getDisplayBounds(double &left, double &right, double &bott
     top = this->top;
 }
 
-void StimulusDisplay::setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
+void StimulusDisplay::setBackgroundColor(double red, double green, double blue, double alpha) {
     backgroundRed = red;
     backgroundGreen = green;
     backgroundBlue = blue;
@@ -421,11 +421,13 @@ void StimulusDisplay::reportSkippedFrames(double numSkippedFrames) const {
 
 
 shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
-    if (!GlobalCurrentExperiment) {
-        throw SimpleException("no experiment currently defined");		
+    // Make a copy to ensure the experiment stays alive until we're done with it
+    auto currentExperiment = GlobalCurrentExperiment;
+    if (!currentExperiment) {
+        throw SimpleException("no experiment currently defined");
     }
     
-    shared_ptr<StimulusDisplay> currentDisplay = GlobalCurrentExperiment->getStimulusDisplay();
+    auto currentDisplay = currentExperiment->getStimulusDisplay();
     if (!currentDisplay) {
         throw SimpleException("no stimulus display in current experiment");
     }
@@ -435,30 +437,3 @@ shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
