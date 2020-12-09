@@ -611,6 +611,10 @@
 		E17917881E4E573900528B91 /* StandardSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */; };
 		E17917891E4E573C00528B91 /* OpenALContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E179178A1E4E574200528B91 /* OpenALContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76E10AE0706300D6F4A6 /* OpenALContextManager.cpp */; };
+		E1815FAE25810ED5004D8156 /* BlankScreenStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */; };
+		E1815FAF25810ED5004D8156 /* BlankScreenStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */; };
+		E1815FB025810ED5004D8156 /* BlankScreenStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1815FAD25810ED5004D8156 /* BlankScreenStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1815FB125810ED5004D8156 /* BlankScreenStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1815FAD25810ED5004D8156 /* BlankScreenStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
 		E188BE8D1D47B5D00001483A /* libzmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E188BE8C1D47B5D00001483A /* libzmq.a */; };
 		E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */; };
@@ -1259,6 +1263,8 @@
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacOSStimulusDisplay.h; sourceTree = "<group>"; };
+		E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlankScreenStimulus.cpp; sourceTree = "<group>"; };
+		E1815FAD25810ED5004D8156 /* BlankScreenStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BlankScreenStimulus.hpp; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E188BE8C1D47B5D00001483A /* libzmq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzmq.a; path = "/Library/Application Support/MWorks/Developer/lib/libzmq.a"; sourceTree = "<absolute>"; };
 		E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQClient.cpp; sourceTree = "<group>"; };
@@ -2160,6 +2166,7 @@
 			children = (
 				5C78EDE1115C00EC00151A76 /* DynamicStimuli */,
 				E148A4581E4BA280002DFB1C /* OpenGLContextManager */,
+				E1815FAB25810DEB004D8156 /* StandardStimuli */,
 				E179169F1E4E3BA100528B91 /* StimulusDisplay */,
 				5C4D254E09DCBB9A0082BF9F /* tests */,
 				E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */,
@@ -2387,6 +2394,16 @@
 			);
 			name = StimulusDisplay;
 			path = Core/Stimuli/StimulusDisplay;
+			sourceTree = "<group>";
+		};
+		E1815FAB25810DEB004D8156 /* StandardStimuli */ = {
+			isa = PBXGroup;
+			children = (
+				E1815FAD25810ED5004D8156 /* BlankScreenStimulus.hpp */,
+				E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */,
+			);
+			name = StandardStimuli;
+			path = Core/Stimuli/StandardStimuli;
 			sourceTree = "<group>";
 		};
 		E188BE871D47B38C0001483A /* ZeroMQ */ = {
@@ -2640,6 +2657,7 @@
 				5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */,
 				5C78EDED115C00EC00151A76 /* DynamicStimulusDriver.h in Headers */,
 				5CD621591174FF3D007339B7 /* FreezableVariableContainer.h in Headers */,
+				E1815FB025810ED5004D8156 /* BlankScreenStimulus.hpp in Headers */,
 				E10C1D1622306AB9007094E5 /* MacOSOpenGLContextManager.hpp in Headers */,
 				E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */,
 				E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */,
@@ -2702,6 +2720,7 @@
 				E17917721E4E564400528B91 /* StandardDynamicStimulus.h in Headers */,
 				E17917241E4E53E400528B91 /* Experiment.h in Headers */,
 				E17916B91E4E50DB00528B91 /* ZeroMQUtilities.hpp in Headers */,
+				E1815FB125810ED5004D8156 /* BlankScreenStimulus.hpp in Headers */,
 				E179177C1E4E56C500528B91 /* Stimulus.h in Headers */,
 				E17917871E4E573400528B91 /* StandardSounds.h in Headers */,
 				E179170A1E4E532C00528B91 /* ComponentRegistry.h in Headers */,
@@ -3389,6 +3408,7 @@
 				DA2CE18207E9F93900C68AEF /* Experiment.cpp in Sources */,
 				DA2CE18A07E9F93900C68AEF /* Selection.cpp in Sources */,
 				DA2CE18C07E9F93900C68AEF /* States.cpp in Sources */,
+				E1815FAE25810ED5004D8156 /* BlankScreenStimulus.cpp in Sources */,
 				DA2CE19207E9F94300C68AEF /* PlatformDependentServices.cpp in Sources */,
 				DA2CE19A07E9F94B00C68AEF /* ComponentFactory.cpp in Sources */,
 				E1F7CBBD21F22B8A003F48A1 /* EventBlock.cpp in Sources */,
@@ -3604,6 +3624,7 @@
 				E17917581E4E556F00528B91 /* EyeCalibrators.cpp in Sources */,
 				E179177F1E4E56D200528B91 /* StimulusDisplayDevice.cpp in Sources */,
 				E17917321E4E542500528B91 /* RandomWithReplacementSelection.cpp in Sources */,
+				E1815FAF25810ED5004D8156 /* BlankScreenStimulus.cpp in Sources */,
 				E17917131E4E535700528B91 /* Plugin.cpp in Sources */,
 				E179171D1E4E53C700528B91 /* TrialBuildingBlocks.cpp in Sources */,
 				E17917281E4E53F800528B91 /* States.cpp in Sources */,
