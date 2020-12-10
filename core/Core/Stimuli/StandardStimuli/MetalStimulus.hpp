@@ -25,9 +25,11 @@ public:
     void unload(boost::shared_ptr<StimulusDisplay> display) override;
     void draw(boost::shared_ptr<StimulusDisplay> display) override;
     
-    virtual void draw(id<MTLCommandBuffer> commandBuffer, MTLRenderPassDescriptor *renderPassDescriptor) = 0;
-    
 private:
+    virtual void load(id<MTLDevice> device) { }
+    virtual void unload() { }
+    virtual void draw(id<MTLCommandBuffer> commandBuffer, MTLRenderPassDescriptor *renderPassDescriptor) { }
+    
     boost::shared_ptr<AppleOpenGLContextManager> contextManager;
     
 };

@@ -22,6 +22,7 @@ void MetalStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
             return;
         
         contextManager = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
+        load(contextManager->getView(0).device);
         
         Stimulus::load(display);
     }
@@ -33,6 +34,7 @@ void MetalStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
         if (!loaded)
             return;
         
+        unload();
         contextManager.reset();
         
         Stimulus::unload(display);

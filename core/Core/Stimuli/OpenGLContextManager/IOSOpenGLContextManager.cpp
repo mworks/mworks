@@ -8,9 +8,8 @@
 
 #include "IOSOpenGLContextManager.hpp"
 
+#include "MWKMetalView_Private.h"
 #include "OpenGLUtilities.hpp"
-
-#include <Metal/Metal.h>
 
 
 @interface MWKMetalViewController : UIViewController

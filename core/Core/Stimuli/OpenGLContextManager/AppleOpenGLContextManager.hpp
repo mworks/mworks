@@ -13,36 +13,24 @@
 #if TARGET_OS_OSX
 #  define GL_SILENCE_DEPRECATION
 #  include <Cocoa/Cocoa.h>
-#elif TARGET_OS_IPHONE
+#else
 #  define GLES_SILENCE_DEPRECATION
 #  include <UIKit/UIKit.h>
 #  include <OpenGLES/EAGL.h>
 #endif
 
-#include <MetalKit/MetalKit.h>
-
 #include "OpenGLContextManager.h"
 #include "CFObjectPtr.h"
+#include "MWKMetalView.h"
 
 
 #if TARGET_OS_OSX
 @interface MWKOpenGLContext : NSOpenGLContext
-#elif TARGET_OS_IPHONE
-@interface MWKOpenGLContext : EAGLContext
 #else
-#error Unsupported platform
+@interface MWKOpenGLContext : EAGLContext
 #endif
 
 - (mw::OpenGLContextLock)lockContext;
-
-@end
-
-
-@interface MWKMetalView : MTKView
-
-@property(nonatomic, readonly) id<MTLCommandQueue> commandQueue;
-
-- (BOOL)prepareUsingColorManagement:(BOOL)useColorManagement error:(NSError **)error;
 
 @end
 

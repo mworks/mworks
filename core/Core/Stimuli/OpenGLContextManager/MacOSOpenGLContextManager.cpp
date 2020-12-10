@@ -8,9 +8,8 @@
 #include "MacOSOpenGLContextManager.hpp"
 
 #include "ComponentRegistry.h"
+#include "MWKMetalView_Private.h"
 #include "OpenGLUtilities.hpp"
-
-#include <Metal/Metal.h>
 
 
 BEGIN_NAMESPACE_MW

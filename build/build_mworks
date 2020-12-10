@@ -90,6 +90,7 @@ def xcodebuild(scheme='Everything', actions=['clean', 'build']):
            '-scheme', scheme,
            ] + actions + [
            'GCC_TREAT_WARNINGS_AS_ERRORS=YES',
+           'MTL_TREAT_WARNINGS_AS_ERRORS=YES',
            'SWIFT_TREAT_WARNINGS_AS_ERRORS=YES',
            ]
 
