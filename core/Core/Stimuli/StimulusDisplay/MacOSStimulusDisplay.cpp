@@ -22,7 +22,7 @@ BEGIN_NAMESPACE_MW
 
 
 MacOSStimulusDisplay::MacOSStimulusDisplay(bool useColorManagement) :
-    StimulusDisplay(useColorManagement),
+    AppleStimulusDisplay(useColorManagement),
     didSetDisplayGamma(false)
 {
     std::memset(&currentOutputTimeStamp, 0, sizeof(currentOutputTimeStamp));
@@ -228,29 +228,3 @@ boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDispla
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

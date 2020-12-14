@@ -14,13 +14,13 @@
 
 #include <CoreVideo/CVDisplayLink.h>
 
-#include "StimulusDisplay.h"
+#include "AppleStimulusDisplay.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class MacOSStimulusDisplay : public StimulusDisplay {
+class MacOSStimulusDisplay : public AppleStimulusDisplay {
     
 public:
     explicit MacOSStimulusDisplay(bool useColorManagement);
@@ -59,29 +59,3 @@ END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

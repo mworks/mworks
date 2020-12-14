@@ -13,14 +13,14 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#include "StimulusDisplay.h"
+#include "AppleStimulusDisplay.hpp"
 
 
 
 BEGIN_NAMESPACE_MW
 
 
-class IOSStimulusDisplay : public StimulusDisplay {
+class IOSStimulusDisplay : public AppleStimulusDisplay {
     
     static void displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display, int contextIndex);
     
@@ -49,31 +49,3 @@ END_NAMESPACE_MW
 
 
 #endif /* IOSStimulusDisplay_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

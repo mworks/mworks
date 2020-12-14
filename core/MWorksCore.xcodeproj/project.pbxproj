@@ -647,6 +647,10 @@
 		E18162AE2583D461004D8156 /* MWKMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = E18162AB2583D461004D8156 /* MWKMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E18162AF2583D461004D8156 /* MWKMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = E18162AC2583D461004D8156 /* MWKMetalView.m */; };
 		E18162B02583D461004D8156 /* MWKMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = E18162AC2583D461004D8156 /* MWKMetalView.m */; };
+		E18163142588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */; };
+		E18163152588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */; };
+		E18163162588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E18163172588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
 		E188BE8D1D47B5D00001483A /* libzmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E188BE8C1D47B5D00001483A /* libzmq.a */; };
 		E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */; };
@@ -1314,6 +1318,8 @@
 		E18162AB2583D461004D8156 /* MWKMetalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKMetalView.h; sourceTree = "<group>"; };
 		E18162AC2583D461004D8156 /* MWKMetalView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWKMetalView.m; sourceTree = "<group>"; };
 		E18162F12583D58B004D8156 /* MWKMetalView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKMetalView_Private.h; sourceTree = "<group>"; };
+		E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppleStimulusDisplay.cpp; sourceTree = "<group>"; };
+		E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AppleStimulusDisplay.hpp; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E188BE8C1D47B5D00001483A /* libzmq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzmq.a; path = "/Library/Application Support/MWorks/Developer/lib/libzmq.a"; sourceTree = "<absolute>"; };
 		E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQClient.cpp; sourceTree = "<group>"; };
@@ -2434,6 +2440,8 @@
 			children = (
 				5C7667530C1BB30A00B1203C /* StimulusDisplay.h */,
 				DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */,
+				E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */,
+				E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */,
 				E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */,
 				E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */,
 				E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */,
@@ -2679,6 +2687,7 @@
 				DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */,
 				DA2B6D52098AAAEC00DDE06D /* StandardSystemEventHandler.h in Headers */,
 				DA871F2609995B180084304E /* StandardClientCoreBuilder.h in Headers */,
+				E18163162588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */,
 				5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */,
 				5C71CD6F09AA507700EAD886 /* ExpressionVariable.h in Headers */,
 				E19CE0D71E897068005586E5 /* AppleOpenGLContextManager.hpp in Headers */,
@@ -2867,6 +2876,7 @@
 				E17917741E4E565E00528B91 /* OpenGLContextManager.h in Headers */,
 				E1F82A5F1E53532E00A2690B /* IOSOpenGLContextManager.hpp in Headers */,
 				E1FE64142142BEB700209279 /* MWK2File.hpp in Headers */,
+				E18163172588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */,
 				E17916F61E4E528F00528B91 /* CoreBuilderForeman.h in Headers */,
 				E179172D1E4E540D00528B91 /* SequentialSelection.h in Headers */,
 				E17917441E4E54DC00528B91 /* Map.h in Headers */,
@@ -3606,6 +3616,7 @@
 				E188BE941D47F23B0001483A /* ZeroMQSocket.cpp in Sources */,
 				E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */,
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
+				E18163142588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */,
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
 				E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */,
 				E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */,
@@ -3737,6 +3748,7 @@
 				E17917281E4E53F800528B91 /* States.cpp in Sources */,
 				E17917251E4E53EA00528B91 /* Experiment.cpp in Sources */,
 				E17916C81E4E513300528B91 /* VariableProperties.cpp in Sources */,
+				E18163152588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */,
 				E17917691E4E55F100528B91 /* DummyIODevice.cpp in Sources */,
 				E179174B1E4E550600528B91 /* MachUtilities.cpp in Sources */,
 				E17917031E4E52ED00528B91 /* XMLParser.cpp in Sources */,

@@ -65,7 +65,7 @@ BEGIN_NAMESPACE_MW
 
 
 IOSStimulusDisplay::IOSStimulusDisplay(bool useColorManagement) :
-    StimulusDisplay(useColorManagement),
+    AppleStimulusDisplay(useColorManagement),
     displayLinks(nil),
     lastTargetTimestamp(0.0)
 {
@@ -226,30 +226,3 @@ boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDispla
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
