@@ -38,16 +38,17 @@ class VariableCallbackNotification;
 
 
 class StimulusDisplay : public boost::enable_shared_from_this<StimulusDisplay>, boost::noncopyable {
+    
 protected:
     const boost::shared_ptr<OpenGLContextManager> opengl_context_manager;
     const boost::shared_ptr<Clock> clock;
     
     std::vector<int> context_ids;
     int current_context_index;
-    shared_ptr< LinkedList<StimulusNode> > display_stack;
+    boost::shared_ptr<LinkedList<StimulusNode>> display_stack;
     
     boost::mutex display_lock;
-    typedef boost::mutex::scoped_lock unique_lock;
+    using unique_lock = boost::mutex::scoped_lock;
     boost::condition_variable refreshCond;
     bool waitingForRefresh;
     
@@ -58,10 +59,10 @@ protected:
     GLKMatrix4 projectionMatrix;
     double backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha;  // background color
     
-    shared_ptr<VariableCallbackNotification> stateSystemNotification;
+    boost::shared_ptr<VariableCallbackNotification> stateSystemNotification;
     std::atomic_bool displayUpdatesStarted;
     double mainDisplayRefreshRate;
-    MWTime currentOutputTimeUS;
+    std::atomic<MWTime> currentOutputTimeUS;
     
     bool paused;
     bool didDrawWhilePaused;
@@ -82,7 +83,6 @@ protected:
     void ensureRefresh(unique_lock &lock);
     
     void announceDisplayUpdate(bool updateIsExplicit);
-    Datum getAnnounceData(bool updateIsExplicit);
     
     void reportSkippedFrames(double numSkippedFrames) const;
     
@@ -108,8 +108,7 @@ public:
     OpenGLContextLock setCurrent(int i);
     int getCurrentContextIndex() { return current_context_index; }
     
-    shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
-    void addStimulusNode(shared_ptr<StimulusNode> stimnode);
+    void addStimulusNode(const boost::shared_ptr<StimulusNode> &stimnode);
     
     void setBackgroundColor(double red, double green, double blue, double alpha);
     void setRedrawOnEveryRefresh(bool redrawOnEveryRefresh);
@@ -123,7 +122,8 @@ public:
     MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
     
     static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool useColorManagement);
-    static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
+    static boost::shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
+    
 };
 
 

@@ -45,7 +45,7 @@ StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     framebuffer_id(-1)
 {
     // defer creation of the display chain until after the stimulus display has been created
-    display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
+    display_stack = boost::make_shared<LinkedList<StimulusNode>>();
     
 	setDisplayBounds();
     setBackgroundColor(0.5, 0.5, 0.5, 1.0);
@@ -57,43 +57,28 @@ StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     state_system_mode->addNotification(stateSystemNotification);
 }
 
-StimulusDisplay::~StimulusDisplay(){
+
+StimulusDisplay::~StimulusDisplay() {
     stateSystemNotification->remove();
 }
 
-OpenGLContextLock StimulusDisplay::setCurrent(int i){
+
+OpenGLContextLock StimulusDisplay::setCurrent(int i) {
     if ((i >= getNContexts()) || (i < 0)) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "invalid context index (%d)", i);
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid context index (%d)", i);
         return OpenGLContextLock();
     }
 
 	return opengl_context_manager->setCurrent(context_ids[i]);
 }
 
-shared_ptr<StimulusNode> StimulusDisplay::addStimulus(shared_ptr<Stimulus> stim) {
-    if(!stim) {
-        mprintf("Attempt to load NULL stimulus");
-        return shared_ptr<StimulusNode>();
-    }
 
-	shared_ptr<StimulusNode> stimnode(new StimulusNode(stim));
-	
+void StimulusDisplay::addStimulusNode(const boost::shared_ptr<StimulusNode> &stimnode) {
+    // Remove it first, in case it already belongs to a list
+    stimnode->remove();
     display_stack->addToFront(stimnode);
-	
-	return stimnode;
 }
 
-void StimulusDisplay::addStimulusNode(shared_ptr<StimulusNode> stimnode) {
-    if(!stimnode) {
-        mprintf("Attempt to load NULL stimulus");
-        return;
-    }
-    
-	// remove it, in case it already belongs to a list
-	stimnode->remove();
-	
-	display_stack->addToFront(stimnode);  // TODO
-}
 
 void StimulusDisplay::getDisplayBounds(const Datum &display_info,
                                        double &left,
@@ -126,9 +111,10 @@ void StimulusDisplay::getDisplayBounds(const Datum &display_info,
 	}
 }
 
-void StimulusDisplay::setDisplayBounds(){
-    shared_ptr<mw::ComponentRegistry> reg = mw::ComponentRegistry::getSharedRegistry();
-    shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+
+void StimulusDisplay::setDisplayBounds() {
+    auto reg = mw::ComponentRegistry::getSharedRegistry();
+    auto main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
     
     Datum display_info = *main_screen_info; // from standard variables
     getDisplayBounds(display_info, left, right, bottom, top);
@@ -139,12 +125,14 @@ void StimulusDisplay::setDisplayBounds(){
 			left, right, top, bottom);
 }
 
+
 void StimulusDisplay::getDisplayBounds(double &left, double &right, double &bottom, double &top) {
     left = this->left;
     right = this->right;
     bottom = this->bottom;
     top = this->top;
 }
+
 
 void StimulusDisplay::setBackgroundColor(double red, double green, double blue, double alpha) {
     backgroundRed = red;
@@ -153,15 +141,18 @@ void StimulusDisplay::setBackgroundColor(double red, double green, double blue, 
     backgroundAlpha = alpha;
 }
 
+
 void StimulusDisplay::setRedrawOnEveryRefresh(bool redrawOnEveryRefresh) {
     this->redrawOnEveryRefresh = redrawOnEveryRefresh;
 }
+
 
 void StimulusDisplay::setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates) {
     this->announceStimuliOnImplicitUpdates = announceStimuliOnImplicitUpdates;
 }
 
-void StimulusDisplay::addContext(int _context_id){
+
+void StimulusDisplay::addContext(int _context_id) {
 	context_ids.push_back(_context_id);
     int contextIndex = context_ids.size() - 1;
     
@@ -234,7 +225,7 @@ void StimulusDisplay::refreshMainDisplay() {
     needDraw = needDraw || (redrawOnEveryRefresh && !(paused && didDrawWhilePaused));
     
     if (!needDraw) {
-        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+        auto node = display_stack->getFrontmost();
         while (node) {
             if (node->isVisible()) {
                 needDraw = node->needDraw(shared_from_this());
@@ -313,7 +304,7 @@ void StimulusDisplay::drawDisplayStack() {
     //
     // Draw all of the stimuli in the chain, back to front
     //
-    shared_ptr<StimulusNode> node = display_stack->getBackmost();
+    auto node = display_stack->getBackmost();
     while (node) {
         if (node->isVisible()) {
             if (!(node->isLoaded())) {
@@ -325,7 +316,7 @@ void StimulusDisplay::drawDisplayStack() {
                 
                 Datum individualAnnounce(node->getCurrentAnnounceDrawData());
                 if (!individualAnnounce.isUndefined()) {
-                    stimAnnouncements.push_back(individualAnnounce);
+                    stimAnnouncements.emplace_back(std::move(individualAnnounce));
                 }
             }
         }
@@ -337,7 +328,7 @@ void StimulusDisplay::drawDisplayStack() {
 MWTime StimulusDisplay::updateDisplay() {
     unique_lock lock(display_lock);
     
-    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+    auto node = display_stack->getFrontmost();
     while (node) {
         if (node->isPending()) {
             // we're taking care of the pending state, so
@@ -385,51 +376,44 @@ void StimulusDisplay::ensureRefresh(unique_lock &lock) {
 
 
 void StimulusDisplay::announceDisplayUpdate(bool updateIsExplicit) {
+    Datum stimAnnounce;
+    if (!(updateIsExplicit || announceStimuliOnImplicitUpdates)) {
+        // No stim announcements, so just report the number of stimuli drawn
+        stimAnnounce = Datum(long(stimAnnouncements.size()));
+    } else {
+        stimAnnounce = Datum(std::move(stimAnnouncements));
+    }
+    stimAnnouncements.clear();
+    
     MWTime now = getCurrentOutputTimeUS();
     if (-1 == now) {
         now = clock->getCurrentTimeUS();
     }
     
-    stimDisplayUpdate->setValue(getAnnounceData(updateIsExplicit), now);
-    
-    stimAnnouncements.clear();
-}
-
-
-Datum StimulusDisplay::getAnnounceData(bool updateIsExplicit) {
-    Datum stimAnnounce;
-    
-    if (!(updateIsExplicit || announceStimuliOnImplicitUpdates)) {
-        // No stim announcements, so just report the number of stimuli drawn
-        stimAnnounce = Datum(long(stimAnnouncements.size()));
-    } else {
-        stimAnnounce = Datum(M_LIST, int(stimAnnouncements.size()));
-        for (size_t i = 0; i < stimAnnouncements.size(); i++) {
-            stimAnnounce.addElement(stimAnnouncements[i]);
-        }
-    }
-    
-	return stimAnnounce;
+    stimDisplayUpdate->setValue(std::move(stimAnnounce), now);
 }
 
 
 void StimulusDisplay::reportSkippedFrames(double numSkippedFrames) const {
     if (warnOnSkippedRefresh->getValue().getBool()) {
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Skipped %g display refresh cycles", numSkippedFrames);
+        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                 "Skipped %g display refresh cycle%s",
+                 numSkippedFrames,
+                 (numSkippedFrames == 1.0 ? "" : "s"));
     }
 }
 
 
-shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
+boost::shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
     // Make a copy to ensure the experiment stays alive until we're done with it
     auto currentExperiment = GlobalCurrentExperiment;
     if (!currentExperiment) {
-        throw SimpleException("no experiment currently defined");
+        throw SimpleException("No experiment currently defined");
     }
     
     auto currentDisplay = currentExperiment->getStimulusDisplay();
     if (!currentDisplay) {
-        throw SimpleException("no stimulus display in current experiment");
+        throw SimpleException("No stimulus display in current experiment");
     }
     
     return currentDisplay;
