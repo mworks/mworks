@@ -39,11 +39,11 @@ MacOSStimulusDisplay::~MacOSStimulusDisplay() {
 }
 
 
-CGDirectDisplayID MacOSStimulusDisplay::getDisplayIDForContext(int contextIndex) const {
+CGDirectDisplayID MacOSStimulusDisplay::getDisplayIDForContext(int context_id) const {
     __block CGDirectDisplayID displayID;
     dispatch_sync(dispatch_get_main_queue(), ^{
         auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
-        NSView *view = glcm->getView(context_ids.at(contextIndex));
+        NSView *view = glcm->getView(context_id);
         NSNumber *screenNumber = view.window.screen.deviceDescription[@"NSScreenNumber"];
         displayID = screenNumber.unsignedIntValue;
     });
@@ -51,7 +51,7 @@ CGDirectDisplayID MacOSStimulusDisplay::getDisplayIDForContext(int contextIndex)
 }
 
 
-void MacOSStimulusDisplay::prepareContext(int contextIndex) {
+void MacOSStimulusDisplay::prepareContext(int context_id) {
     CVDisplayLinkRef dl;
     
     if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&dl)) {
@@ -59,7 +59,7 @@ void MacOSStimulusDisplay::prepareContext(int contextIndex) {
     }
     
     displayLinks.push_back(dl);
-    displayLinkContexts.emplace_back(new DisplayLinkContext(this, contextIndex));
+    displayLinkContexts.emplace_back(new DisplayLinkContext(this, context_id));
     
     if (kCVReturnSuccess != CVDisplayLinkSetOutputCallback(dl,
                                                            &MacOSStimulusDisplay::displayLinkCallback,
@@ -68,11 +68,11 @@ void MacOSStimulusDisplay::prepareContext(int contextIndex) {
         throw SimpleException("Unable to set display link output callback");
     }
     
-    if (kCVReturnSuccess != CVDisplayLinkSetCurrentCGDisplay(dl, getDisplayIDForContext(contextIndex))) {
+    if (kCVReturnSuccess != CVDisplayLinkSetCurrentCGDisplay(dl, getDisplayIDForContext(context_id))) {
         throw SimpleException("Unable to set current display for display link");
     }
     
-    if (0 == contextIndex && !useColorManagement) {
+    if (context_id == main_context_id && !useColorManagement) {
         auto reg = ComponentRegistry::getSharedRegistry();
         auto displayInfo = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME)->getValue();
         if (displayInfo.hasKey(M_SET_DISPLAY_GAMMA_KEY) &&
@@ -82,7 +82,7 @@ void MacOSStimulusDisplay::prepareContext(int contextIndex) {
         }
     }
     
-    opengl_context_manager->prepareContext(context_ids.at(contextIndex), useColorManagement);
+    opengl_context_manager->prepareContext(context_id, useColorManagement);
 }
 
 
@@ -170,11 +170,11 @@ CVReturn MacOSStimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink
 {
     DisplayLinkContext &context = *static_cast<DisplayLinkContext *>(_context);
     MacOSStimulusDisplay &display = *(context.first);
-    int contextIndex = context.second;
+    int context_id = context.second;
     
-    if (contextIndex != 0) {
+    if (context_id != display.main_context_id) {
         
-        display.refreshMirrorDisplay(contextIndex);
+        display.refreshMirrorDisplay();
         
     } else {
         

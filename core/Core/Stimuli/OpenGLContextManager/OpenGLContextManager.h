@@ -18,8 +18,6 @@ BEGIN_NAMESPACE_MW
 class OpenGLContextManager : public Component, boost::noncopyable {
     
 public:
-    static boost::shared_ptr<OpenGLContextManager> createPlatformOpenGLContextManager();
-    
     // Create a fullscreen context on a particular display
     virtual int newFullscreenContext(int screen_number, bool opaque) = 0;
     
@@ -47,6 +45,8 @@ public:
     virtual void presentFramebuffer(int src_context_id, int framebuffer_id, int dst_context_id) = 0;
     virtual void releaseFramebuffer(int context_id, int framebuffer_id) = 0;
     
+    static boost::shared_ptr<OpenGLContextManager> createPlatformOpenGLContextManager();
+    
     REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
     
 };
@@ -56,28 +56,3 @@ END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

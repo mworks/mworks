@@ -43,8 +43,8 @@ protected:
     const boost::shared_ptr<OpenGLContextManager> opengl_context_manager;
     const boost::shared_ptr<Clock> clock;
     
-    std::vector<int> context_ids;
-    int current_context_index;
+    int main_context_id;
+    int mirror_context_id;
     boost::shared_ptr<LinkedList<StimulusNode>> display_stack;
     
     boost::mutex display_lock;
@@ -73,12 +73,12 @@ protected:
     const bool useColorManagement;
     int framebuffer_id;
     
-    virtual void prepareContext(int contextIndex) = 0;
+    virtual void prepareContext(int context_id) = 0;
     virtual void setMainDisplayRefreshRate() = 0;
     
     void setDisplayBounds();
     void refreshMainDisplay();
-    void refreshMirrorDisplay(int contextIndex) const;
+    void refreshMirrorDisplay() const;
     void drawDisplayStack();
     void ensureRefresh(unique_lock &lock);
     
@@ -100,29 +100,31 @@ public:
     explicit StimulusDisplay(bool useColorManagement);
     virtual ~StimulusDisplay();
     
-    void addContext(int _context_id);
+    void setMainContext(int context_id);
+    void setMirrorContext(int context_id);
     
-    // These are meant to be used by stimulus classes that need to manage per-context GL resources.
+    // These methods are used by legacy stimulus classes to manage per-context OpenGL resources.
     // They should *not* be used internally by StimulusDisplay.
-    int getNContexts() { return (context_ids.empty() ? 0 : 1); }
-    OpenGLContextLock setCurrent(int i);
-    int getCurrentContextIndex() { return current_context_index; }
+    int getNContexts() const { return 1; }
+    OpenGLContextLock setCurrent(int i = 0);  // Argument is ignored
+    int getCurrentContextIndex() const { return 0; }
     
     void addStimulusNode(const boost::shared_ptr<StimulusNode> &stimnode);
     
     void setBackgroundColor(double red, double green, double blue, double alpha);
     void setRedrawOnEveryRefresh(bool redrawOnEveryRefresh);
     void setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates);
-    bool getUseColorManagement() const { return useColorManagement; }
     MWTime updateDisplay();
     void clearDisplay();
-    void getDisplayBounds(double &left, double &right, double &bottom, double &top);
-    const GLKMatrix4& getProjectionMatrix() const { return projectionMatrix; }
+    
+    bool getUseColorManagement() const { return useColorManagement; }
+    void getDisplayBounds(double &left, double &right, double &bottom, double &top) const;
+    GLKMatrix4 getProjectionMatrix() const { return projectionMatrix; }
     double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
     MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
     
-    static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool useColorManagement);
     static boost::shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
+    static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool useColorManagement);
     
 };
 

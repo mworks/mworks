@@ -30,7 +30,8 @@ BEGIN_NAMESPACE_MW
 StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     opengl_context_manager(OpenGLContextManager::instance()),
     clock(Clock::instance()),
-    current_context_index(-1),
+    main_context_id(-1),
+    mirror_context_id(-1),
     waitingForRefresh(false),
     needDraw(false),
     redrawOnEveryRefresh(false),
@@ -69,7 +70,7 @@ OpenGLContextLock StimulusDisplay::setCurrent(int i) {
         return OpenGLContextLock();
     }
 
-	return opengl_context_manager->setCurrent(context_ids[i]);
+	return opengl_context_manager->setCurrent(main_context_id);
 }
 
 
@@ -126,7 +127,7 @@ void StimulusDisplay::setDisplayBounds() {
 }
 
 
-void StimulusDisplay::getDisplayBounds(double &left, double &right, double &bottom, double &top) {
+void StimulusDisplay::getDisplayBounds(double &left, double &right, double &bottom, double &top) const {
     left = this->left;
     right = this->right;
     bottom = this->bottom;
@@ -152,17 +153,25 @@ void StimulusDisplay::setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOn
 }
 
 
-void StimulusDisplay::addContext(int _context_id) {
-	context_ids.push_back(_context_id);
-    int contextIndex = context_ids.size() - 1;
-    
-    auto ctxLock = opengl_context_manager->setCurrent(_context_id);
-    prepareContext(contextIndex);
-    
-    if (0 == contextIndex) {
-        setMainDisplayRefreshRate();
-        framebuffer_id = opengl_context_manager->createFramebuffer(_context_id, useColorManagement);
+void StimulusDisplay::setMainContext(int context_id) {
+    if (-1 != main_context_id) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Main context already set");
     }
+    main_context_id = context_id;
+    auto ctxLock = opengl_context_manager->setCurrent(context_id);
+    prepareContext(context_id);
+    setMainDisplayRefreshRate();
+    framebuffer_id = opengl_context_manager->createFramebuffer(context_id, useColorManagement);
+}
+
+
+void StimulusDisplay::setMirrorContext(int context_id) {
+    if (-1 != mirror_context_id) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Mirror context already set");
+    }
+    mirror_context_id = context_id;
+    auto ctxLock = opengl_context_manager->setCurrent(context_id);
+    prepareContext(context_id);
 }
 
 
@@ -240,26 +249,22 @@ void StimulusDisplay::refreshMainDisplay() {
     // Draw stimuli
     //
     
-    constexpr int contextIndex = 0;
-    const int context_id = context_ids.at(contextIndex);
-    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_id);
+    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(main_context_id);
     
     if (needDraw) {
-        opengl_context_manager->pushFramebuffer(context_id, framebuffer_id);
+        opengl_context_manager->pushFramebuffer(main_context_id, framebuffer_id);
         
-        current_context_index = contextIndex;
         drawDisplayStack();
-        current_context_index = -1;
         
-        opengl_context_manager->popFramebuffer(context_id);
-        opengl_context_manager->flushFramebuffer(context_id, framebuffer_id);
+        opengl_context_manager->popFramebuffer(main_context_id);
+        opengl_context_manager->flushFramebuffer(main_context_id, framebuffer_id);
         
         if (paused) {
             didDrawWhilePaused = true;
         }
     }
     
-    opengl_context_manager->presentFramebuffer(context_id, framebuffer_id);
+    opengl_context_manager->presentFramebuffer(main_context_id, framebuffer_id);
     
     if (needDraw) {
         announceDisplayUpdate(updateIsExplicit);
@@ -269,10 +274,9 @@ void StimulusDisplay::refreshMainDisplay() {
 }
 
 
-void StimulusDisplay::refreshMirrorDisplay(int contextIndex) const {
-    const int context_id = context_ids.at(contextIndex);
-    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_id);
-    opengl_context_manager->presentFramebuffer(context_ids.at(0), framebuffer_id, context_id);
+void StimulusDisplay::refreshMirrorDisplay() const {
+    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(mirror_context_id);
+    opengl_context_manager->presentFramebuffer(main_context_id, framebuffer_id, mirror_context_id);
 }
 
 
@@ -362,9 +366,7 @@ void StimulusDisplay::ensureRefresh(unique_lock &lock) {
     if (!displayUpdatesStarted) {
         // Need to do the refresh here
         refreshMainDisplay();
-        for (int i = 1; i < context_ids.size(); i++) {
-            refreshMirrorDisplay(context_ids[i]);
-        }
+        refreshMirrorDisplay();
     } else {
         // Wait for next display refresh to complete
         waitingForRefresh = true;

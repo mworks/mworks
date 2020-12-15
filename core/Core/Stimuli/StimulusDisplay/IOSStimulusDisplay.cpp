@@ -18,7 +18,7 @@
 @interface MWKDisplayLinkTarget : NSObject
 
 - (instancetype)initWithStimulusDisplay:(const boost::shared_ptr<mw::IOSStimulusDisplay> &)stimulusDisplay
-                           contextIndex:(int)contextIndex
+                              contextID:(int)contextID
                                callback:(mw::IOSStimulusDisplay::DisplayLinkCallback)callback;
 
 @end
@@ -26,19 +26,19 @@
 
 @implementation MWKDisplayLinkTarget {
     boost::weak_ptr<mw::IOSStimulusDisplay> weakStimulusDisplay;
-    int contextIndex;
+    int contextID;
     mw::IOSStimulusDisplay::DisplayLinkCallback callback;
 }
 
 
 - (instancetype)initWithStimulusDisplay:(const boost::shared_ptr<mw::IOSStimulusDisplay> &)stimulusDisplay
-                           contextIndex:(int)_contextIndex
+                              contextID:(int)_contextID
                                callback:(mw::IOSStimulusDisplay::DisplayLinkCallback)_callback
 {
     self = [super init];
     if (self) {
         weakStimulusDisplay = stimulusDisplay;
-        contextIndex = _contextIndex;
+        contextID = _contextID;
         callback = _callback;
     }
     return self;
@@ -48,7 +48,7 @@
 - (void)updateDisplay:(CADisplayLink *)displayLink {
     if (auto stimulusDisplay = weakStimulusDisplay.lock()) {
         try {
-            callback(displayLink, *stimulusDisplay, contextIndex);
+            callback(displayLink, *stimulusDisplay, contextID);
         } catch (const std::exception &e) {
             mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN, "Error in display link callback: %s", e.what());
         } catch (...) {
@@ -82,15 +82,15 @@ IOSStimulusDisplay::~IOSStimulusDisplay() {
 }
 
 
-void IOSStimulusDisplay::prepareContext(int contextIndex) {
+void IOSStimulusDisplay::prepareContext(int context_id) {
     dispatch_sync(dispatch_get_main_queue(), ^{
         auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
-        auto view = glcm->getView(context_ids.at(contextIndex));
+        auto view = glcm->getView(context_id);
         auto screen = view.window.screen;
         auto sharedThis = boost::dynamic_pointer_cast<IOSStimulusDisplay>(shared_from_this());
         
         MWKDisplayLinkTarget *displayLinkTarget = [[MWKDisplayLinkTarget alloc] initWithStimulusDisplay:sharedThis
-                                                                                           contextIndex:contextIndex
+                                                                                              contextID:context_id
                                                                                                callback:&displayLinkCallback];
         CADisplayLink *displayLink = [screen displayLinkWithTarget:displayLinkTarget selector:@selector(updateDisplay:)];
         [displayLinks addObject:displayLink];
@@ -101,14 +101,14 @@ void IOSStimulusDisplay::prepareContext(int contextIndex) {
         //          @"Unexpected preferredFramesPerSecond on CADisplayLink");
     });
     
-    opengl_context_manager->prepareContext(context_ids.at(contextIndex), useColorManagement);
+    opengl_context_manager->prepareContext(context_id, useColorManagement);
 }
 
 
 void IOSStimulusDisplay::setMainDisplayRefreshRate() {
     dispatch_sync(dispatch_get_main_queue(), ^{
         auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
-        auto view = glcm->getView(context_ids.at(0));
+        auto view = glcm->getView(main_context_id);
         auto screen = view.window.screen;
         mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
     });
@@ -148,15 +148,15 @@ void IOSStimulusDisplay::stopDisplayUpdates() {
 }
 
 
-void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display, int contextIndex) {
+void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display, int context_id) {
     if (!(display.displayUpdatesStarted)) {
         CFRunLoopStop(CFRunLoopGetCurrent());
         return;
     }
     
-    if (contextIndex != 0) {
+    if (context_id != display.main_context_id) {
         
-        display.refreshMirrorDisplay(contextIndex);
+        display.refreshMirrorDisplay();
         
     } else {
         

@@ -22,7 +22,7 @@ BEGIN_NAMESPACE_MW
 
 class IOSStimulusDisplay : public AppleStimulusDisplay {
     
-    static void displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display, int contextIndex);
+    static void displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display, int context_id);
     
 public:
     using DisplayLinkCallback = decltype(&displayLinkCallback);
@@ -33,7 +33,7 @@ public:
     CFTimeInterval getCurrentTargetTimestamp() const { return lastTargetTimestamp; }
     
 private:
-    void prepareContext(int contextIndex) override;
+    void prepareContext(int context_id) override;
     void setMainDisplayRefreshRate() override;
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;

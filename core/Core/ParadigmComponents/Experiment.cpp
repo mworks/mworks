@@ -244,15 +244,15 @@ void Experiment::prepareStimulusDisplay() {
         }
         
         auto new_context = opengl_context_manager->newFullscreenContext(display_to_use, make_window_opaque);
-        stimulus_display->addContext(new_context);
+        stimulus_display->setMainContext(new_context);
         
         if (always_display_mirror_window) {
             auto auxilliary_context = opengl_context_manager->newMirrorContext();
-            stimulus_display->addContext(auxilliary_context);
+            stimulus_display->setMirrorContext(auxilliary_context);
         }
     } else {
         auto new_context = opengl_context_manager->newMirrorContext();
-        stimulus_display->addContext(new_context);
+        stimulus_display->setMainContext(new_context);
     }
     
     stimulus_display->clearDisplay();
