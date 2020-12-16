@@ -73,12 +73,12 @@ protected:
     const bool useColorManagement;
     int framebuffer_id;
     
-    virtual void prepareContext(int context_id) = 0;
+    virtual void prepareContext(int context_id);
     virtual void setMainDisplayRefreshRate() = 0;
     
     void setDisplayBounds();
     void refreshMainDisplay();
-    void refreshMirrorDisplay() const;
+    void refreshMirrorDisplay();
     void drawDisplayStack();
     void ensureRefresh(unique_lock &lock);
     
@@ -89,6 +89,9 @@ protected:
     void stateSystemCallback(const Datum &data, MWorksTime time);
     virtual void startDisplayUpdates() = 0;
     virtual void stopDisplayUpdates() = 0;
+    
+    virtual void presentFramebuffer(int framebuffer_id, int dst_context_id) = 0;
+    void presentFramebuffer(int framebuffer_id) { presentFramebuffer(framebuffer_id, main_context_id); }
     
 public:
     static void getDisplayBounds(const Datum &mainScreenInfo,
@@ -122,6 +125,12 @@ public:
     GLKMatrix4 getProjectionMatrix() const { return projectionMatrix; }
     double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
     MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
+    
+    virtual int createFramebuffer() = 0;
+    virtual void pushFramebuffer(int framebuffer_id) = 0;
+    virtual void bindCurrentFramebuffer() = 0;
+    virtual void popFramebuffer() = 0;
+    virtual void releaseFramebuffer(int framebuffer_id) = 0;
     
     static boost::shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
     static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool useColorManagement);

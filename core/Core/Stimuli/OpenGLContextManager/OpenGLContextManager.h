@@ -35,16 +35,6 @@ public:
     
     virtual void prepareContext(int context_id, bool useColorManagement) = 0;
     
-    virtual int createFramebuffer(int context_id, bool useColorManagement) = 0;
-    virtual void pushFramebuffer(int context_id, int framebuffer_id) = 0;
-    virtual void popFramebuffer(int context_id) = 0;
-    virtual void flushFramebuffer(int context_id, int framebuffer_id) = 0;
-    void presentFramebuffer(int context_id, int framebuffer_id) {
-        presentFramebuffer(context_id, framebuffer_id, context_id);
-    }
-    virtual void presentFramebuffer(int src_context_id, int framebuffer_id, int dst_context_id) = 0;
-    virtual void releaseFramebuffer(int context_id, int framebuffer_id) = 0;
-    
     static boost::shared_ptr<OpenGLContextManager> createPlatformOpenGLContextManager();
     
     REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)

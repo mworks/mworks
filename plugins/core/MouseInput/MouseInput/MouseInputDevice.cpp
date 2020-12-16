@@ -71,16 +71,13 @@ MouseInputDevice::~MouseInputDevice() {
 bool MouseInputDevice::initialize() {
     @autoreleasepool {
         {
-            // Call getCurrentStimulusDisplay() first, as this will ensure that both the stimulus display and
-            // the OpenGL context manager exist
-            auto stimulusDisplay = StimulusDisplay::getCurrentStimulusDisplay();
-            auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
+            auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(StimulusDisplay::getCurrentStimulusDisplay());
             
             if (useMirrorWindow) {
-                // If there's no mirror window, getMirrorView will return the fullscreen window's view
-                targetView = glcm->getMirrorView();
+                // If there's no mirror window, getMirrorView will return the main window's view
+                targetView = stimulusDisplay->getMirrorView();
             } else {
-                targetView = glcm->getFullscreenView();
+                targetView = stimulusDisplay->getMainView();
             }
             
             projectionMatrix = stimulusDisplay->getProjectionMatrix();

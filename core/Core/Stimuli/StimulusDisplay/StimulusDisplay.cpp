@@ -69,7 +69,6 @@ OpenGLContextLock StimulusDisplay::setCurrent(int i) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid context index (%d)", i);
         return OpenGLContextLock();
     }
-
 	return opengl_context_manager->setCurrent(main_context_id);
 }
 
@@ -161,7 +160,7 @@ void StimulusDisplay::setMainContext(int context_id) {
     auto ctxLock = opengl_context_manager->setCurrent(context_id);
     prepareContext(context_id);
     setMainDisplayRefreshRate();
-    framebuffer_id = opengl_context_manager->createFramebuffer(context_id, useColorManagement);
+    framebuffer_id = createFramebuffer();
 }
 
 
@@ -172,6 +171,11 @@ void StimulusDisplay::setMirrorContext(int context_id) {
     mirror_context_id = context_id;
     auto ctxLock = opengl_context_manager->setCurrent(context_id);
     prepareContext(context_id);
+}
+
+
+void StimulusDisplay::prepareContext(int context_id) {
+    opengl_context_manager->prepareContext(context_id, useColorManagement);
 }
 
 
@@ -252,19 +256,15 @@ void StimulusDisplay::refreshMainDisplay() {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(main_context_id);
     
     if (needDraw) {
-        opengl_context_manager->pushFramebuffer(main_context_id, framebuffer_id);
-        
+        pushFramebuffer(framebuffer_id);
         drawDisplayStack();
-        
-        opengl_context_manager->popFramebuffer(main_context_id);
-        opengl_context_manager->flushFramebuffer(main_context_id, framebuffer_id);
-        
+        popFramebuffer();
         if (paused) {
             didDrawWhilePaused = true;
         }
     }
     
-    opengl_context_manager->presentFramebuffer(main_context_id, framebuffer_id);
+    presentFramebuffer(framebuffer_id);
     
     if (needDraw) {
         announceDisplayUpdate(updateIsExplicit);
@@ -274,9 +274,9 @@ void StimulusDisplay::refreshMainDisplay() {
 }
 
 
-void StimulusDisplay::refreshMirrorDisplay() const {
+void StimulusDisplay::refreshMirrorDisplay() {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(mirror_context_id);
-    opengl_context_manager->presentFramebuffer(main_context_id, framebuffer_id, mirror_context_id);
+    presentFramebuffer(framebuffer_id, mirror_context_id);
 }
 
 

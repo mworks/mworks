@@ -8,7 +8,7 @@
 #ifndef MetalStimulus_hpp
 #define MetalStimulus_hpp
 
-#include "AppleOpenGLContextManager.hpp"
+#include "AppleStimulusDisplay.hpp"
 #include "ParameterValue.h"
 #include "Stimulus.h"
 
@@ -25,12 +25,15 @@ public:
     void unload(boost::shared_ptr<StimulusDisplay> display) override;
     void draw(boost::shared_ptr<StimulusDisplay> display) override;
     
+protected:
+    static boost::shared_ptr<AppleStimulusDisplay> getDisplay(const boost::shared_ptr<StimulusDisplay> &display) {
+        return boost::dynamic_pointer_cast<AppleStimulusDisplay>(display);
+    }
+    
 private:
     virtual void load(id<MTLDevice> device) { }
     virtual void unload() { }
     virtual void draw(id<MTLCommandBuffer> commandBuffer, MTLRenderPassDescriptor *renderPassDescriptor) { }
-    
-    boost::shared_ptr<AppleOpenGLContextManager> contextManager;
     
 };
 

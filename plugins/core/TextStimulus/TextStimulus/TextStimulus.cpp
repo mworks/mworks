@@ -127,10 +127,9 @@ void TextStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     
     __block CGSize displaySizeInPoints;
     dispatch_sync(dispatch_get_main_queue(), ^{
-        // If there's only a mirror window, getFullscreenView will return its view,
+        // If there's only a mirror window, getMainView will return its view,
         // so there's no need to call getMirrorView
-        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
-        auto displayView = glcm->getFullscreenView();
+        auto displayView = boost::dynamic_pointer_cast<AppleStimulusDisplay>(display)->getMainView();
         displaySizeInPoints = displayView.frame.size;
     });
     

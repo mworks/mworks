@@ -12,7 +12,6 @@
 
 #include <CoreAudio/HostTime.h>
 
-#include "AppleOpenGLContextManager.hpp"
 #include "ComponentRegistry.h"
 #include "StandardVariables.h"
 #include "Utilities.h"
@@ -42,8 +41,7 @@ MacOSStimulusDisplay::~MacOSStimulusDisplay() {
 CGDirectDisplayID MacOSStimulusDisplay::getDisplayIDForContext(int context_id) const {
     __block CGDirectDisplayID displayID;
     dispatch_sync(dispatch_get_main_queue(), ^{
-        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
-        NSView *view = glcm->getView(context_id);
+        NSView *view = contextManager->getView(context_id);
         NSNumber *screenNumber = view.window.screen.deviceDescription[@"NSScreenNumber"];
         displayID = screenNumber.unsignedIntValue;
     });
@@ -52,6 +50,8 @@ CGDirectDisplayID MacOSStimulusDisplay::getDisplayIDForContext(int context_id) c
 
 
 void MacOSStimulusDisplay::prepareContext(int context_id) {
+    AppleStimulusDisplay::prepareContext(context_id);
+    
     CVDisplayLinkRef dl;
     
     if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&dl)) {
@@ -81,8 +81,6 @@ void MacOSStimulusDisplay::prepareContext(int context_id) {
             setDisplayGamma(displayInfo);
         }
     }
-    
-    opengl_context_manager->prepareContext(context_id, useColorManagement);
 }
 
 

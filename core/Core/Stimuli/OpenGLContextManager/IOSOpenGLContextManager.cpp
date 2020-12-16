@@ -114,8 +114,6 @@ int IOSOpenGLContextManager::newMirrorContext() {
 
 void IOSOpenGLContextManager::releaseContexts() {
     @autoreleasepool {
-        releaseFramebuffers();
-        
         dispatch_sync(dispatch_get_main_queue(), ^{
             for (UIWindow *window in windows) {
                 window.hidden = YES;

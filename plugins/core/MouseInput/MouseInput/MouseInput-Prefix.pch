@@ -8,7 +8,7 @@
     #include <boost/noncopyable.hpp>
     
     #ifdef __OBJC__
-        #include <MWorksCore/AppleOpenGLContextManager.hpp>
+        #include <MWorksCore/AppleStimulusDisplay.hpp>
     #endif
     #include <MWorksCore/IODevice.h>
     #include <MWorksCore/Plugin.h>

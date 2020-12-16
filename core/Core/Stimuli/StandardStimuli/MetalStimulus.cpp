@@ -21,8 +21,7 @@ void MetalStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
         if (loaded)
             return;
         
-        contextManager = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
-        load(contextManager->getView(0).device);
+        load(getDisplay(display)->getMainView().device);
         
         Stimulus::load(display);
     }
@@ -35,7 +34,6 @@ void MetalStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
             return;
         
         unload();
-        contextManager.reset();
         
         Stimulus::unload(display);
     }
@@ -47,10 +45,10 @@ void MetalStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
         // Ensure that any pending OpenGL commands are committed before we start rendering
         glFlush();
         
-        id<MTLCommandBuffer> commandBuffer = [contextManager->getView(0).commandQueue commandBuffer];
+        id<MTLCommandBuffer> commandBuffer = [getDisplay(display)->getMainView().commandQueue commandBuffer];
         
         MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
-        renderPassDescriptor.colorAttachments[0].texture = contextManager->getCurrentFramebufferTexture(0);
+        renderPassDescriptor.colorAttachments[0].texture = getDisplay(display)->getCurrentMetalFramebufferTexture();
         renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
         renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
         

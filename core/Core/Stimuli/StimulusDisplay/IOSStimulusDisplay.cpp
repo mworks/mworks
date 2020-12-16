@@ -10,7 +10,6 @@
 
 #include "IOSStimulusDisplay.hpp"
 
-#include "AppleOpenGLContextManager.hpp"
 #include "MachUtilities.h"
 #include "Utilities.h"
 
@@ -83,9 +82,10 @@ IOSStimulusDisplay::~IOSStimulusDisplay() {
 
 
 void IOSStimulusDisplay::prepareContext(int context_id) {
+    AppleStimulusDisplay::prepareContext(context_id);
+    
     dispatch_sync(dispatch_get_main_queue(), ^{
-        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
-        auto view = glcm->getView(context_id);
+        auto view = contextManager->getView(context_id);
         auto screen = view.window.screen;
         auto sharedThis = boost::dynamic_pointer_cast<IOSStimulusDisplay>(shared_from_this());
         
@@ -100,15 +100,12 @@ void IOSStimulusDisplay::prepareContext(int context_id) {
         //NSCAssert(displayLink.preferredFramesPerSecond == screen.maximumFramesPerSecond,
         //          @"Unexpected preferredFramesPerSecond on CADisplayLink");
     });
-    
-    opengl_context_manager->prepareContext(context_id, useColorManagement);
 }
 
 
 void IOSStimulusDisplay::setMainDisplayRefreshRate() {
     dispatch_sync(dispatch_get_main_queue(), ^{
-        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
-        auto view = glcm->getView(main_context_id);
+        auto view = contextManager->getView(main_context_id);
         auto screen = view.window.screen;
         mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
     });
