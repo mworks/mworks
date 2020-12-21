@@ -159,7 +159,6 @@ void StimulusDisplay::setMainContext(int context_id) {
     main_context_id = context_id;
     auto ctxLock = opengl_context_manager->setCurrent(context_id);
     prepareContext(context_id);
-    setMainDisplayRefreshRate();
     framebuffer_id = createFramebuffer();
 }
 
@@ -171,11 +170,6 @@ void StimulusDisplay::setMirrorContext(int context_id) {
     mirror_context_id = context_id;
     auto ctxLock = opengl_context_manager->setCurrent(context_id);
     prepareContext(context_id);
-}
-
-
-void StimulusDisplay::prepareContext(int context_id) {
-    opengl_context_manager->prepareContext(context_id, useColorManagement);
 }
 
 

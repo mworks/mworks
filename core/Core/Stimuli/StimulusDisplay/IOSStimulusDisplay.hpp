@@ -34,7 +34,6 @@ public:
     
 private:
     void prepareContext(int context_id) override;
-    void setMainDisplayRefreshRate() override;
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;
     

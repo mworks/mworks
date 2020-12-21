@@ -17,53 +17,30 @@ BEGIN_NAMESPACE_MW
 AppleStimulusDisplay::AppleStimulusDisplay(bool useColorManagement) :
     StimulusDisplay(useColorManagement),
     contextManager(boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager)),
+    mainView(nil),
+    mirrorView(nil),
     framebufferWidth(0),
     framebufferHeight(0)
 { }
 
 
 AppleStimulusDisplay::~AppleStimulusDisplay() {
-}
-
-
-MWKOpenGLContext * AppleStimulusDisplay::getMainContext() const {
-    if (-1 != main_context_id) {
-        return contextManager->getContext(main_context_id);
+    @autoreleasepool {
+        mainView = nil;
+        mirrorView = nil;
     }
-    return nil;
-}
-
-
-MWKOpenGLContext * AppleStimulusDisplay::getMirrorContext() const {
-    if (-1 != mirror_context_id) {
-        return contextManager->getContext(mirror_context_id);
-    }
-    return getMainContext();
-}
-
-
-MWKMetalView * AppleStimulusDisplay::getMainView() const {
-    if (-1 != main_context_id) {
-        return contextManager->getView(main_context_id);
-    }
-    return nil;
-}
-
-
-MWKMetalView * AppleStimulusDisplay::getMirrorView() const {
-    if (-1 != mirror_context_id) {
-        return contextManager->getView(mirror_context_id);
-    }
-    return getMainView();
 }
 
 
 void AppleStimulusDisplay::prepareContext(int context_id) {
     @autoreleasepool {
-        StimulusDisplay::prepareContext(context_id);
+        opengl_context_manager->prepareContext(context_id, useColorManagement);
         
-        if (context_id == main_context_id) {
-            MWKMetalView *view = contextManager->getView(context_id);
+        MWKMetalView *view = contextManager->getView(context_id);
+        if (context_id == mirror_context_id) {
+            mirrorView = view;
+        } else if (context_id == main_context_id) {
+            mainView = view;
             MWKOpenGLContext *context = contextManager->getContext(context_id);
             
             framebufferWidth = view.drawableSize.width;

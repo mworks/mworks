@@ -72,14 +72,27 @@ void MacOSStimulusDisplay::prepareContext(int context_id) {
         throw SimpleException("Unable to set current display for display link");
     }
     
-    if (context_id == main_context_id && !useColorManagement) {
-        auto reg = ComponentRegistry::getSharedRegistry();
-        auto displayInfo = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME)->getValue();
-        if (displayInfo.hasKey(M_SET_DISPLAY_GAMMA_KEY) &&
-            displayInfo.getElement(M_SET_DISPLAY_GAMMA_KEY).getBool())
-        {
-            setDisplayGamma(displayInfo);
+    if (context_id == main_context_id) {
+        if (!useColorManagement) {
+            auto reg = ComponentRegistry::getSharedRegistry();
+            auto displayInfo = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME)->getValue();
+            if (displayInfo.hasKey(M_SET_DISPLAY_GAMMA_KEY) &&
+                displayInfo.getElement(M_SET_DISPLAY_GAMMA_KEY).getBool())
+            {
+                setDisplayGamma(displayInfo);
+            }
         }
+        
+        CVTime refreshPeriod = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(dl);
+        double refreshRate = 60.0;
+        if (refreshPeriod.flags & kCVTimeIsIndefinite) {
+            mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                     "Could not determine main display refresh rate.  Assuming %g Hz.",
+                     refreshRate);
+        } else {
+            refreshRate = double(refreshPeriod.timeScale) / double(refreshPeriod.timeValue);
+        }
+        mainDisplayRefreshRate = refreshRate;
     }
 }
 
@@ -108,22 +121,6 @@ void MacOSStimulusDisplay::setDisplayGamma(const Datum &displayInfo) {
     }
     
     didSetDisplayGamma = true;
-}
-
-
-void MacOSStimulusDisplay::setMainDisplayRefreshRate() {
-    CVTime refreshPeriod = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLinks.at(0));
-    double refreshRate = 60.0;
-    
-    if (refreshPeriod.flags & kCVTimeIsIndefinite) {
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                 "Could not determine main display refresh rate.  Assuming %g Hz.",
-                 refreshRate);
-    } else {
-        refreshRate = double(refreshPeriod.timeScale) / double(refreshPeriod.timeValue);
-    }
-    
-    mainDisplayRefreshRate = refreshRate;
 }
 
 

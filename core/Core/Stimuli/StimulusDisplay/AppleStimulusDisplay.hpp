@@ -22,11 +22,8 @@ public:
     explicit AppleStimulusDisplay(bool useColorManagement);
     ~AppleStimulusDisplay();
     
-    MWKOpenGLContext * getMainContext() const;
-    MWKOpenGLContext * getMirrorContext() const;
-    
-    MWKMetalView * getMainView() const;
-    MWKMetalView * getMirrorView() const;
+    MWKMetalView * getMainView() const { return mainView; }
+    MWKMetalView * getMirrorView() const { return (mirrorView ? mirrorView : mainView); }
     
     int createFramebuffer() override;
     void pushFramebuffer(int framebuffer_id) override;
@@ -61,6 +58,9 @@ private:
         CVOpenGLTexturePtr cvOpenGLTexture;
         GLuint glFramebuffer = 0;
     };
+    
+    MWKMetalView *mainView;
+    MWKMetalView *mirrorView;
     
     std::size_t framebufferWidth;
     std::size_t framebufferHeight;

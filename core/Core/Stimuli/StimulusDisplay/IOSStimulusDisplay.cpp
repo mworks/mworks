@@ -99,15 +99,10 @@ void IOSStimulusDisplay::prepareContext(int context_id) {
         // of the display, so there's no need to set its preferredFramesPerSecond property
         //NSCAssert(displayLink.preferredFramesPerSecond == screen.maximumFramesPerSecond,
         //          @"Unexpected preferredFramesPerSecond on CADisplayLink");
-    });
-}
-
-
-void IOSStimulusDisplay::setMainDisplayRefreshRate() {
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        auto view = contextManager->getView(main_context_id);
-        auto screen = view.window.screen;
-        mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
+        
+        if (context_id == main_context_id) {
+            mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
+        }
     });
 }
 

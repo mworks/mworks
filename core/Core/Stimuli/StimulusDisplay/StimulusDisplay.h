@@ -73,8 +73,7 @@ protected:
     const bool useColorManagement;
     int framebuffer_id;
     
-    virtual void prepareContext(int context_id);
-    virtual void setMainDisplayRefreshRate() = 0;
+    virtual void prepareContext(int context_id) = 0;
     
     void setDisplayBounds();
     void refreshMainDisplay();

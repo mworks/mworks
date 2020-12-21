@@ -40,7 +40,6 @@ private:
     
     void prepareContext(int context_id) override;
     void setDisplayGamma(const Datum &displayInfo);
-    void setMainDisplayRefreshRate() override;
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;
     
