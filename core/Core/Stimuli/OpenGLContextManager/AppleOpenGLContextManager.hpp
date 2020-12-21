@@ -19,8 +19,9 @@
 #  include <OpenGLES/EAGL.h>
 #endif
 
+#import <MetalKit/MetalKit.h>
+
 #include "OpenGLContextManager.h"
-#include "MWKMetalView.h"
 
 
 #if TARGET_OS_OSX
@@ -44,11 +45,11 @@ public:
     ~AppleOpenGLContextManager();
     
     MWKOpenGLContext * getContext(int context_id) const;
-    MWKMetalView * getView(int context_id) const;
+    MTKView * getView(int context_id) const;
     
 protected:
     NSMutableArray<MWKOpenGLContext *> *contexts;
-    NSMutableArray<MWKMetalView *> *views;
+    NSMutableArray<MTKView *> *views;
 #if TARGET_OS_OSX
     NSMutableArray<NSWindow *> *windows;
 #else

@@ -13,6 +13,9 @@
 #include "StimulusDisplay.h"
 
 
+@class MWKStimulusDisplayViewDelegate;  // Forward declaration
+
+
 BEGIN_NAMESPACE_MW
 
 
@@ -22,8 +25,8 @@ public:
     explicit AppleStimulusDisplay(bool useColorManagement);
     ~AppleStimulusDisplay();
     
-    MWKMetalView * getMainView() const { return mainView; }
-    MWKMetalView * getMirrorView() const { return (mirrorView ? mirrorView : mainView); }
+    MTKView * getMainView() const { return mainView; }
+    MTKView * getMirrorView() const { return (mirrorView ? mirrorView : mainView); }
     
     int createFramebuffer() override;
     void pushFramebuffer(int framebuffer_id) override;
@@ -31,10 +34,12 @@ public:
     void popFramebuffer() override;
     void releaseFramebuffer(int framebuffer_id) override;
     
+    id<MTLCommandQueue> getMetalCommandQueue() const { return commandQueue; }
     id<MTLTexture> getCurrentMetalFramebufferTexture() const;
     
 protected:
     void prepareContext(int context_id) override;
+    void prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context);
     void presentFramebuffer(int framebuffer_id, int dst_context_id) override;
     
     const boost::shared_ptr<AppleOpenGLContextManager> contextManager;
@@ -59,8 +64,11 @@ private:
         GLuint glFramebuffer = 0;
     };
     
-    MWKMetalView *mainView;
-    MWKMetalView *mirrorView;
+    id<MTLCommandQueue> commandQueue;
+    MTKView *mainView;
+    MTKView *mirrorView;
+    MWKStimulusDisplayViewDelegate *mainViewDelegate;
+    MWKStimulusDisplayViewDelegate *mirrorViewDelegate;
     
     std::size_t framebufferWidth;
     std::size_t framebufferHeight;

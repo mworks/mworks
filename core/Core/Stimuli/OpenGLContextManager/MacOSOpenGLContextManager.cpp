@@ -8,7 +8,6 @@
 #include "MacOSOpenGLContextManager.hpp"
 
 #include "ComponentRegistry.h"
-#include "MWKMetalView_Private.h"
 #include "OpenGLUtilities.hpp"
 
 
@@ -91,8 +90,8 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
                 }
                 window.hidesOnDeactivate = NO;
                 
-                if (MWKMetalView *view = [[MWKMetalView alloc] initWithFrame:frame
-                                                                      device:getMetalDeviceForScreen(screen)])
+                if (MTKView *view = [[MTKView alloc] initWithFrame:frame
+                                                            device:getMetalDeviceForScreen(screen)])
                 {
                     window.contentView = view;
                     view.layer.opaque = opaque;
@@ -157,7 +156,7 @@ int MacOSOpenGLContextManager::newMirrorContext(int main_context_id) {
                                                                  backing:NSBackingStoreBuffered
                                                                    defer:NO])
             {
-                MWKMetalView *mainView = nil;
+                MTKView *mainView = nil;
                 id<MTLDevice> metalDevice = nil;
                 if (main_context_id != -1 && (mainView = getView(main_context_id))) {
                     metalDevice = mainView.device;
@@ -165,8 +164,8 @@ int MacOSOpenGLContextManager::newMirrorContext(int main_context_id) {
                     metalDevice = getMetalDeviceForScreen(window.screen);
                 }
                 
-                if (MWKMetalView *view = [[MWKMetalView alloc] initWithFrame:NSMakeRect(0.0, 0.0, size.width, size.height)
-                                                                      device:metalDevice])
+                if (MTKView *view = [[MTKView alloc] initWithFrame:NSMakeRect(0.0, 0.0, size.width, size.height)
+                                                            device:metalDevice])
                 {
                     window.contentView = view;
                     
@@ -238,27 +237,13 @@ void MacOSOpenGLContextManager::clearCurrent() {
 void MacOSOpenGLContextManager::prepareContext(int context_id, bool useColorManagement) {
     @autoreleasepool {
         if (auto view = getView(context_id)) {
-            __block bool success = false;
-            
             dispatch_sync(dispatch_get_main_queue(), ^{
-                NSError *error = nil;
-                if (![view prepareUsingColorManagement:useColorManagement error:&error]) {
-                    merror(mw::M_DISPLAY_MESSAGE_DOMAIN,
-                           "Cannot prepare Metal view: %s",
-                           error.localizedDescription.UTF8String);
-                } else {
-                    if (useColorManagement) {
-                        // Set the view's color space, so that the system will color match its content
-                        // to the display’s color space
-                        view.colorspace = NSColorSpace.sRGBColorSpace.CGColorSpace;
-                    }
-                    success = true;
+                if (useColorManagement) {
+                    // Set the view's color space, so that the system will color match its content
+                    // to the display’s color space
+                    view.colorspace = NSColorSpace.sRGBColorSpace.CGColorSpace;
                 }
             });
-            
-            if (!success) {
-                throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot prepare OpenGL context");
-            }
         }
     }
 }

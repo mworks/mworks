@@ -7,8 +7,92 @@
 
 #include "AppleStimulusDisplay.hpp"
 
-#include "MWKMetalView_Private.h"
 #include "OpenGLUtilities.hpp"
+
+
+NS_ASSUME_NONNULL_BEGIN
+
+
+@interface MWKStimulusDisplayViewDelegate : NSObject <MTKViewDelegate>
+
+@property(nonatomic, strong) id<MTLCommandQueue> commandQueue;
+@property(nonatomic, strong) id<MTLTexture> texture;
+
+- (BOOL)prepareWithMTKView:(MTKView *)view
+        useColorManagement:(BOOL)useColorManagement
+                     error:(__autoreleasing NSError **)error;
+
+@end
+
+
+NS_ASSUME_NONNULL_END
+
+
+@implementation MWKStimulusDisplayViewDelegate {
+    id<MTLRenderPipelineState> _pipelineState;
+}
+
+
+- (BOOL)prepareWithMTKView:(MTKView *)view useColorManagement:(BOOL)useColorManagement error:(NSError **)error {
+    id<MTLLibrary> library = [view.device newDefaultLibraryWithBundle:[NSBundle bundleForClass:[self class]]
+                                                                error:error];
+    if (!library) {
+        return NO;
+    }
+    
+    MTLFunctionConstantValues *functionConstantValues = [[MTLFunctionConstantValues alloc] init];
+    const bool convertToSRGB = useColorManagement;
+    [functionConstantValues setConstantValue:&convertToSRGB
+                                        type:MTLDataTypeBool
+                                    withName:@"MWKStimulusDisplayViewDelegate_convertToSRGB"];
+    
+    id<MTLFunction> vertexFunction = [library newFunctionWithName:@"MWKStimulusDisplayViewDelegate_vertexShader"];
+    
+    id<MTLFunction> fragmentFunction = [library newFunctionWithName:@"MWKStimulusDisplayViewDelegate_fragmentShader"
+                                                     constantValues:functionConstantValues
+                                                              error:error];
+    if (!fragmentFunction) {
+        return NO;
+    }
+    
+    MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+    pipelineStateDescriptor.vertexFunction = vertexFunction;
+    pipelineStateDescriptor.fragmentFunction = fragmentFunction;
+    pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
+    
+    _pipelineState = [view.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:error];
+    if (!_pipelineState) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+- (void)mtkView:(MTKView *)view drawableSizeWillChange:(CGSize)size {
+    // Stimulus display views aren't resizeable, so this should never be called
+}
+
+
+- (void)drawInMTKView:(MTKView *)view {
+    MTLRenderPassDescriptor *renderPassDescriptor = view.currentRenderPassDescriptor;
+    if (renderPassDescriptor) {
+        id<MTLCommandBuffer> commandBuffer = [self.commandQueue commandBuffer];
+        id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        
+        [renderEncoder setRenderPipelineState:_pipelineState];
+        [renderEncoder setFragmentTexture:self.texture atIndex:0];
+        
+        [renderEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
+        
+        [renderEncoder endEncoding];
+        [commandBuffer presentDrawable:view.currentDrawable];
+        [commandBuffer commit];
+    }
+}
+
+
+@end
 
 
 BEGIN_NAMESPACE_MW
@@ -17,8 +101,11 @@ BEGIN_NAMESPACE_MW
 AppleStimulusDisplay::AppleStimulusDisplay(bool useColorManagement) :
     StimulusDisplay(useColorManagement),
     contextManager(boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager)),
+    commandQueue(nil),
     mainView(nil),
     mirrorView(nil),
+    mainViewDelegate(nil),
+    mirrorViewDelegate(nil),
     framebufferWidth(0),
     framebufferHeight(0)
 { }
@@ -26,8 +113,11 @@ AppleStimulusDisplay::AppleStimulusDisplay(bool useColorManagement) :
 
 AppleStimulusDisplay::~AppleStimulusDisplay() {
     @autoreleasepool {
-        mainView = nil;
+        mirrorViewDelegate = nil;
+        mainViewDelegate = nil;
         mirrorView = nil;
+        mainView = nil;
+        commandQueue = nil;
     }
 }
 
@@ -36,78 +126,98 @@ void AppleStimulusDisplay::prepareContext(int context_id) {
     @autoreleasepool {
         opengl_context_manager->prepareContext(context_id, useColorManagement);
         
-        MWKMetalView *view = contextManager->getView(context_id);
-        if (context_id == mirror_context_id) {
-            mirrorView = view;
-        } else if (context_id == main_context_id) {
-            mainView = view;
-            MWKOpenGLContext *context = contextManager->getContext(context_id);
-            
-            framebufferWidth = view.drawableSize.width;
-            framebufferHeight = view.drawableSize.height;
-            
-            {
-                NSDictionary *pixelBufferAttributes = @{
-                    (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_64RGBAHalf),
-                    (NSString *)kCVPixelBufferWidthKey: @(framebufferWidth),
-                    (NSString *)kCVPixelBufferHeightKey: @(framebufferHeight),
-                    (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES),
-#if TARGET_OS_OSX
-                    (NSString *)kCVPixelBufferOpenGLCompatibilityKey: @(YES),
-#else
-                    (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES),
-#endif
-                };
-                CVPixelBufferPoolRef _cvPixelBufferPool = nullptr;
-                auto status = CVPixelBufferPoolCreate(kCFAllocatorDefault,
-                                                      nullptr,
-                                                      (__bridge CFDictionaryRef)pixelBufferAttributes,
-                                                      &_cvPixelBufferPool);
-                if (status != kCVReturnSuccess) {
-                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                          boost::format("Cannot create pixel buffer pool (error = %d)") % status);
-                }
-                cvPixelBufferPool = CVPixelBufferPoolPtr::owned(_cvPixelBufferPool);
-            }
-            
-            {
-                CVMetalTextureCacheRef _cvMetalTextureCache = nullptr;
-                auto status = CVMetalTextureCacheCreate(kCFAllocatorDefault,
-                                                        nil,
-                                                        view.device,
-                                                        nil,
-                                                        &_cvMetalTextureCache);
-                if (status != kCVReturnSuccess) {
-                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                          boost::format("Cannot create Metal texture cache (error = %d)") % status);
-                }
-                cvMetalTextureCache = CVMetalTextureCachePtr::created(_cvMetalTextureCache);
-            }
-            
-            {
-#if TARGET_OS_OSX
-                CVOpenGLTextureCacheRef _cvOpenGLTextureCache = nullptr;
-                auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
-                                                         nil,
-                                                         context.CGLContextObj,
-                                                         context.pixelFormat.CGLPixelFormatObj,
-                                                         nil,
-                                                         &_cvOpenGLTextureCache);
-#else
-                CVOpenGLESTextureCacheRef _cvOpenGLTextureCache = nullptr;
-                auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
-                                                           nil,
-                                                           context,
-                                                           nil,
-                                                           &_cvOpenGLTextureCache);
-#endif
-                if (status != kCVReturnSuccess) {
-                    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                          boost::format("Cannot create OpenGL texture cache (error = %d)") % status);
-                }
-                cvOpenGLTextureCache = CVOpenGLTextureCachePtr::created(_cvOpenGLTextureCache);
-            }
+        MTKView *view = contextManager->getView(context_id);
+        view.paused = YES;
+        view.enableSetNeedsDisplay = NO;
+        
+        MWKStimulusDisplayViewDelegate *delegate = [[MWKStimulusDisplayViewDelegate alloc] init];
+        NSError *error = nil;
+        if (![delegate prepareWithMTKView:view useColorManagement:useColorManagement error:&error]) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  "Cannot prepare Metal view delegate",
+                                  error.localizedDescription.UTF8String);
         }
+        
+        if (context_id == main_context_id) {
+            prepareFramebufferStack(view, contextManager->getContext(context_id));
+            commandQueue = [view.device newCommandQueue];
+            mainView = view;
+            mainViewDelegate = delegate;
+        } else if (context_id == mirror_context_id) {
+            mirrorView = view;
+            mirrorViewDelegate = delegate;
+        }
+        
+        delegate.commandQueue = commandQueue;
+        view.delegate = delegate;
+    }
+}
+
+
+void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context) {
+    framebufferWidth = view.drawableSize.width;
+    framebufferHeight = view.drawableSize.height;
+    
+    {
+        NSDictionary *pixelBufferAttributes = @{
+            (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_64RGBAHalf),
+            (NSString *)kCVPixelBufferWidthKey: @(framebufferWidth),
+            (NSString *)kCVPixelBufferHeightKey: @(framebufferHeight),
+            (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES),
+#if TARGET_OS_OSX
+            (NSString *)kCVPixelBufferOpenGLCompatibilityKey: @(YES),
+#else
+            (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES),
+#endif
+        };
+        CVPixelBufferPoolRef _cvPixelBufferPool = nullptr;
+        auto status = CVPixelBufferPoolCreate(kCFAllocatorDefault,
+                                              nullptr,
+                                              (__bridge CFDictionaryRef)pixelBufferAttributes,
+                                              &_cvPixelBufferPool);
+        if (status != kCVReturnSuccess) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  boost::format("Cannot create pixel buffer pool (error = %d)") % status);
+        }
+        cvPixelBufferPool = CVPixelBufferPoolPtr::owned(_cvPixelBufferPool);
+    }
+    
+    {
+        CVMetalTextureCacheRef _cvMetalTextureCache = nullptr;
+        auto status = CVMetalTextureCacheCreate(kCFAllocatorDefault,
+                                                nil,
+                                                view.device,
+                                                nil,
+                                                &_cvMetalTextureCache);
+        if (status != kCVReturnSuccess) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  boost::format("Cannot create Metal texture cache (error = %d)") % status);
+        }
+        cvMetalTextureCache = CVMetalTextureCachePtr::created(_cvMetalTextureCache);
+    }
+    
+    {
+#if TARGET_OS_OSX
+        CVOpenGLTextureCacheRef _cvOpenGLTextureCache = nullptr;
+        auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
+                                                 nil,
+                                                 context.CGLContextObj,
+                                                 context.pixelFormat.CGLPixelFormatObj,
+                                                 nil,
+                                                 &_cvOpenGLTextureCache);
+#else
+        CVOpenGLESTextureCacheRef _cvOpenGLTextureCache = nullptr;
+        auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
+                                                   nil,
+                                                   context,
+                                                   nil,
+                                                   &_cvOpenGLTextureCache);
+#endif
+        if (status != kCVReturnSuccess) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  boost::format("Cannot create OpenGL texture cache (error = %d)") % status);
+        }
+        cvOpenGLTextureCache = CVOpenGLTextureCachePtr::created(_cvOpenGLTextureCache);
     }
 }
 
@@ -242,9 +352,20 @@ void AppleStimulusDisplay::presentFramebuffer(int framebuffer_id, int dst_contex
             merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
             return;
         }
-        if (auto dstView = contextManager->getView(dst_context_id)) {
-            [dstView drawTexture:CVMetalTextureGetTexture(iter->second.cvMetalTexture.get())];
+        
+        MWKStimulusDisplayViewDelegate *delegate = nil;
+        MTKView *view = nil;
+        
+        if (dst_context_id == main_context_id) {
+            delegate = mainViewDelegate;
+            view = mainView;
+        } else if (dst_context_id == mirror_context_id) {
+            delegate = mirrorViewDelegate;
+            view = mirrorView;
         }
+        
+        delegate.texture = CVMetalTextureGetTexture(iter->second.cvMetalTexture.get());
+        [view draw];
     }
 }
 

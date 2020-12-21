@@ -45,7 +45,7 @@ void MetalStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
         // Ensure that any pending OpenGL commands are committed before we start rendering
         glFlush();
         
-        id<MTLCommandBuffer> commandBuffer = [getDisplay(display)->getMainView().commandQueue commandBuffer];
+        id<MTLCommandBuffer> commandBuffer = [getDisplay(display)->getMetalCommandQueue() commandBuffer];
         
         MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
         renderPassDescriptor.colorAttachments[0].texture = getDisplay(display)->getCurrentMetalFramebufferTexture();

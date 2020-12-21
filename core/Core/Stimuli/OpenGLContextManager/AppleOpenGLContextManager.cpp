@@ -8,7 +8,6 @@
 
 #include "AppleOpenGLContextManager.hpp"
 
-#include "MWKMetalView_Private.h"
 #include "OpenGLUtilities.hpp"
 
 
@@ -62,7 +61,7 @@ MWKOpenGLContext * AppleOpenGLContextManager::getContext(int context_id) const  
 }
 
 
-MWKMetalView * AppleOpenGLContextManager::getView(int context_id) const  {
+MTKView * AppleOpenGLContextManager::getView(int context_id) const  {
     @autoreleasepool {
         if (context_id < 0 || context_id >= views.count) {
             merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);

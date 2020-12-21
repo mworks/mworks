@@ -641,12 +641,8 @@
 		E18161DD2582AE56004D8156 /* RectangleStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E18161D92582AE56004D8156 /* RectangleStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E18162252582C635004D8156 /* RectangleStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E18162242582C635004D8156 /* RectangleStimulus.metal */; };
 		E18162262582C635004D8156 /* RectangleStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E18162242582C635004D8156 /* RectangleStimulus.metal */; };
-		E18162782583B481004D8156 /* MWKMetalView.metal in Sources */ = {isa = PBXBuildFile; fileRef = E18162772583B481004D8156 /* MWKMetalView.metal */; };
-		E18162792583B481004D8156 /* MWKMetalView.metal in Sources */ = {isa = PBXBuildFile; fileRef = E18162772583B481004D8156 /* MWKMetalView.metal */; };
-		E18162AD2583D461004D8156 /* MWKMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = E18162AB2583D461004D8156 /* MWKMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E18162AE2583D461004D8156 /* MWKMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = E18162AB2583D461004D8156 /* MWKMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E18162AF2583D461004D8156 /* MWKMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = E18162AC2583D461004D8156 /* MWKMetalView.m */; };
-		E18162B02583D461004D8156 /* MWKMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = E18162AC2583D461004D8156 /* MWKMetalView.m */; };
+		E18162782583B481004D8156 /* AppleStimulusDisplay.metal in Sources */ = {isa = PBXBuildFile; fileRef = E18162772583B481004D8156 /* AppleStimulusDisplay.metal */; };
+		E18162792583B481004D8156 /* AppleStimulusDisplay.metal in Sources */ = {isa = PBXBuildFile; fileRef = E18162772583B481004D8156 /* AppleStimulusDisplay.metal */; };
 		E18163142588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */; };
 		E18163152588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */; };
 		E18163162588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1314,10 +1310,7 @@
 		E18161D82582AE55004D8156 /* RectangleStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = RectangleStimulus.cpp; sourceTree = "<group>"; };
 		E18161D92582AE56004D8156 /* RectangleStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RectangleStimulus.hpp; sourceTree = "<group>"; };
 		E18162242582C635004D8156 /* RectangleStimulus.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = RectangleStimulus.metal; sourceTree = "<group>"; };
-		E18162772583B481004D8156 /* MWKMetalView.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MWKMetalView.metal; sourceTree = "<group>"; };
-		E18162AB2583D461004D8156 /* MWKMetalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKMetalView.h; sourceTree = "<group>"; };
-		E18162AC2583D461004D8156 /* MWKMetalView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWKMetalView.m; sourceTree = "<group>"; };
-		E18162F12583D58B004D8156 /* MWKMetalView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKMetalView_Private.h; sourceTree = "<group>"; };
+		E18162772583B481004D8156 /* AppleStimulusDisplay.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = AppleStimulusDisplay.metal; sourceTree = "<group>"; };
 		E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppleStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AppleStimulusDisplay.hpp; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
@@ -2420,7 +2413,6 @@
 		E148A4581E4BA280002DFB1C /* OpenGLContextManager */ = {
 			isa = PBXGroup;
 			children = (
-				E181629A2583D398004D8156 /* MWKMetalView */,
 				E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */,
 				DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */,
 				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
@@ -2442,6 +2434,7 @@
 				DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */,
 				E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */,
 				E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */,
+				E18162772583B481004D8156 /* AppleStimulusDisplay.metal */,
 				E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */,
 				E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */,
 				E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */,
@@ -2476,17 +2469,6 @@
 			);
 			name = StandardStimuli;
 			path = Core/Stimuli/StandardStimuli;
-			sourceTree = "<group>";
-		};
-		E181629A2583D398004D8156 /* MWKMetalView */ = {
-			isa = PBXGroup;
-			children = (
-				E18162AB2583D461004D8156 /* MWKMetalView.h */,
-				E18162F12583D58B004D8156 /* MWKMetalView_Private.h */,
-				E18162AC2583D461004D8156 /* MWKMetalView.m */,
-				E18162772583B481004D8156 /* MWKMetalView.metal */,
-			);
-			path = MWKMetalView;
 			sourceTree = "<group>";
 		};
 		E188BE871D47B38C0001483A /* ZeroMQ */ = {
@@ -2751,7 +2733,6 @@
 				E10C1D1622306AB9007094E5 /* MacOSOpenGLContextManager.hpp in Headers */,
 				E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */,
 				E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */,
-				E18162AD2583D461004D8156 /* MWKMetalView.h in Headers */,
 				E127D38C133A5CFC00532496 /* Map.h in Headers */,
 				E188BE951D47F23B0001483A /* ZeroMQSocket.hpp in Headers */,
 				E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */,
@@ -2852,7 +2833,6 @@
 				E17917361E4E547400528B91 /* Clock.h in Headers */,
 				E17917451E4E54E400528B91 /* MWorksMacros.h in Headers */,
 				E179177B1E4E56BE00528B91 /* StandardStimuli.h in Headers */,
-				E18162AE2583D461004D8156 /* MWKMetalView.h in Headers */,
 				E17917851E4E572C00528B91 /* Sound.h in Headers */,
 				E17916F21E4E524100528B91 /* VariableRegistryInterface.h in Headers */,
 				E179171E1E4E53CA00528B91 /* ScheduledActions.h in Headers */,
@@ -3534,7 +3514,7 @@
 				DA2CE1D907E9F96E00C68AEF /* Stimulus.cpp in Sources */,
 				DA2CE1DB07E9F96E00C68AEF /* StimulusDisplay.cpp in Sources */,
 				DA2CE1E807E9F97F00C68AEF /* GenericData.cpp in Sources */,
-				E18162782583B481004D8156 /* MWKMetalView.metal in Sources */,
+				E18162782583B481004D8156 /* AppleStimulusDisplay.metal in Sources */,
 				DA2CE1EA07E9F97F00C68AEF /* GenericVariable.cpp in Sources */,
 				DA2CE1EC07E9F97F00C68AEF /* VariableProperties.cpp in Sources */,
 				DA2CE1EE07E9F97F00C68AEF /* ScopedVariableContext.cpp in Sources */,
@@ -3597,7 +3577,6 @@
 				5C38FBC50DF045F600FA6A18 /* XMLVariableWriter.cpp in Sources */,
 				5C9186140E3548FA00B64213 /* BiasMonitor.cpp in Sources */,
 				5CCA2B590E8F1F99007BDA56 /* Conduit.cpp in Sources */,
-				E18162AF2583D461004D8156 /* MWKMetalView.m in Sources */,
 				5CCA2B5C0E8F1F9C007BDA56 /* IPCEventTransport.cpp in Sources */,
 				5CCA2B5E0E8F1F9E007BDA56 /* Serialization.cpp in Sources */,
 				5CB6C47D0E9A92CA006923EC /* SimpleConduit.cpp in Sources */,
@@ -3714,12 +3693,11 @@
 				E17916FB1E4E52A600528B91 /* StandardServerCoreBuilder.cpp in Sources */,
 				E17916A51E4E505300528B91 /* ExpandableList.cpp in Sources */,
 				E181609F25817757004D8156 /* MetalStimulus.cpp in Sources */,
-				E18162792583B481004D8156 /* MWKMetalView.metal in Sources */,
+				E18162792583B481004D8156 /* AppleStimulusDisplay.metal in Sources */,
 				E181615F2582A62D004D8156 /* AlphaBlendedTransformStimulus.cpp in Sources */,
 				E17916F11E4E523D00528B91 /* StandardSystemEventHandler.cpp in Sources */,
 				E17916F51E4E528D00528B91 /* AbstractCoreBuilder.cpp in Sources */,
 				E17916CA1E4E513C00528B91 /* VariableNotification.cpp in Sources */,
-				E18162B02583D461004D8156 /* MWKMetalView.m in Sources */,
 				E17917861E4E573100528B91 /* Sound.cpp in Sources */,
 				E179177D1E4E56CA00528B91 /* Stimulus.cpp in Sources */,
 				E17916BA1E4E50E000528B91 /* ZeroMQUtilities.cpp in Sources */,

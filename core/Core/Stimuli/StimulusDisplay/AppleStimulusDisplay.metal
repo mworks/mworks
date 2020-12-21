@@ -1,5 +1,5 @@
 //
-//  MWKMetalView.metal
+//  AppleStimulusDisplay.metal
 //  MWorksCore
 //
 //  Created by Christopher Stawarz on 12/11/20.
@@ -35,7 +35,7 @@ struct RasterizerData {
 
 
 vertex RasterizerData
-MWKMetalView_vertexShader(uint vertexID [[vertex_id]])
+MWKStimulusDisplayViewDelegate_vertexShader(uint vertexID [[vertex_id]])
 {
     RasterizerData out;
     out.clipSpacePosition = float4(vertexPositions[vertexID], 0.0, 1.0);
@@ -59,16 +59,16 @@ linearToSRGB(float3 linear)
 }
 
 
-constant bool MWKMetalView_convertToSRGB [[function_constant(0)]];
+constant bool MWKStimulusDisplayViewDelegate_convertToSRGB [[function_constant(0)]];
 
 
 fragment float4
-MWKMetalView_fragmentShader(RasterizerData in [[stage_in]],
-                            texture2d<float> colorTexture [[texture(0)]])
+MWKStimulusDisplayViewDelegate_fragmentShader(RasterizerData in [[stage_in]],
+                                              texture2d<float> colorTexture [[texture(0)]])
 {
     constexpr sampler textureSampler (mag_filter::linear, min_filter::linear);
     float4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
-    if (MWKMetalView_convertToSRGB) {
+    if (MWKStimulusDisplayViewDelegate_convertToSRGB) {
         colorSample.rgb = linearToSRGB(colorSample.rgb);
     }
     return colorSample;

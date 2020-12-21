@@ -8,15 +8,14 @@
 
 #include "IOSOpenGLContextManager.hpp"
 
-#include "MWKMetalView_Private.h"
 #include "OpenGLUtilities.hpp"
 
 
-@interface MWKMetalViewController : UIViewController
+@interface MWKStimulusDisplayViewController : UIViewController
 @end
 
 
-@implementation MWKMetalViewController
+@implementation MWKStimulusDisplayViewController
 
 
 - (BOOL)prefersStatusBarHidden {
@@ -80,10 +79,10 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
             if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
                 if (window.screen != screen) {
                     merror(M_DISPLAY_MESSAGE_DOMAIN, "Window is not on the requested screen");
-                } else if (MWKMetalViewController *viewController = [[MWKMetalViewController alloc] init]) {
+                } else if (MWKStimulusDisplayViewController *viewController = [[MWKStimulusDisplayViewController alloc] init]) {
                     window.rootViewController = viewController;
                     
-                    if (MWKMetalView *view = [[MWKMetalView alloc] initWithFrame:window.bounds device:metalDevice]) {
+                    if (MTKView *view = [[MTKView alloc] initWithFrame:window.bounds device:metalDevice]) {
                         viewController.view = view;
                         
                         [window makeKeyAndVisible];
@@ -156,54 +155,40 @@ void IOSOpenGLContextManager::clearCurrent() {
 void IOSOpenGLContextManager::prepareContext(int context_id, bool useColorManagement) {
     @autoreleasepool {
         if (auto view = getView(context_id)) {
-            __block bool success = false;
-            
             dispatch_sync(dispatch_get_main_queue(), ^{
-                NSError *error = nil;
-                if (![view prepareUsingColorManagement:useColorManagement error:&error]) {
-                    merror(mw::M_DISPLAY_MESSAGE_DOMAIN,
-                           "Cannot prepare Metal view: %s",
-                           error.localizedDescription.UTF8String);
-                } else {
-                    if (useColorManagement) {
-                        auto displayGamut = view.window.screen.traitCollection.displayGamut;
-                        switch (displayGamut) {
-                            case UIDisplayGamutSRGB:
-                                // No color conversion required
-                                break;
-                                
-                            case UIDisplayGamutP3: {
-                                //
-                                // According to "What's New in Metal, Part 2" (WWDC 2016, Session 605), applications should
-                                // always render in the sRGB colorspace, even when the target device has a P3 display.  To use
-                                // colors outside of the sRGB gamut, the app needs to use a floating-point color buffer and
-                                // encode the P3-only colors using component values less than 0 or greater than 1 (as in Apple's
-                                // "extended sRGB" color space).  Since MWKMetalView uses an 8 bit per channel, integer color
-                                // buffer, we're always limited to sRGB.
-                                //
-                                // Testing suggests that this approach is correct.  If we draw an image with high color
-                                // saturation and then display it both with and without a Mac-style, LUT-based conversion
-                                // from sRGB to Display P3, the unconverted colors match what we see on a Mac, while the converted
-                                // colors are noticeably duller.  This makes sense, because converting, say, 100% red (255, 0, 0)
-                                // in sRGB to the wider gamut of Display P3 results in smaller numerical values (234, 51, 35).
-                                //
-                                // https://developer.apple.com/videos/play/wwdc2016/605/
-                                //
-                                break;
-                            }
-                                
-                            default:
-                                mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Unknown display gamut (%ld)", displayGamut);
-                                break;
+                if (useColorManagement) {
+                    auto displayGamut = view.window.screen.traitCollection.displayGamut;
+                    switch (displayGamut) {
+                        case UIDisplayGamutSRGB:
+                            // No color conversion required
+                            break;
+                            
+                        case UIDisplayGamutP3: {
+                            //
+                            // According to "What's New in Metal, Part 2" (WWDC 2016, Session 605), applications should
+                            // always render in the sRGB colorspace, even when the target device has a P3 display.  To use
+                            // colors outside of the sRGB gamut, the app needs to use a floating-point color buffer and
+                            // encode the P3-only colors using component values less than 0 or greater than 1 (as in Apple's
+                            // "extended sRGB" color space).  Since MTKView uses an 8 bit per channel, integer color
+                            // buffer by default, we're always limited to sRGB.
+                            //
+                            // Testing suggests that this approach is correct.  If we draw an image with high color
+                            // saturation and then display it both with and without a Mac-style, LUT-based conversion
+                            // from sRGB to Display P3, the unconverted colors match what we see on a Mac, while the converted
+                            // colors are noticeably duller.  This makes sense, because converting, say, 100% red (255, 0, 0)
+                            // in sRGB to the wider gamut of Display P3 results in smaller numerical values (234, 51, 35).
+                            //
+                            // https://developer.apple.com/videos/play/wwdc2016/605/
+                            //
+                            break;
                         }
+                            
+                        default:
+                            mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Unknown display gamut (%ld)", displayGamut);
+                            break;
                     }
-                    success = true;
                 }
             });
-            
-            if (!success) {
-                throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot prepare OpenGL context");
-            }
         }
     }
 }
