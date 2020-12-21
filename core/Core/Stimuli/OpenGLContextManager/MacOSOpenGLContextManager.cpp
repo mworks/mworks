@@ -126,7 +126,7 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
 }
 
 
-int MacOSOpenGLContextManager::newMirrorContext() {
+int MacOSOpenGLContextManager::newMirrorContext(int main_context_id) {
     @autoreleasepool {
         MWKOpenGLContext *context = createOpenGLContext();
         if (!context) {
@@ -157,9 +157,10 @@ int MacOSOpenGLContextManager::newMirrorContext() {
                                                                  backing:NSBackingStoreBuffered
                                                                    defer:NO])
             {
+                MWKMetalView *mainView = nil;
                 id<MTLDevice> metalDevice = nil;
-                if (views.count > 0) {
-                    metalDevice = views[0].device;
+                if (main_context_id != -1 && (mainView = getView(main_context_id))) {
+                    metalDevice = mainView.device;
                 } else {
                     metalDevice = getMetalDeviceForScreen(window.screen);
                 }

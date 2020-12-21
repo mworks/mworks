@@ -23,7 +23,7 @@ public:
     
     // Create a "mirror" window (smaller, movable window that displays whatever
     // is on the "main" display) and return its context index
-    virtual int newMirrorContext() = 0;
+    virtual int newMirrorContext(int main_context_id = -1) = 0;
     
     // Release all contexts and associated resources
     virtual void releaseContexts() = 0;

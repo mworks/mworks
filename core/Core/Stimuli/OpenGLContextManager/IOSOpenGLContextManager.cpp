@@ -107,7 +107,7 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
 }
 
 
-int IOSOpenGLContextManager::newMirrorContext() {
+int IOSOpenGLContextManager::newMirrorContext(int main_context_id) {
     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Mirror windows are not supported on this OS");
 }
 

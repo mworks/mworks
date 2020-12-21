@@ -247,7 +247,7 @@ void Experiment::prepareStimulusDisplay() {
         stimulus_display->setMainContext(new_context);
         
         if (always_display_mirror_window) {
-            auto auxilliary_context = opengl_context_manager->newMirrorContext();
+            auto auxilliary_context = opengl_context_manager->newMirrorContext(new_context);
             stimulus_display->setMirrorContext(auxilliary_context);
         }
     } else {
@@ -260,23 +260,3 @@ void Experiment::prepareStimulusDisplay() {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
