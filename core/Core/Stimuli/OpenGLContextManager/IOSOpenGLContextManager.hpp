@@ -31,8 +31,6 @@ public:
     OpenGLContextLock setCurrent(int context_id) override;
     void clearCurrent() override;
     
-    void prepareContext(int context_id, bool useColorManagement) override;
-    
 private:
     id<MTLDevice> metalDevice;
     

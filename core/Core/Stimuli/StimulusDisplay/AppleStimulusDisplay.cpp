@@ -124,8 +124,6 @@ AppleStimulusDisplay::~AppleStimulusDisplay() {
 
 void AppleStimulusDisplay::prepareContext(int context_id) {
     @autoreleasepool {
-        opengl_context_manager->prepareContext(context_id, useColorManagement);
-        
         MTKView *view = contextManager->getView(context_id);
         view.paused = YES;
         view.enableSetNeedsDisplay = NO;

@@ -33,8 +33,6 @@ public:
     virtual OpenGLContextLock setCurrent(int context_id) = 0;
     virtual void clearCurrent() = 0;
     
-    virtual void prepareContext(int context_id, bool useColorManagement) = 0;
-    
     static boost::shared_ptr<OpenGLContextManager> createPlatformOpenGLContextManager();
     
     REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)

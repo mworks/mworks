@@ -73,7 +73,13 @@ void MacOSStimulusDisplay::prepareContext(int context_id) {
     }
     
     if (context_id == main_context_id) {
-        if (!useColorManagement) {
+        if (useColorManagement) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                // Set the view's color space, so that the system will color match its content
+                // to the display’s color space
+                getMainView().colorspace = NSColorSpace.sRGBColorSpace.CGColorSpace;
+            });
+        } else {
             auto reg = ComponentRegistry::getSharedRegistry();
             auto displayInfo = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME)->getValue();
             if (displayInfo.hasKey(M_SET_DISPLAY_GAMMA_KEY) &&

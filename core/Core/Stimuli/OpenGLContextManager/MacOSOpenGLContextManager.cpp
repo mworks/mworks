@@ -234,21 +234,6 @@ void MacOSOpenGLContextManager::clearCurrent() {
 }
 
 
-void MacOSOpenGLContextManager::prepareContext(int context_id, bool useColorManagement) {
-    @autoreleasepool {
-        if (auto view = getView(context_id)) {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                if (useColorManagement) {
-                    // Set the view's color space, so that the system will color match its content
-                    // to the display’s color space
-                    view.colorspace = NSColorSpace.sRGBColorSpace.CGColorSpace;
-                }
-            });
-        }
-    }
-}
-
-
 boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
     return boost::make_shared<MacOSOpenGLContextManager>();
 }
