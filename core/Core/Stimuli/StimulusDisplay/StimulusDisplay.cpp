@@ -30,27 +30,35 @@ BEGIN_NAMESPACE_MW
 StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     opengl_context_manager(OpenGLContextManager::instance()),
     clock(Clock::instance()),
-    main_context_id(-1),
-    mirror_context_id(-1),
+    main_context_id(NO_CONTEXT_ID),
+    mirror_context_id(NO_CONTEXT_ID),
+    display_stack(boost::make_shared<LinkedList<StimulusNode>>()),
     waitingForRefresh(false),
     needDraw(false),
     redrawOnEveryRefresh(false),
     projectionMatrix(GLKMatrix4Identity),
+    backgroundRed(0.5),
+    backgroundGreen(0.5),
+    backgroundBlue(0.5),
+    backgroundAlpha(1.0),
     displayUpdatesStarted(false),
     mainDisplayRefreshRate(0.0),
-    currentOutputTimeUS(-1),
+    currentOutputTimeUS(NO_CURRENT_OUTPUT_TIME),
     paused(false),
     didDrawWhilePaused(false),
     announceStimuliOnImplicitUpdates(true),
     useColorManagement(useColorManagement),
     framebuffer_id(-1)
 {
-    // defer creation of the display chain until after the stimulus display has been created
-    display_stack = boost::make_shared<LinkedList<StimulusNode>>();
+    // Set display bounds
+    auto reg = mw::ComponentRegistry::getSharedRegistry();
+    getDisplayBounds(reg->getVariable(MAIN_SCREEN_INFO_TAGNAME)->getValue(),
+                     boundsLeft, boundsRight, boundsBottom, boundsTop);
+    projectionMatrix = GLKMatrix4MakeOrtho(boundsLeft, boundsRight, boundsBottom, boundsTop, -1.0, 1.0);
+    mprintf("Display bounds set to (%g left, %g right, %g top, %g bottom)",
+            boundsLeft, boundsRight, boundsTop, boundsBottom);
     
-	setDisplayBounds();
-    setBackgroundColor(0.5, 0.5, 0.5, 1.0);
-    
+    // Register state system mode callback
     auto callback = [this](const Datum &data, MWorksTime time) {
         stateSystemCallback(data, time);
     };
@@ -64,16 +72,14 @@ StimulusDisplay::~StimulusDisplay() {
 }
 
 
-OpenGLContextLock StimulusDisplay::setCurrent(int i) {
-    if ((i >= getNContexts()) || (i < 0)) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid context index (%d)", i);
-        return OpenGLContextLock();
-    }
-	return opengl_context_manager->setCurrent(main_context_id);
+OpenGLContextLock StimulusDisplay::setCurrent(int i) const {
+    return opengl_context_manager->setCurrent(main_context_id);
 }
 
 
 void StimulusDisplay::addStimulusNode(const boost::shared_ptr<StimulusNode> &stimnode) {
+    unique_lock lock(mutex);
+    
     // Remove it first, in case it already belongs to a list
     stimnode->remove();
     display_stack->addToFront(stimnode);
@@ -112,29 +118,9 @@ void StimulusDisplay::getDisplayBounds(const Datum &display_info,
 }
 
 
-void StimulusDisplay::setDisplayBounds() {
-    auto reg = mw::ComponentRegistry::getSharedRegistry();
-    auto main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
-    
-    Datum display_info = *main_screen_info; // from standard variables
-    getDisplayBounds(display_info, left, right, bottom, top);
-    
-    projectionMatrix = GLKMatrix4MakeOrtho(left, right, bottom, top, -1.0, 1.0);
-	
-	mprintf("Display bounds set to (%g left, %g right, %g top, %g bottom)",
-			left, right, top, bottom);
-}
-
-
-void StimulusDisplay::getDisplayBounds(double &left, double &right, double &bottom, double &top) const {
-    left = this->left;
-    right = this->right;
-    bottom = this->bottom;
-    top = this->top;
-}
-
-
 void StimulusDisplay::setBackgroundColor(double red, double green, double blue, double alpha) {
+    unique_lock lock(mutex);
+    
     backgroundRed = red;
     backgroundGreen = green;
     backgroundBlue = blue;
@@ -142,39 +128,50 @@ void StimulusDisplay::setBackgroundColor(double red, double green, double blue, 
 }
 
 
-void StimulusDisplay::setRedrawOnEveryRefresh(bool redrawOnEveryRefresh) {
-    this->redrawOnEveryRefresh = redrawOnEveryRefresh;
+void StimulusDisplay::setRedrawOnEveryRefresh(bool value) {
+    unique_lock lock(mutex);
+    redrawOnEveryRefresh = value;
 }
 
 
-void StimulusDisplay::setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates) {
-    this->announceStimuliOnImplicitUpdates = announceStimuliOnImplicitUpdates;
+void StimulusDisplay::setAnnounceStimuliOnImplicitUpdates(bool value) {
+    unique_lock lock(mutex);
+    announceStimuliOnImplicitUpdates = value;
 }
 
 
 void StimulusDisplay::setMainContext(int context_id) {
-    if (-1 != main_context_id) {
+    unique_lock lock(mutex);
+    
+    if (NO_CONTEXT_ID != main_context_id) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Main context already set");
     }
+    
     main_context_id = context_id;
     auto ctxLock = opengl_context_manager->setCurrent(context_id);
-    prepareContext(context_id);
+    prepareContext(context_id, true);
     framebuffer_id = createFramebuffer();
 }
 
 
 void StimulusDisplay::setMirrorContext(int context_id) {
-    if (-1 != mirror_context_id) {
+    unique_lock lock(mutex);
+    
+    if (NO_CONTEXT_ID != mirror_context_id) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Mirror context already set");
     }
+    if (NO_CONTEXT_ID == main_context_id) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Mirror context cannot be set before main context");
+    }
+    
     mirror_context_id = context_id;
     auto ctxLock = opengl_context_manager->setCurrent(context_id);
-    prepareContext(context_id);
+    prepareContext(context_id, false);
 }
 
 
 void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
-    unique_lock lock(display_lock);
+    unique_lock lock(mutex);
     
     switch (data.getInteger()) {
         case PAUSED:
@@ -214,7 +211,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
                 lock.unlock();
                 
                 stopDisplayUpdates();
-                currentOutputTimeUS = -1;
+                currentOutputTimeUS = NO_CURRENT_OUTPUT_TIME;
                 
                 mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
             }
@@ -275,7 +272,7 @@ void StimulusDisplay::refreshMirrorDisplay() {
 
 
 void StimulusDisplay::clearDisplay() {
-    unique_lock lock(display_lock);
+    unique_lock lock(mutex);
     
     // Remove all stimuli from the display stack
     while (auto node = display_stack->getFrontmost()) {
@@ -324,7 +321,7 @@ void StimulusDisplay::drawDisplayStack() {
 
 
 MWTime StimulusDisplay::updateDisplay() {
-    unique_lock lock(display_lock);
+    unique_lock lock(mutex);
     
     auto node = display_stack->getFrontmost();
     while (node) {
@@ -382,7 +379,7 @@ void StimulusDisplay::announceDisplayUpdate(bool updateIsExplicit) {
     stimAnnouncements.clear();
     
     MWTime now = getCurrentOutputTimeUS();
-    if (-1 == now) {
+    if (NO_CURRENT_OUTPUT_TIME == now) {
         now = clock->getCurrentTimeUS();
     }
     

@@ -49,8 +49,8 @@ CGDirectDisplayID MacOSStimulusDisplay::getDisplayIDForContext(int context_id) c
 }
 
 
-void MacOSStimulusDisplay::prepareContext(int context_id) {
-    AppleStimulusDisplay::prepareContext(context_id);
+void MacOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
+    AppleStimulusDisplay::prepareContext(context_id, isMainContext);
     
     CVDisplayLinkRef dl;
     
@@ -72,7 +72,7 @@ void MacOSStimulusDisplay::prepareContext(int context_id) {
         throw SimpleException("Unable to set current display for display link");
     }
     
-    if (context_id == main_context_id) {
+    if (isMainContext) {
         if (useColorManagement) {
             dispatch_sync(dispatch_get_main_queue(), ^{
                 // Set the view's color space, so that the system will color match its content
@@ -180,7 +180,7 @@ CVReturn MacOSStimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink
     } else {
         
         {
-            unique_lock lock(display.display_lock);
+            unique_lock lock(display.mutex);
             
             if (display.lastFrameTime) {
                 auto delta = (outputTime->videoTime - display.lastFrameTime) - outputTime->videoRefreshPeriod;

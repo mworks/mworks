@@ -81,8 +81,8 @@ IOSStimulusDisplay::~IOSStimulusDisplay() {
 }
 
 
-void IOSStimulusDisplay::prepareContext(int context_id) {
-    AppleStimulusDisplay::prepareContext(context_id);
+void IOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
+    AppleStimulusDisplay::prepareContext(context_id, isMainContext);
     
     dispatch_sync(dispatch_get_main_queue(), ^{
         auto view = contextManager->getView(context_id);
@@ -100,7 +100,7 @@ void IOSStimulusDisplay::prepareContext(int context_id) {
         //NSCAssert(displayLink.preferredFramesPerSecond == screen.maximumFramesPerSecond,
         //          @"Unexpected preferredFramesPerSecond on CADisplayLink");
         
-        if (context_id == main_context_id) {
+        if (isMainContext) {
             if (useColorManagement) {
                 auto displayGamut = screen.traitCollection.displayGamut;
                 switch (displayGamut) {
@@ -186,7 +186,7 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
     } else {
         
         @autoreleasepool {
-            unique_lock lock(display.display_lock);
+            unique_lock lock(display.mutex);
             
             if (display.lastTargetTimestamp) {
                 auto delta = (displayLink.targetTimestamp - display.lastTargetTimestamp) - displayLink.duration;

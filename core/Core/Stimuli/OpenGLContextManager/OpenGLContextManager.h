@@ -18,12 +18,14 @@ BEGIN_NAMESPACE_MW
 class OpenGLContextManager : public Component, boost::noncopyable {
     
 public:
+    static constexpr int NO_CONTEXT_ID = -1;
+    
     // Create a fullscreen context on a particular display
     virtual int newFullscreenContext(int screen_number, bool opaque) = 0;
     
     // Create a "mirror" window (smaller, movable window that displays whatever
     // is on the "main" display) and return its context index
-    virtual int newMirrorContext(int main_context_id = -1) = 0;
+    virtual int newMirrorContext(int main_context_id = NO_CONTEXT_ID) = 0;
     
     // Release all contexts and associated resources
     virtual void releaseContexts() = 0;

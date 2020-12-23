@@ -158,7 +158,7 @@ int MacOSOpenGLContextManager::newMirrorContext(int main_context_id) {
             {
                 MTKView *mainView = nil;
                 id<MTLDevice> metalDevice = nil;
-                if (main_context_id != -1 && (mainView = getView(main_context_id))) {
+                if (NO_CONTEXT_ID != main_context_id && (mainView = getView(main_context_id))) {
                     metalDevice = mainView.device;
                 } else {
                     metalDevice = getMetalDeviceForScreen(window.screen);

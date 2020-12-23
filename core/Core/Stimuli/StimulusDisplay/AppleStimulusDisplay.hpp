@@ -38,7 +38,7 @@ public:
     id<MTLTexture> getCurrentMetalFramebufferTexture() const;
     
 protected:
-    void prepareContext(int context_id) override;
+    void prepareContext(int context_id, bool isMainContext) override;
     void prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context);
     void presentFramebuffer(int framebuffer_id, int dst_context_id) override;
     

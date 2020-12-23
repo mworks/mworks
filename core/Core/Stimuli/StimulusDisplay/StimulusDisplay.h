@@ -18,8 +18,6 @@
 #include <boost/noncopyable.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/condition_variable.hpp>
 
 #include "Clock.h"
 #include "LinkedList.h"
@@ -43,25 +41,29 @@ protected:
     const boost::shared_ptr<OpenGLContextManager> opengl_context_manager;
     const boost::shared_ptr<Clock> clock;
     
+    static constexpr int NO_CONTEXT_ID = -1;
     int main_context_id;
     int mirror_context_id;
+    
     boost::shared_ptr<LinkedList<StimulusNode>> display_stack;
     
-    boost::mutex display_lock;
-    using unique_lock = boost::mutex::scoped_lock;
-    boost::condition_variable refreshCond;
+    using unique_lock = std::unique_lock<std::mutex>;
+    unique_lock::mutex_type mutex;
+    std::condition_variable refreshCond;
     bool waitingForRefresh;
     
     bool needDraw;
     bool redrawOnEveryRefresh;
     
-    double left, right, top, bottom; // display bounds
+    double boundsLeft, boundsRight, boundsTop, boundsBottom;  // display bounds
     GLKMatrix4 projectionMatrix;
     double backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha;  // background color
     
     boost::shared_ptr<VariableCallbackNotification> stateSystemNotification;
     std::atomic_bool displayUpdatesStarted;
     double mainDisplayRefreshRate;
+    
+    static constexpr MWTime NO_CURRENT_OUTPUT_TIME = -1;
     std::atomic<MWTime> currentOutputTimeUS;
     
     bool paused;
@@ -73,9 +75,8 @@ protected:
     const bool useColorManagement;
     int framebuffer_id;
     
-    virtual void prepareContext(int context_id) = 0;
+    virtual void prepareContext(int context_id, bool isMainContext) = 0;
     
-    void setDisplayBounds();
     void refreshMainDisplay();
     void refreshMirrorDisplay();
     void drawDisplayStack();
@@ -108,19 +109,21 @@ public:
     // These methods are used by legacy stimulus classes to manage per-context OpenGL resources.
     // They should *not* be used internally by StimulusDisplay.
     int getNContexts() const { return 1; }
-    OpenGLContextLock setCurrent(int i = 0);  // Argument is ignored
+    OpenGLContextLock setCurrent(int i = 0) const;  // Argument is ignored
     int getCurrentContextIndex() const { return 0; }
     
     void addStimulusNode(const boost::shared_ptr<StimulusNode> &stimnode);
     
     void setBackgroundColor(double red, double green, double blue, double alpha);
-    void setRedrawOnEveryRefresh(bool redrawOnEveryRefresh);
-    void setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates);
+    void setRedrawOnEveryRefresh(bool value);
+    void setAnnounceStimuliOnImplicitUpdates(bool value);
     MWTime updateDisplay();
     void clearDisplay();
     
     bool getUseColorManagement() const { return useColorManagement; }
-    void getDisplayBounds(double &left, double &right, double &bottom, double &top) const;
+    void getDisplayBounds(double &left, double &right, double &bottom, double &top) const {
+        std::tie(left, right, bottom, top) = std::tie(boundsLeft, boundsRight, boundsBottom, boundsTop);
+    }
     GLKMatrix4 getProjectionMatrix() const { return projectionMatrix; }
     double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
     MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }

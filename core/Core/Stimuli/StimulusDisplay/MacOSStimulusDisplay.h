@@ -38,7 +38,7 @@ private:
     
     CGDirectDisplayID getDisplayIDForContext(int context_id) const;
     
-    void prepareContext(int context_id) override;
+    void prepareContext(int context_id, bool isMainContext) override;
     void setDisplayGamma(const Datum &displayInfo);
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;

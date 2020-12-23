@@ -33,7 +33,7 @@ public:
     CFTimeInterval getCurrentTargetTimestamp() const { return lastTargetTimestamp; }
     
 private:
-    void prepareContext(int context_id) override;
+    void prepareContext(int context_id, bool isMainContext) override;
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;
     

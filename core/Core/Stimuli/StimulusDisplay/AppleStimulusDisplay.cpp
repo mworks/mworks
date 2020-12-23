@@ -122,7 +122,7 @@ AppleStimulusDisplay::~AppleStimulusDisplay() {
 }
 
 
-void AppleStimulusDisplay::prepareContext(int context_id) {
+void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
     @autoreleasepool {
         MTKView *view = contextManager->getView(context_id);
         view.paused = YES;
@@ -136,12 +136,12 @@ void AppleStimulusDisplay::prepareContext(int context_id) {
                                   error.localizedDescription.UTF8String);
         }
         
-        if (context_id == main_context_id) {
+        if (isMainContext) {
             prepareFramebufferStack(view, contextManager->getContext(context_id));
             commandQueue = [view.device newCommandQueue];
             mainView = view;
             mainViewDelegate = delegate;
-        } else if (context_id == mirror_context_id) {
+        } else {
             mirrorView = view;
             mirrorViewDelegate = delegate;
         }
