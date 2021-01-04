@@ -345,7 +345,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '1.1.1h'
+    version = '1.1.1i'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -381,7 +381,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.8.6'
+    version = '3.8.7'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -443,7 +443,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.19.3'
+    version = '1.19.4'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -506,7 +506,7 @@ def numpy():
 
 @builder
 def boost():
-    version = '1.74.0'
+    version = '1.75.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -611,7 +611,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2020
-    version = '3330000'  # 3.33.0
+    version = '3340000'  # 3.34.0
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -632,7 +632,7 @@ def sqlite():
 
 @builder
 def libusb(ios=False):
-    version = '1.0.23'
+    version = '1.0.24'
     srcdir = 'libusb-' + version
     tarfile = srcdir + '.tar.bz2'
 
@@ -644,6 +644,7 @@ def libusb(ios=False):
         with workdir(srcdir):
             run_configure_and_make(
                 extra_args = ['--disable-silent-rules'],
+                extra_cflags = '-std=gnu11',
                 )
 
 
