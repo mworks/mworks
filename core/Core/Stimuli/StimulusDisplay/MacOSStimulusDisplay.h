@@ -34,18 +34,14 @@ private:
                                         const CVTimeStamp *outputTime,
                                         CVOptionFlags flagsIn,
                                         CVOptionFlags *flagsOut,
-                                        void *_context);
-    
-    CGDirectDisplayID getDisplayIDForContext(int context_id) const;
+                                        void *_display);
     
     void prepareContext(int context_id, bool isMainContext) override;
-    void setDisplayGamma(const Datum &displayInfo);
+    void setDisplayGamma(const Datum &displayInfo, CGDirectDisplayID displayID);
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;
     
-    std::vector<CVDisplayLinkRef> displayLinks;
-    using DisplayLinkContext = std::pair<MacOSStimulusDisplay *, int>;
-    std::vector<std::unique_ptr<DisplayLinkContext>> displayLinkContexts;
+    CVDisplayLinkRef displayLink;
     int64_t lastFrameTime;
     CVTimeStamp currentOutputTimeStamp;
     

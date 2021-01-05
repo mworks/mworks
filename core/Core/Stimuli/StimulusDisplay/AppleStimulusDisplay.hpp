@@ -13,9 +13,6 @@
 #include "StimulusDisplay.h"
 
 
-@class MWKStimulusDisplayViewDelegate;  // Forward declaration
-
-
 BEGIN_NAMESPACE_MW
 
 
@@ -35,14 +32,12 @@ public:
     void releaseFramebuffer(int framebuffer_id) override;
     
     id<MTLCommandQueue> getMetalCommandQueue() const { return commandQueue; }
+    id<MTLTexture> getMetalFramebufferTexture(int framebuffer_id) const;
     id<MTLTexture> getCurrentMetalFramebufferTexture() const;
     
 protected:
     void prepareContext(int context_id, bool isMainContext) override;
-    void prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context);
-    void presentFramebuffer(int framebuffer_id, int dst_context_id) override;
-    
-    const boost::shared_ptr<AppleOpenGLContextManager> contextManager;
+    void renderDisplay(const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) override;
     
 private:
     using CVPixelBufferPoolPtr = cf::ObjectPtr<CVPixelBufferPoolRef>;
@@ -64,11 +59,13 @@ private:
         GLuint glFramebuffer = 0;
     };
     
+    void prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context);
+    
     id<MTLCommandQueue> commandQueue;
     MTKView *mainView;
     MTKView *mirrorView;
-    MWKStimulusDisplayViewDelegate *mainViewDelegate;
-    MWKStimulusDisplayViewDelegate *mirrorViewDelegate;
+    id<MTKViewDelegate> mainViewDelegate;
+    id<MTKViewDelegate> mirrorViewDelegate;
     
     std::size_t framebufferWidth;
     std::size_t framebufferHeight;
@@ -77,6 +74,8 @@ private:
     CVOpenGLTextureCachePtr cvOpenGLTextureCache;
     std::map<int, Framebuffer> framebuffers;
     std::vector<Framebuffer> framebufferStack;
+    
+    int framebuffer_id;
     
 };
 

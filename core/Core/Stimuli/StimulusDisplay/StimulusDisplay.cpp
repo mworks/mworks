@@ -47,8 +47,7 @@ StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     paused(false),
     didDrawWhilePaused(false),
     announceStimuliOnImplicitUpdates(true),
-    useColorManagement(useColorManagement),
-    framebuffer_id(-1)
+    useColorManagement(useColorManagement)
 {
     // Set display bounds
     auto reg = mw::ComponentRegistry::getSharedRegistry();
@@ -148,9 +147,7 @@ void StimulusDisplay::setMainContext(int context_id) {
     }
     
     main_context_id = context_id;
-    auto ctxLock = opengl_context_manager->setCurrent(context_id);
     prepareContext(context_id, true);
-    framebuffer_id = createFramebuffer();
 }
 
 
@@ -165,7 +162,6 @@ void StimulusDisplay::setMirrorContext(int context_id) {
     }
     
     mirror_context_id = context_id;
-    auto ctxLock = opengl_context_manager->setCurrent(context_id);
     prepareContext(context_id, false);
 }
 
@@ -220,7 +216,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
 }
 
 
-void StimulusDisplay::refreshMainDisplay() {
+void StimulusDisplay::refreshDisplay() {
     //
     // Determine whether we need to draw
     //
@@ -239,35 +235,69 @@ void StimulusDisplay::refreshMainDisplay() {
             node = node->getNext();
         }
     }
-
+    
+    //
+    // Collect stimuli to draw, back to front
+    //
+    
+    std::vector<boost::shared_ptr<Stimulus>> stimsToDraw;
+    
+    if (needDraw) {
+        auto node = display_stack->getBackmost();
+        while (node) {
+            if (node->isVisible()) {
+                auto stim = node->getStimulus();
+                if (stim->isLoaded()) {
+                    stimsToDraw.emplace_back(std::move(stim));
+                } else {
+                    merror(M_DISPLAY_MESSAGE_DOMAIN,
+                           "Stimulus \"%s\" is not loaded and will not be displayed",
+                           stim->getTag().c_str());
+                }
+            }
+            node = node->getPrevious();
+        }
+    }
+    
     //
     // Draw stimuli
     //
     
-    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(main_context_id);
-    
-    if (needDraw) {
-        pushFramebuffer(framebuffer_id);
-        drawDisplayStack();
-        popFramebuffer();
-        if (paused) {
-            didDrawWhilePaused = true;
-        }
+    renderDisplay(stimsToDraw);
+    if (needDraw && paused) {
+        didDrawWhilePaused = true;
     }
     
-    presentFramebuffer(framebuffer_id);
+    //
+    // Announce draw
+    //
     
     if (needDraw) {
-        announceDisplayUpdate(updateIsExplicit);
+        Datum stimAnnounce;
+        if (!(updateIsExplicit || announceStimuliOnImplicitUpdates)) {
+            // No stim announcements, so just report the number of stimuli drawn
+            stimAnnounce = Datum(long(stimsToDraw.size()));
+        } else {
+            std::vector<Datum> stimAnnouncements;
+            for (auto &stim : stimsToDraw) {
+                auto individualAnnounce = stim->getCurrentAnnounceDrawData();
+                if (individualAnnounce.isDictionary()) {
+                    stimAnnouncements.emplace_back(std::move(individualAnnounce));
+                }
+            }
+            stimAnnounce = Datum(std::move(stimAnnouncements));
+        }
+        
+        MWTime now = getCurrentOutputTimeUS();
+        if (NO_CURRENT_OUTPUT_TIME == now) {
+            now = clock->getCurrentTimeUS();
+        }
+        
+        stimDisplayUpdate->setValue(std::move(stimAnnounce), now);
     }
     
     needDraw = false;
-}
-
-
-void StimulusDisplay::refreshMirrorDisplay() {
-    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(mirror_context_id);
-    presentFramebuffer(framebuffer_id, mirror_context_id);
+    waitingForRefresh = false;
 }
 
 
@@ -281,42 +311,6 @@ void StimulusDisplay::clearDisplay() {
 	
     needDraw = true;
     ensureRefresh(lock);
-}
-
-
-void StimulusDisplay::drawDisplayStack() {
-#if !MWORKS_OPENGL_ES
-    // This has no effect on non-sRGB framebuffers, so we can enable it unconditionally
-    gl::Enabled<GL_FRAMEBUFFER_SRGB> framebufferSRGBEnabled;
-#endif
-    
-    glDisable(GL_BLEND);
-    glDisable(GL_DITHER);
-    
-    glClearColor(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    //
-    // Draw all of the stimuli in the chain, back to front
-    //
-    auto node = display_stack->getBackmost();
-    while (node) {
-        if (node->isVisible()) {
-            if (!(node->isLoaded())) {
-                merror(M_DISPLAY_MESSAGE_DOMAIN,
-                       "Stimulus \"%s\" is not loaded and will not be displayed",
-                       node->getStimulus()->getTag().c_str());
-            } else {
-                node->draw(shared_from_this());
-                
-                Datum individualAnnounce(node->getCurrentAnnounceDrawData());
-                if (!individualAnnounce.isUndefined()) {
-                    stimAnnouncements.emplace_back(std::move(individualAnnounce));
-                }
-            }
-        }
-        node = node->getPrevious();
-    }
 }
 
 
@@ -356,8 +350,7 @@ MWTime StimulusDisplay::updateDisplay() {
 void StimulusDisplay::ensureRefresh(unique_lock &lock) {
     if (!displayUpdatesStarted) {
         // Need to do the refresh here
-        refreshMainDisplay();
-        refreshMirrorDisplay();
+        refreshDisplay();
     } else {
         // Wait for next display refresh to complete
         waitingForRefresh = true;
@@ -365,25 +358,6 @@ void StimulusDisplay::ensureRefresh(unique_lock &lock) {
             refreshCond.wait(lock);
         } while (waitingForRefresh);
     }
-}
-
-
-void StimulusDisplay::announceDisplayUpdate(bool updateIsExplicit) {
-    Datum stimAnnounce;
-    if (!(updateIsExplicit || announceStimuliOnImplicitUpdates)) {
-        // No stim announcements, so just report the number of stimuli drawn
-        stimAnnounce = Datum(long(stimAnnouncements.size()));
-    } else {
-        stimAnnounce = Datum(std::move(stimAnnouncements));
-    }
-    stimAnnouncements.clear();
-    
-    MWTime now = getCurrentOutputTimeUS();
-    if (NO_CURRENT_OUTPUT_TIME == now) {
-        now = clock->getCurrentTimeUS();
-    }
-    
-    stimDisplayUpdate->setValue(std::move(stimAnnounce), now);
 }
 
 

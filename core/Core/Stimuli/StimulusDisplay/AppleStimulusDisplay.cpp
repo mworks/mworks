@@ -8,6 +8,7 @@
 #include "AppleStimulusDisplay.hpp"
 
 #include "OpenGLUtilities.hpp"
+#include "Stimulus.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -100,14 +101,14 @@ BEGIN_NAMESPACE_MW
 
 AppleStimulusDisplay::AppleStimulusDisplay(bool useColorManagement) :
     StimulusDisplay(useColorManagement),
-    contextManager(boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager)),
     commandQueue(nil),
     mainView(nil),
     mirrorView(nil),
     mainViewDelegate(nil),
     mirrorViewDelegate(nil),
     framebufferWidth(0),
-    framebufferHeight(0)
+    framebufferHeight(0),
+    framebuffer_id(-1)
 { }
 
 
@@ -124,9 +125,9 @@ AppleStimulusDisplay::~AppleStimulusDisplay() {
 
 void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
     @autoreleasepool {
+        auto contextManager = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
         MTKView *view = contextManager->getView(context_id);
         view.paused = YES;
-        view.enableSetNeedsDisplay = NO;
         
         MWKStimulusDisplayViewDelegate *delegate = [[MWKStimulusDisplayViewDelegate alloc] init];
         NSError *error = nil;
@@ -137,17 +138,59 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
         }
         
         if (isMainContext) {
+            view.enableSetNeedsDisplay = NO;
             prepareFramebufferStack(view, contextManager->getContext(context_id));
             commandQueue = [view.device newCommandQueue];
             mainView = view;
             mainViewDelegate = delegate;
+            auto ctxLock = opengl_context_manager->setCurrent(context_id);
+            framebuffer_id = createFramebuffer();
         } else {
+            view.enableSetNeedsDisplay = YES;
             mirrorView = view;
             mirrorViewDelegate = delegate;
         }
         
         delegate.commandQueue = commandQueue;
+        delegate.texture = getMetalFramebufferTexture(framebuffer_id);
         view.delegate = delegate;
+    }
+}
+
+
+void AppleStimulusDisplay::renderDisplay(const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) {
+    @autoreleasepool {
+        if (needDraw) {
+            auto ctxLock = opengl_context_manager->setCurrent(main_context_id);
+            pushFramebuffer(framebuffer_id);
+            
+#if !MWORKS_OPENGL_ES
+            // This has no effect on non-sRGB framebuffers, so we can enable it unconditionally
+            gl::Enabled<GL_FRAMEBUFFER_SRGB> framebufferSRGBEnabled;
+#endif
+            
+            glDisable(GL_BLEND);
+            glDisable(GL_DITHER);
+            
+            glClearColor(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
+            glClear(GL_COLOR_BUFFER_BIT);
+            
+            auto sharedThis = shared_from_this();
+            for (auto &stim : stimsToDraw) {
+                stim->draw(sharedThis);
+            }
+            
+            glFlush();  // Commit pending OpenGL commands
+            popFramebuffer();
+            
+            if (mirrorView) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    mirrorView.needsDisplay = YES;
+                });
+            }
+        }
+        
+        [mainView draw];
     }
 }
 
@@ -329,11 +372,8 @@ void AppleStimulusDisplay::pushFramebuffer(int framebuffer_id) {
 
 void AppleStimulusDisplay::bindCurrentFramebuffer() {
     if (framebufferStack.empty()) {
-        // If the framebuffer stack is empty, then we're about to draw to the screen.
-        // Bind the default framebuffer, then call glFlush to ensure that any pending
-        // OpenGL commands are committed before we proceed.
+        // Bind the default framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glFlush();
         return;
     }
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebufferStack.back().glFramebuffer);
@@ -343,28 +383,13 @@ void AppleStimulusDisplay::bindCurrentFramebuffer() {
 }
 
 
-void AppleStimulusDisplay::presentFramebuffer(int framebuffer_id, int dst_context_id) {
-    @autoreleasepool {
-        auto iter = framebuffers.find(framebuffer_id);
-        if (iter == framebuffers.end()) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
-            return;
-        }
-        
-        MWKStimulusDisplayViewDelegate *delegate = nil;
-        MTKView *view = nil;
-        
-        if (dst_context_id == main_context_id) {
-            delegate = mainViewDelegate;
-            view = mainView;
-        } else if (dst_context_id == mirror_context_id) {
-            delegate = mirrorViewDelegate;
-            view = mirrorView;
-        }
-        
-        delegate.texture = CVMetalTextureGetTexture(iter->second.cvMetalTexture.get());
-        [view draw];
+id<MTLTexture> AppleStimulusDisplay::getMetalFramebufferTexture(int framebuffer_id) const {
+    auto iter = framebuffers.find(framebuffer_id);
+    if (iter == framebuffers.end()) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
+        return nil;
     }
+    return CVMetalTextureGetTexture(iter->second.cvMetalTexture.get());
 }
 
 

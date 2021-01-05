@@ -61,28 +61,24 @@ protected:
     
     boost::shared_ptr<VariableCallbackNotification> stateSystemNotification;
     std::atomic_bool displayUpdatesStarted;
+    static_assert(decltype(displayUpdatesStarted)::is_always_lock_free);
     double mainDisplayRefreshRate;
     
     static constexpr MWTime NO_CURRENT_OUTPUT_TIME = -1;
     std::atomic<MWTime> currentOutputTimeUS;
+    static_assert(decltype(currentOutputTimeUS)::is_always_lock_free);
     
     bool paused;
     bool didDrawWhilePaused;
     
     bool announceStimuliOnImplicitUpdates;
-    std::vector<Datum> stimAnnouncements;
     
     const bool useColorManagement;
-    int framebuffer_id;
     
     virtual void prepareContext(int context_id, bool isMainContext) = 0;
     
-    void refreshMainDisplay();
-    void refreshMirrorDisplay();
-    void drawDisplayStack();
+    void refreshDisplay();
     void ensureRefresh(unique_lock &lock);
-    
-    void announceDisplayUpdate(bool updateIsExplicit);
     
     void reportSkippedFrames(double numSkippedFrames) const;
     
@@ -90,8 +86,7 @@ protected:
     virtual void startDisplayUpdates() = 0;
     virtual void stopDisplayUpdates() = 0;
     
-    virtual void presentFramebuffer(int framebuffer_id, int dst_context_id) = 0;
-    void presentFramebuffer(int framebuffer_id) { presentFramebuffer(framebuffer_id, main_context_id); }
+    virtual void renderDisplay(const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) = 0;
     
 public:
     static void getDisplayBounds(const Datum &mainScreenInfo,

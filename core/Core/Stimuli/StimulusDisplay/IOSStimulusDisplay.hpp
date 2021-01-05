@@ -22,7 +22,7 @@ BEGIN_NAMESPACE_MW
 
 class IOSStimulusDisplay : public AppleStimulusDisplay {
     
-    static void displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display, int context_id);
+    static void displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display);
     
 public:
     using DisplayLinkCallback = decltype(&displayLinkCallback);
@@ -37,8 +37,8 @@ private:
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;
     
-    NSMutableArray<CADisplayLink *> *displayLinks;
-    std::vector<std::thread> displayLinkThreads;
+    CADisplayLink *displayLink;
+    std::thread displayLinkThread;
     CFTimeInterval lastTargetTimestamp;
     
 };
