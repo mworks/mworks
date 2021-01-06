@@ -11,22 +11,19 @@
 #include "Stimulus.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
-
-
 @interface MWKStimulusDisplayViewDelegate : NSObject <MTKViewDelegate>
 
-@property(nonatomic, strong) id<MTLCommandQueue> commandQueue;
+@property(nonatomic, readonly) id<MTLCommandQueue> commandQueue;
 @property(nonatomic, strong) id<MTLTexture> texture;
 
-- (BOOL)prepareWithMTKView:(MTKView *)view
-        useColorManagement:(BOOL)useColorManagement
-                     error:(__autoreleasing NSError **)error;
++ (instancetype)delegateWithMTKView:(MTKView *)view
+                 useColorManagement:(BOOL)useColorManagement
+                              error:(__autoreleasing NSError **)error;
+
+- (instancetype)initWithCommandQueue:(id<MTLCommandQueue>)commandQueue
+                       pipelineState:(id<MTLRenderPipelineState>)pipelineState;
 
 @end
-
-
-NS_ASSUME_NONNULL_END
 
 
 @implementation MWKStimulusDisplayViewDelegate {
@@ -34,11 +31,13 @@ NS_ASSUME_NONNULL_END
 }
 
 
-- (BOOL)prepareWithMTKView:(MTKView *)view useColorManagement:(BOOL)useColorManagement error:(NSError **)error {
-    id<MTLLibrary> library = [view.device newDefaultLibraryWithBundle:[NSBundle bundleForClass:[self class]]
-                                                                error:error];
++ (instancetype)delegateWithMTKView:(MTKView *)view
+                 useColorManagement:(BOOL)useColorManagement
+                              error:(__autoreleasing NSError **)error
+{
+    id<MTLLibrary> library = [view.device newDefaultLibraryWithBundle:[NSBundle bundleForClass:self] error:error];
     if (!library) {
-        return NO;
+        return nil;
     }
     
     MTLFunctionConstantValues *functionConstantValues = [[MTLFunctionConstantValues alloc] init];
@@ -53,7 +52,7 @@ NS_ASSUME_NONNULL_END
                                                      constantValues:functionConstantValues
                                                               error:error];
     if (!fragmentFunction) {
-        return NO;
+        return nil;
     }
     
     MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
@@ -61,12 +60,25 @@ NS_ASSUME_NONNULL_END
     pipelineStateDescriptor.fragmentFunction = fragmentFunction;
     pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
     
-    _pipelineState = [view.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:error];
-    if (!_pipelineState) {
-        return NO;
+    id<MTLRenderPipelineState> pipelineState = [view.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor
+                                                                                           error:error];
+    if (!pipelineState) {
+        return nil;
     }
     
-    return YES;
+    return [[self alloc] initWithCommandQueue:[view.device newCommandQueue] pipelineState:pipelineState];
+}
+
+
+- (instancetype)initWithCommandQueue:(id<MTLCommandQueue>)commandQueue
+                       pipelineState:(id<MTLRenderPipelineState>)pipelineState
+{
+    self = [super init];
+    if (self) {
+        _commandQueue = commandQueue;
+        _pipelineState = pipelineState;
+    }
+    return self;
 }
 
 
@@ -129,29 +141,31 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
         MTKView *view = contextManager->getView(context_id);
         view.paused = YES;
         
-        MWKStimulusDisplayViewDelegate *delegate = [[MWKStimulusDisplayViewDelegate alloc] init];
+        MWKStimulusDisplayViewDelegate *delegate = nil;
         NSError *error = nil;
-        if (![delegate prepareWithMTKView:view useColorManagement:useColorManagement error:&error]) {
+        if (!(delegate = [MWKStimulusDisplayViewDelegate delegateWithMTKView:view
+                                                          useColorManagement:useColorManagement
+                                                                       error:&error]))
+        {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  "Cannot prepare Metal view delegate",
+                                  "Cannot create stimulus display view delegate",
                                   error.localizedDescription.UTF8String);
         }
         
-        if (isMainContext) {
-            view.enableSetNeedsDisplay = NO;
-            prepareFramebufferStack(view, contextManager->getContext(context_id));
-            commandQueue = [view.device newCommandQueue];
-            mainView = view;
-            mainViewDelegate = delegate;
-            auto ctxLock = opengl_context_manager->setCurrent(context_id);
-            framebuffer_id = createFramebuffer();
-        } else {
+        if (!isMainContext) {
             view.enableSetNeedsDisplay = YES;
             mirrorView = view;
             mirrorViewDelegate = delegate;
+        } else {
+            view.enableSetNeedsDisplay = NO;
+            commandQueue = delegate.commandQueue;
+            mainView = view;
+            mainViewDelegate = delegate;
+            auto ctxLock = contextManager->setCurrent(context_id);
+            prepareFramebufferStack(view, contextManager->getContext(context_id));
+            framebuffer_id = createFramebuffer();
         }
         
-        delegate.commandQueue = commandQueue;
         delegate.texture = getMetalFramebufferTexture(framebuffer_id);
         view.delegate = delegate;
     }
@@ -180,8 +194,8 @@ void AppleStimulusDisplay::renderDisplay(const std::vector<boost::shared_ptr<Sti
                 stim->draw(sharedThis);
             }
             
-            glFlush();  // Commit pending OpenGL commands
             popFramebuffer();
+            glFlush();  // Commit pending OpenGL commands
             
             if (mirrorView) {
                 dispatch_async(dispatch_get_main_queue(), ^{
