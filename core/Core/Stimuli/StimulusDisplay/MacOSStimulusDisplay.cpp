@@ -46,7 +46,7 @@ void MacOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
         MTKView *view = (isMainContext ? getMainView() : getMirrorView());
         NSNumber *screenNumber = view.window.screen.deviceDescription[@"NSScreenNumber"];
         displayID = screenNumber.unsignedIntValue;
-        if (useColorManagement) {
+        if (getUseColorManagement()) {
             // Set the view's color space, so that the system will color match its content
             // to the display’s color space
             view.colorspace = NSColorSpace.sRGBColorSpace.CGColorSpace;
@@ -72,7 +72,7 @@ void MacOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
         throw SimpleException("Unable to set current display for display link");
     }
     
-    if (!useColorManagement) {
+    if (!getUseColorManagement()) {
         auto reg = ComponentRegistry::getSharedRegistry();
         auto displayInfo = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME)->getValue();
         if (displayInfo.hasKey(M_SET_DISPLAY_GAMMA_KEY) && displayInfo.getElement(M_SET_DISPLAY_GAMMA_KEY).getBool()) {
@@ -90,7 +90,7 @@ void MacOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
         } else {
             refreshRate = double(refreshPeriod.timeScale) / double(refreshPeriod.timeValue);
         }
-        mainDisplayRefreshRate = refreshRate;
+        setMainDisplayRefreshRate(refreshRate);
     }
 }
 
@@ -160,7 +160,7 @@ CVReturn MacOSStimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink
     auto &display = *static_cast<MacOSStimulusDisplay *>(_display);
     
     {
-        unique_lock lock(display.mutex);
+        lock_guard lock(display.mutex);
         
         if (display.lastFrameTime) {
             auto delta = (outputTime->videoTime - display.lastFrameTime) - outputTime->videoRefreshPeriod;
@@ -187,8 +187,8 @@ CVReturn MacOSStimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink
         // Once we have a system time in nanoseconds, we substract the system base time and convert to
         // microseconds, which leaves us with a value that can be compared to clock->getCurrentTimeUS().
         //
-        display.currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
-                                       display.clock->getSystemBaseTimeNS()) / 1000LL;
+        display.setCurrentOutputTimeUS((MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
+                                        display.getClock()->getSystemBaseTimeNS()) / 1000LL);
         
         display.refreshDisplay();
     }

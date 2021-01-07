@@ -137,14 +137,14 @@ AppleStimulusDisplay::~AppleStimulusDisplay() {
 
 void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
     @autoreleasepool {
-        auto contextManager = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
+        auto contextManager = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(getContextManager());
         MTKView *view = contextManager->getView(context_id);
         view.paused = YES;
         
         MWKStimulusDisplayViewDelegate *delegate = nil;
         NSError *error = nil;
         if (!(delegate = [MWKStimulusDisplayViewDelegate delegateWithMTKView:view
-                                                          useColorManagement:useColorManagement
+                                                          useColorManagement:getUseColorManagement()
                                                                        error:&error]))
         {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -172,10 +172,10 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
 }
 
 
-void AppleStimulusDisplay::renderDisplay(const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) {
+void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) {
     @autoreleasepool {
         if (needDraw) {
-            auto ctxLock = opengl_context_manager->setCurrent(main_context_id);
+            auto ctxLock = setCurrentOpenGLContext();
             pushFramebuffer(framebuffer_id);
             
 #if !MWORKS_OPENGL_ES
@@ -186,6 +186,8 @@ void AppleStimulusDisplay::renderDisplay(const std::vector<boost::shared_ptr<Sti
             glDisable(GL_BLEND);
             glDisable(GL_DITHER);
             
+            double backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha;
+            getBackgroundColor(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
             glClearColor(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
             glClear(GL_COLOR_BUFFER_BIT);
             
@@ -199,7 +201,11 @@ void AppleStimulusDisplay::renderDisplay(const std::vector<boost::shared_ptr<Sti
             
             if (mirrorView) {
                 dispatch_async(dispatch_get_main_queue(), ^{
+#if TARGET_OS_OSX
                     mirrorView.needsDisplay = YES;
+#else
+                    [mirrorView setNeedsDisplay];
+#endif
                 });
             }
         }

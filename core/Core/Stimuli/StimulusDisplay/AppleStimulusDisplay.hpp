@@ -37,7 +37,7 @@ public:
     
 protected:
     void prepareContext(int context_id, bool isMainContext) override;
-    void renderDisplay(const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) override;
+    void renderDisplay(bool needDraw, const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) override;
     
 private:
     using CVPixelBufferPoolPtr = cf::ObjectPtr<CVPixelBufferPoolRef>;

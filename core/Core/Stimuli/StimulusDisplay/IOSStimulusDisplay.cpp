@@ -80,7 +80,7 @@ void IOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
         MTKView *view = (isMainContext ? getMainView() : getMirrorView());
         UIScreen *screen = view.window.screen;
         
-        if (useColorManagement) {
+        if (getUseColorManagement()) {
             UIDisplayGamut displayGamut = screen.traitCollection.displayGamut;
             switch (displayGamut) {
                 case UIDisplayGamutSRGB:
@@ -123,7 +123,7 @@ void IOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             //NSCAssert(displayLink.preferredFramesPerSecond == screen.maximumFramesPerSecond,
             //          @"Unexpected preferredFramesPerSecond on CADisplayLink");
             
-            mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
+            setMainDisplayRefreshRate(double(screen.maximumFramesPerSecond));
         }
     });
 }
@@ -158,13 +158,13 @@ void IOSStimulusDisplay::stopDisplayUpdates() {
 
 
 void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display) {
-    if (!(display.displayUpdatesStarted)) {
+    if (!(display.getDisplayUpdatesStarted())) {
         CFRunLoopStop(CFRunLoopGetCurrent());
         return;
     }
     
     @autoreleasepool {
-        unique_lock lock(display.mutex);
+        lock_guard lock(display.mutex);
         
         if (display.lastTargetTimestamp) {
             auto delta = (displayLink.targetTimestamp - display.lastTargetTimestamp) - displayLink.duration;
@@ -184,15 +184,15 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
         // CACurrentMediaTime().  According to the docs, values returned by the latter are "derived by
         // calling mach_absolute_time() and converting the result to seconds".
         //
-        display.currentOutputTimeUS = (MWTime(displayLink.targetTimestamp * 1e9) -
-                                       display.clock->getSystemBaseTimeNS()) / 1000LL;
+        display.setCurrentOutputTimeUS((MWTime(displayLink.targetTimestamp * 1e9) -
+                                        display.getClock()->getSystemBaseTimeNS()) / 1000LL);
         
 #if 0
         //
         // Check validity of predicted output time
         //
         {
-            const auto currentTimeUS = display.clock->getCurrentTimeUS();
+            const auto currentTimeUS = display.getClock()->getCurrentTimeUS();
             const auto predictedOutputTimeUS = display.getCurrentOutputTimeUS();
             if (predictedOutputTimeUS < currentTimeUS) {
                 merror(M_DISPLAY_MESSAGE_DOMAIN,
