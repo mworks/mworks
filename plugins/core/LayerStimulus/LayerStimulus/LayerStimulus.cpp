@@ -224,6 +224,7 @@ void LayerStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
     
     for (auto &child : children) {
         if (child->isLoaded()) {
+            display->setRenderingMode(child->getRenderingMode());
             child->draw(display);
         } else {
             merror(M_DISPLAY_MESSAGE_DOMAIN,
@@ -258,7 +259,9 @@ Datum LayerStimulus::getCurrentAnnounceDrawData() {
     
     Datum::list_value_type childAnnounceData;
     for (auto &child : children) {
-        childAnnounceData.push_back(child->getCurrentAnnounceDrawData());
+        if (child->isLoaded()) {
+            childAnnounceData.push_back(child->getCurrentAnnounceDrawData());
+        }
     }
     announceData.addElement("children", Datum(childAnnounceData));
     

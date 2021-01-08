@@ -35,6 +35,13 @@ class StimulusNode;
 class VariableCallbackNotification;
 
 
+enum class RenderingMode {
+    OpenGL,
+    Metal,
+    None
+};
+
+
 class StimulusDisplay : public boost::enable_shared_from_this<StimulusDisplay>, boost::noncopyable {
     
 public:
@@ -64,6 +71,8 @@ public:
     
     MWTime updateDisplay();
     void clearDisplay();
+    
+    virtual void setRenderingMode(RenderingMode mode) = 0;
     
     virtual int createFramebuffer() = 0;
     virtual void pushFramebuffer(int framebuffer_id) = 0;

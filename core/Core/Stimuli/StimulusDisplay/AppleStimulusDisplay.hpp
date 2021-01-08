@@ -25,6 +25,8 @@ public:
     MTKView * getMainView() const { return mainView; }
     MTKView * getMirrorView() const { return (mirrorView ? mirrorView : mainView); }
     
+    void setRenderingMode(RenderingMode mode) override;
+    
     int createFramebuffer() override;
     void pushFramebuffer(int framebuffer_id) override;
     void bindCurrentFramebuffer() override;
@@ -33,9 +35,13 @@ public:
     
     id<MTLDevice> getMetalDevice() const { return device; }
     id<MTLCommandQueue> getMetalCommandQueue() const { return commandQueue; }
+    MTLPixelFormat getMetalFramebufferTexturePixelFormat() const { return MTLPixelFormatRGBA16Float; }
     id<MTLTexture> getMetalFramebufferTexture(int framebuffer_id) const;
-    id<MTLTexture> getCurrentMetalFramebufferTexture() const;
-    MTLRenderPassDescriptor * createMetalRenderPassDescriptor() const;
+    
+    id<MTLTexture> getCurrentMetalFramebufferTexture() const { return currentFramebufferTexture; }
+    id<MTLCommandBuffer> getCurrentMetalCommandBuffer() const { return currentCommandBuffer; }
+    MTLRenderPassDescriptor * createMetalRenderPassDescriptor(MTLLoadAction loadAction = MTLLoadActionLoad,
+                                                              MTLStoreAction storeAction = MTLStoreActionStore) const;
     
 protected:
     void prepareContext(int context_id, bool isMainContext) override;
@@ -62,6 +68,9 @@ private:
     };
     
     void prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context);
+    void bindFramebuffer(Framebuffer &framebuffer);
+    
+    bool inOpenGLMode() const { return (currentRenderingMode == RenderingMode::OpenGL); }
     
     id<MTLDevice> device;
     id<MTLCommandQueue> commandQueue;
@@ -76,11 +85,28 @@ private:
     CVMetalTextureCachePtr cvMetalTextureCache;
     CVOpenGLTextureCachePtr cvOpenGLTextureCache;
     std::map<int, Framebuffer> framebuffers;
-    std::vector<Framebuffer> framebufferStack;
+    std::vector<int> framebufferStack;
     
     int framebuffer_id;
     
+    RenderingMode currentRenderingMode;
+    id<MTLTexture> currentFramebufferTexture;
+    id<MTLCommandBuffer> currentCommandBuffer;
+    
 };
+
+
+inline MTLRenderPassDescriptor *
+AppleStimulusDisplay::createMetalRenderPassDescriptor(MTLLoadAction loadAction, MTLStoreAction storeAction) const {
+    if (!currentFramebufferTexture) {
+        return nil;
+    }
+    MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
+    renderPassDescriptor.colorAttachments[0].texture = currentFramebufferTexture;
+    renderPassDescriptor.colorAttachments[0].loadAction = loadAction;
+    renderPassDescriptor.colorAttachments[0].storeAction = storeAction;
+    return renderPassDescriptor;
+}
 
 
 END_NAMESPACE_MW

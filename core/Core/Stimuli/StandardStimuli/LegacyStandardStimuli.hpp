@@ -26,6 +26,8 @@ public:
     
     explicit BlankScreen(const Map<ParameterValue> &parameters);
     
+    RenderingMode getRenderingMode() const override { return RenderingMode::OpenGL; }
+    
     void draw(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
@@ -51,6 +53,8 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit TransformStimulus(const Map<ParameterValue> &parameters);
+    
+    RenderingMode getRenderingMode() const override { return RenderingMode::OpenGL; }
     
     void load(shared_ptr<StimulusDisplay> display) override;
     void unload(shared_ptr<StimulusDisplay> display) override;

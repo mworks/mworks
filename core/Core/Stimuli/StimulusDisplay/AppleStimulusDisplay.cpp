@@ -121,18 +121,55 @@ AppleStimulusDisplay::AppleStimulusDisplay(bool useColorManagement) :
     mirrorViewDelegate(nil),
     framebufferWidth(0),
     framebufferHeight(0),
-    framebuffer_id(-1)
+    framebuffer_id(-1),
+    currentRenderingMode(RenderingMode::None),
+    currentFramebufferTexture(nil),
+    currentCommandBuffer(nil)
 { }
 
 
 AppleStimulusDisplay::~AppleStimulusDisplay() {
     @autoreleasepool {
+        currentCommandBuffer = nil;
+        currentFramebufferTexture = nil;
         mirrorViewDelegate = nil;
         mainViewDelegate = nil;
         mirrorView = nil;
         mainView = nil;
         commandQueue = nil;
         device = nil;
+    }
+}
+
+
+void AppleStimulusDisplay::setRenderingMode(RenderingMode mode) {
+    if (RenderingMode::None == currentRenderingMode) {
+        // We're not rendering, so do nothing
+        return;
+    }
+    
+    switch (mode) {
+        case RenderingMode::None:
+            // No specific mode requested, so stay in the current mode
+            break;
+            
+        case RenderingMode::Metal:
+            if (inOpenGLMode()) {
+                glFlush();
+                currentCommandBuffer = [commandQueue commandBuffer];
+                [currentCommandBuffer enqueue];
+                currentRenderingMode = RenderingMode::Metal;
+            }
+            break;
+            
+        case RenderingMode::OpenGL:
+            if (!inOpenGLMode()) {
+                [currentCommandBuffer commit];
+                [currentCommandBuffer waitUntilScheduled];
+                currentCommandBuffer = nil;
+                currentRenderingMode = RenderingMode::OpenGL;
+            }
+            break;
     }
 }
 
@@ -179,28 +216,43 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
     @autoreleasepool {
         if (needDraw) {
             auto ctxLock = setCurrentOpenGLContext();
-            pushFramebuffer(framebuffer_id);
-            
 #if !MWORKS_OPENGL_ES
             // This has no effect on non-sRGB framebuffers, so we can enable it unconditionally
             gl::Enabled<GL_FRAMEBUFFER_SRGB> framebufferSRGBEnabled;
 #endif
-            
             glDisable(GL_BLEND);
             glDisable(GL_DITHER);
             
-            double backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha;
-            getBackgroundColor(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
-            glClearColor(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
-            glClear(GL_COLOR_BUFFER_BIT);
+            pushFramebuffer(framebuffer_id);
+            
+            currentRenderingMode = RenderingMode::Metal;
+            currentCommandBuffer = [commandQueue commandBuffer];
+            [currentCommandBuffer enqueue];
+            
+            {
+                MTLClearColor clearColor;
+                getBackgroundColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
+                MTLRenderPassDescriptor *renderPassDescriptor = createMetalRenderPassDescriptor(MTLLoadActionClear);
+                renderPassDescriptor.colorAttachments[0].clearColor = clearColor;
+                id<MTLRenderCommandEncoder> renderEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+                [renderEncoder endEncoding];
+            }
             
             auto sharedThis = shared_from_this();
             for (auto &stim : stimsToDraw) {
+                setRenderingMode(stim->getRenderingMode());
                 stim->draw(sharedThis);
             }
             
+            if (inOpenGLMode()) {
+                glFlush();
+            } else {
+                [currentCommandBuffer commit];
+                currentCommandBuffer = nil;
+            }
+            currentRenderingMode = RenderingMode::None;
+            
             popFramebuffer();
-            glFlush();  // Commit pending OpenGL commands
             
             if (mirrorView) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -307,7 +359,7 @@ int AppleStimulusDisplay::createFramebuffer() {
                                                                 cvMetalTextureCache.get(),
                                                                 framebuffer.cvPixelBuffer.get(),
                                                                 nil,
-                                                                MTLPixelFormatRGBA16Float,
+                                                                getMetalFramebufferTexturePixelFormat(),
                                                                 framebufferWidth,
                                                                 framebufferHeight,
                                                                 0,
@@ -388,53 +440,28 @@ void AppleStimulusDisplay::pushFramebuffer(int framebuffer_id) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
         return;
     }
-    framebufferStack.emplace_back(iter->second);
-    bindCurrentFramebuffer();
+    framebufferStack.push_back(iter->first);
+    bindFramebuffer(iter->second);
 }
 
 
 void AppleStimulusDisplay::bindCurrentFramebuffer() {
     if (framebufferStack.empty()) {
-        // Bind the default framebuffer
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        currentFramebufferTexture = nil;
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);  // Bind the default framebuffer
         return;
     }
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebufferStack.back().glFramebuffer);
+    bindFramebuffer(framebuffers.find(framebufferStack.back())->second);
+}
+
+
+void AppleStimulusDisplay::bindFramebuffer(Framebuffer &framebuffer) {
+    currentFramebufferTexture = CVMetalTextureGetTexture(framebuffer.cvMetalTexture.get());
+    
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer.glFramebuffer);
     const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
     glDrawBuffers(1, &drawBuffer);
     glViewport(0, 0, framebufferWidth, framebufferHeight);
-}
-
-
-id<MTLTexture> AppleStimulusDisplay::getMetalFramebufferTexture(int framebuffer_id) const {
-    auto iter = framebuffers.find(framebuffer_id);
-    if (iter == framebuffers.end()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
-        return nil;
-    }
-    return CVMetalTextureGetTexture(iter->second.cvMetalTexture.get());
-}
-
-
-id<MTLTexture> AppleStimulusDisplay::getCurrentMetalFramebufferTexture() const {
-    if (framebufferStack.empty()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: no current Metal framebuffer texture");
-        return nil;
-    }
-    return CVMetalTextureGetTexture(framebufferStack.back().cvMetalTexture.get());
-}
-
-
-MTLRenderPassDescriptor * AppleStimulusDisplay::createMetalRenderPassDescriptor() const {
-    id<MTLTexture> texture = getCurrentMetalFramebufferTexture();
-    if (!texture) {
-        return nil;
-    }
-    MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
-    renderPassDescriptor.colorAttachments[0].texture = texture;
-    renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
-    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-    return renderPassDescriptor;
 }
 
 
@@ -454,7 +481,24 @@ void AppleStimulusDisplay::releaseFramebuffer(int framebuffer_id) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
         return;
     }
+    if (std::find(framebufferStack.begin(), framebufferStack.end(), iter->first) != framebufferStack.end()) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "Internal error: framebuffer %d is in use and cannot be released",
+               iter->first);
+        return;
+    }
+    glDeleteFramebuffers(1, &(iter->second.glFramebuffer));
     framebuffers.erase(iter);
+}
+
+
+id<MTLTexture> AppleStimulusDisplay::getMetalFramebufferTexture(int framebuffer_id) const {
+    auto iter = framebuffers.find(framebuffer_id);
+    if (iter == framebuffers.end()) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
+        return nil;
+    }
+    return CVMetalTextureGetTexture(iter->second.cvMetalTexture.get());
 }
 
 

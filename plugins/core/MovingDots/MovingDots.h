@@ -35,6 +35,8 @@ public:
 
     explicit MovingDots(const ParameterValueMap &parameters);
     
+    RenderingMode getRenderingMode() const override { return RenderingMode::OpenGL; }
+    
     void load(shared_ptr<StimulusDisplay> display) override;
     void unload(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;

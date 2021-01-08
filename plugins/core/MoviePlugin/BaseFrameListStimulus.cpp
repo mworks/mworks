@@ -98,6 +98,7 @@ void BaseFrameListStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
     if (frameNumber < numFrames) {
         auto stim = getStimulusForFrame(frameNumber);
         if (stim->isLoaded()) {
+            display->setRenderingMode(stim->getRenderingMode());
             stim->draw(display);
         } else {
             merror(M_DISPLAY_MESSAGE_DOMAIN,
@@ -126,7 +127,10 @@ Datum BaseFrameListStimulus::getCurrentAnnounceDrawData() {
     
     Datum currentStimulusAnnounceData(0L);
     if ((frameNumber >= 0) && (frameNumber < getNumFrames())) {
-        currentStimulusAnnounceData = getStimulusForFrame(frameNumber)->getCurrentAnnounceDrawData();
+        auto stim = getStimulusForFrame(frameNumber);
+        if (stim->isLoaded()) {
+            currentStimulusAnnounceData = stim->getCurrentAnnounceDrawData();
+        }
     }
     announceData.addElement("current_stimulus", currentStimulusAnnounceData);
     
@@ -203,29 +207,3 @@ shared_ptr<Stimulus> BaseFrameListStimulus::getStimulusForFrame(int frameNumber)
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -36,6 +36,7 @@
 #include "Announcers.h"
 #include "FreezableVariableContainer.h"
 #include "OpenGLUtilities.hpp"
+#include "StimulusDisplay.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -43,7 +44,6 @@ BEGIN_NAMESPACE_MW
 
 class ComponentInfo;
 class ParameterValue;
-class StimulusDisplay;
 
 
 class Stimulus : public mw::Component, public FreezableCollection {
@@ -69,6 +69,8 @@ public:
      * StandardComponentFactory-compatible Constructor.
      */
     explicit Stimulus(const Map<ParameterValue> &parameters);
+    
+    virtual RenderingMode getRenderingMode() const = 0;
     
     /**
      * Overload this function.  This is a shell that does nothing.  Used

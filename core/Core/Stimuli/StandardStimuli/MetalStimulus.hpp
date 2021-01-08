@@ -21,21 +21,26 @@ class MetalStimulus : public Stimulus {
 public:
     explicit MetalStimulus(const ParameterValueMap &parameters);
     
+    RenderingMode getRenderingMode() const override { return RenderingMode::Metal; }
+    
     void load(boost::shared_ptr<StimulusDisplay> display) override;
     void unload(boost::shared_ptr<StimulusDisplay> display) override;
     void draw(boost::shared_ptr<StimulusDisplay> display) override;
     
 protected:
-    using DisplayPtr = boost::shared_ptr<AppleStimulusDisplay>;
+    using MetalDisplay = AppleStimulusDisplay;
     
 private:
-    static DisplayPtr getDisplay(const boost::shared_ptr<StimulusDisplay> &display) {
-        return boost::dynamic_pointer_cast<AppleStimulusDisplay>(display);
+    static MetalDisplay & getMetalDisplay(const boost::shared_ptr<StimulusDisplay> &display) {
+        return *(boost::dynamic_pointer_cast<AppleStimulusDisplay>(display));
     }
     
-    virtual void load(const DisplayPtr &display) { }
-    virtual void unload(const DisplayPtr &display) { }
-    virtual void draw(const DisplayPtr &display, id<MTLCommandBuffer> commandBuffer) { }
+    virtual void loadMetal(MetalDisplay &display) { }
+    virtual void unloadMetal(MetalDisplay &display) { }
+    virtual void drawMetal(MetalDisplay &display) { }
+    
+    using lock_guard = std::lock_guard<std::mutex>;
+    lock_guard::mutex_type mutex;
     
 };
 

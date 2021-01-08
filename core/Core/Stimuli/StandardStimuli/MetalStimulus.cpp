@@ -17,11 +17,13 @@ MetalStimulus::MetalStimulus(const ParameterValueMap &parameters) :
 
 
 void MetalStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
+    lock_guard lock(mutex);
+    
     if (loaded)
         return;
     
     @autoreleasepool {
-        load(getDisplay(display));
+        loadMetal(getMetalDisplay(display));
     }
     
     Stimulus::load(display);
@@ -29,28 +31,25 @@ void MetalStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
 
 
 void MetalStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
+    lock_guard lock(mutex);
+    
     if (!loaded)
         return;
     
     @autoreleasepool {
-        unload(getDisplay(display));
+        unloadMetal(getMetalDisplay(display));
     }
     
     Stimulus::unload(display);
 }
 
 
-void MetalStimulus::draw(boost::shared_ptr<StimulusDisplay> _display) {
-    // AppleStimulusDisplay invokes draw in the scope of an autorelease pool, so we
-    // don't need to create one here
+void MetalStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
+    lock_guard lock(mutex);
     
-    // Ensure that any pending OpenGL commands are committed before we start rendering
-    glFlush();
-    
-    auto display = getDisplay(_display);
-    id<MTLCommandBuffer> commandBuffer = [display->getMetalCommandQueue() commandBuffer];
-    draw(display, commandBuffer);
-    [commandBuffer commit];
+    @autoreleasepool {
+        drawMetal(getMetalDisplay(display));
+    }
 }
 
 
