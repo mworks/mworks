@@ -113,6 +113,7 @@ BEGIN_NAMESPACE_MW
 
 AppleStimulusDisplay::AppleStimulusDisplay(bool useColorManagement) :
     StimulusDisplay(useColorManagement),
+    device(nil),
     commandQueue(nil),
     mainView(nil),
     mirrorView(nil),
@@ -131,6 +132,7 @@ AppleStimulusDisplay::~AppleStimulusDisplay() {
         mirrorView = nil;
         mainView = nil;
         commandQueue = nil;
+        device = nil;
     }
 }
 
@@ -158,6 +160,7 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             mirrorViewDelegate = delegate;
         } else {
             view.enableSetNeedsDisplay = NO;
+            device = view.device;
             commandQueue = delegate.commandQueue;
             mainView = view;
             mainViewDelegate = delegate;
@@ -419,6 +422,19 @@ id<MTLTexture> AppleStimulusDisplay::getCurrentMetalFramebufferTexture() const {
         return nil;
     }
     return CVMetalTextureGetTexture(framebufferStack.back().cvMetalTexture.get());
+}
+
+
+MTLRenderPassDescriptor * AppleStimulusDisplay::createMetalRenderPassDescriptor() const {
+    id<MTLTexture> texture = getCurrentMetalFramebufferTexture();
+    if (!texture) {
+        return nil;
+    }
+    MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
+    renderPassDescriptor.colorAttachments[0].texture = texture;
+    renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
+    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+    return renderPassDescriptor;
 }
 
 

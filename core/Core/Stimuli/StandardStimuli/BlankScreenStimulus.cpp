@@ -43,11 +43,12 @@ Datum BlankScreenStimulus::getCurrentAnnounceDrawData() {
 }
 
 
-void BlankScreenStimulus::draw(id<MTLCommandBuffer> commandBuffer, MTLRenderPassDescriptor *renderPassDescriptor) {
+void BlankScreenStimulus::draw(const DisplayPtr &display, id<MTLCommandBuffer> commandBuffer) {
     current_r = r->getValue().getFloat();
     current_g = g->getValue().getFloat();
     current_b = b->getValue().getFloat();
     
+    MTLRenderPassDescriptor *renderPassDescriptor = display->createMetalRenderPassDescriptor();
     renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
     renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(current_r, current_g, current_b, 1.0);
     

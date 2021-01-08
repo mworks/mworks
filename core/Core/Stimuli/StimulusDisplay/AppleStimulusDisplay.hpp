@@ -31,9 +31,11 @@ public:
     void popFramebuffer() override;
     void releaseFramebuffer(int framebuffer_id) override;
     
+    id<MTLDevice> getMetalDevice() const { return device; }
     id<MTLCommandQueue> getMetalCommandQueue() const { return commandQueue; }
     id<MTLTexture> getMetalFramebufferTexture(int framebuffer_id) const;
     id<MTLTexture> getCurrentMetalFramebufferTexture() const;
+    MTLRenderPassDescriptor * createMetalRenderPassDescriptor() const;
     
 protected:
     void prepareContext(int context_id, bool isMainContext) override;
@@ -61,6 +63,7 @@ private:
     
     void prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context);
     
+    id<MTLDevice> device;
     id<MTLCommandQueue> commandQueue;
     MTKView *mainView;
     MTKView *mirrorView;

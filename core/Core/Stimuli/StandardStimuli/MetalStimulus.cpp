@@ -17,45 +17,40 @@ MetalStimulus::MetalStimulus(const ParameterValueMap &parameters) :
 
 
 void MetalStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
+    if (loaded)
+        return;
+    
     @autoreleasepool {
-        if (loaded)
-            return;
-        
-        load(getDisplay(display)->getMainView().device);
-        
-        Stimulus::load(display);
+        load(getDisplay(display));
     }
+    
+    Stimulus::load(display);
 }
 
 
 void MetalStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
+    if (!loaded)
+        return;
+    
     @autoreleasepool {
-        if (!loaded)
-            return;
-        
-        unload();
-        
-        Stimulus::unload(display);
+        unload(getDisplay(display));
     }
+    
+    Stimulus::unload(display);
 }
 
 
-void MetalStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
-    @autoreleasepool {
-        // Ensure that any pending OpenGL commands are committed before we start rendering
-        glFlush();
-        
-        id<MTLCommandBuffer> commandBuffer = [getDisplay(display)->getMetalCommandQueue() commandBuffer];
-        
-        MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
-        renderPassDescriptor.colorAttachments[0].texture = getDisplay(display)->getCurrentMetalFramebufferTexture();
-        renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
-        renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-        
-        draw(commandBuffer, renderPassDescriptor);
-        
-        [commandBuffer commit];
-    }
+void MetalStimulus::draw(boost::shared_ptr<StimulusDisplay> _display) {
+    // AppleStimulusDisplay invokes draw in the scope of an autorelease pool, so we
+    // don't need to create one here
+    
+    // Ensure that any pending OpenGL commands are committed before we start rendering
+    glFlush();
+    
+    auto display = getDisplay(_display);
+    id<MTLCommandBuffer> commandBuffer = [display->getMetalCommandQueue() commandBuffer];
+    draw(display, commandBuffer);
+    [commandBuffer commit];
 }
 
 

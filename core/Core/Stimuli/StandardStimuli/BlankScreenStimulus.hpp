@@ -26,7 +26,7 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    void draw(id<MTLCommandBuffer> commandBuffer, MTLRenderPassDescriptor *renderPassDescriptor) override;
+    void draw(const DisplayPtr &display, id<MTLCommandBuffer> commandBuffer) override;
     
     VariablePtr r;
     VariablePtr g;

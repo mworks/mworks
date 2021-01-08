@@ -26,14 +26,16 @@ public:
     void draw(boost::shared_ptr<StimulusDisplay> display) override;
     
 protected:
-    static boost::shared_ptr<AppleStimulusDisplay> getDisplay(const boost::shared_ptr<StimulusDisplay> &display) {
+    using DisplayPtr = boost::shared_ptr<AppleStimulusDisplay>;
+    
+private:
+    static DisplayPtr getDisplay(const boost::shared_ptr<StimulusDisplay> &display) {
         return boost::dynamic_pointer_cast<AppleStimulusDisplay>(display);
     }
     
-private:
-    virtual void load(id<MTLDevice> device) { }
-    virtual void unload() { }
-    virtual void draw(id<MTLCommandBuffer> commandBuffer, MTLRenderPassDescriptor *renderPassDescriptor) { }
+    virtual void load(const DisplayPtr &display) { }
+    virtual void unload(const DisplayPtr &display) { }
+    virtual void draw(const DisplayPtr &display, id<MTLCommandBuffer> commandBuffer) { }
     
 };
 
