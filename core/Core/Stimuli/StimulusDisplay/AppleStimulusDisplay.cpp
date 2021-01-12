@@ -246,23 +246,31 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
             
             if (inOpenGLMode()) {
                 glFlush();
-            } else {
-                [currentCommandBuffer commit];
-                currentCommandBuffer = nil;
+                currentCommandBuffer = [commandQueue commandBuffer];
+                [currentCommandBuffer enqueue];
             }
+            
+            if (mirrorView) {
+                // Wait until all main view rendering commands have been scheduled on the GPU
+                // before triggering a mirror window update.  This avoids the situation where,
+                // when display updates are stopped, the mirror window remains frozen on the
+                // last frame *before* the display was cleared.
+                [currentCommandBuffer addScheduledHandler:^(id<MTLCommandBuffer> commandBuffer) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+#if TARGET_OS_OSX
+                        mirrorView.needsDisplay = YES;
+#else
+                        [mirrorView setNeedsDisplay];
+#endif
+                    });
+                }];
+            }
+            
+            [currentCommandBuffer commit];
+            currentCommandBuffer = nil;
             currentRenderingMode = RenderingMode::None;
             
             popFramebuffer();
-            
-            if (mirrorView) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-#if TARGET_OS_OSX
-                    mirrorView.needsDisplay = YES;
-#else
-                    [mirrorView setNeedsDisplay];
-#endif
-                });
-            }
         }
         
         [mainView draw];
