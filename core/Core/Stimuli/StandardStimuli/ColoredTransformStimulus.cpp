@@ -30,27 +30,31 @@ ColoredTransformStimulus::ColoredTransformStimulus(const ParameterValueMap &para
 }
 
 
-void ColoredTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
-    current_r = r->getValue().getFloat();
-    current_g = g->getValue().getFloat();
-    current_b = b->getValue().getFloat();
+Datum ColoredTransformStimulus::getCurrentAnnounceDrawData() {
+    auto announceData = AlphaBlendedTransformStimulus::getCurrentAnnounceDrawData();
     
-    AlphaBlendedTransformStimulus::draw(display);
+    announceData.addElement(STIM_COLOR_R, current_r);
+    announceData.addElement(STIM_COLOR_G, current_g);
+    announceData.addElement(STIM_COLOR_B, current_b);
     
-    last_r = current_r;
-    last_g = current_g;
-    last_b = current_b;
+    return announceData;
 }
 
 
-Datum ColoredTransformStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData = AlphaBlendedTransformStimulus::getCurrentAnnounceDrawData();
+void ColoredTransformStimulus::drawMetal(MetalDisplay &display) {
+    AlphaBlendedTransformStimulus::drawMetal(display);
     
-    announceData.addElement(STIM_COLOR_R, last_r);
-    announceData.addElement(STIM_COLOR_G, last_g);
-    announceData.addElement(STIM_COLOR_B, last_b);
-    
-    return announceData;
+    current_r = r->getValue().getFloat();
+    current_g = g->getValue().getFloat();
+    current_b = b->getValue().getFloat();
+}
+
+
+void ColoredTransformStimulus::setCurrentColor(id<MTLRenderCommandEncoder> renderCommandEncoder,
+                                               NSUInteger bufferIndex) const
+{
+    auto currentColor = simd::make_float4(current_r, current_g, current_b, current_alpha);
+    [renderCommandEncoder setFragmentBytes:&currentColor length:sizeof(currentColor) atIndex:bufferIndex];
 }
 
 

@@ -32,12 +32,12 @@ BlankScreenStimulus::BlankScreenStimulus(const ParameterValueMap &parameters) :
 
 
 Datum BlankScreenStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData = MetalStimulus::getCurrentAnnounceDrawData();
+    auto announceData = MetalStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, STIM_TYPE_BLANK);
-    announceData.addElement(STIM_COLOR_R, last_r);
-    announceData.addElement(STIM_COLOR_G, last_g);
-    announceData.addElement(STIM_COLOR_B, last_b);
+    announceData.addElement(STIM_COLOR_R, current_r);
+    announceData.addElement(STIM_COLOR_G, current_g);
+    announceData.addElement(STIM_COLOR_B, current_b);
     
     return announceData;
 }
@@ -54,10 +54,6 @@ void BlankScreenStimulus::drawMetal(MetalDisplay &display) {
     id<MTLCommandBuffer> commandBuffer = display.getCurrentMetalCommandBuffer();
     id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
     [renderEncoder endEncoding];
-    
-    last_r = current_r;
-    last_g = current_g;
-    last_b = current_b;
 }
 
 

@@ -24,6 +24,8 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 private:
+    void loadMetal(MetalDisplay &display) override;
+    void drawMetal(MetalDisplay &display) override;
     
 };
 

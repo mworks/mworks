@@ -38,84 +38,31 @@ AlphaBlendedTransformStimulus::AlphaBlendedTransformStimulus(const ParameterValu
 { }
 
 
-void AlphaBlendedTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
-    current_alpha = alpha_multiplier->getValue().getFloat();
-    if (!sourceBlendFactorName) {
-        current_source_blend_factor = defaultSourceBlendFactor;
-    } else {
-        current_source_blend_factor_name = sourceBlendFactorName->getValue().getString();
-        current_source_blend_factor = blendFactorFromName(current_source_blend_factor_name,
-                                                          defaultSourceBlendFactor);
-    }
-    if (!destBlendFactorName) {
-        current_dest_blend_factor = defaultDestBlendFactor;
-    } else {
-        current_dest_blend_factor_name = destBlendFactorName->getValue().getString();
-        current_dest_blend_factor = blendFactorFromName(current_dest_blend_factor_name,
-                                                        defaultDestBlendFactor);
-    }
-    if (!sourceAlphaBlendFactorName) {
-        current_source_alpha_blend_factor = current_source_blend_factor;
-    } else {
-        current_source_alpha_blend_factor_name = sourceAlphaBlendFactorName->getValue().getString();
-        current_source_alpha_blend_factor = blendFactorFromName(current_source_alpha_blend_factor_name,
-                                                                current_source_blend_factor);
-    }
-    if (!destAlphaBlendFactorName) {
-        current_dest_alpha_blend_factor = current_dest_blend_factor;
-    } else {
-        current_dest_alpha_blend_factor_name = destAlphaBlendFactorName->getValue().getString();
-        current_dest_alpha_blend_factor = blendFactorFromName(current_dest_alpha_blend_factor_name,
-                                                              current_dest_blend_factor);
-    }
-    
-    TransformStimulus::draw(display);
-    
-    last_alpha = current_alpha;
-    if (sourceBlendFactorName) {
-        last_source_blend_factor_name = current_source_blend_factor_name;
-        last_source_blend_factor = current_source_blend_factor;
-    }
-    if (destBlendFactorName) {
-        last_dest_blend_factor_name = current_dest_blend_factor_name;
-        last_dest_blend_factor = current_dest_blend_factor;
-    }
-    if (sourceAlphaBlendFactorName) {
-        last_source_alpha_blend_factor_name = current_source_alpha_blend_factor_name;
-        last_source_alpha_blend_factor = current_source_alpha_blend_factor;
-    }
-    if (destAlphaBlendFactorName) {
-        last_dest_alpha_blend_factor_name = current_dest_alpha_blend_factor_name;
-        last_dest_alpha_blend_factor = current_dest_alpha_blend_factor;
-    }
-}
-
-
 Datum AlphaBlendedTransformStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData = TransformStimulus::getCurrentAnnounceDrawData();
+    auto announceData = TransformStimulus::getCurrentAnnounceDrawData();
     
-    announceData.addElement(STIM_ALPHA, last_alpha);
+    announceData.addElement(STIM_ALPHA, current_alpha);
     
     // Announce blend factors only if they were set explicitly, in order to avoid
     // adding lots of redundant strings to the event file
     if (sourceBlendFactorName) {
-        announceData.addElement(SOURCE_BLEND_FACTOR, last_source_blend_factor_name);
+        announceData.addElement(SOURCE_BLEND_FACTOR, current_source_blend_factor_name);
     }
     if (destBlendFactorName) {
-        announceData.addElement(DEST_BLEND_FACTOR, last_dest_blend_factor_name);
+        announceData.addElement(DEST_BLEND_FACTOR, current_dest_blend_factor_name);
     }
     if (sourceAlphaBlendFactorName) {
-        announceData.addElement(SOURCE_ALPHA_BLEND_FACTOR, last_source_alpha_blend_factor_name);
+        announceData.addElement(SOURCE_ALPHA_BLEND_FACTOR, current_source_alpha_blend_factor_name);
     }
     if (destAlphaBlendFactorName) {
-        announceData.addElement(DEST_ALPHA_BLEND_FACTOR, last_dest_alpha_blend_factor_name);
+        announceData.addElement(DEST_ALPHA_BLEND_FACTOR, current_dest_alpha_blend_factor_name);
     }
     
     return announceData;
 }
 
 
-MTLBlendFactor AlphaBlendedTransformStimulus::blendFactorFromName(const std::string &name, MTLBlendFactor fallback) {
+MTLBlendFactor AlphaBlendedTransformStimulus::blendFactorFromName(const std::string &name) {
     if (name == "zero") {
         return MTLBlendFactorZero;
     } else if (name == "one") {
@@ -137,9 +84,65 @@ MTLBlendFactor AlphaBlendedTransformStimulus::blendFactorFromName(const std::str
     } else if (name == "one_minus_dest_alpha") {
         return MTLBlendFactorOneMinusDestinationAlpha;
     }
-    merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid blend factor: %s", name.c_str());
-    return fallback;
+    throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Invalid blend factor", name);
 };
+
+
+void AlphaBlendedTransformStimulus::loadMetal(MetalDisplay &display) {
+    TransformStimulus::loadMetal(display);
+    
+    if (!sourceBlendFactorName) {
+        current_source_blend_factor = MTLBlendFactorSourceAlpha;
+    } else {
+        current_source_blend_factor_name = sourceBlendFactorName->getValue().getString();
+        current_source_blend_factor = blendFactorFromName(current_source_blend_factor_name);
+    }
+    if (!destBlendFactorName) {
+        current_dest_blend_factor = MTLBlendFactorOneMinusSourceAlpha;
+    } else {
+        current_dest_blend_factor_name = destBlendFactorName->getValue().getString();
+        current_dest_blend_factor = blendFactorFromName(current_dest_blend_factor_name);
+    }
+    if (!sourceAlphaBlendFactorName) {
+        current_source_alpha_blend_factor = current_source_blend_factor;
+    } else {
+        current_source_alpha_blend_factor_name = sourceAlphaBlendFactorName->getValue().getString();
+        current_source_alpha_blend_factor = blendFactorFromName(current_source_alpha_blend_factor_name);
+    }
+    if (!destAlphaBlendFactorName) {
+        current_dest_alpha_blend_factor = current_dest_blend_factor;
+    } else {
+        current_dest_alpha_blend_factor_name = destAlphaBlendFactorName->getValue().getString();
+        current_dest_alpha_blend_factor = blendFactorFromName(current_dest_alpha_blend_factor_name);
+    }
+}
+
+
+void AlphaBlendedTransformStimulus::drawMetal(MetalDisplay &display) {
+    TransformStimulus::drawMetal(display);
+    
+    current_alpha = alpha_multiplier->getValue().getFloat();
+}
+
+
+MTLRenderPipelineDescriptor *
+AlphaBlendedTransformStimulus::createRenderPipelineDescriptor(MetalDisplay &display,
+                                                              id<MTLFunction> vertexFunction,
+                                                              id<MTLFunction> fragmentFunction) const
+{
+    auto renderPipelineDescriptor = TransformStimulus::createRenderPipelineDescriptor(display,
+                                                                                      vertexFunction,
+                                                                                      fragmentFunction);
+    
+    auto colorAttachment = renderPipelineDescriptor.colorAttachments[0];
+    colorAttachment.blendingEnabled = YES;
+    colorAttachment.sourceRGBBlendFactor = current_source_blend_factor;
+    colorAttachment.destinationRGBBlendFactor = current_dest_blend_factor;
+    colorAttachment.sourceAlphaBlendFactor = current_source_alpha_blend_factor;
+    colorAttachment.destinationAlphaBlendFactor = current_dest_alpha_blend_factor;
+    
+    return renderPipelineDescriptor;
+}
 
 
 END_NAMESPACE_MW

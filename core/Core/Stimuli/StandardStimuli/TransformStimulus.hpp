@@ -27,13 +27,24 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit TransformStimulus(const ParameterValueMap &parameters);
+    ~TransformStimulus();
     
-    void draw(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 protected:
+    void unloadMetal(MetalDisplay &display) override;
+    void drawMetal(MetalDisplay &display) override;
+    
     void getCurrentSize(float &sizeX, float &sizeY) const;
-    virtual GLKMatrix4 getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const;
+    virtual simd::float4x4 getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const;
+    
+    virtual MTLRenderPipelineDescriptor * createRenderPipelineDescriptor(MetalDisplay &display,
+                                                                         id<MTLFunction> vertexFunction,
+                                                                         id<MTLFunction> fragmentFunction) const;
+    id<MTLRenderCommandEncoder> createRenderCommandEncoder(MetalDisplay &display) const;
+    void setCurrentMVPMatrix(MetalDisplay &display,
+                             id<MTLRenderCommandEncoder> renderCommandEncoder,
+                             NSUInteger bufferIndex) const;
     
     const VariablePtr xoffset;
     const VariablePtr yoffset;
@@ -42,8 +53,9 @@ protected:
     const VariablePtr rotation;
     const bool fullscreen;
     
+    id<MTLRenderPipelineState> renderPipelineState;
+    
     float current_posx, current_posy, current_sizex, current_sizey, current_rot;
-    float last_posx, last_posy, last_sizex, last_sizey, last_rot;
     
 };
 

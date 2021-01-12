@@ -53,4 +53,41 @@ void MetalStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
 }
 
 
+id<MTLLibrary> MetalStimulus::loadDefaultLibrary(MetalDisplay &display, NSBundle *bundle) {
+    NSError *error = nil;
+    auto library = [display.getMetalDevice() newDefaultLibraryWithBundle:bundle error:&error];
+    if (!library) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              "Cannot load Metal library",
+                              error.localizedDescription.UTF8String);
+    }
+    return library;
+}
+
+
+id<MTLFunction> MetalStimulus::loadShaderFunction(id<MTLLibrary> library, const std::string &name) {
+    auto function = [library newFunctionWithName:@(name.c_str())];
+    if (!function) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, boost::format("Cannot load Metal shader function %1%") % name);
+    }
+    return function;
+}
+
+
+id<MTLRenderPipelineState>
+MetalStimulus::createRenderPipelineState(MetalDisplay &display,
+                                         MTLRenderPipelineDescriptor *renderPipelineDescriptor)
+{
+    NSError *error = nil;
+    auto renderPipelineState = [display.getMetalDevice() newRenderPipelineStateWithDescriptor:renderPipelineDescriptor
+                                                                                        error:&error];
+    if (!renderPipelineState) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              "Cannot create Metal render pipeline state",
+                              error.localizedDescription.UTF8String);
+    }
+    return renderPipelineState;
+}
+
+
 END_NAMESPACE_MW

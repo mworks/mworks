@@ -18,9 +18,31 @@ void RectangleStimulus::describeComponent(ComponentInfo &info) {
 
 
 Datum RectangleStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
+    auto announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
     announceData.addElement(STIM_TYPE, "rectangle");
     return announceData;
+}
+
+
+void RectangleStimulus::loadMetal(MetalDisplay &display) {
+    ColoredTransformStimulus::loadMetal(display);
+    
+    auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
+    auto vertexFunction = loadShaderFunction(library, "RectangleStimulus_vertexShader");
+    auto fragmentFunction = loadShaderFunction(library, "RectangleStimulus_fragmentShader");
+    auto renderPipelineDescriptor = createRenderPipelineDescriptor(display, vertexFunction, fragmentFunction);
+    renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
+}
+
+
+void RectangleStimulus::drawMetal(MetalDisplay &display) {
+    ColoredTransformStimulus::drawMetal(display);
+    
+    auto renderCommandEncoder = createRenderCommandEncoder(display);
+    setCurrentMVPMatrix(display, renderCommandEncoder, 0);
+    setCurrentColor(renderCommandEncoder, 0);
+    [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
+    [renderCommandEncoder endEncoding];
 }
 
 

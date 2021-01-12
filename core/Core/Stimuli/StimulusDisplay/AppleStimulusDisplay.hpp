@@ -26,6 +26,8 @@ public:
     explicit AppleStimulusDisplay(bool useColorManagement);
     ~AppleStimulusDisplay();
     
+    simd::float4x4 getMetalProjectionMatrix() const { return metalProjectionMatrix; }
+    
     MTKView * getMainView() const { return mainView; }
     MTKView * getMirrorView() const { return (mirrorView ? mirrorView : mainView); }
     
@@ -75,6 +77,8 @@ private:
     void bindFramebuffer(Framebuffer &framebuffer);
     
     bool inOpenGLMode() const { return (currentRenderingMode == RenderingMode::OpenGL); }
+    
+    simd::float4x4 metalProjectionMatrix;
     
     id<MTLDevice> device;
     id<MTLCommandQueue> commandQueue;

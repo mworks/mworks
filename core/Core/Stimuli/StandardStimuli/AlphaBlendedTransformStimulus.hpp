@@ -27,14 +27,17 @@ public:
     
     explicit AlphaBlendedTransformStimulus(const ParameterValueMap &parameters);
     
-    void draw(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 protected:
-    static constexpr MTLBlendFactor defaultSourceBlendFactor = MTLBlendFactorSourceAlpha;
-    static constexpr MTLBlendFactor defaultDestBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+    static MTLBlendFactor blendFactorFromName(const std::string &name);
     
-    static MTLBlendFactor blendFactorFromName(const std::string &name, MTLBlendFactor fallback);
+    void loadMetal(MetalDisplay &display) override;
+    void drawMetal(MetalDisplay &display) override;
+    
+    MTLRenderPipelineDescriptor * createRenderPipelineDescriptor(MetalDisplay &display,
+                                                                 id<MTLFunction> vertexFunction,
+                                                                 id<MTLFunction> fragmentFunction) const override;
     
     const VariablePtr alpha_multiplier;
     const VariablePtr sourceBlendFactorName;
@@ -51,16 +54,6 @@ protected:
     MTLBlendFactor current_source_alpha_blend_factor;
     std::string current_dest_alpha_blend_factor_name;
     MTLBlendFactor current_dest_alpha_blend_factor;
-    
-    float last_alpha;
-    std::string last_source_blend_factor_name;
-    MTLBlendFactor last_source_blend_factor;
-    std::string last_dest_blend_factor_name;
-    MTLBlendFactor last_dest_blend_factor;
-    std::string last_source_alpha_blend_factor_name;
-    MTLBlendFactor last_source_alpha_blend_factor;
-    std::string last_dest_alpha_blend_factor_name;
-    MTLBlendFactor last_dest_alpha_blend_factor;
     
 };
 

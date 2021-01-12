@@ -33,7 +33,6 @@ private:
     VariablePtr b;
     
     double current_r, current_g, current_b;
-    double last_r, last_g, last_b;
     
 };
 

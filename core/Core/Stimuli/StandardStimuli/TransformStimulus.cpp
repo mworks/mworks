@@ -7,6 +7,10 @@
 
 #include "TransformStimulus.hpp"
 
+#include "AAPLMathUtilities.h"
+
+using namespace mw::aapl_math_utilities;
+
 
 BEGIN_NAMESPACE_MW
 
@@ -37,7 +41,8 @@ TransformStimulus::TransformStimulus(const ParameterValueMap &parameters) :
     xscale(registerOptionalVariable(optionalVariable(parameters[X_SIZE]))),
     yscale(registerOptionalVariable(optionalVariable(parameters[Y_SIZE]))),
     rotation(registerVariable(parameters[ROTATION])),
-    fullscreen(parameters[FULLSCREEN])
+    fullscreen(parameters[FULLSCREEN]),
+    renderPipelineState(nil)
 {
     if (!(xscale || yscale || fullscreen)) {
         throw SimpleException("Either x_size or y_size must be specified");
@@ -45,40 +50,42 @@ TransformStimulus::TransformStimulus(const ParameterValueMap &parameters) :
 }
 
 
-void TransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
+TransformStimulus::~TransformStimulus() {
+    @autoreleasepool {
+        renderPipelineState = nil;
+    }
+}
+
+
+Datum TransformStimulus::getCurrentAnnounceDrawData() {
+    auto announceData = MetalStimulus::getCurrentAnnounceDrawData();
+    
+    if (fullscreen) {
+        announceData.addElement(STIM_FULLSCREEN, true);
+    } else {
+        announceData.addElement(STIM_POSX, current_posx);
+        announceData.addElement(STIM_POSY, current_posy);
+        announceData.addElement(STIM_SIZEX, current_sizex);
+        announceData.addElement(STIM_SIZEY, current_sizey);
+        announceData.addElement(STIM_ROT, current_rot);
+    }
+    
+    return announceData;
+}
+
+
+void TransformStimulus::unloadMetal(MetalDisplay &display) {
+    renderPipelineState = nil;
+}
+
+
+void TransformStimulus::drawMetal(MetalDisplay &display) {
     if (!fullscreen) {
         current_posx = xoffset->getValue().getFloat();
         current_posy = yoffset->getValue().getFloat();
         getCurrentSize(current_sizex, current_sizey);
         current_rot = rotation->getValue().getFloat();
     }
-    
-    MetalStimulus::draw(display);
-    
-    if (!fullscreen) {
-        last_posx = current_posx;
-        last_posy = current_posy;
-        last_sizex = current_sizex;
-        last_sizey = current_sizey;
-        last_rot = current_rot;
-    }
-}
-
-
-Datum TransformStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData = MetalStimulus::getCurrentAnnounceDrawData();
-    
-    if (fullscreen) {
-        announceData.addElement(STIM_FULLSCREEN, true);
-    } else {
-        announceData.addElement(STIM_POSX, last_posx);
-        announceData.addElement(STIM_POSY, last_posy);
-        announceData.addElement(STIM_SIZEX, last_sizex);
-        announceData.addElement(STIM_SIZEY, last_sizey);
-        announceData.addElement(STIM_ROT, last_rot);
-    }
-    
-    return announceData;
 }
 
 
@@ -98,18 +105,49 @@ void TransformStimulus::getCurrentSize(float &sizeX, float &sizeY) const {
 }
 
 
-GLKMatrix4 TransformStimulus::getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const {
-    GLKMatrix4 currentMVPMatrix;
+simd::float4x4 TransformStimulus::getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const {
+    simd::float4x4 currentMVPMatrix;
     
     if (fullscreen) {
-        currentMVPMatrix = GLKMatrix4MakeScale(2.0, 2.0, 1.0);
+        currentMVPMatrix = matrix4x4_scale(2.0, 2.0, 1.0);
     } else {
-        currentMVPMatrix = GLKMatrix4Translate(projectionMatrix, current_posx, current_posy, 0.0);
-        currentMVPMatrix = GLKMatrix4Rotate(currentMVPMatrix, GLKMathDegreesToRadians(current_rot), 0.0, 0.0, 1.0);
-        currentMVPMatrix = GLKMatrix4Scale(currentMVPMatrix, current_sizex, current_sizey, 1.0);
+        currentMVPMatrix = projectionMatrix * matrix4x4_translation(current_posx, current_posy, 0.0);
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(current_rot), 0.0, 0.0, 1.0);
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_scale(current_sizex, current_sizey, 1.0);
     }
     
-    return GLKMatrix4Translate(currentMVPMatrix, -0.5, -0.5, 0.0);
+    currentMVPMatrix = currentMVPMatrix * matrix4x4_translation(-0.5, -0.5, 0.0);
+    return currentMVPMatrix;
+}
+
+
+MTLRenderPipelineDescriptor * TransformStimulus::createRenderPipelineDescriptor(MetalDisplay &display,
+                                                                                id<MTLFunction> vertexFunction,
+                                                                                id<MTLFunction> fragmentFunction) const
+{
+    auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+    renderPipelineDescriptor.vertexFunction = vertexFunction;
+    renderPipelineDescriptor.fragmentFunction = fragmentFunction;
+    renderPipelineDescriptor.colorAttachments[0].pixelFormat = display.getMetalFramebufferTexturePixelFormat();
+    return renderPipelineDescriptor;
+}
+
+
+id<MTLRenderCommandEncoder> TransformStimulus::createRenderCommandEncoder(MetalDisplay &display) const {
+    auto commandBuffer = display.getCurrentMetalCommandBuffer();
+    auto renderPassDescriptor = display.createMetalRenderPassDescriptor();
+    auto renderCommandEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+    [renderCommandEncoder setRenderPipelineState:renderPipelineState];
+    return renderCommandEncoder;
+}
+
+
+void TransformStimulus::setCurrentMVPMatrix(MetalDisplay &display,
+                                            id<MTLRenderCommandEncoder> renderCommandEncoder,
+                                            NSUInteger bufferIndex) const
+{
+    auto currentMVPMatrix = getCurrentMVPMatrix(display.getMetalProjectionMatrix());
+    [renderCommandEncoder setVertexBytes:&currentMVPMatrix length:sizeof(currentMVPMatrix) atIndex:bufferIndex];
 }
 
 

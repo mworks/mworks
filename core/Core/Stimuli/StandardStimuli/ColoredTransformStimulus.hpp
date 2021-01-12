@@ -23,16 +23,18 @@ public:
     
     explicit ColoredTransformStimulus(const ParameterValueMap &parameters);
     
-    void draw(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 protected:
+    void drawMetal(MetalDisplay &display) override;
+    
+    void setCurrentColor(id<MTLRenderCommandEncoder> renderCommandEncoder, NSUInteger bufferIndex) const;
+    
     VariablePtr r;
     VariablePtr g;
     VariablePtr b;
     
     float current_r, current_g, current_b;
-    float last_r, last_g, last_b;
     
 };
 
