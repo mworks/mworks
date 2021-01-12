@@ -3908,10 +3908,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"PRODUCT_BUNDLE_IDENTIFIER=\\\"$(PRODUCT_BUNDLE_IDENTIFIER)\\\"",
-				);
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
 					"$(inherited)",

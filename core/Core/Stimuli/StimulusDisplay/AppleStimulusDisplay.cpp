@@ -35,7 +35,7 @@
                  useColorManagement:(BOOL)useColorManagement
                               error:(__autoreleasing NSError **)error
 {
-    id<MTLLibrary> library = [view.device newDefaultLibraryWithBundle:[NSBundle bundleForClass:self] error:error];
+    id<MTLLibrary> library = [view.device newDefaultLibraryWithBundle:MWORKS_GET_CURRENT_BUNDLE() error:error];
     if (!library) {
         return nil;
     }

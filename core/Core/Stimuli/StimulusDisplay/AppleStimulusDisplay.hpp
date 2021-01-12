@@ -12,6 +12,10 @@
 #include "CFObjectPtr.h"
 #include "StimulusDisplay.h"
 
+#ifdef PRODUCT_BUNDLE_IDENTIFIER
+#  define MWORKS_GET_CURRENT_BUNDLE()  [NSBundle bundleWithIdentifier:@"" PRODUCT_BUNDLE_IDENTIFIER]
+#endif
+
 
 BEGIN_NAMESPACE_MW
 
