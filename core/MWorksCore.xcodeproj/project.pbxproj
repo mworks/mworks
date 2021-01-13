@@ -359,6 +359,10 @@
 		E10F94B916CD5A8300A31C5F /* OpenGLContextLock.h in Headers */ = {isa = PBXBuildFile; fileRef = E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E114A02F1E1FF2DD00A69E77 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E114A02E1E1FF2DD00A69E77 /* GLKit.framework */; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E11E9E2225AFA0790062D144 /* AAPLMathUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E11E9E2025AFA0780062D144 /* AAPLMathUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E11E9E2325AFA0790062D144 /* AAPLMathUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E11E9E2025AFA0780062D144 /* AAPLMathUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E11E9E2425AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */; };
+		E11E9E2525AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */; };
 		E1257D9521F793FE00E1CF58 /* DataFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */; };
 		E1257D9621F793FE00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1257D9721F7964A00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1264,6 +1268,8 @@
 		E114A02E1E1FF2DD00A69E77 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
+		E11E9E2025AFA0780062D144 /* AAPLMathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLMathUtilities.h; sourceTree = "<group>"; };
+		E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AAPLMathUtilities.cpp; sourceTree = "<group>"; };
 		E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileReader.cpp; sourceTree = "<group>"; };
 		E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataFileReader.hpp; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -2027,6 +2033,8 @@
 				E1DC75061D259C1700D9BC19 /* SerialPort.cpp */,
 				E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */,
 				E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */,
+				E11E9E2025AFA0780062D144 /* AAPLMathUtilities.h */,
+				E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */,
 			);
 			name = Utilities;
 			path = Core/Utilities;
@@ -2699,6 +2707,7 @@
 				682A94950CA9AA20001DE3E2 /* RandomWORSelection.h in Headers */,
 				E146B7E91E1EAB66001C7947 /* OpenGLUtilities.hpp in Headers */,
 				682A94B70CA9AB61001DE3E2 /* RandomWithReplacementSelection.h in Headers */,
+				E11E9E2225AFA0790062D144 /* AAPLMathUtilities.h in Headers */,
 				0E5338E80CB7404E004FF889 /* EventConstants.h in Headers */,
 				5CE30A4B0CF9FAFA00BEB3E3 /* XMLParser.h in Headers */,
 				5CE30A4F0CFA49D600BEB3E3 /* Component.h in Headers */,
@@ -2771,6 +2780,7 @@
 				E17917491E4E54FA00528B91 /* RegisteredSingleton.h in Headers */,
 				E17916DB1E4E51B500528B91 /* EventBuffer.h in Headers */,
 				E17917161E4E539000528B91 /* LoadingUtilities.h in Headers */,
+				E11E9E2325AFA0790062D144 /* AAPLMathUtilities.h in Headers */,
 				E1257D9721F7964A00E1CF58 /* DataFileReader.hpp in Headers */,
 				E17917831E4E570800528B91 /* alut.h in Headers */,
 				E179171A1E4E53A300528B91 /* ExperimentUnpackager.h in Headers */,
@@ -3595,6 +3605,7 @@
 				E188BE941D47F23B0001483A /* ZeroMQSocket.cpp in Sources */,
 				E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */,
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
+				E11E9E2425AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */,
 				E18163142588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */,
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
 				E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */,
@@ -3676,6 +3687,7 @@
 				E17916FF1E4E52DA00528B91 /* ExpressionParser.cc in Sources */,
 				E17916F91E4E529E00528B91 /* StandardClientCoreBuilder.cpp in Sources */,
 				E179175C1E4E558000528B91 /* Averagers.cpp in Sources */,
+				E11E9E2525AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */,
 				E179177A1E4E56BB00528B91 /* StandardStimuli.cpp in Sources */,
 				E17917881E4E573900528B91 /* StandardSounds.cpp in Sources */,
 				E148A4421E4B76A5002DFB1C /* PlatformDependentServices.cpp in Sources */,
