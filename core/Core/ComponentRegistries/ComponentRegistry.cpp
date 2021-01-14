@@ -132,8 +132,6 @@ ComponentRegistry::ComponentRegistry() {
 	// stimuli
     registerStandardStimuli(*this);
     registerFactory<StandardStimulusFactory, ImageStimulus>();
-    registerFactory<StandardStimulusFactory, CircleStimulus>();
-    registerFactoryAlias<CircleStimulus>("stimulus/ellipse");
     registerFactory<StandardStimulusFactory, FixationPoint>();
     registerFactory<StandardStimulusFactory, CircularFixationPoint>();
     registerFactory<StandardComponentFactory, StimulusGroup>();

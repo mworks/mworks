@@ -684,6 +684,12 @@
 		E1BC637E1D51001900745034 /* ZeroMQSocketTests.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BC637C1D51001900745034 /* ZeroMQSocketTests.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1CA751425B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */; };
+		E1CA751525B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */; };
+		E1CA751625B0EAC5003B22C5 /* EllipseStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1CA751325B0EAC5003B22C5 /* EllipseStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1CA751725B0EAC5003B22C5 /* EllipseStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1CA751325B0EAC5003B22C5 /* EllipseStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1CA755925B0EB26003B22C5 /* EllipseStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1CA755825B0EB26003B22C5 /* EllipseStimulus.metal */; };
+		E1CA755A25B0EB26003B22C5 /* EllipseStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1CA755825B0EB26003B22C5 /* EllipseStimulus.metal */; };
 		E1CA92A61B5554EF00DF78B9 /* Marionette.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1CA92A51B5554EF00DF78B9 /* Marionette.xib */; };
 		E1CBF63E16BAF3190057CE48 /* MWorksCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1CBF64016BAF32A0057CE48 /* setup_variables_macbook.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E1AE9920EF1A9EE00C224F1 /* setup_variables_macbook.xml */; };
@@ -1348,6 +1354,9 @@
 		E1BC637C1D51001900745034 /* ZeroMQSocketTests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQSocketTests.hpp; sourceTree = "<group>"; };
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
 		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
+		E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = EllipseStimulus.cpp; sourceTree = "<group>"; };
+		E1CA751325B0EAC5003B22C5 /* EllipseStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EllipseStimulus.hpp; sourceTree = "<group>"; };
+		E1CA755825B0EB26003B22C5 /* EllipseStimulus.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = EllipseStimulus.metal; sourceTree = "<group>"; };
 		E1CA92A51B5554EF00DF78B9 /* Marionette.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Marionette.xib; sourceTree = "<group>"; };
 		E1D9BAD42200C80100D63D59 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
 		E1DB974816C16BEE001481E9 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -2470,6 +2479,9 @@
 				E18161D92582AE56004D8156 /* RectangleStimulus.hpp */,
 				E18161D82582AE55004D8156 /* RectangleStimulus.cpp */,
 				E18162242582C635004D8156 /* RectangleStimulus.metal */,
+				E1CA751325B0EAC5003B22C5 /* EllipseStimulus.hpp */,
+				E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */,
+				E1CA755825B0EB26003B22C5 /* EllipseStimulus.metal */,
 				E181600325811EB0004D8156 /* LegacyStandardStimuli.hpp */,
 				E181600225811EB0004D8156 /* LegacyStandardStimuli.cpp */,
 				DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */,
@@ -2712,6 +2724,7 @@
 				5CE30A4B0CF9FAFA00BEB3E3 /* XMLParser.h in Headers */,
 				5CE30A4F0CFA49D600BEB3E3 /* Component.h in Headers */,
 				0E88D1730D04708A00D7D273 /* ComponentFactoryException.h in Headers */,
+				E1CA751625B0EAC5003B22C5 /* EllipseStimulus.hpp in Headers */,
 				5CDCC8830D2B0E10008E2F19 /* ExpressionParser.h in Headers */,
 				E18160A025817757004D8156 /* MetalStimulus.hpp in Headers */,
 				5CEFD82C0D4D1D6200EA9950 /* Exceptions.h in Headers */,
@@ -2774,6 +2787,7 @@
 				E17917081E4E532200528B91 /* Component.h in Headers */,
 				E17916D11E4E515700528B91 /* ScopedVariableContext.h in Headers */,
 				E17916E51E4E51DE00528B91 /* LegacyBuffers.h in Headers */,
+				E1CA751725B0EAC5003B22C5 /* EllipseStimulus.hpp in Headers */,
 				E17917471E4E54F000528B91 /* Utilities.h in Headers */,
 				E17916D31E4E515F00528B91 /* SelectionVariable.h in Headers */,
 				E1B43C5B1FA3858B00CB6A97 /* VariableAssignment.hpp in Headers */,
@@ -3496,6 +3510,7 @@
 				E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */,
 				DA2CE17E07E9F93900C68AEF /* BlockAndProtocol.cpp in Sources */,
 				E10C1D1522306AB9007094E5 /* MacOSOpenGLContextManager.cpp in Sources */,
+				E1CA755925B0EB26003B22C5 /* EllipseStimulus.metal in Sources */,
 				DA2CE18207E9F93900C68AEF /* Experiment.cpp in Sources */,
 				DA2CE18A07E9F93900C68AEF /* Selection.cpp in Sources */,
 				DA2CE18C07E9F93900C68AEF /* States.cpp in Sources */,
@@ -3605,6 +3620,7 @@
 				E188BE941D47F23B0001483A /* ZeroMQSocket.cpp in Sources */,
 				E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */,
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
+				E1CA751425B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */,
 				E11E9E2425AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */,
 				E18163142588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */,
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
@@ -3647,6 +3663,7 @@
 				E18161952582ABD4004D8156 /* ColoredTransformStimulus.cpp in Sources */,
 				E17917301E4E541C00528B91 /* RandomWORSelection.cpp in Sources */,
 				E17916CC1E4E514500528B91 /* GlobalVariable.cpp in Sources */,
+				E1CA755A25B0EB26003B22C5 /* EllipseStimulus.metal in Sources */,
 				E18161DB2582AE56004D8156 /* RectangleStimulus.cpp in Sources */,
 				E17917611E4E55B500528B91 /* BiasMonitor.cpp in Sources */,
 				E17916B41E4E50C800528B91 /* ZeroMQConnection.cpp in Sources */,
@@ -3739,6 +3756,7 @@
 				E17917251E4E53EA00528B91 /* Experiment.cpp in Sources */,
 				E17916C81E4E513300528B91 /* VariableProperties.cpp in Sources */,
 				E18163152588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */,
+				E1CA751525B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */,
 				E17917691E4E55F100528B91 /* DummyIODevice.cpp in Sources */,
 				E179174B1E4E550600528B91 /* MachUtilities.cpp in Sources */,
 				E17917031E4E52ED00528B91 /* XMLParser.cpp in Sources */,

@@ -613,8 +613,8 @@ description: A rectangle stimulus
 
 
 name: Ellipse Stimulus
-signature: stimulus/circle
-alias: stimulus/ellipse
+signature: stimulus/ellipse
+alias: stimulus/circle
 isa: Colored Transform Stimulus
 description: An ellipse stimulus
 
