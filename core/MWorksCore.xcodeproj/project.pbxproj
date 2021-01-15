@@ -339,6 +339,16 @@
 		DA96B90909819B4E0007610D /* CoreBuilderForeman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */; };
 		DA96C0E60988546D0007610D /* ExperimentPackager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96C0E40988546D0007610D /* ExperimentPackager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA96C0E70988546D0007610D /* ExperimentPackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0E50988546D0007610D /* ExperimentPackager.cpp */; };
+		E102D99A25B1D32600F2EF03 /* BaseImageStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E102D99825B1D32600F2EF03 /* BaseImageStimulus.cpp */; };
+		E102D99B25B1D32600F2EF03 /* BaseImageStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E102D99825B1D32600F2EF03 /* BaseImageStimulus.cpp */; };
+		E102D99C25B1D32600F2EF03 /* BaseImageStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E102D99925B1D32600F2EF03 /* BaseImageStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E102D99D25B1D32600F2EF03 /* BaseImageStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E102D99925B1D32600F2EF03 /* BaseImageStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E102D9CF25B1D47A00F2EF03 /* BaseImageStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E102D9CE25B1D47A00F2EF03 /* BaseImageStimulus.metal */; };
+		E102D9D025B1D47A00F2EF03 /* BaseImageStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E102D9CE25B1D47A00F2EF03 /* BaseImageStimulus.metal */; };
+		E102D9F625B8958000F2EF03 /* ImageFileStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E102D9F425B8958000F2EF03 /* ImageFileStimulus.cpp */; };
+		E102D9F725B8958000F2EF03 /* ImageFileStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E102D9F425B8958000F2EF03 /* ImageFileStimulus.cpp */; };
+		E102D9F825B8958000F2EF03 /* ImageFileStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E102D9F525B8958000F2EF03 /* ImageFileStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E102D9F925B8958000F2EF03 /* ImageFileStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E102D9F525B8958000F2EF03 /* ImageFileStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E104A8A2133B829F00D36236 /* MapTest.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8A0133B829F00D36236 /* MapTest.h */; };
 		E104A8A3133B829F00D36236 /* MapTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E104A8A1133B829F00D36236 /* MapTest.cpp */; };
 		E104A8D4133B8D3E00D36236 /* ComponentInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8D3133B8D3E00D36236 /* ComponentInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1249,6 +1259,11 @@
 		DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CoreBuilderForeman.cpp; path = Core/CoreBuilders/CoreBuilderForeman.cpp; sourceTree = SOURCE_ROOT; };
 		DA96C0E40988546D0007610D /* ExperimentPackager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExperimentPackager.h; path = Core/ExperimentDataLoading/ExperimentPackager.h; sourceTree = SOURCE_ROOT; };
 		DA96C0E50988546D0007610D /* ExperimentPackager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExperimentPackager.cpp; path = Core/ExperimentDataLoading/ExperimentPackager.cpp; sourceTree = SOURCE_ROOT; };
+		E102D99825B1D32600F2EF03 /* BaseImageStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = BaseImageStimulus.cpp; sourceTree = "<group>"; };
+		E102D99925B1D32600F2EF03 /* BaseImageStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BaseImageStimulus.hpp; sourceTree = "<group>"; };
+		E102D9CE25B1D47A00F2EF03 /* BaseImageStimulus.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BaseImageStimulus.metal; sourceTree = "<group>"; };
+		E102D9F425B8958000F2EF03 /* ImageFileStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ImageFileStimulus.cpp; sourceTree = "<group>"; };
+		E102D9F525B8958000F2EF03 /* ImageFileStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImageFileStimulus.hpp; sourceTree = "<group>"; };
 		E104A8A0133B829F00D36236 /* MapTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapTest.h; sourceTree = "<group>"; };
 		E104A8A1133B829F00D36236 /* MapTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapTest.cpp; sourceTree = "<group>"; };
 		E104A8D3133B8D3E00D36236 /* ComponentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentInfo.h; path = Core/PluginServices/ComponentInfo.h; sourceTree = "<group>"; };
@@ -2482,6 +2497,11 @@
 				E1CA751325B0EAC5003B22C5 /* EllipseStimulus.hpp */,
 				E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */,
 				E1CA755825B0EB26003B22C5 /* EllipseStimulus.metal */,
+				E102D99925B1D32600F2EF03 /* BaseImageStimulus.hpp */,
+				E102D99825B1D32600F2EF03 /* BaseImageStimulus.cpp */,
+				E102D9CE25B1D47A00F2EF03 /* BaseImageStimulus.metal */,
+				E102D9F525B8958000F2EF03 /* ImageFileStimulus.hpp */,
+				E102D9F425B8958000F2EF03 /* ImageFileStimulus.cpp */,
 				E181600325811EB0004D8156 /* LegacyStandardStimuli.hpp */,
 				E181600225811EB0004D8156 /* LegacyStandardStimuli.cpp */,
 				DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */,
@@ -2701,6 +2721,7 @@
 				8E28B5FC0A6C317E00DA6287 /* Announcers.h in Headers */,
 				0E9AD3170AD94214009C0B0B /* ExpandableList.h in Headers */,
 				5CBA76D40AE069A300D6F4A6 /* Sound.h in Headers */,
+				E102D9F825B8958000F2EF03 /* ImageFileStimulus.hpp in Headers */,
 				5CBA76DC0AE06F6500D6F4A6 /* StandardSounds.h in Headers */,
 				E1DC75091D259C1700D9BC19 /* SerialPort.hpp in Headers */,
 				5CBA76E20AE0706300D6F4A6 /* OpenALContextManager.h in Headers */,
@@ -2719,6 +2740,7 @@
 				682A94950CA9AA20001DE3E2 /* RandomWORSelection.h in Headers */,
 				E146B7E91E1EAB66001C7947 /* OpenGLUtilities.hpp in Headers */,
 				682A94B70CA9AB61001DE3E2 /* RandomWithReplacementSelection.h in Headers */,
+				E102D99C25B1D32600F2EF03 /* BaseImageStimulus.hpp in Headers */,
 				E11E9E2225AFA0790062D144 /* AAPLMathUtilities.h in Headers */,
 				0E5338E80CB7404E004FF889 /* EventConstants.h in Headers */,
 				5CE30A4B0CF9FAFA00BEB3E3 /* XMLParser.h in Headers */,
@@ -2828,6 +2850,7 @@
 				E17917681E4E55EA00528B91 /* DummyIODevice.h in Headers */,
 				E17917201E4E53D100528B91 /* PulseAction.h in Headers */,
 				E17916A41E4E504C00528B91 /* ExpandableList.h in Headers */,
+				E102D99D25B1D32600F2EF03 /* BaseImageStimulus.hpp in Headers */,
 				E17917461E4E54EA00528B91 /* MWorksTypes.h in Headers */,
 				E17916FA1E4E52A100528B91 /* StandardServerCoreBuilder.h in Headers */,
 				E17916FE1E4E52D400528B91 /* ExpressionParser.h in Headers */,
@@ -2845,6 +2868,7 @@
 				E17917291E4E53FB00528B91 /* Selectable.h in Headers */,
 				E179175B1E4E557B00528B91 /* Averagers.h in Headers */,
 				E17916BF1E4E511000528B91 /* VariableSave.h in Headers */,
+				E102D9F925B8958000F2EF03 /* ImageFileStimulus.hpp in Headers */,
 				E179174F1E4E554100528B91 /* VariableTransformAdaptors.h in Headers */,
 				E17917021E4E52E800528B91 /* XMLParser.h in Headers */,
 				E179173E1E4E549700528B91 /* StateSystem.h in Headers */,
@@ -3549,6 +3573,7 @@
 				5C18E25708A167BE00AA734D /* VariableNotification.cpp in Sources */,
 				DA2E379E08B0FE5800BD22C4 /* EventBuffer.cpp in Sources */,
 				8ED451E308BF5B90003880D5 /* EyeMonitors.cpp in Sources */,
+				E102D9CF25B1D47A00F2EF03 /* BaseImageStimulus.metal in Sources */,
 				8ED451E708BF5BA1003880D5 /* FilterTransforms.cpp in Sources */,
 				8ED451FF08BF5C0C003880D5 /* Transforms.cpp in Sources */,
 				8ED452CA08BF9870003880D5 /* VariableTransformAdaptors.cpp in Sources */,
@@ -3601,9 +3626,11 @@
 				5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */,
 				5C38FBC50DF045F600FA6A18 /* XMLVariableWriter.cpp in Sources */,
 				5C9186140E3548FA00B64213 /* BiasMonitor.cpp in Sources */,
+				E102D99A25B1D32600F2EF03 /* BaseImageStimulus.cpp in Sources */,
 				5CCA2B590E8F1F99007BDA56 /* Conduit.cpp in Sources */,
 				5CCA2B5C0E8F1F9C007BDA56 /* IPCEventTransport.cpp in Sources */,
 				5CCA2B5E0E8F1F9E007BDA56 /* Serialization.cpp in Sources */,
+				E102D9F625B8958000F2EF03 /* ImageFileStimulus.cpp in Sources */,
 				5CB6C47D0E9A92CA006923EC /* SimpleConduit.cpp in Sources */,
 				0EFC71410EDBAF6800FFABA8 /* ScheduledActions.cpp in Sources */,
 				E13464EB1D4BD8B200E4CF08 /* ZeroMQConnection.cpp in Sources */,
@@ -3649,6 +3676,7 @@
 				E17917771E4E566D00528B91 /* StimulusDisplay.cpp in Sources */,
 				E17916B21E4E50C100528B91 /* ZeroMQSocket.cpp in Sources */,
 				E17916C01E4E511400528B91 /* VariableSave.cpp in Sources */,
+				E102D9D025B1D47A00F2EF03 /* BaseImageStimulus.metal in Sources */,
 				E181600525811EB0004D8156 /* LegacyStandardStimuli.cpp in Sources */,
 				E17916E01E4E51C900528B91 /* Buffers.cpp in Sources */,
 				E1FE64122142BEB700209279 /* MWK2File.cpp in Sources */,
@@ -3699,6 +3727,7 @@
 				E179178A1E4E574200528B91 /* OpenALContextManager.cpp in Sources */,
 				E17916D01E4E515400528B91 /* ScopedVariableEnvironment.cpp in Sources */,
 				E17916B61E4E50D000528B91 /* ZeroMQClient.cpp in Sources */,
+				E102D9F725B8958000F2EF03 /* ImageFileStimulus.cpp in Sources */,
 				E179176D1E4E561D00528B91 /* DataFileManager.cpp in Sources */,
 				E17917011E4E52E200528B91 /* ParsedColorTrio.cpp in Sources */,
 				E17916FF1E4E52DA00528B91 /* ExpressionParser.cc in Sources */,
@@ -3760,6 +3789,7 @@
 				E17917691E4E55F100528B91 /* DummyIODevice.cpp in Sources */,
 				E179174B1E4E550600528B91 /* MachUtilities.cpp in Sources */,
 				E17917031E4E52ED00528B91 /* XMLParser.cpp in Sources */,
+				E102D99B25B1D32600F2EF03 /* BaseImageStimulus.cpp in Sources */,
 				E1E4AF411E54AE61001A2159 /* IOSStimulusDisplay.cpp in Sources */,
 				E17916CE1E4E514C00528B91 /* ScopedVariable.cpp in Sources */,
 				E17916EB1E4E51F800528B91 /* EventCallbackHandler.cpp in Sources */,

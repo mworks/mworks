@@ -10,6 +10,7 @@
 #include "BlankScreenStimulus.hpp"
 #include "RectangleStimulus.hpp"
 #include "EllipseStimulus.hpp"
+#include "ImageFileStimulus.hpp"
 #include "StandardStimulusFactory.h"
 
 
@@ -21,6 +22,7 @@ void registerStandardStimuli(ComponentRegistry &registry) {
     registry.registerFactory<StandardStimulusFactory, RectangleStimulus>();
     registry.registerFactory<StandardStimulusFactory, EllipseStimulus>();
     registry.registerFactoryAlias<EllipseStimulus>("stimulus/circle");
+    registry.registerFactory<StandardStimulusFactory, ImageFileStimulus>();
 }
 
 
