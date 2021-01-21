@@ -16,10 +16,7 @@
 #include "FitableFunctions.h"
 #include "Averagers.h"
 
-// need these for the calibraiton point
-#include "StandardStimuli.h"
-#include "Trigger.h"
-#include "ExpandableList.h"	
+#include "ExpandableList.h"
 
 #include "Announcers.h"
 #include "EyeMonitors.h"    
@@ -49,44 +46,6 @@ public:
     virtual ~GoldStandard();
     // this is the standard intervace method:
     virtual ExpandableList<Datum> *getGoldStandardValues(); 
-};
-
-
-// an FixationPoint object can do three things:
-// 1) it can use stimulus methods to draw itself
-// 2) it can use SquareRegionTrigger methods to detect when it is triggered (e.g. eye is close)
-// 3) it can provide "gold standard" values to any calibrator object when asked
-//    (for this particular class, the gold standard values are derived from the stimulus location)
-class FixationPoint : public RectangleStimulus, public SquareRegionTrigger, public GoldStandard {
-    
-public:
-    static const std::string TRIGGER_WIDTH;
-    static const std::string TRIGGER_WATCH_X;
-    static const std::string TRIGGER_WATCH_Y;
-    static const std::string TRIGGER_FLAG;
-
-    static void describeComponent(ComponentInfo &info);
-    
-    explicit FixationPoint(const Map<ParameterValue> &parameters);
-    
-    virtual ~FixationPoint() { }
-    
-    virtual ExpandableList<Datum> *getGoldStandardValues();
-    virtual Datum getCurrentAnnounceDrawData();     // override of RectangleStimulus method to announce when drawn
-    
-};
-
-
-class CircularFixationPoint : public CircleStimulus, public CircularRegionTrigger, public GoldStandard {
-    
-public:
-    static void describeComponent(ComponentInfo &info);
-    
-    explicit CircularFixationPoint(const Map<ParameterValue> &parameters);
-    
-    ExpandableList<Datum>* getGoldStandardValues() MW_OVERRIDE;
-    Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
-    
 };
 
 

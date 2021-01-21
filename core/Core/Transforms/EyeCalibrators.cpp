@@ -12,8 +12,6 @@
 #include "StandardVariables.h"
 #include "ComponentFactory.h"
 #include <boost/regex.hpp>
-#include "ComponentInfo.h"
-#include "ParameterValue.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -31,114 +29,6 @@ GoldStandard::~GoldStandard() {
 
 ExpandableList<Datum> *GoldStandard::getGoldStandardValues() {
     return goldStandardValues;
-}
-
-
-const std::string FixationPoint::TRIGGER_WIDTH("trigger_width");
-const std::string FixationPoint::TRIGGER_WATCH_X("trigger_watch_x");
-const std::string FixationPoint::TRIGGER_WATCH_Y("trigger_watch_y");
-const std::string FixationPoint::TRIGGER_FLAG("trigger_flag");
-
-
-void FixationPoint::describeComponent(ComponentInfo &info) {
-    RectangleStimulus::describeComponent(info);
-    info.setSignature("stimulus/fixation_point");
-    info.addParameter(TRIGGER_WIDTH);
-    info.addParameter(TRIGGER_WATCH_X);
-    info.addParameter(TRIGGER_WATCH_Y);
-    info.addParameter(TRIGGER_FLAG);
-}
-
-
-FixationPoint::FixationPoint(const ParameterValueMap &parameters):
-    RectangleStimulus(parameters),
-    SquareRegionTrigger(registerVariable(parameters[X_POSITION]),
-                        registerVariable(parameters[Y_POSITION]),
-                        registerVariable(parameters[TRIGGER_WIDTH]),
-                        VariablePtr(parameters[TRIGGER_WATCH_X]),
-                        VariablePtr(parameters[TRIGGER_WATCH_Y]),
-                        VariablePtr(parameters[TRIGGER_FLAG]))
-{ }
-
-
-ExpandableList<Datum> *FixationPoint::getGoldStandardValues() {
-
-    // return the center location of the fixation point
-    goldStandardValues->clear();
-    
-    Datum h_loc = xoffset->getValue();    // unitless screen units    
-    goldStandardValues->addElement(h_loc);      // copy
-    
-    Datum v_loc = yoffset->getValue();      // unitless screen units 
-    goldStandardValues->addElement(v_loc);
-	
-    return goldStandardValues;
-}    
-
-
-// override of RectangleStimulus announce method -- allows trigger info to also be announced
-Datum FixationPoint::getCurrentAnnounceDrawData() {
-    
-    //if (VERBOSE_EYE_CALIBRATORS> 1) mprintf("getting announce DRAW data for fixation point stimulus %s",tag );
-    
-    Datum announceData = RectangleStimulus::getCurrentAnnounceDrawData();
-    
-    announceData.addElement(STIM_TYPE,STIM_TYPE_POINT);
-    
-    // stuff from the trigger that is not in rectangle stimulus ...
-    announceData.addElement("center_x", (double)(*centerx));
-    announceData.addElement("center_y", (double)(*centery));
-    announceData.addElement("width", (double)(*width));
-
-    return (announceData);
-}
-
-
-void CircularFixationPoint::describeComponent(ComponentInfo &info) {
-    CircleStimulus::describeComponent(info);
-    info.setSignature("stimulus/circular_fixation_point");
-    info.addParameter(FixationPoint::TRIGGER_WIDTH);
-    info.addParameter(FixationPoint::TRIGGER_WATCH_X);
-    info.addParameter(FixationPoint::TRIGGER_WATCH_Y);
-    info.addParameter(FixationPoint::TRIGGER_FLAG);
-}
-
-
-CircularFixationPoint::CircularFixationPoint(const ParameterValueMap &parameters):
-    CircleStimulus(parameters),
-    CircularRegionTrigger(registerVariable(parameters[X_POSITION]),
-                          registerVariable(parameters[Y_POSITION]),
-                          registerVariable(parameters[FixationPoint::TRIGGER_WIDTH]),
-                          VariablePtr(parameters[FixationPoint::TRIGGER_WATCH_X]),
-                          VariablePtr(parameters[FixationPoint::TRIGGER_WATCH_Y]),
-                          VariablePtr(parameters[FixationPoint::TRIGGER_FLAG]))
-{ }
-
-
-ExpandableList<Datum>* CircularFixationPoint::getGoldStandardValues() {
-    goldStandardValues->clear();
-    
-    Datum h_loc = xoffset->getValue();
-    goldStandardValues->addElement(h_loc);
-    
-    Datum v_loc = yoffset->getValue();
-    goldStandardValues->addElement(v_loc);
-    
-    return goldStandardValues;
-}
-
-
-Datum CircularFixationPoint::getCurrentAnnounceDrawData() {
-    Datum announceData(CircleStimulus::getCurrentAnnounceDrawData());
-    
-    announceData.addElement(STIM_TYPE, "circular_fixation_point");
-    
-    // CircularRegionTrigger parameters
-    announceData.addElement("center_x", centerx->getValue().getFloat());
-    announceData.addElement("center_y", centery->getValue().getFloat());
-    announceData.addElement("width", width->getValue().getFloat());
-    
-    return announceData;
 }
 
 

@@ -29,6 +29,7 @@
 #include "BiasMonitor.h"
 #include "StandardComponentFactory.h"
 #include "StandardStimulusFactory.h"
+#include "StandardStimuli.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -131,8 +132,6 @@ ComponentRegistry::ComponentRegistry() {
 	
 	// stimuli
     registerStandardStimuli(*this);
-    registerFactory<StandardStimulusFactory, FixationPoint>();
-    registerFactory<StandardStimulusFactory, CircularFixationPoint>();
     registerFactory<StandardComponentFactory, StimulusGroup>();
 	
 	// sounds
