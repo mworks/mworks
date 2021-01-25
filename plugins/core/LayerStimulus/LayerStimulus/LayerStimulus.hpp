@@ -13,12 +13,13 @@
 BEGIN_NAMESPACE_MW
 
 
-class LayerStimulus : public Stimulus, boost::noncopyable {
+class LayerStimulus : public MetalStimulus {
     
 public:
     static void describeComponent(ComponentInfo &info);
     
     explicit LayerStimulus(const ParameterValueMap &parameters);
+    ~LayerStimulus();
     
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistryPtr reg,
@@ -29,18 +30,18 @@ public:
     void load(boost::shared_ptr<StimulusDisplay> display) override;
     void unload(boost::shared_ptr<StimulusDisplay> display) override;
     bool needDraw(boost::shared_ptr<StimulusDisplay> display) override;
-    void draw(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 private:
+    void loadMetal(MetalDisplay &display) override;
+    void unloadMetal(MetalDisplay &display) override;
+    void drawMetal(MetalDisplay &display) override;
+    
     std::vector<boost::shared_ptr<Stimulus>> children;
     
-    GLuint program = 0;
-    GLuint vertexPositionBuffer = 0;
-    GLuint texCoordsBuffer = 0;
-    GLuint vertexArray = 0;
-    GLuint framebufferTexture = 0;
-    GLuint framebuffer = 0;
+    id<MTLRenderPipelineState> renderPipelineState;
+    int framebufferID;
+    id<MTLTexture> framebufferTexture;
     
 };
 
@@ -49,24 +50,3 @@ END_NAMESPACE_MW
 
 
 #endif /* LayerStimulus_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

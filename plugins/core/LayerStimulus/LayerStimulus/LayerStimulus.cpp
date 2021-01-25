@@ -13,19 +13,30 @@ BEGIN_NAMESPACE_MW
 
 
 void LayerStimulus::describeComponent(ComponentInfo &info) {
-    Stimulus::describeComponent(info);
+    MetalStimulus::describeComponent(info);
     info.setSignature("stimulus/layer");
 }
 
 
 LayerStimulus::LayerStimulus(const ParameterValueMap &parameters) :
-    Stimulus(parameters)
+    MetalStimulus(parameters),
+    renderPipelineState(nil),
+    framebufferID(-1),
+    framebufferTexture(nil)
 { }
 
 
+LayerStimulus::~LayerStimulus() {
+    @autoreleasepool {
+        framebufferTexture = nil;
+        renderPipelineState = nil;
+    }
+}
+
+
 void LayerStimulus::addChild(std::map<std::string, std::string> parameters,
-                                     ComponentRegistryPtr reg,
-                                     boost::shared_ptr<Component> child)
+                             ComponentRegistryPtr reg,
+                             boost::shared_ptr<Component> child)
 {
     auto stim = boost::dynamic_pointer_cast<Stimulus>(child);
     if (!stim) {
@@ -39,59 +50,7 @@ void LayerStimulus::freeze(bool shouldFreeze) {
     for (auto &child : children) {
         child->freeze(shouldFreeze);
     }
-    Stimulus::freeze(shouldFreeze);
-}
-
-
-namespace {
-    const std::string vertexShaderSource
-    (R"(
-     in vec4 vertexPosition;
-     in vec2 texCoords;
-     
-     out vec2 varyingTexCoords;
-     
-     void main() {
-         gl_Position = vertexPosition;
-         varyingTexCoords = texCoords;
-     }
-     )");
-    
-    
-    const std::string fragmentShaderSource
-    (R"(
-     uniform sampler2D framebufferTexture;
-     
-     in vec2 varyingTexCoords;
-     
-     out vec4 fragColor;
-     
-     void main() {
-         fragColor = texture(framebufferTexture, varyingTexCoords);
-     }
-     )");
-    
-    
-    constexpr GLint numVertices = 4;
-    constexpr GLint componentsPerVertex = 2;
-    
-    
-    const std::array<GLfloat, numVertices*componentsPerVertex> vertexPositions
-    {
-        -1.0f, -1.0f,
-         1.0f, -1.0f,
-        -1.0f,  1.0f,
-         1.0f,  1.0f,
-    };
-    
-    
-    const std::array<GLfloat, numVertices*componentsPerVertex> texCoords
-    {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-    };
+    MetalStimulus::freeze(shouldFreeze);
 }
 
 
@@ -102,79 +61,7 @@ void LayerStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
         child->load(display);
     }
     
-    if (loaded)
-        return;
-    
-    auto ctxLock = display->setCurrent(0);
-    
-    // Create program
-    {
-        auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
-        auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-        program = gl::createProgram({ vertexShader.get(), fragmentShader.get() }).release();
-        gl::ProgramUsage programUsage(program);
-        
-        glUniform1i(glGetUniformLocation(program, "framebufferTexture"), 0);
-        
-        glGenBuffers(1, &vertexPositionBuffer);
-        glGenBuffers(1, &texCoordsBuffer);
-        glGenVertexArrays(1, &vertexArray);
-        
-        gl::VertexArrayBinding vertexArrayBinding(vertexArray);
-        
-        gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions.data(), GL_STATIC_DRAW);
-        GLint vertexPositionAttribLocation = glGetAttribLocation(program, "vertexPosition");
-        glEnableVertexAttribArray(vertexPositionAttribLocation);
-        glVertexAttribPointer(vertexPositionAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
-        
-        arrayBufferBinding.bind(texCoordsBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
-        GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
-        glEnableVertexAttribArray(texCoordsAttribLocation);
-        glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
-    }
-    
-    // Create framebuffer texture and framebuffer
-    {
-        glGenTextures(1, &framebufferTexture);
-        gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
-        
-        GLint viewportWidth, viewportHeight;
-        gl::getCurrentViewportSize(viewportWidth, viewportHeight);
-        
-        // Provide initial data for the framebuffer texture, in hopes that this will force the
-        // driver and/or GPU to allocate memory for it now, at load time, rather than on first
-        // use.  Empirically, this seems to resolve intermittent issues with display update
-        // timing on iOS.
-        std::vector<std::uint16_t> data(4 * viewportWidth * viewportHeight, 0);
-        
-        gl::resetPixelStorageUnpackParameters(alignof(decltype(data)::value_type));
-        
-        glTexImage2D(GL_TEXTURE_2D,
-                     0,
-                     GL_RGBA16F,
-                     viewportWidth,
-                     viewportHeight,
-                     0,
-                     GL_RGBA,
-                     GL_HALF_FLOAT,
-                     data.data());
-        
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        
-        glGenFramebuffers(1, &framebuffer);
-        gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
-        
-        glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, framebufferTexture, 0);
-        
-        if (GL_FRAMEBUFFER_COMPLETE != glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER)) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL framebuffer setup failed");
-        }
-    }
-    
-    Stimulus::load(display);
+    MetalStimulus::load(display);
 }
 
 
@@ -185,19 +72,7 @@ void LayerStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
         child->unload(display);
     }
     
-    if (!loaded)
-        return;
-    
-    auto ctxLock = display->setCurrent(0);
-    
-    glDeleteFramebuffers(1, &framebuffer);
-    glDeleteTextures(1, &framebufferTexture);
-    glDeleteVertexArrays(1, &vertexArray);
-    glDeleteBuffers(1, &texCoordsBuffer);
-    glDeleteBuffers(1, &vertexPositionBuffer);
-    glDeleteProgram(program);
-    
-    Stimulus::unload(display);
+    MetalStimulus::unload(display);
 }
 
 
@@ -211,82 +86,110 @@ bool LayerStimulus::needDraw(boost::shared_ptr<StimulusDisplay> display) {
 }
 
 
-void LayerStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
-    //
-    // Render children to framebuffer texture
-    //
-    
-    display->pushFramebuffer(framebuffer);
-    
-    // Make background transparent
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    for (auto &child : children) {
-        if (child->isLoaded()) {
-            display->setRenderingMode(child->getRenderingMode());
-            child->draw(display);
-        } else {
-            merror(M_DISPLAY_MESSAGE_DOMAIN,
-                   "Stimulus \"%s\" (child of stimulus \"%s\") is not loaded and will not be displayed",
-                   child->getTag().c_str(),
-                   getTag().c_str());
-        }
-    }
-    
-    display->popFramebuffer();
-    
-    //
-    // Render framebuffer texture to display
-    //
-    
-    gl::ProgramUsage programUsage(program);
-    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
-    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
-    
-    gl::Enabled<GL_BLEND> blendEnabled;
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
-}
-
-
 Datum LayerStimulus::getCurrentAnnounceDrawData() {
-    auto announceData = Stimulus::getCurrentAnnounceDrawData();
+    auto announceData = MetalStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "layer");
     
-    Datum::list_value_type childAnnounceData;
+    std::vector<Datum> childAnnounceData;
     for (auto &child : children) {
         if (child->isLoaded()) {
-            childAnnounceData.push_back(child->getCurrentAnnounceDrawData());
+            childAnnounceData.emplace_back(child->getCurrentAnnounceDrawData());
         }
     }
-    announceData.addElement("children", Datum(childAnnounceData));
+    announceData.addElement("children", Datum(std::move(childAnnounceData)));
     
     return announceData;
 }
 
 
+void LayerStimulus::loadMetal(MetalDisplay &display) {
+    auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+    
+    auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
+    renderPipelineDescriptor.vertexFunction = loadShaderFunction(library, "LayerStimulus_vertexShader");
+    renderPipelineDescriptor.fragmentFunction = loadShaderFunction(library, "LayerStimulus_fragmentShader");
+    
+    auto colorAttachment = renderPipelineDescriptor.colorAttachments[0];
+    colorAttachment.pixelFormat = display.getMetalFramebufferTexturePixelFormat();
+    colorAttachment.blendingEnabled = YES;
+    colorAttachment.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+    colorAttachment.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+    colorAttachment.sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+    colorAttachment.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+    
+    renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
+    
+    {
+        auto ctxLock = display.setCurrent();
+        framebufferID = display.createFramebuffer();
+    }
+    framebufferTexture = display.getMetalFramebufferTexture(framebufferID);
+}
+
+
+void LayerStimulus::unloadMetal(MetalDisplay &display) {
+    framebufferTexture = nil;
+    {
+        auto ctxLock = display.setCurrent();
+        display.releaseFramebuffer(framebufferID);
+        framebufferID = -1;
+    }
+    renderPipelineState = nil;
+}
+
+
+void LayerStimulus::drawMetal(MetalDisplay &display) {
+    //
+    // Render children to framebuffer texture
+    //
+    
+    display.pushFramebuffer(framebufferID);
+    
+    // Make background transparent
+    {
+        auto commandBuffer = display.getCurrentMetalCommandBuffer();
+        auto renderPassDescriptor = display.createMetalRenderPassDescriptor(MTLLoadActionClear);
+        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
+        auto renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        [renderEncoder endEncoding];
+    }
+    
+    {
+        auto sharedDisplay = display.shared_from_this();
+        for (auto &child : children) {
+            if (child->isLoaded()) {
+                display.setRenderingMode(child->getRenderingMode());
+                child->draw(sharedDisplay);
+            } else {
+                merror(M_DISPLAY_MESSAGE_DOMAIN,
+                       "Stimulus \"%s\" (child of stimulus \"%s\") is not loaded and will not be displayed",
+                       child->getTag().c_str(),
+                       getTag().c_str());
+            }
+        }
+    }
+    
+    display.popFramebuffer();
+    
+    //
+    // Render framebuffer texture to display
+    //
+    
+    display.setRenderingMode(RenderingMode::Metal);
+    
+    {
+        auto commandBuffer = display.getCurrentMetalCommandBuffer();
+        auto renderPassDescriptor = display.createMetalRenderPassDescriptor();
+        auto renderCommandEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        
+        [renderCommandEncoder setRenderPipelineState:renderPipelineState];
+        [renderCommandEncoder setFragmentTexture:framebufferTexture atIndex:0];
+        
+        [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
+        [renderCommandEncoder endEncoding];
+    }
+}
+
+
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

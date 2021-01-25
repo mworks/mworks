@@ -35,6 +35,9 @@
 /* Begin PBXBuildFile section */
 		E10CAA2820D93E3E00338421 /* LayerStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E10CAA2720D93E3E00338421 /* LayerStimulusPlugin.cpp */; };
 		E10CAA2E20D9402400338421 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10CAA2D20D9402400338421 /* MWorksCore.framework */; };
+		E125E3A025BF1891002FB8D5 /* LayerStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E125E39F25BF1891002FB8D5 /* LayerStimulus.metal */; };
+		E125E3A125BF1891002FB8D5 /* LayerStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E125E39F25BF1891002FB8D5 /* LayerStimulus.metal */; };
+		E125E3A725BF1E1C002FB8D5 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E125E3A625BF1E1C002FB8D5 /* Metal.framework */; };
 		E176036D20D8475A001CA59D /* LayerStimulus.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E176035A20D845C7001CA59D /* LayerStimulus.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E17942BC20D9407B003F2CF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17942BB20D9407B003F2CF1 /* OpenGL.framework */; };
 		E17942C120D9426C003F2CF1 /* LayerStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */; };
@@ -76,16 +79,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E10CAA2720D93E3E00338421 /* LayerStimulusPlugin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LayerStimulusPlugin.cpp; sourceTree = "<group>"; };
+		E10CAA2720D93E3E00338421 /* LayerStimulusPlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = LayerStimulusPlugin.cpp; sourceTree = "<group>"; };
 		E10CAA2B20D93EE800338421 /* LayerStimulus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LayerStimulus-Prefix.pch"; sourceTree = "<group>"; };
 		E10CAA2D20D9402400338421 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E125E39F25BF1891002FB8D5 /* LayerStimulus.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LayerStimulus.metal; sourceTree = "<group>"; };
+		E125E3A625BF1E1C002FB8D5 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		E176035A20D845C7001CA59D /* LayerStimulus.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LayerStimulus.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E176035D20D845C7001CA59D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E176036420D84682001CA59D /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E176036520D84683001CA59D /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E176036620D84683001CA59D /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E17942BB20D9407B003F2CF1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LayerStimulus.cpp; sourceTree = "<group>"; };
+		E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = LayerStimulus.cpp; sourceTree = "<group>"; };
 		E17942C020D9426C003F2CF1 /* LayerStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LayerStimulus.hpp; sourceTree = "<group>"; };
 		E17942C220D957C2003F2CF1 /* MaskStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MaskStimulus.cpp; sourceTree = "<group>"; };
 		E17942C320D957C2003F2CF1 /* MaskStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MaskStimulus.hpp; sourceTree = "<group>"; };
@@ -100,6 +105,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E10CAA2E20D9402400338421 /* MWorksCore.framework in Frameworks */,
+				E125E3A725BF1E1C002FB8D5 /* Metal.framework in Frameworks */,
 				E17942BC20D9407B003F2CF1 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				E10CAA2D20D9402400338421 /* MWorksCore.framework */,
+				E125E3A625BF1E1C002FB8D5 /* Metal.framework */,
 				E17942BB20D9407B003F2CF1 /* OpenGL.framework */,
 			);
 			name = Frameworks;
@@ -158,6 +165,7 @@
 			children = (
 				E17942C020D9426C003F2CF1 /* LayerStimulus.hpp */,
 				E17942BF20D9426C003F2CF1 /* LayerStimulus.cpp */,
+				E125E39F25BF1891002FB8D5 /* LayerStimulus.metal */,
 				E17942C320D957C2003F2CF1 /* MaskStimulus.hpp */,
 				E17942C220D957C2003F2CF1 /* MaskStimulus.cpp */,
 				E10CAA2720D93E3E00338421 /* LayerStimulusPlugin.cpp */,
@@ -294,6 +302,7 @@
 				E10CAA2820D93E3E00338421 /* LayerStimulusPlugin.cpp in Sources */,
 				E17942C120D9426C003F2CF1 /* LayerStimulus.cpp in Sources */,
 				E17942C420D957C2003F2CF1 /* MaskStimulus.cpp in Sources */,
+				E125E3A025BF1891002FB8D5 /* LayerStimulus.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +313,7 @@
 				E1E7422D20DC356000DABB50 /* LayerStimulus.cpp in Sources */,
 				E1E7422B20DC355600DABB50 /* LayerStimulusPlugin.cpp in Sources */,
 				E1E7422C20DC355900DABB50 /* MaskStimulus.cpp in Sources */,
+				E125E3A125BF1891002FB8D5 /* LayerStimulus.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +376,8 @@
 				INFOPLIST_FILE = "LayerStimulus/Info-iOS.plist";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-framework",
+					Metal,
 					"-framework",
 					OpenGLES,
 				);
