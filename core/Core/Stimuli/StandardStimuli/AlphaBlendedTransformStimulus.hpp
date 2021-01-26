@@ -35,9 +35,7 @@ protected:
     void loadMetal(MetalDisplay &display) override;
     void drawMetal(MetalDisplay &display) override;
     
-    MTLRenderPipelineDescriptor * createRenderPipelineDescriptor(MetalDisplay &display,
-                                                                 id<MTLFunction> vertexFunction,
-                                                                 id<MTLFunction> fragmentFunction) const override;
+    void configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const override;
     
     const VariablePtr alpha_multiplier;
     const VariablePtr sourceBlendFactorName;

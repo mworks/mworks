@@ -126,9 +126,14 @@ MTLRenderPipelineDescriptor * TransformStimulus::createRenderPipelineDescriptor(
                                                                                 id<MTLFunction> fragmentFunction) const
 {
     auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+    
     renderPipelineDescriptor.vertexFunction = vertexFunction;
     renderPipelineDescriptor.fragmentFunction = fragmentFunction;
-    renderPipelineDescriptor.colorAttachments[0].pixelFormat = display.getMetalFramebufferTexturePixelFormat();
+    
+    auto colorAttachment = renderPipelineDescriptor.colorAttachments[0];
+    colorAttachment.pixelFormat = display.getMetalFramebufferTexturePixelFormat();
+    configureBlending(colorAttachment);
+    
     return renderPipelineDescriptor;
 }
 

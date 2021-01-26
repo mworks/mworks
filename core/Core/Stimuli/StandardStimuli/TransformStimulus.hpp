@@ -38,9 +38,11 @@ protected:
     void getCurrentSize(float &sizeX, float &sizeY) const;
     virtual simd::float4x4 getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const;
     
-    virtual MTLRenderPipelineDescriptor * createRenderPipelineDescriptor(MetalDisplay &display,
-                                                                         id<MTLFunction> vertexFunction,
-                                                                         id<MTLFunction> fragmentFunction) const;
+    MTLRenderPipelineDescriptor * createRenderPipelineDescriptor(MetalDisplay &display,
+                                                                 id<MTLFunction> vertexFunction,
+                                                                 id<MTLFunction> fragmentFunction) const;
+    virtual void configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const { }
+    
     id<MTLRenderCommandEncoder> createRenderCommandEncoder(MetalDisplay &display) const;
     void setCurrentMVPMatrix(MetalDisplay &display,
                              id<MTLRenderCommandEncoder> renderCommandEncoder,

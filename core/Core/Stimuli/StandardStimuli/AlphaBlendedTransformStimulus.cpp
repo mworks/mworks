@@ -125,23 +125,13 @@ void AlphaBlendedTransformStimulus::drawMetal(MetalDisplay &display) {
 }
 
 
-MTLRenderPipelineDescriptor *
-AlphaBlendedTransformStimulus::createRenderPipelineDescriptor(MetalDisplay &display,
-                                                              id<MTLFunction> vertexFunction,
-                                                              id<MTLFunction> fragmentFunction) const
+void AlphaBlendedTransformStimulus::configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const
 {
-    auto renderPipelineDescriptor = TransformStimulus::createRenderPipelineDescriptor(display,
-                                                                                      vertexFunction,
-                                                                                      fragmentFunction);
-    
-    auto colorAttachment = renderPipelineDescriptor.colorAttachments[0];
     colorAttachment.blendingEnabled = YES;
     colorAttachment.sourceRGBBlendFactor = current_source_blend_factor;
     colorAttachment.destinationRGBBlendFactor = current_dest_blend_factor;
     colorAttachment.sourceAlphaBlendFactor = current_source_alpha_blend_factor;
     colorAttachment.destinationAlphaBlendFactor = current_dest_alpha_blend_factor;
-    
-    return renderPipelineDescriptor;
 }
 
 
