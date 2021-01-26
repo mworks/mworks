@@ -9,6 +9,10 @@
 #ifndef MaskStimulus_hpp
 #define MaskStimulus_hpp
 
+#include "MaskStimulusShaderTypes.h"
+
+using namespace mw::mask_stimulus;
+
 
 BEGIN_NAMESPACE_MW
 
@@ -27,26 +31,15 @@ public:
     
     explicit MaskStimulus(const ParameterValueMap &parameters);
     
-    void draw(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    enum class MaskType {
-        rectangle = 1,
-        ellipse = 2,
-        gaussian = 3,
-        raisedCosine = 4
-    };
-    
     static MaskType maskTypeFromName(const std::string &name);
     
-    gl::Shader getVertexShader() const override;
-    gl::Shader getFragmentShader() const override;
+    void loadMetal(MetalDisplay &display) override;
+    void drawMetal(MetalDisplay &display) override;
     
-    void setBlendEquation() override;
-    
-    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const override;
     
     const boost::shared_ptr<Variable> maskTypeName;
     const boost::shared_ptr<Variable> inverted;
@@ -62,20 +55,6 @@ private:
     bool current_normalized;
     double current_edge_width;
     
-    std::string last_mask_type_name;
-    MaskType last_mask_type;
-    bool last_inverted;
-    double last_std_dev, last_mean;
-    bool last_normalized;
-    double last_edge_width;
-    
-    GLint maskTypeUniformLocation = -1;
-    GLint invertedUniformLocation = -1;
-    GLint stdDevUniformLocation = -1;
-    GLint meanUniformLocation = -1;
-    GLint normalizedUniformLocation = -1;
-    GLint edgeWidthUniformLocation = -1;
-    
 };
 
 
@@ -83,23 +62,3 @@ END_NAMESPACE_MW
 
 
 #endif /* MaskStimulus_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -11,12 +11,11 @@
 
 #ifdef __cplusplus
 
-#ifdef __OBJC__
-#  include <MWorksCore/MetalStimulus.hpp>
-#endif /* defined(__OBJC__) */
 #include <MWorksCore/Plugin.h>
-#include <MWorksCore/StandardStimuli.h>
 #include <MWorksCore/StandardStimulusFactory.h>
+#ifdef __OBJC__
+#  include <MWorksCore/TransformStimulus.hpp>
+#endif /* defined(__OBJC__) */
 
 #endif /* defined(__cplusplus) */
 
