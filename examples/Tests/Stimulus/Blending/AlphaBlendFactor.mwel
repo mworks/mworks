@@ -17,14 +17,14 @@ var dest_alpha_blend_factor = ''
 
 
 frame_list frame_list (loop = true) {
-    rectangle (
+    rectangle expected (
         color = red, green, blue
         alpha_multiplier = expected_alpha
         x_size = size
         )
 
-    layer {
-        rectangle  (
+    layer actual {
+        rectangle dest (
             alpha_multiplier = dest_alpha
             // Prevent blending alpha with the layer background
             source_alpha_blend_factor = one
@@ -32,7 +32,7 @@ frame_list frame_list (loop = true) {
             x_size = size
             )
 
-        rectangle (
+        rectangle source (
             color = red, green, blue
             alpha_multiplier = source_alpha
             // Prevent blending RGB components with dest
@@ -41,6 +41,7 @@ frame_list frame_list (loop = true) {
             source_alpha_blend_factor = source_alpha_blend_factor
             dest_alpha_blend_factor = dest_alpha_blend_factor
             x_size = size
+            deferred = explicit
             )
     }
 }
@@ -52,16 +53,17 @@ frame_list frame_list (loop = true) {
     red = rand_rgb()
     green = rand_rgb()
     blue = rand_rgb()
-    unpause_dynamic_stimulus (frame_list)
+    unload_stimulus (source)
+    load_stimulus (source)
+    play_dynamic_stimulus (frame_list)
     wait (1s)
-    pause_dynamic_stimulus (frame_list)
+    stop_dynamic_stimulus (frame_list)
 %end
 
 
 protocol {
     live_queue_stimulus (frame_list)
     update_display ()
-    play_dynamic_stimulus (frame_list)
 
     report ('The square should change color but never flicker')
 

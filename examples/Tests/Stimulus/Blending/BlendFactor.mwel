@@ -43,10 +43,13 @@ rectangle source (
     dest_blend_factor = dest_blend_factor
     x_size = size
     x_position = offset
+    deferred = explicit
     )
 
 
 %define update_and_wait ()
+    unload_stimulus (source)
+    load_stimulus (source)
     update_display ()
     wait (1s)
 %end
