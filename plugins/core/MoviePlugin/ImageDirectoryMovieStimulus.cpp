@@ -22,13 +22,13 @@ void ImageDirectoryMovieStimulus::describeComponent(ComponentInfo &info) {
     info.setSignature("stimulus/image_directory_movie");
     info.addParameter(DIRECTORY_PATH);
     
-    // Add all ImageStimulus parameters except "path"
+    // Add all ImageFileStimulus parameters except "path"
     ComponentInfo imageInfo;
-    ImageStimulus::describeComponent(imageInfo);
+    ImageFileStimulus::describeComponent(imageInfo);
     const ParameterInfoMap &imageParams = imageInfo.getParameters();
     for (ParameterInfoMap::const_iterator iter = imageParams.begin(); iter != imageParams.end(); iter++) {
         const std::string &name = (*iter).first;
-        if (name != ImageStimulus::PATH) {
+        if (name != ImageFileStimulus::PATH) {
             info.addParameter(name, (*iter).second);
         }
     }
@@ -71,9 +71,9 @@ void ImageDirectoryMovieStimulus::load(shared_ptr<StimulusDisplay> display) {
             
             ParameterValueMap imageParams(parameters);
             imageParams.at(TAG) = ParameterValue(imageTag, reg);
-            imageParams.insert(std::make_pair(ImageStimulus::PATH, ParameterValue(imageFilePaths[i], reg)));
+            imageParams.insert(std::make_pair(ImageFileStimulus::PATH, ParameterValue(imageFilePaths[i], reg)));
             
-            frames.push_back(boost::make_shared<ImageStimulus>(imageParams));
+            frames.push_back(boost::make_shared<ImageFileStimulus>(imageParams));
         }
         
         BaseMovieStimulus::load(display);
@@ -92,7 +92,7 @@ void ImageDirectoryMovieStimulus::unload(shared_ptr<StimulusDisplay> display) {
 
 Datum ImageDirectoryMovieStimulus::getCurrentAnnounceDrawData() {
     boost::mutex::scoped_lock locker(stim_lock);
-    Datum announceData = BaseMovieStimulus::getCurrentAnnounceDrawData();
+    auto announceData = BaseMovieStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "image_directory_movie");
     announceData.addElement(DIRECTORY_PATH, currentDirectoryPath);
@@ -102,29 +102,3 @@ Datum ImageDirectoryMovieStimulus::getCurrentAnnounceDrawData() {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

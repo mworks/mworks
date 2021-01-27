@@ -95,7 +95,7 @@
 		E118EEBB15D04F070018BE9C /* BaseFrameListStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFrameListStimulus.h; sourceTree = "<group>"; };
 		E118EEBE15D04F270018BE9C /* BaseMovieStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseMovieStimulus.cpp; sourceTree = "<group>"; };
 		E118EEBF15D04F270018BE9C /* BaseMovieStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseMovieStimulus.h; sourceTree = "<group>"; };
-		E118EEC115D04F3D0018BE9C /* ImageDirectoryMovieStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDirectoryMovieStimulus.cpp; sourceTree = "<group>"; };
+		E118EEC115D04F3D0018BE9C /* ImageDirectoryMovieStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ImageDirectoryMovieStimulus.cpp; sourceTree = "<group>"; };
 		E118EEC215D04F3D0018BE9C /* ImageDirectoryMovieStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDirectoryMovieStimulus.h; sourceTree = "<group>"; };
 		E118EEC415D052FD0018BE9C /* FrameListStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameListStimulus.cpp; sourceTree = "<group>"; };
 		E118EEC515D052FD0018BE9C /* FrameListStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameListStimulus.h; sourceTree = "<group>"; };

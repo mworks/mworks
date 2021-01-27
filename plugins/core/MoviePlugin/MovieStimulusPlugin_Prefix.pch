@@ -3,8 +3,12 @@
 //
 
 #ifdef __cplusplus
-    #include <MWorksCore/Plugin.h>
-    #include <MWorksCore/StandardDynamicStimulus.h>
-    #include <MWorksCore/StandardStimuli.h>
-    #include <MWorksCore/StandardStimulusFactory.h>
+
+#ifdef __OBJC__
+#  include <MWorksCore/ImageFileStimulus.hpp>
+#endif
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardDynamicStimulus.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
 #endif
