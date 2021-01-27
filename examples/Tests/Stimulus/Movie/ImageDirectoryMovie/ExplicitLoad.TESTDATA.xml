@@ -7,22 +7,22 @@
     <message type="starts_with">About to queue movie</message>
     <message type="starts_with">Movie is queued</message>
     <message type="starts_with">About to load movie</message>
-    <message type="starts_with">Image loaded into texture_map </message>
-    <message type="starts_with">Image loaded into texture_map </message>
-    <message type="starts_with">Image loaded into texture_map </message>
-    <message type="starts_with">Image loaded into texture_map </message>
-    <message type="starts_with">Image loaded into texture_map </message>
-    <message type="starts_with">Image loaded into texture_map </message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="starts_with">Movie is loaded</message>
     <message type="starts_with">About to unload movie</message>
-    <message type="starts_with">Image unloaded from texture_map </message>
-    <message type="starts_with">Image unloaded from texture_map </message>
-    <message type="starts_with">Image unloaded from texture_map </message>
-    <message type="starts_with">Image unloaded from texture_map </message>
-    <message type="starts_with">Image unloaded from texture_map </message>
-    <message type="starts_with">Image unloaded from texture_map </message>
-    <message type="starts_with">Image unloaded from texture_map </message>
+    <message type="starts_with">Image unloaded from texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
     <message type="starts_with">Movie is unloaded</message>
   </expected_messages>
 </marionette_info>

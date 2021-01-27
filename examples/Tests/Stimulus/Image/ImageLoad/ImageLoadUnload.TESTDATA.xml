@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="whole_message">Starting state system....</message>
     <message type="starts_with">Queuing normal (</message>
     <message type="starts_with">Queuing deferred (</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="starts_with">Queuing explicit (</message>
     <message type="whole_message">ERROR: Stimulus "explicit" is not loaded and will not be displayed</message>
     <message type="starts_with">Loading normal (</message>
     <message type="starts_with">Loading deferred (</message>
     <message type="starts_with">Loading explicit (</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="starts_with">Unloading normal (</message>
-    <message type="starts_with">Image unloaded from texture_map </message>
+    <message type="starts_with">Image unloaded from texture </message>
     <message type="starts_with">Unloading deferrred (</message>
-    <message type="starts_with">Image unloaded from texture_map </message>
+    <message type="starts_with">Image unloaded from texture </message>
     <message type="starts_with">Unloading explicit (</message>
-    <message type="starts_with">Image unloaded from texture_map </message>
+    <message type="starts_with">Image unloaded from texture </message>
     <message type="whole_message">ERROR: Stimulus "normal" is not loaded and will not be displayed</message>
     <message type="whole_message">ERROR: Stimulus "deferred" is not loaded and will not be displayed</message>
     <message type="whole_message">ERROR: Stimulus "explicit" is not loaded and will not be displayed</message>

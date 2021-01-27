@@ -5,11 +5,11 @@
   </permitted_error_messages>
   <expected_messages>
     <message type="starts_with">About to load movie </message>
-    <message type="starts_with">Image loaded into texture_map </message>
-    <message type="starts_with">Image loaded into texture_map </message>
-    <message type="starts_with">Image loaded into texture_map </message>
-    <message type="starts_with">Image unloaded from texture_map </message>
-    <message type="starts_with">Image unloaded from texture_map </message>
-    <message type="starts_with">Image unloaded from texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
   </expected_messages>
 </marionette_info>

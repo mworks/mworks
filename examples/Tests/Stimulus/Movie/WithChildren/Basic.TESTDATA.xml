@@ -2,6 +2,6 @@
 <marionette_info>
   <permitted_error_messages>
     <message type="contains"> is incompatible with display refresh rate </message>
-    <message type="whole_message" max_matches="3">WARNING: Skipped 1 display refresh cycles</message>
+    <message type="whole_message" max_matches="3">WARNING: Skipped 1 display refresh cycle</message>
   </permitted_error_messages>
 </marionette_info>

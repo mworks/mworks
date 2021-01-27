@@ -5,20 +5,20 @@
   </permitted_error_messages>
   <expected_messages>
     <message type="ends_with">images2/image_+.png</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="ends_with">images2/image_,.png</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="ends_with">images2/image_3.png</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="ends_with">images2/image_4.png</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="ends_with">images2/image_B.png</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="ends_with">images2/image_C.png</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="ends_with">images2/image_d.png</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
     <message type="ends_with">images2/image_e.png</message>
-    <message type="starts_with">Image loaded into texture_map </message>
+    <message type="starts_with">Image loaded into texture </message>
   </expected_messages>
 </marionette_info>
