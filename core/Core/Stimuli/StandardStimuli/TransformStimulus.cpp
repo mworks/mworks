@@ -109,7 +109,9 @@ simd::float4x4 TransformStimulus::getCurrentMVPMatrix(const simd::float4x4 &proj
     simd::float4x4 currentMVPMatrix;
     
     if (fullscreen) {
-        currentMVPMatrix = matrix4x4_scale(2.0, 2.0, 1.0);
+        // Scale y by a negative value to match the y flip included in projectionMatrix.  (See
+        // AppleStimulusDisplay's constructor for more info.)
+        currentMVPMatrix = matrix4x4_scale(2.0, -2.0, 1.0);
     } else {
         currentMVPMatrix = projectionMatrix * matrix4x4_translation(current_posx, current_posy, 0.0);
         currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(current_rot), 0.0, 0.0, 1.0);
