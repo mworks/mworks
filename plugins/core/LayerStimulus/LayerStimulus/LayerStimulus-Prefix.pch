@@ -15,7 +15,7 @@
 #include <MWorksCore/StandardStimulusFactory.h>
 #ifdef __OBJC__
 #  include <MWorksCore/TransformStimulus.hpp>
-#endif /* defined(__OBJC__) */
+#endif
 
 #endif /* defined(__cplusplus) */
 

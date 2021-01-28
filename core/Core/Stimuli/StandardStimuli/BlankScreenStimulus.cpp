@@ -48,12 +48,10 @@ void BlankScreenStimulus::drawMetal(MetalDisplay &display) {
     current_g = g->getValue().getFloat();
     current_b = b->getValue().getFloat();
     
-    MTLRenderPassDescriptor *renderPassDescriptor = display.createMetalRenderPassDescriptor(MTLLoadActionClear);
+    auto renderPassDescriptor = display.createMetalRenderPassDescriptor(MTLLoadActionClear);
     renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(current_r, current_g, current_b, 1.0);
-    
-    id<MTLCommandBuffer> commandBuffer = display.getCurrentMetalCommandBuffer();
-    id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
-    [renderEncoder endEncoding];
+    auto renderCommandEncoder = createRenderCommandEncoder(display, renderPassDescriptor);
+    [renderCommandEncoder endEncoding];
 }
 
 

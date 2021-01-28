@@ -39,6 +39,7 @@ void EllipseStimulus::drawMetal(MetalDisplay &display) {
     ColoredTransformStimulus::drawMetal(display);
     
     auto renderCommandEncoder = createRenderCommandEncoder(display);
+    [renderCommandEncoder setRenderPipelineState:renderPipelineState];
     setCurrentMVPMatrix(display, renderCommandEncoder, 0);
     setCurrentColor(renderCommandEncoder, 0);
     [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];

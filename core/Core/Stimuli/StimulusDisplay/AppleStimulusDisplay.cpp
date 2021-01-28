@@ -45,9 +45,7 @@ using namespace mw::aapl_math_utilities;
     
     MTLFunctionConstantValues *functionConstantValues = [[MTLFunctionConstantValues alloc] init];
     const bool convertToSRGB = useColorManagement;
-    [functionConstantValues setConstantValue:&convertToSRGB
-                                        type:MTLDataTypeBool
-                                    withName:@"MWKStimulusDisplayViewDelegate_convertToSRGB"];
+    [functionConstantValues setConstantValue:&convertToSRGB type:MTLDataTypeBool atIndex:0];
     
     id<MTLFunction> vertexFunction = [library newFunctionWithName:@"MWKStimulusDisplayViewDelegate_vertexShader"];
     

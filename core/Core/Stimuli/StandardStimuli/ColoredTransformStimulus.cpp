@@ -50,12 +50,4 @@ void ColoredTransformStimulus::drawMetal(MetalDisplay &display) {
 }
 
 
-void ColoredTransformStimulus::setCurrentColor(id<MTLRenderCommandEncoder> renderCommandEncoder,
-                                               NSUInteger bufferIndex) const
-{
-    auto currentColor = simd::make_float4(current_r, current_g, current_b, current_alpha);
-    [renderCommandEncoder setFragmentBytes:&currentColor length:sizeof(currentColor) atIndex:bufferIndex];
-}
-
-
 END_NAMESPACE_MW

@@ -9,6 +9,8 @@
 
 #include "DriftingGratingStimulus.h"
 
+using namespace mw::aapl_math_utilities;
+
 
 BEGIN_NAMESPACE_MW
 
@@ -50,34 +52,6 @@ void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
 }
 
 
-auto DriftingGratingStimulus::gratingTypeFromName(const std::string &name) -> GratingType {
-    if (name == "sinusoid") {
-        return GratingType::sinusoid;
-    } else if (name == "square") {
-        return GratingType::square;
-    } else if (name == "triangle") {
-        return GratingType::triangle;
-    } else if (name == "sawtooth") {
-        return GratingType::sawtooth;
-    }
-    merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid grating type: %s", name.c_str());
-    return GratingType::sinusoid;
-};
-
-
-auto DriftingGratingStimulus::maskTypeFromName(const std::string &name) -> MaskType {
-    if (name == "rectangle") {
-        return MaskType::rectangle;
-    } else if (name == "ellipse") {
-        return MaskType::ellipse;
-    } else if (name == "gaussian") {
-        return MaskType::gaussian;
-    }
-    merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid mask type: %s", name.c_str());
-    return MaskType::rectangle;
-};
-
-
 DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parameters) :
     DriftingGratingStimulusBase(parameters),
     direction_in_degrees(registerVariable(parameters[DIRECTION])),
@@ -107,271 +81,148 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
 Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
     boost::mutex::scoped_lock locker(stim_lock);
     
-    Datum announceData = DriftingGratingStimulusBase::getCurrentAnnounceDrawData();
+    auto announceData = DriftingGratingStimulusBase::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "drifting_grating");
-    announceData.addElement(DIRECTION, last_direction_in_degrees);
-    announceData.addElement((central_starting_phase ? CENTRAL_STARTING_PHASE : STARTING_PHASE), last_starting_phase);
+    announceData.addElement(DIRECTION, current_direction_in_degrees);
+    announceData.addElement((central_starting_phase ? CENTRAL_STARTING_PHASE : STARTING_PHASE), current_starting_phase);
     announceData.addElement("current_phase", last_phase*(180/M_PI));
-    announceData.addElement(FREQUENCY, last_spatial_frequency);
-    announceData.addElement(SPEED, last_speed);
+    announceData.addElement(FREQUENCY, current_spatial_frequency);
+    announceData.addElement(SPEED, current_speed);
     announceData.addElement(COMPUTE_PHASE_INCREMENTALLY, computePhaseIncrementally);
-    announceData.addElement(GRATING_TYPE, last_grating_type_name);
+    announceData.addElement(GRATING_TYPE, current_grating_type_name);
     
-    if (!last_mask_type_name.empty()) {
-        announceData.addElement(MASK, last_mask_type_name);
+    if (!current_mask_type_name.empty()) {
+        announceData.addElement(MASK, current_mask_type_name);
     } else {
-        announceData.addElement(MASK, last_grating_is_mask);
+        announceData.addElement(MASK, current_grating_is_mask);
     }
     
-    announceData.addElement(INVERTED, last_inverted);
+    announceData.addElement(INVERTED, current_inverted);
     
-    if (last_mask_type == MaskType::gaussian) {
-        announceData.addElement(STD_DEV, last_std_dev);
-        announceData.addElement(MEAN, last_mean);
-        announceData.addElement(NORMALIZED, last_normalized);
+    if (current_mask_type == MaskType::gaussian) {
+        announceData.addElement(STD_DEV, current_std_dev);
+        announceData.addElement(MEAN, current_mean);
+        announceData.addElement(NORMALIZED, current_normalized);
     }
     
     return announceData;
 }
 
 
-gl::Shader DriftingGratingStimulus::getVertexShader() const {
-    static const std::string source
-    (R"(
-     uniform mat4 mvpMatrix;
-     
-     in vec4 vertexPosition;
-     in float gratingCoord;
-     in vec2 maskCoords;
-     
-     out float gratingVaryingCoord;
-     out vec2 maskVaryingCoords;
-     
-     void main() {
-         gl_Position = mvpMatrix * vertexPosition;
-         gratingVaryingCoord = gratingCoord;
-         maskVaryingCoords = maskCoords;
-     }
-     )");
-    
-    return gl::createShader(GL_VERTEX_SHADER, source);
-}
-
-
-gl::Shader DriftingGratingStimulus::getFragmentShader() const {
-    static const std::string source
-    (R"(
-     const int sinusoidGrating = 1;
-     const int squareGrating = 2;
-     const int triangleGrating = 3;
-     const int sawtoothGrating = 4;
-     
-     const int rectangleMask = 1;
-     const int ellipseMask = 2;
-     const int gaussianMask = 3;
-     
-     const vec2 maskCenter = vec2(0.5, 0.5);
-     const float maskRadius = 0.5;
-     const float pi = 3.14159265358979323846264338327950288;
-     
-     uniform int gratingType;
-     uniform int maskType;
-     uniform vec4 color;
-     uniform bool gratingIsMask;
-     uniform bool inverted;
-     uniform float stdDev;
-     uniform float mean;
-     uniform bool normalized;
-     
-     in float gratingVaryingCoord;
-     in vec2 maskVaryingCoords;
-     
-     out vec4 fragColor;
-     
-     void main() {
-         float maskValue;
-         float dist;
-         float delta;
-         switch (maskType) {
-             case rectangleMask:
-                 maskValue = 1.0;
-                 break;
-                 
-             case ellipseMask:
-                 //
-                 // For an explanation of the edge-smoothing technique used here, see either of the following:
-                 // https://rubendv.be/blog/opengl/drawing-antialiased-circles-in-opengl/
-                 // http://www.numb3r23.net/2015/08/17/using-fwidth-for-distance-based-anti-aliasing/
-                 //
-                 dist = distance(maskVaryingCoords, maskCenter);
-                 delta = fwidth(dist);
-                 maskValue = 1.0 - smoothstep(maskRadius - delta, maskRadius, dist);
-                 break;
-                 
-             case gaussianMask:
-                 dist = distance(maskVaryingCoords, maskCenter) / maskRadius;
-                 maskValue = exp(-1.0 * (dist - mean) * (dist - mean) / (2.0 * stdDev * stdDev));
-                 if (normalized) {
-                     maskValue /= stdDev * sqrt(2.0 * pi);
-                 }
-                 break;
-         }
-         
-         maskValue *= float(maskVaryingCoords.x >= 0.0 && maskVaryingCoords.x <= 1.0 &&
-                            maskVaryingCoords.y >= 0.0 && maskVaryingCoords.y <= 1.0);
-
-         float normGratingCoord = mod(gratingVaryingCoord, 1.0);
-         float gratingValue;
-         float halfDelta;
-         switch (gratingType) {
-             case sinusoidGrating:
-                 gratingValue = 0.5*(1.0+cos(2.0*pi*normGratingCoord));
-                 break;
-                 
-             case squareGrating:
-                 //
-                 // This is a smoothed version of the original equation, which was
-                 //   gratingValue = float(cos(2.0*pi*normGratingCoord) > 0.0);
-                 //
-                 halfDelta = fwidth(gratingVaryingCoord) / 2.0;
-                 gratingValue = ((1.0 - smoothstep(0.25 - halfDelta, 0.25 + halfDelta, normGratingCoord)) +
-                                 smoothstep(0.75 - halfDelta, 0.75 + halfDelta, normGratingCoord));
-                 break;
-                 
-             case triangleGrating:
-                 gratingValue = sign(normGratingCoord - 0.5) * (normGratingCoord - 0.5) / 0.5;
-                 break;
-                 
-             case sawtoothGrating:
-                 //
-                 // This is a smoothed version of the original equation, which was
-                 //   gratingValue = normGratingCoord;
-                 //
-                 halfDelta = fwidth(gratingVaryingCoord) / 2.0;
-                 gratingValue = (normGratingCoord
-                                 - smoothstep(1.0 - halfDelta, 1.0 + halfDelta, normGratingCoord)
-                                 + (1.0 - smoothstep(-halfDelta, halfDelta, normGratingCoord)));
-                 break;
-         }
-         
-         if (inverted) {
-             gratingValue = 1.0 - gratingValue;
-         }
-
-         if (gratingIsMask) {
-             fragColor = vec4(1.0, 1.0, 1.0, gratingValue);
-         } else {
-             fragColor.rgb = gratingValue * color.rgb;
-             fragColor.a = color.a * maskValue;
-         }
-     }
-     )");
-    
-    return gl::createShader(GL_FRAGMENT_SHADER, source);
-}
-
-
-auto DriftingGratingStimulus::getVertexPositions() const -> VertexPositionArray {
-    return VertexPositionArray {
-        -0.5f, -0.5f,
-         0.5f, -0.5f,
-        -0.5f,  0.5f,
-         0.5f,  0.5f
-    };
-}
-
-
-GLKMatrix4 DriftingGratingStimulus::getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const {
-    auto currentMVPMatrix = projectionMatrix;
-    if (!fullscreen) {
-        currentMVPMatrix = GLKMatrix4Translate(currentMVPMatrix, current_posx, current_posy, 0.0);
-        currentMVPMatrix = GLKMatrix4Rotate(currentMVPMatrix, GLKMathDegreesToRadians(current_rot), 0.0, 0.0, 1.0);
+auto DriftingGratingStimulus::gratingTypeFromName(const std::string &name) -> GratingType {
+    if (name == "sinusoid") {
+        return GratingType::sinusoid;
+    } else if (name == "square") {
+        return GratingType::square;
+    } else if (name == "triangle") {
+        return GratingType::triangle;
+    } else if (name == "sawtooth") {
+        return GratingType::sawtooth;
     }
-    auto scale_size = std::max(current_sizex, current_sizey);
-    return GLKMatrix4Scale(currentMVPMatrix, scale_size, scale_size, 1.0);
-}
+    merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid grating type: %s", name.c_str());
+    return GratingType::sinusoid;
+};
 
 
-void DriftingGratingStimulus::setBlendEquation() {
-    if (!current_grating_is_mask) {
-        ColoredTransformStimulus::setBlendEquation();
-    } else {
-        // Blend by multiplying the destination color by the grating color
-        glBlendEquation(GL_FUNC_ADD);
-        glBlendFunc(GL_ZERO, GL_SRC_COLOR);
+auto DriftingGratingStimulus::maskTypeFromName(const std::string &name) -> MaskType {
+    if (name == "rectangle") {
+        return MaskType::rectangle;
+    } else if (name == "ellipse") {
+        return MaskType::ellipse;
+    } else if (name == "gaussian") {
+        return MaskType::gaussian;
     }
-}
+    merror(M_DISPLAY_MESSAGE_DOMAIN, "Invalid mask type: %s", name.c_str());
+    return MaskType::rectangle;
+};
 
 
-void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
+void DriftingGratingStimulus::loadMetal(MetalDisplay &display) {
     boost::mutex::scoped_lock locker(stim_lock);
     
-    ColoredTransformStimulus::prepare(display);
+    ColoredTransformStimulus::loadMetal(display);
+    
+    // Whether or not the grating is a mask must be determined at load time, because that's when
+    // blending is configured
+    {
+        auto maskType = maskTypeName->getValue();
+        if (maskType.isString()) {
+            current_grating_is_mask = false;
+        } else {
+            current_mask_type_name.clear();
+            current_mask_type = MaskType::rectangle;
+            current_grating_is_mask = maskType.getBool();
+        }
+    }
     
     if (fullscreen) {
         double xMin, xMax, yMin, yMax;
-        display->getDisplayBounds(xMin, xMax, yMin, yMax);
+        display.getDisplayBounds(xMin, xMax, yMin, yMax);
         displayWidth = xMax - xMin;
         displayHeight = yMax - yMin;
     }
     
-    gratingTypeUniformLocation = glGetUniformLocation(program, "gratingType");
-    maskTypeUniformLocation = glGetUniformLocation(program, "maskType");
-    gratingIsMaskUniformLocation = glGetUniformLocation(program, "gratingIsMask");
-    invertedUniformLocation = glGetUniformLocation(program, "inverted");
-    stdDevUniformLocation = glGetUniformLocation(program, "stdDev");
-    meanUniformLocation = glGetUniformLocation(program, "mean");
-    normalizedUniformLocation = glGetUniformLocation(program, "normalized");
+    auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
     
-    glGenBuffers(1, &gratingCoordBuffer);
-    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingCoordBuffer);
-    GratingCoordArray gratingCoord = {
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f
-    };
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gratingCoord), gratingCoord.data(), GL_STREAM_DRAW);
-    GLint gratingCoordAttribLocation = glGetAttribLocation(program, "gratingCoord");
-    glEnableVertexAttribArray(gratingCoordAttribLocation);
-    glVertexAttribPointer(gratingCoordAttribLocation, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
+    MTLFunctionConstantValues *constantValues = [[MTLFunctionConstantValues alloc] init];
+    const bool nonMaskGrating = !current_grating_is_mask;
+    [constantValues setConstantValue:&nonMaskGrating
+                                type:MTLDataTypeBool
+                             atIndex:nonMaskGratingFunctionConstantIndex];
     
-    glGenBuffers(1, &maskCoordsBuffer);
-    arrayBufferBinding.bind(maskCoordsBuffer);
-    VertexPositionArray maskCoords = {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f
-    };
-    glBufferData(GL_ARRAY_BUFFER, sizeof(maskCoords), maskCoords.data(), GL_STREAM_DRAW);
-    GLint maskCoordsAttribLocation = glGetAttribLocation(program, "maskCoords");
-    glEnableVertexAttribArray(maskCoordsAttribLocation);
-    glVertexAttribPointer(maskCoordsAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+    auto vertexFunction = loadShaderFunction(library, "vertexShader", constantValues);
+    auto fragmentFunction = loadShaderFunction(library, "fragmentShader", constantValues);
+    auto renderPipelineDescriptor = createRenderPipelineDescriptor(display, vertexFunction, fragmentFunction);
+    renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
 }
 
 
-void DriftingGratingStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
-    boost::mutex::scoped_lock locker(stim_lock);
+void DriftingGratingStimulus::drawMetal(MetalDisplay &display) {
+    //
+    // Get current parameter values
+    //
     
-    glDeleteBuffers(1, &maskCoordsBuffer);
-    glDeleteBuffers(1, &gratingCoordBuffer);
+    ColoredTransformStimulus::drawMetal(display);
     
-    ColoredTransformStimulus::destroy(display);
-}
-
-
-void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    ColoredTransformStimulus::preDraw(display);
+    current_direction_in_degrees = direction_in_degrees->getValue().getFloat();
+    if (central_starting_phase) {
+        current_starting_phase = central_starting_phase->getValue().getFloat();
+    } else if (starting_phase) {
+        current_starting_phase = starting_phase->getValue().getFloat();
+    } else {
+        current_starting_phase = 0.0;
+    }
+    current_spatial_frequency = spatial_frequency->getValue().getFloat();
+    current_speed = speed->getValue().getFloat();
+    current_grating_type_name = gratingTypeName->getValue().getString();
+    current_grating_type = gratingTypeFromName(current_grating_type_name);
+    if (!current_grating_is_mask) {
+        auto maskType = maskTypeName->getValue();
+        if (maskType.isString()) {
+            current_mask_type_name = maskType.getString();
+            current_mask_type = maskTypeFromName(current_mask_type_name);
+        } else {
+            current_mask_type_name.clear();
+            current_mask_type = MaskType::rectangle;
+            if (maskType.getBool()) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN, "Grating cannot be changed into a mask after loading");
+            }
+        }
+    }
+    current_inverted = inverted->getValue().getBool();
+    current_std_dev = std_dev->getValue().getFloat();
+    current_mean = mean->getValue().getFloat();
+    current_normalized = normalized->getValue().getBool();
     
-    glUniform1i(gratingTypeUniformLocation, int(current_grating_type));
-    glUniform1i(maskTypeUniformLocation, int(current_mask_type));
-    glUniform1i(gratingIsMaskUniformLocation, current_grating_is_mask);
-    glUniform1i(invertedUniformLocation, current_inverted);
-    glUniform1f(stdDevUniformLocation, current_std_dev);
-    glUniform1f(meanUniformLocation, current_mean);
-    glUniform1f(normalizedUniformLocation, current_normalized);
+    if (fullscreen) {
+        current_sizex = displayWidth;
+        current_sizey = displayHeight;
+    }
+    
+    //
+    // Compute current grating state
+    //
     
     // here's the description of this equation
     // starting_phase is in degrees ->  degrees*pi/180 = radians
@@ -407,88 +258,79 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     const float phase_offset = (central_starting_phase ? M_PI * cycle_proportion : 0.0);
     const float phase_proportion = (phase - phase_offset) / (2.0 * M_PI);
     
-    GratingCoordArray gratingCoord = {
+    const float gratingCoords[] = {
         (cycle_proportion * grating_bl) + phase_proportion,
         (cycle_proportion * grating_br) + phase_proportion,
         (cycle_proportion * grating_tl) + phase_proportion,
         (cycle_proportion * grating_tr) + phase_proportion
     };
-    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingCoordBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gratingCoord), gratingCoord.data(), GL_STREAM_DRAW);
-    
-    const double aspect = current_sizex / current_sizey;
-    float mask_x_offset = 0;
-    float mask_y_offset = 0;
-    if (aspect > 1.0) {
-        mask_y_offset = (aspect - 1.0) / 2.0;
-    } else if (aspect < 1.0) {
-        mask_x_offset = (1.0/aspect - 1.0) / 2.0;
-    }
-    
-    VertexPositionArray maskCoords = {
-        0 - mask_x_offset, 0 - mask_y_offset,
-        1 + mask_x_offset, 0 - mask_y_offset,
-        0 - mask_x_offset, 1 + mask_y_offset,
-        1 + mask_x_offset, 1 + mask_y_offset
-    };
-    arrayBufferBinding.bind(maskCoordsBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(maskCoords), maskCoords.data(), GL_STREAM_DRAW);
     
     lastElapsedSeconds = elapsed_seconds;
     last_phase = phase;
+    
+    //
+    // Encode rendering commands
+    //
+    
+    auto renderCommandEncoder = createRenderCommandEncoder(display);
+    [renderCommandEncoder setRenderPipelineState:renderPipelineState];
+    
+    setCurrentMVPMatrix(display, renderCommandEncoder, mvpMatrixBufferIndex);
+    setVertexBytes(renderCommandEncoder, gratingCoords, gratingCoordsBufferIndex);
+    if (!current_grating_is_mask) {
+        float aspectRatio = current_sizex / current_sizey;
+        setVertexBytes(renderCommandEncoder, aspectRatio, aspectRatioBufferIndex);
+    }
+    
+    GratingParameters gratingParams;
+    gratingParams.gratingType = current_grating_type;
+    gratingParams.inverted = current_inverted;
+    setFragmentBytes(renderCommandEncoder, gratingParams, gratingParamsBufferIndex);
+    
+    if (!current_grating_is_mask) {
+        MaskParameters maskParams;
+        maskParams.maskType = current_mask_type;
+        maskParams.stdDev = current_std_dev;
+        maskParams.mean = current_mean;
+        maskParams.normalized = current_normalized;
+        setFragmentBytes(renderCommandEncoder, maskParams, maskParamsBufferIndex);
+        
+        setCurrentColor(renderCommandEncoder, colorBufferIndex);
+    }
+    
+    [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
+    [renderCommandEncoder endEncoding];
+}
+
+
+void DriftingGratingStimulus::configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const {
+    if (!current_grating_is_mask) {
+        ColoredTransformStimulus::configureBlending(colorAttachment);
+    } else {
+        // Blend by multiplying the destination alpha by the grating alpha
+        colorAttachment.blendingEnabled = YES;
+        colorAttachment.sourceRGBBlendFactor = MTLBlendFactorZero;
+        colorAttachment.destinationRGBBlendFactor = MTLBlendFactorOne;
+        colorAttachment.sourceAlphaBlendFactor = MTLBlendFactorZero;
+        colorAttachment.destinationAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+    }
+}
+
+
+simd::float4x4 DriftingGratingStimulus::getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const {
+    auto currentMVPMatrix = projectionMatrix;
+    if (!fullscreen) {
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_translation(current_posx, current_posy, 0.0);
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(current_rot), 0.0, 0.0, 1.0);
+    }
+    auto scale_size = std::max(current_sizex, current_sizey);
+    currentMVPMatrix = currentMVPMatrix * matrix4x4_scale(scale_size, scale_size, 1.0);
+    return currentMVPMatrix;
 }
 
 
 void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
-    current_direction_in_degrees = direction_in_degrees->getValue().getFloat();
-    if (central_starting_phase) {
-        current_starting_phase = central_starting_phase->getValue().getFloat();
-    } else if (starting_phase) {
-        current_starting_phase = starting_phase->getValue().getFloat();
-    } else {
-        current_starting_phase = 0.0;
-    }
-    current_spatial_frequency = spatial_frequency->getValue().getFloat();
-    current_speed = speed->getValue().getFloat();
-    current_grating_type_name = gratingTypeName->getValue().getString();
-    current_grating_type = gratingTypeFromName(current_grating_type_name);
-    {
-        auto maskType = maskTypeName->getValue();
-        if (maskType.isString()) {
-            current_mask_type_name = maskType.getString();
-            current_mask_type = maskTypeFromName(current_mask_type_name);
-            current_grating_is_mask = false;
-        } else {
-            current_mask_type_name.clear();
-            current_mask_type = MaskType::rectangle;
-            current_grating_is_mask = maskType.getBool();
-        }
-    }
-    current_inverted = inverted->getValue().getBool();
-    current_std_dev = std_dev->getValue().getFloat();
-    current_mean = mean->getValue().getFloat();
-    current_normalized = normalized->getValue().getBool();
-    
-    if (fullscreen) {
-        current_sizex = displayWidth;
-        current_sizey = displayHeight;
-    }
-    
     ColoredTransformStimulus::draw(display);
-    
-    last_direction_in_degrees = current_direction_in_degrees;
-    last_starting_phase = current_starting_phase;
-    last_spatial_frequency = current_spatial_frequency;
-    last_speed = current_speed;
-    last_grating_type_name = current_grating_type_name;
-    last_grating_type = current_grating_type;
-    last_mask_type_name = current_mask_type_name;
-    last_mask_type = current_mask_type;
-    last_grating_is_mask = current_grating_is_mask;
-    last_inverted = current_inverted;
-    last_std_dev = current_std_dev;
-    last_mean = current_mean;
-    last_normalized = current_normalized;
 }
 
 
@@ -499,28 +341,3 @@ void DriftingGratingStimulus::stopPlaying() {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

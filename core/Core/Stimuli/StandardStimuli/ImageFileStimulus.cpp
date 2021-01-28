@@ -187,9 +187,6 @@ void ImageFileStimulus::loadMetal(MetalDisplay &display) {
     // Prepare texture
     //
     
-    auto commandBuffer = [display.getMetalCommandQueue() commandBuffer];
-    auto blitCommandEncoder = [commandBuffer blitCommandEncoder];
-    
     {
         // Create shared buffer
         auto buffer = [display.getMetalDevice() newBufferWithBytes:data.data()
@@ -205,6 +202,9 @@ void ImageFileStimulus::loadMetal(MetalDisplay &display) {
         textureDescriptor.storageMode = MTLStorageModePrivate;
         texture = [display.getMetalDevice() newTextureWithDescriptor:textureDescriptor];
         
+        auto commandBuffer = [display.getMetalCommandQueue() commandBuffer];
+        auto blitCommandEncoder = [commandBuffer blitCommandEncoder];
+        
         // Copy data from shared buffer to private texture
         [blitCommandEncoder copyFromBuffer:buffer
                               sourceOffset:0
@@ -218,13 +218,10 @@ void ImageFileStimulus::loadMetal(MetalDisplay &display) {
         
         // Generate mipmaps
         [blitCommandEncoder generateMipmapsForTexture:texture];
+        
+        [blitCommandEncoder endEncoding];
+        [commandBuffer commit];
     }
-    
-    // Set vertex positions
-    setVertexPositions(display, blitCommandEncoder, double(width) / double(height));
-    
-    [blitCommandEncoder endEncoding];
-    [commandBuffer commit];
     
     if (announceLoad) {
         mprintf("Image loaded into texture %p", texture);
@@ -238,6 +235,11 @@ void ImageFileStimulus::unloadMetal(MetalDisplay &display) {
     }
     
     BaseImageStimulus::unloadMetal(display);
+}
+
+
+double ImageFileStimulus::getAspectRatio() const {
+    return double(width) / double(height);
 }
 
 

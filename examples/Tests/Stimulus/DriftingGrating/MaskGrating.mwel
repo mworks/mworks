@@ -31,16 +31,32 @@ layer layer {
 
 protocol {
     queue_stimulus (backdrop)
+    update_display ()
+    wait (1s)
+
     queue_stimulus (normal_grating)
     update_display ()
     wait (5s)
 
     dequeue_stimulus (normal_grating)
+    update_display ()
+    wait (1s)
+
+    unload_stimulus (mask_grating)
     mask = false
-    live_queue_stimulus (layer)
+    load_stimulus (mask_grating)
+    live_queue_stimulus (mask_grating)
     update_display ()
     wait (5s)
 
+    dequeue_stimulus (mask_grating)
+    update_display ()
+    wait (1s)
+
+    unload_stimulus (mask_grating)
     mask = true
+    load_stimulus (mask_grating)
+    live_queue_stimulus (layer)
+    update_display ()
     wait (5s)
 }

@@ -39,6 +39,14 @@ protected:
 };
 
 
+inline void ColoredTransformStimulus::setCurrentColor(id<MTLRenderCommandEncoder> renderCommandEncoder,
+                                                      NSUInteger bufferIndex) const
+{
+    auto currentColor = simd::make_float4(current_r, current_g, current_b, current_alpha);
+    setFragmentBytes(renderCommandEncoder, currentColor, bufferIndex);
+}
+
+
 END_NAMESPACE_MW
 
 

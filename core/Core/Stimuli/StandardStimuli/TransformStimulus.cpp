@@ -105,24 +105,6 @@ void TransformStimulus::getCurrentSize(float &sizeX, float &sizeY) const {
 }
 
 
-simd::float4x4 TransformStimulus::getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const {
-    simd::float4x4 currentMVPMatrix;
-    
-    if (fullscreen) {
-        // Scale y by a negative value to match the y flip included in projectionMatrix.  (See
-        // AppleStimulusDisplay's constructor for more info.)
-        currentMVPMatrix = matrix4x4_scale(2.0, -2.0, 1.0);
-    } else {
-        currentMVPMatrix = projectionMatrix * matrix4x4_translation(current_posx, current_posy, 0.0);
-        currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(current_rot), 0.0, 0.0, 1.0);
-        currentMVPMatrix = currentMVPMatrix * matrix4x4_scale(current_sizex, current_sizey, 1.0);
-    }
-    
-    currentMVPMatrix = currentMVPMatrix * matrix4x4_translation(-0.5, -0.5, 0.0);
-    return currentMVPMatrix;
-}
-
-
 MTLRenderPipelineDescriptor * TransformStimulus::createRenderPipelineDescriptor(MetalDisplay &display,
                                                                                 id<MTLFunction> vertexFunction,
                                                                                 id<MTLFunction> fragmentFunction) const
@@ -140,21 +122,21 @@ MTLRenderPipelineDescriptor * TransformStimulus::createRenderPipelineDescriptor(
 }
 
 
-id<MTLRenderCommandEncoder> TransformStimulus::createRenderCommandEncoder(MetalDisplay &display) const {
-    auto commandBuffer = display.getCurrentMetalCommandBuffer();
-    auto renderPassDescriptor = display.createMetalRenderPassDescriptor();
-    auto renderCommandEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
-    [renderCommandEncoder setRenderPipelineState:renderPipelineState];
-    return renderCommandEncoder;
-}
-
-
-void TransformStimulus::setCurrentMVPMatrix(MetalDisplay &display,
-                                            id<MTLRenderCommandEncoder> renderCommandEncoder,
-                                            NSUInteger bufferIndex) const
-{
-    auto currentMVPMatrix = getCurrentMVPMatrix(display.getMetalProjectionMatrix());
-    [renderCommandEncoder setVertexBytes:&currentMVPMatrix length:sizeof(currentMVPMatrix) atIndex:bufferIndex];
+simd::float4x4 TransformStimulus::getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const {
+    simd::float4x4 currentMVPMatrix;
+    
+    if (fullscreen) {
+        // Scale y by a negative value to match the y flip included in projectionMatrix.  (See
+        // AppleStimulusDisplay's constructor for more info.)
+        currentMVPMatrix = matrix4x4_scale(2.0, -2.0, 1.0);
+    } else {
+        currentMVPMatrix = projectionMatrix * matrix4x4_translation(current_posx, current_posy, 0.0);
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(current_rot), 0.0, 0.0, 1.0);
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_scale(current_sizex, current_sizey, 1.0);
+    }
+    
+    currentMVPMatrix = currentMVPMatrix * matrix4x4_translation(-0.5, -0.5, 0.0);
+    return currentMVPMatrix;
 }
 
 

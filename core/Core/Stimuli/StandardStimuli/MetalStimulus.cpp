@@ -74,6 +74,28 @@ id<MTLFunction> MetalStimulus::loadShaderFunction(id<MTLLibrary> library, const 
 }
 
 
+id<MTLFunction> MetalStimulus::loadShaderFunction(id<MTLLibrary> library,
+                                                  const std::string &name,
+                                                  MTLFunctionConstantValues *constantValues)
+{
+    NSError *error = nil;
+    auto function = [library newFunctionWithName:@(name.c_str()) constantValues:constantValues error:&error];
+    if (!function) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              boost::format("Cannot load Metal shader function %1%: %2%")
+                              % name
+                              % error.localizedDescription.UTF8String);
+    }
+    if (error) {
+        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                 "Loaded Metal shader function %s with warnings: %s",
+                 name.c_str(),
+                 error.localizedDescription.UTF8String);
+    }
+    return function;
+}
+
+
 id<MTLRenderPipelineState>
 MetalStimulus::createRenderPipelineState(MetalDisplay &display,
                                          MTLRenderPipelineDescriptor *renderPipelineDescriptor)

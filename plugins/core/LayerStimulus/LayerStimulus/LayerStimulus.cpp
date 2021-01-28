@@ -148,11 +148,10 @@ void LayerStimulus::drawMetal(MetalDisplay &display) {
     
     // Make background transparent
     {
-        auto commandBuffer = display.getCurrentMetalCommandBuffer();
         auto renderPassDescriptor = display.createMetalRenderPassDescriptor(MTLLoadActionClear);
         renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
-        auto renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
-        [renderEncoder endEncoding];
+        auto renderCommandEncoder = createRenderCommandEncoder(display, renderPassDescriptor);
+        [renderCommandEncoder endEncoding];
     }
     
     {
@@ -179,9 +178,7 @@ void LayerStimulus::drawMetal(MetalDisplay &display) {
     display.setRenderingMode(RenderingMode::Metal);
     
     {
-        auto commandBuffer = display.getCurrentMetalCommandBuffer();
-        auto renderPassDescriptor = display.createMetalRenderPassDescriptor();
-        auto renderCommandEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        auto renderCommandEncoder = createRenderCommandEncoder(display);
         
         [renderCommandEncoder setRenderPipelineState:renderPipelineState];
         [renderCommandEncoder setFragmentTexture:framebufferTexture atIndex:0];

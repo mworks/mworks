@@ -109,6 +109,7 @@ void MaskStimulus::drawMetal(MetalDisplay &display) {
     current_edge_width = edgeWidth->getValue().getFloat();
     
     auto renderCommandEncoder = createRenderCommandEncoder(display);
+    [renderCommandEncoder setRenderPipelineState:renderPipelineState];
     
     setCurrentMVPMatrix(display, renderCommandEncoder, 0);
     
@@ -119,7 +120,7 @@ void MaskStimulus::drawMetal(MetalDisplay &display) {
     maskParams.mean = current_mean;
     maskParams.normalized = current_normalized;
     maskParams.edgeWidth = current_edge_width;
-    [renderCommandEncoder setFragmentBytes:&maskParams length:sizeof(maskParams) atIndex:0];
+    setFragmentBytes(renderCommandEncoder, maskParams, 0);
     
     [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
     [renderCommandEncoder endEncoding];

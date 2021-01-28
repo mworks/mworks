@@ -1,10 +1,20 @@
 //
-// Prefix header for all source files of the 'DriftingGratingStimulusPlugins' target in the 'DriftingGratingStimulusPlugins' project.
+// Prefix header for all source files of the 'DriftingGratingStimulusPlugin' target in the 'DriftingGratingStimulusPlugin' project.
 //
 
+#ifndef DriftingGratingStimulusPlugin_Prefix_pch
+#define DriftingGratingStimulusPlugin_Prefix_pch
+
 #ifdef __cplusplus
-    #include <MWorksCore/Plugin.h>
-    #include <MWorksCore/StandardDynamicStimulus.h>
-    #include <MWorksCore/StandardStimuli.h>
-    #include <MWorksCore/StandardStimulusFactory.h>
+
+#include <MWorksCore/AAPLMathUtilities.h>
+#ifdef __OBJC__
+#  include <MWorksCore/ColoredTransformStimulus.hpp>
 #endif
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardDynamicStimulus.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* DriftingGratingStimulusPlugin_Prefix_pch */

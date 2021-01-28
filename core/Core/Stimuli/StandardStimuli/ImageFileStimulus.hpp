@@ -34,6 +34,8 @@ private:
     void loadMetal(MetalDisplay &display) override;
     void unloadMetal(MetalDisplay &display) override;
     
+    double getAspectRatio() const override;
+    
     const VariablePtr path;
     const bool announceLoad;
     

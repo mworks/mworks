@@ -10,15 +10,6 @@
 using namespace metal;
 
 
-static constant float2 vertexPositions[] =
-{
-    { 0.0f, 0.0f },
-    { 1.0f, 0.0f },
-    { 0.0f, 1.0f },
-    { 1.0f, 1.0f },
-};
-
-
 struct RasterizerData {
     float4 position [[position]];
 };
@@ -28,6 +19,13 @@ vertex RasterizerData
 RectangleStimulus_vertexShader(uint vertexID [[vertex_id]],
                                constant float4x4 &mvpMatrix [[buffer(0)]])
 {
+    constexpr float2 vertexPositions[] = {
+        { 0.0f, 0.0f },
+        { 1.0f, 0.0f },
+        { 0.0f, 1.0f },
+        { 1.0f, 1.0f }
+    };
+    
     RasterizerData out;
     out.position = mvpMatrix * float4(vertexPositions[vertexID], 0.0, 1.0);
     return out;

@@ -13,15 +13,6 @@ using namespace metal;
 #include "MaskStimulusShaderTypes.h"
 
 
-static constant float2 vertexPositions[] =
-{
-    { 0.0f, 0.0f },
-    { 1.0f, 0.0f },
-    { 0.0f, 1.0f },
-    { 1.0f, 1.0f },
-};
-
-
 struct RasterizerData {
     float4 position [[position]];
     float2 maskCoordinate;
@@ -32,6 +23,13 @@ vertex RasterizerData
 MaskStimulus_vertexShader(uint vertexID [[vertex_id]],
                           constant float4x4 &mvpMatrix [[buffer(0)]])
 {
+    constexpr float2 vertexPositions[] = {
+        { 0.0f, 0.0f },
+        { 1.0f, 0.0f },
+        { 0.0f, 1.0f },
+        { 1.0f, 1.0f }
+    };
+    
     RasterizerData out;
     out.position = mvpMatrix * float4(vertexPositions[vertexID], 0.0, 1.0);
     out.maskCoordinate = vertexPositions[vertexID];
@@ -39,14 +37,12 @@ MaskStimulus_vertexShader(uint vertexID [[vertex_id]],
 }
 
 
-static constant float2 maskCenter = { 0.5f, 0.5f };
-static constant float maskRadius = 0.5f;
-
-
 fragment float4
 MaskStimulus_fragmentShader(RasterizerData in [[stage_in]],
                             constant MaskParameters &maskParams [[buffer(0)]])
 {
+    constexpr float2 maskCenter = { 0.5f, 0.5f };
+    constexpr float maskRadius = 0.5f;
     float maskValue = 1.0;
     
     switch (maskParams.maskType) {
@@ -86,7 +82,8 @@ MaskStimulus_fragmentShader(RasterizerData in [[stage_in]],
             float dist = distance(in.maskCoordinate, maskCenter);
             
             maskValue = 0.5 * (1.0 + cos(M_PI_F / maskParams.edgeWidth * (dist - edgeMin)));
-            maskValue *= float(dist > edgeMin && dist <= edgeMax);
+            maskValue *= float(dist > edgeMin);
+            maskValue *= float(dist <= edgeMax);
             maskValue += float(dist <= edgeMin);
             
             break;

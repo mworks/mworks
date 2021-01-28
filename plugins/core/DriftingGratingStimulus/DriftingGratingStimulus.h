@@ -10,6 +10,10 @@
 #ifndef DRIFTING_GRATNG_STIMULUS_H
 #define DRIFTING_GRATNG_STIMULUS_H
 
+#include "DriftingGratingStimulusShaderTypes.h"
+
+using namespace mw::drifting_grating_stimulus;
+
 
 BEGIN_NAMESPACE_MW
 
@@ -40,35 +44,14 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    using GratingCoordArray = std::array<GLfloat, numVertices>;
-    
-    enum class GratingType {
-        sinusoid = 1,
-        square = 2,
-        triangle = 3,
-        sawtooth = 4
-    };
-    
-    enum class MaskType {
-        rectangle = 1,
-        ellipse = 2,
-        gaussian = 3
-    };
-    
     static GratingType gratingTypeFromName(const std::string &name);
     static MaskType maskTypeFromName(const std::string &name);
     
-    gl::Shader getVertexShader() const override;
-    gl::Shader getFragmentShader() const override;
+    void loadMetal(MetalDisplay &display) override;
+    void drawMetal(MetalDisplay &display) override;
     
-    VertexPositionArray getVertexPositions() const override;
-    GLKMatrix4 getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const override;
-    
-    void setBlendEquation() override;
-    
-    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const override;
+    simd::float4x4 getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const override;
     
     void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
     void stopPlaying() override;
@@ -95,29 +78,10 @@ private:
     double current_std_dev, current_mean;
     bool current_normalized;
     
-    double last_direction_in_degrees, last_starting_phase, last_spatial_frequency, last_speed;
-    std::string last_grating_type_name;
-    GratingType last_grating_type;
-    std::string last_mask_type_name;
-    MaskType last_mask_type;
-    bool last_grating_is_mask, last_inverted;
-    double last_std_dev, last_mean;
-    bool last_normalized;
-    
     double lastElapsedSeconds;
     double last_phase;
     
     double displayWidth, displayHeight;
-    
-    GLint gratingTypeUniformLocation = -1;
-    GLint maskTypeUniformLocation = -1;
-    GLint gratingIsMaskUniformLocation = -1;
-    GLint invertedUniformLocation = -1;
-    GLint stdDevUniformLocation = -1;
-    GLint meanUniformLocation = -1;
-    GLint normalizedUniformLocation = -1;
-    GLuint gratingCoordBuffer = 0;
-    GLuint maskCoordsBuffer = 0;
     
 };
 
@@ -125,25 +89,4 @@ private:
 END_NAMESPACE_MW
 
 
-#endif 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif /* DRIFTING_GRATNG_STIMULUS_H */

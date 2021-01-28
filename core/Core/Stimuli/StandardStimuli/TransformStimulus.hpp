@@ -36,17 +36,16 @@ protected:
     void drawMetal(MetalDisplay &display) override;
     
     void getCurrentSize(float &sizeX, float &sizeY) const;
-    virtual simd::float4x4 getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const;
     
     MTLRenderPipelineDescriptor * createRenderPipelineDescriptor(MetalDisplay &display,
                                                                  id<MTLFunction> vertexFunction,
                                                                  id<MTLFunction> fragmentFunction) const;
     virtual void configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const { }
     
-    id<MTLRenderCommandEncoder> createRenderCommandEncoder(MetalDisplay &display) const;
     void setCurrentMVPMatrix(MetalDisplay &display,
                              id<MTLRenderCommandEncoder> renderCommandEncoder,
                              NSUInteger bufferIndex) const;
+    virtual simd::float4x4 getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const;
     
     const VariablePtr xoffset;
     const VariablePtr yoffset;
@@ -60,6 +59,15 @@ protected:
     float current_posx, current_posy, current_sizex, current_sizey, current_rot;
     
 };
+
+
+inline void TransformStimulus::setCurrentMVPMatrix(MetalDisplay &display,
+                                                   id<MTLRenderCommandEncoder> renderCommandEncoder,
+                                                   NSUInteger bufferIndex) const
+{
+    auto currentMVPMatrix = getCurrentMVPMatrix(display.getMetalProjectionMatrix());
+    setVertexBytes(renderCommandEncoder, currentMVPMatrix, bufferIndex);
+}
 
 
 END_NAMESPACE_MW

@@ -10,32 +10,8 @@
 using namespace metal;
 
 
-static constant float2 vertexPositions[] =
-{
-    { -1.0f, -1.0f },
-    {  1.0f, -1.0f },
-    { -1.0f,  1.0f },
-    {  1.0f,  1.0f },
-};
-
-
-//
-// All stimuli effectively render using OpenGL texture coordinates ((0,0) at the lower-left corner),
-// which flip y with respect to Metal texture coordinates ((0,0) at the upper-left corner).  Therefore,
-// we similarly y-flip the coordinates we use to draw the framebuffer texture, so that everything
-// ends up oriented correctly on screen.
-//
-static constant float2 texCoords[] =
-{
-    { 0.0f, 0.0f },
-    { 1.0f, 0.0f },
-    { 0.0f, 1.0f },
-    { 1.0f, 1.0f },
-};
-
-
 struct RasterizerData {
-    float4 clipSpacePosition [[position]];
+    float4 position [[position]];
     float2 textureCoordinate;
 };
 
@@ -43,14 +19,37 @@ struct RasterizerData {
 vertex RasterizerData
 MWKStimulusDisplayViewDelegate_vertexShader(uint vertexID [[vertex_id]])
 {
+    constexpr float2 vertexPositions[] = {
+        { -1.0f, -1.0f },
+        {  1.0f, -1.0f },
+        { -1.0f,  1.0f },
+        {  1.0f,  1.0f }
+    };
+    
+    //
+    // All stimuli effectively render using OpenGL texture coordinates ((0,0) at the lower-left corner),
+    // which flip y with respect to Metal texture coordinates ((0,0) at the upper-left corner).  Therefore,
+    // we similarly y-flip the coordinates we use to draw the framebuffer texture, so that everything
+    // ends up oriented correctly on screen.
+    //
+    constexpr float2 texCoords[] = {
+        { 0.0f, 0.0f },
+        { 1.0f, 0.0f },
+        { 0.0f, 1.0f },
+        { 1.0f, 1.0f }
+    };
+    
     RasterizerData out;
-    out.clipSpacePosition = float4(vertexPositions[vertexID], 0.0, 1.0);
+    out.position = float4(vertexPositions[vertexID], 0.0, 1.0);
     out.textureCoordinate = texCoords[vertexID];
     return out;
 }
 
 
-static float3
+constant bool convertToSRGB [[function_constant(0)]];
+
+
+float3
 linearToSRGB(float3 linear)
 {
     float3 srgb = mix(12.92 * linear,
@@ -65,16 +64,13 @@ linearToSRGB(float3 linear)
 }
 
 
-constant bool MWKStimulusDisplayViewDelegate_convertToSRGB [[function_constant(0)]];
-
-
 fragment float4
 MWKStimulusDisplayViewDelegate_fragmentShader(RasterizerData in [[stage_in]],
                                               texture2d<float> colorTexture [[texture(0)]])
 {
     constexpr sampler textureSampler (mag_filter::linear, min_filter::linear);
     float4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
-    if (MWKStimulusDisplayViewDelegate_convertToSRGB) {
+    if (convertToSRGB) {
         colorSample.rgb = linearToSRGB(colorSample.rgb);
     }
     return colorSample;

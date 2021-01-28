@@ -10,15 +10,6 @@
 using namespace metal;
 
 
-static constant float2 texCoords[] =
-{
-    { 0.0f, 1.0f },
-    { 1.0f, 1.0f },
-    { 0.0f, 0.0f },
-    { 1.0f, 0.0f },
-};
-
-
 struct RasterizerData {
     float4 position [[position]];
     float2 textureCoordinate;
@@ -27,11 +18,32 @@ struct RasterizerData {
 
 vertex RasterizerData
 BaseImageStimulus_vertexShader(uint vertexID [[vertex_id]],
-                               constant float2 *vertexPositions [[buffer(0)]],
+                               constant float &aspectRatio [[buffer(0)]],
                                constant float4x4 &mvpMatrix [[buffer(1)]])
 {
+    constexpr float2 vertexPositions[] = {
+        { 0.0f, 0.0f },
+        { 1.0f, 0.0f },
+        { 0.0f, 1.0f },
+        { 1.0f, 1.0f }
+    };
+    
+    constexpr float2 texCoords[] = {
+        { 0.0f, 1.0f },
+        { 1.0f, 1.0f },
+        { 0.0f, 0.0f },
+        { 1.0f, 0.0f }
+    };
+    
+    float2 position = vertexPositions[vertexID];
+    if (aspectRatio < 1.0) {
+        position.x = position.x * aspectRatio + (0.5 - 0.5 * aspectRatio);
+    } else if (aspectRatio > 1.0) {
+        position.y = position.y / aspectRatio + (0.5 - 0.5 / aspectRatio);
+    }
+    
     RasterizerData out;
-    out.position = mvpMatrix * float4(vertexPositions[vertexID], 0.0, 1.0);
+    out.position = mvpMatrix * float4(position, 0.0, 1.0);
     out.textureCoordinate = texCoords[vertexID];
     return out;
 }
