@@ -91,8 +91,16 @@ ImageFileStimulus::ImageFileStimulus(const ParameterValueMap &parameters) :
     path(variableOrText(parameters[PATH])),
     announceLoad(parameters[ANNOUNCE_LOAD]),
     width(0),
-    height(0)
+    height(0),
+    texture(nil)
 { }
+
+
+ImageFileStimulus::~ImageFileStimulus() {
+    @autoreleasepool {
+        texture = nil;
+    }
+}
 
 
 Datum ImageFileStimulus::getCurrentAnnounceDrawData() {
@@ -198,14 +206,13 @@ void ImageFileStimulus::loadMetal(MetalDisplay &display) {
         auto textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:pixelFormat
                                                                                     width:width
                                                                                    height:height
-                                                                                mipmapped:YES];
+                                                                                mipmapped:NO];
         textureDescriptor.storageMode = MTLStorageModePrivate;
         texture = [display.getMetalDevice() newTextureWithDescriptor:textureDescriptor];
         
+        // Copy data from shared buffer to private texture
         auto commandBuffer = [display.getMetalCommandQueue() commandBuffer];
         auto blitCommandEncoder = [commandBuffer blitCommandEncoder];
-        
-        // Copy data from shared buffer to private texture
         [blitCommandEncoder copyFromBuffer:buffer
                               sourceOffset:0
                          sourceBytesPerRow:width * 4
@@ -215,10 +222,6 @@ void ImageFileStimulus::loadMetal(MetalDisplay &display) {
                           destinationSlice:0
                           destinationLevel:0
                          destinationOrigin:MTLOriginMake(0, 0, 0)];
-        
-        // Generate mipmaps
-        [blitCommandEncoder generateMipmapsForTexture:texture];
-        
         [blitCommandEncoder endEncoding];
         [commandBuffer commit];
     }
@@ -234,12 +237,19 @@ void ImageFileStimulus::unloadMetal(MetalDisplay &display) {
         mprintf("Image unloaded from texture %p", texture);
     }
     
+    texture = nil;
+    
     BaseImageStimulus::unloadMetal(display);
 }
 
 
-double ImageFileStimulus::getAspectRatio() const {
+double ImageFileStimulus::getCurrentAspectRatio() const {
     return double(width) / double(height);
+}
+
+
+id<MTLTexture> ImageFileStimulus::getCurrentTexture() const {
+    return texture;
 }
 
 

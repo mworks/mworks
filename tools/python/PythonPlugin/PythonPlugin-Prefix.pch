@@ -5,17 +5,21 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
+#include <Accelerate/Accelerate.h>
+
 #include <MWorksPython/MWorksPython.h>
 
 #ifdef __cplusplus
 
 #include <boost/scope_exit.hpp>
 
+#ifdef __OBJC__
+#  include <MWorksCore/BaseImageStimulus.hpp>
+#endif
 #include <MWorksCore/CFObjectPtr.h>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/Server.h>
 #include <MWorksCore/StandardDynamicStimulus.h>
-#include <MWorksCore/StandardStimuli.h>
 #include <MWorksCore/StandardStimulusFactory.h>
 #include <MWorksCore/TrialBuildingBlocks.h>
 

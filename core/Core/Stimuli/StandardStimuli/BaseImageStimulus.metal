@@ -54,7 +54,7 @@ BaseImageStimulus_fragmentShader(RasterizerData in [[stage_in]],
                                  texture2d<float> imageTexture [[texture(0)]],
                                  constant float &alpha [[buffer(0)]])
 {
-    constexpr sampler textureSampler (mag_filter::linear, min_filter::linear, mip_filter::linear);
+    constexpr sampler textureSampler (mag_filter::linear, min_filter::linear);
     float4 colorSample = imageTexture.sample(textureSampler, in.textureCoordinate);
     colorSample.a *= alpha;
     return colorSample;

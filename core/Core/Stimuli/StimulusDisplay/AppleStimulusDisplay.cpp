@@ -24,13 +24,13 @@ using namespace mw::aapl_math_utilities;
                               error:(__autoreleasing NSError **)error;
 
 - (instancetype)initWithCommandQueue:(id<MTLCommandQueue>)commandQueue
-                       pipelineState:(id<MTLRenderPipelineState>)pipelineState;
+                 renderPipelineState:(id<MTLRenderPipelineState>)renderPipelineState;
 
 @end
 
 
 @implementation MWKStimulusDisplayViewDelegate {
-    id<MTLRenderPipelineState> _pipelineState;
+    id<MTLRenderPipelineState> _renderPipelineState;
 }
 
 
@@ -56,28 +56,28 @@ using namespace mw::aapl_math_utilities;
         return nil;
     }
     
-    MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-    pipelineStateDescriptor.vertexFunction = vertexFunction;
-    pipelineStateDescriptor.fragmentFunction = fragmentFunction;
-    pipelineStateDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
+    MTLRenderPipelineDescriptor *renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+    renderPipelineDescriptor.vertexFunction = vertexFunction;
+    renderPipelineDescriptor.fragmentFunction = fragmentFunction;
+    renderPipelineDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat;
     
-    id<MTLRenderPipelineState> pipelineState = [view.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor
-                                                                                           error:error];
-    if (!pipelineState) {
+    id<MTLRenderPipelineState> renderPipelineState = [view.device newRenderPipelineStateWithDescriptor:renderPipelineDescriptor
+                                                                                                 error:error];
+    if (!renderPipelineState) {
         return nil;
     }
     
-    return [[self alloc] initWithCommandQueue:[view.device newCommandQueue] pipelineState:pipelineState];
+    return [[self alloc] initWithCommandQueue:[view.device newCommandQueue] renderPipelineState:renderPipelineState];
 }
 
 
 - (instancetype)initWithCommandQueue:(id<MTLCommandQueue>)commandQueue
-                       pipelineState:(id<MTLRenderPipelineState>)pipelineState
+                 renderPipelineState:(id<MTLRenderPipelineState>)renderPipelineState
 {
     self = [super init];
     if (self) {
         _commandQueue = commandQueue;
-        _pipelineState = pipelineState;
+        _renderPipelineState = renderPipelineState;
     }
     return self;
 }
@@ -90,19 +90,21 @@ using namespace mw::aapl_math_utilities;
 
 - (void)drawInMTKView:(MTKView *)view {
     MTLRenderPassDescriptor *renderPassDescriptor = view.currentRenderPassDescriptor;
-    if (renderPassDescriptor) {
-        id<MTLCommandBuffer> commandBuffer = [self.commandQueue commandBuffer];
-        id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
-        
-        [renderEncoder setRenderPipelineState:_pipelineState];
-        [renderEncoder setFragmentTexture:self.texture atIndex:0];
-        
-        [renderEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
-        
-        [renderEncoder endEncoding];
-        [commandBuffer presentDrawable:view.currentDrawable];
-        [commandBuffer commit];
+    if (!renderPassDescriptor) {
+        return;
     }
+    renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionDontCare;
+    
+    id<MTLCommandBuffer> commandBuffer = [self.commandQueue commandBuffer];
+    id<MTLRenderCommandEncoder> renderCommandEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+    
+    [renderCommandEncoder setRenderPipelineState:_renderPipelineState];
+    [renderCommandEncoder setFragmentTexture:self.texture atIndex:0];
+    [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
+    
+    [renderCommandEncoder endEncoding];
+    [commandBuffer presentDrawable:view.currentDrawable];
+    [commandBuffer commit];
 }
 
 
@@ -248,10 +250,10 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
             {
                 MTLClearColor clearColor;
                 getBackgroundColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
-                MTLRenderPassDescriptor *renderPassDescriptor = createMetalRenderPassDescriptor(MTLLoadActionClear);
+                auto renderPassDescriptor = createMetalRenderPassDescriptor(MTLLoadActionClear);
                 renderPassDescriptor.colorAttachments[0].clearColor = clearColor;
-                id<MTLRenderCommandEncoder> renderEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
-                [renderEncoder endEncoding];
+                auto renderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+                [renderCommandEncoder endEncoding];
             }
             
             auto sharedThis = shared_from_this();

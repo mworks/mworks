@@ -27,6 +27,7 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit ImageFileStimulus(const ParameterValueMap &parameters);
+    ~ImageFileStimulus();
     
     Datum getCurrentAnnounceDrawData() override;
     
@@ -34,7 +35,8 @@ private:
     void loadMetal(MetalDisplay &display) override;
     void unloadMetal(MetalDisplay &display) override;
     
-    double getAspectRatio() const override;
+    double getCurrentAspectRatio() const override;
+    id<MTLTexture> getCurrentTexture() const override;
     
     const VariablePtr path;
     const bool announceLoad;
@@ -44,6 +46,8 @@ private:
     
     std::size_t width;
     std::size_t height;
+    
+    id<MTLTexture> texture;
     
 };
 

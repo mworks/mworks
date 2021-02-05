@@ -30,16 +30,26 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit PythonImage(const ParameterValueMap &parameters);
+    ~PythonImage();
     
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    enum class Format {
+        RGB8,
+        RGBA8,
+        RGBA16F
+    };
+    
+    void loadMetal(MetalDisplay &display) override;
+    void unloadMetal(MetalDisplay &display) override;
+    
+    bool prepareCurrentTexture(MetalDisplay &display) override;
+    
+    double getCurrentAspectRatio() const override;
+    id<MTLTexture> getCurrentTexture() const override;
     
     void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
-    
-    double getAspectRatio() const override;
     
     const VariablePtr pixelBufferFormat;
     const VariablePtr pixelBufferWidth;
@@ -49,15 +59,19 @@ private:
     
     PythonStringEvaluator pixelBufferExprEvaluator;
     
-    std::string format;
+    std::string formatName;
+    Format format;
     int width;
     int height;
     std::size_t expectedBytes;
     
-    GLenum textureFormat = 0;
-    GLint textureInternalFormat = 0;
-    GLenum textureDataType = 0;
-    GLint textureDataAlignment = 0;
+    static constexpr std::size_t texturePoolSize = 3;
+    dispatch_semaphore_t texturePoolSemaphore;
+    NSUInteger textureBytesPerRow;
+    NSArray<id<MTLTexture>> *texturePool;
+    std::size_t currentTextureIndex;
+    
+    std::unique_ptr<std::uint8_t[]> rgbaData;
     
 };
 

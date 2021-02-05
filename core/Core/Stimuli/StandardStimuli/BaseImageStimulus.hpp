@@ -17,17 +17,16 @@ BEGIN_NAMESPACE_MW
 class BaseImageStimulus : public AlphaBlendedTransformStimulus {
     
 public:
-    explicit BaseImageStimulus(const ParameterValueMap &parameters);
-    ~BaseImageStimulus();
+    using AlphaBlendedTransformStimulus::AlphaBlendedTransformStimulus;
     
 protected:
     void loadMetal(MetalDisplay &display) override;
-    void unloadMetal(MetalDisplay &display) override;
     void drawMetal(MetalDisplay &display) override;
     
-    virtual double getAspectRatio() const = 0;
+    virtual bool prepareCurrentTexture(MetalDisplay &display) { return true; }
     
-    id<MTLTexture> texture;
+    virtual double getCurrentAspectRatio() const = 0;
+    virtual id<MTLTexture> getCurrentTexture() const = 0;
     
 };
 

@@ -11,19 +11,6 @@
 BEGIN_NAMESPACE_MW
 
 
-BaseImageStimulus::BaseImageStimulus(const ParameterValueMap &parameters) :
-    AlphaBlendedTransformStimulus(parameters),
-    texture(nil)
-{ }
-
-
-BaseImageStimulus::~BaseImageStimulus() {
-    @autoreleasepool {
-        texture = nil;
-    }
-}
-
-
 void BaseImageStimulus::loadMetal(MetalDisplay &display) {
     AlphaBlendedTransformStimulus::loadMetal(display);
     
@@ -35,24 +22,21 @@ void BaseImageStimulus::loadMetal(MetalDisplay &display) {
 }
 
 
-void BaseImageStimulus::unloadMetal(MetalDisplay &display) {
-    texture = nil;
-    
-    AlphaBlendedTransformStimulus::unloadMetal(display);
-}
-
-
 void BaseImageStimulus::drawMetal(MetalDisplay &display) {
     AlphaBlendedTransformStimulus::drawMetal(display);
+    
+    if (!prepareCurrentTexture(display)) {
+        return;
+    }
     
     auto renderCommandEncoder = createRenderCommandEncoder(display);
     [renderCommandEncoder setRenderPipelineState:renderPipelineState];
     
-    float aspectRatio = (fullscreen ? 1.0 : getAspectRatio());
-    setVertexBytes(renderCommandEncoder, aspectRatio, 0);
+    float currentAspectRatio = (fullscreen ? 1.0 : getCurrentAspectRatio());
+    setVertexBytes(renderCommandEncoder, currentAspectRatio, 0);
     setCurrentMVPMatrix(display, renderCommandEncoder, 1);
     
-    [renderCommandEncoder setFragmentTexture:texture atIndex:0];
+    [renderCommandEncoder setFragmentTexture:getCurrentTexture() atIndex:0];
     float currentAlpha = current_alpha;
     setFragmentBytes(renderCommandEncoder, currentAlpha, 0);
     
