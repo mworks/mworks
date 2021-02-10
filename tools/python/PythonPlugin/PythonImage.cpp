@@ -78,6 +78,8 @@ Datum PythonImage::getCurrentAnnounceDrawData() {
 
 
 void PythonImage::loadMetal(MetalDisplay &display) {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
     BaseImageStimulus::loadMetal(display);
     
     //
@@ -156,6 +158,8 @@ void PythonImage::loadMetal(MetalDisplay &display) {
 
 
 void PythonImage::unloadMetal(MetalDisplay &display) {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
     rgbaData.reset();
     texturePool = nil;
     texturePoolSemaphore = nil;

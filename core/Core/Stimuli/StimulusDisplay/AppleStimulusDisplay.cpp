@@ -327,9 +327,9 @@ void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view, MWKOpenGLConte
     {
         CVMetalTextureCacheRef _cvMetalTextureCache = nullptr;
         auto status = CVMetalTextureCacheCreate(kCFAllocatorDefault,
-                                                nil,
+                                                nullptr,
                                                 view.device,
-                                                nil,
+                                                nullptr,
                                                 &_cvMetalTextureCache);
         if (status != kCVReturnSuccess) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
@@ -342,17 +342,17 @@ void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view, MWKOpenGLConte
 #if TARGET_OS_OSX
         CVOpenGLTextureCacheRef _cvOpenGLTextureCache = nullptr;
         auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
-                                                 nil,
+                                                 nullptr,
                                                  context.CGLContextObj,
                                                  context.pixelFormat.CGLPixelFormatObj,
-                                                 nil,
+                                                 nullptr,
                                                  &_cvOpenGLTextureCache);
 #else
         CVOpenGLESTextureCacheRef _cvOpenGLTextureCache = nullptr;
         auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
-                                                   nil,
+                                                   nullptr,
                                                    context,
-                                                   nil,
+                                                   nullptr,
                                                    &_cvOpenGLTextureCache);
 #endif
         if (status != kCVReturnSuccess) {
@@ -384,7 +384,7 @@ int AppleStimulusDisplay::createFramebuffer() {
         auto status = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                                 cvMetalTextureCache.get(),
                                                                 framebuffer.cvPixelBuffer.get(),
-                                                                nil,
+                                                                nullptr,
                                                                 getMetalFramebufferTexturePixelFormat(),
                                                                 framebufferWidth,
                                                                 framebufferHeight,
@@ -403,14 +403,14 @@ int AppleStimulusDisplay::createFramebuffer() {
         auto status = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                                  cvOpenGLTextureCache.get(),
                                                                  framebuffer.cvPixelBuffer.get(),
-                                                                 nil,
+                                                                 nullptr,
                                                                  &_cvOpenGLTexture);
 #else
         CVOpenGLESTextureRef _cvOpenGLTexture = nullptr;
         auto status = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                                    cvOpenGLTextureCache.get(),
                                                                    framebuffer.cvPixelBuffer.get(),
-                                                                   nil,
+                                                                   nullptr,
                                                                    GL_TEXTURE_2D,
                                                                    GL_RGBA16F,
                                                                    framebufferWidth,

@@ -33,6 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E12F528E25D6CE8D00382270 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E12F528D25D6CE8D00382270 /* Metal.framework */; };
 		E14D7C531D95AEBE00748503 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E14D7C521D95AEBE00748503 /* AVFoundation.framework */; };
 		E14D7C551D95B1C200748503 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E14D7C541D95B1C200748503 /* CoreVideo.framework */; };
 		E1556E151D945DA700AE70F9 /* VideoStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */; };
@@ -45,7 +46,6 @@
 		E17B66801FD9966700941E70 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17B667F1FD9966700941E70 /* CoreImage.framework */; };
 		E17B66821FD9972400941E70 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17B66811FD9972400941E70 /* CoreGraphics.framework */; };
 		E1E780101D9D7CC400A04814 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */; };
-		E1FAA1A31D9977A100BA5D9B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FAA1A21D9977A100BA5D9B /* OpenGL.framework */; };
 		E1FAA1A51D99BB9400BA5D9B /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FAA1A41D99BB9400BA5D9B /* libboost_filesystem.a */; };
 /* End PBXBuildFile section */
 
@@ -80,14 +80,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E12F528D25D6CE8D00382270 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		E14D7C521D95AEBE00748503 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E14D7C541D95B1C200748503 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E1556E061D945BD600AE70F9 /* VideoStimulus.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoStimulus.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1556E091D945BD600AE70F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoStimulusPlugin.cpp; sourceTree = "<group>"; };
+		E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = VideoStimulusPlugin.cpp; sourceTree = "<group>"; };
 		E1556E171D945E6800AE70F9 /* VideoStimulus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VideoStimulus-Prefix.pch"; sourceTree = "<group>"; };
 		E1556E191D945F6000AE70F9 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoStimulus.cpp; sourceTree = "<group>"; };
+		E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = VideoStimulus.cpp; sourceTree = "<group>"; };
 		E1556E2B1D9463B400AE70F9 /* VideoStimulus.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VideoStimulus.hpp; sourceTree = "<group>"; };
 		E15C72D81E6DFBF5001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72D91E6DFBF5001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
@@ -98,7 +99,6 @@
 		E17B667F1FD9966700941E70 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		E17B66811FD9972400941E70 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		E1FAA1A21D9977A100BA5D9B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E1FAA1A41D99BB9400BA5D9B /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -113,7 +113,7 @@
 				E17B66801FD9966700941E70 /* CoreImage.framework in Frameworks */,
 				E1E780101D9D7CC400A04814 /* CoreMedia.framework in Frameworks */,
 				E14D7C551D95B1C200748503 /* CoreVideo.framework in Frameworks */,
-				E1FAA1A31D9977A100BA5D9B /* OpenGL.framework in Frameworks */,
+				E12F528E25D6CE8D00382270 /* Metal.framework in Frameworks */,
 				E1FAA1A51D99BB9400BA5D9B /* libboost_filesystem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,7 +189,7 @@
 				E17B667F1FD9966700941E70 /* CoreImage.framework */,
 				E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */,
 				E14D7C541D95B1C200748503 /* CoreVideo.framework */,
-				E1FAA1A21D9977A100BA5D9B /* OpenGL.framework */,
+				E12F528D25D6CE8D00382270 /* Metal.framework */,
 				E1FAA1A41D99BB9400BA5D9B /* libboost_filesystem.a */,
 			);
 			name = Frameworks;
@@ -354,7 +354,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E15C72D91E6DFBF5001CE0C0 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VideoStimulus/VideoStimulus-Prefix.pch";
 				INFOPLIST_FILE = VideoStimulus/Info.plist;
@@ -383,7 +382,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E15C72D81E6DFBF5001CE0C0 /* iOS_Plugin.xcconfig */;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VideoStimulus/VideoStimulus-Prefix.pch";
 				INFOPLIST_FILE = "VideoStimulus/Info-iOS.plist";
@@ -400,7 +398,7 @@
 					"-framework",
 					CoreVideo,
 					"-framework",
-					OpenGLES,
+					Metal,
 					"-lboost_filesystem",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.VideoStimulus-iOS";

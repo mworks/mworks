@@ -30,6 +30,10 @@ public:
 protected:
     using MetalDisplay = AppleStimulusDisplay;
     
+    static MetalDisplay & getMetalDisplay(const boost::shared_ptr<StimulusDisplay> &display) {
+        return *(boost::dynamic_pointer_cast<MetalDisplay>(display));
+    }
+    
     static id<MTLLibrary> loadDefaultLibrary(MetalDisplay &display, NSBundle *bundle);
     static id<MTLFunction> loadShaderFunction(id<MTLLibrary> library, const std::string &name);
     static id<MTLFunction> loadShaderFunction(id<MTLLibrary> library,
@@ -57,10 +61,6 @@ protected:
     virtual void drawMetal(MetalDisplay &display) { }
     
 private:
-    static MetalDisplay & getMetalDisplay(const boost::shared_ptr<StimulusDisplay> &display) {
-        return *(boost::dynamic_pointer_cast<AppleStimulusDisplay>(display));
-    }
-    
     using lock_guard = std::lock_guard<std::mutex>;
     lock_guard::mutex_type mutex;
     

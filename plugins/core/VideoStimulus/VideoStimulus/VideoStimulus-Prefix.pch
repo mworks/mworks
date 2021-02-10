@@ -14,22 +14,22 @@
 #include <MWorksCore/CFObjectPtr.h>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardDynamicStimulus.h>
-#include <MWorksCore/StandardStimuli.h>
 #include <MWorksCore/StandardStimulusFactory.h>
 
-#if TARGET_OS_IPHONE
-#  include <MWorksCore/IOSStimulusDisplay.hpp>
-#else
-#  include <MWorksCore/MacOSStimulusDisplay.h>
-#endif
+#ifdef __OBJC__
+#  include <MWorksCore/BaseImageStimulus.hpp>
+#  if TARGET_OS_IPHONE
+#    include <MWorksCore/IOSStimulusDisplay.hpp>
+#  else
+#    include <MWorksCore/MacOSStimulusDisplay.h>
+#  endif
+#endif /* defined(__OBJC__) */
 
 #endif /* defined(__cplusplus) */
 
 #ifdef __OBJC__
-
-#import <AVFoundation/AVFoundation.h>
-#import <CoreImage/CoreImage.h>
-
-#endif /* defined(__OBJC__) */
+#  include <AVFoundation/AVFoundation.h>
+#  include <CoreImage/CoreImage.h>
+#endif
 
 #endif /* VideoStimulus_Prefix_pch */
