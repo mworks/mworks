@@ -39,8 +39,10 @@
 		E12A26FD1201E31400CE8C55 /* MovingDots.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* MovingDots.bundle */; };
 		E15C729E1E6DD2EC001CE0C0 /* MovingDots.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* MovingDots.cpp */; };
 		E15C729F1E6DD2EF001CE0C0 /* MovingDotsPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */; };
+		E1A5A05925E6A358007B345D /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A5A05825E6A358007B345D /* Metal.framework */; };
+		E1A5A06B25E805AE007B345D /* MovingDots.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1A5A06A25E805AE007B345D /* MovingDots.metal */; };
+		E1A5A06C25E805AE007B345D /* MovingDots.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1A5A06A25E805AE007B345D /* MovingDots.metal */; };
 		E1E07E9D1C04F2B0008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E9C1C04F2B0008DD97E /* MWComponents.yaml */; };
-		E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,9 +77,9 @@
 
 /* Begin PBXFileReference section */
 		32DBCF630370AF2F00C91783 /* MovingDots_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingDots_Prefix.pch; sourceTree = "<group>"; };
-		5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingDotsPlugin.cpp; sourceTree = SOURCE_ROOT; };
+		5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MovingDotsPlugin.cpp; sourceTree = SOURCE_ROOT; };
 		5CFE59180F571B15000C7F30 /* MovingDots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingDots.h; sourceTree = SOURCE_ROOT; };
-		5CFE59190F571B15000C7F30 /* MovingDots.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingDots.cpp; sourceTree = SOURCE_ROOT; };
+		5CFE59190F571B15000C7F30 /* MovingDots.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MovingDots.cpp; sourceTree = SOURCE_ROOT; };
 		8D5B49B6048680CD000E48DA /* MovingDots.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovingDots.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* MovingDots-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MovingDots-Info.plist"; sourceTree = "<group>"; };
 		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
@@ -86,8 +88,9 @@
 		E15C72911E6DCFF8001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E15C72971E6DD121001CE0C0 /* MovingDots.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovingDots.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C729A1E6DD121001CE0C0 /* MovingDots-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MovingDots-iOS-Info.plist"; sourceTree = "<group>"; };
+		E1A5A05825E6A358007B345D /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		E1A5A06A25E805AE007B345D /* MovingDots.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MovingDots.metal; sourceTree = "<group>"; };
 		E1E07E9C1C04F2B0008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
-		E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +99,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */,
-				E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */,
+				E1A5A05925E6A358007B345D /* Metal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,19 +121,19 @@
 				E16263591403F73F000F89CB /* Editor Definitions */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
+				089C1671FE841209C02AAC07 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
 			name = MovingDots;
 			sourceTree = "<group>";
 		};
-		089C1671FE841209C02AAC07 /* Frameworks & Libraries */ = {
+		089C1671FE841209C02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				BFBFB0D510446C180019216B /* MWorksCore.framework */,
-				E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */,
+				E1A5A05825E6A358007B345D /* Metal.framework */,
 			);
-			name = "Frameworks & Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		089C167CFE841241C02AAC07 /* Resources */ = {
@@ -147,6 +150,7 @@
 			children = (
 				5CFE59180F571B15000C7F30 /* MovingDots.h */,
 				5CFE59190F571B15000C7F30 /* MovingDots.cpp */,
+				E1A5A06A25E805AE007B345D /* MovingDots.metal */,
 				5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */,
 			);
 			name = Classes;
@@ -307,6 +311,7 @@
 			files = (
 				5CFE591A0F571B15000C7F30 /* MovingDots.cpp in Sources */,
 				5CF9AEBC0FD5795C00F405F6 /* MovingDotsPlugin.cpp in Sources */,
+				E1A5A06B25E805AE007B345D /* MovingDots.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +321,7 @@
 			files = (
 				E15C729F1E6DD2EF001CE0C0 /* MovingDotsPlugin.cpp in Sources */,
 				E15C729E1E6DD2EC001CE0C0 /* MovingDots.cpp in Sources */,
+				E1A5A06C25E805AE007B345D /* MovingDots.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,7 +385,7 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
-					OpenGLES,
+					Metal,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MovingDots-iOS";
 				PRODUCT_NAME = MovingDots;

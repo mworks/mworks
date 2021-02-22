@@ -1,0 +1,40 @@
+var field_radius = 5.0
+var field_center_x = 0.0
+var field_center_y = 0.0
+var dot_density = 12.732
+var dot_size = 0.1
+var direction = 45.0
+var color_red = 1.0
+var color_green = 1.0
+var color_blue = 1.0
+var alpha_multiplier = 1.0
+var speed = 1.0
+var coherence = 0.9
+var lifetime = 2.0
+var max_num_dots = 4000
+var announce_dots = false
+
+
+moving_dots dots (
+    field_radius = field_radius
+    field_center_x = field_center_x
+    field_center_y = field_center_y
+    dot_density = dot_density
+    dot_size = dot_size
+    color = color_red, color_green, color_blue
+    alpha_multiplier = alpha_multiplier
+    direction = direction
+    speed = speed
+    coherence = coherence
+    lifetime = lifetime
+    max_num_dots = max_num_dots
+    announce_dots = announce_dots
+    autoplay = true
+    )
+
+
+protocol {
+    live_queue_stimulus (dots)
+    update_display ()
+    wait (60s)
+}

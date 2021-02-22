@@ -7,15 +7,18 @@
  *
  */
 
-#ifndef MovingDots_H_
-#define MovingDots_H_
+#ifndef MovingDots_h
+#define MovingDots_h
 
 
 BEGIN_NAMESPACE_MW
 
 
-class MovingDots : public StandardDynamicStimulus {
+using MovingDotsBase = DynamicStimulusBase<MetalStimulus>;
 
+
+class MovingDots : public MovingDotsBase {
+    
 public:
     static const std::string FIELD_RADIUS;
     static const std::string FIELD_CENTER_X;
@@ -28,96 +31,96 @@ public:
     static const std::string SPEED;
     static const std::string COHERENCE;
     static const std::string LIFETIME;
-    static const std::string ANNOUNCE_DOTS;
     static const std::string RAND_SEED;
+    static const std::string MAX_NUM_DOTS;
+    static const std::string ANNOUNCE_DOTS;
     
     static void describeComponent(ComponentInfo &info);
-
+    
     explicit MovingDots(const ParameterValueMap &parameters);
+    ~MovingDots();
     
-    RenderingMode getRenderingMode() const override { return RenderingMode::OpenGL; }
-    
-    void load(shared_ptr<StimulusDisplay> display) override;
-    void unload(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    static constexpr GLint componentsPerDot = 2;
-    
-    bool computeNumDots(double &newFieldRadius, GLint &newNumDots) const;
-    void updateParameters();
-    void updateDots();
-    void advanceDot(GLint i, GLfloat dt, GLfloat dr);
-    void replaceDot(GLint i, GLfloat direction, GLfloat age);
-    
-    void drawFrame(shared_ptr<StimulusDisplay> display) override;
-    void stopPlaying() override;
-    
-    GLfloat rand(GLfloat min, GLfloat max) {
-        const boost::uniform_real<GLfloat> randDist(min, max);
-        boost::variate_generator< boost::mt19937&, boost::uniform_real<GLfloat> > randVar(randGen, randDist);
-        return randVar();
+    static constexpr std::size_t getDotPositionsSize(std::size_t numDots) {
+        return numDots * sizeof(decltype(dotPositions)::element_type);
     }
     
-    GLfloat& getX(GLint i) { return dotPositions[i*componentsPerDot]; }
-    GLfloat& getY(GLint i) { return dotPositions[i*componentsPerDot + 1]; }
-    GLfloat& getDirection(GLint i) { return dotDirections[i]; }
-    GLfloat& getAge(GLint i) { return dotAges[i]; }
+    void loadMetal(MetalDisplay &display) override;
+    void unloadMetal(MetalDisplay &display) override;
+    void drawMetal(MetalDisplay &display) override;
     
-    GLfloat newDirection(GLfloat coherence) {
+    void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
+    
+    void startPlaying() override;
+    
+    bool computeNumDots(double &newFieldRadius, double &newDotDensity, std::size_t &newNumDots) const;
+    bool updateParameters();
+    void updateDots();
+    void advanceDot(std::size_t i, float dr);
+    void replaceDot(std::size_t i, float direction, float age);
+    
+    float rand(float min, float max) {
+        return randDist(randGen, decltype(randDist)::param_type(min, max));
+    }
+    
+    float newDirection(float coherence) {
         if ((coherence == 0.0f) || ((coherence != 1.0f) && (rand(0.0f, 1.0f) > coherence))) {
-            return rand(0.0f, 360.0f);
+            return rand(0.0f, 2.0f * M_PI);
         }
         return 0.0f;
     }
     
-    GLfloat newAge(GLfloat lifetime) {
+    float newAge(float lifetime) {
         if (lifetime != 0.0f) {
             return rand(0.0f, lifetime);
         }
         return 0.0f;
     }
     
-    static const std::string vertexShaderSource;
-    static const std::string fragmentShaderSource;
+    const VariablePtr fieldRadius;
+    const VariablePtr fieldCenterX;
+    const VariablePtr fieldCenterY;
+    const VariablePtr dotDensity;
+    const VariablePtr dotSize;
+    VariablePtr red;
+    VariablePtr green;
+    VariablePtr blue;
+    const VariablePtr alpha;
+    const VariablePtr direction;
+    const VariablePtr speed;
+    const VariablePtr coherence;
+    const VariablePtr lifetime;
+    const VariablePtr randSeed;
+    const VariablePtr maxNumDots;
+    const VariablePtr announceDots;
     
-    shared_ptr<Variable> fieldRadius;
-    shared_ptr<Variable> fieldCenterX;
-    shared_ptr<Variable> fieldCenterY;
-    shared_ptr<Variable> dotDensity;
-    shared_ptr<Variable> dotSize;
-    shared_ptr<Variable> red;
-    shared_ptr<Variable> green;
-    shared_ptr<Variable> blue;
-    shared_ptr<Variable> alpha;
-    shared_ptr<Variable> direction;
-    shared_ptr<Variable> speed;
-    shared_ptr<Variable> coherence;
-    shared_ptr<Variable> lifetime;
-    shared_ptr<Variable> announceDots;
-    MWTime randSeed;
+    std::size_t currentMaxNumDots;
+    std::unique_ptr<simd::float2[]> dotPositions;
+    std::unique_ptr<float[]> dotDirections;
+    std::unique_ptr<float[]> dotAges;
     
-    GLfloat previousFieldRadius, currentFieldRadius;
-    GLint previousNumDots, currentNumDots;
-    GLfloat previousSpeed, currentSpeed;
-    GLfloat previousCoherence, currentCoherence;
-    GLfloat previousLifetime, currentLifetime;
+    MWTime currentRandSeed;
+    std::mt19937 randGen;
+    std::uniform_real_distribution<float> randDist;
     
-    GLfloat dotSizeToPixels;
-    std::vector<GLfloat> dotPositions;
-    std::vector<GLfloat> dotDirections;
-    std::vector<GLfloat> dotAges;
+    float dotSizeToPixels;
     
-    boost::mt19937 randGen;
+    id<MTLRenderPipelineState> renderPipelineState;
+    MWKTripleBufferedMTLResource<id<MTLBuffer>> *bufferPool;
     
-    MWTime previousTime, currentTime;
+    MWTime currentTime;
+    float currentFieldRadius, currentFieldCenterX, currentFieldCenterY;
+    float currentDotDensity, currentDotSize;
+    float currentRed, currentGreen, currentBlue, currentAlpha;
+    float currentDirection, currentSpeed, currentCoherence, currentLifetime;
+    std::size_t currentNumDots;
     
-    GLuint program = 0;
-    GLint mvpMatrixUniformLocation = -1;
-    GLint pointSizeUniformLocation = -1;
-    GLint colorUniformLocation = -1;
-    GLuint vertexArray = 0;
-    GLuint dotPositionBuffer = 0;
+    MWTime previousTime;
+    float previousFieldRadius;
+    float previousSpeed, previousCoherence, previousLifetime;
+    std::size_t previousNumDots;
     
 };
 
@@ -125,27 +128,4 @@ private:
 END_NAMESPACE_MW
 
 
-#endif 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif /* MovingDots_h */

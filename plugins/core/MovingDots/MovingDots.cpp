@@ -9,6 +9,8 @@
 
 #include "MovingDots.h"
 
+using namespace mw::aapl_math_utilities;
+
 
 BEGIN_NAMESPACE_MW
 
@@ -24,17 +26,16 @@ const std::string MovingDots::DIRECTION("direction");
 const std::string MovingDots::SPEED("speed");
 const std::string MovingDots::COHERENCE("coherence");
 const std::string MovingDots::LIFETIME("lifetime");
-const std::string MovingDots::ANNOUNCE_DOTS("announce_dots");
 const std::string MovingDots::RAND_SEED("rand_seed");
+const std::string MovingDots::MAX_NUM_DOTS("max_num_dots");
+const std::string MovingDots::ANNOUNCE_DOTS("announce_dots");
 
 
 void MovingDots::describeComponent(ComponentInfo &info) {
-    StandardDynamicStimulus::describeComponent(info);
+    MovingDotsBase::describeComponent(info);
     
     info.setSignature("stimulus/moving_dots");
-    info.setDisplayName("Moving Dots");
-    info.setDescription("A moving dots stimulus.");
-
+    
     info.addParameter(FIELD_RADIUS);
     info.addParameter(FIELD_CENTER_X, "0.0");
     info.addParameter(FIELD_CENTER_Y, "0.0");
@@ -46,13 +47,14 @@ void MovingDots::describeComponent(ComponentInfo &info) {
     info.addParameter(SPEED);
     info.addParameter(COHERENCE, "1.0");
     info.addParameter(LIFETIME, "0.0");
-    info.addParameter(ANNOUNCE_DOTS, "0");
     info.addParameter(RAND_SEED, false);
+    info.addParameter(MAX_NUM_DOTS, false);
+    info.addParameter(ANNOUNCE_DOTS, "NO");
 }
 
 
 MovingDots::MovingDots(const ParameterValueMap &parameters) :
-    StandardDynamicStimulus(parameters),
+    MovingDotsBase(parameters),
     fieldRadius(registerVariable(parameters[FIELD_RADIUS])),
     fieldCenterX(registerVariable(parameters[FIELD_CENTER_X])),
     fieldCenterY(registerVariable(parameters[FIELD_CENTER_Y])),
@@ -63,142 +65,246 @@ MovingDots::MovingDots(const ParameterValueMap &parameters) :
     speed(registerVariable(parameters[SPEED])),
     coherence(registerVariable(parameters[COHERENCE])),
     lifetime(registerVariable(parameters[LIFETIME])),
+    randSeed(optionalVariable(parameters[RAND_SEED])),
+    maxNumDots(optionalVariable(parameters[MAX_NUM_DOTS])),
     announceDots(parameters[ANNOUNCE_DOTS]),
-    previousFieldRadius(1.0f),
-    currentFieldRadius(1.0f),
-    previousNumDots(0),
-    currentNumDots(0),
-    previousSpeed(0.0f),
-    currentSpeed(0.0f),
-    previousCoherence(1.0f),
-    currentCoherence(1.0f),
-    previousLifetime(0.0f),
-    currentLifetime(0.0f),
-    dotSizeToPixels(0.0f),
-    previousTime(-1),
-    currentTime(-1)
+    renderPipelineState(nil),
+    bufferPool(nil)
 {
     ParsedColorTrio color(parameters[COLOR]);
     red = registerVariable(color.getR());
     green = registerVariable(color.getG());
     blue = registerVariable(color.getB());
-    
-    if (parameters[RAND_SEED].empty()) {
-        randSeed = Clock::instance()->getSystemTimeNS();
-    } else {
-        randSeed = MWTime(parameters[RAND_SEED]);
-    }
-    randGen.seed(randSeed);
 }
 
 
-void MovingDots::load(shared_ptr<StimulusDisplay> display) {
-    if (loaded)
-        return;
-    
-    auto ctxLock = display->setCurrent(0);
-    
-    double xMin, xMax, yMin, yMax;
-    display->getDisplayBounds(xMin, xMax, yMin, yMax);
-    GLint width, height;
-    gl::getCurrentViewportSize(width, height);
-    dotSizeToPixels = double(width) / (xMax - xMin);
-    
-    auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
-    auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-    program = gl::createProgram({ vertexShader.get(), fragmentShader.get() }).release();
-    gl::ProgramUsage programUsage(program);
-    
-    mvpMatrixUniformLocation = glGetUniformLocation(program, "mvpMatrix");
-    pointSizeUniformLocation = glGetUniformLocation(program, "pointSize");
-    colorUniformLocation = glGetUniformLocation(program, "color");
-    
-    glGenVertexArrays(1, &vertexArray);
-    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
-    
-    glGenBuffers(1, &dotPositionBuffer);
-    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(dotPositionBuffer);
-    {
-        // Attempt to provide initial data for the dot position buffer, in hopes that this will
-        // force the driver and/or GPU to allocate memory for it now, at load time, rather than
-        // on first use
-        double newFieldRadius = 0.0;
-        GLint newNumDots = 0;
-        if (computeNumDots(newFieldRadius, newNumDots)) {
-            dotPositions.assign(newNumDots * componentsPerDot, 0.0f);
-            glBufferData(GL_ARRAY_BUFFER,
-                         dotPositions.size() * sizeof(decltype(dotPositions)::value_type),
-                         dotPositions.data(),
-                         GL_STREAM_DRAW);
-        }
+MovingDots::~MovingDots() {
+    @autoreleasepool {
+        bufferPool = nil;
+        renderPipelineState = nil;
     }
-    GLint dotPositionAttribLocation = glGetAttribLocation(program, "dotPosition");
-    glEnableVertexAttribArray(dotPositionAttribLocation);
-    glVertexAttribPointer(dotPositionAttribLocation, componentsPerDot, GL_FLOAT, GL_FALSE, 0, nullptr);
-    
-    StandardDynamicStimulus::load(display);
-}
-
-
-void MovingDots::unload(shared_ptr<StimulusDisplay> display) {
-    if (!loaded)
-        return;
-    
-    auto ctxLock = display->setCurrent(0);
-    
-    glDeleteBuffers(1, &dotPositionBuffer);
-    glDeleteVertexArrays(1, &vertexArray);
-    glDeleteProgram(program);
-    
-    StandardDynamicStimulus::unload(display);
 }
 
 
 Datum MovingDots::getCurrentAnnounceDrawData() {
     boost::mutex::scoped_lock locker(stim_lock);
     
-    Datum announceData = StandardDynamicStimulus::getCurrentAnnounceDrawData();
+    auto announceData = MovingDotsBase::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "moving_dots");
     announceData.addElement(FIELD_RADIUS, currentFieldRadius);
-    announceData.addElement(FIELD_CENTER_X, fieldCenterX->getValue().getFloat());
-    announceData.addElement(FIELD_CENTER_Y, fieldCenterY->getValue().getFloat());
-    announceData.addElement(DOT_DENSITY, dotDensity->getValue().getFloat());
-    announceData.addElement(DOT_SIZE, dotSize->getValue().getFloat());
-    announceData.addElement(STIM_COLOR_R, red->getValue().getFloat());
-    announceData.addElement(STIM_COLOR_G, green->getValue().getFloat());
-    announceData.addElement(STIM_COLOR_B, blue->getValue().getFloat());
-    announceData.addElement(ALPHA_MULTIPLIER, alpha->getValue().getFloat());
-    announceData.addElement(DIRECTION, direction->getValue().getFloat());
+    announceData.addElement(FIELD_CENTER_X, currentFieldCenterX);
+    announceData.addElement(FIELD_CENTER_Y, currentFieldCenterY);
+    announceData.addElement(DOT_DENSITY, currentDotDensity);
+    announceData.addElement(DOT_SIZE, currentDotSize);
+    announceData.addElement(STIM_COLOR_R, currentRed);
+    announceData.addElement(STIM_COLOR_G, currentGreen);
+    announceData.addElement(STIM_COLOR_B, currentBlue);
+    announceData.addElement(ALPHA_MULTIPLIER, currentAlpha);
+    announceData.addElement(DIRECTION, currentDirection);
     announceData.addElement(SPEED, currentSpeed);
     announceData.addElement(COHERENCE, currentCoherence);
     announceData.addElement(LIFETIME, currentLifetime);
-    announceData.addElement("num_dots", long(currentNumDots));
-    announceData.addElement(RAND_SEED, randSeed);
+    announceData.addElement(RAND_SEED, currentRandSeed);
     
+    announceData.addElement("num_dots", long(currentNumDots));
     if (announceDots->getValue().getBool()) {
-        Datum dotsData(reinterpret_cast<char *>(&(dotPositions[0])), dotPositions.size() * sizeof(GLfloat));
-        announceData.addElement("dots", dotsData);
+        Datum dotsData(reinterpret_cast<char *>(dotPositions.get()), getDotPositionsSize(currentNumDots));
+        announceData.addElement("dots", std::move(dotsData));
     }
     
     return announceData;
 }
 
 
-bool MovingDots::computeNumDots(double &newFieldRadius, GLint &newNumDots) const {
+void MovingDots::loadMetal(MetalDisplay &display) {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    //
+    // Determine maximum number of dots
+    //
+    {
+        if (maxNumDots) {
+            currentMaxNumDots = maxNumDots->getValue().getInteger();
+            if (currentMaxNumDots < 1) {
+                throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Maximum number of dots must be greater than zero");
+            }
+        } else {
+            double newFieldRadius = 0.0;
+            double newDotDensity = 0.0;
+            if (!computeNumDots(newFieldRadius, newDotDensity, currentMaxNumDots)) {
+                throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot compute maximum number of dots");
+            }
+        }
+        
+        dotPositions.reset(new simd::float2[currentMaxNumDots]);
+        dotDirections.reset(new float[currentMaxNumDots]);
+        dotAges.reset(new float[currentMaxNumDots]);
+    }
+    
+    //
+    // Seed the random number generator
+    //
+    if (randSeed) {
+        currentRandSeed = randSeed->getValue().getInteger();
+    } else {
+        currentRandSeed = Clock::instance()->getSystemTimeNS();
+    }
+    randGen.seed(currentRandSeed);
+    
+    //
+    // Compute conversion from dot size to pixels
+    //
+    {
+        double xMin, xMax, yMin, yMax;
+        display.getDisplayBounds(xMin, xMax, yMin, yMax);
+        dotSizeToPixels = double(display.getMainView().drawableSize.width) / (xMax - xMin);
+    }
+    
+    //
+    // Create render pipeline state
+    //
+    {
+        auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
+        auto vertexFunction = loadShaderFunction(library, "vertexShader");
+        auto fragmentFunction = loadShaderFunction(library, "fragmentShader");
+        
+        auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+        renderPipelineDescriptor.vertexFunction = vertexFunction;
+        renderPipelineDescriptor.fragmentFunction = fragmentFunction;
+        
+        auto colorAttachment = renderPipelineDescriptor.colorAttachments[0];
+        colorAttachment.pixelFormat = display.getMetalFramebufferTexturePixelFormat();
+        colorAttachment.blendingEnabled = YES;
+        colorAttachment.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+        colorAttachment.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+        colorAttachment.sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+        colorAttachment.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+        
+        renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
+    }
+    
+    //
+    // Create buffer pool to employ triple buffering, as recommended in the Metal Best Practices Guide:
+    // https://developer.apple.com/library/archive/documentation/3DDrawing/Conceptual/MTLBestPracticesGuide/TripleBuffering.html
+    //
+    {
+        NSUInteger length = getDotPositionsSize(currentMaxNumDots);
+#if TARGET_OS_OSX
+        MTLResourceOptions options = MTLResourceStorageModeManaged;
+#else
+        MTLResourceOptions options = MTLResourceStorageModeShared;
+#endif
+        
+        bufferPool = [MWKTripleBufferedMTLResource bufferWithDevice:display.getMetalDevice()
+                                                             length:length
+                                                            options:options];
+    }
+}
+
+
+void MovingDots::unloadMetal(MetalDisplay &display) {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    bufferPool = nil;
+    renderPipelineState = nil;
+    
+    dotAges.reset();
+    dotDirections.reset();
+    dotPositions.reset();
+}
+
+
+void MovingDots::drawMetal(MetalDisplay &display) {
+    //
+    // Update dots
+    //
+    
+    currentTime = getElapsedTime();
+    if (previousTime != currentTime) {
+        if (!updateParameters()) {
+            return;
+        }
+        updateDots();
+        previousTime = currentTime;
+    }
+    
+    //
+    // Copy dot positions to the next-available buffer from the pool
+    //
+    
+    auto currentBuffer = [bufferPool acquireWithCommandBuffer:display.getCurrentMetalCommandBuffer()];
+    {
+        NSUInteger length = getDotPositionsSize(currentNumDots);
+        std::memcpy(currentBuffer.contents, dotPositions.get(), length);
+#if TARGET_OS_OSX
+        [currentBuffer didModifyRange:NSMakeRange(0, length)];
+#endif
+    }
+    
+    //
+    // Render dots
+    //
+    
+    auto renderCommandEncoder = createRenderCommandEncoder(display);
+    [renderCommandEncoder setRenderPipelineState:renderPipelineState];
+    
+    [renderCommandEncoder setVertexBuffer:currentBuffer offset:0 atIndex:0];
+    {
+        auto currentMVPMatrix = display.getMetalProjectionMatrix();
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_translation(currentFieldCenterX, currentFieldCenterY, 0.0);
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_scale(currentFieldRadius, currentFieldRadius, 1.0);
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(currentDirection), 0.0, 0.0, 1.0);
+        setVertexBytes(renderCommandEncoder, currentMVPMatrix, 1);
+    }
+    {
+        float pointSize = currentDotSize * dotSizeToPixels;
+        setVertexBytes(renderCommandEncoder, pointSize, 2);
+    }
+    
+    {
+        auto currentColor = simd::make_float4(currentRed, currentGreen, currentBlue, currentAlpha);
+        setFragmentBytes(renderCommandEncoder, currentColor, 0);
+    }
+    
+    [renderCommandEncoder drawPrimitives:MTLPrimitiveTypePoint vertexStart:0 vertexCount:currentNumDots];
+    [renderCommandEncoder endEncoding];
+}
+
+
+void MovingDots::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
+    MetalStimulus::draw(display);
+}
+
+
+void MovingDots::startPlaying() {
+    // With the exception of previousTime, all previous values are overwritten by their
+    // current counterparts before being used, so we need to initialize the latter
+    previousTime = -1;
+    currentFieldRadius = 1.0f;
+    currentSpeed = 0.0f;
+    currentCoherence = 1.0f;
+    currentLifetime = 0.0f;
+    currentNumDots = 0;
+    
+    MovingDotsBase::startPlaying();
+}
+
+
+bool MovingDots::computeNumDots(double &newFieldRadius, double &newDotDensity, std::size_t &newNumDots) const {
     newFieldRadius = fieldRadius->getValue().getFloat();
     if (newFieldRadius <= 0.0) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field radius must be greater than 0");
         return false;
     }
     
-    auto newDotDensity = dotDensity->getValue().getFloat();
+    newDotDensity = dotDensity->getValue().getFloat();
     if (newDotDensity <= 0.0) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field density must be greater than 0");
         return false;
     }
     
-    newNumDots = GLint(boost::math::round(newDotDensity * (M_PI * newFieldRadius * newFieldRadius)));
+    newNumDots = std::size_t(std::round(newDotDensity * (M_PI * newFieldRadius * newFieldRadius)));
     if (newNumDots < 1) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field radius and dot density yield 0 dots");
         return false;
@@ -208,57 +314,79 @@ bool MovingDots::computeNumDots(double &newFieldRadius, GLint &newNumDots) const
 }
 
 
-void MovingDots::updateParameters() {
+bool MovingDots::updateParameters() {
     //
     // Field radius, dot density, and number of dots
     //
     
     double newFieldRadius = 0.0;
-    GLint newNumDots = 0;
-    
-    if (computeNumDots(newFieldRadius, newNumDots)) {
-        previousFieldRadius = currentFieldRadius;
-        currentFieldRadius = newFieldRadius;
-        
-        previousNumDots = currentNumDots;
-        currentNumDots = newNumDots;
+    double newDotDensity = 0.0;
+    std::size_t newNumDots = 0;
+    if (!computeNumDots(newFieldRadius, newDotDensity, newNumDots)) {
+        return false;
+    }
+    if (newNumDots > currentMaxNumDots) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "Current number of dots (%ld) exceeds maximum (%ld).  To resolve this issue, "
+               "set %s to an appropriate value.",
+               newNumDots,
+               currentMaxNumDots,
+               MAX_NUM_DOTS.c_str());
+        return false;
     }
     
     //
     // Speed
     //
     
-    const GLfloat newSpeed = speed->getValue().getFloat();
-    if (newSpeed < 0.0f) {
+    auto newSpeed = speed->getValue().getFloat();
+    if (newSpeed < 0.0) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field speed must be non-negative");
-    } else {
-        previousSpeed = currentSpeed;
-        currentSpeed = newSpeed;
+        return false;
     }
     
     //
     // Coherence
     //
     
-    const GLfloat newCoherence = coherence->getValue().getFloat();
-    if ((newCoherence < 0.0f) || (newCoherence > 1.0f)) {
+    auto newCoherence = coherence->getValue().getFloat();
+    if ((newCoherence < 0.0) || (newCoherence > 1.0)) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field coherence must be between 0 and 1");
-    } else {
-        previousCoherence = currentCoherence;
-        currentCoherence = newCoherence;
+        return false;
     }
     
     //
     // Lifetime
     //
     
-    const GLfloat newLifetime = lifetime->getValue().getFloat();
-    if (newLifetime < 0.0f) {
+    auto newLifetime = lifetime->getValue().getFloat();
+    if (newLifetime < 0.0) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot field lifetime must be non-negative");
-    } else {
-        previousLifetime = currentLifetime;
-        currentLifetime = newLifetime;
+        return false;
     }
+    
+    previousFieldRadius = currentFieldRadius;
+    previousSpeed = currentSpeed;
+    previousCoherence = currentCoherence;
+    previousLifetime = currentLifetime;
+    previousNumDots = currentNumDots;
+    
+    currentFieldRadius = newFieldRadius;
+    currentFieldCenterX = fieldCenterX->getValue().getFloat();
+    currentFieldCenterY = fieldCenterY->getValue().getFloat();
+    currentDotDensity = newDotDensity;
+    currentDotSize = dotSize->getValue().getFloat();
+    currentRed = red->getValue().getFloat();
+    currentGreen = green->getValue().getFloat();
+    currentBlue = blue->getValue().getFloat();
+    currentAlpha = alpha->getValue().getFloat();
+    currentDirection = direction->getValue().getFloat();
+    currentSpeed = newSpeed;
+    currentCoherence = newCoherence;
+    currentLifetime = newLifetime;
+    currentNumDots = newNumDots;
+    
+    return true;
 }
 
 
@@ -267,16 +395,16 @@ void MovingDots::updateDots() {
     // Update positions
     //
     
-    const GLint numValidDots = std::min(previousNumDots, currentNumDots);
-    const GLfloat dt = GLfloat(currentTime - previousTime) / 1.0e6f;
-    const GLfloat dr = dt * previousSpeed / previousFieldRadius;
+    const auto numValidDots = std::min(previousNumDots, currentNumDots);
+    const auto dt = float(currentTime - previousTime) / 1.0e6f;
+    const auto dr = dt * previousSpeed / previousFieldRadius;
     
-    for (GLint i = 0; i < numValidDots; i++) {
-        GLfloat &age = getAge(i);
+    for (std::size_t i = 0; i < numValidDots; i++) {
+        auto &age = dotAges[i];
         age += dt;
         
         if ((age <= previousLifetime) || (previousLifetime == 0.0f)) {
-            advanceDot(i, dt, dr);
+            advanceDot(i, dr);
         } else {
             replaceDot(i, newDirection(previousCoherence), 0.0f);
         }
@@ -287,8 +415,8 @@ void MovingDots::updateDots() {
     //
     
     if (currentCoherence != previousCoherence) {
-        for (GLint i = 0; i < numValidDots; i++) {
-            getDirection(i) = newDirection(currentCoherence);
+        for (std::size_t i = 0; i < numValidDots; i++) {
+            dotDirections[i] = newDirection(currentCoherence);
         }
     }
     
@@ -297,193 +425,55 @@ void MovingDots::updateDots() {
     //
     
     if (currentLifetime != previousLifetime) {
-        for (GLint i = 0; i < numValidDots; i++) {
-            getAge(i) = newAge(currentLifetime);
+        for (std::size_t i = 0; i < numValidDots; i++) {
+            dotAges[i] = newAge(currentLifetime);
         }
     }
     
     //
-    // Add/remove dots
+    // Add dots
     //
     
     if (currentNumDots != previousNumDots) {
-        dotPositions.resize(currentNumDots * componentsPerDot);
-        dotDirections.resize(currentNumDots);
-        dotAges.resize(currentNumDots);
-        
-        for (GLint i = previousNumDots; i < currentNumDots; i++) {
+        for (std::size_t i = previousNumDots; i < currentNumDots; i++) {
             replaceDot(i, newDirection(currentCoherence), newAge(currentLifetime));
         }
     }
 }
 
 
-void MovingDots::advanceDot(GLint i, GLfloat dt, GLfloat dr) {
-    GLfloat &x = getX(i);
-    GLfloat &y = getY(i);
-    GLfloat &theta = getDirection(i);
+void MovingDots::advanceDot(std::size_t i, float dr) {
+    auto &pos = dotPositions[i];
+    auto &theta = dotDirections[i];
     
-    x += dr * std::cos(theta);
-    y += dr * std::sin(theta);
+    pos.x += dr * std::cos(theta);
+    pos.y += dr * std::sin(theta);
     
-    if (x*x + y*y > 1.0f) {
+    if (simd::length_squared(pos) > 1.0f) {
         theta = newDirection(previousCoherence);
         
-        GLfloat y1 = rand(-1.0f, 1.0f);
-        GLfloat x1 = -std::sqrt(1.0f - y1*y1) + rand(0.0f, dr);
+        float y1 = rand(-1.0f, 1.0f);
+        float x1 = -std::sqrt(1.0f - y1*y1) + rand(0.0f, dr);
         
-        x = x1*std::cos(theta) - y1*std::sin(theta);
-        y = x1*std::sin(theta) + y1*std::cos(theta);
+        pos.x = x1*std::cos(theta) - y1*std::sin(theta);
+        pos.y = x1*std::sin(theta) + y1*std::cos(theta);
         
-        getAge(i) = newAge(previousLifetime);
+        dotAges[i] = newAge(previousLifetime);
     }
 }
 
 
-void MovingDots::replaceDot(GLint i, GLfloat direction, GLfloat age) {
-    GLfloat &x = getX(i);
-    GLfloat &y = getY(i);
+void MovingDots::replaceDot(std::size_t i, float direction, float age) {
+    auto &pos = dotPositions[i];
     
     do {
-        x = rand(-1.0f, 1.0f);
-        y = rand(-1.0f, 1.0f);
-    } while (x*x + y*y > 1.0f);
+        pos.x = rand(-1.0f, 1.0f);
+        pos.y = rand(-1.0f, 1.0f);
+    } while (simd::length_squared(pos) > 1.0f);
     
-    getDirection(i) = direction;
-    getAge(i) = age;
+    dotDirections[i] = direction;
+    dotAges[i] = age;
 }
-
-
-void MovingDots::drawFrame(shared_ptr<StimulusDisplay> display) {
-    //
-    // Update dots
-    //
-    
-    currentTime = getElapsedTime();
-    if (previousTime != currentTime) {
-        updateParameters();
-        updateDots();
-        previousTime = currentTime;
-        
-        if (currentNumDots > 0) {
-            gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(dotPositionBuffer);
-            glBufferData(GL_ARRAY_BUFFER,
-                         dotPositions.size() * sizeof(decltype(dotPositions)::value_type),
-                         dotPositions.data(),
-                         GL_STREAM_DRAW);
-        }
-    }
-    
-    if (0 == currentNumDots) {
-        // No dots, so nothing to draw
-        return;
-    }
-    
-    //
-    // Draw the dots
-    //
-    
-    gl::ProgramUsage programUsage(program);
-    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
-    
-    auto currentMVPMatrix = GLKMatrix4Translate(display->getProjectionMatrix(),
-                                                fieldCenterX->getValue().getFloat(),
-                                                fieldCenterY->getValue().getFloat(),
-                                                0.0);
-    currentMVPMatrix = GLKMatrix4Scale(currentMVPMatrix, currentFieldRadius, currentFieldRadius, 1.0);
-    currentMVPMatrix = GLKMatrix4Rotate(currentMVPMatrix,
-                                        GLKMathDegreesToRadians(direction->getValue().getFloat()),
-                                        0.0,
-                                        0.0,
-                                        1.0);
-    glUniformMatrix4fv(mvpMatrixUniformLocation, 1, GL_FALSE, currentMVPMatrix.m);
-    
-#if !MWORKS_OPENGL_ES
-    gl::Enabled<GL_PROGRAM_POINT_SIZE> pointSizeEnabled;
-#endif
-    glUniform1f(pointSizeUniformLocation, dotSize->getValue().getFloat() * dotSizeToPixels);
-    
-    auto currentColor = GLKVector4Make(red->getValue().getFloat(),
-                                       green->getValue().getFloat(),
-                                       blue->getValue().getFloat(),
-                                       alpha->getValue().getFloat());
-    glUniform4fv(colorUniformLocation, 1, currentColor.v);
-    
-    gl::Enabled<GL_BLEND> blendEnabled;
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    glDrawArrays(GL_POINTS, 0, currentNumDots);
-}
-
-
-void MovingDots::stopPlaying() {
-    StandardDynamicStimulus::stopPlaying();
-    previousTime = -1;
-}
-
-
-const std::string MovingDots::vertexShaderSource
-(R"(
- uniform mat4 mvpMatrix;
- uniform float pointSize;
- in vec4 dotPosition;
- 
- void main() {
-     gl_Position = mvpMatrix * dotPosition;
-     gl_PointSize = pointSize;
- }
- )");
-
-
-const std::string MovingDots::fragmentShaderSource
-(R"(
- const vec2 center = vec2(0.5, 0.5);
- const float radius = 0.5;
- 
- uniform vec4 color;
- out vec4 fragColor;
- 
- void main() {
-     //
-     // Make the dots round, not square
-     //
-     // For an explanation of the edge-smoothing technique used here, see either of the following:
-     // https://rubendv.be/blog/opengl/drawing-antialiased-circles-in-opengl/
-     // http://www.numb3r23.net/2015/08/17/using-fwidth-for-distance-based-anti-aliasing/
-     //
-     float dist = distance(gl_PointCoord, center);
-     float delta = fwidth(dist);
-     // Smooth only if delta is less than radius.  If delta is greater than or equal to radius,
-     // smoothing might erase the dot entirely.
-     float alpha = 1.0 - float(delta < radius) * smoothstep(radius - delta, radius, dist);
-     fragColor.rgb = color.rgb;
-     fragColor.a = alpha * color.a;
- }
- )");
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

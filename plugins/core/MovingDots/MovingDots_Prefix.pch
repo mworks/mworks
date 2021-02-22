@@ -2,15 +2,25 @@
 // Prefix header for all source files of the 'MovingDots' target in the 'MovingDots' project.
 //
 
+#ifndef MovingDots_Prefix_pch
+#define MovingDots_Prefix_pch
+
 #ifdef __cplusplus
 
-#include <boost/math/special_functions/round.hpp>
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_real.hpp>
-#include <boost/random/variate_generator.hpp>
+#include <random>
 
+#include <MWorksCore/AAPLMathUtilities.h>
+#ifdef __OBJC__
+#  include <MWorksCore/MetalStimulus.hpp>
+#endif
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardDynamicStimulus.h>
 #include <MWorksCore/StandardStimulusFactory.h>
 
+#endif /* defined(__cplusplus) */
+
+#ifdef __OBJC__
+#  include <MWorksCore/MWKTripleBufferedMTLResource.h>
 #endif
+
+#endif /* MovingDots_Prefix_pch */

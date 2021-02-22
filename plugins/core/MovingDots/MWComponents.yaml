@@ -4,7 +4,7 @@
 name: Moving Dots
 signature: stimulus/moving_dots
 isa: [Stimulus, Dynamic Stimulus Base]
-description: A moving dot field stimulus
+description: A moving dot field (aka dynamic random dots) stimulus
 parameters: 
   - 
     name: field_radius
@@ -56,9 +56,23 @@ parameters:
   - 
     name: lifetime
     default: 0.0
-    description: >
+    description: |
         Dot lifetime (seconds).  When a dot reaches the end of its lifetime, it
         is removed and replaced by a new dot in a random location.
+
+        If set to zero, dots have an infinite lifetime.
+  - 
+    name: rand_seed
+    description: >
+        Seed value for the random number generator.  If omitted, the current
+        system time in nanoseconds is used.
+  - 
+    name: max_num_dots
+    description: |
+        Maximum number of dots.
+
+        If omitted, the maximum number of dots is determined by the values of
+        `field_radius`_ and `dot_density`_ when the stimulus is loaded.
   - 
     name: announce_dots
     default: 'NO'
@@ -72,10 +86,5 @@ parameters:
         pair of values representing the (x,y) coordinates of a dot.  The
         coordinates are scaled to lie in the range [-1,1] and rotated so that
         the direction of coherent motion is zero degrees.
-  - 
-    name: rand_seed
-    description: >
-        Seed value for the random number generator.  If omitted, the current
-        system time in nanoseconds is used.
 
 

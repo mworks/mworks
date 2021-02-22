@@ -12,7 +12,7 @@ def validate_dots_data(filename):
                 if (isinstance(value, dict) and
                     (value['type'] == 'moving_dots') and
                     ('dots' in value)):
-                    data = numpy.fromstring(value['dots'], numpy.float32)
+                    data = numpy.frombuffer(value['dots'], numpy.float32)
                     assert len(data) == (2 * value['num_dots'])
                     
                     x = data[::2]
@@ -22,7 +22,7 @@ def validate_dots_data(filename):
                     num_events += 1
 
         assert num_events > 0
-        print 'Processed %d events' % num_events
+        print('Processed %d events' % num_events)
 
 
 if __name__ == '__main__':
