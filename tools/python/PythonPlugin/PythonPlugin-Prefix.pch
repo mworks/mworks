@@ -27,3 +27,7 @@
 #define END_NAMESPACE_MW_PYTHON    END_NAMESPACE(python) END_NAMESPACE_MW
 
 #endif /* defined(__cplusplus) */
+
+#ifdef __OBJC__
+#  include <MWorksCore/MWKTripleBufferedMTLResource.h>
+#endif

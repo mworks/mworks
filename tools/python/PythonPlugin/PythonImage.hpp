@@ -65,13 +65,10 @@ private:
     int height;
     std::size_t expectedBytes;
     
-    static constexpr std::size_t texturePoolSize = 3;
-    dispatch_semaphore_t texturePoolSemaphore;
     NSUInteger textureBytesPerRow;
-    NSArray<id<MTLTexture>> *texturePool;
-    std::size_t currentTextureIndex;
-    
+    MWKTripleBufferedMTLResource<id<MTLTexture>> *texturePool;
     std::unique_ptr<std::uint8_t[]> rgbaData;
+    id<MTLTexture> currentTexture;
     
 };
 

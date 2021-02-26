@@ -681,6 +681,10 @@
 		E19CE0D81E897068005586E5 /* AppleOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E19CE0D41E897068005586E5 /* AppleOpenGLContextManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1A401B31D4FBE4C005B1C35 /* ZeroMQServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A401B11D4FBE4C005B1C35 /* ZeroMQServer.cpp */; };
 		E1A401B41D4FBE4C005B1C35 /* ZeroMQServer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1A401B21D4FBE4C005B1C35 /* ZeroMQServer.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1A5A07B25E93B4F007B345D /* MWKTripleBufferedMTLResource.h in Headers */ = {isa = PBXBuildFile; fileRef = E1A5A07925E93B4F007B345D /* MWKTripleBufferedMTLResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1A5A07C25E93B4F007B345D /* MWKTripleBufferedMTLResource.h in Headers */ = {isa = PBXBuildFile; fileRef = E1A5A07925E93B4F007B345D /* MWKTripleBufferedMTLResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1A5A07D25E93B4F007B345D /* MWKTripleBufferedMTLResource.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5A07A25E93B4F007B345D /* MWKTripleBufferedMTLResource.m */; };
+		E1A5A07E25E93B4F007B345D /* MWKTripleBufferedMTLResource.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5A07A25E93B4F007B345D /* MWKTripleBufferedMTLResource.m */; };
 		E1A911F21D64B74000DF4AAC /* SimpleClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */; };
 		E1ADE3B31BDE8F8B0055642F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */; };
 		E1B43C581FA3858B00CB6A97 /* VariableAssignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B43C561FA3858B00CB6A97 /* VariableAssignment.cpp */; };
@@ -1361,6 +1365,8 @@
 		E19CE0D41E897068005586E5 /* AppleOpenGLContextManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppleOpenGLContextManager.hpp; sourceTree = "<group>"; };
 		E1A401B11D4FBE4C005B1C35 /* ZeroMQServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQServer.cpp; sourceTree = "<group>"; };
 		E1A401B21D4FBE4C005B1C35 /* ZeroMQServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQServer.hpp; sourceTree = "<group>"; };
+		E1A5A07925E93B4F007B345D /* MWKTripleBufferedMTLResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWKTripleBufferedMTLResource.h; sourceTree = "<group>"; };
+		E1A5A07A25E93B4F007B345D /* MWKTripleBufferedMTLResource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWKTripleBufferedMTLResource.m; sourceTree = "<group>"; };
 		E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleClock.cpp; sourceTree = "<group>"; };
 		E1A911F11D64B74000DF4AAC /* SimpleClock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SimpleClock.hpp; sourceTree = "<group>"; };
 		E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -2065,6 +2071,8 @@
 				E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */,
 				E11E9E2025AFA0780062D144 /* AAPLMathUtilities.h */,
 				E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */,
+				E1A5A07925E93B4F007B345D /* MWKTripleBufferedMTLResource.h */,
+				E1A5A07A25E93B4F007B345D /* MWKTripleBufferedMTLResource.m */,
 			);
 			name = Utilities;
 			path = Core/Utilities;
@@ -2754,6 +2762,7 @@
 				0E5338E80CB7404E004FF889 /* EventConstants.h in Headers */,
 				5CE30A4B0CF9FAFA00BEB3E3 /* XMLParser.h in Headers */,
 				5CE30A4F0CFA49D600BEB3E3 /* Component.h in Headers */,
+				E1A5A07B25E93B4F007B345D /* MWKTripleBufferedMTLResource.h in Headers */,
 				0E88D1730D04708A00D7D273 /* ComponentFactoryException.h in Headers */,
 				E1CA751625B0EAC5003B22C5 /* EllipseStimulus.hpp in Headers */,
 				5CDCC8830D2B0E10008E2F19 /* ExpressionParser.h in Headers */,
@@ -2912,6 +2921,7 @@
 				E179171C1E4E53C200528B91 /* TrialBuildingBlocks.h in Headers */,
 				E17917741E4E565E00528B91 /* OpenGLContextManager.h in Headers */,
 				E1F82A5F1E53532E00A2690B /* IOSOpenGLContextManager.hpp in Headers */,
+				E1A5A07C25E93B4F007B345D /* MWKTripleBufferedMTLResource.h in Headers */,
 				E1FE64142142BEB700209279 /* MWK2File.hpp in Headers */,
 				E18163172588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */,
 				E17916F61E4E528F00528B91 /* CoreBuilderForeman.h in Headers */,
@@ -3597,6 +3607,7 @@
 				DA96C0E70988546D0007610D /* ExperimentPackager.cpp in Sources */,
 				DA2B6A8A0989855C00DDE06D /* Client.cpp in Sources */,
 				DA2B6B180989915900DDE06D /* Server.cpp in Sources */,
+				E1A5A07D25E93B4F007B345D /* MWKTripleBufferedMTLResource.m in Sources */,
 				DA2B6D3B098AA34900DDE06D /* EventStreamInterface.cpp in Sources */,
 				E1F7CBB821F22B8A003F48A1 /* dfindex.cpp in Sources */,
 				DA2B6D53098AAAEC00DDE06D /* StandardSystemEventHandler.cpp in Sources */,
@@ -3727,6 +3738,7 @@
 				E17917171E4E539400528B91 /* LoadingUtilities.cpp in Sources */,
 				E17917811E4E56DB00528B91 /* StimulusNode.cpp in Sources */,
 				E17917231E4E53E100528B91 /* BlockAndProtocol.cpp in Sources */,
+				E1A5A07E25E93B4F007B345D /* MWKTripleBufferedMTLResource.m in Sources */,
 				E179173B1E4E548C00528B91 /* Lockable.cpp in Sources */,
 				E17917481E4E54F700528B91 /* Utilities.cpp in Sources */,
 				E17916E41E4E51DA00528B91 /* EventStreamInterface.cpp in Sources */,

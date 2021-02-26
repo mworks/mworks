@@ -47,17 +47,16 @@ PythonImage::PythonImage(const ParameterValueMap &parameters) :
     width(0),
     height(0),
     expectedBytes(0),
-    texturePoolSemaphore(nil),
     textureBytesPerRow(0),
     texturePool(nil),
-    currentTextureIndex(0)
+    currentTexture(nil)
 { }
 
 
 PythonImage::~PythonImage() {
     @autoreleasepool {
+        currentTexture = nil;
         texturePool = nil;
-        texturePoolSemaphore = nil;
     }
 }
 
@@ -112,13 +111,10 @@ void PythonImage::loadMetal(MetalDisplay &display) {
     }
     
     //
-    // Create texture pool.  This allows us to employ triple buffering, as recommended in the
-    // Metal Best Practices Guide:
+    // Create texture pool to employ triple buffering, as recommended in the Metal Best Practices Guide:
     // https://developer.apple.com/library/archive/documentation/3DDrawing/Conceptual/MTLBestPracticesGuide/TripleBuffering.html
     //
     {
-        texturePoolSemaphore = dispatch_semaphore_create(texturePoolSize);
-        
         MTLPixelFormat pixelFormat = MTLPixelFormatInvalid;
         switch (format) {
             case Format::RGB8:
@@ -141,13 +137,8 @@ void PythonImage::loadMetal(MetalDisplay &display) {
                                                                                 mipmapped:NO];
         // Keep the default value of storageMode: MTLStorageModeManaged on macOS, MTLStorageModeShared on iOS
         
-        NSMutableArray<id<MTLTexture>> *mutableTexturePool = [NSMutableArray arrayWithCapacity:texturePoolSize];
-        while (mutableTexturePool.count < texturePoolSize) {
-            [mutableTexturePool addObject:[display.getMetalDevice() newTextureWithDescriptor:textureDescriptor]];
-        }
-        texturePool = [mutableTexturePool copy];
-        
-        currentTextureIndex = texturePoolSize - 1;
+        texturePool = [MWKTripleBufferedMTLResource textureWithDevice:display.getMetalDevice()
+                                                           descriptor:textureDescriptor];
     }
     
     // Allocate a buffer to use when adding an alpha channel to RGB-only data
@@ -160,9 +151,9 @@ void PythonImage::loadMetal(MetalDisplay &display) {
 void PythonImage::unloadMetal(MetalDisplay &display) {
     boost::mutex::scoped_lock locker(stim_lock);
     
+    currentTexture = nil;
     rgbaData.reset();
     texturePool = nil;
-    texturePoolSemaphore = nil;
     
     BaseImageStimulus::unloadMetal(display);
 }
@@ -256,24 +247,11 @@ bool PythonImage::prepareCurrentTexture(MetalDisplay &display) {
     // Copy the texture data to the next-available texture from the pool
     //
     
-    currentTextureIndex = (currentTextureIndex + 1) % texturePoolSize;
-    
-    // Wait until the GPU is done rendering the current contents of the texture
-    // before writing new data to it
-    dispatch_semaphore_wait(texturePoolSemaphore, DISPATCH_TIME_FOREVER);
-    [texturePool[currentTextureIndex] replaceRegion:MTLRegionMake2D(0, 0, width, height)
-                                        mipmapLevel:0
-                                          withBytes:textureData
-                                        bytesPerRow:textureBytesPerRow];
-    
-    // Register a completed handler so we know when the current texture is once
-    // again available to overwrite
-    {
-        __weak dispatch_semaphore_t semaphore = texturePoolSemaphore;
-        [display.getCurrentMetalCommandBuffer() addCompletedHandler:^(id<MTLCommandBuffer> commandBuffer) {
-            dispatch_semaphore_signal(semaphore);
-        }];
-    }
+    currentTexture = [texturePool acquireWithCommandBuffer:display.getCurrentMetalCommandBuffer()];
+    [currentTexture replaceRegion:MTLRegionMake2D(0, 0, width, height)
+                      mipmapLevel:0
+                        withBytes:textureData
+                      bytesPerRow:textureBytesPerRow];
     
     return true;
 }
@@ -285,7 +263,7 @@ double PythonImage::getCurrentAspectRatio() const {
 
 
 id<MTLTexture> PythonImage::getCurrentTexture() const {
-    return texturePool[currentTextureIndex];
+    return currentTexture;
 }
 
 
