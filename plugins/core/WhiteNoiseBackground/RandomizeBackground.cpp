@@ -34,7 +34,7 @@ RandomizeBackground::RandomizeBackground(const ParameterValueMap &parameters) :
 
 
 bool RandomizeBackground::execute() {
-    shared_ptr<WhiteNoiseBackground> background(boost::dynamic_pointer_cast<WhiteNoiseBackground>(backgroundNode->getStimulus()));
+    auto background = boost::dynamic_pointer_cast<WhiteNoiseBackground>(backgroundNode->getStimulus());
     
     if (!background) {
         merror(M_PARADIGM_MESSAGE_DOMAIN, "Invalid target for randomize_background.  Doing nothing.");

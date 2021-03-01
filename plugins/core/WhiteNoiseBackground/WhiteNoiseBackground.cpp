@@ -9,6 +9,41 @@
 
 #include "WhiteNoiseBackground.h"
 
+#include "WhiteNoiseBackgroundShaderTypes.h"
+
+using namespace mw::white_noise_background;
+
+
+//
+// NOTE: There are some device-dependent optimizations that could improve the performance and/or
+// efficiency of this stimulus.  Specifically:
+//
+//   1. Non-uniform threadgroup size: This would let us use dispatchThreads:threadsPerThreadgroup:
+//      (instead of dispatchThreadgroups:threadsPerThreadgroup:) when randomizing the noise and
+//      eliminate the need for bounds checking in updateNoise.
+//
+//   2. Function texture read-writes: This would let us cut the number of textures in half by
+//      updating the texture for each channel in place.
+//
+// These features are available on GPU's that support any of
+//
+//   MTLGPUFamilyCommon3
+//   MTLGPUFamilyApple4
+//   MTLGPUFamilyMac1
+//
+// or, on earlier OS versions that don't support MTLGPUFamily, either of
+//
+//   MTLFeatureSet_iOS_GPUFamily4_v1
+//   MTLFeatureSet_macOS_GPUFamily1_v3
+//
+// Also, the MTLDevice property readWriteTextureSupport must be at least MTLReadWriteTextureTier1.
+//
+// However, given the small number of devices (particularly iOS devices) that we currently have for
+// testing, it seems unlikely that we could ever fully test a hardware-depedendent implementation
+// on all platforms.  Therefore, we opt for the lowest-common-denominator approach, which trades
+// any potential performance/efficiency gains for universal hardware support.
+//
+
 
 BEGIN_NAMESPACE_MW
 
@@ -32,357 +67,234 @@ void WhiteNoiseBackground::describeComponent(ComponentInfo &info) {
 
 
 WhiteNoiseBackground::WhiteNoiseBackground(const ParameterValueMap &parameters) :
-    Stimulus(parameters),
+    MetalStimulus(parameters),
     grayscale(parameters[GRAYSCALE]),
-    numChannels(grayscale ? 1 : 3),
     grainSize(parameters[GRAIN_SIZE]),
-    randSeed(0),
-    randCount(0),
-    randomizeOnDraw(parameters[RANDOMIZE_ON_DRAW]),
-    shouldRandomize(false),
-    defaultViewport({0, 0, 0, 0}),
-    seedTextures(numChannels, 0),
-    noiseTextures(numChannels, 0)
-{
-    if (parameters[RAND_SEED].empty()) {
-        randSeed = Clock::instance()->getSystemTimeNS();
-    } else {
-        randSeed = MWTime(parameters[RAND_SEED]);
+    randSeed(optionalVariable(parameters[RAND_SEED])),
+    randomizeOnDraw(registerVariable(parameters[RANDOMIZE_ON_DRAW])),
+    computePipelineState(nil),
+    renderPipelineState(nil),
+    seedTextures(nil),
+    noiseTextures(nil)
+{ }
+
+
+WhiteNoiseBackground::~WhiteNoiseBackground() {
+    @autoreleasepool {
+        noiseTextures = nil;
+        seedTextures = nil;
+        renderPipelineState = nil;
+        computePipelineState = nil;
     }
 }
 
 
-void WhiteNoiseBackground::load(shared_ptr<StimulusDisplay> display) {
-    if (loaded)
-        return;
+Datum WhiteNoiseBackground::getCurrentAnnounceDrawData() {
+    auto announceData = Stimulus::getCurrentAnnounceDrawData();
     
-    auto ctxLock = display->setCurrent(0);
+    announceData.addElement(STIM_TYPE, "white_noise_background");
+    announceData.addElement(GRAYSCALE, currentGrayscale);
+    announceData.addElement(GRAIN_SIZE, currentGrainSize);
+    announceData.addElement(RAND_SEED, currentRandSeed);
+    announceData.addElement(RANDOMIZE_ON_DRAW, curentRandomizeOnDraw);
+    announceData.addElement("rand_count", static_cast<long long>(randCount));
     
+    return announceData;
+}
+
+
+void WhiteNoiseBackground::loadMetal(MetalDisplay &display) {
+    //
+    // Get required parameter values
+    //
+    
+    currentGrayscale = grayscale->getValue().getBool();
+    currentGrainSize = grainSize->getValue().getFloat();
+    if (randSeed) {
+        currentRandSeed = randSeed->getValue().getInteger();
+    } else {
+        currentRandSeed = Clock::instance()->getSystemTimeNS();
+    }
+    
+    //
     // Determine texture dimensions
+    //
     {
-        glGetIntegerv(GL_VIEWPORT, defaultViewport.data());
-        auto displayWidthPixels = defaultViewport.at(2);
-        auto displayHeightPixels = defaultViewport.at(3);
-        if (grainSize <= 0.0) {
+        const auto drawableSize = display.getMainView().drawableSize;
+        const auto displayWidthPixels = double(drawableSize.width);
+        const auto displayHeightPixels = double(drawableSize.height);
+        
+        if (currentGrainSize <= 0.0) {
             textureWidth = displayWidthPixels;
             textureHeight = displayHeightPixels;
         } else {
             double left, right, bottom, top;
-            display->getDisplayBounds(left, right, bottom, top);
-            const double pixelsPerDegree = displayWidthPixels / (right - left);
-            const double grainSizePixels = std::max(1.0, grainSize * pixelsPerDegree);
+            display.getDisplayBounds(left, right, bottom, top);
+            const auto pixelsPerDegree = displayWidthPixels / (right - left);
+            const auto grainSizePixels = std::max(1.0, currentGrainSize * pixelsPerDegree);
             textureWidth = std::max(1.0, std::round(displayWidthPixels / grainSizePixels));
             textureHeight = std::max(1.0, std::round(displayHeightPixels / grainSizePixels));
         }
     }
     
-    // Create vertex attribute buffers
+    //
+    // Create compute and render pipeline states
+    //
     {
-        glGenBuffers(1, &vertexPositionBuffer);
-        gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions.data(), GL_STATIC_DRAW);
-        
-        glGenBuffers(1, &texCoordsBuffer);
-        arrayBufferBinding.bind(texCoordsBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
-    }
-    
-    // Create programs
-    {
-        auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
+        auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
         
         {
-            createProgram(noiseGenProgram, vertexShader, noiseGenFragmentShaderSource);
-            gl::ProgramUsage programUsage(noiseGenProgram);
-            glUniform1i(glGetUniformLocation(noiseGenProgram, "noiseTexture"), 0);
-        }
-        
-        {
-            createProgram(noiseRenderProgram, vertexShader, noiseRenderFragmentShaderSource);
-            gl::ProgramUsage programUsage(noiseRenderProgram);
-            glUniform1i(glGetUniformLocation(noiseRenderProgram, "redNoiseTexture"), 0);
-            glUniform1i(glGetUniformLocation(noiseRenderProgram, "greenNoiseTexture"), 1);
-            glUniform1i(glGetUniformLocation(noiseRenderProgram, "blueNoiseTexture"), 2);
-            glUniform1i(glGetUniformLocation(noiseRenderProgram, "grayscale"), grayscale);
-        }
-    }
-    
-    // Create textures
-    {
-        std::vector<GLuint> data(textureWidth * textureHeight);
-        std::mt19937 seedGen(randSeed);
-        std::uniform_int_distribution<GLuint> seedDist(std::minstd_rand::min(), std::minstd_rand::max());
-        for (int i = 0; i < numChannels; i++) {
-            //
-            // Generate a seed for each noise texel.
-            //
-            // Although we use a linear congruential generator (LCG) on the GPU to update the texels, we use the
-            // Mersenne Twister to generate the per-texel seeds.  If we used the same generator in both places,
-            // then texel n at iteration i+1 would have the same value as texel n+1 at iteration i.
-            //
-            for (auto &value : data) {
-                value = seedDist(seedGen);
+            auto function = loadShaderFunction(library, "updateNoise");
+            NSError *error = nil;
+            computePipelineState = [display.getMetalDevice() newComputePipelineStateWithFunction:function
+                                                                                           error:&error];
+            if (!computePipelineState) {
+                throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                      "Cannot create Metal compute pipeline state",
+                                      error.localizedDescription.UTF8String);
             }
-            createTexture(seedTextures.at(i), data);
-            createTexture(noiseTextures.at(i), data);
+            
+            // Calculate compute dispatch parameters, as described at
+            // https://developer.apple.com/documentation/metal/calculating_threadgroup_and_grid_sizes
+            const auto w = computePipelineState.threadExecutionWidth;
+            const auto h = computePipelineState.maxTotalThreadsPerThreadgroup / w;
+            threadgroupsPerGrid = MTLSizeMake((textureWidth + w - 1) / w,
+                                              (textureHeight + h - 1) / h,
+                                              1);
+            threadsPerThreadgroup = MTLSizeMake(w, h, 1);
+        }
+        
+        {
+            MTLFunctionConstantValues *constantValues = [[MTLFunctionConstantValues alloc] init];
+            const bool rgbNoise = !currentGrayscale;
+            [constantValues setConstantValue:&rgbNoise
+                                        type:MTLDataTypeBool
+                                     atIndex:rgbNoiseFunctionConstantIndex];
+            
+            auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+            renderPipelineDescriptor.vertexFunction = loadShaderFunction(library, "vertexShader");
+            renderPipelineDescriptor.fragmentFunction = loadShaderFunction(library, "fragmentShader", constantValues);
+            renderPipelineDescriptor.colorAttachments[0].pixelFormat = display.getMetalFramebufferTexturePixelFormat();
+            renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
         }
     }
     
-    Stimulus::load(display);
+    //
+    // Create textures
+    //
+    {
+        auto textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatR32Uint
+                                                                                    width:textureWidth
+                                                                                   height:textureHeight
+                                                                                mipmapped:NO];
+        textureDescriptor.storageMode = MTLStorageModePrivate;
+        textureDescriptor.usage = MTLTextureUsageShaderRead | MTLTextureUsageShaderWrite;
+        
+        const std::size_t numChannels = (currentGrayscale ? 1 : 3);
+        NSMutableArray<id<MTLTexture>> *mutableSeedTextures = [NSMutableArray arrayWithCapacity:numChannels];
+        NSMutableArray<id<MTLTexture>> *mutableNoiseTextures = [NSMutableArray arrayWithCapacity:numChannels];
+        
+        const std::size_t numTexels = textureWidth * textureHeight;
+        const std::size_t bufferLength = numTexels * sizeof(MinStdRand::value_type);
+        
+        // Although we use a linear congruential generator (LCG) on the GPU to update the texels, we use the
+        // Mersenne Twister to generate the per-texel seeds.  If we used the same generator in both places,
+        // then texel n at iteration i+1 would have the same value as texel n+1 at iteration i.
+        std::mt19937 seedGen(currentRandSeed);
+        std::uniform_int_distribution<MinStdRand::value_type> seedDist(MinStdRand::min(), MinStdRand::max());
+        
+        auto commandBuffer = [display.getMetalCommandQueue() commandBuffer];
+        auto blitCommandEncoder = [commandBuffer blitCommandEncoder];
+        
+        do {
+            [mutableSeedTextures addObject:[display.getMetalDevice() newTextureWithDescriptor:textureDescriptor]];
+            [mutableNoiseTextures addObject:[display.getMetalDevice() newTextureWithDescriptor:textureDescriptor]];
+            
+            auto buffer = [display.getMetalDevice() newBufferWithLength:bufferLength
+                                                                options:MTLResourceStorageModeShared];
+            auto bufferData = static_cast<MinStdRand::value_type *>([buffer contents]);
+            for (std::size_t i = 0; i < numTexels; i++) {
+                bufferData[i] = seedDist(seedGen);
+            }
+            
+            // Only the noise textures need initial data, as they will become the seed textures the
+            // first time the noise is randomized
+            [blitCommandEncoder copyFromBuffer:buffer
+                                  sourceOffset:0
+                             sourceBytesPerRow:(bufferLength / textureHeight)
+                           sourceBytesPerImage:bufferLength
+                                    sourceSize:MTLSizeMake(textureWidth, textureHeight, 1)
+                                     toTexture:mutableNoiseTextures.lastObject
+                              destinationSlice:0
+                              destinationLevel:0
+                             destinationOrigin:MTLOriginMake(0, 0, 0)];
+        } while (mutableNoiseTextures.count < numChannels);
+        
+        [blitCommandEncoder endEncoding];
+        [commandBuffer commit];
+        
+        seedTextures = [mutableSeedTextures copy];
+        noiseTextures = [mutableNoiseTextures copy];
+    }
+    
+    //
+    // Reset randomization-management variables
+    //
+    
+    shouldRandomize = false;
+    randCount = 0;
 }
 
 
-void WhiteNoiseBackground::unload(shared_ptr<StimulusDisplay> display) {
-    if (!loaded)
-        return;
-    
-    auto ctxLock = display->setCurrent(0);
-    
-    for (auto &item : framebuffers) {
-        glDeleteFramebuffers(1, &(item.second));
-    }
-    glDeleteTextures(noiseTextures.size(), noiseTextures.data());
-    glDeleteTextures(seedTextures.size(), seedTextures.data());
-    for (auto &item : vertexArrays) {
-        glDeleteVertexArrays(1, &(item.second));
-    }
-    glDeleteProgram(noiseRenderProgram);
-    glDeleteProgram(noiseGenProgram);
-    glDeleteBuffers(1, &texCoordsBuffer);
-    glDeleteBuffers(1, &vertexPositionBuffer);
-    
-    Stimulus::unload(display);
+void WhiteNoiseBackground::unloadMetal(MetalDisplay &display) {
+    noiseTextures = nil;
+    seedTextures = nil;
+    renderPipelineState = nil;
+    computePipelineState = nil;
 }
 
 
-void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
-    if (randomizeOnDraw || shouldRandomize.exchange(false)) {
+void WhiteNoiseBackground::drawMetal(MetalDisplay &display) {
+    //
+    // Randomize noise (if needed)
+    //
+    
+    curentRandomizeOnDraw = randomizeOnDraw->getValue().getBool();
+    
+    if (curentRandomizeOnDraw || shouldRandomize.exchange(false)) {
         // Previous noise values become current seeds
         std::swap(seedTextures, noiseTextures);
         
-        glUseProgram(noiseGenProgram);
-        glBindVertexArray(vertexArrays.at(noiseGenProgram));
-        glViewport(0, 0, textureWidth, textureHeight);
+        auto computeCommandEncoder = [display.getCurrentMetalCommandBuffer() computeCommandEncoder];
+        [computeCommandEncoder setComputePipelineState:computePipelineState];
         
-        for (int i = 0; i < numChannels; i++) {
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffers.at(noiseTextures.at(i)));
-            const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
-            glDrawBuffers(1, &drawBuffer);
-            
-            glBindTexture(GL_TEXTURE_2D, seedTextures.at(i));
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
+        for (NSUInteger channelIndex = 0; channelIndex < seedTextures.count; channelIndex++) {
+            [computeCommandEncoder setTexture:seedTextures[channelIndex] atIndex:seedTextureIndex];
+            [computeCommandEncoder setTexture:noiseTextures[channelIndex] atIndex:noiseTextureIndex];
+            [computeCommandEncoder dispatchThreadgroups:threadgroupsPerGrid
+                                  threadsPerThreadgroup:threadsPerThreadgroup];
         }
         
-        glViewport(defaultViewport.at(0), defaultViewport.at(1), defaultViewport.at(2), defaultViewport.at(3));
-        display->bindCurrentFramebuffer();
-        
+        [computeCommandEncoder endEncoding];
         randCount++;
     }
     
-    gl::ProgramUsage programUsage(noiseRenderProgram);
-    gl::VertexArrayBinding vertexArrayBinding(vertexArrays.at(noiseRenderProgram));
+    //
+    // Render noise
+    //
     
-    glBindTexture(GL_TEXTURE_2D, noiseTextures.at(0));
-    if (numChannels == 3) {
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, noiseTextures.at(1));
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, noiseTextures.at(2));
+    auto renderCommandEncoder = createRenderCommandEncoder(display);
+    [renderCommandEncoder setRenderPipelineState:renderPipelineState];
+    
+    NSUInteger textureIndex = redNoiseTextureIndex;
+    for (id<MTLTexture> texture in noiseTextures) {
+        [renderCommandEncoder setFragmentTexture:texture atIndex:textureIndex];
+        textureIndex++;
     }
     
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
-    
-    if (numChannels == 3) {
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glActiveTexture(GL_TEXTURE0);
-    }
-    glBindTexture(GL_TEXTURE_2D, 0);
+    [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
+    [renderCommandEncoder endEncoding];
 }
-
-
-Datum WhiteNoiseBackground::getCurrentAnnounceDrawData() {
-    Datum announceData = Stimulus::getCurrentAnnounceDrawData();
-    announceData.addElement(STIM_TYPE, "white_noise_background");
-    announceData.addElement(GRAYSCALE, grayscale);
-    announceData.addElement(GRAIN_SIZE, grainSize);
-    announceData.addElement(RAND_SEED, randSeed);
-    announceData.addElement("rand_count", static_cast<long long>(randCount));
-    announceData.addElement(RANDOMIZE_ON_DRAW, randomizeOnDraw);
-    return announceData;
-}
-
-
-void WhiteNoiseBackground::randomize() {
-    shouldRandomize = true;
-}
-
-
-void WhiteNoiseBackground::createProgram(GLuint &program,
-                                         const gl::Shader &vertexShader,
-                                         const std::string &fragmentShaderSource)
-{
-    auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-    program = gl::createProgram({ vertexShader.get(), fragmentShader.get() }).release();
-    
-    auto &vertexArray = vertexArrays[program];
-    glGenVertexArrays(1, &vertexArray);
-    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
-    
-    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
-    GLint vertexPositionAttribLocation = glGetAttribLocation(program, "vertexPosition");
-    glEnableVertexAttribArray(vertexPositionAttribLocation);
-    glVertexAttribPointer(vertexPositionAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
-    
-    arrayBufferBinding.bind(texCoordsBuffer);
-    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
-    glEnableVertexAttribArray(texCoordsAttribLocation);
-    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
-}
-
-
-void WhiteNoiseBackground::createTexture(GLuint &texture, const std::vector<GLuint> &data) {
-    glGenTextures(1, &texture);
-    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
-    
-    gl::resetPixelStorageUnpackParameters(alignof(GLuint));
-    
-    glTexImage2D(GL_TEXTURE_2D,
-                 0,
-                 GL_R32UI,
-                 textureWidth,
-                 textureHeight,
-                 0,
-                 GL_RED_INTEGER,
-                 GL_UNSIGNED_INT,
-                 data.data());
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    auto &framebuffer = framebuffers[texture];
-    glGenFramebuffers(1, &framebuffer);
-    gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
-    
-    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
-    
-    if (GL_FRAMEBUFFER_COMPLETE != glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER)) {
-        throw SimpleException("OpenGL framebuffer setup failed");
-    }
-}
-
-
-const std::string WhiteNoiseBackground::vertexShaderSource
-(R"(
- in vec4 vertexPosition;
- in vec2 texCoords;
- out vec2 varyingTexCoords;
- 
- void main() {
-     gl_Position = vertexPosition;
-     varyingTexCoords = texCoords;
- }
- )");
-
-
-//
-// The technique we use to generate noise on the GPU is adapted from Chapter 37, "Efficient Random Number
-// Generation and Application Using CUDA", in "GPU Gems 3":
-//
-// https://developer.nvidia.com/gpugems/GPUGems3/gpugems3_ch37.html
-//
-
-const std::string WhiteNoiseBackground::noiseGenFragmentShaderSource
-(R"(
- precision highp int;
- 
- // LCG parameters used by std::minstd_rand
- const uint a = 48271u;
- const uint c = 0u;
- const uint m = 2147483647u;
- 
- uniform highp usampler2D noiseTexture;
- 
- in vec2 varyingTexCoords;
- out uint noiseVal;
- 
- void main() {
-     uint lastNoiseVal = texture(noiseTexture, varyingTexCoords).r;
-     noiseVal = (a * lastNoiseVal + c) % m;
- }
- )");
-
-
-const std::string WhiteNoiseBackground::noiseRenderFragmentShaderSource
-(R"(
- const float noiseMax = 2147483646.0;  // m-1
- 
- uniform highp usampler2D redNoiseTexture;
- uniform highp usampler2D greenNoiseTexture;
- uniform highp usampler2D blueNoiseTexture;
- uniform bool grayscale;
- 
- in vec2 varyingTexCoords;
- out vec4 fragColor;
- 
- float normNoise(highp usampler2D noiseTexture) {
-     return float(texture(noiseTexture, varyingTexCoords).r) / noiseMax;
- }
- 
- void main() {
-     if (grayscale) {
-         float noiseVal = normNoise(redNoiseTexture);
-         fragColor = vec4(noiseVal, noiseVal, noiseVal, 1.0);
-     } else {
-         fragColor = vec4(normNoise(redNoiseTexture),
-                          normNoise(greenNoiseTexture),
-                          normNoise(blueNoiseTexture),
-                          1.0);
-     }
- }
- )");
-
-
-const WhiteNoiseBackground::VertexPositionArray WhiteNoiseBackground::vertexPositions {
-    -1.0f, -1.0f,
-     1.0f, -1.0f,
-    -1.0f,  1.0f,
-     1.0f,  1.0f
-};
-
-
-const WhiteNoiseBackground::VertexPositionArray WhiteNoiseBackground::texCoords {
-    0.0f, 0.0f,
-    1.0f, 0.0f,
-    0.0f, 1.0f,
-    1.0f, 1.0f
-};
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

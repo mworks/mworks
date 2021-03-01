@@ -14,7 +14,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class WhiteNoiseBackground : public Stimulus, boost::noncopyable {
+class WhiteNoiseBackground : public MetalStimulus {
 
 public:
     static const std::string GRAYSCALE;
@@ -25,51 +25,41 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit WhiteNoiseBackground(const ParameterValueMap &parameters);
+    ~WhiteNoiseBackground();
     
-    RenderingMode getRenderingMode() const override { return RenderingMode::OpenGL; }
-    
-    void load(shared_ptr<StimulusDisplay> display) override;
-    void unload(shared_ptr<StimulusDisplay> display) override;
-    void draw(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
-    void randomize();
+    void randomize() { shouldRandomize = true; }
     
 private:
-    static constexpr GLint numVertices = 4;
-    static constexpr GLint componentsPerVertex = 2;
-    using VertexPositionArray = std::array<GLfloat, numVertices*componentsPerVertex>;
+    void loadMetal(MetalDisplay &display) override;
+    void unloadMetal(MetalDisplay &display) override;
+    void drawMetal(MetalDisplay &display) override;
     
-    void createProgram(GLuint &program, const gl::Shader &vertexShader, const std::string &fragmentShaderSource);
-    void createTexture(GLuint &texture, const std::vector<GLuint> &data);
+    const VariablePtr grayscale;
+    const VariablePtr grainSize;
+    const VariablePtr randSeed;
+    const VariablePtr randomizeOnDraw;
     
-    static const std::string vertexShaderSource;
-    static const std::string noiseGenFragmentShaderSource;
-    static const std::string noiseRenderFragmentShaderSource;
-    static const VertexPositionArray vertexPositions;
-    static const VertexPositionArray texCoords;
+    bool currentGrayscale;
+    double currentGrainSize;
+    MWTime currentRandSeed;
+    bool curentRandomizeOnDraw;
     
-    const bool grayscale;
-    const int numChannels;
-    const double grainSize;
-    MWTime randSeed;
-    std::size_t randCount;
-    const bool randomizeOnDraw;
-    static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
+    std::size_t textureWidth;
+    std::size_t textureHeight;
+    
+    id<MTLComputePipelineState> computePipelineState;
+    MTLSize threadgroupsPerGrid;
+    MTLSize threadsPerThreadgroup;
+    id<MTLRenderPipelineState> renderPipelineState;
+    
+    NSArray<id<MTLTexture>> *seedTextures;
+    NSArray<id<MTLTexture>> *noiseTextures;
+    
     std::atomic_bool shouldRandomize;
-    
-    std::array<GLint, 4> defaultViewport;
-    GLsizei textureWidth = 0;
-    GLsizei textureHeight = 0;
-    
-    GLuint vertexPositionBuffer = 0;
-    GLuint texCoordsBuffer = 0;
-    GLuint noiseGenProgram = 0;
-    GLuint noiseRenderProgram = 0;
-    std::map<GLuint, GLuint> vertexArrays;  // Maps program to vertex array
-    std::vector<GLuint> seedTextures;
-    std::vector<GLuint> noiseTextures;
-    std::map<GLuint, GLuint> framebuffers;  // Maps texture to framebuffer
+    static_assert(decltype(shouldRandomize)::is_always_lock_free);
+    std::size_t randCount;
     
 };
 
@@ -77,26 +67,4 @@ private:
 END_NAMESPACE_MW
 
 
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif /* WhiteNoiseBackground_H_ */

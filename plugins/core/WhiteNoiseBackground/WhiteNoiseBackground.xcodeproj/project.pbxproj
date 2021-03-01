@@ -40,9 +40,11 @@
 		E15C72C41E6DE258001CE0C0 /* WhiteNoiseBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* WhiteNoiseBackground.cpp */; };
 		E15C72C51E6DE25B001CE0C0 /* RandomizeBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */; };
 		E15C72C61E6DE25E001CE0C0 /* WhiteNoiseBackgroundPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp */; };
+		E19CF05625F146E000518E86 /* WhiteNoiseBackground.metal in Sources */ = {isa = PBXBuildFile; fileRef = E19CF05525F146E000518E86 /* WhiteNoiseBackground.metal */; };
+		E19CF05725F146E000518E86 /* WhiteNoiseBackground.metal in Sources */ = {isa = PBXBuildFile; fileRef = E19CF05525F146E000518E86 /* WhiteNoiseBackground.metal */; };
 		E1E07EA91C04F416008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07EA81C04F416008DD97E /* MWComponents.yaml */; };
 		E1EC6EBE12BBC5B5003C9543 /* RandomizeBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */; };
-		E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */; };
+		E1F1C1F625EFD58200AA9F1A /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F1C1F525EFD58200AA9F1A /* Metal.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,9 +79,9 @@
 
 /* Begin PBXFileReference section */
 		32DBCF630370AF2F00C91783 /* WhiteNoiseBackground_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteNoiseBackground_Prefix.pch; sourceTree = "<group>"; };
-		5CF9AEB90FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WhiteNoiseBackgroundPlugin.cpp; sourceTree = SOURCE_ROOT; };
+		5CF9AEB90FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = WhiteNoiseBackgroundPlugin.cpp; sourceTree = SOURCE_ROOT; };
 		5CFE59180F571B15000C7F30 /* WhiteNoiseBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteNoiseBackground.h; sourceTree = SOURCE_ROOT; };
-		5CFE59190F571B15000C7F30 /* WhiteNoiseBackground.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WhiteNoiseBackground.cpp; sourceTree = SOURCE_ROOT; };
+		5CFE59190F571B15000C7F30 /* WhiteNoiseBackground.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = WhiteNoiseBackground.cpp; sourceTree = SOURCE_ROOT; };
 		8D5B49B6048680CD000E48DA /* WhiteNoiseBackground.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseBackground.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* WhiteNoiseBackground-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhiteNoiseBackground-Info.plist"; sourceTree = "<group>"; };
 		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
@@ -88,10 +90,12 @@
 		E15C72B71E6DDFC3001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E15C72BD1E6DE0CB001CE0C0 /* WhiteNoiseBackground.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteNoiseBackground.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C72C01E6DE0CC001CE0C0 /* WhiteNoiseBackground-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WhiteNoiseBackground-iOS-Info.plist"; sourceTree = "<group>"; };
+		E19CF05425F1466000518E86 /* WhiteNoiseBackgroundShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WhiteNoiseBackgroundShaderTypes.h; sourceTree = "<group>"; };
+		E19CF05525F146E000518E86 /* WhiteNoiseBackground.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = WhiteNoiseBackground.metal; sourceTree = "<group>"; };
 		E1E07EA81C04F416008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1EC6EBC12BBC5B5003C9543 /* RandomizeBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomizeBackground.h; sourceTree = "<group>"; };
-		E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomizeBackground.cpp; sourceTree = "<group>"; };
-		E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = RandomizeBackground.cpp; sourceTree = "<group>"; };
+		E1F1C1F525EFD58200AA9F1A /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */,
-				E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */,
+				E1F1C1F625EFD58200AA9F1A /* Metal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,19 +126,19 @@
 				5CFE591C0F571BEB000C7F30 /* Editor Definitions */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
+				089C1671FE841209C02AAC07 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
 			name = WhiteNoiseBackground;
 			sourceTree = "<group>";
 		};
-		089C1671FE841209C02AAC07 /* Frameworks & Libraries */ = {
+		089C1671FE841209C02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				BFBFB0D510446C180019216B /* MWorksCore.framework */,
-				E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */,
+				E1F1C1F525EFD58200AA9F1A /* Metal.framework */,
 			);
-			name = "Frameworks & Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		089C167CFE841241C02AAC07 /* Resources */ = {
@@ -149,8 +153,10 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E19CF05425F1466000518E86 /* WhiteNoiseBackgroundShaderTypes.h */,
 				5CFE59180F571B15000C7F30 /* WhiteNoiseBackground.h */,
 				5CFE59190F571B15000C7F30 /* WhiteNoiseBackground.cpp */,
+				E19CF05525F146E000518E86 /* WhiteNoiseBackground.metal */,
 				E1EC6EBC12BBC5B5003C9543 /* RandomizeBackground.h */,
 				E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */,
 				5CF9AEB90FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp */,
@@ -313,6 +319,7 @@
 			files = (
 				5CFE591A0F571B15000C7F30 /* WhiteNoiseBackground.cpp in Sources */,
 				5CF9AEBC0FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp in Sources */,
+				E19CF05625F146E000518E86 /* WhiteNoiseBackground.metal in Sources */,
 				E1EC6EBE12BBC5B5003C9543 /* RandomizeBackground.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,6 +330,7 @@
 			files = (
 				E15C72C61E6DE25E001CE0C0 /* WhiteNoiseBackgroundPlugin.cpp in Sources */,
 				E15C72C41E6DE258001CE0C0 /* WhiteNoiseBackground.cpp in Sources */,
+				E19CF05725F146E000518E86 /* WhiteNoiseBackground.metal in Sources */,
 				E15C72C51E6DE25B001CE0C0 /* RandomizeBackground.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -387,7 +395,7 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
-					OpenGLES,
+					Metal,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.WhiteNoiseBackground-iOS";
 				PRODUCT_NAME = WhiteNoiseBackground;

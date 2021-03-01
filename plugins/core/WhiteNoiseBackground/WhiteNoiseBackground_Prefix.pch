@@ -6,6 +6,9 @@
 
 #include <random>
 
+#ifdef __OBJC__
+#  include <MWorksCore/MetalStimulus.hpp>
+#endif
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardStimulusFactory.h>
 #include <MWorksCore/TrialBuildingBlocks.h>

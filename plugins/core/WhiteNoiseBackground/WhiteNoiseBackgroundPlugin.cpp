@@ -15,7 +15,7 @@ BEGIN_NAMESPACE_MW
 
 
 class WhiteNoiseBackgroundPlugin : public Plugin {
-    void registerComponents(shared_ptr<ComponentRegistry> registry) override {
+    void registerComponents(boost::shared_ptr<ComponentRegistry> registry) override {
         registry->registerFactory<StandardStimulusFactory, WhiteNoiseBackground>();
         registry->registerFactory<StandardComponentFactory, RandomizeBackground>();
     }	

@@ -23,7 +23,7 @@ public:
     bool execute() override;
     
 private:
-    shared_ptr<StimulusNode> backgroundNode;
+    const boost::shared_ptr<StimulusNode> backgroundNode;
     
 };
 
@@ -31,4 +31,4 @@ private:
 END_NAMESPACE_MW
 
 
-#endif
+#endif /* RandomizeBackground_H_ */

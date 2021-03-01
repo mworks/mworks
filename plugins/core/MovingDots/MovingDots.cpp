@@ -236,7 +236,7 @@ void MovingDots::drawMetal(MetalDisplay &display) {
     auto currentBuffer = [bufferPool acquireWithCommandBuffer:display.getCurrentMetalCommandBuffer()];
     {
         NSUInteger length = getDotPositionsSize(currentNumDots);
-        std::memcpy(currentBuffer.contents, dotPositions.get(), length);
+        std::memcpy([currentBuffer contents], dotPositions.get(), length);
 #if TARGET_OS_OSX
         [currentBuffer didModifyRange:NSMakeRange(0, length)];
 #endif

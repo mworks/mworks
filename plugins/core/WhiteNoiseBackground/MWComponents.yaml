@@ -47,12 +47,9 @@ parameters:
         use this parameter in conjuction with a `Frame List Stimulus`::
 
             frame_list dynamic_noise (
-                stimulus_group = dynamic_noise_frames
                 loop = true
                 autoplay = true
-                )
-
-            stimulus_group dynamic_noise_frames {
+                ) {
                 white_noise_background (
                     randomize_on_draw = true
                     )
