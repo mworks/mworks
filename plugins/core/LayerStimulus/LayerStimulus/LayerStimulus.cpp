@@ -76,6 +76,14 @@ void LayerStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
 }
 
 
+void LayerStimulus::setVisible(bool newVisible) {
+    for (auto &child : children) {
+        child->setVisible(newVisible);
+    }
+    MetalStimulus::setVisible(newVisible);
+}
+
+
 bool LayerStimulus::needDraw(boost::shared_ptr<StimulusDisplay> display) {
     for (auto &child : children) {
         if (child->needDraw(display)) {

@@ -69,10 +69,10 @@ void BaseFrameListStimulus::addChild(std::map<std::string, std::string> paramete
 
 
 void BaseFrameListStimulus::freeze(bool shouldFreeze) {
-    StandardDynamicStimulus::freeze(shouldFreeze);
     for (int i = 0; i < getNumFrames(); i++) {
         getStimulusForFrame(i)->freeze(shouldFreeze);
     }
+    StandardDynamicStimulus::freeze(shouldFreeze);
 }
 
 
@@ -80,7 +80,7 @@ void BaseFrameListStimulus::load(shared_ptr<StimulusDisplay> display) {
     for (int i = 0; i < getNumFrames(); i++) {
         getStimulusForFrame(i)->load(display);
     }
-    loaded = true;
+    StandardDynamicStimulus::load(display);
 }
 
 
@@ -88,7 +88,15 @@ void BaseFrameListStimulus::unload(shared_ptr<StimulusDisplay> display) {
     for (int i = 0; i < getNumFrames(); i++) {
         getStimulusForFrame(i)->unload(display);
     }
-    loaded = false;
+    StandardDynamicStimulus::unload(display);
+}
+
+
+void BaseFrameListStimulus::setVisible(bool newVisible) {
+    for (int i = 0; i < getNumFrames(); i++) {
+        getStimulusForFrame(i)->setVisible(newVisible);
+    }
+    StandardDynamicStimulus::setVisible(newVisible);
 }
 
 

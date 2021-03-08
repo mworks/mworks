@@ -36,6 +36,7 @@ public:
     
     void load(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
     void unload(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
+    void setVisible(bool newVisible) override;
     
     void drawFrame(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
     Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
