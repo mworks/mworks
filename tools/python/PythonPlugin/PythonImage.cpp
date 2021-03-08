@@ -267,9 +267,4 @@ id<MTLTexture> PythonImage::getCurrentTexture() const {
 }
 
 
-void PythonImage::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
-    BaseImageStimulus::draw(display);
-}
-
-
 END_NAMESPACE_MW_PYTHON

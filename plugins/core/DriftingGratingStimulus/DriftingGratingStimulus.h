@@ -53,7 +53,6 @@ private:
     void configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const override;
     simd::float4x4 getCurrentMVPMatrix(const simd::float4x4 &projectionMatrix) const override;
     
-    void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
     void stopPlaying() override;
     
     const boost::shared_ptr<Variable> direction_in_degrees;

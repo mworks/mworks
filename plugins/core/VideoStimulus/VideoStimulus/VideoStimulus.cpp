@@ -259,11 +259,6 @@ id<MTLTexture> VideoStimulus::getCurrentTexture() const {
 }
 
 
-void VideoStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
-    BaseImageStimulus::draw(display);
-}
-
-
 void VideoStimulus::startPlaying() {
     @autoreleasepool {
         player.volume = lastVolume = volume->getValue().getFloat();

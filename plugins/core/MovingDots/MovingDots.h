@@ -51,8 +51,6 @@ private:
     void unloadMetal(MetalDisplay &display) override;
     void drawMetal(MetalDisplay &display) override;
     
-    void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
-    
     void startPlaying() override;
     
     bool computeNumDots(double &newFieldRadius, double &newDotDensity, std::size_t &newNumDots) const;

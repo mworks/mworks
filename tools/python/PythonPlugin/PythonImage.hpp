@@ -49,8 +49,6 @@ private:
     double getCurrentAspectRatio() const override;
     id<MTLTexture> getCurrentTexture() const override;
     
-    void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
-    
     const VariablePtr pixelBufferFormat;
     const VariablePtr pixelBufferWidth;
     const VariablePtr pixelBufferHeight;

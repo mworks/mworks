@@ -272,11 +272,6 @@ void MovingDots::drawMetal(MetalDisplay &display) {
 }
 
 
-void MovingDots::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
-    MetalStimulus::draw(display);
-}
-
-
 void MovingDots::startPlaying() {
     // With the exception of previousTime, all previous values are overwritten by their
     // current counterparts before being used, so we need to initialize the latter

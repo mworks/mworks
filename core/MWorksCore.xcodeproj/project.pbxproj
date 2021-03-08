@@ -388,7 +388,6 @@
 		E13B07F01E2929620071347C /* libxslt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07EF1E2929620071347C /* libxslt.tbd */; };
 		E13B07F11E292A040071347C /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07ED1E2929590071347C /* libxml2.tbd */; };
 		E13B07F21E292A0A0071347C /* libxslt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07EF1E2929620071347C /* libxslt.tbd */; };
-		E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */; };
 		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1457B4E14D08F7E004D3AD5 /* MWorksCoreTestMain.h in Headers */ = {isa = PBXBuildFile; fileRef = E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */; };
 		E1457B5014D08F95004D3AD5 /* MWorksCoreTestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */; };
@@ -601,7 +600,6 @@
 		E17917701E4E563A00528B91 /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917711E4E564000528B91 /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E17917721E4E564400528B91 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E17917731E4E564900528B91 /* StandardDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */; };
 		E17917741E4E565E00528B91 /* OpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917751E4E566200528B91 /* OpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */; };
 		E17917761E4E566800528B91 /* StimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7667530C1BB30A00B1203C /* StimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1309,7 +1307,6 @@
 		E13464EA1D4BD8B200E4CF08 /* ZeroMQConnection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQConnection.hpp; sourceTree = "<group>"; };
 		E13B07ED1E2929590071347C /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		E13B07EF1E2929620071347C /* libxslt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxslt.tbd; path = usr/lib/libxslt.tbd; sourceTree = SDKROOT; };
-		E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardDynamicStimulus.cpp; sourceTree = "<group>"; };
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
 		E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCoreTestMain.h; sourceTree = "<group>"; };
 		E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksCoreTestMain.cpp; sourceTree = "<group>"; };
@@ -1888,7 +1885,6 @@
 				E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */,
 				E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */,
 				E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */,
-				E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */,
 			);
 			name = DynamicStimuli;
 			path = Core/Stimuli/DynamicStimuli;
@@ -3667,7 +3663,6 @@
 				5CD6215A1174FF3D007339B7 /* FreezableVariableContainer.cpp in Sources */,
 				E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */,
 				E188BE941D47F23B0001483A /* ZeroMQSocket.cpp in Sources */,
-				E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */,
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
 				E1CA751425B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */,
 				E11E9E2425AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */,
@@ -3818,7 +3813,6 @@
 				E17916CE1E4E514C00528B91 /* ScopedVariable.cpp in Sources */,
 				E17916EB1E4E51F800528B91 /* EventCallbackHandler.cpp in Sources */,
 				E17916D81E4E517700528B91 /* StandardVariables.cpp in Sources */,
-				E17917731E4E564900528B91 /* StandardDynamicStimulus.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

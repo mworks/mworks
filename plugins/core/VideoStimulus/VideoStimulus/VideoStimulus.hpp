@@ -42,8 +42,6 @@ private:
     double getCurrentAspectRatio() const override;
     id<MTLTexture> getCurrentTexture() const override;
     
-    void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
-    
     void startPlaying() override;
     void stopPlaying() override;
     void beginPause() override;

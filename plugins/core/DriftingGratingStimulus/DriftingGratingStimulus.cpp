@@ -329,11 +329,6 @@ simd::float4x4 DriftingGratingStimulus::getCurrentMVPMatrix(const simd::float4x4
 }
 
 
-void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
-    ColoredTransformStimulus::draw(display);
-}
-
-
 void DriftingGratingStimulus::stopPlaying() {
     DriftingGratingStimulusBase::stopPlaying();
     lastElapsedSeconds = -1.0;

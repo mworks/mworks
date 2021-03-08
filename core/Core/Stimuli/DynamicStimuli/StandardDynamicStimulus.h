@@ -29,16 +29,16 @@ public:
     explicit DynamicStimulusBase(const ParameterValueMap &parameters);
     
     void setVisible(bool newvis) override;
-    bool needDraw(shared_ptr<StimulusDisplay> display) override;
-    void draw(shared_ptr<StimulusDisplay> display) override;
+    bool needDraw(boost::shared_ptr<StimulusDisplay> display) override;
+    void draw(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 protected:
     void beginPause() override;
     
-private:
-    virtual void drawFrame(shared_ptr<StimulusDisplay> display) = 0;
+    virtual void drawFrame(boost::shared_ptr<StimulusDisplay> display);
     
+private:
     const VariablePtr autoplay;
     bool didDrawWhilePaused;
     
@@ -77,13 +77,13 @@ void DynamicStimulusBase<BaseStimulus>::setVisible(bool newvis) {
 
 
 template<typename BaseStimulus>
-bool DynamicStimulusBase<BaseStimulus>::needDraw(shared_ptr<StimulusDisplay> display) {
+bool DynamicStimulusBase<BaseStimulus>::needDraw(boost::shared_ptr<StimulusDisplay> display) {
     return isPlaying() && !(isPaused() && didDrawWhilePaused);
 }
 
 
 template<typename BaseStimulus>
-void DynamicStimulusBase<BaseStimulus>::draw(shared_ptr<StimulusDisplay> display) {
+void DynamicStimulusBase<BaseStimulus>::draw(boost::shared_ptr<StimulusDisplay> display) {
     boost::mutex::scoped_lock locker(stim_lock);
     
     if (!isPlaying()) {
@@ -104,7 +104,7 @@ void DynamicStimulusBase<BaseStimulus>::draw(shared_ptr<StimulusDisplay> display
 
 template<typename BaseStimulus>
 Datum DynamicStimulusBase<BaseStimulus>::getCurrentAnnounceDrawData() {
-    Datum announceData = BaseStimulus::getCurrentAnnounceDrawData();
+    auto announceData = BaseStimulus::getCurrentAnnounceDrawData();
     announceData.addElement("start_time", getStartTime());
     return announceData;
 }
@@ -117,33 +117,16 @@ void DynamicStimulusBase<BaseStimulus>::beginPause() {
 }
 
 
+template<typename BaseStimulus>
+void DynamicStimulusBase<BaseStimulus>::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
+    BaseStimulus::draw(display);
+}
+
+
 using StandardDynamicStimulus = DynamicStimulusBase<Stimulus>;
 
 
 END_NAMESPACE_MW
 
 
-#endif 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif /* StandardDynamicStimulus_H_ */
