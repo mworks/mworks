@@ -44,6 +44,8 @@ const std::string TextStimulus::TEXT("text");
 const std::string TextStimulus::FONT_NAME("font_name");
 const std::string TextStimulus::FONT_SIZE("font_size");
 const std::string TextStimulus::TEXT_ALIGNMENT("text_alignment");
+const std::string TextStimulus::MAX_SIZE_X("max_size_x");
+const std::string TextStimulus::MAX_SIZE_Y("max_size_y");
 
 
 void TextStimulus::describeComponent(ComponentInfo &info) {
@@ -55,6 +57,8 @@ void TextStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(FONT_NAME);
     info.addParameter(FONT_SIZE);
     info.addParameter(TEXT_ALIGNMENT, "left");
+    info.addParameter(MAX_SIZE_X, false);
+    info.addParameter(MAX_SIZE_Y, false);
 }
 
 
@@ -64,171 +68,234 @@ TextStimulus::TextStimulus(const ParameterValueMap &parameters) :
     fontName(registerVariable(variableOrText(parameters[FONT_NAME]))),
     fontSize(registerVariable(parameters[FONT_SIZE])),
     textAlignment(registerVariable(variableOrText(parameters[TEXT_ALIGNMENT]))),
-    viewportWidth(0),
-    viewportHeight(0),
-    pixelsPerDegree(0.0),
-    pointsPerPixel(0.0)
+    maxSizeX(optionalVariable(parameters[MAX_SIZE_X])),
+    maxSizeY(optionalVariable(parameters[MAX_SIZE_Y])),
+    texturePool(nil),
+    currentTexture(nil)
 { }
 
 
+TextStimulus::~TextStimulus() {
+    @autoreleasepool {
+        currentTexture = nil;
+        texturePool = nil;
+    }
+}
+
+
 Datum TextStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
+    auto announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "text");
-    announceData.addElement(TEXT, lastText);
-    announceData.addElement(FONT_NAME, lastFontName);
-    announceData.addElement(FONT_SIZE, lastFontSize);
-    announceData.addElement(TEXT_ALIGNMENT, lastTextAlignment);
+    announceData.addElement(TEXT, currentText);
+    announceData.addElement(FONT_NAME, currentFontName);
+    announceData.addElement(FONT_SIZE, currentFontSize);
+    announceData.addElement(TEXT_ALIGNMENT, currentTextAlignment);
     
     return announceData;
 }
 
 
-gl::Shader TextStimulus::getVertexShader() const {
-    static const std::string source
-    (R"(
-     uniform mat4 mvpMatrix;
-     in vec4 vertexPosition;
-     in vec2 texCoords;
-     out vec2 varyingTexCoords;
-     
-     void main() {
-         gl_Position = mvpMatrix * vertexPosition;
-         varyingTexCoords = texCoords;
-     }
-     )");
+void TextStimulus::loadMetal(MetalDisplay &display) {
+    ColoredTransformStimulus::loadMetal(display);
     
-    return gl::createShader(GL_VERTEX_SHADER, source);
-}
-
-
-gl::Shader TextStimulus::getFragmentShader() const {
-    static const std::string source
-    (R"(
-     uniform vec4 color;
-     uniform sampler2D textTexture;
-     in vec2 varyingTexCoords;
-     out vec4 fragColor;
-     
-     void main() {
-         fragColor = color * texture(textTexture, varyingTexCoords);
-     }
-     )");
+    //
+    // Determine maximum size
+    //
     
-    return gl::createShader(GL_FRAGMENT_SHADER, source);
-}
-
-
-void TextStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
-    ColoredTransformStimulus::prepare(display);
-    
-    double xMin, xMax, yMin, yMax;
-    display->getDisplayBounds(xMin, xMax, yMin, yMax);
-    
-    __block CGSize displaySizeInPoints;
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        // If there's only a mirror window, getMainView will return its view,
-        // so there's no need to call getMirrorView
-        auto displayView = boost::dynamic_pointer_cast<AppleStimulusDisplay>(display)->getMainView();
-        displaySizeInPoints = displayView.frame.size;
-    });
-    
-    gl::getCurrentViewportSize(viewportWidth, viewportHeight);
-    pixelsPerDegree = double(viewportWidth) / (xMax - xMin);
-    pointsPerPixel = displaySizeInPoints.width / double(viewportWidth);
-    
-    glGenTextures(1, &texture);
-    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
-    {
-        // Attempt to provide initial data for the text texture, in hopes that this will force
-        // the driver and/or GPU to allocate memory for it now, at load time, rather than on
-        // first use
+    if (!fullscreen) {
+        float defaultMaxSizeX = 0.0;
+        float defaultMaxSizeY = 0.0;
         
-        float sizeX = 0.0;
-        float sizeY = 0.0;
-        getCurrentSize(sizeX, sizeY);
+        // Don't evaluate x_size and y_size unless we need them
+        if (!(maxSizeX && maxSizeY)) {
+            getCurrentSize(defaultMaxSizeX, defaultMaxSizeY);
+        }
         
-        std::size_t bitmapWidth = 0;
-        std::size_t bitmapHeight = 0;
-        computeBitmapDimensions(sizeX, sizeY, bitmapWidth, bitmapHeight);
-        const auto numPixels = bitmapWidth * bitmapHeight;
+        if (maxSizeX) {
+            currentMaxSizeX = maxSizeX->getValue().getFloat();
+        } else {
+            currentMaxSizeX = defaultMaxSizeX;
+        }
+        if (currentMaxSizeX <= 0.0) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Maximum horizontal size must be greater than zero");
+        }
         
-        if (numPixels > 0) {
-            std::vector<std::uint8_t> data(4 * numPixels, 0);
-            gl::resetPixelStorageUnpackParameters();
-            
-            glTexImage2D(GL_TEXTURE_2D,
-                         0,
-                         (display->getUseColorManagement() ? GL_SRGB8_ALPHA8 : GL_RGBA8),
-                         bitmapWidth,
-                         bitmapHeight,
-                         0,
-#if MWORKS_OPENGL_ES
-                         GL_BGRA_EXT,
-                         GL_UNSIGNED_BYTE,
-#else
-                         GL_BGRA,
-                         GL_UNSIGNED_INT_8_8_8_8_REV,
-#endif
-                         data.data());
+        if (maxSizeY) {
+            currentMaxSizeY = maxSizeY->getValue().getFloat();
+        } else {
+            currentMaxSizeY = defaultMaxSizeY;
+        }
+        if (currentMaxSizeY <= 0.0) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Maximum vertical size must be greater than zero");
         }
     }
     
-    glUniform1i(glGetUniformLocation(program, "textTexture"), 0);
+    //
+    // Determine viewport size and compute conversions from degrees to pixels
+    // and points to pixels
+    //
+    {
+        __block CGSize displaySizeInPoints;
+        __block CGSize displaySizeInPixels;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            // If there's only a mirror window, getMainView will return its view,
+            // so there's no need to call getMirrorView
+            auto displayView = display.getMainView();
+            displaySizeInPoints = displayView.frame.size;
+            displaySizeInPixels = displayView.drawableSize;
+        });
+        
+        viewportWidth = displaySizeInPixels.width;
+        viewportHeight = displaySizeInPixels.height;
+        
+        double xMin, xMax, yMin, yMax;
+        display.getDisplayBounds(xMin, xMax, yMin, yMax);
+        pixelsPerDegree = double(viewportWidth) / (xMax - xMin);
+        pixelsPerPoint = double(viewportWidth) / displaySizeInPoints.width;
+    }
     
-    glGenBuffers(1, &texCoordsBuffer);
-    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
-    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
-    glEnableVertexAttribArray(texCoordsAttribLocation);
-    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+    //
+    // Determine texture dimensions and allocate CPU-side texture data
+    //
+    
+    computeTextureDimensions(currentMaxSizeX, currentMaxSizeY, textureWidth, textureHeight);
+    textureBytesPerRow = textureWidth;  // Texture contains only alpha values
+    textureData.reset(new std::uint8_t[textureBytesPerRow * textureHeight]);
+    
+    //
+    // Create bitmap context
+    //
+    
+    context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(textureData.get(),
+                                                                         textureWidth,
+                                                                         textureHeight,
+                                                                         8,
+                                                                         textureBytesPerRow,
+                                                                         nullptr,  // OK for alpha-only bitmap
+                                                                         kCGImageAlphaOnly));
+    
+    // Enable antialiasing
+    CGContextSetAllowsAntialiasing(context.get(), true);
+    CGContextSetShouldAntialias(context.get(), true);
+    
+    // Set the text matrix
+    CGContextSetTextMatrix(context.get(), CGAffineTransformIdentity);
+    
+    //
+    // Create texture pool
+    //
+    {
+        auto textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatR8Unorm
+                                                                                    width:textureWidth
+                                                                                   height:textureHeight
+                                                                                mipmapped:NO];
+        // Keep the default value of storageMode: MTLStorageModeManaged on macOS, MTLStorageModeShared on iOS
+        
+        texturePool = [MWKTripleBufferedMTLResource textureWithDevice:display.getMetalDevice()
+                                                           descriptor:textureDescriptor];
+    }
+    
+    //
+    // Create render pipeline state
+    //
+    {
+        auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
+        auto vertexFunction = loadShaderFunction(library, "vertexShader");
+        auto fragmentFunction = loadShaderFunction(library, "fragmentShader");
+        auto renderPipelineDescriptor = createRenderPipelineDescriptor(display, vertexFunction, fragmentFunction);
+        renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
+    }
 }
 
 
-void TextStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
-    glDeleteBuffers(1, &texCoordsBuffer);
-    glDeleteTextures(1, &texture);
+void TextStimulus::unloadMetal(MetalDisplay &display) {
+    currentTexture = nil;
+    texturePool = nil;
+    context.reset();
+    textureData.reset();
     
-    ColoredTransformStimulus::destroy(display);
+    ColoredTransformStimulus::unloadMetal(display);
 }
 
 
-void TextStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    ColoredTransformStimulus::preDraw(display);
+void TextStimulus::drawMetal(MetalDisplay &display) {
+    ColoredTransformStimulus::drawMetal(display);
     
+    if (current_sizex > currentMaxSizeX) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "Current horizontal size of stimulus \"%s\" (%g) exceeds maximum (%g).  To resolve this issue, "
+               "set %s to an appropriate value.",
+               getTag().c_str(),
+               current_sizex,
+               currentMaxSizeX,
+               MAX_SIZE_X.c_str());
+        return;
+    }
+    if (current_sizey > currentMaxSizeY) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "Current vertical size of stimulus \"%s\" (%g) exceeds maximum (%g).  To resolve this issue, "
+               "set %s to an appropriate value.",
+               getTag().c_str(),
+               current_sizey,
+               currentMaxSizeY,
+               MAX_SIZE_Y.c_str());
+        return;
+    }
+    
+    computeTextureDimensions(current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
     currentText = text->getValue().getString();
     currentFontName = fontName->getValue().getString();
     currentFontSize = fontSize->getValue().getFloat();
     currentTextAlignment = textAlignment->getValue().getString();
     
-    bindTexture(display);
-}
-
-
-void TextStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    glBindTexture(GL_TEXTURE_2D, 0);
+    updateTexture(display);
     
+    auto renderCommandEncoder = createRenderCommandEncoder(display);
+    [renderCommandEncoder setRenderPipelineState:renderPipelineState];
+    
+    setCurrentMVPMatrix(display, renderCommandEncoder, 0);
+    {
+        auto texCoordScale = simd::make_float2(currentWidthPixels - 1, currentHeightPixels - 1);
+        setVertexBytes(renderCommandEncoder, texCoordScale, 1);
+    }
+    
+    [renderCommandEncoder setFragmentTexture:currentTexture atIndex:0];
+    setCurrentColor(renderCommandEncoder, 0);
+    
+    [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
+    [renderCommandEncoder endEncoding];
+    
+    lastWidthPixels = currentWidthPixels;
+    lastHeightPixels = currentHeightPixels;
     lastText = currentText;
     lastFontName = currentFontName;
     lastFontSize = currentFontSize;
     lastTextAlignment = currentTextAlignment;
-    
-    ColoredTransformStimulus::postDraw(display);
 }
 
 
-void TextStimulus::computeBitmapDimensions(float width,
-                                           float height,
-                                           std::size_t &bitmapWidth,
-                                           std::size_t &bitmapHeight) const
+void TextStimulus::computeTextureDimensions(double widthDegrees,
+                                            double heightDegrees,
+                                            std::size_t &widthPixels,
+                                            std::size_t &heightPixels) const
 {
-    bitmapWidth = (fullscreen ? viewportWidth : (width * pixelsPerDegree));
-    bitmapHeight = (fullscreen ? viewportHeight : (height * pixelsPerDegree));
+    if (fullscreen) {
+        widthPixels = viewportWidth;
+        heightPixels = viewportHeight;
+    } else {
+        // Replace negative width or height with 0, and ensure that the texture
+        // contains at least one pixel
+        widthPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, widthDegrees));
+        heightPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, heightDegrees));
+    }
 }
 
 
-void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display) {
-    if ((fullscreen || (current_sizex == last_sizex && current_sizey == last_sizey)) &&
+void TextStimulus::updateTexture(MetalDisplay &display) {
+    if (currentTexture &&
+        currentWidthPixels == lastWidthPixels &&
+        currentHeightPixels == lastHeightPixels &&
         currentText == lastText &&
         currentFontName == lastFontName &&
         currentFontSize == lastFontSize &&
@@ -236,51 +303,35 @@ void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display
     {
         // No relevant parameters have changed since we last generated the texture, so use
         // the existing one
-        glBindTexture(GL_TEXTURE_2D, texture);
         return;
     }
     
-    // Create a bitmap context
-    std::size_t bitmapWidth = 0;
-    std::size_t bitmapHeight = 0;
-    computeBitmapDimensions(current_sizex, current_sizey, bitmapWidth, bitmapHeight);
-    auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(display->getUseColorManagement() ?
-                                                              CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
-                                                              CGColorSpaceCreateDeviceRGB());
-    auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
-                                                                              bitmapWidth,
-                                                                              bitmapHeight,
-                                                                              8,
-                                                                              bitmapWidth * 4,
-                                                                              colorSpace.get(),
-#if MWORKS_OPENGL_ES
-                                                                              kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Little));
-#else
-                                                                              kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
-#endif
-    
-    // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL) and
-    // convert it from pixels to points
-    CGContextTranslateCTM(context.get(), 0, bitmapHeight);
-    CGContextScaleCTM(context.get(), 1.0 / pointsPerPixel, -1.0 / pointsPerPixel);
+    //
+    // Clear the relevant portion of the context
+    //
+    // NOTE: By default, Core Graphics contexts place the origin in the lower left corner, whereas
+    // the origin for Metal textures is in the upper left.  To simplify the texture coordinates used
+    // by Metal, we want to draw in the upper-left corner of the texture.  This would be easier to
+    // do if we just flipped the coordinate system of the CGBitmapContext.  Unfortunately, Core Text
+    // resists such flips and insists on making "up" be the direction of increasing y, meaning that
+    // text rendered into a y-flipped context is drawn with y flipped.  Therefore, we just live with
+    // the slight annoyance of defining our drawing rectangle relative to Core Graphics' default,
+    // origin-at-lower-left coordinate system.
+    //
+    const auto rect = CGRectMake(0,
+                                 textureHeight - currentHeightPixels,
+                                 currentWidthPixels,
+                                 currentHeightPixels);
+    CGContextClearRect(context.get(), rect);
     
     // Create the text string
     auto attrString = cf::ObjectPtr<CFMutableAttributedStringRef>::created(CFAttributedStringCreateMutable(kCFAllocatorDefault, 0));
     CFAttributedStringReplaceString(attrString.get(), CFRangeMake(0, 0), createCFString(currentText).get());
     const auto fullRange = CFRangeMake(0, CFAttributedStringGetLength(attrString.get()));
     
-    // Set the color to white and fully opaque.  (The user-specified color and alpha multiplier are applied
-    // in the fragment shader.)
-    const std::array<CGFloat, 4> colorComponents { 1.0, 1.0, 1.0, 1.0 };
-    auto color = cf::ObjectPtr<CGColorRef>::created(CGColorCreate(colorSpace.get(), colorComponents.data()));
-    CFAttributedStringSetAttribute(attrString.get(),
-                                   fullRange,
-                                   kCTForegroundColorAttributeName,
-                                   color.get());
-    
-    // Set the font
+    // Set the font, converting size from points to pixels
     auto font = cf::ObjectPtr<CTFontRef>::created(CTFontCreateWithName(createCFString(currentFontName).get(),
-                                                                       currentFontSize,
+                                                                       currentFontSize * pixelsPerPoint,
                                                                        nullptr));
     CFAttributedStringSetAttribute(attrString.get(), fullRange, kCTFontAttributeName, font.get());
     
@@ -292,21 +343,16 @@ void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display
     auto paragraphStyle = cf::ObjectPtr<CTParagraphStyleRef>::created(CTParagraphStyleCreate(paragraphStyleSettings.data(),
                                                                                              paragraphStyleSettings.size()));
     CFAttributedStringSetAttribute(attrString.get(), fullRange, kCTParagraphStyleAttributeName, paragraphStyle.get());
-
+    
     // Generate a Core Text frame
     auto framesetter = cf::ObjectPtr<CTFramesetterRef>::created(CTFramesetterCreateWithAttributedString(attrString.get()));
-    auto path = cf::ObjectPtr<CGPathRef>::created(CGPathCreateWithRect(CGRectMake(0,
-                                                                                  0,
-                                                                                  bitmapWidth * pointsPerPixel,
-                                                                                  bitmapHeight * pointsPerPixel),
-                                                                       nullptr));
+    auto path = cf::ObjectPtr<CGPathRef>::created(CGPathCreateWithRect(rect, nullptr));
     auto frame = cf::ObjectPtr<CTFrameRef>::created(CTFramesetterCreateFrame(framesetter.get(),
                                                                              CFRangeMake(0, 0),
                                                                              path.get(),
                                                                              nullptr));
     
     // Draw the frame in the context
-    CGContextSetTextMatrix(context.get(), CGAffineTransformIdentity);
     CTFrameDraw(frame.get(), context.get());
     if (CTFrameGetVisibleStringRange(frame.get()).length != fullRange.length) {
         mwarning(M_DISPLAY_MESSAGE_DOMAIN,
@@ -314,67 +360,13 @@ void TextStimulus::bindTexture(const boost::shared_ptr<StimulusDisplay> &display
                  getTag().c_str());
     }
     
-    //
-    // Create an OpenGL texture from the bitmap context
-    //
-    
-    glBindTexture(GL_TEXTURE_2D, texture);
-    
-    gl::resetPixelStorageUnpackParameters();
-    
-    glTexImage2D(GL_TEXTURE_2D,
-                 0,
-                 (display->getUseColorManagement() ? GL_SRGB8_ALPHA8 : GL_RGBA8),
-                 bitmapWidth,
-                 bitmapHeight,
-                 0,
-#if MWORKS_OPENGL_ES
-                 GL_BGRA_EXT,
-                 GL_UNSIGNED_BYTE,
-#else
-                 GL_BGRA,
-                 GL_UNSIGNED_INT_8_8_8_8_REV,
-#endif
-                 CGBitmapContextGetData(context.get()));
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // Copy the texture data to the next-available texture from the pool
+    currentTexture = [texturePool acquireWithCommandBuffer:display.getCurrentMetalCommandBuffer()];
+    [currentTexture replaceRegion:MTLRegionMake2D(0, 0, currentWidthPixels, currentHeightPixels)
+                      mipmapLevel:0
+                        withBytes:textureData.get()
+                      bytesPerRow:textureBytesPerRow];
 }
 
 
-const TextStimulus::VertexPositionArray TextStimulus::texCoords {
-    0.0f, 0.0f,
-    1.0f, 0.0f,
-    0.0f, 1.0f,
-    1.0f, 1.0f
-};
-
-
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

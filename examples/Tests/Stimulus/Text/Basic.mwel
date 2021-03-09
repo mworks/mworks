@@ -27,6 +27,8 @@ text text (
     font_name = font_name
     font_size = font_size
     text_alignment = text_alignment
+    max_size_x = 30
+    max_size_y = 12
     color = red, green, blue
     x_size = x_size
     y_size = y_size
@@ -77,19 +79,20 @@ protocol {
     update_and_wait ()
 
     // Change x size
-    x_size = 2 * x_size
+    x_size *= 2
     update_and_wait ()
 
     // Change y size
-    y_size = 0.5 * y_size
+    x_size /= 3
+    y_size *= 3
     update_and_wait ()
 
     // Change x position
-    x_pos = 1
+    x_pos = 5
     update_and_wait ()
 
     // Change y position
-    y_pos = 3
+    y_pos = 5
     update_and_wait ()
 
     // Change rotation

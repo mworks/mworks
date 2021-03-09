@@ -14,14 +14,17 @@
 
 #ifdef __cplusplus
 
-#ifdef __OBJC__
-#  include <MWorksCore/AppleStimulusDisplay.hpp>
-#endif
 #include <MWorksCore/CFObjectPtr.h>
+#ifdef __OBJC__
+#  include <MWorksCore/ColoredTransformStimulus.hpp>
+#endif
 #include <MWorksCore/Plugin.h>
-#include <MWorksCore/StandardStimuli.h>
 #include <MWorksCore/StandardStimulusFactory.h>
 
 #endif /* defined(__cplusplus) */
+
+#ifdef __OBJC__
+#  include <MWorksCore/MWKTripleBufferedMTLResource.h>
+#endif
 
 #endif /* TextStimulus_Prefix_pch */

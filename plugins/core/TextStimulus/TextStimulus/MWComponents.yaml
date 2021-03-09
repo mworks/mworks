@@ -31,5 +31,19 @@ parameters:
     options: [left, right, center]
     default: left
     description: Text alignment
+  - 
+    name: max_size_x
+    description: |
+        Maximum horizontal size (degrees).
+
+        If omitted, the maximum horizontal size is set to the value of `x_size`_
+        when the stimulus is loaded.
+  - 
+    name: max_size_y
+    description: |
+        Maximum vertical size (degrees).
+
+        If omitted, the maximum vertical size is set to the value of `y_size`_
+        when the stimulus is loaded.
 
 

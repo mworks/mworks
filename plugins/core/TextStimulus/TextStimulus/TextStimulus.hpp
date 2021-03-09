@@ -20,45 +20,58 @@ public:
     static const std::string FONT_NAME;
     static const std::string FONT_SIZE;
     static const std::string TEXT_ALIGNMENT;
+    static const std::string MAX_SIZE_X;
+    static const std::string MAX_SIZE_Y;
     
     static void describeComponent(ComponentInfo &info);
     
     explicit TextStimulus(const ParameterValueMap &parameters);
+    ~TextStimulus();
     
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    gl::Shader getVertexShader() const override;
-    gl::Shader getFragmentShader() const override;
+    void loadMetal(MetalDisplay &display) override;
+    void unloadMetal(MetalDisplay &display) override;
+    void drawMetal(MetalDisplay &display) override;
     
-    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
-    
-    void computeBitmapDimensions(float width,
-                                 float height,
-                                 std::size_t &bitmapWidth,
-                                 std::size_t &bitmapHeight) const;
-    void bindTexture(const boost::shared_ptr<StimulusDisplay> &display);
-    
-    static const VertexPositionArray texCoords;
+    void computeTextureDimensions(double widthDegrees,
+                                  double heightDegrees,
+                                  std::size_t &widthPixels,
+                                  std::size_t &heightPixels) const;
+    void updateTexture(MetalDisplay &display);
     
     const VariablePtr text;
     const VariablePtr fontName;
     const VariablePtr fontSize;
     const VariablePtr textAlignment;
+    const VariablePtr maxSizeX;
+    const VariablePtr maxSizeY;
     
-    GLint viewportWidth, viewportHeight;
+    float currentMaxSizeX, currentMaxSizeY;
+    
+    std::size_t viewportWidth, viewportHeight;
     double pixelsPerDegree;
-    double pointsPerPixel;
-    GLuint texture = 0;
-    GLuint texCoordsBuffer = 0;
+    double pixelsPerPoint;
     
-    std::string currentText, lastText;
-    std::string currentFontName, lastFontName;
-    CGFloat currentFontSize, lastFontSize;
-    std::string currentTextAlignment, lastTextAlignment;
+    std::size_t textureWidth, textureHeight;
+    std::size_t textureBytesPerRow;
+    std::unique_ptr<std::uint8_t[]> textureData;
+    
+    cf::ObjectPtr<CGContextRef> context;
+    
+    MWKTripleBufferedMTLResource<id<MTLTexture>> *texturePool;
+    id<MTLTexture> currentTexture;
+    
+    std::size_t currentWidthPixels, currentHeightPixels;
+    std::string currentText, currentFontName;
+    CGFloat currentFontSize;
+    std::string currentTextAlignment;
+    
+    std::size_t lastWidthPixels, lastHeightPixels;
+    std::string lastText, lastFontName;
+    CGFloat lastFontSize;
+    std::string lastTextAlignment;
     
 };
 
@@ -67,30 +80,3 @@ END_NAMESPACE_MW
 
 
 #endif /* TextStimulus_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
