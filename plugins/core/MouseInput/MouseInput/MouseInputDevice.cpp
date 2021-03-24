@@ -24,8 +24,8 @@ void MouseInputDevice::describeComponent(ComponentInfo &info) {
     
     info.setSignature("iodevice/mouse_input");
     
-    info.addParameter(MOUSE_POSITION_X);
-    info.addParameter(MOUSE_POSITION_Y);
+    info.addParameter(MOUSE_POSITION_X, false);
+    info.addParameter(MOUSE_POSITION_Y, false);
     info.addParameter(MOUSE_DOWN, false);
     info.addParameter(HIDE_CURSOR, "NO");
     info.addParameter(USE_MIRROR_WINDOW, "NO");
@@ -34,19 +34,16 @@ void MouseInputDevice::describeComponent(ComponentInfo &info) {
 
 MouseInputDevice::MouseInputDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
-    posX(parameters[MOUSE_POSITION_X]),
-    posY(parameters[MOUSE_POSITION_Y]),
+    posX(optionalVariable(parameters[MOUSE_POSITION_X])),
+    posY(optionalVariable(parameters[MOUSE_POSITION_Y])),
+    down(optionalVariable(parameters[MOUSE_DOWN])),
     hideCursor(parameters[HIDE_CURSOR]),
     useMirrorWindow(parameters[USE_MIRROR_WINDOW]),
     targetView(nil),
     tracker(nil),
     trackingArea(nil),
     started(false)
-{
-    if (!(parameters[MOUSE_DOWN].empty())) {
-        down = VariablePtr(parameters[MOUSE_DOWN]);
-    }
-}
+{ }
 
 
 MouseInputDevice::~MouseInputDevice() {
@@ -202,8 +199,12 @@ void MouseInputDevice::moveMouseCursor(double xPos, double yPos) const {
 
 void MouseInputDevice::updateMousePosition(double x, double y) const {
     MWTime time = Clock::instance()->getCurrentTimeUS();
-    posX->setValue(x, time);
-    posY->setValue(y, time);
+    if (posX) {
+        posX->setValue(x, time);
+    }
+    if (posY) {
+        posY->setValue(y, time);
+    }
 }
 
 

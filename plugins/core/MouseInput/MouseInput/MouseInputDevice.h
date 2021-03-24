@@ -40,9 +40,9 @@ public:
 private:
     void updateMousePosition(double x, double y) const;
     
-    VariablePtr posX;
-    VariablePtr posY;
-    VariablePtr down;
+    const VariablePtr posX;
+    const VariablePtr posY;
+    const VariablePtr down;
     const bool hideCursor;
     const bool useMirrorWindow;
     

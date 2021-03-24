@@ -9,13 +9,11 @@ description: Interface to the system mouse or other pointing device
 parameters: 
   - 
     name: mouse_position_x
-    required: yes
     description: >
         Variable in which to store the horizontal position of the pointer (in
         degrees) on the stimulus display
   - 
     name: mouse_position_y
-    required: yes
     description: >
         Variable in which to store the vertical position of the pointer (in
         degrees) on the stimulus display
