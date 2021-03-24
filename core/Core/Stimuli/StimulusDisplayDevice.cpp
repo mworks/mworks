@@ -24,7 +24,7 @@ const std::string StimulusDisplayDevice::ANNOUNCE_STIMULI_ON_IMPLICIT_UPDATES("a
 void StimulusDisplayDevice::describeComponent(ComponentInfo &info) {
     IODevice::describeComponent(info);
     info.setSignature("iodevice/stimulus_display");
-    info.addParameter(BACKGROUND_COLOR, true, "0.5,0.5,0.5");
+    info.addParameter(BACKGROUND_COLOR, "0.5,0.5,0.5");
     info.addParameter(BACKGROUND_ALPHA_MULTIPLIER, "1.0");
     info.addParameter(REDRAW_ON_EVERY_REFRESH, "NO");
     info.addParameter(ANNOUNCE_STIMULI_ON_IMPLICIT_UPDATES, "YES");
