@@ -45,6 +45,9 @@ fragment float4
 LayerStimulus_fragmentShader(RasterizerData in [[stage_in]],
                              texture2d<float> colorTexture [[texture(0)]])
 {
-    constexpr sampler textureSampler (mag_filter::linear, min_filter::linear);
+    // Nearest filtering is fine, since the layer's texture has the same
+    // dimensions as and is aligned pixel-for-pixel with the display's
+    // framebuffer texture
+    constexpr sampler textureSampler (filter::nearest);
     return colorTexture.sample(textureSampler, in.textureCoordinate);
 }

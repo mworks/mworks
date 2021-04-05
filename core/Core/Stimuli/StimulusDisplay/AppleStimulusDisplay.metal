@@ -68,7 +68,7 @@ fragment float4
 MWKStimulusDisplayViewDelegate_fragmentShader(RasterizerData in [[stage_in]],
                                               texture2d<float> colorTexture [[texture(0)]])
 {
-    constexpr sampler textureSampler (mag_filter::linear, min_filter::linear);
+    constexpr sampler textureSampler (filter::linear);
     float4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
     if (convertToSRGB) {
         colorSample.rgb = linearToSRGB(colorSample.rgb);
