@@ -120,10 +120,20 @@ void VideoStimulus::loadMetal(MetalDisplay &display) {
     player = [AVPlayer playerWithURL:fileURL];
     player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     
-    videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:@{
+    NSMutableDictionary<NSString *, id> *outputSettings = [NSMutableDictionary dictionaryWithDictionary:@{
         (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA),
         (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES)
     }];
+    if (display.getUseColorManagement()) {
+        // Ensure that video frames are in the ITU-R BT.709 color space
+        outputSettings[AVVideoColorPropertiesKey] = @{
+            AVVideoColorPrimariesKey: AVVideoColorPrimaries_ITU_R_709_2,
+            AVVideoTransferFunctionKey: AVVideoTransferFunction_ITU_R_709_2,
+            AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_709_2
+        };
+    }
+    
+    videoOutput = [[AVPlayerItemVideoOutput alloc] initWithOutputSettings:outputSettings];
     
     AVPlayerItem *item = player.currentItem;
     [item addOutput:videoOutput];
@@ -159,6 +169,8 @@ void VideoStimulus::loadMetal(MetalDisplay &display) {
     }
     
     if (display.getUseColorManagement()) {
+        textureColorSpace = CGColorSpacePtr::created(CGColorSpaceCreateWithName(kCGColorSpaceITUR_709));
+        
         colorConversionContext = [CIContext contextWithMTLDevice:display.getMetalDevice()];
         colorConvertedTextureColorSpace = CGColorSpacePtr::created(CGColorSpaceCreateWithName(kCGColorSpaceSRGB));
         
@@ -192,6 +204,7 @@ void VideoStimulus::unloadMetal(MetalDisplay &display) {
     colorConvertedTexture = nil;
     colorConvertedTextureColorSpace.reset();
     colorConversionContext = nil;
+    textureColorSpace.reset();
     
     metalTextureCache.reset();
     
@@ -218,30 +231,27 @@ bool VideoStimulus::prepareCurrentTexture(MetalDisplay &display) {
         currentTexture = CVMetalTextureGetTexture(currentMetalTexture.get());
         
         if (display.getUseColorManagement()) {
-            auto textureColorSpace = CGColorSpacePtr::borrowed(CVImageBufferGetColorSpace(currentPixelBuffer.get()));
-            if (textureColorSpace) {
-                if (currentWidth != expectedWidth || currentHeight != expectedHeight) {
-                    if (!didWarnAboutSizeMismatch) {
-                        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                                 "Current video frame size (%lux%lu) does not match expected size (%lux%lu); "
-                                 "video output quality may be affected",
-                                 currentWidth, currentHeight,
-                                 expectedWidth, expectedHeight);
-                        didWarnAboutSizeMismatch = true;
-                    }
+            if (currentWidth != expectedWidth || currentHeight != expectedHeight) {
+                if (!didWarnAboutSizeMismatch) {
+                    mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                             "Current video frame size (%lux%lu) does not match expected size (%lux%lu); "
+                             "video output quality may be affected",
+                             currentWidth, currentHeight,
+                             expectedWidth, expectedHeight);
+                    didWarnAboutSizeMismatch = true;
                 }
-                
-                auto image = [CIImage imageWithMTLTexture:currentTexture options:@{
-                    kCIImageColorSpace: static_cast<id>(textureColorSpace.get())
-                }];
-                [colorConversionContext render:image
-                                  toMTLTexture:colorConvertedTexture
-                                 commandBuffer:display.getCurrentMetalCommandBuffer()
-                                        bounds:CGRectMake(0, 0, expectedWidth, expectedHeight)
-                                    colorSpace:colorConvertedTextureColorSpace.get()];
-                
-                currentTexture = colorConvertedTextureSRGBView;
             }
+            
+            auto image = [CIImage imageWithMTLTexture:currentTexture options:@{
+                kCIImageColorSpace: static_cast<id>(textureColorSpace.get())
+            }];
+            [colorConversionContext render:image
+                              toMTLTexture:colorConvertedTexture
+                             commandBuffer:display.getCurrentMetalCommandBuffer()
+                                    bounds:CGRectMake(0, 0, expectedWidth, expectedHeight)
+                                colorSpace:colorConvertedTextureColorSpace.get()];
+            
+            currentTexture = colorConvertedTextureSRGBView;
         }
     }
     

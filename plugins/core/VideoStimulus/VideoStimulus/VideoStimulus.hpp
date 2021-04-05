@@ -65,10 +65,11 @@ private:
     using CVMetalTextureCachePtr = cf::ObjectPtr<CVMetalTextureCacheRef>;
     CVMetalTextureCachePtr metalTextureCache;
     
+    using CGColorSpacePtr = cf::ObjectPtr<CGColorSpaceRef>;
+    CGColorSpacePtr textureColorSpace;
     CIContext *colorConversionContext;
     std::size_t expectedWidth;
     std::size_t expectedHeight;
-    using CGColorSpacePtr = cf::ObjectPtr<CGColorSpaceRef>;
     CGColorSpacePtr colorConvertedTextureColorSpace;
     id<MTLTexture> colorConvertedTexture;
     id<MTLTexture> colorConvertedTextureSRGBView;
