@@ -52,8 +52,9 @@ constant bool convertToSRGB [[function_constant(0)]];
 float3
 linearToSRGB(float3 linear)
 {
+    linear = saturate(linear);  // Clamp to [0,1]
     float3 srgb = mix(12.92 * linear,
-                      1.055 * pow(linear, 1.0/2.4) - 0.055,
+                      1.055 * powr(linear, 1.0/2.4) - 0.055,
                       float3(linear >= 0.0031308));
     // To exactly replicate the linear-to-sRGB conversion performed by the GPU, we must first map the
     // floating-point sRGB color components we just computed back to integers in the range [0, 255],
