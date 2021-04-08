@@ -1,0 +1,24 @@
+blank_screen bg (color = 0,1,0)
+
+
+drifting_grating dg (
+    spatial_frequency = 1
+    speed = 0
+    grating_type = sinusoid
+    mask = gaussian
+    std_dev = 0.1
+    normalized = true
+    x_size = 30
+    autoplay = true
+    )
+
+
+protocol {
+    queue_stimulus (bg)
+    queue_stimulus (dg)
+    update_display ()
+
+    report ('The grating should be black and white, fading in to a green background, with NO purple')
+
+    wait (10s)
+}

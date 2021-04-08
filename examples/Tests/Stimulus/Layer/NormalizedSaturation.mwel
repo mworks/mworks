@@ -1,0 +1,28 @@
+blank_screen bg (color = 0,1,0)
+
+
+%define size = 30
+
+layer layer {
+    rectangle (
+        color = 0.5,0.5,0.5
+        x_size = size
+        )
+    mask (
+        mask = gaussian
+        std_dev = 0.1
+        normalized = true
+        x_size = size
+        )
+}
+
+
+protocol {
+    queue_stimulus (bg)
+    queue_stimulus (layer)
+    update_display ()
+
+    report ('The circle should be gray, fading in to a green background, NOT purple')
+
+    wait (10s)
+}

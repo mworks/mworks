@@ -134,6 +134,7 @@ fragmentShader(RasterizerData in [[stage_in]],
             maskValue = exp(-0.5 * maskValue * maskValue);
             if (maskParams.normalized) {
                 maskValue /= maskParams.stdDev * sqrt(2.0 * M_PI_F);
+                maskValue = saturate(maskValue);  // Clamp to [0,1]
             }
             break;
         }
