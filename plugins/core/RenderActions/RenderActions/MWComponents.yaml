@@ -81,7 +81,8 @@ description: |
     * `Update Stimulus Display`
 
     A Render Actions stimulus can safely use the following actions on other
-    stimuli but not on itself:
+    stimuli but not on itself.  However, the effects of these actions may not be
+    visible until the *next* display update pass:
 
     * `Bring Stimulus to Front`
     * `Pause Dynamic Stimulus`
