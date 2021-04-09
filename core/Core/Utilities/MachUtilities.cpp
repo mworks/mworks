@@ -52,7 +52,7 @@ MachThreadSelf::~MachThreadSelf() {
 //
 // The scheduler priorities available to non-realtime, user-space threads range from 0 (MINPRI_USER)
 // to 63 (MAXPRI_USER).  By default, user-space threads have priority 31 (BASEPRI_DEFAULT).
-// Inspection (using logMachThreadInfo; see below) on macOS 10.14.3 and iOS 12.1.4 reveals that the
+// Inspection (using logMachThreadInfo; see below) on macOS 11.2.3 and iPadOS 14.4.2 reveals that the
 // application main thread runs at priority 46 (BASEPRI_BACKGROUND) or 47 (BASEPRI_FOREGROUND),
 // depending on whether the application is currently frontmost.  Inspection also shows that
 // the thread created by a CVDisplayLink has priority 54 and runs in non-timesharing mode.
