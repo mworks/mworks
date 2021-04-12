@@ -333,9 +333,12 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
                 displayUpdatesStarted = true;  // Need to set this *before* calling startDisplayUpdates
                 startDisplayUpdates();
                 
-                // Wait for a refresh to complete, so subclass methods that report the current
-                // output time will return a valid value
-                ensureRefresh(lock);
+                // Release the lock and sleep a bit (5 refresh periods seems sufficient) to let the
+                // display link thread "warm up" and get synced with the display refresh cycle.
+                // This also ensures that subclass methods that report the current output time will
+                // return a valid value.
+                lock.unlock();
+                clock->sleepMS(5000.0 / getMainDisplayRefreshRate());
                 
                 mprintf(M_DISPLAY_MESSAGE_DOMAIN,
                         "Display updates started (refresh rate: %g Hz)",
