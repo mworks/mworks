@@ -222,25 +222,27 @@ void TextStimulus::unloadMetal(MetalDisplay &display) {
 void TextStimulus::drawMetal(MetalDisplay &display) {
     ColoredTransformStimulus::drawMetal(display);
     
-    if (current_sizex > currentMaxSizeX) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN,
-               "Current horizontal size of stimulus \"%s\" (%g) exceeds maximum (%g).  To resolve this issue, "
-               "set %s to an appropriate value.",
-               getTag().c_str(),
-               current_sizex,
-               currentMaxSizeX,
-               MAX_SIZE_X.c_str());
-        return;
-    }
-    if (current_sizey > currentMaxSizeY) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN,
-               "Current vertical size of stimulus \"%s\" (%g) exceeds maximum (%g).  To resolve this issue, "
-               "set %s to an appropriate value.",
-               getTag().c_str(),
-               current_sizey,
-               currentMaxSizeY,
-               MAX_SIZE_Y.c_str());
-        return;
+    if (!fullscreen) {
+        if (current_sizex > currentMaxSizeX) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN,
+                   "Current horizontal size of stimulus \"%s\" (%g) exceeds maximum (%g).  To resolve this issue, "
+                   "set %s to an appropriate value.",
+                   getTag().c_str(),
+                   current_sizex,
+                   currentMaxSizeX,
+                   MAX_SIZE_X.c_str());
+            return;
+        }
+        if (current_sizey > currentMaxSizeY) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN,
+                   "Current vertical size of stimulus \"%s\" (%g) exceeds maximum (%g).  To resolve this issue, "
+                   "set %s to an appropriate value.",
+                   getTag().c_str(),
+                   current_sizey,
+                   currentMaxSizeY,
+                   MAX_SIZE_Y.c_str());
+            return;
+        }
     }
     
     computeTextureDimensions(current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
