@@ -7,8 +7,12 @@
 
 #include "AppleStimulusDisplay.hpp"
 
+#include <CoreServices/CoreServices.h>
+#include <VideoToolbox/VideoToolbox.h>
+
 #include "AAPLMathUtilities.h"
 #include "OpenGLUtilities.hpp"
+#include "StandardVariables.h"
 #include "Stimulus.h"
 
 using namespace mw::aapl_math_utilities;
@@ -18,6 +22,7 @@ using namespace mw::aapl_math_utilities;
 
 @property(nonatomic, readonly) id<MTLCommandQueue> commandQueue;
 @property(nonatomic, strong) id<MTLTexture> texture;
+@property(nonatomic, strong) id<MTLCommandBuffer> currentCommandBuffer;
 
 + (instancetype)delegateWithMTKView:(MTKView *)view
                  useColorManagement:(BOOL)useColorManagement
@@ -25,6 +30,8 @@ using namespace mw::aapl_math_utilities;
 
 - (instancetype)initWithCommandQueue:(id<MTLCommandQueue>)commandQueue
                  renderPipelineState:(id<MTLRenderPipelineState>)renderPipelineState;
+
+- (void)renderWithRenderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor;
 
 @end
 
@@ -43,11 +50,17 @@ using namespace mw::aapl_math_utilities;
         return nil;
     }
     
+    id<MTLFunction> vertexFunction = [library newFunctionWithName:@"MWKStimulusDisplayViewDelegate_vertexShader"];
+    
     MTLFunctionConstantValues *functionConstantValues = [[MTLFunctionConstantValues alloc] init];
     const bool convertToSRGB = useColorManagement;
     [functionConstantValues setConstantValue:&convertToSRGB type:MTLDataTypeBool atIndex:0];
-    
-    id<MTLFunction> vertexFunction = [library newFunctionWithName:@"MWKStimulusDisplayViewDelegate_vertexShader"];
+#if TARGET_OS_OSX
+    const bool setAlphaToOne = view.window.opaque;
+#else
+    const bool setAlphaToOne = true;  // iOS windows are always opaque
+#endif
+    [functionConstantValues setConstantValue:&setAlphaToOne type:MTLDataTypeBool atIndex:1];
     
     id<MTLFunction> fragmentFunction = [library newFunctionWithName:@"MWKStimulusDisplayViewDelegate_fragmentShader"
                                                      constantValues:functionConstantValues
@@ -90,21 +103,31 @@ using namespace mw::aapl_math_utilities;
 
 - (void)drawInMTKView:(MTKView *)view {
     MTLRenderPassDescriptor *renderPassDescriptor = view.currentRenderPassDescriptor;
-    if (!renderPassDescriptor) {
-        return;
+    if (renderPassDescriptor) {
+        renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionDontCare;
+        [self renderWithRenderPassDescriptor:renderPassDescriptor];
+        [self.currentCommandBuffer presentDrawable:view.currentDrawable];
     }
-    renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionDontCare;
+    if (self.currentCommandBuffer) {
+        [self.currentCommandBuffer commit];
+        self.currentCommandBuffer = nil;
+    }
+}
+
+
+- (void)renderWithRenderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor {
+    if (!self.currentCommandBuffer) {
+        self.currentCommandBuffer = [self.commandQueue commandBuffer];
+        [self.currentCommandBuffer enqueue];
+    }
     
-    id<MTLCommandBuffer> commandBuffer = [self.commandQueue commandBuffer];
-    id<MTLRenderCommandEncoder> renderCommandEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+    id<MTLRenderCommandEncoder> renderCommandEncoder = [self.currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
     
     [renderCommandEncoder setRenderPipelineState:_renderPipelineState];
     [renderCommandEncoder setFragmentTexture:self.texture atIndex:0];
     [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
     
     [renderCommandEncoder endEncoding];
-    [commandBuffer presentDrawable:view.currentDrawable];
-    [commandBuffer commit];
 }
 
 
@@ -268,6 +291,10 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
                 [currentCommandBuffer enqueue];
             }
             
+            // Pass the current command buffer on to the main view delegate, which will commit and
+            // release the buffer after drawing to the display
+            mainViewDelegate.currentCommandBuffer = currentCommandBuffer;
+            
             if (mirrorView) {
                 // Wait until all main view rendering commands have been scheduled on the GPU
                 // before triggering a mirror window update.  This avoids the situation where,
@@ -284,7 +311,10 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
                 }];
             }
             
-            [currentCommandBuffer commit];
+            if (captureManager && captureManager->isCaptureEnabled()) {
+                captureCurrentFrame();
+            }
+            
             currentCommandBuffer = nil;
             currentRenderingMode = RenderingMode::None;
             
@@ -444,7 +474,7 @@ int AppleStimulusDisplay::createFramebuffer() {
                                0);
         
         if (GL_FRAMEBUFFER_COMPLETE != glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER)) {
-            throw SimpleException("OpenGL framebuffer setup failed");
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL framebuffer setup failed");
         }
         
         framebuffer.glFramebuffer = _glFramebuffer;
@@ -525,6 +555,216 @@ id<MTLTexture> AppleStimulusDisplay::getMetalFramebufferTexture(int framebuffer_
         return nil;
     }
     return CVMetalTextureGetTexture(iter->second.cvMetalTexture.get());
+}
+
+
+void AppleStimulusDisplay::configureCapture(const std::string &format, int heightPixels, const VariablePtr &enabled) {
+    lock_guard lock(mutex);
+    
+    if (!mainView) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot configure display capture before setting main context");
+    }
+    if (FrameCaptureManager::metalTexturePixelFormat != mainView.colorPixelFormat) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              boost::format("Internal error: main view has unexpected pixel format (%1%)")
+                              % mainView.colorPixelFormat);
+    }
+    
+    std::size_t bufferHeight = framebufferHeight;
+    std::size_t bufferWidth = framebufferWidth;
+    if (heightPixels > framebufferHeight) {
+        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                 "Requested stimulus display capture buffer height (%d pixels) is larger than stimulus display height "
+                 "(%lu pixels); stimulus display height will be used",
+                 heightPixels,
+                 framebufferHeight);
+    } else if (heightPixels > 0) {
+        bufferHeight = heightPixels;
+        bufferWidth = bufferHeight * double(framebufferWidth) / double(framebufferHeight);
+    }
+    
+    cf::StringPtr imageFileType;
+    if (format == "JPEG") {
+        imageFileType = cf::StringPtr::borrowed(kUTTypeJPEG);
+    } else if (format == "PNG") {
+        imageFileType = cf::StringPtr::borrowed(kUTTypePNG);
+    } else {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              boost::format("Invalid stimulus display capture format: \"%1%\"") % format);
+    }
+    
+    auto imageFileColorSpace = CGColorSpacePtr::created(getUseColorManagement() ?
+                                                        CGColorSpaceCreateWithName(kCGColorSpaceSRGB) :
+                                                        CGColorSpaceCreateDeviceRGB());
+    
+    captureManager = std::make_unique<FrameCaptureManager>(bufferWidth,
+                                                           bufferHeight,
+                                                           imageFileType,
+                                                           imageFileColorSpace,
+                                                           enabled,
+                                                           device);
+}
+
+
+void AppleStimulusDisplay::captureCurrentFrame() {
+    CVPixelBufferPtr cvPixelBuffer;
+    CVMetalTexturePtr cvMetalTexture;
+    if (!captureManager->createCaptureBuffer(cvPixelBuffer, cvMetalTexture)) {
+        return;
+    }
+    
+    MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
+    renderPassDescriptor.colorAttachments[0].texture = CVMetalTextureGetTexture(cvMetalTexture.get());
+    [mainViewDelegate renderWithRenderPassDescriptor:renderPassDescriptor];
+    
+    boost::weak_ptr<AppleStimulusDisplay> weakThis(boost::dynamic_pointer_cast<AppleStimulusDisplay>(shared_from_this()));
+    auto captureOutputTimeUS = getEventTimeForCurrentOutputTime();
+    
+    auto completedHandler = [weakThis, cvPixelBuffer, captureOutputTimeUS](id<MTLCommandBuffer> commandBuffer) {
+        if (commandBuffer.status == MTLCommandBufferStatusCompleted) {
+            // Create the image file on a global queue, so that we don't block a thread doing
+            // graphics-processing work.  Specify QOS_CLASS_USER_INITIATED to ensure that the
+            // task runs at relatively high priority.
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0),
+                           [weakThis, cvPixelBuffer, captureOutputTimeUS]() {
+                if (auto sharedThis = weakThis.lock()) {
+                    std::string imageFile;
+                    if (sharedThis->captureManager->convertCaptureBufferToImageFile(cvPixelBuffer, imageFile)) {
+                        // Acquire a local strong reference to stimDisplayCapture to guard against the situation
+                        // where the experiment is being unloaded while this code is executing
+                        if (auto sdc = stimDisplayCapture) {
+                            sdc->setValue(Datum(std::move(imageFile)), captureOutputTimeUS);
+                        }
+                    }
+                }
+            });
+        }
+    };
+    
+    [currentCommandBuffer addCompletedHandler:completedHandler];
+}
+
+
+AppleStimulusDisplay::FrameCaptureManager::FrameCaptureManager(std::size_t bufferWidth,
+                                                               std::size_t bufferHeight,
+                                                               const cf::StringPtr &imageFileType,
+                                                               const CGColorSpacePtr &imageFileColorSpace,
+                                                               const boost::shared_ptr<Variable> &enabled,
+                                                               id<MTLDevice> metalDevice) :
+    bufferWidth(bufferWidth),
+    bufferHeight(bufferHeight),
+    imageFileType(imageFileType),
+    imageFileColorSpace(imageFileColorSpace),
+    enabled(enabled)
+{
+    {
+        NSDictionary *pixelBufferAttributes = @{
+            (NSString *)kCVPixelBufferPixelFormatTypeKey: @(pixelBufferPixelFormat),
+            (NSString *)kCVPixelBufferWidthKey: @(bufferWidth),
+            (NSString *)kCVPixelBufferHeightKey: @(bufferHeight),
+            (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES)
+        };
+        CVPixelBufferPoolRef _pixelBufferPool = nullptr;
+        auto status = CVPixelBufferPoolCreate(kCFAllocatorDefault,
+                                              nullptr,
+                                              (__bridge CFDictionaryRef)pixelBufferAttributes,
+                                              &_pixelBufferPool);
+        if (status != kCVReturnSuccess) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  boost::format("Cannot create pixel buffer pool (error = %d)") % status);
+        }
+        pixelBufferPool = CVPixelBufferPoolPtr::owned(_pixelBufferPool);
+    }
+    
+    {
+        CVMetalTextureCacheRef _metalTextureCache = nullptr;
+        auto status = CVMetalTextureCacheCreate(kCFAllocatorDefault,
+                                                nullptr,
+                                                metalDevice,
+                                                nullptr,
+                                                &_metalTextureCache);
+        if (status != kCVReturnSuccess) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  boost::format("Cannot create Metal texture cache (error = %d)") % status);
+        }
+        metalTextureCache = CVMetalTextureCachePtr::created(_metalTextureCache);
+    }
+}
+
+
+bool AppleStimulusDisplay::FrameCaptureManager::createCaptureBuffer(CVPixelBufferPtr &pixelBuffer,
+                                                                    CVMetalTexturePtr &metalTexture)
+{
+    {
+        CVPixelBufferRef _pixelBuffer = nullptr;
+        auto status = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault,
+                                                         pixelBufferPool.get(),
+                                                         &_pixelBuffer);
+        if (status != kCVReturnSuccess) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create pixel buffer (error = %d)", status);
+            return false;
+        }
+        pixelBuffer = CVPixelBufferPtr::owned(_pixelBuffer);
+    }
+    
+    {
+        CVMetalTextureRef _metalTexture = nullptr;
+        auto status = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                                metalTextureCache.get(),
+                                                                pixelBuffer.get(),
+                                                                nullptr,
+                                                                metalTexturePixelFormat,
+                                                                bufferWidth,
+                                                                bufferHeight,
+                                                                0,
+                                                                &_metalTexture);
+        if (status != kCVReturnSuccess) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create Metal texture (error = %d)", status);
+            return false;
+        }
+        metalTexture = CVMetalTexturePtr::owned(_metalTexture);
+    }
+    
+    return true;
+}
+
+
+bool AppleStimulusDisplay::FrameCaptureManager::convertCaptureBufferToImageFile(const CVPixelBufferPtr &pixelBuffer,
+                                                                                std::string &imageFile) const
+{
+    CGImagePtr image;
+    {
+        CGImageRef _image = nullptr;
+        auto status = VTCreateCGImageFromCVPixelBuffer(pixelBuffer.get(), nullptr, &_image);
+        if (status != noErr) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create image from pixel buffer (error = %d)", status);
+            return false;
+        }
+        image = CGImagePtr::owned(_image);
+    }
+    image = CGImagePtr::created(CGImageCreateCopyWithColorSpace(image.get(), imageFileColorSpace.get()));
+    
+    auto imageFileData = cf::ObjectPtr<CFMutableDataRef>::created(CFDataCreateMutable(kCFAllocatorDefault, 0));
+    auto imageDest = cf::ObjectPtr<CGImageDestinationRef>::created(CGImageDestinationCreateWithData(imageFileData.get(),
+                                                                                                    imageFileType.get(),
+                                                                                                    1,
+                                                                                                    nullptr));
+    
+    // NOTE: By setting the property kCGImagePropertyHasAlpha to NO when adding the image, we can reduce
+    // the size of PNG files.  However, doing so greatly increases the already-high CPU load (by a factor
+    // of 3 in some tests).  On balance, hammering the CPU to get slightly-smaller image files doesn't
+    // seem like a good tradeoff.
+    CGImageDestinationAddImage(imageDest.get(), image.get(), nullptr);
+    
+    if (!CGImageDestinationFinalize(imageDest.get())) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create image file from pixel buffer image");
+        return false;
+    }
+    
+    imageFile.assign(reinterpret_cast<const char *>(CFDataGetBytePtr(imageFileData.get())),
+                     CFDataGetLength(imageFileData.get()));
+    
+    return true;
 }
 
 

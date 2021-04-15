@@ -1,0 +1,34 @@
+//
+// "Maximum effort" test: capture every frame, at the full refresh rate and
+// resolution of the display, for 60 seconds
+//
+
+
+stimulus_display (capture_format = PNG)
+
+
+var size = 0
+var x_pos = 0
+var elapsed_time = 0
+
+%define cos_theta = cos(2 * pi() * elapsed_time / 5s)
+
+render_actions update_params (elapsed_time = elapsed_time) {
+    size = 3 * (cos_theta + 1) + 2
+    x_pos = -15 * cos_theta
+}
+
+circle ball (
+    color = 1,0,0
+    x_size = size
+    x_position = x_pos
+    )
+
+
+protocol {
+    queue_stimulus (update_params)
+    live_queue_stimulus (ball)
+    update_display ()
+
+    wait (60s)
+}

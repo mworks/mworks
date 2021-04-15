@@ -1,0 +1,3 @@
+stimulus_display (
+    capture_format = TIFF
+    )

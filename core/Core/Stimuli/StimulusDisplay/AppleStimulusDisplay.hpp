@@ -10,11 +10,15 @@
 
 #include "AppleOpenGLContextManager.hpp"
 #include "CFObjectPtr.h"
+#include "GenericVariable.h"
 #include "StimulusDisplay.h"
 
 #ifdef PRODUCT_BUNDLE_IDENTIFIER
 #  define MWORKS_GET_CURRENT_BUNDLE()  [NSBundle bundleWithIdentifier:@"" PRODUCT_BUNDLE_IDENTIFIER]
 #endif
+
+
+@class MWKStimulusDisplayViewDelegate;
 
 
 BEGIN_NAMESPACE_MW
@@ -30,6 +34,8 @@ public:
     
     MTKView * getMainView() const { return mainView; }
     MTKView * getMirrorView() const { return (mirrorView ? mirrorView : mainView); }
+    
+    void configureCapture(const std::string &format, int heightPixels, const VariablePtr &enabled) override;
     
     void setRenderingMode(RenderingMode mode) override;
     
@@ -65,6 +71,7 @@ private:
     using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLESTextureCacheRef>;
     using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLESTextureRef>;
 #endif
+    using CGColorSpacePtr = cf::ObjectPtr<CGColorSpaceRef>;
     
     struct Framebuffer {
         CVPixelBufferPtr cvPixelBuffer;
@@ -78,14 +85,16 @@ private:
     
     bool inOpenGLMode() const { return (currentRenderingMode == RenderingMode::OpenGL); }
     
+    void captureCurrentFrame();
+    
     simd::float4x4 metalProjectionMatrix;
     
     id<MTLDevice> device;
     id<MTLCommandQueue> commandQueue;
     MTKView *mainView;
     MTKView *mirrorView;
-    id<MTKViewDelegate> mainViewDelegate;
-    id<MTKViewDelegate> mirrorViewDelegate;
+    MWKStimulusDisplayViewDelegate *mainViewDelegate;
+    MWKStimulusDisplayViewDelegate *mirrorViewDelegate;
     
     std::size_t framebufferWidth;
     std::size_t framebufferHeight;
@@ -101,6 +110,9 @@ private:
     id<MTLTexture> currentFramebufferTexture;
     id<MTLCommandBuffer> currentCommandBuffer;
     
+    class FrameCaptureManager;
+    std::unique_ptr<FrameCaptureManager> captureManager;
+    
 };
 
 
@@ -115,6 +127,37 @@ AppleStimulusDisplay::createMetalRenderPassDescriptor(MTLLoadAction loadAction, 
     renderPassDescriptor.colorAttachments[0].storeAction = storeAction;
     return renderPassDescriptor;
 }
+
+
+class AppleStimulusDisplay::FrameCaptureManager : boost::noncopyable {
+    
+public:
+    static constexpr auto pixelBufferPixelFormat = kCVPixelFormatType_32BGRA;
+    static constexpr auto metalTexturePixelFormat = MTLPixelFormatBGRA8Unorm;
+    
+    FrameCaptureManager(std::size_t bufferWidth,
+                        std::size_t bufferHeight,
+                        const cf::StringPtr &imageFileType,
+                        const CGColorSpacePtr &imageFileColorSpace,
+                        const VariablePtr &enabled,
+                        id<MTLDevice> metalDevice);
+    
+    bool isCaptureEnabled() const { return enabled->getValue().getBool(); }
+    bool createCaptureBuffer(CVPixelBufferPtr &pixelBuffer, CVMetalTexturePtr &metalTexture);
+    bool convertCaptureBufferToImageFile(const CVPixelBufferPtr &pixelBuffer, std::string &imageFile) const;
+    
+private:
+    using CGImagePtr = cf::ObjectPtr<CGImageRef>;
+    
+    const std::size_t bufferWidth;
+    const std::size_t bufferHeight;
+    const cf::StringPtr imageFileType;
+    const CGColorSpacePtr imageFileColorSpace;
+    const VariablePtr enabled;
+    CVPixelBufferPoolPtr pixelBufferPool;
+    CVMetalTextureCachePtr metalTextureCache;
+    
+};
 
 
 END_NAMESPACE_MW

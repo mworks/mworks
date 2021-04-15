@@ -32,6 +32,7 @@ class Datum;
 class OpenGLContextManager;
 class Stimulus;
 class StimulusNode;
+class Variable;
 class VariableCallbackNotification;
 
 
@@ -72,6 +73,10 @@ public:
     MWTime updateDisplay();
     void clearDisplay();
     
+    virtual void configureCapture(const std::string &format,
+                                  int heightPixels,
+                                  const boost::shared_ptr<Variable> &enabled) = 0;
+    
     virtual void setRenderingMode(RenderingMode mode) = 0;
     
     virtual int createFramebuffer() = 0;
@@ -93,6 +98,9 @@ protected:
         std::tie(red, green, blue, alpha) = std::tie(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
     }
     bool getDisplayUpdatesStarted() const { return displayUpdatesStarted; }
+    MWTime getEventTimeForCurrentOutputTime() const {
+        return (currentOutputTimeUS == NO_CURRENT_OUTPUT_TIME ? clock->getCurrentTimeUS() : getCurrentOutputTimeUS());
+    }
     
     void setMainDisplayRefreshRate(double value) { mainDisplayRefreshRate = value; }
     void setCurrentOutputTimeUS(MWTime value) { currentOutputTimeUS = value; }

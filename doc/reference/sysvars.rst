@@ -214,6 +214,16 @@ Used to announce the execution state of the current experiment.  The value of th
      - Experiment is executing, but execution is currently paused.  `Stimulus <Stimuli>` presentation and `sound <Sounds>` playback are paused, but `I/O devices <Input/Output>` continue to operate normally.
 
 
+.. _stimDisplayCapture var:
+
+#stimDisplayCapture
+^^^^^^^^^^^^^^^^^^^
+
+Used to record captured stimulus display frames.  To configure display frame capture, include a `Stimulus Display` device in your experiment, and set its ``capture_format`` parameter to an appropriate value.
+
+The time stamp of a ``#stimDisplayCapture`` event is identical to that of the corresponding `stimDisplayUpdate var` event.
+
+
 .. _stimDisplayUpdate var:
 
 #stimDisplayUpdate

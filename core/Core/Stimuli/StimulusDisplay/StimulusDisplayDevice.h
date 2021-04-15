@@ -22,10 +22,30 @@ public:
     static const std::string BACKGROUND_ALPHA_MULTIPLIER;
     static const std::string REDRAW_ON_EVERY_REFRESH;
     static const std::string ANNOUNCE_STIMULI_ON_IMPLICIT_UPDATES;
+    static const std::string CAPTURE_FORMAT;
+    static const std::string CAPTURE_HEIGHT_PIXELS;
+    static const std::string CAPTURE_ENABLED;
     
     static void describeComponent(ComponentInfo &info);
     
     explicit StimulusDisplayDevice(const ParameterValueMap &parameters);
+    
+private:
+    struct UniqueDeviceGuard : boost::noncopyable {
+        UniqueDeviceGuard();
+        ~UniqueDeviceGuard();
+    private:
+        static std::atomic_flag deviceExists;
+    };
+    
+    const UniqueDeviceGuard uniqueDeviceGuard;
+    const RGBColor backgroundColor;
+    const double backgroundAlphaMultiplier;
+    const bool redrawOnEveryRefresh;
+    const bool announceStimuliOnImplicitUpdates;
+    const std::string captureFormat;
+    const int captureHeightPixels;
+    const VariablePtr captureEnabled;
     
 };
 
@@ -33,4 +53,4 @@ public:
 END_NAMESPACE_MW
 
 
-#endif
+#endif /* MWorksCore_StimulusDisplayDevice_h */

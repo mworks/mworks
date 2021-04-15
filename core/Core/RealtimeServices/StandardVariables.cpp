@@ -23,6 +23,7 @@ BEGIN_NAMESPACE_MW
 	shared_ptr<Variable> GlobalMessageVariable; 
 	shared_ptr<Variable> GlobalSystemEventVariable; 
 	shared_ptr<Variable> stimDisplayUpdate;   // JJD added June 2006
+    shared_ptr<Variable> stimDisplayCapture;
 	shared_ptr<Variable> mainDisplayInfo;
     shared_ptr<Variable> warnOnSkippedRefresh;
     shared_ptr<Variable> stopOnError;
@@ -97,6 +98,13 @@ BEGIN_NAMESPACE_MW
 																				   PRIVATE_SYSTEM_VARIABLES));  // view                                       
 		
 		
+        stimDisplayCapture = registry->createGlobalVariable(VariableProperties(Datum(""),
+                                                                               STIMULUS_DISPLAY_CAPTURE_TAGNAME,
+                                                                               M_WHEN_CHANGED,
+                                                                               false,
+                                                                               PRIVATE_SYSTEM_VARIABLES));
+        
+        
 		experimentLoadProgress = registry->createGlobalVariable(
 																VariableProperties(
 																						Datum((double)0),

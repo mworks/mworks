@@ -1,0 +1,3 @@
+%include 'Basic.inc'
+
+capture_format = 'PNG'

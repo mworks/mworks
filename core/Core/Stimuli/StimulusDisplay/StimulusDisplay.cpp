@@ -292,13 +292,7 @@ void StimulusDisplay::refreshDisplay() {
             }
             stimAnnounce = Datum(std::move(stimAnnouncements));
         }
-        
-        MWTime now = getCurrentOutputTimeUS();
-        if (NO_CURRENT_OUTPUT_TIME == now) {
-            now = clock->getCurrentTimeUS();
-        }
-        
-        stimDisplayUpdate->setValue(std::move(stimAnnounce), now);
+        stimDisplayUpdate->setValue(std::move(stimAnnounce), getEventTimeForCurrentOutputTime());
     }
     
     needDraw = false;

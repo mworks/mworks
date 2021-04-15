@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">WARNING: Requested stimulus display capture buffer height (100000 pixels) is larger than stimulus display height (</message>
+  </expected_messages>
+</marionette_info>

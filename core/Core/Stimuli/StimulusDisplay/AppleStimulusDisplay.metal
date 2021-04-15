@@ -47,6 +47,7 @@ MWKStimulusDisplayViewDelegate_vertexShader(uint vertexID [[vertex_id]])
 
 
 constant bool convertToSRGB [[function_constant(0)]];
+constant bool setAlphaToOne [[function_constant(1)]];
 
 
 float3
@@ -73,6 +74,9 @@ MWKStimulusDisplayViewDelegate_fragmentShader(RasterizerData in [[stage_in]],
     float4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
     if (convertToSRGB) {
         colorSample.rgb = linearToSRGB(colorSample.rgb);
+    }
+    if (setAlphaToOne) {
+        colorSample.a = 1.0;
     }
     return colorSample;
 }

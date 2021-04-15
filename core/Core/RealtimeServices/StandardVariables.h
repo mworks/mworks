@@ -117,6 +117,9 @@ extern shared_ptr<Variable> state_system_mode;
 #define STIMULUS_DISPLAY_UPDATE_TAGNAME "#stimDisplayUpdate"
 extern shared_ptr<Variable> stimDisplayUpdate;
 
+#define STIMULUS_DISPLAY_CAPTURE_TAGNAME "#stimDisplayCapture"
+extern shared_ptr<Variable> stimDisplayCapture;
+
 extern shared_ptr<Variable> GlobalMessageVariable;
 #define ANNOUNCE_MESSAGE_VAR_TAGNAME "#announceMessage"
 

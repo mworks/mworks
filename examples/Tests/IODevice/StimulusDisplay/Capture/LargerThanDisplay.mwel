@@ -1,0 +1,4 @@
+stimulus_display (
+    capture_format = PNG
+    capture_height_pixels = 100000
+    )
