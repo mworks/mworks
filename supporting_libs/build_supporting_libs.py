@@ -345,7 +345,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '1.1.1i'
+    version = '1.1.1k'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -506,7 +506,7 @@ def numpy():
 
 @builder
 def boost():
-    version = '1.75.0'
+    version = '1.76.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -546,7 +546,7 @@ def boost():
 
 @builder
 def zeromq():
-    version = '4.3.3'
+    version = '4.3.4'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -610,8 +610,8 @@ def libxslt(macos=False):
 
 @builder
 def sqlite():
-    release_year = 2020
-    version = '3340000'  # 3.34.0
+    release_year = 2021
+    version = '3350500'  # 3.35.5
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
