@@ -428,9 +428,9 @@ int MWK2Writer::bindDatum(sqlite3_stmt *stmt, int index, const Datum &datum) {
 
 
 bool MWK2Writer::tryCompression(const char *data, std::size_t size, int extTypeCode) {
-    if (compressionBuffer.size() < size) {
-        compressionBuffer.resize(size);
-    }
+    // Always resize compressionBuffer to size of data, since compression is pointless
+    // if the compressed data is larger than the original
+    compressionBuffer.resize(size);
     auto compressedSize = compression_encode_buffer(compressionBuffer.data(),
                                                     compressionBuffer.size(),
                                                     reinterpret_cast<const std::uint8_t *>(data),
