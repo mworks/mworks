@@ -512,7 +512,7 @@ def boost():
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
-            download_archive('https://dl.bintray.com/boostorg/release/%s/source/' % version, tarfile)
+            download_archive('https://boostorg.jfrog.io/artifactory/main/release/%s/source/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 os.symlink('boost', 'mworks_boost')
