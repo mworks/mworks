@@ -359,12 +359,23 @@ bool FirmataBluetoothLEConnection::write(const std::vector<std::uint8_t> &data) 
         return false;
     }
     @autoreleasepool {
-        [delegate.peripheral writeValue:[NSData dataWithBytes:data.data() length:data.size()]
-                      forCharacteristic:delegate.rxCharacteristic
-                                   type:CBCharacteristicWriteWithResponse];
-        if (!wait(lock, std::chrono::milliseconds(500))) {
-            merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot write to Bluetooth device");
-            return false;
+        NSData *value = [NSData dataWithBytes:data.data() length:data.size()];
+        if (delegate.rxCharacteristic.properties & CBCharacteristicPropertyWrite) {
+            // rxCharacteristic supports write with response, so wait for acknowledgement
+            // after writing
+            [delegate.peripheral writeValue:value
+                          forCharacteristic:delegate.rxCharacteristic
+                                       type:CBCharacteristicWriteWithResponse];
+            if (!wait(lock, std::chrono::milliseconds(500))) {
+                merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot write to Bluetooth device");
+                return false;
+            }
+        } else {
+            // rxCharacteristic doesn't support write with response, so don't wait after
+            // writing
+            [delegate.peripheral writeValue:value
+                          forCharacteristic:delegate.rxCharacteristic
+                                       type:CBCharacteristicWriteWithoutResponse];
         }
         return true;
     }

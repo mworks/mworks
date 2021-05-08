@@ -38,7 +38,7 @@
                     <action tag="Stop firmata" type="stop_device_IO" device="firmata"></action>
                     <action type="assignment" tag="Compute sample average" variable="sample_average" value="sample_sum / num_samples"></action>
                     <action type="report" tag="Announce average sink value" message="average sink value = $sample_average (over $num_samples samples)"></action>
-                    <action type="assert" tag="Validate average sink value" condition="abs(source - sample_average) &lt; 0.01" message="" stop_on_failure="0"></action>
+                    <action type="assert" tag="Validate average sink value" condition="abs(source - sample_average) &lt; 0.025" message="" stop_on_failure="0"></action>
                     <action type="assert" tag="Validate num_samples" condition="(num_samples &gt;= expected_num_samples - 2) &amp;&amp; (num_samples &lt;= expected_num_samples + 2)" message="" stop_on_failure="0"></action>
                 </trial>
             </list_replicator>
