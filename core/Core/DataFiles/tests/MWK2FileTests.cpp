@@ -594,13 +594,22 @@ void MWK2FileTests::testEventDataCompression() {
         // Compressible blob
         testData.at(3).push_back(i % 5);
     }
+    testData.push_back(testData.at(1));  // Compressible text marked not compressible
+    testData.push_back(testData.at(3));  // Compressible blob marked not compressible
+    
+    constexpr std::array<bool, 6> testDataCompressibleFlag { true, true, true, true, false, false };
+    CPPUNIT_ASSERT_EQUAL( testDataCompressibleFlag.size(), testData.size() );  // Sanity check
     
     NamedTempFile tempFile;
     
     {
         MWK2Writer writer(tempFile.getFilename());
         for (std::size_t i = 0; i < testData.size(); i++) {
-            writer.writeEvent(i + 1, i + 2, Datum(testData.at(i).data(), testData.at(i).size()));
+            Datum value(testData.at(i));
+            if (!(testDataCompressibleFlag.at(i))) {
+                value.setCompressible(false);
+            }
+            writer.writeEvent(i + 1, i + 2, std::move(value));
         }
     }
     
@@ -617,6 +626,7 @@ void MWK2FileTests::testEventDataCompression() {
                                                          &stmt,
                                                          nullptr) );
         
+        // Uncompressible text
         {
             CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
             CPPUNIT_ASSERT_EQUAL( SQLITE_TEXT, sqlite3_column_type(stmt, 0) );
@@ -625,6 +635,7 @@ void MWK2FileTests::testEventDataCompression() {
             CPPUNIT_ASSERT_EQUAL( testData.at(0), std::string(text, size) );
         }
         
+        // Compressible text
         {
             CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
             CPPUNIT_ASSERT_EQUAL( SQLITE_BLOB, sqlite3_column_type(stmt, 0) );
@@ -633,6 +644,7 @@ void MWK2FileTests::testEventDataCompression() {
             CPPUNIT_ASSERT_EQUAL( compressEventData(testData.at(1), 1), std::string(blob, size) );
         }
         
+        // Uncompressible blob
         {
             CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
             CPPUNIT_ASSERT_EQUAL( SQLITE_BLOB, sqlite3_column_type(stmt, 0) );
@@ -648,6 +660,7 @@ void MWK2FileTests::testEventDataCompression() {
             CPPUNIT_ASSERT_EQUAL( buffer.str(), std::string(blob, size) );
         }
         
+        // Compressible blob
         {
             CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
             CPPUNIT_ASSERT_EQUAL( SQLITE_BLOB, sqlite3_column_type(stmt, 0) );
@@ -663,6 +676,31 @@ void MWK2FileTests::testEventDataCompression() {
             CPPUNIT_ASSERT_EQUAL( compressEventData(buffer.str(), 2), std::string(blob, size) );
         }
         
+        // Compressible text marked not compressible
+        {
+            CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_TEXT, sqlite3_column_type(stmt, 0) );
+            auto text = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
+            auto size = sqlite3_column_bytes(stmt, 0);
+            CPPUNIT_ASSERT_EQUAL( testData.at(4), std::string(text, size) );
+        }
+        
+        // Compressible blob marked not compressible
+        {
+            CPPUNIT_ASSERT_EQUAL( SQLITE_ROW, sqlite3_step(stmt) );
+            CPPUNIT_ASSERT_EQUAL( SQLITE_BLOB, sqlite3_column_type(stmt, 0) );
+            
+            auto blob = static_cast<const char *>(sqlite3_column_blob(stmt, 0));
+            auto size = sqlite3_column_bytes(stmt, 0);
+            
+            std::stringstream buffer;
+            msgpack::packer<std::stringstream> packer(buffer);
+            packer.pack_bin(testData.at(5).size());
+            packer.pack_bin_body(testData.at(5).data(), testData.at(5).size());
+            
+            CPPUNIT_ASSERT_EQUAL( buffer.str(), std::string(blob, size) );
+        }
+        
         CPPUNIT_ASSERT_EQUAL( SQLITE_DONE, sqlite3_step(stmt) );
         (void)sqlite3_finalize(stmt);
         CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_close(conn) );
@@ -672,7 +710,7 @@ void MWK2FileTests::testEventDataCompression() {
     
     CPPUNIT_ASSERT_EQUAL( testData.size(), reader.getNumEvents() );
     CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
-    CPPUNIT_ASSERT_EQUAL( MWTime(5), reader.getTimeMax() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(7), reader.getTimeMax() );
     
     for (std::size_t i = 0; i < testData.size(); i++) {
         CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );

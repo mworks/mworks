@@ -145,6 +145,9 @@ public:
     bool isDictionary() const { return (datatype == M_DICTIONARY); }
     bool isUndefined() const { return (datatype == M_UNDEFINED); }
     
+    bool isCompressible() const { return compressible; }
+    void setCompressible(bool value) { compressible = value; }
+    
     /**
      * Returns a hash value for the Datum object
      */
@@ -233,6 +236,7 @@ public:
     
 private:
     GenericDataType datatype;
+    bool compressible = true;
     
     union {
         long long intValue;
@@ -262,6 +266,7 @@ private:
     template<class Archive>
     void save(Archive &ar, const unsigned int version) const {
         ar << datatype;
+        ar << compressible;
         
         switch (datatype) {
             case M_INTEGER:
@@ -300,6 +305,12 @@ private:
     void load(Archive &ar, const unsigned int version) {
         GenericDataType archived_datatype;
         ar >> archived_datatype;
+        
+        if (version > 2) {
+            bool archived_compressible;
+            ar >> archived_compressible;
+            setCompressible(archived_compressible);
+        }
         
         switch (archived_datatype) {
             case M_INTEGER: {
@@ -387,34 +398,7 @@ END_NAMESPACE_MW
 
 
 // This needs to be outside of namespace mw
-BOOST_CLASS_VERSION(mw::Datum, 2)
+BOOST_CLASS_VERSION(mw::Datum, 3)
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -633,7 +633,11 @@ void AppleStimulusDisplay::captureCurrentFrame() {
                         // Acquire a local strong reference to stimDisplayCapture to guard against the situation
                         // where the experiment is being unloaded while this code is executing
                         if (auto sdc = stimDisplayCapture) {
-                            sdc->setValue(Datum(std::move(imageFile)), captureOutputTimeUS);
+                            Datum value(std::move(imageFile));
+                            // JPEG and PNG are compressed formats, so we're likely to spend many CPU cycles for
+                            // little reduction in event file size if we try to compress the image data again
+                            value.setCompressible(false);
+                            sdc->setValue(std::move(value), captureOutputTimeUS);
                         }
                     }
                 }

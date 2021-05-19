@@ -380,7 +380,7 @@ int MWK2Writer::bindDatum(sqlite3_stmt *stmt, int index, const Datum &datum) {
         case M_STRING: {
             auto &str = datum.getString();
             if (datum.stringIsCString()) {
-                if (tryCompression(str.data(), str.size(), compressedTextTypeCode)) {
+                if (datum.isCompressible() && tryCompression(str.data(), str.size(), compressedTextTypeCode)) {
                     return sqlite3_bind_blob64(stmt,
                                                index,
                                                packingBuffer.data(),
@@ -417,7 +417,9 @@ int MWK2Writer::bindDatum(sqlite3_stmt *stmt, int index, const Datum &datum) {
             return sqlite3_bind_null(stmt, index);
     }
     
-    tryCompression(packingBuffer.data(), packingBuffer.size(), compressedMsgPackStreamTypeCode);
+    if (datum.isCompressible()) {
+        tryCompression(packingBuffer.data(), packingBuffer.size(), compressedMsgPackStreamTypeCode);
+    }
     
     return sqlite3_bind_blob64(stmt,
                                index,

@@ -37,14 +37,16 @@ Datum::~Datum() {
 
 
 Datum::Datum(const Datum &other) :
-    datatype(other.datatype)
+    datatype(other.datatype),
+    compressible(other.compressible)
 {
     copyFrom(other);
 }
 
 
 Datum::Datum(Datum &&other) :
-    datatype(other.datatype)
+    datatype(other.datatype),
+    compressible(other.compressible)
 {
     moveFrom(std::move(other));
 }
@@ -67,6 +69,8 @@ Datum& Datum::operator=(const Datum &other) {
             datatype = other.datatype;
             copyFrom(other);
         }
+        
+        compressible = other.compressible;
     }
     
     return (*this);
@@ -90,6 +94,8 @@ Datum& Datum::operator=(Datum &&other) {
             datatype = other.datatype;
             moveFrom(std::move(other));
         }
+        
+        compressible = other.compressible;
     }
     
     return (*this);
@@ -1241,29 +1247,3 @@ std::ostream& operator<<(std::ostream &buf, const Datum &d) {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
