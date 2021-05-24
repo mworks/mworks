@@ -607,9 +607,14 @@ void AppleStimulusDisplay::configureCapture(const std::string &format, int heigh
 
 
 void AppleStimulusDisplay::captureCurrentFrame() {
+    const auto captureOutputTimeUS = getEventTimeForCurrentOutputTime();
+    
     CVPixelBufferPtr cvPixelBuffer;
     CVMetalTexturePtr cvMetalTexture;
     if (!captureManager->createCaptureBuffer(cvPixelBuffer, cvMetalTexture)) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "Cannot capture stimulus display frame for output time %lld",
+               captureOutputTimeUS);
         return;
     }
     
@@ -618,8 +623,6 @@ void AppleStimulusDisplay::captureCurrentFrame() {
     [mainViewDelegate renderWithRenderPassDescriptor:renderPassDescriptor];
     
     boost::weak_ptr<AppleStimulusDisplay> weakThis(boost::dynamic_pointer_cast<AppleStimulusDisplay>(shared_from_this()));
-    auto captureOutputTimeUS = getEventTimeForCurrentOutputTime();
-    
     auto completedHandler = [weakThis, cvPixelBuffer, captureOutputTimeUS](id<MTLCommandBuffer> commandBuffer) {
         if (commandBuffer.status == MTLCommandBufferStatusCompleted) {
             // Create the image file on a global queue, so that we don't block a thread doing
@@ -629,7 +632,11 @@ void AppleStimulusDisplay::captureCurrentFrame() {
                            [weakThis, cvPixelBuffer, captureOutputTimeUS]() {
                 if (auto sharedThis = weakThis.lock()) {
                     std::string imageFile;
-                    if (sharedThis->captureManager->convertCaptureBufferToImageFile(cvPixelBuffer, imageFile)) {
+                    if (!sharedThis->captureManager->convertCaptureBufferToImageFile(cvPixelBuffer, imageFile)) {
+                        merror(M_DISPLAY_MESSAGE_DOMAIN,
+                               "Cannot capture stimulus display frame for output time %lld",
+                               captureOutputTimeUS);
+                    } else {
                         // Acquire a local strong reference to stimDisplayCapture to guard against the situation
                         // where the experiment is being unloaded while this code is executing
                         if (auto sdc = stimDisplayCapture) {
@@ -661,11 +668,12 @@ AppleStimulusDisplay::FrameCaptureManager::FrameCaptureManager(std::size_t buffe
     imageFileColorSpace(imageFileColorSpace),
     enabled(enabled)
 {
-    {
+    @autoreleasepool {
         NSDictionary *pixelBufferAttributes = @{
             (NSString *)kCVPixelBufferPixelFormatTypeKey: @(pixelBufferPixelFormat),
             (NSString *)kCVPixelBufferWidthKey: @(bufferWidth),
             (NSString *)kCVPixelBufferHeightKey: @(bufferHeight),
+            (NSString *)kCVPixelBufferCGImageCompatibilityKey: @(YES),
             (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES)
         };
         CVPixelBufferPoolRef _pixelBufferPool = nullptr;
@@ -678,6 +686,12 @@ AppleStimulusDisplay::FrameCaptureManager::FrameCaptureManager(std::size_t buffe
                                   boost::format("Cannot create pixel buffer pool (error = %d)") % status);
         }
         pixelBufferPool = CVPixelBufferPoolPtr::owned(_pixelBufferPool);
+        
+        NSDictionary *_pixelBufferAuxAttributes = @{
+            // Don't allow more than 5 in-flight pixel buffers
+            (NSString *)kCVPixelBufferPoolAllocationThresholdKey: @(5)
+        };
+        pixelBufferAuxAttributes = cf::DictionaryPtr::borrowed((__bridge CFDictionaryRef)_pixelBufferAuxAttributes);
     }
     
     {
@@ -701,11 +715,16 @@ bool AppleStimulusDisplay::FrameCaptureManager::createCaptureBuffer(CVPixelBuffe
 {
     {
         CVPixelBufferRef _pixelBuffer = nullptr;
-        auto status = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault,
-                                                         pixelBufferPool.get(),
-                                                         &_pixelBuffer);
+        auto status = CVPixelBufferPoolCreatePixelBufferWithAuxAttributes(kCFAllocatorDefault,
+                                                                          pixelBufferPool.get(),
+                                                                          pixelBufferAuxAttributes.get(),
+                                                                          &_pixelBuffer);
         if (status != kCVReturnSuccess) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create pixel buffer (error = %d)", status);
+            if (status == kCVReturnWouldExceedAllocationThreshold) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create pixel buffer: too many buffers already in use");
+            } else {
+                merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create pixel buffer (error = %d)", status);
+            }
             return false;
         }
         pixelBuffer = CVPixelBufferPtr::owned(_pixelBuffer);

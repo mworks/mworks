@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<marionette_info>
-  <requirements>
-    <!-- My test iPad can't keep up with this test.  It quickly runs out of memory and crashes. -->
-    <feature name="macos"/>
-  </requirements>
-</marionette_info>

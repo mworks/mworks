@@ -154,7 +154,9 @@ private:
     const cf::StringPtr imageFileType;
     const CGColorSpacePtr imageFileColorSpace;
     const VariablePtr enabled;
+    
     CVPixelBufferPoolPtr pixelBufferPool;
+    cf::DictionaryPtr pixelBufferAuxAttributes;
     CVMetalTextureCachePtr metalTextureCache;
     
 };
