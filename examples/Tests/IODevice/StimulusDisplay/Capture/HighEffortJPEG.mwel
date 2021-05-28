@@ -1,4 +1,4 @@
 %define capture_format = 'JPEG'
-%define capture_height_pixels = {'macos': 1080, 'ios': 180}[osname()]
+%define capture_height_pixels = {'macos': 720, 'ios': 180}[osname()]
 
 %include 'HighEffort.inc'
