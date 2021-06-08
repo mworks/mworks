@@ -18,9 +18,7 @@ ServersideConduit::ServersideConduit(const ParameterValueMap &p) :
     shared_ptr<Server> core = Server::instance(false);
     
     // TODO: generate a unique name to avoid name collisions
-    shared_ptr<mw::IPCEventTransport> transport(new mw::IPCEventTransport(mw::EventTransport::server_event_transport, 
-                                                                          mw::EventTransport::bidirectional_event_transport, 
-                                                                          resource_name));
+    auto transport = boost::make_shared<ZeroMQIPCEventTransport>(EventTransport::server_event_transport, resource_name);
 
     // build the conduit, attaching it to the core/client's event stream 
     conduit = shared_ptr<mw::EventStreamConduit>(new mw::EventStreamConduit(transport, core));

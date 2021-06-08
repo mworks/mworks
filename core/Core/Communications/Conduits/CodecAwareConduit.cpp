@@ -130,6 +130,18 @@ bool CodecAwareConduit::initialize(){
 }
 
 
+void CodecAwareConduit::finalize(){
+    // Unregister all callbacks
+    {
+        scoped_lock lock(conduit_mutex);
+        unregisterCallbacks(name_defined_callback_key);
+        unregisterCallbacks();
+    }
+    
+    SimpleConduit::finalize();
+}
+
+
 void CodecAwareConduit::registerCallbackByName(string event_name, EventCallback cb){
     scoped_lock lock(conduit_mutex);
     

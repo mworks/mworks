@@ -139,6 +139,9 @@ void SimpleConduit::serviceIncomingEvents(){
 // everything is done and the object can be safely destroyed.
 void SimpleConduit::finalize(){ 
     
+    // Unregister all callbacks
+    unregisterCallbacks();
+    
     shared_ptr<Clock> clock = Clock::instance(false);
     
     {   // tell the system to stop

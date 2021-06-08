@@ -32,7 +32,6 @@ BEGIN_NAMESPACE_MW
 class EventTransport {
    
 public:
-
     enum event_transport_directionality{ bidirectional_event_transport = 0,  // Read and write
                                         read_only_event_transport = 1,      // One way
                                         write_only_event_transport = 2 };
@@ -42,37 +41,31 @@ public:
                                client_event_transport = 2 }; // Connects to Server transports
    
 protected:
-    
-    event_transport_type type;
-    event_transport_directionality directionality;
+    const event_transport_type type;
+    const event_transport_directionality directionality;
     
 public:
+    EventTransport(event_transport_type type, event_transport_directionality dir) :
+        type(type),
+        directionality(dir)
+    { }
     
-    EventTransport(event_transport_type _type, event_transport_directionality _dir){
-        type = _type;
-        directionality = _dir;
-    }
+    virtual ~EventTransport() {}
     
-    virtual ~EventTransport(){}
-    
-    event_transport_type getType(){
+    event_transport_type getType() const {
         return type;
     }
     
-    event_transport_directionality getDirectionality(){
+    event_transport_directionality getDirectionality() const {
         return directionality;
     }
     
     // Send event to the other side
-    virtual void sendEvent(shared_ptr<Event> event) = 0;
-    
-    // Get an event from the other side.  Will block if no event is available
-    virtual shared_ptr<Event> receiveEvent() = 0;
+    virtual void sendEvent(const boost::shared_ptr<Event> &event) = 0;
     
     // Get an event if one is available; otherwise, return immediately 
-    virtual shared_ptr<Event> receiveEventAsynchronous() = 0;
+    virtual boost::shared_ptr<Event> receiveEventAsynchronous() = 0;
     
-   // virtual shared_ptr<Event> receiveEventNoLock() = 0;
 };
 
 
@@ -80,4 +73,3 @@ END_NAMESPACE_MW
 
 
 #endif
-

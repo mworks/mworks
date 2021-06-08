@@ -61,7 +61,7 @@ IPCEventTransport::IPCEventTransport(event_transport_type _type, event_transport
 }
 
 
-void IPCEventTransport::sendEvent(shared_ptr<Event> event){
+void IPCEventTransport::sendEvent(const boost::shared_ptr<Event> &event) {
         
     std::ostringstream output_stream;
     oarchive serialized_archive(output_stream);

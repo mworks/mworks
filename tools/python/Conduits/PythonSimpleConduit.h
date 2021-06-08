@@ -58,9 +58,8 @@ public:
             initialized = false;
         }
         
-        auto transport = boost::make_shared<IPCEventTransport>(static_cast<EventTransport::event_transport_type>(event_transport_type),
-                                                               EventTransport::bidirectional_event_transport,
-                                                               resource_name);
+        auto transport = boost::make_shared<ZeroMQIPCEventTransport>(static_cast<EventTransport::event_transport_type>(event_transport_type),
+                                                                     resource_name);
         conduit = boost::make_shared<CodecAwareConduit>(transport, correct_incoming_timestamps);
     }
     

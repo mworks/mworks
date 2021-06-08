@@ -111,8 +111,12 @@ bool EventStreamConduit::initialize(){
 
 
 void EventStreamConduit::finalize(){
+    // Unregister all callbacks
     {
-        // Unregister all callbacks
+        boost::mutex::scoped_lock lock(internal_callback_lock);
+        unregisterInternalCallbacks();
+    }
+    {
         boost::mutex::scoped_lock lock(events_to_forward_lock);
         event_stream->unregisterCallbacks(callback_key);
         event_stream->unregisterCallbacks(callback_key + CODEC_FROM_STREAM_CALLBACK_TAG);

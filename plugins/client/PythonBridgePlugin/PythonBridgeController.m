@@ -21,7 +21,7 @@
 #define MAX_NUM_RECENT_SCRIPTS 20
 
 #import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
-#import <MWorksCore/IPCEventTransport.h>
+#import <MWorksCore/ZeroMQIPCEventTransport.hpp>
 
 @implementation PythonBridgeController
 
@@ -81,9 +81,8 @@
     core = [delegate coreClient];
     
     // TODO: generate a unique name to avoid name collisions
-    shared_ptr<mw::IPCEventTransport> transport(new mw::IPCEventTransport(mw::EventTransport::server_event_transport, 
-                                                                          mw::EventTransport::bidirectional_event_transport, 
-                                                                          CONDUIT_RESOURCE_NAME));
+    auto transport = boost::make_shared<mw::ZeroMQIPCEventTransport>(mw::EventTransport::server_event_transport,
+                                                                     CONDUIT_RESOURCE_NAME);
     
     // build the conduit, attaching it to the core/client's event stream 
     conduit = shared_ptr<mw::EventStreamConduit>(new mw::EventStreamConduit(transport, core));

@@ -21,7 +21,7 @@
 
 #include <MWorksCore/EventStreamConduit.h>
 #include <MWorksCore/Server.h>
-#include <MWorksCore/IPCEventTransport.h>
+#include <MWorksCore/ZeroMQIPCEventTransport.hpp>
 
 
 namespace mw{

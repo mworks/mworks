@@ -10,6 +10,7 @@
 #define ZeroMQClient_hpp
 
 #include "ZeroMQConnection.hpp"
+#include "ZeroMQSocketPair.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -31,12 +32,9 @@ public:
     }
     
 private:
-    ZeroMQSocket incomingSocket;
-    ZeroMQSocket outgoingSocket;
+    ZeroMQSocketPair socketPair;
     ZeroMQIncomingConnection incomingConnection;
     ZeroMQOutgoingConnection outgoingConnection;
-    const std::string incomingSocketEndpoint;
-    const std::string outgoingSocketEndpoint;
     
 };
 

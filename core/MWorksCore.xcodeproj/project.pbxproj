@@ -743,10 +743,16 @@
 		E1DC75091D259C1700D9BC19 /* SerialPort.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1DC75071D259C1700D9BC19 /* SerialPort.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1E4AF411E54AE61001A2159 /* IOSStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */; };
 		E1E4AF421E54AE61001A2159 /* IOSStimulusDisplay.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1E585BA266FB4A40058186F /* ZeroMQIPCEventTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E585B8266FB4A40058186F /* ZeroMQIPCEventTransport.cpp */; };
+		E1E585BB266FB4A40058186F /* ZeroMQIPCEventTransport.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1E585B9266FB4A40058186F /* ZeroMQIPCEventTransport.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1EC364925BA32C2005AEEEE /* FixationPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EC364725BA32C2005AEEEE /* FixationPoint.cpp */; };
 		E1EC364A25BA32C2005AEEEE /* FixationPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EC364725BA32C2005AEEEE /* FixationPoint.cpp */; };
 		E1EC364B25BA32C2005AEEEE /* FixationPoint.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1EC364825BA32C2005AEEEE /* FixationPoint.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1EC364C25BA32C2005AEEEE /* FixationPoint.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1EC364825BA32C2005AEEEE /* FixationPoint.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1EE384A2671054F00774BF5 /* ZeroMQSocketPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EE38482671054F00774BF5 /* ZeroMQSocketPair.cpp */; };
+		E1EE384B2671054F00774BF5 /* ZeroMQSocketPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EE38482671054F00774BF5 /* ZeroMQSocketPair.cpp */; };
+		E1EE384C2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1EE38492671054F00774BF5 /* ZeroMQSocketPair.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1EE384D2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1EE38492671054F00774BF5 /* ZeroMQSocketPair.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 		E1F7CBB821F22B8A003F48A1 /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F7CBB121F22B8A003F48A1 /* dfindex.cpp */; };
 		E1F7CBB921F22B8A003F48A1 /* dfindex.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F7CBB221F22B8A003F48A1 /* dfindex.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1400,12 +1406,16 @@
 		E1DC75071D259C1700D9BC19 /* SerialPort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SerialPort.hpp; sourceTree = "<group>"; };
 		E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = IOSStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IOSStimulusDisplay.hpp; sourceTree = "<group>"; };
+		E1E585B8266FB4A40058186F /* ZeroMQIPCEventTransport.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQIPCEventTransport.cpp; sourceTree = "<group>"; };
+		E1E585B9266FB4A40058186F /* ZeroMQIPCEventTransport.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQIPCEventTransport.hpp; sourceTree = "<group>"; };
 		E1EC364725BA32C2005AEEEE /* FixationPoint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; name = FixationPoint.cpp; path = Core/Transforms/FixationPoint.cpp; sourceTree = SOURCE_ROOT; };
 		E1EC364825BA32C2005AEEEE /* FixationPoint.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FixationPoint.hpp; path = Core/Transforms/FixationPoint.hpp; sourceTree = SOURCE_ROOT; };
 		E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Framework.xcconfig; sourceTree = "<group>"; };
 		E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
 		E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1EE38482671054F00774BF5 /* ZeroMQSocketPair.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQSocketPair.cpp; sourceTree = "<group>"; };
+		E1EE38492671054F00774BF5 /* ZeroMQSocketPair.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQSocketPair.hpp; sourceTree = "<group>"; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 		E1F7CBB121F22B8A003F48A1 /* dfindex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dfindex.cpp; sourceTree = "<group>"; };
 		E1F7CBB221F22B8A003F48A1 /* dfindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dfindex.h; sourceTree = "<group>"; };
@@ -1728,6 +1738,8 @@
 				E10AECD115DE904300E71CA7 /* IPCUtilities.h */,
 				5C2386BA0E8D18FA00CDC4FC /* IPCEventTransport.h */,
 				5C2386B90E8D18FA00CDC4FC /* IPCEventTransport.cpp */,
+				E1E585B9266FB4A40058186F /* ZeroMQIPCEventTransport.hpp */,
+				E1E585B8266FB4A40058186F /* ZeroMQIPCEventTransport.cpp */,
 			);
 			path = Transports;
 			sourceTree = "<group>";
@@ -2533,6 +2545,8 @@
 				E1B637421D4A96C900116BB3 /* MessagePackAdaptors.hpp */,
 				E188BE931D47F23B0001483A /* ZeroMQSocket.hpp */,
 				E188BE921D47F23B0001483A /* ZeroMQSocket.cpp */,
+				E1EE38492671054F00774BF5 /* ZeroMQSocketPair.hpp */,
+				E1EE38482671054F00774BF5 /* ZeroMQSocketPair.cpp */,
 				E13464EA1D4BD8B200E4CF08 /* ZeroMQConnection.hpp */,
 				E13464E91D4BD8B200E4CF08 /* ZeroMQConnection.cpp */,
 				E188BE8F1D47CAAC0001483A /* ZeroMQClient.hpp */,
@@ -2707,6 +2721,7 @@
 				DA2E379F08B0FE5800BD22C4 /* EventBuffer.h in Headers */,
 				8ED451E408BF5B90003880D5 /* EyeMonitors.h in Headers */,
 				E1F7CBB921F22B8A003F48A1 /* dfindex.h in Headers */,
+				E1E585BB266FB4A40058186F /* ZeroMQIPCEventTransport.hpp in Headers */,
 				8ED451E808BF5BA1003880D5 /* FilterTransforms.h in Headers */,
 				8ED452C908BF9870003880D5 /* Transforms.h in Headers */,
 				E18FF25F1C80EE7B007820D4 /* CFObjectPtr.h in Headers */,
@@ -2725,6 +2740,7 @@
 				DA2B6B170989915900DDE06D /* Server.h in Headers */,
 				DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */,
 				DA2B6D52098AAAEC00DDE06D /* StandardSystemEventHandler.h in Headers */,
+				E1EE384C2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */,
 				DA871F2609995B180084304E /* StandardClientCoreBuilder.h in Headers */,
 				E18163162588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */,
 				5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */,
@@ -2905,6 +2921,7 @@
 				E17917551E4E555F00528B91 /* EyeMonitors.h in Headers */,
 				E17917801E4E56D500528B91 /* StimulusNode.h in Headers */,
 				E179173C1E4E548F00528B91 /* Scheduler.h in Headers */,
+				E1EE384D2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */,
 				E17917261E4E53ED00528B91 /* Filters.h in Headers */,
 				E17916A61E4E506000528B91 /* Serialization.h in Headers */,
 				E17917271E4E53F200528B91 /* States.h in Headers */,
@@ -3612,6 +3629,7 @@
 				E1F7CBB821F22B8A003F48A1 /* dfindex.cpp in Sources */,
 				DA2B6D53098AAAEC00DDE06D /* StandardSystemEventHandler.cpp in Sources */,
 				DA871F2709995B180084304E /* StandardClientCoreBuilder.cpp in Sources */,
+				E1E585BA266FB4A40058186F /* ZeroMQIPCEventTransport.cpp in Sources */,
 				5C71CD6C09AA507700EAD886 /* GlobalVariable.cpp in Sources */,
 				E1FE64112142BEB700209279 /* MWK2File.cpp in Sources */,
 				E181600425811EB0004D8156 /* LegacyStandardStimuli.cpp in Sources */,
@@ -3626,6 +3644,7 @@
 				5CBA76DD0AE06F6500D6F4A6 /* StandardSounds.cpp in Sources */,
 				5CBA76E30AE0706300D6F4A6 /* OpenALContextManager.cpp in Sources */,
 				5CAE8BF80AE4049E0013DB19 /* alut.c in Sources */,
+				E1EE384A2671054F00774BF5 /* ZeroMQSocketPair.cpp in Sources */,
 				0EAA0DE60B98FC1500331AA5 /* SimpleStaircase.cpp in Sources */,
 				E18162252582C635004D8156 /* RectangleStimulus.metal in Sources */,
 				5C2B51220BB6838200928E03 /* ScopedVariable.cpp in Sources */,
@@ -3790,6 +3809,7 @@
 				E17917711E4E564000528B91 /* DynamicStimulusActions.cpp in Sources */,
 				E1257D9821F7965300E1CF58 /* DataFileReader.cpp in Sources */,
 				E17916D21E4E515C00528B91 /* ScopedVariableContext.cpp in Sources */,
+				E1EE384B2671054F00774BF5 /* ZeroMQSocketPair.cpp in Sources */,
 				E179175F1E4E55AD00528B91 /* SimpleStaircase.cpp in Sources */,
 				E17916D41E4E516500528B91 /* SelectionVariable.cpp in Sources */,
 				E17916BE1E4E510C00528B91 /* VariableLoad.cpp in Sources */,

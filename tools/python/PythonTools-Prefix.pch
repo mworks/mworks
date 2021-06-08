@@ -13,10 +13,10 @@
 #include <MWorksCore/Clock.h>
 #include <MWorksCore/CodecAwareConduit.h>
 #include <MWorksCore/CoreBuilderForeman.h>
-#include <MWorksCore/IPCEventTransport.h>
 #include <MWorksCore/MWK2File.hpp>
 #include <MWorksCore/ScarabServices.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
+#include <MWorksCore/ZeroMQIPCEventTransport.hpp>
 
 // Use a distinct namespace, so that things don't blow up if a user imports the Python tools
 // via the Python plugin

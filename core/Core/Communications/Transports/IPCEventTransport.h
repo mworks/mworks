@@ -49,13 +49,13 @@ public:
                       std::string _resource_name);
                           
     // Send event to the other side
-    virtual void sendEvent(shared_ptr<Event> event);
+    void sendEvent(const boost::shared_ptr<Event> &event) override;
         
     // Get an event from the other side.  Will block if no event is available
     virtual shared_ptr<Event> receiveEvent();
         
     // Get an event if one is available; otherwise, return immediately 
-    virtual shared_ptr<Event> receiveEventAsynchronous();
+    boost::shared_ptr<Event> receiveEventAsynchronous() override;
   
     virtual shared_ptr<Event> deserializeEvent(message_queue_size_type& received_size);  
     

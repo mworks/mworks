@@ -62,7 +62,8 @@ public:
     
     
     virtual bool initialize();
-    virtual void registerCallbackByName(string name, EventCallback cb);    
+    virtual void finalize();
+    virtual void registerCallbackByName(string name, EventCallback cb);
     virtual void registerLocalEventCode(int code, string name);
     
     void receiveCodecEvent(shared_ptr<Event> evt);   
