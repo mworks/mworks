@@ -65,9 +65,8 @@ bool Server::startServer() {
     
     server.reset(new ZeroMQServer(incoming_event_buffer,
                                   global_outgoing_event_buffer,
-                                  address,
-                                  listenPort + 1,
-                                  listenPort));
+                                  zeromq::formatTCPEndpoint(address, listenPort + 1),
+                                  zeromq::formatTCPEndpoint(address, listenPort)));
     
     if (!server->start()) {
         return false;
@@ -179,31 +178,3 @@ bool Server::isExperimentLoaded() {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

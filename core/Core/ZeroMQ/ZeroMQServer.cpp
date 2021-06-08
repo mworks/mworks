@@ -9,7 +9,6 @@
 #include "ZeroMQServer.hpp"
 
 #include "Utilities.h"
-#include "ZeroMQUtilities.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -17,15 +16,14 @@ BEGIN_NAMESPACE_MW
 
 ZeroMQServer::ZeroMQServer(const boost::shared_ptr<EventBuffer> &incomingEventBuffer,
                            const boost::shared_ptr<EventBuffer> &outgoingEventBuffer,
-                           const std::string &hostname,
-                           int incomingSocketPort,
-                           int outgoingSocketPort) :
+                           const std::string &incomingSocketEndpoint,
+                           const std::string &outgoingSocketEndpoint) :
     incomingSocket(ZMQ_PULL),
     outgoingSocket(ZMQ_PUB),
     incomingConnection(incomingSocket, incomingEventBuffer),
     outgoingConnection(outgoingSocket, outgoingEventBuffer),
-    incomingSocketEndpoint(zeromq::formatTCPEndpoint(hostname, incomingSocketPort)),
-    outgoingSocketEndpoint(zeromq::formatTCPEndpoint(hostname, outgoingSocketPort))
+    incomingSocketEndpoint(incomingSocketEndpoint),
+    outgoingSocketEndpoint(outgoingSocketEndpoint)
 {
     if (!outgoingSocket.setOption(ZMQ_SNDHWM, 0))  // No limit on number of outstanding outgoing messages
     {
@@ -73,30 +71,3 @@ bool ZeroMQServer::stop() {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

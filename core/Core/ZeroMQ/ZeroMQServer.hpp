@@ -20,9 +20,8 @@ class ZeroMQServer {
 public:
     ZeroMQServer(const boost::shared_ptr<EventBuffer> &incomingEventBuffer,
                  const boost::shared_ptr<EventBuffer> &outgoingEventBuffer,
-                 const std::string &hostname,
-                 int incomingSocketPort,
-                 int outgoingSocketPort);
+                 const std::string &incomingSocketEndpoint,
+                 const std::string &outgoingSocketEndpoint);
     
     bool start();
     bool stop();
@@ -46,30 +45,3 @@ END_NAMESPACE_MW
 
 
 #endif /* ZeroMQServer_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
