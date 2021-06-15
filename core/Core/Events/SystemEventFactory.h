@@ -67,8 +67,11 @@ class SystemEventFactory {
 	static shared_ptr<Event> loadVariablesControl(const std::string &file,
 												   const bool fullPath);
 	
-    static shared_ptr<Event> setEventForwardingControl(std::string, bool);
     static shared_ptr<Event> requestVariablesUpdateControl();
+    
+    static shared_ptr<Event> setEventForwardingControl(bool forwardAllEvents);
+    static shared_ptr<Event> setEventForwardingControl(int eventCode, bool forward);
+    static shared_ptr<Event> setEventForwardingControl(const std::string &eventName, bool forward);
     
     static shared_ptr<Event> clockOffsetEvent(MWTime offset_value);
     

@@ -1,0 +1,21 @@
+%include 'Shared.inc'
+
+resource ('all_events.py')
+
+
+var foo = 0
+var bar = 'zero'
+
+
+protocol {
+    run_python_string ('start("all_events.py")')
+
+    foo = 1
+    bar = 'one'
+    foo = 2
+    bar = 'two'
+    foo = 3
+    bar = 'three'
+
+    run_python_string ('finish()')
+}

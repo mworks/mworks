@@ -1,0 +1,38 @@
+%include 'Shared.inc'
+
+resource ('caching_client.py')
+
+
+var foo = 0
+var bar = 'zero'
+
+
+var client_ready = false
+
+%define wait_for_client ()
+    wait_for_condition (
+        condition = client_ready
+        timeout = 5s
+        stop_on_timeout = false
+        )
+    client_ready = false
+%end
+
+
+protocol {
+    run_python_string ('start("caching_client.py")')
+
+    wait_for_client ()
+    foo = 1
+    bar = 'one'
+
+    wait_for_client ()
+    foo = 2
+    bar = 'two'
+
+    wait_for_client ()
+    foo = 3
+    bar = 'three'
+
+    run_python_string ('finish()')
+}

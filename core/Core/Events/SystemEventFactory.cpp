@@ -223,25 +223,33 @@ shared_ptr<Event> SystemEventFactory::requestVariablesUpdateControl() {
 }
 
 
-
-shared_ptr<Event> SystemEventFactory::setEventForwardingControl(string name, bool state) {
-    Datum control_datum(M_DICTIONARY, 2);
-	
-	control_datum.addElement(M_SET_EVENT_FORWARDING_NAME, name);
-	control_datum.addElement(M_SET_EVENT_FORWARDING_STATE, state);
-    
-    Datum payload(systemEventPackage(M_SYSTEM_CONTROL_PACKAGE, 
-                                    M_SET_EVENT_FORWARDING,
-                                    control_datum));
-    
-    
-    shared_ptr<Event> ret(new Event(RESERVED_SYSTEM_EVENT_CODE, 
-                                    payload));
-    
-	
-	return ret;
+shared_ptr<Event> SystemEventFactory::setEventForwardingControl(bool forwardAllEvents) {
+    Datum payload(M_DICTIONARY, 1);
+    payload.addElement(M_SET_EVENT_FORWARDING_ALL, forwardAllEvents);
+    return boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE, systemEventPackage(M_SYSTEM_CONTROL_PACKAGE,
+                                                                                    M_SET_EVENT_FORWARDING,
+                                                                                    payload));
 }
 
+
+shared_ptr<Event> SystemEventFactory::setEventForwardingControl(int eventCode, bool forward) {
+    Datum payload(M_DICTIONARY, 2);
+    payload.addElement(M_SET_EVENT_FORWARDING_CODE, eventCode);
+    payload.addElement(M_SET_EVENT_FORWARDING_STATE, forward);
+    return boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE, systemEventPackage(M_SYSTEM_CONTROL_PACKAGE,
+                                                                                    M_SET_EVENT_FORWARDING,
+                                                                                    payload));
+}
+
+
+shared_ptr<Event> SystemEventFactory::setEventForwardingControl(const std::string &eventName, bool forward) {
+    Datum payload(M_DICTIONARY, 2);
+    payload.addElement(M_SET_EVENT_FORWARDING_NAME, eventName);
+    payload.addElement(M_SET_EVENT_FORWARDING_STATE, forward);
+    return boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE, systemEventPackage(M_SYSTEM_CONTROL_PACKAGE,
+                                                                                    M_SET_EVENT_FORWARDING,
+                                                                                    payload));
+}
 
 
 shared_ptr<Event> SystemEventFactory::clockOffsetEvent(MWTime offset_value){

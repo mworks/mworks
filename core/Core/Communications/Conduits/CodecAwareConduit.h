@@ -63,6 +63,8 @@ public:
     
     virtual bool initialize();
     virtual void finalize();
+    virtual void registerCallbackForAllEvents(EventCallback cb);
+    virtual void registerCallbackByCode(int code, EventCallback cb);
     virtual void registerCallbackByName(string name, EventCallback cb);
     virtual void registerLocalEventCode(int code, string name);
     

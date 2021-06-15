@@ -24,6 +24,7 @@ PythonIPCConduit::~PythonIPCConduit() {
 
 void PythonIPCConduit::init(const std::string &resource_name,
                             bool correct_incoming_timestamps,
+                            bool cache_incoming_data,
                             int event_transport_type)
 {
 #if defined(Py_LIMITED_API) && Py_LIMITED_API+0 <= 0x03060000
@@ -51,6 +52,10 @@ void PythonIPCConduit::init(const std::string &resource_name,
     auto transport = boost::make_shared<ZeroMQIPCEventTransport>(static_cast<EventTransport::event_transport_type>(event_transport_type),
                                                                  resource_name);
     conduit = boost::make_shared<CodecAwareConduit>(transport, correct_incoming_timestamps);
+    
+    cacheIncomingData = cache_incoming_data;
+    lock_guard lock(incomingDataCacheMutex);
+    incomingDataCache.clear();
 }
 
 
@@ -63,6 +68,12 @@ bool PythonIPCConduit::initialize() {
     if (conduit && !initialized) {
         ScopedGILRelease sgr;
         initialized = conduit->initialize();
+        if (initialized && cacheIncomingData) {
+            conduit->registerCallbackForAllEvents([this](boost::shared_ptr<Event> evt) {
+                lock_guard lock(incomingDataCacheMutex);
+                incomingDataCache[evt->getEventCode()] = evt->getData();
+            });
+        }
     }
     return initialized;
 }
@@ -72,8 +83,25 @@ void PythonIPCConduit::finalize() {
     requireValidConduit();
     
     ScopedGILRelease sgr;
+    
     conduit->finalize();
     initialized = false;
+    
+    lock_guard lock(incomingDataCacheMutex);
+    incomingDataCache.clear();
+}
+
+
+void PythonIPCConduit::registerCallbackForAllEvents(const ObjectPtr &function_object) {
+    requireValidConduit();
+    
+    PythonEvent::Callback cb(function_object);
+    
+    // Need to hold the GIL until *after* we create the PythonEvent::Callback, since doing so
+    // involves an implicit Py_INCREF
+    ScopedGILRelease sgr;
+    
+    conduit->registerCallbackForAllEvents(cb);
 }
 
 
@@ -86,7 +114,7 @@ void PythonIPCConduit::registerCallbackForCode(int code, const ObjectPtr &functi
     // involves an implicit Py_INCREF
     ScopedGILRelease sgr;
     
-    conduit->registerCallback(code, cb);
+    conduit->registerCallbackByCode(code, cb);
 }
 
 
@@ -143,6 +171,23 @@ void PythonIPCConduit::sendData(int code, const Datum &data) {
 }
 
 
+bool PythonIPCConduit::hasCachedDataForCode(int code) const {
+    lock_guard lock(incomingDataCacheMutex);
+    return incomingDataCache.count(code);
+}
+
+
+Datum PythonIPCConduit::getCachedDataForCode(int code) const {
+    lock_guard lock(incomingDataCacheMutex);
+    Datum data;
+    auto iter = incomingDataCache.find(code);
+    if (iter != incomingDataCache.end()) {
+        data = iter->second;
+    }
+    return data;
+}
+
+
 static void stopMainLoop() {
     dispatch_async(dispatch_get_main_queue(), ^{
         [NSApplication.sharedApplication stop:nil];
@@ -167,10 +212,13 @@ template<>
 PyMethodDef ExtensionType<PythonIPCConduit>::methods[] = {
     MethodDef<&PythonIPCConduit::initialize>("initialize"),
     MethodDef<&PythonIPCConduit::finalize>("finalize"),
+    MethodDef<&PythonIPCConduit::registerCallbackForAllEvents>("register_callback_for_all_events"),
     MethodDef<&PythonIPCConduit::registerCallbackForCode>("register_callback_for_code"),
     MethodDef<&PythonIPCConduit::registerCallbackForName>("register_callback_for_name"),
     MethodDef<&PythonIPCConduit::registerLocalEventCode>("register_local_event_code"),
     MethodDef<&PythonIPCConduit::sendData>("send_data"),
+    MethodDef<&PythonIPCConduit::hasCachedDataForCode>("_has_cached_data_for_code"),
+    MethodDef<&PythonIPCConduit::getCachedDataForCode>("_get_cached_data_for_code"),
     MethodDef<stopMainLoop>("_stop_main_loop"),
     { }  // Sentinel
 };

@@ -3,9 +3,12 @@ from . import _mworks
 
 class _IPCConduit(_mworks._IPCConduit):
 
+    _cache_incoming_data = False
+
     def __init__(self, resource_name, correct_incoming_timestamps=False):
         super().__init__(resource_name,
                          correct_incoming_timestamps,
+                         self._cache_incoming_data,
                          self._event_transport_type)
 
     def __enter__(self):
@@ -86,3 +89,27 @@ class IPCAccumClientConduit(_IPCAccumConduit):
 class IPCAccumServerConduit(_IPCAccumConduit):
 
     _event_transport_type = _mworks.server_event_transport
+
+
+class CachingIPCClientConduit(IPCClientConduit):
+
+    _cache_incoming_data = True
+
+    def __contains__(self, code_or_name):
+        if isinstance(code_or_name, int):
+            code = code_or_name
+        else:
+            code = self.reverse_codec.get(code_or_name)
+            if code is None:
+                return False
+        return self._has_cached_data_for_code(code)
+
+    def __getitem__(self, code_or_name):
+        if isinstance(code_or_name, int):
+            code = code_or_name
+        else:
+            code = self.reverse_codec[code_or_name]
+        data = self._get_cached_data_for_code(code)
+        if data is None:
+            raise KeyError(code_or_name)
+        return data

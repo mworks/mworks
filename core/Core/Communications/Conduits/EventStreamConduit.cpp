@@ -118,8 +118,13 @@ void EventStreamConduit::finalize(){
     }
     {
         boost::mutex::scoped_lock lock(events_to_forward_lock);
+        
         event_stream->unregisterCallbacks(callback_key);
         event_stream->unregisterCallbacks(callback_key + CODEC_FROM_STREAM_CALLBACK_TAG);
+        
+        forward_all_events = false;
+        event_codes_to_forward.clear();
+        event_names_to_forward.clear();
     }
     
     {   // tell the system to stop
@@ -140,72 +145,151 @@ void EventStreamConduit::finalize(){
 }
 
 
+void EventStreamConduit::handleCodec(shared_ptr<Event> event, bool from_conduit_side) {
+    // build a map to aid in accessing the codec
+    for (auto &item : event->getData().getDict()) {
+        auto &key = item.first;
+        auto &value = item.second;
+        string tagname;
+        if(value.getDataType() == M_STRING){
+            tagname = value.getString();
+        } else if(value.getDataType() == M_DICTIONARY){
+            tagname = string(value.getElement("tagname"));
+        } else {
+            mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Invalid values in codec received by EventStreamConduit");
+            continue;
+        }
+        
+        if(from_conduit_side){
+            conduit_side_codec[(int)key] = tagname;
+            conduit_side_reverse_codec[tagname] = (int)key;
+        } else {
+            stream_side_codec[(int)key] = tagname;
+            stream_side_reverse_codec[tagname] = (int)key;
+        }
+    }
+    
+    if(!from_conduit_side){
+        // forward the codec over the conduit
+        //std::cerr << "Forwarding codec over conduit" << std::endl;
+        sendData(event);
+    }
+    
+    // Rebuild codes_to_forward according to the new codec
+    boost::mutex::scoped_lock lock(events_to_forward_lock);
+    rebuildStreamToConduitForwarding();
+    
+}
+
+
 void EventStreamConduit::handleControlEventFromConduit(shared_ptr<Event> evt){
     
     // mainly interested in M_SET_EVENT_FORWARDING events
     // since these tell us that the other end of this conduit
     // wants us to send or not send it those events
     
-    Datum payload_type = evt->getData().getElement(M_SYSTEM_PAYLOAD_TYPE);
+    auto &eventData = evt->getData();
     
     // if not event forwarding, pass
-    if((int)payload_type != M_SET_EVENT_FORWARDING){
+    if (eventData.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() != M_SET_EVENT_FORWARDING) {
         return;
     }
     
-    Datum payload(evt->getData().getElement(M_SYSTEM_PAYLOAD));
+    auto &payload = eventData.getElement(M_SYSTEM_PAYLOAD);
     
-    Datum event_id_datum(payload.getElement(M_SET_EVENT_FORWARDING_NAME));
-    Datum state_datum(payload.getElement(M_SET_EVENT_FORWARDING_STATE));
-    
-    //std::cerr << "Responding to event forwarding request (id: " << event_id_datum.getString() << ", state: " << (bool)state_datum << ")" << std::endl;
-    
-    string event_name;
-    if(event_id_datum.isString()){
-        event_name = event_id_datum.getString();
-    } else {
-        throw SimpleException("Unknown data type for event forwarding request");
-    }
-    
-    
-    boost::mutex::scoped_lock lock(events_to_forward_lock);
-    
-    std::list<string>::iterator event_iterator = find_if(events_to_forward.begin(),
-                                                         events_to_forward.end(),
-                                                         [&event_name](const std::string &name) {
-        return name == event_name;
-    });
-    
-    if(state_datum.getBool()){
-        if(event_iterator == events_to_forward.end()){
-            //std::cerr << "Now forwarding " << event_name << std::endl;
-            events_to_forward.push_back(event_name);
-            startForwardingEvent(event_name);
-        }
-    } else {
+    if (payload.hasKey(M_SET_EVENT_FORWARDING_ALL)) {
         
-        if(event_iterator != events_to_forward.end()){
-            events_to_forward.erase(event_iterator);
+        //
+        // Handle request to start/stop forwarding all events
+        //
+        
+        auto shouldForward = payload.getElement(M_SET_EVENT_FORWARDING_ALL).getBool();
+        
+        boost::mutex::scoped_lock lock(events_to_forward_lock);
+        if (forward_all_events != shouldForward) {
+            forward_all_events = shouldForward;
             rebuildStreamToConduitForwarding();
         }
+        
+    } else if (payload.hasKey(M_SET_EVENT_FORWARDING_CODE)) {
+        
+        //
+        // Handle request to start/stop forwarding events with a specific code
+        //
+        
+        int code = payload.getElement(M_SET_EVENT_FORWARDING_CODE).getInteger();
+        if (code < 0) {
+            return;
+        }
+        auto shouldForward = payload.getElement(M_SET_EVENT_FORWARDING_STATE).getBool();
+        
+        boost::mutex::scoped_lock lock(events_to_forward_lock);
+        if (shouldForward) {
+            if (event_codes_to_forward.insert(code).second && !forward_all_events) {
+                startForwardingEvent(code);
+            }
+        } else {
+            if (event_codes_to_forward.erase(code) && !forward_all_events) {
+                rebuildStreamToConduitForwarding();
+            }
+        }
+        
+    } else if (payload.hasKey(M_SET_EVENT_FORWARDING_NAME)) {
+        
+        //
+        // Handle request to start/stop forwarding events with a specific name
+        //
+        
+        auto &name = payload.getElement(M_SET_EVENT_FORWARDING_NAME).getString();
+        if (name.empty()) {
+            return;
+        }
+        auto shouldForward = payload.getElement(M_SET_EVENT_FORWARDING_STATE).getBool();
+        
+        boost::mutex::scoped_lock lock(events_to_forward_lock);
+        if (shouldForward) {
+            if (event_names_to_forward.insert(name).second && !forward_all_events) {
+                startForwardingEvent(name);
+            }
+        } else {
+            if (event_names_to_forward.erase(name) && !forward_all_events) {
+                rebuildStreamToConduitForwarding();
+            }
+        }
+        
     }
 }
 
 
 void EventStreamConduit::rebuildStreamToConduitForwarding(){
-    std::list<string>::iterator i;
-    
-    //std::cerr << "rebuilding stream to conduit forwarding" << std::endl;
-    
     // unregister any callbacks previously registered by this object
     event_stream->unregisterCallbacks(callback_key);
     
-    // for each event named in events_to_forward (strings) register a callback
-    // using the event stream interface
-    for(i = events_to_forward.begin(); i != events_to_forward.end(); i++){
-        startForwardingEvent(*i);
+    if (forward_all_events) {
+        event_stream->registerCallback(boost::bind(&EventStreamConduit::sendData, shared_from_this(), _1), callback_key);
+        // Since we're forwarding all events, there's no need to register individual callbacks for specific codes
+        // or names.  We're done.
+        return;
     }
+    
+    // for each event code in event_codes_to_forward, register a callback
+    // using the event stream interface
+    for (auto code : event_codes_to_forward) {
+        startForwardingEvent(code);
+    }
+    
+    // for each event name in event_names_to_forward, register a callback
+    // using the event stream interface
+    for (auto &name : event_names_to_forward) {
+        startForwardingEvent(name);
+    }
+}
 
+
+void EventStreamConduit::startForwardingEvent(int code) {
+    if (code >= 0) {
+        event_stream->registerCallback(code, boost::bind(&EventStreamConduit::sendData, shared_from_this(), _1), callback_key);
+    }
 }
 
 
@@ -214,8 +298,7 @@ void EventStreamConduit::startForwardingEvent(const std::string &tag_to_forward)
         // if the tag is listed
         if(stream_side_reverse_codec.find(tag_to_forward) != stream_side_reverse_codec.end()){
             int code = stream_side_reverse_codec[tag_to_forward];
-            //std::cerr << "Registering forwarding callback for " << code << " on event stream" << std::endl;
-            event_stream->registerCallback(code, boost::bind(&EventStreamConduit::sendData, shared_from_this(), _1), callback_key);
+            startForwardingEvent(code);
         }
     }
 }

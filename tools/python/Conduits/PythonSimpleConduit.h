@@ -20,12 +20,16 @@ class PythonIPCConduit : public ExtensionType<PythonIPCConduit>, boost::noncopya
 public:
     ~PythonIPCConduit();
     
-    void init(const std::string &resource_name, bool correct_incoming_timestamps, int event_transport_type);
+    void init(const std::string &resource_name,
+              bool correct_incoming_timestamps,
+              bool cache_incoming_data,
+              int event_transport_type);
     
     bool isInitialized() const;
     bool initialize();
     void finalize();
     
+    void registerCallbackForAllEvents(const ObjectPtr &function_object);
     void registerCallbackForCode(int code, const ObjectPtr &function_object);
     void registerCallbackForName(const std::string &event_name, const ObjectPtr &function_object);
     void registerLocalEventCode(int code, const std::string &event_name);
@@ -34,6 +38,9 @@ public:
     std::map<std::string, int> getReverseCodec() const;
     
     void sendData(int code, const Datum &data);
+    
+    bool hasCachedDataForCode(int code) const;
+    Datum getCachedDataForCode(int code) const;
     
 private:
     void requireValidConduit() const {
@@ -44,6 +51,11 @@ private:
     
     boost::shared_ptr<CodecAwareConduit> conduit;
     bool initialized = false;
+    
+    bool cacheIncomingData;
+    using lock_guard = std::lock_guard<std::mutex>;
+    mutable lock_guard::mutex_type incomingDataCacheMutex;
+    std::map<int, Datum> incomingDataCache;
     
 };
 

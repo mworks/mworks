@@ -134,11 +134,36 @@ void CodecAwareConduit::finalize(){
     // Unregister all callbacks
     {
         scoped_lock lock(conduit_mutex);
+        callbacks_by_name.clear();
         unregisterCallbacks(name_defined_callback_key);
         unregisterCallbacks();
     }
     
     SimpleConduit::finalize();
+}
+
+
+void CodecAwareConduit::registerCallbackForAllEvents(EventCallback cb) {
+    scoped_lock lock(conduit_mutex);
+    
+    registerCallback(cb);
+    
+    // Send a request to the other side of the conduit to begin forwarding all events
+    sendData(SystemEventFactory::setEventForwardingControl(true));
+}
+
+
+void CodecAwareConduit::registerCallbackByCode(int code, EventCallback cb) {
+    scoped_lock lock(conduit_mutex);
+    
+    if (code < 0) {
+        throw SimpleException("Attempt to register callback for invalid event code");
+    }
+    
+    registerCallback(code, cb);
+    
+    // Send a request to the other side of the conduit to begin forwarding events with this code
+    sendData(SystemEventFactory::setEventForwardingControl(code, true));
 }
 
 
@@ -198,29 +223,3 @@ void CodecAwareConduit::waitForRemoteCodec(scoped_lock &lock) {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

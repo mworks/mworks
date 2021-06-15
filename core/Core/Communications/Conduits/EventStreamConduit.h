@@ -48,9 +48,11 @@ protected:
     map<string, int> stream_side_reverse_codec;
     map<int, string> stream_side_codec;
     
-    // A list of event names that the conduit side has requested be forwarded to it
+    // Events that the conduit side has requested be forwarded to it
     boost::mutex events_to_forward_lock;
-    std::list<string> events_to_forward;
+    bool forward_all_events = false;
+    std::set<int> event_codes_to_forward;
+    std::set<string> event_names_to_forward;
     
     // A unique key that we can use to unregister/re-register callbacks made by 
     // this object
@@ -85,6 +87,7 @@ protected:
     // 2) Re-register new stream-side callbacks using the stream-side codec 
     void rebuildStreamToConduitForwarding();    
     
+    void startForwardingEvent(int code);
     void startForwardingEvent(const std::string &name);
     
 public:
@@ -109,41 +112,7 @@ public:
     
     // Rebuild the internal representation of the codec, and launch a rebuild
     // of the callback map
-    void handleCodec(shared_ptr<Event> event, bool from_conduit_side){
-        // build a map to aid in accessing the codec
-        for (auto &item : event->getData().getDict()) {
-            auto &key = item.first;
-            auto &value = item.second;
-            string tagname;
-            if(value.getDataType() == M_STRING){
-                tagname = value.getString();
-            } else if(value.getDataType() == M_DICTIONARY){
-                tagname = string(value.getElement("tagname"));
-            } else {
-                mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Invalid values in codec received by EventStreamConduit");
-                continue;
-            }
-            
-            if(from_conduit_side){
-                conduit_side_codec[(int)key] = tagname;
-                conduit_side_reverse_codec[tagname] = (int)key;
-            } else {
-                stream_side_codec[(int)key] = tagname;
-                stream_side_reverse_codec[tagname] = (int)key;
-            }
-        }
-        
-        if(!from_conduit_side){
-            // forward the codec over the conduit
-            //std::cerr << "Forwarding codec over conduit" << std::endl;
-            sendData(event);
-        }
-        
-        // Rebuild codes_to_forward according to the new codec
-        boost::mutex::scoped_lock lock(events_to_forward_lock);
-        rebuildStreamToConduitForwarding();
-        
-    }
+    void handleCodec(shared_ptr<Event> event, bool from_conduit_side);
     
     void handleCodecFromConduit(shared_ptr<Event> event){
         return handleCodec(event, true);
