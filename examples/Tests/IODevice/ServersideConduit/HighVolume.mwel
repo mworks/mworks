@@ -2022,7 +2022,7 @@ protocol {
 
     wait_for_condition (
         condition = client_ready
-        timeout = 30s
+        timeout = 60s
         stop_on_timeout = false
         )
 
