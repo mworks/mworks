@@ -443,7 +443,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.19.4'
+    version = '1.21.0'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
