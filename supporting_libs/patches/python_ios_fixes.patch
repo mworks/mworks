@@ -1,7 +1,7 @@
-diff -ur Python-3.8.0/Lib/concurrent/futures/process.py Python/Lib/concurrent/futures/process.py
---- Python-3.8.0/Lib/concurrent/futures/process.py	2019-10-14 09:34:47.000000000 -0400
-+++ Python/Lib/concurrent/futures/process.py	2019-11-01 14:35:21.000000000 -0400
-@@ -458,8 +458,9 @@
+diff -ur Python-3.9.5/Lib/concurrent/futures/process.py Python/Lib/concurrent/futures/process.py
+--- Python-3.9.5/Lib/concurrent/futures/process.py	2021-05-03 10:54:42.000000000 -0400
++++ Python/Lib/concurrent/futures/process.py	2021-06-28 10:23:49.000000000 -0400
+@@ -533,8 +533,9 @@
              raise NotImplementedError(_system_limited)
      _system_limits_checked = True
      try:
@@ -12,19 +12,10 @@ diff -ur Python-3.8.0/Lib/concurrent/futures/process.py Python/Lib/concurrent/fu
          # sysconf not available or setting not available
          return
      if nsems_max == -1:
-diff -ur Python-3.8.0/Lib/platform.py Python/Lib/platform.py
---- Python-3.8.0/Lib/platform.py	2019-10-14 09:34:47.000000000 -0400
-+++ Python/Lib/platform.py	2019-11-01 14:35:21.000000000 -0400
-@@ -604,6 +604,8 @@
- 
-     """ Interface to the system's uname command.
-     """
-+    # Can't open a subprocess on iOS
-+    return default
-     if sys.platform in ('dos', 'win32', 'win16'):
-         # XXX Others too ?
-         return default
-@@ -626,6 +628,8 @@
+diff -ur Python-3.9.5/Lib/platform.py Python/Lib/platform.py
+--- Python-3.9.5/Lib/platform.py	2021-05-03 10:54:42.000000000 -0400
++++ Python/Lib/platform.py	2021-06-28 10:24:23.000000000 -0400
+@@ -614,6 +614,8 @@
          default in case the command should fail.
  
      """
@@ -33,10 +24,10 @@ diff -ur Python-3.8.0/Lib/platform.py Python/Lib/platform.py
      if sys.platform in ('dos', 'win32', 'win16'):
          # XXX Others too ?
          return default
-diff -ur Python-3.8.0/Lib/urllib/request.py Python/Lib/urllib/request.py
---- Python-3.8.0/Lib/urllib/request.py	2019-10-14 09:34:47.000000000 -0400
-+++ Python/Lib/urllib/request.py	2019-11-01 14:35:21.000000000 -0400
-@@ -2580,7 +2580,9 @@
+diff -ur Python-3.9.5/Lib/urllib/request.py Python/Lib/urllib/request.py
+--- Python-3.9.5/Lib/urllib/request.py	2021-05-03 10:54:42.000000000 -0400
++++ Python/Lib/urllib/request.py	2021-06-28 10:23:49.000000000 -0400
+@@ -2616,7 +2616,9 @@
      return False
  
  
@@ -47,10 +38,10 @@ diff -ur Python-3.8.0/Lib/urllib/request.py Python/Lib/urllib/request.py
      from _scproxy import _get_proxy_settings, _get_proxies
  
      def proxy_bypass_macosx_sysconf(host):
-diff -ur Python-3.8.0/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.8.0/pyconfig.h.in	2019-10-14 09:34:47.000000000 -0400
-+++ Python/pyconfig.h.in	2019-11-01 14:35:21.000000000 -0400
-@@ -890,7 +890,7 @@
+diff -ur Python-3.9.5/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.9.5/pyconfig.h.in	2021-05-03 10:54:42.000000000 -0400
++++ Python/pyconfig.h.in	2021-06-28 10:23:49.000000000 -0400
+@@ -896,7 +896,7 @@
  #undef HAVE_SEM_UNLINK
  
  /* Define to 1 if you have the `sendfile' function. */

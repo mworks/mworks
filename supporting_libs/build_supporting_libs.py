@@ -381,7 +381,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.8.7'
+    version = '3.9.6'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -426,7 +426,6 @@ def python():
 
             run_configure_and_make(
                 extra_args = extra_args,
-                extra_compile_flags = '-fvisibility=default',
                 )
 
             add_object_files_to_libpythonall(

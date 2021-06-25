@@ -31,7 +31,10 @@ void PythonIPCConduit::init(const std::string &resource_name,
     // We'll be calling Python code in non-Python background threads, so ensure that the
     // GIL is initialized.  (This is necessary only in Python 3.6 and earlier.  PyEval_InitThreads
     // is deprecated as of Python 3.9 and will be removed in 3.11.)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     PyEval_InitThreads();
+#pragma clang diagnostic pop
 #endif
     
     // Need to hold the GIL until *after* we call PyEval_InitThreads

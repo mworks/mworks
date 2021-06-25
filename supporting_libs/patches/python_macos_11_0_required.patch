@@ -1,7 +1,7 @@
-diff -ur Python-3.8.6/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.8.6/pyconfig.h.in	2020-09-23 08:36:32.000000000 -0400
-+++ Python/pyconfig.h.in	2020-11-12 16:51:07.000000000 -0500
-@@ -764,7 +764,7 @@
+diff -ur Python-3.9.5/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.9.5/pyconfig.h.in	2021-05-03 10:54:42.000000000 -0400
++++ Python/pyconfig.h.in	2021-06-25 16:02:52.000000000 -0400
+@@ -773,7 +773,7 @@
  #undef HAVE_PREAD
  
  /* Define to 1 if you have the `preadv' function. */
@@ -10,7 +10,7 @@ diff -ur Python-3.8.6/pyconfig.h.in Python/pyconfig.h.in
  
  /* Define to 1 if you have the `preadv2' function. */
  #undef HAVE_PREADV2
-@@ -809,7 +809,7 @@
+@@ -815,7 +815,7 @@
  #undef HAVE_PWRITE
  
  /* Define to 1 if you have the `pwritev' function. */

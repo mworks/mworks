@@ -36,7 +36,7 @@ def run_tests():
         replace_forbidden_funcs()
 
     # Run Python test suite
-    from test.libregrtest.main import main
+    from test.libregrtest import main
     try:
         main()
     except SystemExit:
