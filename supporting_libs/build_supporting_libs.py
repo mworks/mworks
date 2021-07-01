@@ -426,6 +426,9 @@ def python():
 
             run_configure_and_make(
                 extra_args = extra_args,
+                # This is required to keep numpy's extension module init funcs
+                # public
+                extra_compile_flags = '-fvisibility=default',
                 )
 
             add_object_files_to_libpythonall(
