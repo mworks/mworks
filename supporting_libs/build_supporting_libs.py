@@ -2,7 +2,7 @@ from contextlib import contextmanager
 import inspect
 import multiprocessing
 import os
-import shutil
+import platform
 import subprocess
 import sys
 import urllib.parse
@@ -19,11 +19,15 @@ def join_flags(*flags):
     return ' '.join(flags).strip()
 
 
-building_for_ios = False
 if os.environ['PLATFORM_NAME'] in ('iphoneos', 'iphonesimulator'):
     building_for_ios = True
 else:
     assert os.environ['PLATFORM_NAME'] == 'macosx'
+    building_for_ios = False
+
+assert os.environ['CURRENT_ARCH'] in os.environ['ARCHS'].split()
+build_arch = platform.machine()
+cross_building = building_for_ios or (os.environ['CURRENT_ARCH'] != build_arch)
 
 assert os.environ['GCC_VERSION'] == 'com.apple.compilers.llvm.clang.1_0'
 ar = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/ar'
@@ -35,9 +39,7 @@ xcodebuild = os.environ['DEVELOPER_DIR'] + '/usr/bin/xcodebuild'
 
 num_cores = str(multiprocessing.cpu_count())
 
-common_flags = ' '.join(('-arch ' + arch) for arch in
-                        os.environ['ARCHS'].split())
-common_flags += ' -isysroot %(SDKROOT)s'
+common_flags = '-arch %(CURRENT_ARCH)s -isysroot %(SDKROOT)s'
 if building_for_ios:
     common_flags += ' -miphoneos-version-min=%(IPHONEOS_DEPLOYMENT_TARGET)s'
 else:
@@ -63,12 +65,15 @@ link_flags = common_flags
 downloaddir = os.path.abspath('download')
 patchdir = os.path.abspath('patches')
 xcconfigdir = os.path.abspath('../build/xcode')
-builddir = os.environ['TARGET_TEMP_DIR']
+builddir = os.path.join(os.environ['TARGET_TEMP_DIR'],
+                        os.environ['CURRENT_ARCH'])
 
-prefix = os.environ['BUILT_PRODUCTS_DIR']
+prefix = os.path.join(os.environ['BUILT_PRODUCTS_DIR'],
+                      os.environ['CURRENT_ARCH'])
 frameworksdir = prefix + '/Frameworks'
 includedir = prefix + '/include'
 libdir = prefix + '/lib'
+python_stdlib_dir = libdir + '/python' + os.environ['MW_PYTHON_3_VERSION']
 
 
 ################################################################################
@@ -199,13 +204,19 @@ def apply_patch(patchfile, strip=1):
             )
 
 
+def get_platform(arch):
+    return '%s-apple-darwin' % {
+        'arm64': 'aarch64',
+        }.get(arch, arch)
+
+
 def get_clean_env():
     env = os.environ.copy()
 
     # The presence of these can break some build tools
     env.pop('IPHONEOS_DEPLOYMENT_TARGET', None)
     env.pop('MACOSX_DEPLOYMENT_TARGET', None)
-    if building_for_ios:
+    if cross_building:
         env.pop('SDKROOT', None)
 
     return env
@@ -271,25 +282,32 @@ def run_configure_and_make(
     extra_cxxflags = '',
     extra_ldflags = '',
     extra_cppflags = '',
-    ios_host_platform = 'arm-apple-darwin',
     ):
 
-    args = [
+    opts = [
         '--prefix=' + prefix,
         '--includedir=' + includedir,
         '--libdir=' + libdir,
         '--disable-dependency-tracking',
         '--disable-shared',
         '--enable-static',
+        '--build=' + get_platform(build_arch),
         ]
 
-    # Force configure into cross-compilation mode when building for an
-    # iOS device or simulator
+    if cross_building:
+        opts.append('--host=' + get_platform(os.environ['CURRENT_ARCH']))
+
+    args = command + opts + extra_args
+
     if building_for_ios:
-        args.append('--host=' + ios_host_platform)
+        # Even if the build and host architectures are the same, as they are
+        # when we're building for iOS arm64 on a macOS arm64 (aka Apple
+        # Silicon) system, we must run configure in cross-compilation mode in
+        # order to build for iOS
+        args.append('cross_compiling=yes')
 
     check_call(
-        args = command + args + extra_args,
+        args = args,
         env = get_updated_env(extra_compile_flags,
                               extra_cflags,
                               extra_cxxflags,
@@ -332,14 +350,9 @@ def libffi():
             unpack_tarfile(tarfile, srcdir)
 
         with workdir(srcdir):
-            other_kwargs = {}
-            if building_for_ios:
-                assert os.environ['ARCHS'] == 'arm64'
-                other_kwargs['ios_host_platform'] = 'aarch64-apple-darwin'
             run_configure_and_make(
                 extra_args = ['--enable-portable-binary'],
                 extra_cflags = '-std=gnu11',
-                **other_kwargs
                 )
 
 
@@ -356,11 +369,10 @@ def openssl():
 
         with workdir(srcdir):
             if building_for_ios:
-                assert os.environ['ARCHS'] == 'arm64'
+                assert os.environ['CURRENT_ARCH'] == 'arm64'
                 config_name = 'ios64-cross'
             else:
-                assert os.environ['ARCHS'] == 'x86_64'
-                config_name = 'darwin64-x86_64-cc'
+                config_name = 'darwin64-%s-cc' % os.environ['CURRENT_ARCH']
 
             env = get_clean_env()
             env['AR'] = ar
@@ -392,6 +404,7 @@ def python():
             download_archive('https://www.python.org/ftp/python/%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
+                apply_patch('python_cross_build.patch')
                 apply_patch('python_ctypes.patch')
                 apply_patch('python_static_zlib.patch')
                 if building_for_ios:
@@ -410,15 +423,14 @@ def python():
                 '--without-ensurepip',
                 '--with-openssl=' + prefix,
                 ]
-            if building_for_ios:
+            if cross_building:
                 extra_args += [
-                    '--build=x86_64-apple-darwin',
                     '--enable-ipv6',
                     'PYTHON_FOR_BUILD=' + os.environ['MW_PYTHON_3'],
                     'ac_cv_file__dev_ptmx=no',
                     'ac_cv_file__dev_ptc=no',
                     ]
-            else:
+            if not building_for_ios:
                 # Set MACOSX_DEPLOYMENT_TARGET, so that the correct value is
                 # recorded in the installed sysconfig data
                 extra_args.append('MACOSX_DEPLOYMENT_TARGET=' +
@@ -438,8 +450,7 @@ def python():
             # Generate list of trusted root certificates (for ssl module)
             always_download_file(
                 url = 'https://mkcert.org/generate/',
-                filepath = os.path.join(os.environ['MW_PYTHON_3_STDLIB_DIR'],
-                                        'cacert.pem'),
+                filepath = os.path.join(python_stdlib_dir, 'cacert.pem'),
                 )
 
 
@@ -460,16 +471,16 @@ def numpy():
 
         with workdir(srcdir):
             env = get_clean_env()
-            env['PYTHONPATH'] = os.environ['MW_PYTHON_3_STDLIB_DIR']
+            env['PYTHONPATH'] = python_stdlib_dir
 
             # Don't use Accelerate, as it seems to make things worse rather
             # than better
             env['NPY_BLAS_ORDER'] = ''
             env['NPY_LAPACK_ORDER'] = ''
 
-            if building_for_ios:
+            if cross_building:
                 env.update({
-                    '_PYTHON_HOST_PLATFORM': 'darwin-arm',
+                    '_PYTHON_HOST_PLATFORM': 'darwin-%s' % os.environ['CURRENT_ARCH'],
                     '_PYTHON_SYSCONFIGDATA_NAME': '_sysconfigdata__darwin_darwin',
                     # numpy's configuration tests link test executuables using
                     # bare cc (without cflags).  Add common_flags to ensure that
@@ -519,8 +530,8 @@ def boost():
             with workdir(srcdir):
                 os.symlink('boost', 'mworks_boost')
                 env = get_clean_env()
-                if building_for_ios:
-                    # Need to use the macOS SDK when compiling the build system
+                if cross_building:
+                    # SDKROOT must be set to compile the build system
                     env['SDKROOT'] = subprocess.check_output([
                         '/usr/bin/xcrun',
                         '--sdk', 'macosx',
@@ -673,6 +684,10 @@ def narrative(ios=False):
     srcdir = 'Narrative-' + version
     zipfile = srcdir + '.zip'
 
+    # Xcode will create a universal binary, so build only once
+    if cross_building:
+        return
+
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
             download_archive_from_sf('narrative/narrative',
@@ -728,26 +743,49 @@ def main():
                     pass
 
     if not building_for_ios:
-        # Install files
+        # Install headers
+        header_installdir = os.path.join(os.environ['MW_INCLUDE_DIR'],
+                                         os.environ['CURRENT_ARCH'])
+        make_directory(header_installdir)
         check_call([
             rsync,
             '-a',
             '-m',
-            '--exclude=include/ffi*.h',
-            '--exclude=include/openssl/',
-            '--exclude=lib/cmake/',
-            '--exclude=lib/lib*.la',
-            '--exclude=lib/libcrypto.a',
-            '--exclude=lib/libffi.a',
-            '--exclude=lib/libpython*.a',
-            '--exclude=lib/libssl.a',
-            '--exclude=lib/pkgconfig/',
-            '--exclude=lib/python*/',
-            frameworksdir,
-            includedir,
-            libdir,
-            os.environ['MW_DEVELOPER_DIR'],
+            '--exclude=ffi*.h',
+            '--exclude=openssl/',
+            includedir + '/',
+            header_installdir,
             ])
+
+        # Install libraries
+        lib_installdir = os.path.join(os.environ['MW_LIB_DIR'],
+                                      os.environ['CURRENT_ARCH'])
+        make_directory(lib_installdir)
+        check_call([
+            rsync,
+            '-a',
+            '-m',
+            '--exclude=cmake/',
+            '--exclude=lib*.la',
+            '--exclude=libcrypto.a',
+            '--exclude=libffi.a',
+            '--exclude=libpython*.a',
+            '--exclude=libssl.a',
+            '--exclude=pkgconfig/',
+            '--exclude=python*/',
+            libdir + '/',
+            lib_installdir,
+            ])
+
+        # Install frameworks
+        if os.path.isdir(frameworksdir):
+            check_call([
+                rsync,
+                '-a',
+                '-m',
+                frameworksdir,
+                os.environ['MW_DEVELOPER_DIR'],
+                ])
 
 
 if __name__ == '__main__':

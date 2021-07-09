@@ -660,7 +660,6 @@
 		E18163162588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E18163172588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
-		E188BE8D1D47B5D00001483A /* libzmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E188BE8C1D47B5D00001483A /* libzmq.a */; };
 		E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */; };
 		E188BE911D47CAAC0001483A /* ZeroMQClient.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E188BE8F1D47CAAC0001483A /* ZeroMQClient.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E188BE941D47F23B0001483A /* ZeroMQSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE921D47F23B0001483A /* ZeroMQSocket.cpp */; };
@@ -716,27 +715,17 @@
 		E1CBF66D16BAFC410057CE48 /* mw_test in CopyFiles */ = {isa = PBXBuildFile; fileRef = E11542181193471F00DDE09D /* mw_test */; };
 		E1CBF66E16BAFD5F0057CE48 /* MWorksCoreTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */; };
 		E1D97A9816CD3C4700E517DF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974E16C16C3F001481E9 /* IOKit.framework */; };
-		E1D9BAD02200B20E00D63D59 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FE64192142C3CE00209279 /* libsqlite3.a */; };
 		E1D9BAD62200C81400D63D59 /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9BAD42200C80100D63D59 /* libcompression.tbd */; };
 		E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974816C16BEE001481E9 /* CoreAudio.framework */; };
 		E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974A16C16C1F001481E9 /* CoreVideo.framework */; };
 		E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
 		E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974E16C16C3F001481E9 /* IOKit.framework */; };
-		E1DB975316C16C65001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975216C16C65001481E9 /* libboost_filesystem.a */; };
-		E1DB975516C16C73001481E9 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975416C16C73001481E9 /* libboost_regex.a */; };
-		E1DB975716C16C7F001481E9 /* libboost_thread.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975616C16C7F001481E9 /* libboost_thread.a */; };
-		E1DB975916C16C89001481E9 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975816C16C89001481E9 /* libboost_serialization.a */; };
 		E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975C16C16CA1001481E9 /* OpenAL.framework */; };
 		E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975D16C16CA1001481E9 /* OpenGL.framework */; };
-		E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976616C16CC9001481E9 /* libscarab.a */; };
 		E1DB977B16C18DA6001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB977D16C18E01001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB977F16C18E44001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB978116C18FB5001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
-		E1DB978216C18FCC001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975216C16C65001481E9 /* libboost_filesystem.a */; };
-		E1DB978316C18FCE001481E9 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975816C16C89001481E9 /* libboost_serialization.a */; };
-		E1DB978616C18FE0001481E9 /* libcppunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978516C18FE0001481E9 /* libcppunit.a */; };
-		E1DB978716C1900B001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976616C16CC9001481E9 /* libscarab.a */; };
 		E1DB978816C1933D001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB978916C19340001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
 		E1DC75081D259C1700D9BC19 /* SerialPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1DC75061D259C1700D9BC19 /* SerialPort.cpp */; };
@@ -769,7 +758,6 @@
 		E1FE64142142BEB700209279 /* MWK2File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1FE64102142BEB700209279 /* MWK2File.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1FE64172142BF3000209279 /* MWK2FileTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1FE64152142BF3000209279 /* MWK2FileTests.cpp */; };
 		E1FE64182142BF3000209279 /* MWK2FileTests.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1FE64162142BF3000209279 /* MWK2FileTests.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		E1FE641A2142C3CE00209279 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FE64192142C3CE00209279 /* libsqlite3.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1353,7 +1341,6 @@
 		E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppleStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AppleStimulusDisplay.hpp; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
-		E188BE8C1D47B5D00001483A /* libzmq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzmq.a; path = "/Library/Application Support/MWorks/Developer/lib/libzmq.a"; sourceTree = "<absolute>"; };
 		E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQClient.cpp; sourceTree = "<group>"; };
 		E188BE8F1D47CAAC0001483A /* ZeroMQClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQClient.hpp; sourceTree = "<group>"; };
 		E188BE921D47F23B0001483A /* ZeroMQSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQSocket.cpp; sourceTree = "<group>"; };
@@ -1393,15 +1380,9 @@
 		E1DB974A16C16C1F001481E9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E1DB974C16C16C30001481E9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1DB974E16C16C3F001481E9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		E1DB975216C16C65001481E9 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
-		E1DB975416C16C73001481E9 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_regex.a"; sourceTree = "<absolute>"; };
-		E1DB975616C16C7F001481E9 /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_thread.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_thread.a"; sourceTree = "<absolute>"; };
-		E1DB975816C16C89001481E9 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_serialization.a"; sourceTree = "<absolute>"; };
 		E1DB975C16C16CA1001481E9 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		E1DB975D16C16CA1001481E9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		E1DB976616C16CC9001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
 		E1DB977716C17068001481E9 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
-		E1DB978516C18FE0001481E9 /* libcppunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcppunit.a; path = "/Library/Application Support/MWorks/Developer/lib/libcppunit.a"; sourceTree = "<absolute>"; };
 		E1DC75061D259C1700D9BC19 /* SerialPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerialPort.cpp; sourceTree = "<group>"; };
 		E1DC75071D259C1700D9BC19 /* SerialPort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SerialPort.hpp; sourceTree = "<group>"; };
 		E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = IOSStimulusDisplay.cpp; sourceTree = "<group>"; };
@@ -1430,7 +1411,6 @@
 		E1FE64102142BEB700209279 /* MWK2File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MWK2File.hpp; sourceTree = "<group>"; };
 		E1FE64152142BF3000209279 /* MWK2FileTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MWK2FileTests.cpp; sourceTree = "<group>"; };
 		E1FE64162142BF3000209279 /* MWK2FileTests.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MWK2FileTests.hpp; sourceTree = "<group>"; };
-		E1FE64192142C3CE00209279 /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "/Library/Application Support/MWorks/Developer/lib/libsqlite3.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1467,12 +1447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1DB978116C18FB5001481E9 /* MWorksCore.framework in Frameworks */,
-				E1DB978216C18FCC001481E9 /* libboost_filesystem.a in Frameworks */,
-				E1DB978316C18FCE001481E9 /* libboost_serialization.a in Frameworks */,
 				E1381BBB220622B500901506 /* libcompression.tbd in Frameworks */,
-				E1DB978616C18FE0001481E9 /* libcppunit.a in Frameworks */,
-				E1DB978716C1900B001481E9 /* libscarab.a in Frameworks */,
-				E1D9BAD02200B20E00D63D59 /* libsqlite3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1507,16 +1482,9 @@
 				E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */,
 				E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */,
 				E18B90422630AB8100A9D552 /* VideoToolbox.framework in Frameworks */,
-				E1DB975316C16C65001481E9 /* libboost_filesystem.a in Frameworks */,
-				E1DB975516C16C73001481E9 /* libboost_regex.a in Frameworks */,
-				E1DB975916C16C89001481E9 /* libboost_serialization.a in Frameworks */,
-				E1DB975716C16C7F001481E9 /* libboost_thread.a in Frameworks */,
 				E1D9BAD62200C81400D63D59 /* libcompression.tbd in Frameworks */,
-				E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */,
-				E1FE641A2142C3CE00209279 /* libsqlite3.a in Frameworks */,
 				E13B07EE1E2929590071347C /* libxml2.tbd in Frameworks */,
 				E13B07F01E2929620071347C /* libxslt.tbd in Frameworks */,
-				E188BE8D1D47B5D00001483A /* libzmq.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2563,15 +2531,6 @@
 		E1CBF63416BAF1210057CE48 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E1DB974616C16BB7001481E9 /* System */,
-				E1DB974716C16BBF001481E9 /* Project */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E1DB974616C16BB7001481E9 /* System */ = {
-			isa = PBXGroup;
-			children = (
 				E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */,
 				E1DB974C16C16C30001481E9 /* AppKit.framework */,
 				E1DB974816C16BEE001481E9 /* CoreAudio.framework */,
@@ -2588,22 +2547,7 @@
 				E13B07ED1E2929590071347C /* libxml2.tbd */,
 				E13B07EF1E2929620071347C /* libxslt.tbd */,
 			);
-			name = System;
-			sourceTree = "<group>";
-		};
-		E1DB974716C16BBF001481E9 /* Project */ = {
-			isa = PBXGroup;
-			children = (
-				E1DB975216C16C65001481E9 /* libboost_filesystem.a */,
-				E1DB975416C16C73001481E9 /* libboost_regex.a */,
-				E1DB975816C16C89001481E9 /* libboost_serialization.a */,
-				E1DB975616C16C7F001481E9 /* libboost_thread.a */,
-				E1DB978516C18FE0001481E9 /* libcppunit.a */,
-				E1DB976616C16CC9001481E9 /* libscarab.a */,
-				E1FE64192142C3CE00209279 /* libsqlite3.a */,
-				E188BE8C1D47B5D00001483A /* libzmq.a */,
-			);
-			name = Project;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E1F7CBB021F22B8A003F48A1 /* DataFileIndexer */ = {
@@ -4015,6 +3959,16 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lboost_filesystem",
+					"-lboost_regex",
+					"-lboost_serialization",
+					"-lboost_thread",
+					"-lscarab",
+					"-lsqlite3",
+					"-lzmq",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksCore";
 				PRODUCT_NAME = MWorksCore;
 			};
@@ -4072,6 +4026,14 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "UnitTests/MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(MW_TESTS_DIR)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lboost_filesystem",
+					"-lboost_serialization",
+					"-lcppunit",
+					"-lscarab",
+					"-lsqlite3",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksCoreTest";
 				PRODUCT_NAME = MWorksCoreTest;
 			};
@@ -4111,6 +4073,7 @@
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-framework",
 					Accelerate,
 					"-framework",

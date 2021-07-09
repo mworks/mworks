@@ -47,7 +47,6 @@
 		E15C72B21E6DDCC9001CE0C0 /* MovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE10470E58BA690031005B /* MovieStimulus.cpp */; };
 		E15C72B31E6DDCCE001CE0C0 /* ImageDirectoryMovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEC115D04F3D0018BE9C /* ImageDirectoryMovieStimulus.cpp */; };
 		E15C72B41E6DDCD1001CE0C0 /* MovieStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* MovieStimulusPlugin.cpp */; };
-		E15DCDF817EB56B6006148B4 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */; };
 		E1944B601325525F00D5ED81 /* MovieStimulusPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* MovieStimulusPlugin.bundle */; };
 		E1E07E9B1C04F287008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E9A1C04F287008DD97E /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
@@ -104,7 +103,6 @@
 		E15C72A21E6DD9DF001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovieStimulus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C72AB1E6DDB0E001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
-		E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E1E07E9A1C04F287008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,7 +112,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
-				E15DCDF817EB56B6006148B4 /* libboost_filesystem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,19 +133,18 @@
 				E1944B3613254FD700D5ED81 /* Editor Definitions */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
+				089C1671FE841209C02AAC07 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
 			name = MovieStimulusPlugin;
 			sourceTree = "<group>";
 		};
-		089C1671FE841209C02AAC07 /* Frameworks & Libraries */ = {
+		089C1671FE841209C02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
-				E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */,
 			);
-			name = "Frameworks & Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		089C167CFE841241C02AAC07 /* Resources */ = {

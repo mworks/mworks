@@ -36,7 +36,6 @@
 		E116F7862320216400405FDC /* MWKSetupVariablesController.m in Sources */ = {isa = PBXBuildFile; fileRef = E116F7842320216400405FDC /* MWKSetupVariablesController.m */; };
 		E116F7872320216400405FDC /* MWKSetupVariablesController.h in Headers */ = {isa = PBXBuildFile; fileRef = E116F7852320216400405FDC /* MWKSetupVariablesController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E116F7892320244600405FDC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E116F7882320244500405FDC /* AppKit.framework */; };
-		E116F78B232024B500405FDC /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E116F78A232024B500405FDC /* libboost_filesystem.a */; };
 		E1446F3122B7D56E0002B9A9 /* Datum.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1446F3022B7D56E0002B9A9 /* Datum.swift */; };
 		E1658D2422B3E243002F22E1 /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */; };
 		E1658D2B22B3E243002F22E1 /* MWorksSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = E1658D1D22B3E243002F22E1 /* MWorksSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -126,7 +125,6 @@
 		E116F7842320216400405FDC /* MWKSetupVariablesController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWKSetupVariablesController.m; sourceTree = "<group>"; };
 		E116F7852320216400405FDC /* MWKSetupVariablesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWKSetupVariablesController.h; sourceTree = "<group>"; };
 		E116F7882320244500405FDC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		E116F78A232024B500405FDC /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E1446F3022B7D56E0002B9A9 /* Datum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datum.swift; sourceTree = "<group>"; };
 		E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1658D1D22B3E243002F22E1 /* MWorksSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWorksSwift.h; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 			files = (
 				E1CD1C2322B412ED008C14EE /* MWorksCore.framework in Frameworks */,
 				E116F7892320244600405FDC /* AppKit.framework in Frameworks */,
-				E116F78B232024B500405FDC /* libboost_filesystem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,7 +315,6 @@
 			children = (
 				E1CD1C2222B412ED008C14EE /* MWorksCore.framework */,
 				E116F7882320244500405FDC /* AppKit.framework */,
-				E116F78A232024B500405FDC /* libboost_filesystem.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -578,7 +574,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1CD1BCA22B3E359008C14EE /* macOS_Framework.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -592,6 +587,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lboost_filesystem",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksSwift";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -625,6 +624,7 @@
 				);
 				INFOPLIST_FILE = MWorksSwift/Info.plist;
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-framework",
 					MWorksCore,
 					"-lboost_filesystem",

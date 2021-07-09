@@ -69,9 +69,6 @@
 		E16881421FBCA3500049BCDA /* DataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* DataHelpers.cpp */; };
 		E16881431FBCA3500049BCDA /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3BCE1655489C00D472D0 /* PythonDataBindingsHelpers.cpp */; };
 		E16881461FBCA3500049BCDA /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BB7165541B900D472D0 /* MWorksCore.framework */; };
-		E16881471FBCA3500049BCDA /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978F16C19830001481E9 /* libboost_filesystem.a */; };
-		E16881491FBCA3500049BCDA /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978D16C1981E001481E9 /* libboost_serialization.a */; };
-		E168814C1FBCA3500049BCDA /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979316C19859001481E9 /* libscarab.a */; };
 		E18D3BE716554EE400D472D0 /* __init__.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BD916554D7D00D472D0 /* __init__.py */; };
 		E18D3BE816554EE600D472D0 /* conduit.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BDA16554D7D00D472D0 /* conduit.py */; };
 		E18D3BE916554EE800D472D0 /* data.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BDB16554D7D00D472D0 /* data.py */; };
@@ -205,9 +202,6 @@
 		E1D645821B31C1ED0092C428 /* RunPythonAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunPythonAction.h; sourceTree = "<group>"; };
 		E1D645841B31C5FF0092C428 /* RunPythonStringAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunPythonStringAction.cpp; sourceTree = "<group>"; };
 		E1D645851B31C5FF0092C428 /* RunPythonStringAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunPythonStringAction.h; sourceTree = "<group>"; };
-		E1DB978D16C1981E001481E9 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_serialization.a"; sourceTree = "<absolute>"; };
-		E1DB978F16C19830001481E9 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
-		E1DB979316C19859001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
 		E1E07E921C04F17E008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1E6039E1B1904D2009BA19D /* PythonPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PythonPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E603A11B1904D2009BA19D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -227,9 +221,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E16881461FBCA3500049BCDA /* MWorksCore.framework in Frameworks */,
-				E16881471FBCA3500049BCDA /* libboost_filesystem.a in Frameworks */,
-				E16881491FBCA3500049BCDA /* libboost_serialization.a in Frameworks */,
-				E168814C1FBCA3500049BCDA /* libscarab.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,9 +326,6 @@
 				E1944CDB236B75EA0069B656 /* MWorksPython.framework */,
 				E124E5DE25D19D95005230E9 /* Accelerate.framework */,
 				E124E5D025CDA26F005230E9 /* Metal.framework */,
-				E1DB978F16C19830001481E9 /* libboost_filesystem.a */,
-				E1DB978D16C1981E001481E9 /* libboost_serialization.a */,
-				E1DB979316C19859001481E9 /* libscarab.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -649,7 +637,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "PythonPlugin/Info-iOS.plist";
-				MW_PYTHON_3_PREFIX = "$(BUILT_PRODUCTS_DIR)";
+				MW_PYTHON_3_PREFIX = "$(BUILT_PRODUCTS_DIR)/$(CURRENT_ARCH)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -689,6 +677,9 @@
 				MW_PYTHON_3_PREFIX = "/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_3_VERSION)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-lboost_filesystem",
+					"-lboost_serialization",
+					"-lscarab",
 					"-undefined",
 					dynamic_lookup,
 				);
@@ -725,11 +716,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PythonPlugin/PythonPlugin-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(MW_PYTHON_3_INCLUDEDIR)",
+					"\"$(MW_INCLUDE_DIR)/$(CURRENT_ARCH)/python$(MW_PYTHON_3_VERSION)\"",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = PythonPlugin/Info.plist;
-				MW_PYTHON_3_PREFIX = "\"$(MW_DEVELOPER_DIR)\"";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.$(PRODUCT_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

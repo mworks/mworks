@@ -68,7 +68,6 @@
 		E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaci64 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */; };
 		E1D2C0FF167BADF00030EF33 /* Converters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D2C0FD167BADF00030EF33 /* Converters.cpp */; };
 		E1D2C105167BB3420030EF33 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D2C104167BB3420030EF33 /* MWorksCore.framework */; };
-		E1DB979816C19C2D001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979716C19C2D001481E9 /* libboost_filesystem.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,7 +140,6 @@
 		E1D2C0FD167BADF00030EF33 /* Converters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Converters.cpp; sourceTree = "<group>"; };
 		E1D2C0FE167BADF00030EF33 /* Converters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Converters.h; sourceTree = "<group>"; };
 		E1D2C104167BB3420030EF33 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E1DB979716C19C2D001481E9 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E1F7696E22BD5CC400024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,7 +149,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1D2C105167BB3420030EF33 /* MWorksCore.framework in Frameworks */,
-				E1DB979816C19C2D001481E9 /* libboost_filesystem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +173,7 @@
 				E1523DA216767C7F00069B10 /* Helpers */,
 				E1523D64167669BF00069B10 /* MEX File */,
 				E10E3C8A1681033B00C3B4DF /* MATLAB Functions */,
-				E1D2C106167BB3550030EF33 /* Frameworks & Libraries */,
+				E1D2C106167BB3550030EF33 /* Frameworks */,
 				E1523D63167669BF00069B10 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -234,13 +231,12 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		E1D2C106167BB3550030EF33 /* Frameworks & Libraries */ = {
+		E1D2C106167BB3550030EF33 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				E1D2C104167BB3420030EF33 /* MWorksCore.framework */,
-				E1DB979716C19C2D001481E9 /* libboost_filesystem.a */,
 			);
-			name = "Frameworks & Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -417,6 +413,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1F7696E22BD5CC400024441 /* macOS.xcconfig */;
 			buildSettings = {
+				ARCHS = x86_64;
 				EXECUTABLE_EXTENSION = mexmaci64;
 				EXPORTED_SYMBOLS_FILE = "$(MATLAB_DIR)/extern/lib/$(MATLAB_ARCH_$(CURRENT_ARCH))/mexFunction.map";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -429,6 +426,7 @@
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-lboost_filesystem",
 					"-undefined",
 					dynamic_lookup,
 				);

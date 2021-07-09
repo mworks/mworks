@@ -88,6 +88,20 @@ def remove_test_file(filename):
         os.remove(filename)
 
 
+def check_matlab_arch(path, env):
+    rc = subprocess.run(
+        ['%s/bin/mexext' % path],
+        stdout = subprocess.DEVNULL,
+        stderr = subprocess.STDOUT,
+        ).returncode
+    if rc != 0:
+        # MATLAB can't figure out the architecture for this system.  This
+        # probably means we're running on an arm64 (aka Apple Silicon) machine,
+        # and this is an older version of MATLAB that doesn't know about
+        # arm64.  Tell it to use x86_64.
+        env['MATLAB_ARCH'] = 'maci64'
+
+
 def run_matlab(path, test_file_extension):
     print('\nRunning %s tests for %s' % (test_file_extension, path))
     sys.stdout.flush()
@@ -102,6 +116,7 @@ def run_matlab(path, test_file_extension):
         env = os.environ.copy()
         env['MW_MATLAB_DIR'] = mw_matlab_dir
         env['MW_MATLAB_TEST_FILENAME'] = filename
+        check_matlab_arch(path, env)
         cmd = subprocess.Popen(args=args, env=env)
         cmd.wait()
         print()  # Add a newline to the output
