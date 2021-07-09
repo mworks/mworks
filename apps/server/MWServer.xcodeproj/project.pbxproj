@@ -165,7 +165,7 @@
 				0EA038070C3D8A9A007C37CF /* Source */,
 				0EA037DE0C3D879F007C37CF /* Images */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				29B97323FDCFA39411CA2CEA /* Frameworks & Libraries */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				E16A211D1E57A49100C48E10 /* MWServer-iOS */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -184,12 +184,12 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		29B97323FDCFA39411CA2CEA /* Frameworks & Libraries */ = {
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				0E1F31B40C5B1FEA00EB89EA /* MWorksCocoa.framework */,
 			);
-			name = "Frameworks & Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		5CE62A2E115854AB00C757F1 /* External Config */ = {

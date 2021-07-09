@@ -114,7 +114,7 @@
 			children = (
 				E1A97C41170C85D700E3FC03 /* External Config */,
 				E1A97C32170C847100E3FC03 /* USBHID */,
-				E1A97C2F170C847100E3FC03 /* Frameworks & Libraries */,
+				E1A97C2F170C847100E3FC03 /* Frameworks */,
 				E1A97C2E170C847100E3FC03 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -127,7 +127,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E1A97C2F170C847100E3FC03 /* Frameworks & Libraries */ = {
+		E1A97C2F170C847100E3FC03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				E1A97C44170C87B200E3FC03 /* MWorksCore.framework */,
@@ -135,7 +135,7 @@
 				E1A97C30170C847100E3FC03 /* CoreFoundation.framework */,
 				E1A97C57170C900100E3FC03 /* IOKit.framework */,
 			);
-			name = "Frameworks & Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E1A97C32170C847100E3FC03 /* USBHID */ = {

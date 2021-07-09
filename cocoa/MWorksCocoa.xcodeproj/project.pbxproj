@@ -187,21 +187,21 @@
 				DA2FEEE908B3FD9F007E389A /* Source */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
-				0867D69AFE84028FC02AAC07 /* Frameworks & Libraries */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				DA808371089013AD001F2060 /* Images */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
 			name = MonkeyWorksCocoa;
 			sourceTree = "<group>";
 		};
-		0867D69AFE84028FC02AAC07 /* Frameworks & Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				DADADB7907FAFC9000F8D324 /* MWorksCore.framework */,
 				E1D2949E23293A1400DA7473 /* MWorksSwift.framework */,
 				E15D0AEB16C2AB9000F331B1 /* AppKit.framework */,
 			);
-			name = "Frameworks & Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		089C1665FE841158C02AAC07 /* Resources */ = {
