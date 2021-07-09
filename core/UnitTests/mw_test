@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from io import StringIO
 from optparse import OptionParser
 import os
 import random
@@ -18,8 +17,6 @@ skip_unit_tests = False
 tests_dir = '/Library/Application Support/MWorks/Developer/tests'
 test_file_dir = os.path.join(tests_dir, 'XML')
 
-arch = '/usr/bin/arch'
-valid_arch_names = ('x86_64',)
 mworks_core_test_runner = os.path.join(tests_dir, 'MWorksCoreTestRunner')
 marionette_test = os.path.join(tests_dir, ('MarionetteTest.app/Contents/'
                                            'MacOS/MarionetteTest'))
@@ -79,9 +76,9 @@ def run_applescript(script):
         error(cmd.returncode, 'osascript command failed')
 
 
-def run_unit_tests(arch_name, test_names=None):
+def run_unit_tests(test_names=None):
     with NamedTemporaryFile() as output:
-        args = [arch, '-arch', arch_name, mworks_core_test_runner, output.name]
+        args = [mworks_core_test_runner, output.name]
         if test_names:
             args.extend(test_names)
 
@@ -105,7 +102,7 @@ def iter_marionette_tests(top_dir=test_file_dir):
                 yield os.path.join(root, f)
 
 
-def run_marionette_tests(arch_name, test_names=None):
+def run_marionette_tests(test_names=None):
     if not test_names:
         test_file_iter = iter_marionette_tests
         # We're running all the tests, so this is probably an automated
@@ -135,7 +132,7 @@ def run_marionette_tests(arch_name, test_names=None):
         if not os.path.isfile(test_file):
             error(3, 'no such file: "%s"', test_file)
 
-        args = [arch, '-arch', arch_name, marionette_test, test_file]
+        args = [marionette_test, test_file]
 
         for test_data in ((os.path.splitext(test_file)[0] + '.' +
                            test_data_suffix),
@@ -203,21 +200,21 @@ def run_marionette_tests(arch_name, test_names=None):
         run_applescript(quit_server_applescript)
 
 
-def run_tests(arch_name, unit_test_names, marionette_test_names):
+def run_tests(unit_test_names, marionette_test_names):
     global error_tests, warning_tests
 
     error_tests = []
     warning_tests = []
 
     if unit_test_names:
-        run_unit_tests(arch_name, unit_test_names)
+        run_unit_tests(unit_test_names)
     elif not (marionette_test_names or skip_unit_tests):
-        run_unit_tests(arch_name)
+        run_unit_tests()
 
     if marionette_test_names:
-        run_marionette_tests(arch_name, marionette_test_names)
+        run_marionette_tests(marionette_test_names)
     elif not unit_test_names:
-        run_marionette_tests(arch_name)
+        run_marionette_tests()
 
     # Ensure consistent output order for test names, with unit tests listed
     # before marionette tests
@@ -244,11 +241,6 @@ def main():
     global server_address, skip_unit_tests
 
     op = OptionParser(usage='Usage: %prog [options] [test_name ...]')
-    op.add_option('--arch',
-                  type = 'choice',
-                  choices = valid_arch_names,
-                  default = valid_arch_names[0],
-                  help = 'use specified CPU architecture')
     op.add_option('--features',
                   default = '',
                   help = 'available features (as a comma-separated list)')
@@ -275,7 +267,7 @@ def main():
         else:
             marionette_test_names.append(name)
 
-    run_tests(opts.arch, unit_test_names, marionette_test_names)
+    run_tests(unit_test_names, marionette_test_names)
 
     if error_tests:
         rc = 1
