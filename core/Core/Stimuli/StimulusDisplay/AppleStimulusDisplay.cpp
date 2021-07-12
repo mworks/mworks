@@ -56,7 +56,10 @@ using namespace mw::aapl_math_utilities;
     const bool convertToSRGB = useColorManagement;
     [functionConstantValues setConstantValue:&convertToSRGB type:MTLDataTypeBool atIndex:0];
 #if TARGET_OS_OSX
-    const bool setAlphaToOne = view.window.opaque;
+    __block bool setAlphaToOne = true;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        setAlphaToOne = view.window.opaque;
+    });
 #else
     const bool setAlphaToOne = true;  // iOS windows are always opaque
 #endif
