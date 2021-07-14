@@ -23,7 +23,7 @@
 			buildConfigurationList = E1CBF62416BAEEDE0057CE48 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E1CBF62A16BAEEF20057CE48 /* CopyFiles */,
-				E1CBF63216BAEF160057CE48 /* CopyFiles */,
+				E10846F7269F0EAB00B5C12F /* ShellScript */,
 			);
 			dependencies = (
 				E1CBF62716BAEEE60057CE48 /* PBXTargetDependency */,
@@ -59,7 +59,6 @@
 		E1CBF62F16BAEF120057CE48 /* scarab_mem.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF4DED70591EAD9002A02B7 /* scarab_mem.h */; };
 		E1CBF63016BAEF120057CE48 /* scarab_os.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF4DED80591EAD9002A02B7 /* scarab_os.h */; };
 		E1CBF63116BAEF120057CE48 /* scarab_utilities.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C4FDA2C059D1B1000BC36A7 /* scarab_utilities.h */; };
-		E1CBF63316BAEF210057CE48 /* libscarab.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ECA4C740D6DFF4400BD00B2 /* libscarab.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,16 +92,6 @@
 				E1CBF62F16BAEF120057CE48 /* scarab_mem.h in CopyFiles */,
 				E1CBF63016BAEF120057CE48 /* scarab_os.h in CopyFiles */,
 				E1CBF63116BAEF120057CE48 /* scarab_utilities.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E1CBF63216BAEF160057CE48 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(MW_LIB_DIR)";
-			dstSubfolderSpec = 0;
-			files = (
-				E1CBF63316BAEF210057CE48 /* libscarab.a in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +252,27 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E10846F7269F0EAB00B5C12F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "#\n# As of 2021/07/14, macOS notarization rejects universal static libraries.  As a workaround,\n# we split libscarab.a into separate, non-universal archives for each architecture.  For more\n# info, see https://developer.apple.com/forums/thread/126038 .\n#\n\nfor current_arch in ${=ARCHS}; do\n    \"${DT_TOOLCHAIN_DIR}/usr/bin/lipo\" \\\n        \"${BUILT_PRODUCTS_DIR}/libscarab.a\" \\\n        -thin $current_arch \\\n        -output \"${MW_LIB_DIR}/${current_arch}/libscarab.a\"\ndone\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0ECA4C710D6DFF4400BD00B2 /* Sources */ = {
