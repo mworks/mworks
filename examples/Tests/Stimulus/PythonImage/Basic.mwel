@@ -19,20 +19,56 @@ python_image image (
     )
 
 
+var elapsed_time_with_pause = 0
+var paused = false
+var done = false
+
+render_actions pause_unpause (elapsed_time = elapsed_time_with_pause) {
+    choose {
+        when (elapsed_time_with_pause >= 2.25 * period) {
+            if (not done) {
+                done = true
+            }
+        }
+        when (elapsed_time_with_pause >= period) {
+            if (paused) {
+                unpause_dynamic_stimulus (image)
+                paused = false
+            }
+        }
+        when (elapsed_time_with_pause >= 0.75 * period) {
+            if (not paused) {
+                pause_dynamic_stimulus (image)
+                paused = true
+            }
+        }
+    }
+}
+
+
 %define test_format (format)
     pixel_buffer_format = format
+    paused = false
+    done = false
+
     run_python_string ('reset()')
     load_stimulus (image)
+
+    queue_stimulus (pause_unpause)
     queue_stimulus (image)
     update_display ()
-    wait (0.75 * period)
-    pause_dynamic_stimulus (image)
-    wait (0.25 * period)
-    unpause_dynamic_stimulus (image)
-    wait (1.25 * period)
+
+    wait_for_condition (
+        condition = done
+        timeout = 2.5 * period
+        )
+
     dequeue_stimulus (image)
+    dequeue_stimulus (pause_unpause)
     update_display ()
+
     unload_stimulus (image)
+
     wait (1s)
 %end
 

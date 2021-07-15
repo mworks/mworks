@@ -32,7 +32,7 @@ class Renderer:
     def render(self):
         elapsed_time = getvar('elapsed_time')
         pos = 0.5 * (1.0 - math.cos(2.0 * math.pi * elapsed_time / self.period))
-        return np.roll(self.bg.copy(),
+        return np.roll(self.bg,
                        (round(self.height * pos), round(self.width * pos)),
                        (0, 1))
 
