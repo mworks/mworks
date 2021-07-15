@@ -628,10 +628,6 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MWorksPython/MWorksPython-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"PRODUCT_BUNDLE_IDENTIFIER=\\\"$(PRODUCT_BUNDLE_IDENTIFIER)\\\"",
-				);
 				HEADER_SEARCH_PATHS = (
 					"$(MW_PYTHON_3_INCLUDEDIR)",
 					"$(BUILT_PRODUCTS_DIR)/$(CURRENT_ARCH)/include",
@@ -670,10 +666,6 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MWorksPython/MWorksPython-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"PRODUCT_BUNDLE_IDENTIFIER=\\\"$(PRODUCT_BUNDLE_IDENTIFIER)\\\"",
-				);
 				HEADER_SEARCH_PATHS = (
 					"$(MW_PYTHON_3_INCLUDEDIR)",
 					"$(inherited)",

@@ -3926,10 +3926,6 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = (
-					"$(SDKROOT)/usr/include/libxml2",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "UnitTests/MarionetteTest-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MarionetteTest";
 				PRODUCT_NAME = MarionetteTest;
@@ -3954,10 +3950,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					"$(SDKROOT)/usr/include/libxml2",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -4063,14 +4055,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"PRODUCT_BUNDLE_IDENTIFIER=\\\"$(PRODUCT_BUNDLE_IDENTIFIER)\\\"",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(SDKROOT)/usr/include/libxml2",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

@@ -597,7 +597,7 @@ def msgpack():
 
 @builder
 def libxslt(macos=False):
-    version = '1.1.29'
+    version = '1.1.34'
     srcdir = 'libxslt-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -605,8 +605,6 @@ def libxslt(macos=False):
         if not os.path.isdir(srcdir):
             download_archive('ftp://xmlsoft.org/libxslt/', tarfile)
             unpack_tarfile(tarfile, srcdir)
-            with workdir(srcdir):
-                apply_patch('libxslt_no_libxml_cflags.patch')
 
         with workdir(srcdir):
             run_configure_and_make(
@@ -614,9 +612,9 @@ def libxslt(macos=False):
                     '--disable-silent-rules',
                     '--without-python',
                     '--without-crypto',
-                    '--with-libxml-include-prefix=%(SDKROOT)s/usr/include/libxml2' % os.environ,
-                    '--with-libxml-libs-prefix=%(SDKROOT)s/usr/lib' % os.environ,
                     '--without-plugins',
+                    'LIBXML_CFLAGS=-I%(SDKROOT)s/usr/include' % os.environ,
+                    'LIBXML_LIBS=-L%(SDKROOT)s/usr/lib -lxml2' % os.environ,
                     ],
                 )
 
