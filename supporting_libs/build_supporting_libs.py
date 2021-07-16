@@ -340,7 +340,7 @@ def add_object_files_to_libpythonall(exclude=()):
 
 @builder
 def libffi():
-    version = '3.3'
+    version = '3.4.2'
     srcdir = 'libffi-' + version
     tarfile = srcdir + '.tar.gz'
 
