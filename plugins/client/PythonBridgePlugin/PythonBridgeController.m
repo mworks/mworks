@@ -111,14 +111,8 @@
     [self setPath:script_path];
     
     python_task = [[NSTask alloc] init];
-    [python_task setLaunchPath:pythonExecutable];
-    
-    NSArray *arguments;
-    arguments = [NSArray arrayWithObjects:
-                 script_path,
-                 [NSString stringWithCString:CONDUIT_RESOURCE_NAME encoding:NSASCIIStringEncoding],
-                 nil];
-    [python_task setArguments: arguments];
+    python_task.executableURL = [NSURL fileURLWithPath:pythonExecutable];
+    python_task.arguments = @[script_path, @CONDUIT_RESOURCE_NAME];
     
     NSMutableDictionary<NSString *, NSString *> *environment = [NSProcessInfo.processInfo.environment mutableCopy];
     environment[@"PYTHONPATH"] = @"/Library/Application Support/MWorks/Scripting/Python";
@@ -126,14 +120,28 @@
     
     stdout_pipe = [NSPipe pipe];
     stderr_pipe = [NSPipe pipe];
-    [python_task setStandardOutput: stdout_pipe];
-    [python_task setStandardError: stderr_pipe];
+    python_task.standardOutput = stdout_pipe;
+    python_task.standardError = stderr_pipe;
     
     python_task_stdout = [stdout_pipe fileHandleForReading];
     python_task_stderr = [stderr_pipe fileHandleForReading];
     
     [self updateRecentScripts];
-    [python_task launch];
+    
+    NSError *error = nil;
+    if (![python_task launchAndReturnError:&error]) {
+        python_task = nil;
+        [self terminateScript];
+        
+        NSAlert *alert = [NSAlert alertWithError:error];
+        if (script_chooser_sheet.sheetParent) {
+            [alert beginSheetModalForWindow:script_chooser_sheet completionHandler:nil];
+        } else {
+            [alert runModal];
+        }
+        
+        return NO;
+    }
     
     [self setLoadButtonTitle:TERMINATE_BUTTON_TITLE];
     [self setStatus:STATUS_LOADING];
@@ -147,7 +155,7 @@
     
     
     // start a timer to check on the task
-    task_check_timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(checkOnPythonTask) userInfo:Nil repeats:YES]; 
+    task_check_timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(checkOnPythonTask) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:task_check_timer forMode:NSDefaultRunLoopMode];
     
     return YES;
@@ -216,7 +224,7 @@
         {
             NSString* file_name = [[files objectAtIndex:i] path];
             
-            if(file_name == Nil){
+            if (!file_name) {
                 return;
             }
             
@@ -278,26 +286,27 @@
 
 
 - (void)checkOnPythonTask{
-    if(python_task == Nil || ![python_task isRunning]){
-        self.path = nil;
-        self.status = nil;
-        [self setLoadButtonTitle:LOAD_BUTTON_TITLE];
-        [task_check_timer invalidate];
-        python_task = Nil;
-    } else {
+    if (python_task && python_task.running) {
         self.status = STATUS_ACTIVE;
+    } else {
+        [task_check_timer invalidate];
+        task_check_timer = nil;
+        [self terminateScript];
     }
 }
 
 
 -(void)terminateScript{
-    if(python_task != Nil){
+    if (python_task) {
         [self setStatus:STATUS_TERMINATING];
         [python_task terminate];
     }
     
-    python_task = Nil;
-    python_task_stdout = Nil;
+    python_task = nil;
+    python_task_stdout = nil;
+    python_task_stderr = nil;
+    stdout_pipe = nil;
+    stderr_pipe = nil;
     
     if (conduit) {
         conduit->finalize();
@@ -310,14 +319,10 @@
 }
 
 -(IBAction)loadButtonPress:(id)sender{
-
-    if(python_task == Nil){
+    if (!python_task) {
         [self launchScriptChooserSheet];
-    } else if(python_task != Nil){
-        [self terminateScript];
     } else {
-        // this is some kind of error
-        NSLog(@"some kind of error occurred");
+        [self terminateScript];
     }
 }
 
