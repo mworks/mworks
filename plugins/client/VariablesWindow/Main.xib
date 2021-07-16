@@ -99,6 +99,11 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
+                                                                <binding destination="VJ9-Wk-ldd" name="editable" keyPath="objectValue.isGroup" id="i9c-GE-a9R">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                    </dictionary>
+                                                                </binding>
                                                                 <binding destination="VJ9-Wk-ldd" name="value" keyPath="objectValue.value" id="hh0-5B-cLs"/>
                                                                 <outlet property="delegate" destination="118" id="sgZ-HS-6tS"/>
                                                             </connections>

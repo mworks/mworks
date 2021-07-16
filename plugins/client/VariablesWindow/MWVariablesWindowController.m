@@ -149,11 +149,6 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 #pragma mark - NSOutlineViewDelegate methods
 
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item {
-    return !(((MWVariableDisplayItem *)item).isGroup);
-}
-
-
 - (void)outlineViewItemDidExpand:(NSNotification *)notification {
     MWVariableDisplayItem *item = notification.userInfo[@"NSObject"];
     if (NSNotFound == [expandedItems indexOfObject:item.name]) {
