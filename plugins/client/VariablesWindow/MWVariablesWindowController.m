@@ -212,7 +212,11 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
         }
         
         MWVariableDisplayItem *item = [self.outlineView itemAtRow:row];
-        if (!(item.isGroup)) {
+        if (!(item.isGroup) &&
+            // Discard input that contains only whitespace.  If the user really wants to set a variable to
+            // a sequence of whitespace characters, they can enclose the whitespace in quotes.
+            [textField.stringValue stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet].length > 0)
+        {
             [self setValue:textField.stringValue forVariable:item.name];
         }
         
@@ -390,29 +394,3 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
