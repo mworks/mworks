@@ -456,7 +456,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.21.0'
+    version = '1.21.1'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
