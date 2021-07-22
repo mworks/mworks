@@ -1,0 +1,38 @@
+resource ('bells')
+
+
+range_replicator (
+    variable = index
+    from = 1
+    to = 8
+    step = 1
+    ) {
+    wav_file bell_${index} ('bells/${index}.wav')
+}
+
+
+protocol {
+    play_sound (bell_1)
+    wait (1s)
+
+    play_sound (bell_2)
+    wait (0.9s)
+
+    play_sound (bell_3)
+    wait (1.05s)
+
+    play_sound (bell_4)
+    wait (0.9s)
+
+    play_sound (bell_5)
+    wait (1.2s)
+
+    play_sound (bell_6)
+    wait (1.1s)
+
+    play_sound (bell_7)
+    wait (1.05s)
+
+    play_sound (bell_8)
+    wait (5s)
+}

@@ -223,6 +223,34 @@
 		<xsl:apply-templates select="node()" mode="sound_create"/>
 	</xsl:template>
 
+	<xsl:template match="//range_replicator" mode="sound_create">
+		<xsl:if test=".//sound | .//range_replicator">
+			<xsl:element name="mw_range_replicator">
+				<xsl:attribute name="reference_id">
+					<xsl:value-of select="generate-id(.)"/>
+				</xsl:attribute>
+				<xsl:attribute name="variable"><xsl:value-of select="./@variable"/></xsl:attribute>
+				<xsl:attribute name="from"><xsl:value-of select="./@from"/></xsl:attribute>
+				<xsl:attribute name="to"><xsl:value-of select="./@to"/></xsl:attribute>
+				<xsl:attribute name="step"><xsl:value-of select="./@step"/></xsl:attribute>
+				<xsl:apply-templates select="./node()" mode="sound_create"/>
+			</xsl:element>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="//list_replicator" mode="sound_create">
+		<xsl:if test=".//sound | .//list_replicator">
+			<xsl:element name="mw_list_replicator">
+				<xsl:attribute name="reference_id">
+					<xsl:value-of select="generate-id(.)"/>
+				</xsl:attribute>
+				<xsl:attribute name="variable"><xsl:value-of select="./@variable"/></xsl:attribute>
+				<xsl:attribute name="values"><xsl:value-of select="./@values"/></xsl:attribute>
+				<xsl:apply-templates select="./node()" mode="sound_create"/>
+			</xsl:element>
+		</xsl:if>
+	</xsl:template>
+
 	<xsl:template match="text()" mode = "sound_create"/>
 
 	<!-- IO Device -->
@@ -357,6 +385,7 @@
 					<!-- TODO: Need to prevent this from aliasing things that shouldn't be aliased. A more general/robust solution is needed -->
 					<xsl:when test="name() = 'stimulus'"/>
 					<xsl:when test="name() = 'stimulus_group'"/>
+					<xsl:when test="name() = 'sound'"/>
 					<!-- TODO -->
 					<xsl:otherwise>
 						<xsl:call-template name="generic_alias"/>
@@ -397,6 +426,7 @@
 					<!-- TODO: Need to prevent this from aliasing things that shouldn't be aliased. A more general/robust solution is needed -->
 					<xsl:when test="name() = 'stimulus'"/>
 					<xsl:when test="name() = 'stimulus_group'"/>
+					<xsl:when test="name() = 'sound'"/>
 					<!-- TODO -->
 					<xsl:otherwise>
 						<xsl:call-template name="generic_alias"/>

@@ -1,0 +1,36 @@
+resource ('bells')
+
+
+list_replicator (
+    variable = filename
+    values = 'filenames(bells/*.wav)'
+    ) {
+    wav_file ${filename} ('${filename}')
+}
+
+
+protocol {
+    play_sound ('bells/1.wav')
+    wait (1s)
+
+    play_sound ('bells/2.wav')
+    wait (0.9s)
+
+    play_sound ('bells/3.wav')
+    wait (1.05s)
+
+    play_sound ('bells/4.wav')
+    wait (0.9s)
+
+    play_sound ('bells/5.wav')
+    wait (1.2s)
+
+    play_sound ('bells/6.wav')
+    wait (1.1s)
+
+    play_sound ('bells/7.wav')
+    wait (1.05s)
+
+    play_sound ('bells/8.wav')
+    wait (5s)
+}

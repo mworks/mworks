@@ -878,6 +878,7 @@ toplevel: yes
 allowed_child:
   - List State
   - Replicator
+  - Sound Stimulus
   - Stimulus
   - Stimulus Group
 
