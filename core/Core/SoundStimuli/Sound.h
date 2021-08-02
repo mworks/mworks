@@ -1,6 +1,3 @@
-#ifndef	SOUND_H_
-#define SOUND_H_
-
 /*
  *  Sound.h
  *  MWorksCore
@@ -10,73 +7,29 @@
  *
  */
 
-#include "Utilities.h"
+#ifndef SOUND_H_
+#define SOUND_H_
+
 #include "Component.h"
-#include "StandardVariables.h"
-#include "Announcers.h"
 #include "ParameterValue.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class Sound : public Component, public Announcable {
-
+class Sound : public Component {
+    
 public:
     explicit Sound(const ParameterValueMap &parameters);
-	
-	virtual ~Sound();
-
-	virtual void play(){
-		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-				"Attempting a play an empty base-class sound");
-	}
-	
-	virtual void stop(){
-		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-				"Attempting a stop an empty base-class sound");
-	}
-	
-	virtual void pause(){
-		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-				"Attempting a pause an empty base-class sound");
-	}
     
-    void stateSystemCallback(const Datum &data, MWorksTime time);
-	
-protected:
-    bool isPlaying;
-    bool isPaused;
+    virtual void play() = 0;
+    virtual void pause() = 0;
+    virtual void stop() = 0;
     
-private:
-    boost::shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
-	
 };
 
 
 END_NAMESPACE_MW
 
 
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif /* SOUND_H_ */

@@ -8,12 +8,55 @@
  */
 
 #include "StandardSounds.h"
+
+#include <boost/bind.hpp>
 #include <boost/filesystem/operations.hpp>
+
 #include "Announcers.h"
 #include "StandardVariables.h"
 
 
 BEGIN_NAMESPACE_MW
+
+
+LegacySound::LegacySound(const ParameterValueMap &parameters) :
+    Sound(parameters),
+    Announcable(ANNOUNCE_SOUND_TAGNAME),
+    isPlaying(false),
+    isPaused(false)
+{
+    stateSystemCallbackNotification =
+        boost::shared_ptr<VariableCallbackNotification>(new VariableCallbackNotification(boost::bind(&LegacySound::stateSystemCallback, this, _1,_2)));
+    state_system_mode->addNotification(stateSystemCallbackNotification);
+}
+
+
+LegacySound::~LegacySound() {
+    stateSystemCallbackNotification->remove();
+}
+
+
+void LegacySound::stateSystemCallback(const Datum &data, MWorksTime time) {
+    switch (data.getInteger()) {
+        case IDLE:
+            if (isPlaying) {
+                stop();
+            }
+            break;
+            
+        case RUNNING:
+            if (isPlaying && isPaused) {
+                play();
+            }
+            break;
+            
+        case PAUSED:
+            if (isPlaying && !isPaused) {
+                pause();
+            }
+            break;
+    }
+}
 
 
 const std::string OpenALSound::AMPLITUDE("amplitude");
@@ -26,7 +69,7 @@ void OpenALSound::describeComponent(ComponentInfo &info) {
 
 
 OpenALSound::OpenALSound(const ParameterValueMap &parameters) :
-    Sound(parameters),
+    LegacySound(parameters),
     amplitude(parameters[AMPLITUDE])
 {
 	alGenBuffers(1, &buffer);

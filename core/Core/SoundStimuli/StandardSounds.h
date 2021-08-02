@@ -10,6 +10,7 @@
  *
  */
 
+#include "Announcers.h"
 #include "Sound.h"
 #include "OpenALContextManager.h"
 #include <boost/filesystem/path.hpp>
@@ -19,7 +20,37 @@
 BEGIN_NAMESPACE_MW
 
 
-class OpenALSound : public Sound {
+class LegacySound : public Sound, public Announcable {
+    
+public:
+    explicit LegacySound(const ParameterValueMap &parameters);
+    ~LegacySound();
+    
+    void play() override {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Attempting to play an empty base-class sound");
+    }
+    
+    void pause() override {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Attempting to pause an empty base-class sound");
+    }
+    
+    void stop() override {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Attempting to stop an empty base-class sound");
+    }
+    
+    void stateSystemCallback(const Datum &data, MWorksTime time);
+    
+protected:
+    bool isPlaying;
+    bool isPaused;
+    
+private:
+    boost::shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
+    
+};
+
+
+class OpenALSound : public LegacySound {
 
 protected:
 	ALuint	buffer;
