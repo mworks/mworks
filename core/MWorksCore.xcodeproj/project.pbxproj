@@ -373,6 +373,10 @@
 		E11E9E2325AFA0790062D144 /* AAPLMathUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E11E9E2025AFA0780062D144 /* AAPLMathUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11E9E2425AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */; };
 		E11E9E2525AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */; };
+		E11F2FCF26B84B4E0092D10B /* AudioEngineSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */; };
+		E11F2FD026B84B4E0092D10B /* AudioEngineSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */; };
+		E11F2FD126B84B4E0092D10B /* AudioEngineSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E11F2FD226B84B4E0092D10B /* AudioEngineSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1257D9521F793FE00E1CF58 /* DataFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */; };
 		E1257D9621F793FE00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1257D9721F7964A00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1294,6 +1298,8 @@
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
 		E11E9E2025AFA0780062D144 /* AAPLMathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLMathUtilities.h; sourceTree = "<group>"; };
 		E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AAPLMathUtilities.cpp; sourceTree = "<group>"; };
+		E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioEngineSound.cpp; sourceTree = "<group>"; };
+		E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioEngineSound.hpp; sourceTree = "<group>"; };
 		E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileReader.cpp; sourceTree = "<group>"; };
 		E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataFileReader.hpp; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -1931,6 +1937,8 @@
 				5CBA76D10AE0697500D6F4A6 /* tests */,
 				5CBA76D20AE069A300D6F4A6 /* Sound.h */,
 				5CBA76D30AE069A300D6F4A6 /* Sound.cpp */,
+				E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */,
+				E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */,
 				5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */,
 				5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */,
 				5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */,
@@ -2699,6 +2707,7 @@
 				5C0C4A8609B64DAD0021D3CC /* SelectionVariable.h in Headers */,
 				5C08412409D596F800E4D2F4 /* TestBedCoreBuilder.h in Headers */,
 				8E16A70E0A08E12E0070955E /* Averagers.h in Headers */,
+				E11F2FD126B84B4E0092D10B /* AudioEngineSound.hpp in Headers */,
 				5C05099B0A0ED95900F02584 /* Selectable.h in Headers */,
 				E1F7CBBC21F22B8A003F48A1 /* DataFileUtilities.h in Headers */,
 				8E28B5FC0A6C317E00DA6287 /* Announcers.h in Headers */,
@@ -2917,6 +2926,7 @@
 				E17917041E4E52F400528B91 /* XMLVariableWriter.h in Headers */,
 				E18161972582ABD4004D8156 /* ColoredTransformStimulus.hpp in Headers */,
 				E179174A1E4E550000528B91 /* MachUtilities.h in Headers */,
+				E11F2FD226B84B4E0092D10B /* AudioEngineSound.hpp in Headers */,
 				E19CE0D81E897068005586E5 /* AppleOpenGLContextManager.hpp in Headers */,
 				E17916D91E4E517A00528B91 /* FreezableVariableContainer.h in Headers */,
 			);
@@ -3618,6 +3628,7 @@
 				E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */,
 				5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */,
 				5C38FBC50DF045F600FA6A18 /* XMLVariableWriter.cpp in Sources */,
+				E11F2FCF26B84B4E0092D10B /* AudioEngineSound.cpp in Sources */,
 				5C9186140E3548FA00B64213 /* BiasMonitor.cpp in Sources */,
 				E1BD1C442620AEAF0094FACB /* FairMutex.cpp in Sources */,
 				E102D99A25B1D32600F2EF03 /* BaseImageStimulus.cpp in Sources */,
@@ -3691,6 +3702,7 @@
 				E17916DE1E4E51C000528B91 /* SystemEventFactory.cpp in Sources */,
 				E17917411E4E54A600528B91 /* Timer.cpp in Sources */,
 				E17916ED1E4E522800528B91 /* Client.cpp in Sources */,
+				E11F2FD026B84B4E0092D10B /* AudioEngineSound.cpp in Sources */,
 				E17916C41E4E512400528B91 /* GenericData.cpp in Sources */,
 				E19CE0D61E897068005586E5 /* AppleOpenGLContextManager.cpp in Sources */,
 				E179171B1E4E53A800528B91 /* ExperimentUnpackager.cpp in Sources */,
