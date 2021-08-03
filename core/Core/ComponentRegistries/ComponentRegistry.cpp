@@ -24,7 +24,6 @@
 #include "DummyIODevice.h"
 #include "LegacyIODevice.h"
 #include "StimulusDisplayDevice.h"
-#include "StandardSounds.h"
 #include "XMLParser.h"
 #include "BiasMonitor.h"
 #include "StandardComponentFactory.h"
@@ -135,7 +134,7 @@ ComponentRegistry::ComponentRegistry() {
     registerFactory<StandardComponentFactory, StimulusGroup>();
 	
 	// sounds
-    registerFactory<StandardComponentFactory, WavFileSound>();
+    registerStandardSounds(*this);
     
 }
 

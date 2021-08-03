@@ -708,20 +708,35 @@ parameters:
 ---
 
 
+###############################################################################
+#
+# Sounds
+#
+###############################################################################
+
+
 name: Sound Stimulus
-signature: sound/wav_file
+abstract: yes
 group: Sounds
 toplevel: yes
+
+
+---
+
+
+name: Audio File Stimulus
+signature: sound/audio_file
+alias: sound/wav_file
+isa: Sound Stimulus
 description: >
-    A simple `WAV <https://en.wikipedia.org/wiki/WAV>`_ file based sound
-    stimulus
+    A simple file-based sound stimulus
 parameters: 
   - 
     name: path
     required: yes
     example:
       - sounds/sound1.wav
-      - /path/to/sound.wav
+      - /path/to/sound.m4a
     description: Filesystem path to the sound file
   - 
     name: amplitude
@@ -1475,7 +1490,7 @@ description: |
 name: Play Sound
 signature: action/play_sound
 isa: Action
-description: Play a `Sound Stimulus`
+description: Play a sound
 parameters: 
   - 
     name: sound
@@ -1489,7 +1504,7 @@ parameters:
 name: Pause Sound
 signature: action/pause_sound
 isa: Action
-description: Pause a `Sound Stimulus`
+description: Pause a sound
 parameters: 
   - 
     name: sound
@@ -1503,7 +1518,7 @@ parameters:
 name: Stop Sound
 signature: action/stop_sound
 isa: Action
-description: Stop playing a `Sound Stimulus`
+description: Stop playing a sound
 parameters: 
   - 
     name: sound

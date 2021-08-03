@@ -382,6 +382,10 @@
 		E11F2FD826B9893D0092D10B /* AudioFileSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */; };
 		E11F2FD926B9893D0092D10B /* AudioFileSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11F2FDA26B9893D0092D10B /* AudioFileSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E11F2FDD26B9D7600092D10B /* LegacySounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */; };
+		E11F2FDE26B9D7600092D10B /* LegacySounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */; };
+		E11F2FDF26B9D7600092D10B /* LegacySounds.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E11F2FE026B9D7600092D10B /* LegacySounds.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1257D9521F793FE00E1CF58 /* DataFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */; };
 		E1257D9621F793FE00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1257D9721F7964A00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1117,7 +1121,7 @@
 		5CBA76D20AE069A300D6F4A6 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		5CBA76D30AE069A300D6F4A6 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
 		5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardSounds.h; sourceTree = "<group>"; };
-		5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardSounds.cpp; sourceTree = "<group>"; };
+		5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = StandardSounds.cpp; sourceTree = "<group>"; };
 		5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenALContextManager.h; sourceTree = "<group>"; };
 		5CBA76E10AE0706300D6F4A6 /* OpenALContextManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenALContextManager.cpp; sourceTree = "<group>"; };
 		5CBFD75E0AC04587007AB1A9 /* FullCoreEnvironmentTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullCoreEnvironmentTest.h; sourceTree = "<group>"; };
@@ -1308,6 +1312,8 @@
 		E11F2FD326B84EA00092D10B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioFileSound.cpp; sourceTree = "<group>"; };
 		E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioFileSound.hpp; sourceTree = "<group>"; };
+		E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LegacySounds.cpp; sourceTree = "<group>"; };
+		E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LegacySounds.hpp; sourceTree = "<group>"; };
 		E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileReader.cpp; sourceTree = "<group>"; };
 		E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataFileReader.hpp; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -1950,6 +1956,8 @@
 				E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */,
 				E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */,
 				E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */,
+				E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */,
+				E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */,
 				5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */,
 				5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */,
 				5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */,
@@ -2762,6 +2770,7 @@
 				5C9186130E3548FA00B64213 /* BiasMonitor.h in Headers */,
 				5CCA2B5A0E8F1F9A007BDA56 /* Conduit.h in Headers */,
 				5CCA2B5B0E8F1F9B007BDA56 /* EventTransport.h in Headers */,
+				E11F2FDF26B9D7600092D10B /* LegacySounds.hpp in Headers */,
 				E17916A31E4E416C00528B91 /* MacOSStimulusDisplay.h in Headers */,
 				E181612A25827E7D004D8156 /* TransformStimulus.hpp in Headers */,
 				5CCA2B5D0E8F1F9D007BDA56 /* IPCEventTransport.h in Headers */,
@@ -2842,6 +2851,7 @@
 				E17917151E4E535D00528B91 /* PluginServices.h in Headers */,
 				E17917891E4E573C00528B91 /* OpenALContextManager.h in Headers */,
 				E18160A125817757004D8156 /* MetalStimulus.hpp in Headers */,
+				E11F2FE026B9D7600092D10B /* LegacySounds.hpp in Headers */,
 				E17916F81E4E529900528B91 /* StandardClientCoreBuilder.h in Headers */,
 				E17916DF1E4E51C300528B91 /* Buffers.h in Headers */,
 				E17917721E4E564400528B91 /* StandardDynamicStimulus.h in Headers */,
@@ -3667,6 +3677,7 @@
 				E188BE941D47F23B0001483A /* ZeroMQSocket.cpp in Sources */,
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
 				E1CA751425B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */,
+				E11F2FDD26B9D7600092D10B /* LegacySounds.cpp in Sources */,
 				E11E9E2425AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */,
 				E18163142588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */,
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
@@ -3772,6 +3783,7 @@
 				E17917141E4E535A00528B91 /* PluginServices.cpp in Sources */,
 				E17916FB1E4E52A600528B91 /* StandardServerCoreBuilder.cpp in Sources */,
 				E17916A51E4E505300528B91 /* ExpandableList.cpp in Sources */,
+				E11F2FDE26B9D7600092D10B /* LegacySounds.cpp in Sources */,
 				E181609F25817757004D8156 /* MetalStimulus.cpp in Sources */,
 				E18162792583B481004D8156 /* AppleStimulusDisplay.metal in Sources */,
 				E181615F2582A62D004D8156 /* AlphaBlendedTransformStimulus.cpp in Sources */,
