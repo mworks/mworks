@@ -30,6 +30,8 @@ protected:
     
     AVAudioEngine * getEngine(unique_lock &lock) const { return engineManager->getEngine(lock); }
     
+    mutex_type mutex;
+    
 private:
     struct EngineManager : boost::noncopyable {
         EngineManager();
