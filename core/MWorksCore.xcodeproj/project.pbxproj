@@ -377,6 +377,7 @@
 		E11F2FD026B84B4E0092D10B /* AudioEngineSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */; };
 		E11F2FD126B84B4E0092D10B /* AudioEngineSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11F2FD226B84B4E0092D10B /* AudioEngineSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E11F2FD426B84EA00092D10B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E11F2FD326B84EA00092D10B /* AVFoundation.framework */; };
 		E1257D9521F793FE00E1CF58 /* DataFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */; };
 		E1257D9621F793FE00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1257D9721F7964A00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1300,6 +1301,7 @@
 		E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AAPLMathUtilities.cpp; sourceTree = "<group>"; };
 		E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioEngineSound.cpp; sourceTree = "<group>"; };
 		E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioEngineSound.hpp; sourceTree = "<group>"; };
+		E11F2FD326B84EA00092D10B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileReader.cpp; sourceTree = "<group>"; };
 		E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataFileReader.hpp; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -1483,6 +1485,7 @@
 			files = (
 				E1ADE3B31BDE8F8B0055642F /* Accelerate.framework in Frameworks */,
 				E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */,
+				E11F2FD426B84EA00092D10B /* AVFoundation.framework in Frameworks */,
 				E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */,
 				E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */,
 				E114A02F1E1FF2DD00A69E77 /* GLKit.framework in Frameworks */,
@@ -2547,6 +2550,7 @@
 			children = (
 				E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */,
 				E1DB974C16C16C30001481E9 /* AppKit.framework */,
+				E11F2FD326B84EA00092D10B /* AVFoundation.framework */,
 				E1DB974816C16BEE001481E9 /* CoreAudio.framework */,
 				E1DB977716C17068001481E9 /* CoreServices.framework */,
 				E1DB974A16C16C1F001481E9 /* CoreVideo.framework */,
@@ -4081,6 +4085,8 @@
 					"$(inherited)",
 					"-framework",
 					Accelerate,
+					"-framework",
+					AVFoundation,
 					"-framework",
 					CoreGraphics,
 					"-framework",
