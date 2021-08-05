@@ -11,7 +11,6 @@
 #include "AudioEngineSound.hpp"
 
 #include <AVFoundation/AVAudioFile.h>
-#include <AVFoundation/AVAudioMixerNode.h>
 #include <AVFoundation/AVAudioPlayerNode.h>
 
 
@@ -29,19 +28,17 @@ public:
     explicit AudioFileSound(const ParameterValueMap &parameters);
     ~AudioFileSound();
     
-    void play() override;
-    void pause() override;
-    void stop() override;
-    
 private:
+    bool startPlaying() override;
+    bool stopPlaying() override;
+    bool beginPause() override;
+    bool endPause() override;
+    
     const boost::filesystem::path path;
     const VariablePtr amplitude;
     
     AVAudioFile *file;
     AVAudioPlayerNode *playerNode;
-    AVAudioMixerNode *mixerNode;
-    
-    bool paused;
     
 };
 

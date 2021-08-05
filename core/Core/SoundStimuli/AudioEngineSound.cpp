@@ -13,8 +13,79 @@ BEGIN_NAMESPACE_MW
 
 AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     Sound(parameters),
-    engineManager(getEngineManager())
-{ }
+    engineManager(getEngineManager()),
+    playing(false),
+    paused(false)
+{
+    auto callback = [this](const Datum &data, MWorksTime time) { stateSystemCallback(data, time); };
+    stateSystemCallbackNotification = boost::make_shared<VariableCallbackNotification>(callback);
+    if (auto stateSystemMode = state_system_mode) {
+        stateSystemMode->addNotification(stateSystemCallbackNotification);
+    }
+}
+
+
+AudioEngineSound::~AudioEngineSound() {
+    stateSystemCallbackNotification->remove();
+}
+
+
+void AudioEngineSound::play() {
+    lock_guard lock(mutex);
+    
+    if (!playing) {
+        if (startPlaying()) {
+            playing = true;
+        }
+    } else if (paused) {
+        if (endPause()) {
+            paused = false;
+        }
+    }
+}
+
+
+void AudioEngineSound::pause() {
+    lock_guard lock(mutex);
+    
+    if (playing && !paused) {
+        if (beginPause()) {
+            paused = true;
+        }
+    }
+}
+
+
+void AudioEngineSound::stop() {
+    lock_guard lock(mutex);
+    
+    if (playing) {
+        if (stopPlaying()) {
+            didStopPlaying();
+        }
+    }
+}
+
+
+void AudioEngineSound::stateSystemCallback(const Datum &data, MWorksTime time) {
+    lock_guard lock(mutex);
+    
+    switch (data.getInteger()) {
+        case RUNNING:
+            break;
+            
+        case PAUSED:
+            break;
+            
+        case IDLE:
+            if (playing) {
+                if (stopPlaying()) {
+                    didStopPlaying();
+                }
+            }
+            break;
+    }
+}
 
 
 AudioEngineSound::EngineManager::EngineManager() :
@@ -22,7 +93,6 @@ AudioEngineSound::EngineManager::EngineManager() :
 {
     @autoreleasepool {
         engine = [[AVAudioEngine alloc] init];
-        [engine prepare];
     }
     
     auto callback = [this](const Datum &data, MWorksTime time) { stateSystemCallback(data, time); };
@@ -64,15 +134,11 @@ void AudioEngineSound::EngineManager::stateSystemCallback(const Datum &data, MWo
                 break;
                 
             case PAUSED:
-                if (engine.running) {
-                    [engine pause];
-                }
-                break;
+                [[clang::fallthrough]];
                 
             case IDLE:
                 if (engine.running) {
                     [engine pause];
-                    [engine reset];
                 }
                 break;
         }

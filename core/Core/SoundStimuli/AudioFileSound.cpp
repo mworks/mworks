@@ -7,6 +7,8 @@
 
 #include "AudioFileSound.hpp"
 
+#include <AVFoundation/AVAudioMixerNode.h>
+
 
 BEGIN_NAMESPACE_MW
 
@@ -30,9 +32,7 @@ AudioFileSound::AudioFileSound(const ParameterValueMap &parameters) :
     path(pathFromParameterValue(variableOrText(parameters[PATH]))),
     amplitude(parameters[AMPLITUDE]),
     file(nil),
-    playerNode(nil),
-    mixerNode(nil),
-    paused(false)
+    playerNode(nil)
 {
     @autoreleasepool {
         auto fileURL = [NSURL fileURLWithPath:@(path.string().c_str()) isDirectory:NO];
@@ -45,59 +45,64 @@ AudioFileSound::AudioFileSound(const ParameterValueMap &parameters) :
         }
         
         playerNode = [[AVAudioPlayerNode alloc] init];
-        mixerNode = [[AVAudioMixerNode alloc] init];
         
         unique_lock engineLock;
         auto engine = getEngine(engineLock);
         [engine attachNode:playerNode];
-        [engine attachNode:mixerNode];
-        [engine connect:playerNode to:mixerNode format:nil];
-        [engine connect:mixerNode to:engine.mainMixerNode format:nil];
+        [engine connect:playerNode to:engine.mainMixerNode format:nil];
     }
 }
 
 
 AudioFileSound::~AudioFileSound() {
     @autoreleasepool {
-        mixerNode = nil;
         playerNode = nil;
         file = nil;
     }
 }
 
 
-void AudioFileSound::play() {
-    lock_guard lock(mutex);
+bool AudioFileSound::startPlaying() {
+    // Reset the player node
+    [playerNode stop];
     
-    if (!playerNode.playing) {
-        if (!paused) {
-            [playerNode scheduleFile:file atTime:nil completionHandler:nil];
-            // TODO: support dynamic volume changes
-            mixerNode.outputVolume = amplitude->getValue().getFloat();
+    boost::weak_ptr<AudioFileSound> weakThis(component_shared_from_this<AudioFileSound>());
+    auto completionHandler = [weakThis](AVAudioPlayerNodeCompletionCallbackType callbackType) {
+        if (callbackType == AVAudioPlayerNodeCompletionDataPlayedBack) {
+            if (auto sharedThis = weakThis.lock()) {
+                lock_guard lock(sharedThis->mutex);
+                sharedThis->didStopPlaying();
+            }
         }
-        [playerNode play];
-        paused = false;
-    }
+    };
+    [playerNode scheduleFile:file
+                      atTime:nil
+      completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
+           completionHandler:completionHandler];
+    
+    // TODO: support dynamic volume changes
+    playerNode.volume = amplitude->getValue().getFloat();
+    
+    [playerNode play];
+    return true;
 }
 
 
-void AudioFileSound::pause() {
-    lock_guard lock(mutex);
-    
-    if (playerNode.playing) {
-        [playerNode pause];
-        paused = true;
-    }
+bool AudioFileSound::stopPlaying() {
+    [playerNode stop];
+    return true;
 }
 
 
-void AudioFileSound::stop() {
-    lock_guard lock(mutex);
-    
-    if (playerNode.playing || paused) {
-        [playerNode stop];
-        paused = false;
-    }
+bool AudioFileSound::beginPause() {
+    [playerNode pause];
+    return true;
+}
+
+
+bool AudioFileSound::endPause() {
+    [playerNode play];
+    return true;
 }
 
 
