@@ -1,0 +1,39 @@
+audio_file sound ('abcslow2.mp3')
+
+
+var pause_duration = 5s
+
+%define do_wait ()
+    wait (pause_duration)
+%end
+
+%define do_pause ()
+    report ('Pausing for $(pause_duration / 1e6) seconds')
+    pause_sound (sound)
+    wait (pause_duration)
+%end
+
+
+protocol (nsamples = 2) {
+    report ('Sound should not be playing')
+    do_wait ()
+
+    report ('Starting sound')
+    play_sound (sound)
+    do_wait ()
+
+    do_pause ()
+
+    report ('Resuming sound')
+    play_sound (sound)
+    do_wait ()
+
+    do_pause ()
+
+    report ('Resuming sound')
+    play_sound (sound)
+    do_wait ()
+
+    stop_sound (sound)
+    report ('Sound should be stopped')
+}
