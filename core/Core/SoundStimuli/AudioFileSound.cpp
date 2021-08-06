@@ -7,6 +7,7 @@
 
 #include "AudioFileSound.hpp"
 
+#include <AVFoundation/AVAudioFile.h>
 #include <AVFoundation/AVAudioMixerNode.h>
 
 
@@ -31,16 +32,27 @@ AudioFileSound::AudioFileSound(const ParameterValueMap &parameters) :
     AudioEngineSound(parameters),
     path(pathFromParameterValue(variableOrText(parameters[PATH]))),
     amplitude(parameters[AMPLITUDE]),
-    file(nil),
+    buffer(nil),
     playerNode(nil)
 {
     @autoreleasepool {
         auto fileURL = [NSURL fileURLWithPath:@(path.string().c_str()) isDirectory:NO];
         NSError *error = nil;
-        file = [[AVAudioFile alloc] initForReading:fileURL error:&error];
+        auto file = [[AVAudioFile alloc] initForReading:fileURL error:&error];
         if (!file) {
             throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN,
                                   "Cannot open audio file",
+                                  error.localizedDescription.UTF8String);
+        }
+        
+        buffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat
+                                               frameCapacity:file.length];
+        if (!buffer) {
+            throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Cannot create buffer for reading audio file");
+        }
+        if (![file readIntoBuffer:buffer error:&error]) {
+            throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN,
+                                  "Cannot read audio file in to buffer",
                                   error.localizedDescription.UTF8String);
         }
         
@@ -57,7 +69,7 @@ AudioFileSound::AudioFileSound(const ParameterValueMap &parameters) :
 AudioFileSound::~AudioFileSound() {
     @autoreleasepool {
         playerNode = nil;
-        file = nil;
+        buffer = nil;
     }
 }
 
@@ -75,10 +87,11 @@ bool AudioFileSound::startPlaying() {
             }
         }
     };
-    [playerNode scheduleFile:file
-                      atTime:nil
-      completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
-           completionHandler:completionHandler];
+    [playerNode scheduleBuffer:buffer
+                        atTime:nil
+                       options:0
+        completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
+             completionHandler:completionHandler];
     
     // TODO: support dynamic volume changes
     playerNode.volume = amplitude->getValue().getFloat();

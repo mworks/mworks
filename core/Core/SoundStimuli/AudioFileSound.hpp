@@ -10,7 +10,7 @@
 
 #include "AudioEngineSound.hpp"
 
-#include <AVFoundation/AVAudioFile.h>
+#include <AVFoundation/AVAudioBuffer.h>
 #include <AVFoundation/AVAudioPlayerNode.h>
 
 
@@ -37,7 +37,7 @@ private:
     const boost::filesystem::path path;
     const VariablePtr amplitude;
     
-    AVAudioFile *file;
+    AVAudioPCMBuffer *buffer;
     AVAudioPlayerNode *playerNode;
     
 };
