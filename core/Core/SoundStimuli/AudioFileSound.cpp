@@ -75,47 +75,55 @@ AudioFileSound::~AudioFileSound() {
 
 
 bool AudioFileSound::startPlaying() {
-    // Reset the player node
-    [playerNode stop];
-    
-    boost::weak_ptr<AudioFileSound> weakThis(component_shared_from_this<AudioFileSound>());
-    auto completionHandler = [weakThis](AVAudioPlayerNodeCompletionCallbackType callbackType) {
-        if (callbackType == AVAudioPlayerNodeCompletionDataPlayedBack) {
-            if (auto sharedThis = weakThis.lock()) {
-                lock_guard lock(sharedThis->mutex);
-                sharedThis->didStopPlaying();
+    @autoreleasepool {
+        // Reset the player node
+        [playerNode stop];
+        
+        boost::weak_ptr<AudioFileSound> weakThis(component_shared_from_this<AudioFileSound>());
+        auto completionHandler = [weakThis](AVAudioPlayerNodeCompletionCallbackType callbackType) {
+            if (callbackType == AVAudioPlayerNodeCompletionDataPlayedBack) {
+                if (auto sharedThis = weakThis.lock()) {
+                    lock_guard lock(sharedThis->mutex);
+                    sharedThis->didStopPlaying();
+                }
             }
-        }
-    };
-    [playerNode scheduleBuffer:buffer
-                        atTime:nil
-                       options:0
-        completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
-             completionHandler:completionHandler];
-    
-    // TODO: support dynamic volume changes
-    playerNode.volume = amplitude->getValue().getFloat();
-    
-    [playerNode play];
-    return true;
+        };
+        [playerNode scheduleBuffer:buffer
+                            atTime:nil
+                           options:0
+            completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
+                 completionHandler:completionHandler];
+        
+        // TODO: support dynamic volume changes
+        playerNode.volume = amplitude->getValue().getFloat();
+        
+        [playerNode play];
+        return true;
+    }
 }
 
 
 bool AudioFileSound::stopPlaying() {
-    [playerNode stop];
-    return true;
+    @autoreleasepool {
+        [playerNode stop];
+        return true;
+    }
 }
 
 
 bool AudioFileSound::beginPause() {
-    [playerNode pause];
-    return true;
+    @autoreleasepool {
+        [playerNode pause];
+        return true;
+    }
 }
 
 
 bool AudioFileSound::endPause() {
-    [playerNode play];
-    return true;
+    @autoreleasepool {
+        [playerNode play];
+        return true;
+    }
 }
 
 
