@@ -72,9 +72,19 @@ void AudioEngineSound::stateSystemCallback(const Datum &data, MWorksTime time) {
     
     switch (data.getInteger()) {
         case RUNNING:
+            if (playing && paused) {
+                if (endPause()) {
+                    paused = false;
+                }
+            }
             break;
             
         case PAUSED:
+            if (playing && !paused) {
+                if (beginPause()) {
+                    paused = true;
+                }
+            }
             break;
             
         case IDLE:
@@ -132,9 +142,6 @@ void AudioEngineSound::EngineManager::stateSystemCallback(const Datum &data, MWo
                     }
                 }
                 break;
-                
-            case PAUSED:
-                [[clang::fallthrough]];
                 
             case IDLE:
                 if (engine.running) {
