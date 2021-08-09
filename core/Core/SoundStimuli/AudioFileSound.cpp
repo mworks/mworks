@@ -61,7 +61,7 @@ AudioFileSound::AudioFileSound(const ParameterValueMap &parameters) :
         unique_lock engineLock;
         auto engine = getEngine(engineLock);
         [engine attachNode:playerNode];
-        [engine connect:playerNode to:engine.mainMixerNode format:nil];
+        [engine connect:playerNode to:engine.mainMixerNode format:buffer.format];
     }
 }
 
