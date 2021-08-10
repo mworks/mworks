@@ -1,0 +1,29 @@
+var amplitude = 0.2 {
+    report ('New amplitude = $amplitude')
+}
+
+audio_file sound (
+    path = 'abcslow2.mp3'
+    amplitude = amplitude
+    )
+
+
+protocol {
+    report ('Initial amplitude = $amplitude')
+
+    play_sound (sound)
+
+    block (nsamples = 2) {
+        wait (5s)
+
+        amplitude = 1.0
+        wait (5s)
+
+        amplitude = 0.0
+        wait (2s)
+
+        amplitude = 0.2
+    }
+
+    wait (5s)
+}

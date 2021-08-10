@@ -1,0 +1,38 @@
+resource ('reward.wav')
+
+
+var amplitude = 0.0 {
+    report ('amplitude = $amplitude')
+}
+
+audio_file sound (
+    path = 'reward.wav'
+    amplitude = amplitude
+    )
+
+
+protocol {
+    amplitude = 1.0
+    play_sound (sound)
+    wait (2s)
+
+    amplitude = 0.25
+    play_sound (sound)
+    wait (2s)
+
+    amplitude = -0.1
+    play_sound (sound)
+    wait (2s)
+
+    amplitude = 1.1
+    play_sound (sound)
+    wait (2s)
+
+    amplitude = 1.0
+    play_sound (sound)
+    wait (2s)
+
+    amplitude = 0.0
+    play_sound (sound)
+    wait (2s)
+}

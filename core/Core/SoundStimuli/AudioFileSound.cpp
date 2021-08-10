@@ -8,14 +8,12 @@
 #include "AudioFileSound.hpp"
 
 #include <AVFoundation/AVAudioFile.h>
-#include <AVFoundation/AVAudioMixerNode.h>
 
 
 BEGIN_NAMESPACE_MW
 
 
 const std::string AudioFileSound::PATH("path");
-const std::string AudioFileSound::AMPLITUDE("amplitude");
 
 
 void AudioFileSound::describeComponent(ComponentInfo &info) {
@@ -24,14 +22,12 @@ void AudioFileSound::describeComponent(ComponentInfo &info) {
     info.setSignature("sound/audio_file");
     
     info.addParameter(PATH);
-    info.addParameter(AMPLITUDE, "1.0");
 }
 
 
 AudioFileSound::AudioFileSound(const ParameterValueMap &parameters) :
     AudioEngineSound(parameters),
     path(pathFromParameterValue(variableOrText(parameters[PATH]))),
-    amplitude(parameters[AMPLITUDE]),
     buffer(nil),
     playerNode(nil)
 {
@@ -61,7 +57,7 @@ AudioFileSound::AudioFileSound(const ParameterValueMap &parameters) :
         unique_lock engineLock;
         auto engine = getEngine(engineLock);
         [engine attachNode:playerNode];
-        [engine connect:playerNode to:engine.mainMixerNode format:buffer.format];
+        [engine connect:playerNode to:getMixerNode() format:buffer.format];
     }
 }
 
@@ -75,55 +71,44 @@ AudioFileSound::~AudioFileSound() {
 
 
 bool AudioFileSound::startPlaying() {
-    @autoreleasepool {
-        // Reset the player node
-        [playerNode stop];
-        
-        boost::weak_ptr<AudioFileSound> weakThis(component_shared_from_this<AudioFileSound>());
-        auto completionHandler = [weakThis](AVAudioPlayerNodeCompletionCallbackType callbackType) {
-            if (callbackType == AVAudioPlayerNodeCompletionDataPlayedBack) {
-                if (auto sharedThis = weakThis.lock()) {
-                    lock_guard lock(sharedThis->mutex);
-                    sharedThis->didStopPlaying();
-                }
+    // Reset the player node
+    [playerNode stop];
+    
+    boost::weak_ptr<AudioFileSound> weakThis(component_shared_from_this<AudioFileSound>());
+    auto completionHandler = [weakThis](AVAudioPlayerNodeCompletionCallbackType callbackType) {
+        if (callbackType == AVAudioPlayerNodeCompletionDataPlayedBack) {
+            if (auto sharedThis = weakThis.lock()) {
+                lock_guard lock(sharedThis->mutex);
+                sharedThis->didStopPlaying();
             }
-        };
-        [playerNode scheduleBuffer:buffer
-                            atTime:nil
-                           options:0
-            completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
-                 completionHandler:completionHandler];
-        
-        // TODO: support dynamic volume changes
-        playerNode.volume = amplitude->getValue().getFloat();
-        
-        [playerNode play];
-        return true;
-    }
+        }
+    };
+    [playerNode scheduleBuffer:buffer
+                        atTime:nil
+                       options:0
+        completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
+             completionHandler:completionHandler];
+    
+    [playerNode play];
+    return true;
 }
 
 
 bool AudioFileSound::stopPlaying() {
-    @autoreleasepool {
-        [playerNode stop];
-        return true;
-    }
+    [playerNode stop];
+    return true;
 }
 
 
 bool AudioFileSound::beginPause() {
-    @autoreleasepool {
-        [playerNode pause];
-        return true;
-    }
+    [playerNode pause];
+    return true;
 }
 
 
 bool AudioFileSound::endPause() {
-    @autoreleasepool {
-        [playerNode play];
-        return true;
-    }
+    [playerNode play];
+    return true;
 }
 
 

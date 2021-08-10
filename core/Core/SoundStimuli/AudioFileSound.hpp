@@ -21,7 +21,6 @@ class AudioFileSound : public AudioEngineSound {
     
 public:
     static const std::string PATH;
-    static const std::string AMPLITUDE;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -35,7 +34,6 @@ private:
     bool endPause() override;
     
     const boost::filesystem::path path;
-    const VariablePtr amplitude;
     
     AVAudioPCMBuffer *buffer;
     AVAudioPlayerNode *playerNode;

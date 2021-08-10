@@ -11,35 +11,77 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string AudioEngineSound::AMPLITUDE("amplitude");
+
+
+void AudioEngineSound::describeComponent(ComponentInfo &info) {
+    Sound::describeComponent(info);
+    info.addParameter(AMPLITUDE, "1.0");
+}
+
+
 AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     Sound(parameters),
+    amplitude(parameters[AMPLITUDE]),
     engineManager(getEngineManager()),
+    mixerNode(nil),
     playing(false),
     paused(false)
 {
-    auto callback = [this](const Datum &data, MWorksTime time) { stateSystemCallback(data, time); };
-    stateSystemCallbackNotification = boost::make_shared<VariableCallbackNotification>(callback);
-    if (auto stateSystemMode = state_system_mode) {
-        stateSystemMode->addNotification(stateSystemCallbackNotification);
+    @autoreleasepool {
+        // Create and connect the mixer node
+        {
+            mixerNode = [[AVAudioMixerNode alloc] init];
+            unique_lock engineLock;
+            auto engine = getEngine(engineLock);
+            [engine attachNode:mixerNode];
+            [engine connect:mixerNode to:engine.mainMixerNode format:nil];
+        }
+        
+        // Install a callback to handle amplitude changes
+        {
+            auto callback = [this](const Datum &data, MWorksTime time) { amplitudeCallback(data, time); };
+            amplitudeNotification = boost::make_shared<VariableCallbackNotification>(callback);
+            amplitude->addNotification(amplitudeNotification);
+        }
+        
+        // Initialize amplitude to the current value
+        setCurrentAmplitude(amplitude->getValue());
+        
+        // Install a callback to respond to state system mode changes
+        {
+            auto callback = [this](const Datum &data, MWorksTime time) { stateSystemModeCallback(data, time); };
+            stateSystemModeNotification = boost::make_shared<VariableCallbackNotification>(callback);
+            if (auto stateSystemMode = state_system_mode) {
+                stateSystemMode->addNotification(stateSystemModeNotification);
+            }
+        }
     }
 }
 
 
 AudioEngineSound::~AudioEngineSound() {
-    stateSystemCallbackNotification->remove();
+    @autoreleasepool {
+        stateSystemModeNotification->remove();
+        amplitudeNotification->remove();
+        
+        mixerNode = nil;
+    }
 }
 
 
 void AudioEngineSound::play() {
     lock_guard lock(mutex);
     
-    if (!playing) {
-        if (startPlaying()) {
-            playing = true;
-        }
-    } else if (paused) {
-        if (endPause()) {
-            paused = false;
+    @autoreleasepool {
+        if (!playing) {
+            if (startPlaying()) {
+                playing = true;
+            }
+        } else if (paused) {
+            if (endPause()) {
+                paused = false;
+            }
         }
     }
 }
@@ -48,9 +90,11 @@ void AudioEngineSound::play() {
 void AudioEngineSound::pause() {
     lock_guard lock(mutex);
     
-    if (playing && !paused) {
-        if (beginPause()) {
-            paused = true;
+    @autoreleasepool {
+        if (playing && !paused) {
+            if (beginPause()) {
+                paused = true;
+            }
         }
     }
 }
@@ -59,41 +103,64 @@ void AudioEngineSound::pause() {
 void AudioEngineSound::stop() {
     lock_guard lock(mutex);
     
-    if (playing) {
-        if (stopPlaying()) {
-            didStopPlaying();
+    @autoreleasepool {
+        if (playing) {
+            if (stopPlaying()) {
+                didStopPlaying();
+            }
         }
     }
 }
 
 
-void AudioEngineSound::stateSystemCallback(const Datum &data, MWorksTime time) {
+void AudioEngineSound::amplitudeCallback(const Datum &data, MWorksTime time) {
     lock_guard lock(mutex);
     
-    switch (data.getInteger()) {
-        case RUNNING:
-            if (playing && paused) {
-                if (endPause()) {
-                    paused = false;
+    @autoreleasepool {
+        setCurrentAmplitude(data);
+    }
+}
+
+
+void AudioEngineSound::setCurrentAmplitude(const Datum &data) {
+    auto value = data.getFloat();
+    if (value < 0.0 || value > 1.0) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound amplitude must be between 0 and 1 (inclusive)");
+    } else {
+        mixerNode.outputVolume = value;
+    }
+}
+
+
+void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime time) {
+    lock_guard lock(mutex);
+    
+    @autoreleasepool {
+        switch (data.getInteger()) {
+            case RUNNING:
+                if (playing && paused) {
+                    if (endPause()) {
+                        paused = false;
+                    }
                 }
-            }
-            break;
-            
-        case PAUSED:
-            if (playing && !paused) {
-                if (beginPause()) {
-                    paused = true;
+                break;
+                
+            case PAUSED:
+                if (playing && !paused) {
+                    if (beginPause()) {
+                        paused = true;
+                    }
                 }
-            }
-            break;
-            
-        case IDLE:
-            if (playing) {
-                if (stopPlaying()) {
-                    didStopPlaying();
+                break;
+                
+            case IDLE:
+                if (playing) {
+                    if (stopPlaying()) {
+                        didStopPlaying();
+                    }
                 }
-            }
-            break;
+                break;
+        }
     }
 }
 
@@ -103,20 +170,20 @@ AudioEngineSound::EngineManager::EngineManager() :
 {
     @autoreleasepool {
         engine = [[AVAudioEngine alloc] init];
-    }
-    
-    auto callback = [this](const Datum &data, MWorksTime time) { stateSystemCallback(data, time); };
-    stateSystemCallbackNotification = boost::make_shared<VariableCallbackNotification>(callback);
-    if (auto stateSystemMode = state_system_mode) {
-        stateSystemMode->addNotification(stateSystemCallbackNotification);
+        
+        auto callback = [this](const Datum &data, MWorksTime time) { stateSystemModeCallback(data, time); };
+        stateSystemModeNotification = boost::make_shared<VariableCallbackNotification>(callback);
+        if (auto stateSystemMode = state_system_mode) {
+            stateSystemMode->addNotification(stateSystemModeNotification);
+        }
     }
 }
 
 
 AudioEngineSound::EngineManager::~EngineManager() {
-    stateSystemCallbackNotification->remove();
-    
     @autoreleasepool {
+        stateSystemModeNotification->remove();
+        
         if (engine) {
             if (engine.running) {
                 [engine stop];
@@ -127,7 +194,7 @@ AudioEngineSound::EngineManager::~EngineManager() {
 }
 
 
-void AudioEngineSound::EngineManager::stateSystemCallback(const Datum &data, MWorksTime time) {
+void AudioEngineSound::EngineManager::stateSystemModeCallback(const Datum &data, MWorksTime time) {
     lock_guard lock(mutex);
     
     @autoreleasepool {
