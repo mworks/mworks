@@ -25,6 +25,7 @@ AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     amplitude(parameters[AMPLITUDE]),
     engineManager(getEngineManager()),
     mixerNode(nil),
+    running(false),
     playing(false),
     paused(false)
 {
@@ -74,7 +75,9 @@ void AudioEngineSound::play() {
     lock_guard lock(mutex);
     
     @autoreleasepool {
-        if (!playing) {
+        if (!running) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot play sound while experiment is not running");
+        } else if (!playing) {
             if (startPlaying()) {
                 playing = true;
             }
@@ -91,7 +94,9 @@ void AudioEngineSound::pause() {
     lock_guard lock(mutex);
     
     @autoreleasepool {
-        if (playing && !paused) {
+        if (!running) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot pause sound while experiment is not running");
+        } else if (playing && !paused) {
             if (beginPause()) {
                 paused = true;
             }
@@ -104,7 +109,9 @@ void AudioEngineSound::stop() {
     lock_guard lock(mutex);
     
     @autoreleasepool {
-        if (playing) {
+        if (!running) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot stop sound while experiment is not running");
+        } else if (playing) {
             if (stopPlaying()) {
                 didStopPlaying();
             }
@@ -138,6 +145,7 @@ void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime tim
     @autoreleasepool {
         switch (data.getInteger()) {
             case RUNNING:
+                running = true;
                 if (playing && paused) {
                     if (endPause()) {
                         paused = false;
@@ -146,6 +154,7 @@ void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime tim
                 break;
                 
             case PAUSED:
+                running = false;
                 if (playing && !paused) {
                     if (beginPause()) {
                         paused = true;
@@ -154,6 +163,7 @@ void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime tim
                 break;
                 
             case IDLE:
+                running = false;
                 if (playing) {
                     if (stopPlaying()) {
                         didStopPlaying();

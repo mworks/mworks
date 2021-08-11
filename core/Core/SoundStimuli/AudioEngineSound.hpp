@@ -75,6 +75,7 @@ private:
     const boost::shared_ptr<EngineManager> engineManager;
     
     AVAudioMixerNode *mixerNode;
+    bool running;
     bool playing;
     bool paused;
     
