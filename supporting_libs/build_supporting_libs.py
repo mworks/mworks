@@ -358,7 +358,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '1.1.1k'
+    version = '1.1.1l'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -456,7 +456,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.21.1'
+    version = '1.21.2'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -519,7 +519,7 @@ def numpy():
 
 @builder
 def boost():
-    version = '1.76.0'
+    version = '1.77.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -582,8 +582,8 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '3.3.0'
-    srcdir = 'msgpack-' + version
+    version = '4.0.2'
+    srcdir = 'msgpack-cxx-' + version
     tarfile = srcdir + '.tar.gz'
 
     with done_file(srcdir):
