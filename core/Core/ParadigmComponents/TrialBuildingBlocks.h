@@ -371,31 +371,58 @@ class SendStimulusToBackFactory : public ComponentFactory{
 };
 
 
-class UpdateStimulusDisplay : public Action {
+class StimulusDisplayAction : public Action {
     
 public:
     static const std::string PREDICTED_OUTPUT_TIME;
     
     static void describeComponent(ComponentInfo &info);
     
-    explicit UpdateStimulusDisplay(const ParameterValueMap &parameters);
+    explicit StimulusDisplayAction(const ParameterValueMap &parameters);
     
     bool execute() override;
+    boost::weak_ptr<State> next() override;
     
-private:
-    VariablePtr predictedOutputTime;
+protected:
+    bool stillWaiting() const;
+    
+    virtual boost::shared_ptr<StimulusDisplay::UpdateInfo> performAction() = 0;
+    virtual const char * getActionName() const = 0;
+    
+    const VariablePtr predictedOutputTime;
+    const boost::shared_ptr<StimulusDisplay> display;
+    const boost::shared_ptr<Clock> clock;
+    
+    MWTime startTime;
+    boost::shared_ptr<StimulusDisplay::UpdateInfo> updateInfo;
     
 };
 
 
-class ClearStimulusDisplay : public Action {
+class UpdateStimulusDisplay : public StimulusDisplayAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit UpdateStimulusDisplay(const ParameterValueMap &parameters);
+    
+private:
+    boost::shared_ptr<StimulusDisplay::UpdateInfo> performAction() override;
+    const char * getActionName() const override;
+    
+};
+
+
+class ClearStimulusDisplay : public StimulusDisplayAction {
     
 public:
     static void describeComponent(ComponentInfo &info);
     
     explicit ClearStimulusDisplay(const ParameterValueMap &parameters);
     
-    bool execute() override;
+private:
+    boost::shared_ptr<StimulusDisplay::UpdateInfo> performAction() override;
+    const char * getActionName() const override;
     
 };
 

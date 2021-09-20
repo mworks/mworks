@@ -1403,10 +1403,26 @@ parameters:
 ---
 
 
+name: Stimulus Display Action
+abstract: yes
+isa: Action
+parameters: 
+  - 
+    name: predicted_output_time
+    description: >
+        Name of a variable in which to store the predicted output time of the
+        frame in which the action will take effect.  This time is the operating
+        system's best guess for when the rendered frame will start to appear on
+        screen.
+
+
+---
+
+
 name: Update Stimulus Display
 signature: action/update_stimulus_display
 alias: action/update_display
-isa: Action
+isa: Stimulus Display Action
 description: |
     Commit pending changes to the display queue, and trigger a redraw of the
     stimulus display.  On the next display refresh, any stimuli that have been
@@ -1414,20 +1430,11 @@ description: |
     `dequeued <Dequeue Stimulus>` will *not* be drawn (and thus will be erased
     if they were previously visible).
 
-    *Note*: Before completing, this action waits for all stimulus drawing
-    commands to be submitted to the graphics hardware.  However, it does *not*
-    wait for the actual display update to occur.  If your experiment must
-    coordinate other actions with the actual display update, it will need
-    to wait until the time provided by `predicted_output_time`_.
-
-parameters: 
-  - 
-    name: predicted_output_time
-    description: >
-        Name of a variable in which to store the predicted output time of the
-        frame in which the update will take effect.  This time is the operating
-        system's best guess for when the rendered frame will start to appear on
-        screen.
+    *Note*: Before completing, this action waits for all drawing commands to be
+    submitted to the graphics hardware.  However, it does *not* wait for the
+    actual display update to occur.  If your experiment must coordinate other
+    actions with the actual display update, it will need to wait until the time
+    provided by `predicted_output_time`_.
 
 
 ---
@@ -1436,11 +1443,17 @@ parameters:
 name: Clear Stimulus Display
 signature: action/clear_stimulus_display
 alias: action/clear_display
-isa: Action
-description: >
+isa: Stimulus Display Action
+description: |
     Remove all stimuli from the display queue, and trigger a redraw of the
     stimulus display.  On the next display refresh, only the default background
     will be drawn.
+
+    *Note*: Before completing, this action waits for all drawing commands to be
+    submitted to the graphics hardware.  However, it does *not* wait for the
+    actual display update to occur.  If your experiment must coordinate other
+    actions with the actual display update, it will need to wait until the time
+    provided by `predicted_output_time`_.
 
 
 ---

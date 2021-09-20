@@ -193,9 +193,6 @@ CVReturn MacOSStimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink
         display.refreshDisplay();
     }
     
-    // Signal waiting threads that refresh is complete
-    display.refreshCond.notify_all();
-    
     return kCVReturnSuccess;
 }
 

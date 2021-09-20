@@ -694,6 +694,10 @@
 		E1B637441D4A96C900116BB3 /* MessagePackAdaptors.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B637421D4A96C900116BB3 /* MessagePackAdaptors.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1BC637D1D51001900745034 /* ZeroMQSocketTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BC637B1D51001900745034 /* ZeroMQSocketTests.cpp */; };
 		E1BC637E1D51001900745034 /* ZeroMQSocketTests.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BC637C1D51001900745034 /* ZeroMQSocketTests.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1BD1C422620AEAF0094FACB /* FairMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BD1C402620AEAF0094FACB /* FairMutex.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1BD1C432620AEAF0094FACB /* FairMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BD1C402620AEAF0094FACB /* FairMutex.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1BD1C442620AEAF0094FACB /* FairMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BD1C412620AEAF0094FACB /* FairMutex.cpp */; };
+		E1BD1C452620AEAF0094FACB /* FairMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BD1C412620AEAF0094FACB /* FairMutex.cpp */; };
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CA751425B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */; };
@@ -1369,6 +1373,8 @@
 		E1B637421D4A96C900116BB3 /* MessagePackAdaptors.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessagePackAdaptors.hpp; sourceTree = "<group>"; };
 		E1BC637B1D51001900745034 /* ZeroMQSocketTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQSocketTests.cpp; sourceTree = "<group>"; };
 		E1BC637C1D51001900745034 /* ZeroMQSocketTests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQSocketTests.hpp; sourceTree = "<group>"; };
+		E1BD1C402620AEAF0094FACB /* FairMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FairMutex.hpp; sourceTree = "<group>"; };
+		E1BD1C412620AEAF0094FACB /* FairMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FairMutex.cpp; sourceTree = "<group>"; };
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
 		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
 		E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = EllipseStimulus.cpp; sourceTree = "<group>"; };
@@ -2043,6 +2049,8 @@
 				0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */,
 				E16BC179137D952D0052D8E1 /* MachUtilities.h */,
 				E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */,
+				E1BD1C402620AEAF0094FACB /* FairMutex.hpp */,
+				E1BD1C412620AEAF0094FACB /* FairMutex.cpp */,
 				E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */,
 				E1DC75071D259C1700D9BC19 /* SerialPort.hpp */,
 				E1DC75061D259C1700D9BC19 /* SerialPort.cpp */,
@@ -2700,6 +2708,7 @@
 				5CBA76D40AE069A300D6F4A6 /* Sound.h in Headers */,
 				E102D9F825B8958000F2EF03 /* ImageFileStimulus.hpp in Headers */,
 				5CBA76DC0AE06F6500D6F4A6 /* StandardSounds.h in Headers */,
+				E1BD1C422620AEAF0094FACB /* FairMutex.hpp in Headers */,
 				E1DC75091D259C1700D9BC19 /* SerialPort.hpp in Headers */,
 				5CBA76E20AE0706300D6F4A6 /* OpenALContextManager.h in Headers */,
 				5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */,
@@ -2828,6 +2837,7 @@
 				E17917681E4E55EA00528B91 /* DummyIODevice.h in Headers */,
 				E17917201E4E53D100528B91 /* PulseAction.h in Headers */,
 				E17916A41E4E504C00528B91 /* ExpandableList.h in Headers */,
+				E1BD1C432620AEAF0094FACB /* FairMutex.hpp in Headers */,
 				E102D99D25B1D32600F2EF03 /* BaseImageStimulus.hpp in Headers */,
 				E17917461E4E54EA00528B91 /* MWorksTypes.h in Headers */,
 				E17916FA1E4E52A100528B91 /* StandardServerCoreBuilder.h in Headers */,
@@ -3611,6 +3621,7 @@
 				5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */,
 				5C38FBC50DF045F600FA6A18 /* XMLVariableWriter.cpp in Sources */,
 				5C9186140E3548FA00B64213 /* BiasMonitor.cpp in Sources */,
+				E1BD1C442620AEAF0094FACB /* FairMutex.cpp in Sources */,
 				E102D99A25B1D32600F2EF03 /* BaseImageStimulus.cpp in Sources */,
 				5CCA2B590E8F1F99007BDA56 /* Conduit.cpp in Sources */,
 				5CCA2B5C0E8F1F9C007BDA56 /* IPCEventTransport.cpp in Sources */,
@@ -3669,6 +3680,7 @@
 				E17916B81E4E50D800528B91 /* ZeroMQServer.cpp in Sources */,
 				E179172E1E4E541200528B91 /* SequentialSelection.cpp in Sources */,
 				E17916F31E4E524600528B91 /* VariableRegistryInterface.cpp in Sources */,
+				E1BD1C452620AEAF0094FACB /* FairMutex.cpp in Sources */,
 				E17916A71E4E506600528B91 /* Serialization.cpp in Sources */,
 				E179170D1E4E533900528B91 /* ParameterValue.cpp in Sources */,
 				E18162262582C635004D8156 /* RectangleStimulus.metal in Sources */,

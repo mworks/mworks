@@ -1,0 +1,75 @@
+stimulus_display (background_color = 0,0,0)
+
+
+rectangle rect (
+    color = 1,1,1
+    x_size = 5
+    )
+
+
+var counter = 0
+
+var start_time = 0
+var end_time = 1
+
+var predicted_output_time = 0
+var current_time = 0
+
+var frame_rate = 0.0
+var expected_frame_rate = refresh_rate()
+var frame_rate_tolerance = 1.0
+
+
+protocol 'Refresh Test' {
+    task {
+        state initiation {
+            report ('**********STARTING**********')
+            counter = 0
+            update_stimulus_display ()
+            wait (100ms)
+            start_time = now()
+
+            goto (present)
+        }
+
+        state present {
+            queue_stimulus (rect)
+            update_stimulus_display (predicted_output_time = predicted_output_time)
+            current_time = now()
+            assert (
+                condition = (predicted_output_time > current_time) && (predicted_output_time - current_time < 2e6 / refreshRate())
+                message = 'predicted_output_time = $predicted_output_time, current_time = $current_time'
+                )
+
+            goto (clear)
+        }
+
+        state clear {
+            clear_stimulus_display (predicted_output_time = predicted_output_time)
+            current_time = now()
+            assert (
+                condition = (predicted_output_time > current_time) && (predicted_output_time - current_time < 2e6 / refresh_rate())
+                message = 'predicted_output_time = $predicted_output_time, current_time = $current_time'
+                )
+            counter += 1
+
+            goto (
+                target = success
+                when = counter == 450
+                )
+            goto (present)
+        }
+
+        state success {
+            end_time = now()
+            frame_rate = 2e6 * counter / (end_time - start_time)
+            report ('************TRIAL COMPLETE********** $counter cycles between $start_time and $end_time. Frame rate = $frame_rate')
+            assert (
+                condition = abs(frame_rate - expected_frame_rate) <= frame_rate_tolerance
+                message = 'frame rate not within tolerance: expected $expected_frame_rate, got $frame_rate'
+                )
+
+            yield ()
+        }
+    }
+}

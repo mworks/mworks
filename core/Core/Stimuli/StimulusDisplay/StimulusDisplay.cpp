@@ -91,8 +91,6 @@ StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     displayStack(boost::make_shared<LinkedList<StimulusNode>>()),
     displayUpdatesStarted(false),
     currentOutputTimeUS(NO_CURRENT_OUTPUT_TIME),
-    waitingForRefresh(false),
-    needDraw(false),
     paused(false),
     didDrawWhilePaused(false)
 {
@@ -172,58 +170,66 @@ void StimulusDisplay::addStimulusNode(const boost::shared_ptr<StimulusNode> &sti
 }
 
 
-MWTime StimulusDisplay::updateDisplay() {
-    unique_lock lock(mutex);
-    
-    auto node = displayStack->getFrontmost();
-    while (node) {
-        if (node->isPending()) {
-            // we're taking care of the pending state, so
-            // clear this flag
-            node->clearPending();
-            
-            // convert "pending visible" stimuli to "visible" ones
-            node->setVisible(node->isPendingVisible());
-            
-            if (node->isPendingRemoval()) {
-                node->clearPendingRemoval();
-                auto currentNode = node;
-                node = currentNode->getNext();
-                currentNode->remove();
-                continue;
-            }
-        }
-        
-        node = node->getNext();
-    }
-    
-    needDraw = true;
-    ensureRefresh(lock);
-    
-    // Return the predicted output time of the just-submitted frame
-    return currentOutputTimeUS;
-}
-
-
-void StimulusDisplay::clearDisplay() {
-    unique_lock lock(mutex);
-    
-    // Remove all stimuli from the display stack
-    while (auto node = displayStack->getFrontmost()) {
-        node->remove();
-    }
-    
-    needDraw = true;
-    ensureRefresh(lock);
-}
-
-
 OpenGLContextLock StimulusDisplay::setCurrentOpenGLContext() const {
     return contextManager->setCurrent(main_context_id);
 }
 
 
 void StimulusDisplay::refreshDisplay() {
+    bool needDraw = false;
+    
+    //
+    // Perform pending actions
+    //
+    
+    std::vector<boost::shared_ptr<UpdateInfo>> pendingUpdateInfo;
+    {
+        lock_guard lock(pendingActionsMutex);
+        
+        for (auto &action : pendingActions) {
+            switch (action.first) {
+                case Action::Update: {
+                    auto node = displayStack->getFrontmost();
+                    while (node) {
+                        if (node->isPending()) {
+                            // we're taking care of the pending state, so
+                            // clear this flag
+                            node->clearPending();
+                            
+                            // convert "pending visible" stimuli to "visible" ones
+                            node->setVisible(node->isPendingVisible());
+                            
+                            if (node->isPendingRemoval()) {
+                                node->clearPendingRemoval();
+                                auto currentNode = node;
+                                node = currentNode->getNext();
+                                currentNode->remove();
+                                continue;
+                            }
+                        }
+                        
+                        node = node->getNext();
+                    }
+                    needDraw = true;
+                    break;
+                }
+                    
+                case Action::Clear: {
+                    // Remove all stimuli from the display stack
+                    while (auto node = displayStack->getFrontmost()) {
+                        node->remove();
+                    }
+                    needDraw = true;
+                    break;
+                }
+            }
+            
+            pendingUpdateInfo.emplace_back(std::move(action.second));
+        }
+        
+        pendingActions.clear();
+    }
+    
     //
     // Determine whether we need to draw
     //
@@ -281,6 +287,8 @@ void StimulusDisplay::refreshDisplay() {
     //
     
     if (needDraw) {
+        auto displayUpdateTime = getEventTimeForCurrentOutputTime();
+        
         Datum stimAnnounce;
         if (!(updateIsExplicit || announceStimuliOnImplicitUpdates)) {
             // No stim announcements, so just report the number of stimuli drawn
@@ -292,11 +300,12 @@ void StimulusDisplay::refreshDisplay() {
             }
             stimAnnounce = Datum(std::move(stimAnnouncements));
         }
-        stimDisplayUpdate->setValue(std::move(stimAnnounce), getEventTimeForCurrentOutputTime());
+        stimDisplayUpdate->setValue(std::move(stimAnnounce), displayUpdateTime);
+        
+        for (auto &updateInfo : pendingUpdateInfo) {
+            updateInfo->setPredictedOutputTime(displayUpdateTime);
+        }
     }
-    
-    needDraw = false;
-    waitingForRefresh = false;
 }
 
 
@@ -342,10 +351,13 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
             
         case IDLE:
             if (displayUpdatesStarted) {
-                // If another thread is waiting for a display refresh, allow it to complete before stopping
-                // the display link
-                while (waitingForRefresh) {
-                    refreshCond.wait(lock);
+                // Release any threads that are waiting for a display refresh
+                {
+                    lock_guard lock(pendingActionsMutex);
+                    for (auto &action : pendingActions) {
+                        action.second->setPredictedOutputTime(0);
+                    }
+                    pendingActions.clear();
                 }
                 
                 displayUpdatesStarted = false;  // Need to clear this *before* calling stopDisplayUpdates
@@ -365,17 +377,21 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
 }
 
 
-void StimulusDisplay::ensureRefresh(unique_lock &lock) {
+auto StimulusDisplay::ensureRefresh(Action action) -> boost::shared_ptr<UpdateInfo> {
+    auto updateInfo = boost::make_shared<UpdateInfo>();
+    
+    {
+        lock_guard lock(pendingActionsMutex);
+        pendingActions.emplace_back(action, updateInfo);
+    }
+    
     if (!displayUpdatesStarted) {
         // Need to do the refresh here
+        lock_guard lock(mutex);
         refreshDisplay();
-    } else {
-        // Wait for next display refresh to complete
-        waitingForRefresh = true;
-        do {
-            refreshCond.wait(lock);
-        } while (waitingForRefresh);
     }
+    
+    return updateInfo;
 }
 
 

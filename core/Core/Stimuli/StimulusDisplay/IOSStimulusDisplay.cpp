@@ -214,9 +214,6 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
         
         display.refreshDisplay();
     }
-    
-    // Signal waiting threads that refresh is complete
-    display.refreshCond.notify_all();
 }
 
 

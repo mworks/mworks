@@ -20,6 +20,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "Clock.h"
+#include "FairMutex.hpp"
 #include "LinkedList.h"
 #include "OpenGLContextLock.h"
 
@@ -46,6 +47,18 @@ enum class RenderingMode {
 class StimulusDisplay : public boost::enable_shared_from_this<StimulusDisplay>, boost::noncopyable {
     
 public:
+    struct UpdateInfo {
+        UpdateInfo() : predictedOutputTime(-1) { }
+        
+        bool isPending() const { return (predictedOutputTime < 0); }
+        MWTime getPredictedOutputTime() const { return predictedOutputTime; }
+        void setPredictedOutputTime(MWTime time) { predictedOutputTime = time; }
+        
+    private:
+        std::atomic<MWTime> predictedOutputTime;
+        static_assert(decltype(predictedOutputTime)::is_always_lock_free);
+    };
+    
     static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool useColorManagement);
     static boost::shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
     
@@ -70,8 +83,8 @@ public:
     void setMirrorContext(int context_id);
     void addStimulusNode(const boost::shared_ptr<StimulusNode> &stimnode);
     
-    MWTime updateDisplay();
-    void clearDisplay();
+    boost::shared_ptr<UpdateInfo> updateDisplay() { return ensureRefresh(Action::Update); }
+    boost::shared_ptr<UpdateInfo> clearDisplay() { return ensureRefresh(Action::Clear); }
     
     virtual void configureCapture(const std::string &format,
                                   int heightPixels,
@@ -114,14 +127,18 @@ protected:
     virtual void stopDisplayUpdates() = 0;
     virtual void renderDisplay(bool needDraw, const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) = 0;
     
-    std::condition_variable refreshCond;
-    using unique_lock = std::unique_lock<std::mutex>;
+    using unique_lock = std::unique_lock<FairMutex>;
     using lock_guard = std::lock_guard<unique_lock::mutex_type>;
     lock_guard::mutex_type mutex;
     
 private:
+    enum class Action {
+        Update,
+        Clear
+    };
+    
     void stateSystemCallback(const Datum &data, MWorksTime time);
-    void ensureRefresh(unique_lock &lock);
+    boost::shared_ptr<UpdateInfo> ensureRefresh(Action action);
     
     const boost::shared_ptr<OpenGLContextManager> contextManager;
     const boost::shared_ptr<Clock> clock;
@@ -151,10 +168,11 @@ private:
     std::atomic<MWTime> currentOutputTimeUS;
     static_assert(decltype(currentOutputTimeUS)::is_always_lock_free);
     
-    bool waitingForRefresh;
-    bool needDraw;
     bool paused;
     bool didDrawWhilePaused;
+    
+    std::vector<std::pair<Action, boost::shared_ptr<UpdateInfo>>> pendingActions;
+    lock_guard::mutex_type pendingActionsMutex;
     
 };
 

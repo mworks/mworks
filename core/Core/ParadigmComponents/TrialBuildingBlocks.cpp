@@ -774,54 +774,100 @@ shared_ptr<mw::Component> SendStimulusToBackFactory::createObject(std::map<std::
 	return newSendStimulusToBackAction;	
 }
 
+
+/****************************************************************
+ *                 StimulusDisplayAction Methods
+ ****************************************************************/
+
+
+const std::string StimulusDisplayAction::PREDICTED_OUTPUT_TIME("predicted_output_time");
+
+
+void StimulusDisplayAction::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.addParameter(PREDICTED_OUTPUT_TIME, false);
+}
+
+
+StimulusDisplayAction::StimulusDisplayAction(const ParameterValueMap &parameters) :
+    Action(parameters),
+    predictedOutputTime(optionalVariable(parameters[PREDICTED_OUTPUT_TIME])),
+    display(StimulusDisplay::getCurrentStimulusDisplay()),
+    clock(Clock::instance())
+{ }
+
+
+bool StimulusDisplayAction::execute() {
+    startTime = clock->getCurrentTimeUS();
+    updateInfo = performAction();
+    
+    if (StateSystem::instance()->getCurrentState().lock().get() != this) {
+        // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
+        // then we need to do the wait ourselves, right here
+        while (stillWaiting()) {
+            clock->yield();
+        }
+    }
+    
+    return true;
+}
+
+
+weak_ptr<State> StimulusDisplayAction::next() {
+    if (stillWaiting()) {
+        return weak_ptr<State>();
+    }
+    return Action::next();
+}
+
+
+bool StimulusDisplayAction::stillWaiting() const {
+    if (updateInfo->isPending()) {
+        return true;
+    }
+    
+    if (predictedOutputTime) {
+        predictedOutputTime->setValue(updateInfo->getPredictedOutputTime());
+    }
+    
+    auto stopTime = clock->getCurrentTimeUS();
+    auto elapsedMS = double(stopTime - startTime) / 1000.0;
+    if (elapsedMS > 2000.0 / display->getMainDisplayRefreshRate()) {
+        mwarning(M_PARADIGM_MESSAGE_DOMAIN,
+                 "%s action took more than two display refresh cycles (%g ms) to complete",
+                 getActionName(),
+                 elapsedMS);
+    }
+    
+    return false;
+}
+
+
 /****************************************************************
  *                 UpdateStimulusDisplay Methods
  ****************************************************************/
 
 
-const std::string UpdateStimulusDisplay::PREDICTED_OUTPUT_TIME("predicted_output_time");
-
-
 void UpdateStimulusDisplay::describeComponent(ComponentInfo &info) {
-    Action::describeComponent(info);
-    
+    StimulusDisplayAction::describeComponent(info);
     info.setSignature("action/update_stimulus_display");
-    
-    info.addParameter(PREDICTED_OUTPUT_TIME, false);
 }
 
 
 UpdateStimulusDisplay::UpdateStimulusDisplay(const ParameterValueMap &parameters) :
-    Action(parameters)
+    StimulusDisplayAction(parameters)
 {
     setName("UpdateStimulusDisplay");
-    
-    if (!parameters[PREDICTED_OUTPUT_TIME].empty()) {
-        predictedOutputTime = VariablePtr(parameters[PREDICTED_OUTPUT_TIME]);
-    }
 }
 
 
-bool UpdateStimulusDisplay::execute() {
-    auto clock = Clock::instance();
-    auto startTime = clock->getCurrentTimeUS();
-    
-    auto stimulusDisplay = StimulusDisplay::getCurrentStimulusDisplay();
-    auto outputTime = stimulusDisplay->updateDisplay();
-    
-    if (predictedOutputTime) {
-        predictedOutputTime->setValue(outputTime);
-    }
-    
-    auto stopTime = clock->getCurrentTimeUS();
-    auto elapsedMS = double(stopTime - startTime) / 1000.0;
-    if (elapsedMS > 2000.0 / stimulusDisplay->getMainDisplayRefreshRate()) {
-        mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-                 "update_stimulus_display action took more than two display refresh cycles (%g ms) to complete",
-                 elapsedMS);
-    }
-    
-    return true;
+boost::shared_ptr<StimulusDisplay::UpdateInfo> UpdateStimulusDisplay::performAction() {
+    return display->updateDisplay();
+}
+
+
+const char * UpdateStimulusDisplay::getActionName() const {
+    return "update_stimulus_display";
 }
 
 
@@ -831,21 +877,25 @@ bool UpdateStimulusDisplay::execute() {
 
 
 void ClearStimulusDisplay::describeComponent(ComponentInfo &info) {
-    Action::describeComponent(info);
+    StimulusDisplayAction::describeComponent(info);
     info.setSignature("action/clear_stimulus_display");
 }
 
 
 ClearStimulusDisplay::ClearStimulusDisplay(const ParameterValueMap &parameters) :
-    Action(parameters)
+    StimulusDisplayAction(parameters)
 {
     setName("ClearStimulusDisplay");
 }
 
 
-bool ClearStimulusDisplay::execute() {
-    StimulusDisplay::getCurrentStimulusDisplay()->clearDisplay();
-    return true;
+boost::shared_ptr<StimulusDisplay::UpdateInfo> ClearStimulusDisplay::performAction() {
+    return display->clearDisplay();
+}
+
+
+const char * ClearStimulusDisplay::getActionName() const {
+    return "clear_stimulus_display";
 }
 
 
