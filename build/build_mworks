@@ -156,6 +156,7 @@ def core_plugins():
                    'MoviePlugin',
                    'MovingDots',
                    'NE500',
+                   'ParametricShape',
                    'RCBLVDS',
                    'RenderActions',
                    'ServersideConduit',

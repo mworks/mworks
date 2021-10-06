@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1D232C9270DFD880018302E /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1D232CA270DFD880018302E /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1D232CE270DFDA50018302E /* CopyFiles */,
+			);
+			dependencies = (
+				E1D232CD270DFD9B0018302E /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E1D232D0270DFDD70018302E /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1D232D1270DFDD70018302E /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1D232D4270DFDDE0018302E /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E18F1A6A271F0996005DF75B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18F1A69271F0996005DF75B /* CoreGraphics.framework */; };
+		E18F1A6C271F0FDA005DF75B /* ParametricShape.metal in Sources */ = {isa = PBXBuildFile; fileRef = E18F1A6B271F0FDA005DF75B /* ParametricShape.metal */; };
+		E1A65B8E270DD7E600CB0854 /* ParametricShapePlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A65B8D270DD7E600CB0854 /* ParametricShapePlugin.cpp */; };
+		E1D232CF270DFDB50018302E /* ParametricShape.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1A65B82270DD5CC00CB0854 /* ParametricShape.bundle */; };
+		E1D232DA270E000E0018302E /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D232D9270E000E0018302E /* MWorksCore.framework */; };
+		E1D232DF270E02430018302E /* ParametricShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D232DD270E02430018302E /* ParametricShape.cpp */; };
+		E1D232E3270F39E00018302E /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D232E2270F39E00018302E /* Metal.framework */; };
+		E1DB10982731827F005DE8B3 /* ParametricShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D232DD270E02430018302E /* ParametricShape.cpp */; };
+		E1DB109927318282005DE8B3 /* ParametricShape.metal in Sources */ = {isa = PBXBuildFile; fileRef = E18F1A6B271F0FDA005DF75B /* ParametricShape.metal */; };
+		E1DB109A27318285005DE8B3 /* ParametricShapePlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A65B8D270DD7E600CB0854 /* ParametricShapePlugin.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1D232CC270DFD9B0018302E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1A65B7A270DD5CC00CB0854 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1A65B81270DD5CC00CB0854;
+			remoteInfo = ParametricShape;
+		};
+		E1D232D3270DFDDE0018302E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1A65B7A270DD5CC00CB0854 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1D232C9270DFD880018302E;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1D232CE270DFDA50018302E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1D232CF270DFDB50018302E /* ParametricShape.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E18F1A69271F0996005DF75B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E18F1A6B271F0FDA005DF75B /* ParametricShape.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ParametricShape.metal; sourceTree = "<group>"; };
+		E1A65B82270DD5CC00CB0854 /* ParametricShape.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParametricShape.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1A65B8D270DD7E600CB0854 /* ParametricShapePlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ParametricShapePlugin.cpp; sourceTree = "<group>"; };
+		E1A65B90270DD87200CB0854 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1A65B91270DD87200CB0854 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1A65B92270DD87200CB0854 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1D232D9270E000E0018302E /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = "/Library/Application Support/MWorks/Frameworks/MWorksCore.framework"; sourceTree = "<absolute>"; };
+		E1D232DC270E00CB0018302E /* ParametricShape-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ParametricShape-Prefix.pch"; sourceTree = "<group>"; };
+		E1D232DD270E02430018302E /* ParametricShape.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ParametricShape.cpp; sourceTree = "<group>"; };
+		E1D232DE270E02430018302E /* ParametricShape.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ParametricShape.hpp; sourceTree = "<group>"; };
+		E1D232E2270F39E00018302E /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		E1DB1092273181DD005DE8B3 /* ParametricShape.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ParametricShape.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1A65B7F270DD5CC00CB0854 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1D232DA270E000E0018302E /* MWorksCore.framework in Frameworks */,
+				E18F1A6A271F0996005DF75B /* CoreGraphics.framework in Frameworks */,
+				E1D232E3270F39E00018302E /* Metal.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1DB108F273181DD005DE8B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1A65B79270DD5CC00CB0854 = {
+			isa = PBXGroup;
+			children = (
+				E1A65B8F270DD82F00CB0854 /* External Config */,
+				E1A65B8C270DD7B100CB0854 /* ParametricShape */,
+				E1A65B83270DD5CC00CB0854 /* Products */,
+				E1D232D8270E000E0018302E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E1A65B83270DD5CC00CB0854 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1A65B82270DD5CC00CB0854 /* ParametricShape.bundle */,
+				E1DB1092273181DD005DE8B3 /* ParametricShape.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1A65B8C270DD7B100CB0854 /* ParametricShape */ = {
+			isa = PBXGroup;
+			children = (
+				E1D232DE270E02430018302E /* ParametricShape.hpp */,
+				E1D232DD270E02430018302E /* ParametricShape.cpp */,
+				E18F1A6B271F0FDA005DF75B /* ParametricShape.metal */,
+				E1A65B8D270DD7E600CB0854 /* ParametricShapePlugin.cpp */,
+				E1D232DB270E009D0018302E /* Supporting Files */,
+			);
+			path = ParametricShape;
+			sourceTree = "<group>";
+		};
+		E1A65B8F270DD82F00CB0854 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1A65B91270DD87200CB0854 /* macOS.xcconfig */,
+				E1A65B92270DD87200CB0854 /* macOS_Plugin.xcconfig */,
+				E1A65B90270DD87200CB0854 /* iOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E1D232D8270E000E0018302E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1D232D9270E000E0018302E /* MWorksCore.framework */,
+				E18F1A69271F0996005DF75B /* CoreGraphics.framework */,
+				E1D232E2270F39E00018302E /* Metal.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E1D232DB270E009D0018302E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E1D232DC270E00CB0018302E /* ParametricShape-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E1DB108D273181DD005DE8B3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E1A65B81270DD5CC00CB0854 /* ParametricShape */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1A65B86270DD5CC00CB0854 /* Build configuration list for PBXNativeTarget "ParametricShape" */;
+			buildPhases = (
+				E1A65B7E270DD5CC00CB0854 /* Sources */,
+				E1A65B7F270DD5CC00CB0854 /* Frameworks */,
+				E1A65B80270DD5CC00CB0854 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ParametricShape;
+			productName = ParametricShape;
+			productReference = E1A65B82270DD5CC00CB0854 /* ParametricShape.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		E1DB1091273181DD005DE8B3 /* ParametricShape-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1DB1097273181DD005DE8B3 /* Build configuration list for PBXNativeTarget "ParametricShape-iOS" */;
+			buildPhases = (
+				E1DB108D273181DD005DE8B3 /* Headers */,
+				E1DB108E273181DD005DE8B3 /* Sources */,
+				E1DB108F273181DD005DE8B3 /* Frameworks */,
+				E1DB1090273181DD005DE8B3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ParametricShape-iOS";
+			productName = ParametricShape;
+			productReference = E1DB1092273181DD005DE8B3 /* ParametricShape.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1A65B7A270DD5CC00CB0854 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1300;
+				TargetAttributes = {
+					E1A65B81270DD5CC00CB0854 = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					E1D232C9270DFD880018302E = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					E1D232D0270DFDD70018302E = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					E1DB1091273181DD005DE8B3 = {
+						CreatedOnToolsVersion = 13.1;
+					};
+				};
+			};
+			buildConfigurationList = E1A65B7D270DD5CC00CB0854 /* Build configuration list for PBXProject "ParametricShape" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E1A65B79270DD5CC00CB0854;
+			productRefGroup = E1A65B83270DD5CC00CB0854 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1A65B81270DD5CC00CB0854 /* ParametricShape */,
+				E1D232C9270DFD880018302E /* Install */,
+				E1D232D0270DFDD70018302E /* Everything */,
+				E1DB1091273181DD005DE8B3 /* ParametricShape-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1A65B80270DD5CC00CB0854 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1DB1090273181DD005DE8B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1A65B7E270DD5CC00CB0854 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E18F1A6C271F0FDA005DF75B /* ParametricShape.metal in Sources */,
+				E1A65B8E270DD7E600CB0854 /* ParametricShapePlugin.cpp in Sources */,
+				E1D232DF270E02430018302E /* ParametricShape.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1DB108E273181DD005DE8B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1DB109A27318285005DE8B3 /* ParametricShapePlugin.cpp in Sources */,
+				E1DB10982731827F005DE8B3 /* ParametricShape.cpp in Sources */,
+				E1DB109927318282005DE8B3 /* ParametricShape.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1D232CD270DFD9B0018302E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1A65B81270DD5CC00CB0854 /* ParametricShape */;
+			targetProxy = E1D232CC270DFD9B0018302E /* PBXContainerItemProxy */;
+		};
+		E1D232D4270DFDDE0018302E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1D232C9270DFD880018302E /* Install */;
+			targetProxy = E1D232D3270DFDDE0018302E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E1A65B84270DD5CC00CB0854 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1A65B87270DD5CC00CB0854 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1A65B92270DD87200CB0854 /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ParametricShape/ParametricShape-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ParametricShape";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1D232CB270DFD880018302E /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1A65B91270DD87200CB0854 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1D232D2270DFDD70018302E /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1A65B91270DD87200CB0854 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1DB1096273181DD005DE8B3 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1A65B90270DD87200CB0854 /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ParametricShape/ParametricShape-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					Metal,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ParametricShape-iOS";
+				PRODUCT_NAME = ParametricShape;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1A65B7D270DD5CC00CB0854 /* Build configuration list for PBXProject "ParametricShape" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1A65B84270DD5CC00CB0854 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1A65B86270DD5CC00CB0854 /* Build configuration list for PBXNativeTarget "ParametricShape" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1A65B87270DD5CC00CB0854 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1D232CA270DFD880018302E /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D232CB270DFD880018302E /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1D232D1270DFDD70018302E /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1D232D2270DFDD70018302E /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1DB1097273181DD005DE8B3 /* Build configuration list for PBXNativeTarget "ParametricShape-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1DB1096273181DD005DE8B3 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1A65B7A270DD5CC00CB0854 /* Project object */;
+}

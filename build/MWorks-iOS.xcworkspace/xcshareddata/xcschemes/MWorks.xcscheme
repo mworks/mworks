@@ -196,6 +196,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E1DB1091273181DD005DE8B3"
+               BuildableName = "ParametricShape.framework"
+               BlueprintName = "ParametricShape-iOS"
+               ReferencedContainer = "container:../plugins/core/ParametricShape/ParametricShape.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E105D17920FE7D33002E2464"
                BuildableName = "PythonPlugin.framework"
                BlueprintName = "PythonPlugin-iOS"

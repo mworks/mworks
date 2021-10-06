@@ -1,0 +1,28 @@
+//
+//  ParametricShape-Prefix.pch
+//  ParametricShape
+//
+//  Created by Christopher Stawarz on 10/6/21.
+//
+
+#ifndef ParametricShape_Prefix_pch
+#define ParametricShape_Prefix_pch
+
+#include <CoreGraphics/CoreGraphics.h>
+
+#ifdef __cplusplus
+
+#include <MWorksCore/CFObjectPtr.h>
+#ifdef __OBJC__
+#  include <MWorksCore/ColoredTransformStimulus.hpp>
+#endif
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#ifdef __OBJC__
+#  include <MWorksCore/MWKTripleBufferedMTLResource.h>
+#endif
+
+#endif /* ParametricShape_Prefix_pch */
