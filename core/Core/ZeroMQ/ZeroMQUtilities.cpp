@@ -45,7 +45,9 @@ bool getHostname(std::string &hostname) {
             {
                 auto addr = ifa->ifa_addr;
                 if ((addr->sa_family == AF_INET &&
-                     !IN_LINKLOCAL(reinterpret_cast<struct sockaddr_in *>(addr)->sin_addr.s_addr)) ||
+                     // s_addr is stored in network (i.e. big-endian) byte order, so we must convert it
+                     // to host byte order before using it
+                     !IN_LINKLOCAL(ntohl(reinterpret_cast<struct sockaddr_in *>(addr)->sin_addr.s_addr))) ||
                     (addr->sa_family == AF_INET6 &&
                      !IN6_IS_ADDR_LINKLOCAL(&(reinterpret_cast<struct sockaddr_in6 *>(addr)->sin6_addr))))
                 {
