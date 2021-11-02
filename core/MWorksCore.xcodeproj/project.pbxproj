@@ -4067,6 +4067,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */;
 			buildSettings = {
+				DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING = YES;
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
