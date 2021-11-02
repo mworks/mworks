@@ -15,17 +15,6 @@
 BEGIN_NAMESPACE_MW
 
 
-BEGIN_NAMESPACE(iohid)
-
-
-using DevicePtr = cf::ObjectPtr<IOHIDDeviceRef>;
-using ElementPtr = cf::ObjectPtr<IOHIDElementRef>;
-using ManagerPtr = cf::ObjectPtr<IOHIDManagerRef>;
-
-
-END_NAMESPACE(iohid)
-
-
 class USBHIDDevice : public IODevice, boost::noncopyable {
     
 public:
@@ -41,13 +30,18 @@ public:
     
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistryPtr reg,
-                  boost::shared_ptr<Component> child) MW_OVERRIDE;
+                  boost::shared_ptr<Component> child) override;
     
-    bool initialize() MW_OVERRIDE;
-    bool startDeviceIO() MW_OVERRIDE;
-    bool stopDeviceIO() MW_OVERRIDE;
+    bool initialize() override;
+    bool startDeviceIO() override;
+    bool stopDeviceIO() override;
     
 private:
+    using UsagePair = std::pair<long, long>;
+    using HIDManagerPtr = cf::ObjectPtr<IOHIDManagerRef>;
+    using HIDDevicePtr = cf::ObjectPtr<IOHIDDeviceRef>;
+    using HIDElementPtr = cf::ObjectPtr<IOHIDElementRef>;
+    
     static cf::DictionaryPtr createMatchingDictionary(CFStringRef usagePageKey,
                                                       long usagePage,
                                                       CFStringRef usageKey,
@@ -55,7 +49,6 @@ private:
     static void inputValueCallback(void *context, IOReturn result, void *sender, IOHIDValueRef value);
     
     bool prepareInputChannels();
-    bool isRunning() const { return (runLoopThread.get_id() != boost::thread::id()); }
     void runLoop();
     void handleInputValue(IOHIDValueRef value);
     
@@ -64,17 +57,16 @@ private:
     const std::uint32_t preferredLocationID;
     const bool logAllInputValues;
     
-    typedef std::pair<long, long> UsagePair;
-    typedef std::map< UsagePair, boost::shared_ptr<USBHIDInputChannel> > InputChannelMap;
-    InputChannelMap inputChannels;
+    const HIDManagerPtr hidManager;
     
-    const iohid::ManagerPtr hidManager;
-    iohid::DevicePtr hidDevice;
+    std::map<UsagePair, boost::shared_ptr<USBHIDInputChannel>> inputChannels;
     
-    typedef std::map< UsagePair, iohid::ElementPtr > HIDElementMap;
-    HIDElementMap hidElements;
+    HIDDevicePtr hidDevice;
+    std::map<UsagePair, HIDElementPtr> hidElements;
     
-    boost::thread runLoopThread;
+    std::atomic_bool running;
+    static_assert(decltype(running)::is_always_lock_free);
+    std::thread runLoopThread;
     
 };
 
@@ -83,29 +75,3 @@ END_NAMESPACE_MW
 
 
 #endif // !defined(__USBHID__USBHIDDevice__)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

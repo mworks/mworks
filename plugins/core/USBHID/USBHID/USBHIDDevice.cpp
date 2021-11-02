@@ -36,7 +36,8 @@ USBHIDDevice::USBHIDDevice(const ParameterValueMap &parameters) :
     usage(parameters[USAGE]),
     preferredLocationID(long(parameters[PREFERRED_LOCATION_ID])),
     logAllInputValues(parameters[LOG_ALL_INPUT_VALUES]),
-    hidManager(iohid::ManagerPtr::created(IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDManagerOptionNone)))
+    hidManager(HIDManagerPtr::created(IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDManagerOptionNone))),
+    running(false)
 {
     if (usagePage <= kHIDPage_Undefined) {
         throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Invalid HID usage page");
@@ -48,6 +49,10 @@ USBHIDDevice::USBHIDDevice(const ParameterValueMap &parameters) :
 
 
 USBHIDDevice::~USBHIDDevice() {
+    if (runLoopThread.joinable()) {
+        running = false;
+        runLoopThread.join();
+    }
     (void)IOHIDManagerClose(hidManager.get(), kIOHIDOptionsTypeNone);
 }
 
@@ -56,10 +61,9 @@ void USBHIDDevice::addChild(std::map<std::string, std::string> parameters,
                             ComponentRegistryPtr reg,
                             boost::shared_ptr<Component> child)
 {
-    boost::shared_ptr<USBHIDInputChannel> newInputChannel = boost::dynamic_pointer_cast<USBHIDInputChannel>(child);
+    auto newInputChannel = boost::dynamic_pointer_cast<USBHIDInputChannel>(child);
     if (newInputChannel) {
-        boost::shared_ptr<USBHIDInputChannel> &channel = inputChannels[std::make_pair(newInputChannel->getUsagePage(),
-                                                                                      newInputChannel->getUsage())];
+        auto &channel = inputChannels[std::make_pair(newInputChannel->getUsagePage(), newInputChannel->getUsage())];
         if (channel) {
             throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN,
                                   "Cannot create more than one USBHID channel for a given usage page and usage");
@@ -78,19 +82,19 @@ bool USBHIDDevice::initialize() {
                               "USBHID device must have at least one channel or have value logging enabled");
     }
     
-    cf::DictionaryPtr deviceMatchingDictionary = createMatchingDictionary(CFSTR(kIOHIDDeviceUsagePageKey),
-                                                                          usagePage,
-                                                                          CFSTR(kIOHIDDeviceUsageKey),
-                                                                          usage);
+    auto deviceMatchingDictionary = createMatchingDictionary(CFSTR(kIOHIDDeviceUsagePageKey),
+                                                             usagePage,
+                                                             CFSTR(kIOHIDDeviceUsageKey),
+                                                             usage);
     IOHIDManagerSetDeviceMatching(hidManager.get(), deviceMatchingDictionary.get());
     
-    IOReturn status = IOHIDManagerOpen(hidManager.get(), kIOHIDOptionsTypeNone);
+    auto status = IOHIDManagerOpen(hidManager.get(), kIOHIDOptionsTypeNone);
     if (kIOReturnSuccess != status) {
         merror(M_IODEVICE_MESSAGE_DOMAIN, "Unable to open HID manager (status = %d)", status);
         return false;
     }
     
-    cf::SetPtr matchingDevices = cf::SetPtr::owned(IOHIDManagerCopyDevices(hidManager.get()));
+    auto matchingDevices = cf::SetPtr::owned(IOHIDManagerCopyDevices(hidManager.get()));
     const CFIndex numMatchingDevices = (matchingDevices ? CFSetGetCount(matchingDevices.get()) : 0);
     if (!matchingDevices || (numMatchingDevices < 1)) {
         merror(M_IODEVICE_MESSAGE_DOMAIN, "No matching HID devices found");
@@ -102,10 +106,10 @@ bool USBHIDDevice::initialize() {
     
     if (numMatchingDevices == 1) {
         
-        hidDevice = iohid::DevicePtr::borrowed(devices[0]);
+        hidDevice = HIDDevicePtr::borrowed(devices[0]);
         
         if (preferredLocationID) {
-            CFNumberRef locationID = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(hidDevice.get(), CFSTR(kIOHIDLocationIDKey)));
+            auto locationID = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(hidDevice.get(), CFSTR(kIOHIDLocationIDKey)));
             if (locationID) {
                 std::uint32_t value;
                 CFNumberGetValue(locationID, kCFNumberSInt32Type, &value);
@@ -128,28 +132,28 @@ bool USBHIDDevice::initialize() {
         for (CFIndex deviceNum = 0; deviceNum < numMatchingDevices; deviceNum++) {
             oss << "\nDevice #" << std::dec << deviceNum + 1 << std::endl;
             
-            IOHIDDeviceRef device = devices[deviceNum];
-            std::vector<char> stringBuffer(1024);
+            auto &device = devices[deviceNum];
+            std::array<char, 1024> stringBuffer;
             
-            CFStringRef product = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
+            auto product = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (product) {
                 CFStringGetCString(product, stringBuffer.data(), stringBuffer.size(), kCFStringEncodingUTF8);
                 oss << "\tProduct:\t\t" << stringBuffer.data() << std::endl;
             }
             
-            CFStringRef manufacturer = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey)));
+            auto manufacturer = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey)));
             if (manufacturer) {
                 CFStringGetCString(manufacturer, stringBuffer.data(), stringBuffer.size(), kCFStringEncodingUTF8);
                 oss << "\tManufacturer:\t" << stringBuffer.data() << std::endl;
             }
             
-            CFNumberRef locationID = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey)));
+            auto locationID = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey)));
             if (locationID) {
                 std::uint32_t value;
                 CFNumberGetValue(locationID, kCFNumberSInt32Type, &value);
                 
                 if (preferredLocationID == value) {
-                    hidDevice = iohid::DevicePtr::borrowed(device);
+                    hidDevice = HIDDevicePtr::borrowed(device);
                     break;
                 }
                 
@@ -177,8 +181,8 @@ bool USBHIDDevice::initialize() {
 
 
 bool USBHIDDevice::startDeviceIO() {
-    if (!isRunning()) {
-        BOOST_FOREACH(const HIDElementMap::value_type &value, hidElements) {
+    if (!running) {
+        for (const auto &value : hidElements) {
             IOHIDValueRef elementValue;
             IOReturn status;
             if (kIOReturnSuccess == (status = IOHIDDeviceGetValue(hidDevice.get(),
@@ -192,13 +196,10 @@ bool USBHIDDevice::startDeviceIO() {
             }
         }
         
-        try {
-            runLoopThread = boost::thread(boost::bind(&USBHIDDevice::runLoop,
-                                                      component_shared_from_this<USBHIDDevice>()));
-        } catch (const boost::thread_resource_error &e) {
-            merror(M_IODEVICE_MESSAGE_DOMAIN, "Unable to start HID device: %s", e.what());
-            return false;
-        }
+        running = true;
+        runLoopThread = std::thread([this]() {
+            runLoop();
+        });
     }
     
     return true;
@@ -206,13 +207,10 @@ bool USBHIDDevice::startDeviceIO() {
 
 
 bool USBHIDDevice::stopDeviceIO() {
-    if (isRunning()) {
-        runLoopThread.interrupt();
-        try {
+    if (running) {
+        running = false;
+        if (runLoopThread.joinable()) {
             runLoopThread.join();
-        } catch (const boost::system::system_error &e) {
-            merror(M_IODEVICE_MESSAGE_DOMAIN, "Unable to stop HID device: %s", e.what());
-            return false;
         }
     }
     
@@ -225,13 +223,8 @@ cf::DictionaryPtr USBHIDDevice::createMatchingDictionary(CFStringRef usagePageKe
                                                          CFStringRef usageKey,
                                                          long usageValue)
 {
-    cf::NumberPtr usagePage = cf::NumberPtr::created(CFNumberCreate(kCFAllocatorDefault,
-                                                                    kCFNumberLongType,
-                                                                    &usagePageValue));
-    
-    cf::NumberPtr usage = cf::NumberPtr::created(CFNumberCreate(kCFAllocatorDefault,
-                                                                kCFNumberLongType,
-                                                                &usageValue));
+    auto usagePage = cf::NumberPtr::created(CFNumberCreate(kCFAllocatorDefault, kCFNumberLongType, &usagePageValue));
+    auto usage = cf::NumberPtr::created(CFNumberCreate(kCFAllocatorDefault, kCFNumberLongType, &usageValue));
     
     const CFIndex numValues = 2;
     const void *keys[numValues] = {usagePageKey, usageKey};
@@ -255,30 +248,30 @@ bool USBHIDDevice::prepareInputChannels() {
     std::vector<cf::DictionaryPtr> matchingDicts;
     std::vector<const void *> matchingArrayItems;
     
-    BOOST_FOREACH(const InputChannelMap::value_type &value, inputChannels) {
-        const UsagePair &usagePair = value.first;
+    for (const auto &value : inputChannels) {
+        auto &usagePair = value.first;
         
-        cf::DictionaryPtr dict = createMatchingDictionary(CFSTR(kIOHIDElementUsagePageKey),
-                                                          usagePair.first,
-                                                          CFSTR(kIOHIDElementUsageKey),
-                                                          usagePair.second);
+        auto dict = createMatchingDictionary(CFSTR(kIOHIDElementUsagePageKey),
+                                             usagePair.first,
+                                             CFSTR(kIOHIDElementUsageKey),
+                                             usagePair.second);
         matchingDicts.push_back(dict);
         matchingArrayItems.push_back(dict.get());
         
-        cf::ArrayPtr matchingElements = cf::ArrayPtr::owned(IOHIDDeviceCopyMatchingElements(hidDevice.get(),
-                                                                                            dict.get(),
-                                                                                            kIOHIDOptionsTypeNone));
+        auto matchingElements = cf::ArrayPtr::owned(IOHIDDeviceCopyMatchingElements(hidDevice.get(),
+                                                                                    dict.get(),
+                                                                                    kIOHIDOptionsTypeNone));
         bool foundMatch = false;
         
         if (matchingElements) {
-            const CFIndex matchingElementCount = CFArrayGetCount(matchingElements.get());
+            const auto matchingElementCount = CFArrayGetCount(matchingElements.get());
             
             for (CFIndex index = 0; index < matchingElementCount; index++) {
-                IOHIDElementRef element = (IOHIDElementRef)CFArrayGetValueAtIndex(matchingElements.get(), index);
-                IOHIDElementType elementType = IOHIDElementGetType(element);
+                auto element = (IOHIDElementRef)CFArrayGetValueAtIndex(matchingElements.get(), index);
+                auto elementType = IOHIDElementGetType(element);
                 
                 if ((elementType != kIOHIDElementTypeFeature) && (elementType != kIOHIDElementTypeCollection)) {
-                    hidElements[usagePair] = iohid::ElementPtr::borrowed(element);
+                    hidElements[usagePair] = HIDElementPtr::borrowed(element);
                     foundMatch = true;
                     break;
                 }
@@ -295,10 +288,10 @@ bool USBHIDDevice::prepareInputChannels() {
     }
     
     if (!logAllInputValues) {
-        cf::ArrayPtr inputValueMatchingArray = cf::ArrayPtr::created(CFArrayCreate(kCFAllocatorDefault,
-                                                                                   &(matchingArrayItems.front()),
-                                                                                   matchingArrayItems.size(),
-                                                                                   &kCFTypeArrayCallBacks));
+        auto inputValueMatchingArray = cf::ArrayPtr::created(CFArrayCreate(kCFAllocatorDefault,
+                                                                           &(matchingArrayItems.front()),
+                                                                           matchingArrayItems.size(),
+                                                                           &kCFTypeArrayCallBacks));
         
         IOHIDDeviceSetInputValueMatchingMultiple(hidDevice.get(), inputValueMatchingArray.get());
     }
@@ -314,24 +307,20 @@ void USBHIDDevice::runLoop() {
         IOHIDManagerUnscheduleFromRunLoop(hidManager.get(), CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     } BOOST_SCOPE_EXIT_END
     
-    while (true) {
+    while (running) {
         // Run the CFRunLoop for 500ms
         (void)CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-        
-        // Give another thread a chance to terminate this one
-        boost::this_thread::interruption_point();
     }
 }
 
 
 void USBHIDDevice::handleInputValue(IOHIDValueRef value) {
-    IOHIDElementRef element = IOHIDValueGetElement(value);
-    const uint32_t elementUsagePage = IOHIDElementGetUsagePage(element);
-    const uint32_t elementUsage = IOHIDElementGetUsage(element);
-    const CFIndex integerValue = IOHIDValueGetIntegerValue(value);
+    auto element = IOHIDValueGetElement(value);
+    const auto elementUsagePage = IOHIDElementGetUsagePage(element);
+    const auto elementUsage = IOHIDElementGetUsage(element);
+    const auto integerValue = IOHIDValueGetIntegerValue(value);
     
-    const boost::shared_ptr<USBHIDInputChannel> &channel = inputChannels[std::make_pair(long(elementUsagePage),
-                                                                                        long(elementUsage))];
+    const auto &channel = inputChannels[std::make_pair(long(elementUsagePage), long(elementUsage))];
     if (channel) {
         // Convert OS absolute time stamp to nanoseconds, subtract MWorks base time, and convert to microseconds
         MWTime valueTime = ((MWTime(AudioConvertHostTimeToNanos(IOHIDValueGetTimeStamp(value)))
@@ -355,29 +344,3 @@ void USBHIDDevice::handleInputValue(IOHIDValueRef value) {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
