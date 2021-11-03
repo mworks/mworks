@@ -40,33 +40,49 @@ private:
     using UsagePair = std::pair<long, long>;
     using HIDManagerPtr = cf::ObjectPtr<IOHIDManagerRef>;
     using HIDDevicePtr = cf::ObjectPtr<IOHIDDeviceRef>;
-    using HIDElementPtr = cf::ObjectPtr<IOHIDElementRef>;
     
     static cf::DictionaryPtr createMatchingDictionary(CFStringRef usagePageKey,
                                                       long usagePage,
                                                       CFStringRef usageKey,
-                                                      long usage);
+                                                      long usage,
+                                                      CFStringRef locationIDKey = nullptr,
+                                                      CFNumberRef locationIDValue = nullptr);
+    static bool getLocationID(IOHIDDeviceRef device, cf::NumberPtr &locationIDValue, std::uint32_t &locationID);
+    
+    static void deviceMatchingCallback(void *context, IOReturn result, void *sender, IOHIDDeviceRef device);
+    static void deviceRemovalCallback(void *context, IOReturn result, void *sender, IOHIDDeviceRef device);
     static void inputValueCallback(void *context, IOReturn result, void *sender, IOHIDValueRef value);
     
-    bool prepareInputChannels();
-    void runLoop();
+    bool findMatchingDevice(HIDDevicePtr &hidDevice, cf::NumberPtr &locationIDValue);
+    bool findMatchingElements(IOHIDDeviceRef device);
+    void run();
+    void handleDeviceMatching(IOHIDDeviceRef device);
+    void handleDeviceRemoval(IOHIDDeviceRef device);
     void handleInputValue(IOHIDValueRef value);
+    void postCurrentElementValues();
+    void postElementValue(long elementUsagePage, long elementUsage, CFIndex elementIntegerValue, MWTime valueTime);
     
     const long usagePage;
     const long usage;
     const std::uint32_t preferredLocationID;
     const bool logAllInputValues;
     
+    const boost::shared_ptr<Clock> clock;
     const HIDManagerPtr hidManager;
     
     std::map<UsagePair, boost::shared_ptr<USBHIDInputChannel>> inputChannels;
     
-    HIDDevicePtr hidDevice;
-    std::map<UsagePair, HIDElementPtr> hidElements;
+    using lock_guard = std::lock_guard<std::mutex>;
+    lock_guard::mutex_type currentElementIntegerValuesMutex;
+    std::map<UsagePair, CFIndex> currentElementIntegerValues;
     
-    std::atomic_bool running;
-    static_assert(decltype(running)::is_always_lock_free);
-    std::thread runLoopThread;
+    using atomic_bool = std::atomic_bool;
+    static_assert(atomic_bool::is_always_lock_free);
+    atomic_bool running;
+    atomic_bool active;
+    std::thread runThread;
+    
+    bool deviceWasRemoved;
     
 };
 
