@@ -54,5 +54,5 @@ fragmentShader(RasterizerData in [[stage_in]],
     constexpr sampler textureSampler (coord::pixel, filter::linear);
     
     float alphaSample = alphaTexture.sample(textureSampler, in.textureCoordinate).r;
-    return color * alphaSample;
+    return float4(color.rgb, color.a * alphaSample);
 }
