@@ -456,7 +456,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.21.2'
+    version = '1.21.4'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -582,7 +582,7 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '4.0.2'
+    version = '4.0.3'
     srcdir = 'msgpack-cxx-' + version
     tarfile = srcdir + '.tar.gz'
 
