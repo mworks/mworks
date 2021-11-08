@@ -5,6 +5,7 @@ from functools import partial, wraps
 from optparse import OptionParser
 import os
 import os.path
+import platform
 import subprocess
 import string
 import sys
@@ -84,10 +85,13 @@ def list_subdirs():
                   if os.path.isdir(dir) and (not dir.startswith('.')))
 
 
-def xcodebuild(scheme='Everything', actions=['clean', 'build']):
+def xcodebuild(scheme = 'Everything',
+               destination = 'generic/platform=macOS,name=Any Mac',
+               actions = ['clean', 'build']):
     cmd = [xcrun,
            'xcodebuild',
            '-scheme', scheme,
+           '-destination', destination,
            ] + actions + [
            'GCC_TREAT_WARNINGS_AS_ERRORS=YES',
            'MTL_TREAT_WARNINGS_AS_ERRORS=YES',
@@ -195,6 +199,7 @@ def matlab_tools():
 @builder('mworks/swift')
 def swift():
     xcodebuild(scheme = 'MWorksSwift',
+               destination = 'platform=macOS,arch=' + platform.machine(),
                actions = ['clean', 'build-for-testing', 'test'])
     xcodebuild(actions=['build'])
 
