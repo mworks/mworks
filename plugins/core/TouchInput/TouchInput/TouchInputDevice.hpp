@@ -43,11 +43,11 @@ private:
     const VariablePtr inProgress;
     const boost::shared_ptr<Clock> clock;
     
-    GLKMatrix4 projectionMatrix;
-    std::array<GLint, 4> viewport;
-    
-    UIView *targetView;
+    MTKView *targetView;
     MWKTouchInputRecognizer *touchInputRecognizer;
+    
+    GLKMatrix4 projectionMatrix;
+    std::array<int, 4> viewport;
     
     bool started;
     

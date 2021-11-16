@@ -50,21 +50,19 @@ TouchInputDevice::~TouchInputDevice() {
 
 bool TouchInputDevice::initialize() {
     @autoreleasepool {
-        // Call getCurrentStimulusDisplay() first, as this will ensure that both the stimulus display and
-        // the OpenGL context manager exist
-        auto stimulusDisplay = StimulusDisplay::getCurrentStimulusDisplay();
-        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
+        auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(StimulusDisplay::getCurrentStimulusDisplay());
+        targetView = stimulusDisplay->getMainView();
+        
+        auto sharedThis = component_shared_from_this<TouchInputDevice>();
+        touchInputRecognizer = [[MWKTouchInputRecognizer alloc] initWithTouchInputDevice:sharedThis];
         
         // Get the parameters needed by GLKMathUnproject
         projectionMatrix = stimulusDisplay->getProjectionMatrix();
-        {
-            auto ctxLock = glcm->setCurrent(0);
-            glGetIntegerv(GL_VIEWPORT, viewport.data());
-        }
-        
-        targetView = glcm->getView(0);
-        auto sharedThis = component_shared_from_this<TouchInputDevice>();
-        touchInputRecognizer = [[MWKTouchInputRecognizer alloc] initWithTouchInputDevice:sharedThis];
+        __block CGSize drawableSize;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            drawableSize = targetView.drawableSize;
+        });
+        viewport = { 0, 0, int(drawableSize.width), int(drawableSize.height) };
         
         return true;
     }
@@ -127,7 +125,7 @@ void TouchInputDevice::updatePosition(CGPoint location, MWTime time) const {
     auto locationInDegrees = GLKMathUnproject(locationInPixels,
                                               GLKMatrix4Identity,
                                               projectionMatrix,
-                                              const_cast<GLint *>(viewport.data()),
+                                              const_cast<int *>(viewport.data()),
                                               &success);
     if (!success) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to convert touch location from window to eye coordinates");

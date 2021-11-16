@@ -339,8 +339,6 @@
 					"-framework",
 					GLKit,
 					"-framework",
-					OpenGLES,
-					"-framework",
 					UIKit,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.TouchInput";
