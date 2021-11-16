@@ -10,21 +10,20 @@
 #define OpenGLUtilities_hpp
 
 #include <TargetConditionals.h>
-#if TARGET_OS_IPHONE
-#  define GLES_SILENCE_DEPRECATION
-#elif TARGET_OS_OSX
+#if TARGET_OS_OSX
 #  define GL_SILENCE_DEPRECATION
+#  define MWORKS_HAVE_OPENGL 1
 #endif
 
 #include <unordered_set>
 
 #include <GLKit/GLKMath.h>
 
-#if TARGET_OS_IPHONE
-#  include <OpenGLES/ES3/gl.h>
-#  include <OpenGLES/ES3/glext.h>
-#  define MWORKS_OPENGL_ES 1
-#elif TARGET_OS_OSX
+
+#if MWORKS_HAVE_OPENGL
+
+
+#if TARGET_OS_OSX
 #  include <OpenGL/gl3.h>
 #else
 #  error Unsupported platform
@@ -195,31 +194,7 @@ END_NAMESPACE(gl)
 END_NAMESPACE_MW
 
 
+#endif // MWORKS_HAVE_OPENGL
+
+
 #endif /* OpenGLUtilities_hpp */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

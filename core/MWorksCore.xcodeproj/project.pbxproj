@@ -605,7 +605,6 @@
 		E17917761E4E566800528B91 /* StimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7667530C1BB30A00B1203C /* StimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917771E4E566D00528B91 /* StimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */; };
 		E17917781E4E567D00528B91 /* OpenGLUtilities.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		E17917791E4E568200528B91 /* OpenGLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */; };
 		E179177A1E4E56BB00528B91 /* StandardStimuli.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */; };
 		E179177B1E4E56BE00528B91 /* StandardStimuli.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E179177C1E4E56C500528B91 /* Stimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -628,7 +627,6 @@
 		E1815FB025810ED5004D8156 /* BlankScreenStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1815FAD25810ED5004D8156 /* BlankScreenStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1815FB125810ED5004D8156 /* BlankScreenStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1815FAD25810ED5004D8156 /* BlankScreenStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E181600425811EB0004D8156 /* LegacyStandardStimuli.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E181600225811EB0004D8156 /* LegacyStandardStimuli.cpp */; };
-		E181600525811EB0004D8156 /* LegacyStandardStimuli.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E181600225811EB0004D8156 /* LegacyStandardStimuli.cpp */; };
 		E181600625811EB0004D8156 /* LegacyStandardStimuli.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E181600325811EB0004D8156 /* LegacyStandardStimuli.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E181600725811EB0004D8156 /* LegacyStandardStimuli.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E181600325811EB0004D8156 /* LegacyStandardStimuli.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E181609E25817757004D8156 /* MetalStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E181609C25817757004D8156 /* MetalStimulus.cpp */; };
@@ -3672,7 +3670,6 @@
 				E17916B21E4E50C100528B91 /* ZeroMQSocket.cpp in Sources */,
 				E17916C01E4E511400528B91 /* VariableSave.cpp in Sources */,
 				E102D9D025B1D47A00F2EF03 /* BaseImageStimulus.metal in Sources */,
-				E181600525811EB0004D8156 /* LegacyStandardStimuli.cpp in Sources */,
 				E17916E01E4E51C900528B91 /* Buffers.cpp in Sources */,
 				E1FE64122142BEB700209279 /* MWK2File.cpp in Sources */,
 				E17916C61E4E512C00528B91 /* GenericVariable.cpp in Sources */,
@@ -3716,7 +3713,6 @@
 				E179173B1E4E548C00528B91 /* Lockable.cpp in Sources */,
 				E17917481E4E54F700528B91 /* Utilities.cpp in Sources */,
 				E17916E41E4E51DA00528B91 /* EventStreamInterface.cpp in Sources */,
-				E17917791E4E568200528B91 /* OpenGLUtilities.cpp in Sources */,
 				E17917331E4E543700528B91 /* PulseAction.cpp in Sources */,
 				E17916BC1E4E510500528B91 /* VariableRegistry.cpp in Sources */,
 				E179172C1E4E540A00528B91 /* Selection.cpp in Sources */,
@@ -4089,8 +4085,6 @@
 					MetalKit,
 					"-framework",
 					OpenAL,
-					"-framework",
-					OpenGLES,
 					"-framework",
 					QuartzCore,
 					"-framework",

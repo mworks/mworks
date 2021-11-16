@@ -64,26 +64,31 @@ private:
     using CVPixelBufferPtr = cf::ObjectPtr<CVPixelBufferRef>;
     using CVMetalTextureCachePtr = cf::ObjectPtr<CVMetalTextureCacheRef>;
     using CVMetalTexturePtr = cf::ObjectPtr<CVMetalTextureRef>;
-#if TARGET_OS_OSX
+#if MWORKS_HAVE_OPENGL
     using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLTextureCacheRef>;
     using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLTextureRef>;
-#else
-    using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLESTextureCacheRef>;
-    using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLESTextureRef>;
 #endif
     using CGColorSpacePtr = cf::ObjectPtr<CGColorSpaceRef>;
     
     struct Framebuffer {
         CVPixelBufferPtr cvPixelBuffer;
         CVMetalTexturePtr cvMetalTexture;
+#if MWORKS_HAVE_OPENGL
         CVOpenGLTexturePtr cvOpenGLTexture;
         GLuint glFramebuffer = 0;
+#endif
     };
     
+#if MWORKS_HAVE_OPENGL
     void prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context);
+#else
+    void prepareFramebufferStack(MTKView *view);
+#endif
     void bindFramebuffer(Framebuffer &framebuffer);
     
+#if MWORKS_HAVE_OPENGL
     bool inOpenGLMode() const { return (currentRenderingMode == RenderingMode::OpenGL); }
+#endif
     
     void captureCurrentFrame();
     
@@ -100,7 +105,9 @@ private:
     std::size_t framebufferHeight;
     CVPixelBufferPoolPtr cvPixelBufferPool;
     CVMetalTextureCachePtr cvMetalTextureCache;
+#if MWORKS_HAVE_OPENGL
     CVOpenGLTextureCachePtr cvOpenGLTextureCache;
+#endif
     std::map<int, Framebuffer> framebuffers;
     std::vector<int> framebufferStack;
     

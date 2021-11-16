@@ -11,7 +11,9 @@
 #include <VideoToolbox/VideoToolbox.h>
 
 #include "AAPLMathUtilities.h"
-#include "OpenGLUtilities.hpp"
+#if MWORKS_HAVE_OPENGL
+#  include "OpenGLUtilities.hpp"
+#endif
 #include "StandardVariables.h"
 #include "Stimulus.h"
 
@@ -198,21 +200,27 @@ void AppleStimulusDisplay::setRenderingMode(RenderingMode mode) {
             break;
             
         case RenderingMode::Metal:
+#if MWORKS_HAVE_OPENGL
             if (inOpenGLMode()) {
                 glFlush();
                 currentCommandBuffer = [commandQueue commandBuffer];
                 [currentCommandBuffer enqueue];
                 currentRenderingMode = RenderingMode::Metal;
             }
+#endif
             break;
             
         case RenderingMode::OpenGL:
+#if !MWORKS_HAVE_OPENGL
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: OpenGL is not supported on this platform");
+#else
             if (!inOpenGLMode()) {
                 [currentCommandBuffer commit];
                 [currentCommandBuffer waitUntilScheduled];
                 currentCommandBuffer = nil;
                 currentRenderingMode = RenderingMode::OpenGL;
             }
+#endif
             break;
     }
 }
@@ -246,7 +254,11 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             mainView = view;
             mainViewDelegate = delegate;
             auto ctxLock = contextManager->setCurrent(context_id);
+#if MWORKS_HAVE_OPENGL
             prepareFramebufferStack(view, contextManager->getContext(context_id));
+#else
+            prepareFramebufferStack(view);
+#endif
             framebuffer_id = createFramebuffer();
         }
         
@@ -259,13 +271,13 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
 void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) {
     @autoreleasepool {
         if (needDraw) {
+#if MWORKS_HAVE_OPENGL
             auto ctxLock = setCurrentOpenGLContext();
-#if !MWORKS_OPENGL_ES
             // This has no effect on non-sRGB framebuffers, so we can enable it unconditionally
             gl::Enabled<GL_FRAMEBUFFER_SRGB> framebufferSRGBEnabled;
-#endif
             glDisable(GL_BLEND);
             glDisable(GL_DITHER);
+#endif
             
             pushFramebuffer(framebuffer_id);
             
@@ -288,11 +300,13 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
                 stim->draw(sharedThis);
             }
             
+#if MWORKS_HAVE_OPENGL
             if (inOpenGLMode()) {
                 glFlush();
                 currentCommandBuffer = [commandQueue commandBuffer];
                 [currentCommandBuffer enqueue];
             }
+#endif
             
             // Pass the current command buffer on to the main view delegate, which will commit and
             // release the buffer after drawing to the display
@@ -329,7 +343,12 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
 }
 
 
-void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context) {
+#if MWORKS_HAVE_OPENGL
+void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view, MWKOpenGLContext *context)
+#else
+void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view)
+#endif
+{
     framebufferWidth = view.drawableSize.width;
     framebufferHeight = view.drawableSize.height;
     
@@ -339,10 +358,8 @@ void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view, MWKOpenGLConte
             (NSString *)kCVPixelBufferWidthKey: @(framebufferWidth),
             (NSString *)kCVPixelBufferHeightKey: @(framebufferHeight),
             (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES),
-#if TARGET_OS_OSX
+#if MWORKS_HAVE_OPENGL
             (NSString *)kCVPixelBufferOpenGLCompatibilityKey: @(YES),
-#else
-            (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES),
 #endif
         };
         CVPixelBufferPoolRef _cvPixelBufferPool = nullptr;
@@ -371,8 +388,8 @@ void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view, MWKOpenGLConte
         cvMetalTextureCache = CVMetalTextureCachePtr::created(_cvMetalTextureCache);
     }
     
+#if MWORKS_HAVE_OPENGL
     {
-#if TARGET_OS_OSX
         CVOpenGLTextureCacheRef _cvOpenGLTextureCache = nullptr;
         auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
                                                  nullptr,
@@ -380,20 +397,13 @@ void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view, MWKOpenGLConte
                                                  context.pixelFormat.CGLPixelFormatObj,
                                                  nullptr,
                                                  &_cvOpenGLTextureCache);
-#else
-        CVOpenGLESTextureCacheRef _cvOpenGLTextureCache = nullptr;
-        auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
-                                                   nullptr,
-                                                   context,
-                                                   nullptr,
-                                                   &_cvOpenGLTextureCache);
-#endif
         if (status != kCVReturnSuccess) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                                   boost::format("Cannot create OpenGL texture cache (error = %d)") % status);
         }
         cvOpenGLTextureCache = CVOpenGLTextureCachePtr::created(_cvOpenGLTextureCache);
     }
+#endif // MWORKS_HAVE_OPENGL
 }
 
 
@@ -430,29 +440,14 @@ int AppleStimulusDisplay::createFramebuffer() {
         framebuffer.cvMetalTexture = CVMetalTexturePtr::created(_cvMetalTexture);
     }
     
+#if MWORKS_HAVE_OPENGL
     {
-#if TARGET_OS_OSX
         CVOpenGLTextureRef _cvOpenGLTexture = nullptr;
         auto status = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                                  cvOpenGLTextureCache.get(),
                                                                  framebuffer.cvPixelBuffer.get(),
                                                                  nullptr,
                                                                  &_cvOpenGLTexture);
-#else
-        CVOpenGLESTextureRef _cvOpenGLTexture = nullptr;
-        auto status = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-                                                                   cvOpenGLTextureCache.get(),
-                                                                   framebuffer.cvPixelBuffer.get(),
-                                                                   nullptr,
-                                                                   GL_TEXTURE_2D,
-                                                                   GL_RGBA16F,
-                                                                   framebufferWidth,
-                                                                   framebufferHeight,
-                                                                   GL_RGBA,
-                                                                   GL_HALF_FLOAT,
-                                                                   0,
-                                                                   &_cvOpenGLTexture);
-#endif
         if (status != kCVReturnSuccess) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                                   boost::format("Cannot create OpenGL texture (error = %d)") % status);
@@ -467,13 +462,8 @@ int AppleStimulusDisplay::createFramebuffer() {
         
         glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER,
                                GL_COLOR_ATTACHMENT0,
-#if TARGET_OS_OSX
                                CVOpenGLTextureGetTarget(framebuffer.cvOpenGLTexture.get()),
                                CVOpenGLTextureGetName(framebuffer.cvOpenGLTexture.get()),
-#else
-                               CVOpenGLESTextureGetTarget(framebuffer.cvOpenGLTexture.get()),
-                               CVOpenGLESTextureGetName(framebuffer.cvOpenGLTexture.get()),
-#endif
                                0);
         
         if (GL_FRAMEBUFFER_COMPLETE != glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER)) {
@@ -482,6 +472,7 @@ int AppleStimulusDisplay::createFramebuffer() {
         
         framebuffer.glFramebuffer = _glFramebuffer;
     }
+#endif // MWORKS_HAVE_OPENGL
     
     int framebuffer_id = 0;
     auto lastIter = framebuffers.rbegin();
@@ -507,7 +498,9 @@ void AppleStimulusDisplay::pushFramebuffer(int framebuffer_id) {
 void AppleStimulusDisplay::bindCurrentFramebuffer() {
     if (framebufferStack.empty()) {
         currentFramebufferTexture = nil;
+#if MWORKS_HAVE_OPENGL
         glBindFramebuffer(GL_FRAMEBUFFER, 0);  // Bind the default framebuffer
+#endif
         return;
     }
     bindFramebuffer(framebuffers.find(framebufferStack.back())->second);
@@ -517,10 +510,12 @@ void AppleStimulusDisplay::bindCurrentFramebuffer() {
 void AppleStimulusDisplay::bindFramebuffer(Framebuffer &framebuffer) {
     currentFramebufferTexture = CVMetalTextureGetTexture(framebuffer.cvMetalTexture.get());
     
+#if MWORKS_HAVE_OPENGL
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer.glFramebuffer);
     const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
     glDrawBuffers(1, &drawBuffer);
     glViewport(0, 0, framebufferWidth, framebufferHeight);
+#endif
 }
 
 
@@ -546,7 +541,9 @@ void AppleStimulusDisplay::releaseFramebuffer(int framebuffer_id) {
                iter->first);
         return;
     }
+#if MWORKS_HAVE_OPENGL
     glDeleteFramebuffers(1, &(iter->second.glFramebuffer));
+#endif
     framebuffers.erase(iter);
 }
 

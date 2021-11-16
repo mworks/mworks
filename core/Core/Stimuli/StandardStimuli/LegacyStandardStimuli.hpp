@@ -14,6 +14,9 @@
 #include "Stimulus.h"
 
 
+#if MWORKS_HAVE_OPENGL
+
+
 BEGIN_NAMESPACE_MW
 
 inline namespace legacy_standard_stimuli {
@@ -281,6 +284,9 @@ private:
 } // inline namespace legacy_standard_stimuli
 
 END_NAMESPACE_MW
+
+
+#endif // MWORKS_HAVE_OPENGL
 
 
 #endif /* LegacyStandardStimuli_hpp */

@@ -67,11 +67,6 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
                                   (boost::format("Invalid screen number (%d)") % screen_number).str());
         }
         
-        MWKOpenGLContext *context = [[MWKOpenGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-        if (!context) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL ES context");
-        }
-        
         auto screen = UIScreen.screens[screen_number];
         __block bool success = false;
         
@@ -87,7 +82,6 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
                         
                         [window makeKeyAndVisible];
                         
-                        [contexts addObject:context];
                         [views addObject:view];
                         [windows addObject:window];
                         
@@ -101,7 +95,7 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create fullscreen window");
         }
         
-        return (contexts.count - 1);
+        return (views.count - 1);
     }
 }
 
@@ -120,8 +114,6 @@ void IOSOpenGLContextManager::releaseContexts() {
             [windows removeAllObjects];
             [views removeAllObjects];
         });
-        
-        [contexts removeAllObjects];
     }
 }
 
@@ -133,22 +125,11 @@ int IOSOpenGLContextManager::getNumDisplays() const {
 
 
 OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
-    @autoreleasepool {
-        if (auto context = getContext(context_id)) {
-            if ([EAGLContext setCurrentContext:context]) {
-                return [context lockContext];
-            }
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot set current OpenGL ES context");
-        }
-        return OpenGLContextLock();
-    }
+    return OpenGLContextLock();
 }
 
 
 void IOSOpenGLContextManager::clearCurrent() {
-    @autoreleasepool {
-        [EAGLContext setCurrentContext:nil];
-    }
 }
 
 

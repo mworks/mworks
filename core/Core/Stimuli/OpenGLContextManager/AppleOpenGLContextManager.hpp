@@ -12,11 +12,10 @@
 #include <TargetConditionals.h>
 #if TARGET_OS_OSX
 #  define GL_SILENCE_DEPRECATION
+#  define MWORKS_HAVE_OPENGL 1
 #  include <Cocoa/Cocoa.h>
 #else
-#  define GLES_SILENCE_DEPRECATION
 #  include <UIKit/UIKit.h>
-#  include <OpenGLES/EAGL.h>
 #endif
 
 #import <MetalKit/MetalKit.h>
@@ -24,15 +23,13 @@
 #include "OpenGLContextManager.h"
 
 
-#if TARGET_OS_OSX
+#if MWORKS_HAVE_OPENGL
 @interface MWKOpenGLContext : NSOpenGLContext
-#else
-@interface MWKOpenGLContext : EAGLContext
-#endif
 
 - (mw::OpenGLContextLock)lockContext;
 
 @end
+#endif
 
 
 BEGIN_NAMESPACE_MW
@@ -44,11 +41,15 @@ public:
     AppleOpenGLContextManager();
     ~AppleOpenGLContextManager();
     
+#if MWORKS_HAVE_OPENGL
     MWKOpenGLContext * getContext(int context_id) const;
+#endif
     MTKView * getView(int context_id) const;
     
 protected:
+#if MWORKS_HAVE_OPENGL
     NSMutableArray<MWKOpenGLContext *> *contexts;
+#endif
     NSMutableArray<MTKView *> *views;
 #if TARGET_OS_OSX
     NSMutableArray<NSWindow *> *windows;
