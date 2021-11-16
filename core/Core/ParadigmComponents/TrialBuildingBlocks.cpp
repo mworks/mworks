@@ -832,7 +832,8 @@ bool StimulusDisplayAction::stillWaiting() const {
     
     auto stopTime = clock->getCurrentTimeUS();
     auto elapsedMS = double(stopTime - startTime) / 1000.0;
-    if (elapsedMS > 2000.0 / display->getMainDisplayRefreshRate()) {
+    auto refreshPeriodMS = 1000.0 / display->getMainDisplayRefreshRate();
+    if (elapsedMS > 2.2 * refreshPeriodMS) {  // Add a fudge factor of 20% to avoid reporting near misses
         mwarning(M_PARADIGM_MESSAGE_DOMAIN,
                  "%s action took more than two display refresh cycles (%g ms) to complete",
                  getActionName(),
