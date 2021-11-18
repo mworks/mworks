@@ -9,6 +9,8 @@ stimulus/text onscreen_message (
     color = 0,0,0
     x_size = onscreen_message_size_x
     y_size = onscreen_message_size_y
+    max_size_x = 25
+    max_size_y = 20
     )
 
 %define show_onscreen_message (text, x_size, y_size, dismiss_when)
