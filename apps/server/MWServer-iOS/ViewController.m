@@ -18,24 +18,15 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.listeningAddress.text = APP_DELEGATE.listeningAddress;
-    self.listeningPort.text = APP_DELEGATE.listeningPort.stringValue;
-    if (APP_DELEGATE.hideChooseExperimentButton) {
+    self.listeningAddress.text = self.appDelegate.listeningAddress;
+    self.listeningPort.text = @(self.appDelegate.listeningPort).stringValue;
+    if (self.appDelegate.hideChooseExperimentButton) {
         [self.chooseExperiment removeFromSuperview];
     }
     
     [super viewWillAppear:animated];
     
     [self updateSetupVariablesForSize:self.view.bounds.size];
-}
-
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    if (APP_DELEGATE.alert) {
-        [self presentViewController:APP_DELEGATE.alert animated:YES completion:nil];
-    }
 }
 
 
@@ -52,7 +43,7 @@
     // If needed, swap display width and height to match the current device orientation
     //
     
-    MWKSetupVariablesController *setupVariablesController = APP_DELEGATE.setupVariablesController;
+    MWKSetupVariablesController *setupVariablesController = self.appDelegate.setupVariablesController;
     double width = setupVariablesController.displayWidth.doubleValue;
     double height = setupVariablesController.displayHeight.doubleValue;
     
@@ -90,7 +81,7 @@
     }
     
     NSURL *xmlURL = urls[xmlIndexes.firstIndex];
-    [APP_DELEGATE openExperimentAtPath:xmlURL.path completionHandler:^(BOOL success) {
+    [self.appDelegate openExperimentAtPath:xmlURL.path completionHandler:^(BOOL success) {
         if (!success) {
             [self presentExperimentChooserAlertWithTitle:@"Experiment loading failed"
                                                  message:(@"Please include a valid MWorks experiment XML file and all required"
@@ -114,30 +105,3 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

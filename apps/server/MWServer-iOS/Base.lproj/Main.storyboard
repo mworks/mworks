@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,13 +21,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="vla-2i-35u">
-                                <rect key="frame" x="69" y="180.5" width="182" height="207"/>
+                                <rect key="frame" x="69" y="180.5" width="182.5" height="207"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wtx-M2-AV8">
-                                        <rect key="frame" x="0.0" y="0.0" width="182" height="84.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="182.5" height="84.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Listening address:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jlG-Kr-bD9">
-                                                <rect key="frame" x="8" y="8" width="166" height="26"/>
+                                                <rect key="frame" x="8" y="8" width="166.5" height="26"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="26" id="1ru-yl-2hc"/>
                                                 </constraints>
@@ -33,8 +35,8 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="127.0.0.1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f14-rl-QQe">
-                                                <rect key="frame" x="8" y="34" width="166" height="25.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="localhost" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f14-rl-QQe">
+                                                <rect key="frame" x="8" y="34" width="166.5" height="25.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -43,10 +45,10 @@
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="25" right="8"/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fju-N9-qUQ">
-                                        <rect key="frame" x="0.0" y="84.5" width="182" height="84.5"/>
+                                        <rect key="frame" x="0.0" y="84.5" width="182.5" height="84.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Listening port:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cnx-kO-Vhn">
-                                                <rect key="frame" x="8" y="8" width="166" height="26"/>
+                                                <rect key="frame" x="8" y="8" width="166.5" height="26"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="26" id="0Vm-CE-kQj"/>
                                                 </constraints>
@@ -55,7 +57,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="19989" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKd-6S-gxR">
-                                                <rect key="frame" x="8" y="34" width="166" height="25.5"/>
+                                                <rect key="frame" x="8" y="34" width="166.5" height="25.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -63,8 +65,8 @@
                                         </subviews>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="25" right="8"/>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJz-zG-WUb">
-                                        <rect key="frame" x="0.0" y="169" width="182" height="38"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJz-zG-WUb">
+                                        <rect key="frame" x="0.0" y="169" width="182.5" height="38"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                         <state key="normal" title="Choose experiment"/>
                                         <state key="disabled" title="Experiment loaded"/>
@@ -75,7 +77,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vla-2i-35u" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2es-Gy-ckE"/>
                             <constraint firstItem="vla-2i-35u" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HpN-OY-Lw2"/>
@@ -92,4 +94,9 @@
             <point key="canvasLocation" x="135" y="138.38028169014083"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
