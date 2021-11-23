@@ -36,6 +36,8 @@
 	<true/>
 	<key>UIRequiresPersistentWiFi</key>
 	<true/>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>MWorks uses the local network to accept connections from the MWClient application running on a nearby Mac.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>MWorks uses Bluetooth to connect to input/output devices.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
