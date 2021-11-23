@@ -154,6 +154,15 @@ void VideoStimulus::loadMetal(MetalDisplay &display) {
                               item.error.localizedDescription.UTF8String);
     }
     
+    // Confirm that the file contains actual video (and is not audio only) by checking the presentation size
+    const auto presentationSize = item.presentationSize;
+    if (presentationSize.width <= 0.0 || presentationSize.height <= 0.0) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              boost::format("Video file has invalid dimensions (width = %g, height = %g)")
+                              % presentationSize.width
+                              % presentationSize.height);
+    }
+    
     {
         CVMetalTextureCacheRef _metalTextureCache = nullptr;
         auto status = CVMetalTextureCacheCreate(kCFAllocatorDefault,
@@ -176,9 +185,8 @@ void VideoStimulus::loadMetal(MetalDisplay &display) {
         
         // NOTE: The documentation for presentationSize doesn't specify its units, but in practice
         // it seems to give the dimensions of the video's frames in pixels
-        auto expectedSize = item.presentationSize;
-        expectedWidth = expectedSize.width;
-        expectedHeight = expectedSize.height;
+        expectedWidth = presentationSize.width;
+        expectedHeight = presentationSize.height;
         
         auto textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
                                                                                     width:expectedWidth

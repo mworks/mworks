@@ -1,0 +1,10 @@
+video video (
+    path = 'audio_only.mp4'
+    x_size = 5
+    autoplay = true
+    )
+
+
+protocol {
+    report ('Nothing to see here')
+}
