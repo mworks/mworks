@@ -622,7 +622,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2021
-    version = '3360000'  # 3.36.0
+    version = '3370000'  # 3.37.0
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
