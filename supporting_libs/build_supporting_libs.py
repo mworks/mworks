@@ -393,7 +393,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.9.6'
+    version = '3.9.9'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 

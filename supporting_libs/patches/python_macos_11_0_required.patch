@@ -1,7 +1,47 @@
-diff -ur Python-3.9.5/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.9.5/pyconfig.h.in	2021-05-03 10:54:42.000000000 -0400
-+++ Python/pyconfig.h.in	2021-06-25 16:02:52.000000000 -0400
-@@ -773,7 +773,7 @@
+diff -ur Python-3.9.9/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc.c
+--- Python-3.9.9/Modules/_ctypes/callproc.c	2021-11-15 12:43:00.000000000 -0500
++++ Python/Modules/_ctypes/callproc.c	2021-11-30 09:55:48.000000000 -0500
+@@ -1454,6 +1454,7 @@
+ #define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
+     __builtin_available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
+ #else
++/*
+ // Support the deprecated case of compiling on an older macOS version
+ static void *libsystem_b_handle;
+ static bool (*_dyld_shared_cache_contains_path)(const char *path);
+@@ -1470,6 +1471,7 @@
+         dlclose(libsystem_b_handle);
+     }
+ }
++*/
+ #define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
+     _dyld_shared_cache_contains_path != NULL
+ #endif
+@@ -1479,6 +1481,7 @@
+      PyObject *name, *name2;
+      char *name_str;
+ 
++     /*
+      if (HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME) {
+          int r;
+ 
+@@ -1502,9 +1505,12 @@
+          }
+ 
+      } else {
++     */
+          PyErr_SetString(PyExc_NotImplementedError, "_dyld_shared_cache_contains_path symbol is missing");
+          return NULL;
++     /*
+      }
++     */
+ 
+  }
+ #endif
+diff -ur Python-3.9.9/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.9.9/pyconfig.h.in	2021-11-15 12:43:00.000000000 -0500
++++ Python/pyconfig.h.in	2021-11-30 09:52:25.000000000 -0500
+@@ -780,7 +780,7 @@
  #undef HAVE_PREAD
  
  /* Define to 1 if you have the `preadv' function. */
@@ -10,7 +50,7 @@ diff -ur Python-3.9.5/pyconfig.h.in Python/pyconfig.h.in
  
  /* Define to 1 if you have the `preadv2' function. */
  #undef HAVE_PREADV2
-@@ -815,7 +815,7 @@
+@@ -822,7 +822,7 @@
  #undef HAVE_PWRITE
  
  /* Define to 1 if you have the `pwritev' function. */
