@@ -12,6 +12,7 @@ BEGIN_NAMESPACE_MW
 
 
 const std::string ParametricShape::VERTICES("vertices");
+const std::string ParametricShape::SPLINE_SEGMENTS_PER_VERTEX("spline_segments_per_vertex");
 const std::string ParametricShape::MAX_SIZE_X("max_size_x");
 const std::string ParametricShape::MAX_SIZE_Y("max_size_y");
 
@@ -22,6 +23,7 @@ void ParametricShape::describeComponent(ComponentInfo &info) {
     info.setSignature("stimulus/parametric_shape");
     
     info.addParameter(VERTICES);
+    info.addParameter(SPLINE_SEGMENTS_PER_VERTEX, "50");
     info.addParameter(MAX_SIZE_X, false);
     info.addParameter(MAX_SIZE_Y, false);
 }
@@ -29,7 +31,8 @@ void ParametricShape::describeComponent(ComponentInfo &info) {
 
 ParametricShape::ParametricShape(const ParameterValueMap &parameters) :
     ColoredTransformStimulus(parameters),
-    vertices(registerVariable(parameters[VERTICES])),
+    vertices(parameters[VERTICES]),
+    splineSegementsPerVertex(parameters[SPLINE_SEGMENTS_PER_VERTEX]),
     maxSizeX(optionalVariable(parameters[MAX_SIZE_X])),
     maxSizeY(optionalVariable(parameters[MAX_SIZE_Y])),
     texturePool(nil),
@@ -97,7 +100,20 @@ static inline simd::double2 double2FromDatum(const Datum &value) {
 }
 
 
-std::vector<CGPoint> ParametricShape::generatePoints(const Datum::list_value_type &vertexCoords)  {
+std::vector<CGPoint> ParametricShape::generatePoints(const Datum::list_value_type &vertexCoords,
+                                                     std::size_t numSamples)
+{
+    std::vector<CGPoint> points;
+    
+    if (numSamples == 0) {
+        // Return the vertices unmodified
+        for (auto &coord : vertexCoords) {
+            auto point = double2FromDatum(coord);
+            points.emplace_back(CGPointMake(point.x, point.y));
+        }
+        return points;
+    }
+    
     std::vector<simd::packed::double2> controlPoints;
     controlPoints.push_back(double2FromDatum(vertexCoords.at(vertexCoords.size() - 2)));
     for (auto &coord : vertexCoords) {
@@ -105,8 +121,14 @@ std::vector<CGPoint> ParametricShape::generatePoints(const Datum::list_value_typ
     }
     controlPoints.push_back(double2FromDatum(vertexCoords.at(1)));
     
-    constexpr std::size_t numSamples = 50;
-    std::vector<CGPoint> points;
+    //
+    // Use a cubic B-spline to approximate the curve.  Note that this is *not* interpolation, as the computed
+    // curve is not constrained to pass through the specified vertices (which is why we refer to them as
+    // "control points", as they determine the shape of the curve but don't necessarily form part of it).
+    //
+    //   https://math.stackexchange.com/questions/699113/what-is-the-relationship-between-cubic-b-splines-and-cubic-splines
+    //   http://www2.cs.uregina.ca/~anima/408/Notes/Interpolation/UniformBSpline.htm
+    //
     for (std::size_t i = 0; i < controlPoints.size() - 3; i++) {
         for (std::size_t sample = 0; sample < numSamples; sample++) {
             const auto ip = double(sample) / double(numSamples);
@@ -140,6 +162,12 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
                                   % vertexCoordMax);
         }
         currentVertices = std::move(value);
+    }
+    
+    currentSplineSegementsPerVertex = splineSegementsPerVertex->getValue().getInteger();
+    if (currentSplineSegementsPerVertex < 0) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              "Spline segments per vertex must be greater than or equal to zero");
     }
     
     //
@@ -228,7 +256,7 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
     //
     {
         auto mutablePath = cf::ObjectPtr<CGMutablePathRef>::created(CGPathCreateMutable());
-        auto points = generatePoints(currentVertices.getList());
+        auto points = generatePoints(currentVertices.getList(), currentSplineSegementsPerVertex);
         CGPathAddLines(mutablePath.get(), nullptr, points.data(), points.size());
         CGPathCloseSubpath(mutablePath.get());
         path = cf::ObjectPtr<CGPathRef>::created(CGPathCreateCopy(mutablePath.get()));

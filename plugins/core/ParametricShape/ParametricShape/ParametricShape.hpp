@@ -16,6 +16,7 @@ class ParametricShape : public ColoredTransformStimulus {
     
 public:
     static const std::string VERTICES;
+    static const std::string SPLINE_SEGMENTS_PER_VERTEX;
     static const std::string MAX_SIZE_X;
     static const std::string MAX_SIZE_Y;
     
@@ -32,7 +33,7 @@ private:
     static constexpr double vertexCoordScale = (vertexCoordMax - vertexCoordMin);
     
     static bool validateVertices(const Datum &value);
-    static std::vector<CGPoint> generatePoints(const Datum::list_value_type &vertexCoords);
+    static std::vector<CGPoint> generatePoints(const Datum::list_value_type &vertexCoords, std::size_t numSamples);
     
     void loadMetal(MetalDisplay &display) override;
     void unloadMetal(MetalDisplay &display) override;
@@ -45,10 +46,12 @@ private:
     void updateTexture(MetalDisplay &display);
     
     const VariablePtr vertices;
+    const VariablePtr splineSegementsPerVertex;
     const VariablePtr maxSizeX;
     const VariablePtr maxSizeY;
     
     Datum currentVertices;
+    int currentSplineSegementsPerVertex;
     float currentMaxSizeX, currentMaxSizeY;
     
     std::size_t viewportWidth, viewportHeight;
