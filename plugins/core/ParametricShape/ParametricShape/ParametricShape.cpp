@@ -12,7 +12,7 @@ BEGIN_NAMESPACE_MW
 
 
 const std::string ParametricShape::VERTICES("vertices");
-const std::string ParametricShape::SPLINE_SEGMENTS_PER_VERTEX("spline_segments_per_vertex");
+const std::string ParametricShape::SPLINE_RESOLUTION("spline_resolution");
 const std::string ParametricShape::MAX_SIZE_X("max_size_x");
 const std::string ParametricShape::MAX_SIZE_Y("max_size_y");
 
@@ -23,7 +23,7 @@ void ParametricShape::describeComponent(ComponentInfo &info) {
     info.setSignature("stimulus/parametric_shape");
     
     info.addParameter(VERTICES);
-    info.addParameter(SPLINE_SEGMENTS_PER_VERTEX, "50");
+    info.addParameter(SPLINE_RESOLUTION, "50");
     info.addParameter(MAX_SIZE_X, false);
     info.addParameter(MAX_SIZE_Y, false);
 }
@@ -32,7 +32,7 @@ void ParametricShape::describeComponent(ComponentInfo &info) {
 ParametricShape::ParametricShape(const ParameterValueMap &parameters) :
     ColoredTransformStimulus(parameters),
     vertices(parameters[VERTICES]),
-    splineSegementsPerVertex(parameters[SPLINE_SEGMENTS_PER_VERTEX]),
+    splineResolution(parameters[SPLINE_RESOLUTION]),
     maxSizeX(optionalVariable(parameters[MAX_SIZE_X])),
     maxSizeY(optionalVariable(parameters[MAX_SIZE_Y])),
     texturePool(nil),
@@ -53,6 +53,7 @@ Datum ParametricShape::getCurrentAnnounceDrawData() {
     
     announceData.addElement(STIM_TYPE, "parametric_shape");
     announceData.addElement(VERTICES, currentVertices);
+    announceData.addElement(SPLINE_RESOLUTION, currentSplineResolution);
     
     return announceData;
 }
@@ -164,10 +165,9 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
         currentVertices = std::move(value);
     }
     
-    currentSplineSegementsPerVertex = splineSegementsPerVertex->getValue().getInteger();
-    if (currentSplineSegementsPerVertex < 0) {
-        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                              "Spline segments per vertex must be greater than or equal to zero");
+    currentSplineResolution = splineResolution->getValue().getInteger();
+    if (currentSplineResolution < 0) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Spline resolution must be greater than or equal to zero");
     }
     
     //
@@ -256,7 +256,7 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
     //
     {
         auto mutablePath = cf::ObjectPtr<CGMutablePathRef>::created(CGPathCreateMutable());
-        auto points = generatePoints(currentVertices.getList(), currentSplineSegementsPerVertex);
+        auto points = generatePoints(currentVertices.getList(), currentSplineResolution);
         CGPathAddLines(mutablePath.get(), nullptr, points.data(), points.size());
         CGPathCloseSubpath(mutablePath.get());
         path = cf::ObjectPtr<CGPathRef>::created(CGPathCreateCopy(mutablePath.get()));
