@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'MWorks'
-copyright = '2016-2021, The MWorks Project'
+copyright = '2016-2022, The MWorks Project'
 author = 'The MWorks Project'
 
 
