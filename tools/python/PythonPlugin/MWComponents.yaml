@@ -32,6 +32,18 @@ isa: [Base Image Stimulus, Dynamic Stimulus Base]
 description: |
     An image stimulus whose content is generated dynamically by Python code.
 
+    Every time the stimulus draws, it evaluates the Python expression provided
+    in `pixel_buffer_expr`_.  The result of evaluating the expression must be a
+    `bytes-like object
+    <https://docs.python.org/3/glossary.html#term-bytes-like-object>`_,
+    typically a `bytes object
+    <https://docs.python.org/3/library/stdtypes.html#bytes-objects>`_ or a
+    C-style, contiguous `NumPy array
+    <https://numpy.org/doc/stable/reference/arrays.ndarray.html>`_.  The raw
+    bytes associated with the object must contain the image data, whose layout
+    is specified by `pixel_buffer_format`_, `pixel_buffer_width`_, and
+    `pixel_buffer_height`_.
+
     For information on the modules and functions available to your Python code,
     see `Run Python File`.
 
@@ -44,24 +56,72 @@ parameters:
     name: pixel_buffer_format
     required: yes
     options: [RGB8, sRGB8, RGBA8, sRGBA8, RGBA16F]
-    description: Pixel buffer format
+    description: |
+        Pixel buffer format.
+
+        The specified format determines how the stimulus interprets the data
+        obtained by evaluating `pixel_buffer_expr`_.  The format name indicates
+        the number and order of each pixel's color components.  ``R``, ``G``,
+        and ``B`` refer to the pixel's red, green, and blue components,
+        respectively, while ``A`` denotes the pixel's alpha channel, if any.
+        The following table provides details on each supported format:
+
+        =========== ==================== =================== ===================
+        Format      Number of components Bytes per component Component data type
+        =========== ==================== =================== ===================
+        RGB8        3                    1                   Unsigned integer
+        sRGB8       3                    1                   Unsigned integer
+        RGBA8       4                    1                   Unsigned integer
+        sRGBA8      4                    1                   Unsigned integer
+        RGBA16F     4                    2                   Floating point
+        =========== ==================== =================== ===================
+
+        The total size, in bytes, of the data buffer provided by
+        `pixel_buffer_expr`_ must be equal to the product of
+        `pixel_buffer_width`_, `pixel_buffer_height`_, the number of components
+        per pixel, and the number of bytes per component.  For example, if the
+        format is ``RGBA16F``, the width is 400, and the height is 300, then the
+        buffer size in bytes must be 400 * 300 * 4 * 2 = 960,000.
+
+        1-byte, unsigned integer components must have values between 0 and 255,
+        inclusive.  The values of floating-point components must lie between
+        0.0 and 1.0, inclusive.  Multi-byte component values must be in native
+        `byte order <https://en.wikipedia.org/wiki/Endianness>`_.
+
+        A leading ``s`` in the format name indicates that the red, green, and
+        blue component values are specified in the `sRGB color space
+        <https://en.wikipedia.org/wiki/SRGB>`_.  Before these component values
+        are used to draw the image, they are converted from sRGB's non-linear
+        gamma to linear gamma.  Such formats should be preferred when using
+        integer-valued pixels with color management enabled(see `mainScreenInfo
+        var`).  When using integer-valued pixels with color management
+        disabled, the non-``s`` formats should be used. Floating-point-valued
+        pixels may be used with or without color management enabled.
+
+
   - 
     name: pixel_buffer_width
     required: yes
     example: 512
-    description: Pixel buffer width
+    description: Width of generated image in pixels
   - 
     name: pixel_buffer_height
     required: yes
     example: 512
-    description: Pixel buffer height
+    description: Height of generated image in pixels
   - 
     name: pixel_buffer_expr
     required: yes
     example:
       - render_scene()
       - img.update()
-    description: Pixel buffer expression
+    description: |
+        Pixel buffer expression.
+
+        Must evaluate to either a `bytes-like object
+        <https://docs.python.org/3/glossary.html#term-bytes-like-object>`_
+        containing the current image data or ``None``.  If ``None``, the most
+        recently provided image data is reused.
   - 
     name: elapsed_time
     description: |
