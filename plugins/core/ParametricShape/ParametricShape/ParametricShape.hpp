@@ -28,11 +28,7 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    static constexpr double vertexCoordMin = -2.0;
-    static constexpr double vertexCoordMax = 2.0;
-    static constexpr double vertexCoordScale = (vertexCoordMax - vertexCoordMin);
-    
-    static bool validateVertices(const Datum &value);
+    static bool validateVertices(const Datum &value, double &vertexCoordMin, double &vertexCoordMax);
     static std::vector<CGPoint> generatePoints(const Datum::list_value_type &vertexCoords, std::size_t numSamples);
     
     void loadMetal(MetalDisplay &display) override;
@@ -49,6 +45,9 @@ private:
     const VariablePtr splineResolution;
     const VariablePtr maxSizeX;
     const VariablePtr maxSizeY;
+    
+    double vertexCoordScale;
+    double vertexCoordMean;
     
     Datum currentVertices;
     int currentSplineResolution;

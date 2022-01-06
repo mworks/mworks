@@ -59,7 +59,7 @@ Datum ParametricShape::getCurrentAnnounceDrawData() {
 }
 
 
-bool ParametricShape::validateVertices(const Datum &value) {
+bool ParametricShape::validateVertices(const Datum &value, double &vertexCoordMin, double &vertexCoordMax) {
     if (!value.isList()) {
         return false;
     }
@@ -85,9 +85,8 @@ bool ParametricShape::validateVertices(const Datum &value) {
             }
             
             const auto number = subListItem.getFloat();
-            if (number < vertexCoordMin || number > vertexCoordMax) {
-                return false;
-            }
+            vertexCoordMin = std::min(number, vertexCoordMin);
+            vertexCoordMax = std::max(number, vertexCoordMax);
         }
     }
     
@@ -155,13 +154,21 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
     //
     {
         auto value = vertices->getValue();
-        if (!validateVertices(value)) {
+        auto vertexCoordMin = std::numeric_limits<double>::max();
+        auto vertexCoordMax = std::numeric_limits<double>::lowest();
+        
+        if (!validateVertices(value, vertexCoordMin, vertexCoordMax)) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  boost::format("Vertices must be provided as a list of 2 or more sub-lists, with "
-                                                "each sub-list containing two numbers in the range [%1%, %2%]")
-                                  % vertexCoordMin
-                                  % vertexCoordMax);
+                                  "Vertices must be provided as a list of 2 or more sub-lists, with each sub-list "
+                                  "containing two numbers");
         }
+        
+        vertexCoordScale = vertexCoordMax - vertexCoordMin;
+        if (vertexCoordScale == 0.0) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Vertices do not describe a valid shape");
+        }
+        vertexCoordMean = (vertexCoordMin + vertexCoordMax) / 2.0;
+        
         currentVertices = std::move(value);
     }
     
@@ -384,6 +391,7 @@ void ParametricShape::updateTexture(MetalDisplay &display) {
     CGContextScaleCTM(context.get(), currentWidthPixels / vertexCoordScale, currentHeightPixels / vertexCoordScale);
     CGContextTranslateCTM(context.get(), vertexCoordScale / 2.0, vertexCoordScale / 2.0);
     CGContextScaleCTM(context.get(), 1.0, -1.0);
+    CGContextTranslateCTM(context.get(), -vertexCoordMean, -vertexCoordMean);
     CGContextAddPath(context.get(), path.get());
     CGContextFillPath(context.get());
     CGContextRestoreGState(context.get());
