@@ -28,7 +28,7 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    static bool validateVertices(const Datum &value, double &vertexCoordMin, double &vertexCoordMax);
+    static bool validateVertices(const Datum &value);
     static std::vector<CGPoint> generatePoints(const Datum::list_value_type &vertexCoords, std::size_t numSamples);
     
     void loadMetal(MetalDisplay &display) override;
@@ -46,9 +46,6 @@ private:
     const VariablePtr maxSizeX;
     const VariablePtr maxSizeY;
     
-    double vertexCoordScale;
-    double vertexCoordMean;
-    
     Datum currentVertices;
     int currentSplineResolution;
     float currentMaxSizeX, currentMaxSizeY;
@@ -62,6 +59,9 @@ private:
     
     cf::ObjectPtr<CGContextRef> context;
     cf::ObjectPtr<CGPathRef> path;
+    double vertexCoordCenterX;
+    double vertexCoordCenterY;
+    double vertexCoordScale;
     
     MWKTripleBufferedMTLResource<id<MTLTexture>> *texturePool;
     id<MTLTexture> currentTexture;

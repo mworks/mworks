@@ -59,7 +59,7 @@ Datum ParametricShape::getCurrentAnnounceDrawData() {
 }
 
 
-bool ParametricShape::validateVertices(const Datum &value, double &vertexCoordMin, double &vertexCoordMax) {
+bool ParametricShape::validateVertices(const Datum &value) {
     if (!value.isList()) {
         return false;
     }
@@ -83,10 +83,6 @@ bool ParametricShape::validateVertices(const Datum &value, double &vertexCoordMi
             if (!subListItem.isNumber()) {
                 return false;
             }
-            
-            const auto number = subListItem.getFloat();
-            vertexCoordMin = std::min(number, vertexCoordMin);
-            vertexCoordMax = std::max(number, vertexCoordMax);
         }
     }
     
@@ -154,21 +150,11 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
     //
     {
         auto value = vertices->getValue();
-        auto vertexCoordMin = std::numeric_limits<double>::max();
-        auto vertexCoordMax = std::numeric_limits<double>::lowest();
-        
-        if (!validateVertices(value, vertexCoordMin, vertexCoordMax)) {
+        if (!validateVertices(value)) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                                   "Vertices must be provided as a list of 2 or more sub-lists, with each sub-list "
                                   "containing two numbers");
         }
-        
-        vertexCoordScale = vertexCoordMax - vertexCoordMin;
-        if (vertexCoordScale == 0.0) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Vertices do not describe a valid shape");
-        }
-        vertexCoordMean = (vertexCoordMin + vertexCoordMax) / 2.0;
-        
         currentVertices = std::move(value);
     }
     
@@ -267,6 +253,14 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
         CGPathAddLines(mutablePath.get(), nullptr, points.data(), points.size());
         CGPathCloseSubpath(mutablePath.get());
         path = cf::ObjectPtr<CGPathRef>::created(CGPathCreateCopy(mutablePath.get()));
+        
+        auto boundingBox = CGPathGetPathBoundingBox(path.get());
+        vertexCoordCenterX = CGRectGetMidX(boundingBox);
+        vertexCoordCenterY = CGRectGetMidY(boundingBox);
+        vertexCoordScale = std::max(CGRectGetWidth(boundingBox), CGRectGetHeight(boundingBox));
+        if (vertexCoordScale == 0.0) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Vertices do not describe a valid shape");
+        }
     }
     
     //
@@ -383,15 +377,27 @@ void ParametricShape::updateTexture(MetalDisplay &display) {
         return;
     }
     
-    // Clear the relevant portion of the context
+    //
+    // NOTE: Although it doesn't seem to be documented anywhere, the base, pixel-aligned coordinate
+    // system for a CGBitmapContext appears to range from 0 to num_pixels-1 in each dimension, with
+    // each whole-numbered coordinate presumably marking the center of a pixel.  Therefore, we need
+    // to subtract one from the width and height in pixels when we scale the shape's vertex
+    // coordinates.
+    //
+    
+    // Clear the relevant portion of the context.  Clear one pixel past the current width and height
+    // (i.e. don't subtract one from currentWidthPixels and currentHeightPixels) to ensure that old
+    // data doesn't bleed in to the current region.
     CGContextClearRect(context.get(), CGRectMake(0, 0, currentWidthPixels, currentHeightPixels));
     
     // Draw the shape in the context
     CGContextSaveGState(context.get());
-    CGContextScaleCTM(context.get(), currentWidthPixels / vertexCoordScale, currentHeightPixels / vertexCoordScale);
+    CGContextScaleCTM(context.get(),
+                      (currentWidthPixels - 1) / vertexCoordScale,
+                      (currentHeightPixels - 1) / vertexCoordScale);
     CGContextTranslateCTM(context.get(), vertexCoordScale / 2.0, vertexCoordScale / 2.0);
     CGContextScaleCTM(context.get(), 1.0, -1.0);
-    CGContextTranslateCTM(context.get(), -vertexCoordMean, -vertexCoordMean);
+    CGContextTranslateCTM(context.get(), -vertexCoordCenterX, -vertexCoordCenterY);
     CGContextAddPath(context.get(), path.get());
     CGContextFillPath(context.get());
     CGContextRestoreGState(context.get());
