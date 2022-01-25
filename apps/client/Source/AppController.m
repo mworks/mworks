@@ -174,19 +174,12 @@
    [NSApp endSheet: experimentCloseSheet];
 }
 
-- (NSOpenPanel *)openPanel {
-    if (nil == openPanel) {
-        openPanel = [NSOpenPanel openPanel];
-    }
-    return openPanel;
-}
-
 - (IBAction) chooseExperiment: (id) sender {
   
   MWClientInstance *client_instance = [self modalClientInstanceInCharge];
 	
   // Create the File Open Dialog class.
-  NSOpenPanel* openDlg = [self openPanel];
+  NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     
   [openDlg setTitle:@"Choose Experiment"];
   
@@ -546,10 +539,10 @@
 
 
 - (IBAction)openWorkspace:(id)sender {
-    NSOpenPanel *openDlg = [self openPanel];
+    NSOpenPanel *openDlg = [NSOpenPanel openPanel];
     [openDlg setTitle:@"Open Workspace"];
     if ([openDlg runModal] == NSModalResponseOK) {
-        [self loadWorkspaceFromURL:[[openPanel URLs] lastObject]];
+        [self loadWorkspaceFromURL:[[openDlg URLs] lastObject]];
     }
 }
 
