@@ -47,6 +47,25 @@ void MetalStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
 void MetalStimulus::draw(boost::shared_ptr<StimulusDisplay> display) {
     lock_guard lock(mutex);
     
+    //
+    // Don't draw if we're not loaded.
+    //
+    // This check shouldn't be necessary, since StimulusDisplay and "composite" stimulus types that draw
+    // other stimuli already test isLoaded() before drawing.  Unfortunately, it remains possible for the
+    // stimulus to be unloaded between the calls to isLoaded() and draw().  This is most likely to happen
+    // with dynamic stimuli, which redraw without an explicit display update request, but it can happen
+    // with static stimuli, too, if the stimulus display is configured to redraw on every refresh.
+    //
+    // Note that if drawing is aborted at this point, the info returned by getCurrentAnnounceDrawData()
+    // will either be out of date or just garbage.  Hopefully, calling it won't cause any other problems
+    // (e.g. crashing the application), but that depends on the implementations in individual stimulus
+    // classes.
+    //
+    if (!loaded) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Stimulus \"%s\" is not loaded and will not be displayed", getTag().c_str());
+        return;
+    }
+    
     @autoreleasepool {
         drawMetal(getMetalDisplay(display));
     }
