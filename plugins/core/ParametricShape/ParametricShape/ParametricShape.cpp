@@ -13,6 +13,9 @@ BEGIN_NAMESPACE_MW
 
 const std::string ParametricShape::VERTICES("vertices");
 const std::string ParametricShape::SPLINE_RESOLUTION("spline_resolution");
+const std::string ParametricShape::VERTEX_COORD_CENTER_X("vertex_coord_center_x");
+const std::string ParametricShape::VERTEX_COORD_CENTER_Y("vertex_coord_center_y");
+const std::string ParametricShape::VERTEX_COORD_RANGE("vertex_coord_range");
 const std::string ParametricShape::MAX_SIZE_X("max_size_x");
 const std::string ParametricShape::MAX_SIZE_Y("max_size_y");
 
@@ -24,6 +27,9 @@ void ParametricShape::describeComponent(ComponentInfo &info) {
     
     info.addParameter(VERTICES);
     info.addParameter(SPLINE_RESOLUTION, "50");
+    info.addParameter(VERTEX_COORD_CENTER_X, false);
+    info.addParameter(VERTEX_COORD_CENTER_Y, false);
+    info.addParameter(VERTEX_COORD_RANGE, false);
     info.addParameter(MAX_SIZE_X, false);
     info.addParameter(MAX_SIZE_Y, false);
 }
@@ -33,6 +39,9 @@ ParametricShape::ParametricShape(const ParameterValueMap &parameters) :
     ColoredTransformStimulus(parameters),
     vertices(parameters[VERTICES]),
     splineResolution(parameters[SPLINE_RESOLUTION]),
+    vertexCoordCenterX(optionalVariable(parameters[VERTEX_COORD_CENTER_X])),
+    vertexCoordCenterY(optionalVariable(parameters[VERTEX_COORD_CENTER_Y])),
+    vertexCoordRange(optionalVariable(parameters[VERTEX_COORD_RANGE])),
     maxSizeX(optionalVariable(parameters[MAX_SIZE_X])),
     maxSizeY(optionalVariable(parameters[MAX_SIZE_Y])),
     texturePool(nil),
@@ -54,6 +63,15 @@ Datum ParametricShape::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_TYPE, "parametric_shape");
     announceData.addElement(VERTICES, currentVertices);
     announceData.addElement(SPLINE_RESOLUTION, currentSplineResolution);
+    if (vertexCoordCenterX) {
+        announceData.addElement(VERTEX_COORD_CENTER_X, currentVertexCoordCenterX);
+    }
+    if (vertexCoordCenterY) {
+        announceData.addElement(VERTEX_COORD_CENTER_Y, currentVertexCoordCenterY);
+    }
+    if (vertexCoordRange) {
+        announceData.addElement(VERTEX_COORD_RANGE, currentVertexCoordRange);
+    }
     
     return announceData;
 }
@@ -158,9 +176,75 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
         currentVertices = std::move(value);
     }
     
+    //
+    // Get spline resolution
+    //
+    
     currentSplineResolution = splineResolution->getValue().getInteger();
     if (currentSplineResolution < 0) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Spline resolution must be greater than or equal to zero");
+    }
+    
+    //
+    // Create path
+    //
+    {
+        auto mutablePath = cf::ObjectPtr<CGMutablePathRef>::created(CGPathCreateMutable());
+        auto points = generatePoints(currentVertices.getList(), currentSplineResolution);
+        CGPathAddLines(mutablePath.get(), nullptr, points.data(), points.size());
+        CGPathCloseSubpath(mutablePath.get());
+        path = cf::ObjectPtr<CGPathRef>::created(CGPathCreateCopy(mutablePath.get()));
+    }
+    
+    //
+    // Determine vertex coordinate parameters
+    //
+    {
+        auto pathBoundingBox = CGPathGetPathBoundingBox(path.get());
+        
+        if (vertexCoordCenterX) {
+            currentVertexCoordCenterX = vertexCoordCenterX->getValue().getFloat();
+        } else {
+            currentVertexCoordCenterX = CGRectGetMidX(pathBoundingBox);
+        }
+        
+        if (vertexCoordCenterY) {
+            currentVertexCoordCenterY = vertexCoordCenterY->getValue().getFloat();
+        } else {
+            currentVertexCoordCenterY = CGRectGetMidY(pathBoundingBox);
+        }
+        
+        if (vertexCoordRange) {
+            currentVertexCoordRange = vertexCoordRange->getValue().getFloat();
+        } else {
+            auto halfWidth = std::max(std::abs(currentVertexCoordCenterX - CGRectGetMinX(pathBoundingBox)),
+                                      std::abs(currentVertexCoordCenterX - CGRectGetMaxX(pathBoundingBox)));
+            auto halfHeight = std::max(std::abs(currentVertexCoordCenterY - CGRectGetMinY(pathBoundingBox)),
+                                       std::abs(currentVertexCoordCenterY - CGRectGetMaxY(pathBoundingBox)));
+            currentVertexCoordRange = 2.0 * std::max(halfWidth, halfHeight);
+        }
+        if (currentVertexCoordRange <= 0.0) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Vertex coordinate range must be greater than zero");
+        }
+        
+        auto vertexCoordBox = CGRectMake(currentVertexCoordCenterX - currentVertexCoordRange / 2.0,
+                                         currentVertexCoordCenterY - currentVertexCoordRange / 2.0,
+                                         currentVertexCoordRange,
+                                         currentVertexCoordRange);
+        if (!CGRectContainsRect(vertexCoordBox, pathBoundingBox)) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  boost::format("Vertex coordinate grid does not contain all points in the shape: "
+                                                "coordinate grid covers (%g, %g) to (%g, %g), but "
+                                                "shape points range from (%g, %g) to (%g, %g)")
+                                  % CGRectGetMinX(vertexCoordBox)
+                                  % CGRectGetMinY(vertexCoordBox)
+                                  % CGRectGetMaxX(vertexCoordBox)
+                                  % CGRectGetMaxY(vertexCoordBox)
+                                  % CGRectGetMinX(pathBoundingBox)
+                                  % CGRectGetMinY(pathBoundingBox)
+                                  % CGRectGetMaxX(pathBoundingBox)
+                                  % CGRectGetMaxY(pathBoundingBox));
+        }
     }
     
     //
@@ -243,25 +327,6 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
     // as it is for Metal textures
     CGContextTranslateCTM(context.get(), 0, textureHeight);
     CGContextScaleCTM(context.get(), 1.0, -1.0);
-    
-    //
-    // Create path
-    //
-    {
-        auto mutablePath = cf::ObjectPtr<CGMutablePathRef>::created(CGPathCreateMutable());
-        auto points = generatePoints(currentVertices.getList(), currentSplineResolution);
-        CGPathAddLines(mutablePath.get(), nullptr, points.data(), points.size());
-        CGPathCloseSubpath(mutablePath.get());
-        path = cf::ObjectPtr<CGPathRef>::created(CGPathCreateCopy(mutablePath.get()));
-        
-        auto boundingBox = CGPathGetPathBoundingBox(path.get());
-        vertexCoordCenterX = CGRectGetMidX(boundingBox);
-        vertexCoordCenterY = CGRectGetMidY(boundingBox);
-        vertexCoordScale = std::max(CGRectGetWidth(boundingBox), CGRectGetHeight(boundingBox));
-        if (vertexCoordScale == 0.0) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Vertices do not describe a valid shape");
-        }
-    }
     
     //
     // Create texture pool
@@ -393,11 +458,11 @@ void ParametricShape::updateTexture(MetalDisplay &display) {
     // Draw the shape in the context
     CGContextSaveGState(context.get());
     CGContextScaleCTM(context.get(),
-                      (currentWidthPixels - 1) / vertexCoordScale,
-                      (currentHeightPixels - 1) / vertexCoordScale);
-    CGContextTranslateCTM(context.get(), vertexCoordScale / 2.0, vertexCoordScale / 2.0);
+                      (currentWidthPixels - 1) / currentVertexCoordRange,
+                      (currentHeightPixels - 1) / currentVertexCoordRange);
+    CGContextTranslateCTM(context.get(), currentVertexCoordRange / 2.0, currentVertexCoordRange / 2.0);
     CGContextScaleCTM(context.get(), 1.0, -1.0);
-    CGContextTranslateCTM(context.get(), -vertexCoordCenterX, -vertexCoordCenterY);
+    CGContextTranslateCTM(context.get(), -currentVertexCoordCenterX, -currentVertexCoordCenterY);
     CGContextAddPath(context.get(), path.get());
     CGContextFillPath(context.get());
     CGContextRestoreGState(context.get());

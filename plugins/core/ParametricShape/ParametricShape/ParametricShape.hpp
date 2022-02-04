@@ -17,6 +17,9 @@ class ParametricShape : public ColoredTransformStimulus {
 public:
     static const std::string VERTICES;
     static const std::string SPLINE_RESOLUTION;
+    static const std::string VERTEX_COORD_CENTER_X;
+    static const std::string VERTEX_COORD_CENTER_Y;
+    static const std::string VERTEX_COORD_RANGE;
     static const std::string MAX_SIZE_X;
     static const std::string MAX_SIZE_Y;
     
@@ -43,11 +46,19 @@ private:
     
     const VariablePtr vertices;
     const VariablePtr splineResolution;
+    const VariablePtr vertexCoordCenterX;
+    const VariablePtr vertexCoordCenterY;
+    const VariablePtr vertexCoordRange;
     const VariablePtr maxSizeX;
     const VariablePtr maxSizeY;
     
     Datum currentVertices;
     int currentSplineResolution;
+    
+    cf::ObjectPtr<CGPathRef> path;
+    double currentVertexCoordCenterX, currentVertexCoordCenterY;
+    double currentVertexCoordRange;
+    
     float currentMaxSizeX, currentMaxSizeY;
     
     std::size_t viewportWidth, viewportHeight;
@@ -58,10 +69,6 @@ private:
     std::unique_ptr<std::uint8_t[]> textureData;
     
     cf::ObjectPtr<CGContextRef> context;
-    cf::ObjectPtr<CGPathRef> path;
-    double vertexCoordCenterX;
-    double vertexCoordCenterY;
-    double vertexCoordScale;
     
     MWKTripleBufferedMTLResource<id<MTLTexture>> *texturePool;
     id<MTLTexture> currentTexture;
