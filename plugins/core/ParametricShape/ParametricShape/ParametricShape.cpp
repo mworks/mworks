@@ -16,6 +16,7 @@ const std::string ParametricShape::SPLINE_RESOLUTION("spline_resolution");
 const std::string ParametricShape::VERTEX_COORD_CENTER_X("vertex_coord_center_x");
 const std::string ParametricShape::VERTEX_COORD_CENTER_Y("vertex_coord_center_y");
 const std::string ParametricShape::VERTEX_COORD_RANGE("vertex_coord_range");
+const std::string ParametricShape::MARGIN_PIXELS("margin_pixels");
 const std::string ParametricShape::USE_ANTIALIASING("use_antialiasing");
 const std::string ParametricShape::MAX_SIZE_X("max_size_x");
 const std::string ParametricShape::MAX_SIZE_Y("max_size_y");
@@ -31,6 +32,7 @@ void ParametricShape::describeComponent(ComponentInfo &info) {
     info.addParameter(VERTEX_COORD_CENTER_X, false);
     info.addParameter(VERTEX_COORD_CENTER_Y, false);
     info.addParameter(VERTEX_COORD_RANGE, false);
+    info.addParameter(MARGIN_PIXELS, "0");
     info.addParameter(USE_ANTIALIASING, "YES");
     info.addParameter(MAX_SIZE_X, false);
     info.addParameter(MAX_SIZE_Y, false);
@@ -44,6 +46,7 @@ ParametricShape::ParametricShape(const ParameterValueMap &parameters) :
     vertexCoordCenterX(optionalVariable(parameters[VERTEX_COORD_CENTER_X])),
     vertexCoordCenterY(optionalVariable(parameters[VERTEX_COORD_CENTER_Y])),
     vertexCoordRange(optionalVariable(parameters[VERTEX_COORD_RANGE])),
+    marginPixels(parameters[MARGIN_PIXELS]),
     useAntialiasing(parameters[USE_ANTIALIASING]),
     maxSizeX(optionalVariable(parameters[MAX_SIZE_X])),
     maxSizeY(optionalVariable(parameters[MAX_SIZE_Y])),
@@ -76,6 +79,11 @@ Datum ParametricShape::getCurrentAnnounceDrawData() {
     }
     if (vertexCoordRange) {
         announceData.addElement(VERTEX_COORD_RANGE, currentVertexCoordRange);
+    }
+    
+    // Only announce non-zero margins
+    if (currentMarginPixels > 0.0) {
+        announceData.addElement(MARGIN_PIXELS, currentMarginPixels);
     }
     
     // Anti-aliasing should always be enabled in normal circumstances, so only announce
@@ -404,6 +412,7 @@ void ParametricShape::drawMetal(MetalDisplay &display) {
     }
     
     computeTextureDimensions(current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
+    currentMarginPixels = std::max(0.0, marginPixels->getValue().getFloat());  // Ignore negative values
     currentUseAntialiasing = useAntialiasing->getValue().getBool();
     updateTexture(display);
     
@@ -424,6 +433,7 @@ void ParametricShape::drawMetal(MetalDisplay &display) {
     
     lastWidthPixels = currentWidthPixels;
     lastHeightPixels = currentHeightPixels;
+    lastMarginPixels = currentMarginPixels;
     lastUseAntialiasing = currentUseAntialiasing;
 }
 
@@ -449,6 +459,7 @@ void ParametricShape::updateTexture(MetalDisplay &display) {
     if (currentTexture &&
         currentWidthPixels == lastWidthPixels &&
         currentHeightPixels == lastHeightPixels &&
+        currentMarginPixels == lastMarginPixels &&
         currentUseAntialiasing == lastUseAntialiasing)
     {
         // No relevant parameters have changed since we last generated the texture, so use
@@ -472,9 +483,10 @@ void ParametricShape::updateTexture(MetalDisplay &display) {
     // Draw the shape in the context
     CGContextSaveGState(context.get());
     CGContextSetShouldAntialias(context.get(), currentUseAntialiasing);
+    CGContextTranslateCTM(context.get(), currentMarginPixels, currentMarginPixels);
     CGContextScaleCTM(context.get(),
-                      (currentWidthPixels - 1) / currentVertexCoordRange,
-                      (currentHeightPixels - 1) / currentVertexCoordRange);
+                      ((currentWidthPixels - 1) - 2.0 * currentMarginPixels) / currentVertexCoordRange,
+                      ((currentHeightPixels - 1) - 2.0 * currentMarginPixels) / currentVertexCoordRange);
     CGContextTranslateCTM(context.get(), currentVertexCoordRange / 2.0, currentVertexCoordRange / 2.0);
     CGContextScaleCTM(context.get(), 1.0, -1.0);
     CGContextTranslateCTM(context.get(), -currentVertexCoordCenterX, -currentVertexCoordCenterY);

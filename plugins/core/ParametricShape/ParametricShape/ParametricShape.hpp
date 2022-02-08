@@ -20,6 +20,7 @@ public:
     static const std::string VERTEX_COORD_CENTER_X;
     static const std::string VERTEX_COORD_CENTER_Y;
     static const std::string VERTEX_COORD_RANGE;
+    static const std::string MARGIN_PIXELS;
     static const std::string USE_ANTIALIASING;
     static const std::string MAX_SIZE_X;
     static const std::string MAX_SIZE_Y;
@@ -50,6 +51,7 @@ private:
     const VariablePtr vertexCoordCenterX;
     const VariablePtr vertexCoordCenterY;
     const VariablePtr vertexCoordRange;
+    const VariablePtr marginPixels;
     const VariablePtr useAntialiasing;
     const VariablePtr maxSizeX;
     const VariablePtr maxSizeY;
@@ -76,9 +78,11 @@ private:
     id<MTLTexture> currentTexture;
     
     std::size_t currentWidthPixels, currentHeightPixels;
+    double currentMarginPixels;
     bool currentUseAntialiasing;
     
     std::size_t lastWidthPixels, lastHeightPixels;
+    double lastMarginPixels;
     bool lastUseAntialiasing;
     
 };
