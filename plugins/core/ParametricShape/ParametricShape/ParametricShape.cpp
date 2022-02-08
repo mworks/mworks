@@ -16,6 +16,7 @@ const std::string ParametricShape::SPLINE_RESOLUTION("spline_resolution");
 const std::string ParametricShape::VERTEX_COORD_CENTER_X("vertex_coord_center_x");
 const std::string ParametricShape::VERTEX_COORD_CENTER_Y("vertex_coord_center_y");
 const std::string ParametricShape::VERTEX_COORD_RANGE("vertex_coord_range");
+const std::string ParametricShape::USE_ANTIALIASING("use_antialiasing");
 const std::string ParametricShape::MAX_SIZE_X("max_size_x");
 const std::string ParametricShape::MAX_SIZE_Y("max_size_y");
 
@@ -30,6 +31,7 @@ void ParametricShape::describeComponent(ComponentInfo &info) {
     info.addParameter(VERTEX_COORD_CENTER_X, false);
     info.addParameter(VERTEX_COORD_CENTER_Y, false);
     info.addParameter(VERTEX_COORD_RANGE, false);
+    info.addParameter(USE_ANTIALIASING, "YES");
     info.addParameter(MAX_SIZE_X, false);
     info.addParameter(MAX_SIZE_Y, false);
 }
@@ -42,6 +44,7 @@ ParametricShape::ParametricShape(const ParameterValueMap &parameters) :
     vertexCoordCenterX(optionalVariable(parameters[VERTEX_COORD_CENTER_X])),
     vertexCoordCenterY(optionalVariable(parameters[VERTEX_COORD_CENTER_Y])),
     vertexCoordRange(optionalVariable(parameters[VERTEX_COORD_RANGE])),
+    useAntialiasing(parameters[USE_ANTIALIASING]),
     maxSizeX(optionalVariable(parameters[MAX_SIZE_X])),
     maxSizeY(optionalVariable(parameters[MAX_SIZE_Y])),
     texturePool(nil),
@@ -61,8 +64,10 @@ Datum ParametricShape::getCurrentAnnounceDrawData() {
     auto announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "parametric_shape");
+    
     announceData.addElement(VERTICES, currentVertices);
     announceData.addElement(SPLINE_RESOLUTION, currentSplineResolution);
+    
     if (vertexCoordCenterX) {
         announceData.addElement(VERTEX_COORD_CENTER_X, currentVertexCoordCenterX);
     }
@@ -71,6 +76,12 @@ Datum ParametricShape::getCurrentAnnounceDrawData() {
     }
     if (vertexCoordRange) {
         announceData.addElement(VERTEX_COORD_RANGE, currentVertexCoordRange);
+    }
+    
+    // Anti-aliasing should always be enabled in normal circumstances, so only announce
+    // when it's disabled
+    if (!currentUseAntialiasing) {
+        announceData.addElement(USE_ANTIALIASING, false);
     }
     
     return announceData;
@@ -319,9 +330,9 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
                                                                          nullptr,  // OK for alpha-only bitmap
                                                                          kCGImageAlphaOnly));
     
-    // Enable antialiasing
+    // Allow antialiasing, but disable it initially
     CGContextSetAllowsAntialiasing(context.get(), true);
-    CGContextSetShouldAntialias(context.get(), true);
+    CGContextSetShouldAntialias(context.get(), false);
     
     // Flip the context's coordinate system, so that the origin is in the upper left corner,
     // as it is for Metal textures
@@ -393,6 +404,7 @@ void ParametricShape::drawMetal(MetalDisplay &display) {
     }
     
     computeTextureDimensions(current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
+    currentUseAntialiasing = useAntialiasing->getValue().getBool();
     updateTexture(display);
     
     auto renderCommandEncoder = createRenderCommandEncoder(display);
@@ -412,6 +424,7 @@ void ParametricShape::drawMetal(MetalDisplay &display) {
     
     lastWidthPixels = currentWidthPixels;
     lastHeightPixels = currentHeightPixels;
+    lastUseAntialiasing = currentUseAntialiasing;
 }
 
 
@@ -435,7 +448,8 @@ void ParametricShape::computeTextureDimensions(double widthDegrees,
 void ParametricShape::updateTexture(MetalDisplay &display) {
     if (currentTexture &&
         currentWidthPixels == lastWidthPixels &&
-        currentHeightPixels == lastHeightPixels)
+        currentHeightPixels == lastHeightPixels &&
+        currentUseAntialiasing == lastUseAntialiasing)
     {
         // No relevant parameters have changed since we last generated the texture, so use
         // the existing one
@@ -457,6 +471,7 @@ void ParametricShape::updateTexture(MetalDisplay &display) {
     
     // Draw the shape in the context
     CGContextSaveGState(context.get());
+    CGContextSetShouldAntialias(context.get(), currentUseAntialiasing);
     CGContextScaleCTM(context.get(),
                       (currentWidthPixels - 1) / currentVertexCoordRange,
                       (currentHeightPixels - 1) / currentVertexCoordRange);
