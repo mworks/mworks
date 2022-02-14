@@ -49,7 +49,6 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/MovieStimulusPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MovingDots.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/NE500Plugin.bundle',
-        '/Library/Application Support/MWorks/Plugins/Core/ParametricShape.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/RCBLVDS.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/RenderActions.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ServersideConduit.bundle',
