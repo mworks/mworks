@@ -226,7 +226,10 @@ static void installExampleExperiments(NSUserDefaults *userDefaults) {
 
 - (void)openExperimentRunCloseSheetWithTitle:(NSString *)title runAction:(NSString *)runAction {
     UIViewController *viewController =  nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     for (UIWindow *window in UIApplication.sharedApplication.windows) {
+#pragma clang diagnostic pop
         if (window.keyWindow) {
             viewController = window.rootViewController;
             break;
