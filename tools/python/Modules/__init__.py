@@ -1,7 +1,7 @@
 import hashlib
 import sys
-if sys.version_info[:2] < (3, 6):
-    raise ImportError('mworks requires Python 3.6 or later')
+if sys.version_info[:2] < (3, 7):
+    raise ImportError('mworks requires Python 3.7 or later')
 
 
 def file_hash(filename):
