@@ -27,7 +27,7 @@ If the uninstaller finds a previous MWorks version in the *MWorks Backup* folder
 iOS
 ---
 
-To install MWorks on iOS, `download it from the App Store <https://apps.apple.com/us/app/mworks/id1389408331?ls=1>`_.  To uninstall, simply delete the *MWorks* application.
+To install MWorks on iOS, `download it from the App Store <https://apps.apple.com/app/mworks/id1389408331>`_.  To uninstall, simply delete the *MWorks* application.
 
 
 .. _configuration:

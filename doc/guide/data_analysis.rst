@@ -31,7 +31,7 @@ On macOS, event files are stored in the directory ``$HOME/Documents/MWorks/Data`
 iOS
 ^^^
 
-To access event files stored on iOS, open the `Files <https://apps.apple.com/us/app/files/id1232058109?ls=1>`_ app and navigate to On My iPad ➝ MWorks ➝ MWorks ➝ Data.  From here, you can share one or more event files with a Mac using `AirDrop <https://support.apple.com/en-us/HT204144>`_ or copy them to a cloud storage service like iCloud Drive or Dropbox.  You can also duplicate, move, and delete files.
+To access event files stored on iOS, open the `Files <https://apps.apple.com/app/files/id1232058109>`_ app and navigate to On My iPad ➝ MWorks ➝ MWorks ➝ Data.  From here, you can share one or more event files with a Mac using `AirDrop <https://support.apple.com/en-us/HT204144>`_ or copy them to a cloud storage service like iCloud Drive or Dropbox.  You can also duplicate, move, and delete files.
 
 Alternatively, you can share your event files with a Mac `using iTunes <https://support.apple.com/en-us/HT201301>`_.  However, this is less convenient than using the Files app and requires you to copy the entire "MWorks" subfolder to your computer.
 
