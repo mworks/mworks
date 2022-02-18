@@ -50,6 +50,10 @@ void MacOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             // Set the view's color space, so that the system will color match its content
             // to the display’s color space
             view.colorspace = NSColorSpace.sRGBColorSpace.CGColorSpace;
+        } else {
+            // Despite what the docs say, the color space appears to default to sRGB.  Set
+            // it to nil, so that the system does *not* color match the view's content.
+            view.colorspace = nil;
         }
     });
     
