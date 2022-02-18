@@ -1,7 +1,7 @@
-diff -ur Python-3.9.5/setup.py Python/setup.py
---- Python-3.9.5/setup.py	2021-05-03 10:54:42.000000000 -0400
-+++ Python/setup.py	2021-06-25 16:50:30.000000000 -0400
-@@ -2141,8 +2141,12 @@
+diff -ur Python-3.10.2/setup.py Python/setup.py
+--- Python-3.10.2/setup.py	2022-01-13 13:52:14.000000000 -0500
++++ Python/setup.py	2022-02-18 11:33:12.000000000 -0500
+@@ -2267,8 +2267,12 @@
                                 sources=['_ctypes/_ctypes_test.c'],
                                 libraries=['m']))
  

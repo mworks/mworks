@@ -393,7 +393,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.9.10'
+    version = '3.10.2'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -420,6 +420,7 @@ def python():
 
         with workdir(srcdir):
             extra_args = [
+                '--enable-optimizations',
                 '--without-ensurepip',
                 '--with-openssl=' + prefix,
                 ]

@@ -1,7 +1,7 @@
-diff -ur Python-3.9.5/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils/tests/test_build_ext.py
---- Python-3.9.5/Lib/distutils/tests/test_build_ext.py	2021-05-03 10:54:42.000000000 -0400
-+++ Python/Lib/distutils/tests/test_build_ext.py	2021-06-27 09:20:49.000000000 -0400
-@@ -440,6 +440,8 @@
+diff -ur Python-3.10.2/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils/tests/test_build_ext.py
+--- Python-3.10.2/Lib/distutils/tests/test_build_ext.py	2022-01-13 13:52:14.000000000 -0500
++++ Python/Lib/distutils/tests/test_build_ext.py	2022-02-18 11:38:14.000000000 -0500
+@@ -444,6 +444,8 @@
          #  the interpreter.
          self._try_compile_deployment_target('==', None)
  
@@ -10,7 +10,7 @@ diff -ur Python-3.9.5/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils
      @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
      def test_deployment_target_too_low(self):
          # Issue 9516: Test that an extension module is not allowed to be
-@@ -447,6 +449,8 @@
+@@ -451,6 +453,8 @@
          self.assertRaises(DistutilsPlatformError,
              self._try_compile_deployment_target, '>', '10.1')
  
@@ -19,14 +19,3 @@ diff -ur Python-3.9.5/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils
      @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
      def test_deployment_target_higher_ok(self):
          # Issue 9516: Test that an extension module can be compiled with a
-diff -ur Python-3.9.5/Lib/test/test_signal.py Python/Lib/test/test_signal.py
---- Python-3.9.5/Lib/test/test_signal.py	2021-05-03 10:54:42.000000000 -0400
-+++ Python/Lib/test/test_signal.py	2021-06-27 09:22:58.000000000 -0400
-@@ -1244,6 +1244,7 @@
-         # Python handler
-         self.assertEqual(len(sigs), N, "Some signals were lost")
- 
-+    @unittest.skip('crashes Python 3.9.5 on macOS 11.4 under Rosetta 2')
-     @unittest.skipUnless(hasattr(signal, "SIGUSR1"),
-                          "test needs SIGUSR1")
-     def test_stress_modifying_handlers(self):

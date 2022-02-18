@@ -1,7 +1,7 @@
-diff -ur Python-3.9.5/Modules/posixmodule.c Python/Modules/posixmodule.c
---- Python-3.9.5/Modules/posixmodule.c	2021-05-03 10:54:42.000000000 -0400
-+++ Python/Modules/posixmodule.c	2021-06-28 12:07:02.000000000 -0400
-@@ -327,7 +327,7 @@
+diff -ur Python-3.10.2/Modules/posixmodule.c Python/Modules/posixmodule.c
+--- Python-3.10.2/Modules/posixmodule.c	2022-01-13 13:52:14.000000000 -0500
++++ Python/Modules/posixmodule.c	2022-02-18 11:42:46.000000000 -0500
+@@ -333,7 +333,7 @@
  #    define HAVE_KILL       1
  #    define HAVE_OPENDIR    1
  #    define HAVE_PIPE       1
@@ -10,15 +10,15 @@ diff -ur Python-3.9.5/Modules/posixmodule.c Python/Modules/posixmodule.c
  #    define HAVE_WAIT       1
  #    define HAVE_TTYNAME    1
  #  endif  /* _MSC_VER */
-diff -ur Python-3.9.5/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.9.5/pyconfig.h.in	2021-05-03 10:54:42.000000000 -0400
-+++ Python/pyconfig.h.in	2021-06-28 12:07:02.000000000 -0400
-@@ -134,7 +134,7 @@
+diff -ur Python-3.10.2/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.10.2/pyconfig.h.in	2022-01-13 13:52:14.000000000 -0500
++++ Python/pyconfig.h.in	2022-02-18 11:42:46.000000000 -0500
+@@ -143,7 +143,7 @@
  #undef HAVE_CLOCK_GETTIME
  
  /* Define to 1 if you have the `clock_settime' function. */
 -#undef HAVE_CLOCK_SETTIME
 +/* #undef HAVE_CLOCK_SETTIME */ /* clock_settime is prohibited on iOS */
  
- /* Define if the C compiler supports computed gotos. */
- #undef HAVE_COMPUTED_GOTOS
+ /* Define to 1 if you have the `close_range' function. */
+ #undef HAVE_CLOSE_RANGE

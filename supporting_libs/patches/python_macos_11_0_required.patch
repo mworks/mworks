@@ -1,7 +1,18 @@
-diff -ur Python-3.9.9/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc.c
---- Python-3.9.9/Modules/_ctypes/callproc.c	2021-11-15 12:43:00.000000000 -0500
-+++ Python/Modules/_ctypes/callproc.c	2021-11-30 09:55:48.000000000 -0500
-@@ -1454,6 +1454,7 @@
+diff -ur Python-3.10.2/Lib/ctypes/test/test_macholib.py Python/Lib/ctypes/test/test_macholib.py
+--- Python-3.10.2/Lib/ctypes/test/test_macholib.py	2022-01-13 13:52:14.000000000 -0500
++++ Python/Lib/ctypes/test/test_macholib.py	2022-02-18 16:01:55.000000000 -0500
+@@ -43,6 +43,7 @@
+     raise ValueError("%s not found" % (name,))
+ 
+ class MachOTest(unittest.TestCase):
++    @unittest.skip('requires macOS 11 or later')
+     @unittest.skipUnless(sys.platform == "darwin", 'OSX-specific test')
+     def test_find(self):
+         # On Mac OS 11, system dylibs are only present in the shared cache,
+diff -ur Python-3.10.2/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc.c
+--- Python-3.10.2/Modules/_ctypes/callproc.c	2022-01-13 13:52:14.000000000 -0500
++++ Python/Modules/_ctypes/callproc.c	2022-02-18 15:59:59.000000000 -0500
+@@ -1447,6 +1447,7 @@
  #define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
      __builtin_available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
  #else
@@ -9,7 +20,7 @@ diff -ur Python-3.9.9/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc
  // Support the deprecated case of compiling on an older macOS version
  static void *libsystem_b_handle;
  static bool (*_dyld_shared_cache_contains_path)(const char *path);
-@@ -1470,6 +1471,7 @@
+@@ -1463,6 +1464,7 @@
          dlclose(libsystem_b_handle);
      }
  }
@@ -17,7 +28,7 @@ diff -ur Python-3.9.9/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc
  #define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
      _dyld_shared_cache_contains_path != NULL
  #endif
-@@ -1479,6 +1481,7 @@
+@@ -1472,6 +1474,7 @@
       PyObject *name, *name2;
       char *name_str;
  
@@ -25,7 +36,7 @@ diff -ur Python-3.9.9/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc
       if (HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME) {
           int r;
  
-@@ -1502,9 +1505,12 @@
+@@ -1495,9 +1498,12 @@
           }
  
       } else {
@@ -38,10 +49,10 @@ diff -ur Python-3.9.9/Modules/_ctypes/callproc.c Python/Modules/_ctypes/callproc
  
   }
  #endif
-diff -ur Python-3.9.9/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.9.9/pyconfig.h.in	2021-11-15 12:43:00.000000000 -0500
-+++ Python/pyconfig.h.in	2021-11-30 09:52:25.000000000 -0500
-@@ -780,7 +780,7 @@
+diff -ur Python-3.10.2/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.10.2/pyconfig.h.in	2022-01-13 13:52:14.000000000 -0500
++++ Python/pyconfig.h.in	2022-02-18 15:59:59.000000000 -0500
+@@ -795,7 +795,7 @@
  #undef HAVE_PREAD
  
  /* Define to 1 if you have the `preadv' function. */
@@ -50,7 +61,7 @@ diff -ur Python-3.9.9/pyconfig.h.in Python/pyconfig.h.in
  
  /* Define to 1 if you have the `preadv2' function. */
  #undef HAVE_PREADV2
-@@ -822,7 +822,7 @@
+@@ -837,7 +837,7 @@
  #undef HAVE_PWRITE
  
  /* Define to 1 if you have the `pwritev' function. */

@@ -1,7 +1,7 @@
-diff -ur Python-3.9.5/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.9.5/pyconfig.h.in	2021-05-03 10:54:42.000000000 -0400
-+++ Python/pyconfig.h.in	2021-06-28 10:15:12.000000000 -0400
-@@ -427,7 +427,7 @@
+diff -ur Python-3.10.2/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.10.2/pyconfig.h.in	2022-01-13 13:52:14.000000000 -0500
++++ Python/pyconfig.h.in	2022-02-18 11:46:41.000000000 -0500
+@@ -442,7 +442,7 @@
  #undef HAVE_GETC_UNLOCKED
  
  /* Define to 1 if you have the `getentropy' function. */
