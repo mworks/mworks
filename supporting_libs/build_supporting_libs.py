@@ -457,7 +457,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.21.4'
+    version = '1.22.2'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -466,6 +466,8 @@ def numpy():
             download_archive('https://github.com/numpy/numpy/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
+                apply_patch('numpy_build.patch')
+                apply_patch('numpy_test_fixes.patch')
                 if building_for_ios:
                     apply_patch('numpy_ios_fixes.patch')
                     apply_patch('numpy_ios_test_fixes.patch')

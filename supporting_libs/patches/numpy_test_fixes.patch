@@ -1,0 +1,44 @@
+diff -ur numpy-1.22.2/numpy/core/tests/test_limited_api.py numpy/numpy/core/tests/test_limited_api.py
+--- numpy-1.22.2/numpy/core/tests/test_limited_api.py	2022-01-29 14:20:32.000000000 -0500
++++ numpy/numpy/core/tests/test_limited_api.py	2022-02-22 15:49:25.000000000 -0500
+@@ -6,6 +6,7 @@
+ import pytest
+ 
+ 
++@pytest.mark.skip('Not relevant')
+ @pytest.mark.xfail(
+     sysconfig.get_config_var("Py_DEBUG"),
+     reason=(
+diff -ur numpy-1.22.2/numpy/core/tests/test_mem_policy.py numpy/numpy/core/tests/test_mem_policy.py
+--- numpy-1.22.2/numpy/core/tests/test_mem_policy.py	2022-01-10 12:36:38.000000000 -0500
++++ numpy/numpy/core/tests/test_mem_policy.py	2022-02-22 15:47:26.000000000 -0500
+@@ -9,6 +9,9 @@
+ import sys
+ 
+ 
++pytestmark = pytest.mark.skip('Not relevant')
++
++
+ @pytest.fixture
+ def get_module(tmp_path):
+     """ Add a memory policy that returns a false pointer 64 bytes into the
+diff -ur numpy-1.22.2/numpy/tests/test_reloading.py numpy/numpy/tests/test_reloading.py
+--- numpy-1.22.2/numpy/tests/test_reloading.py	2022-01-10 12:36:38.000000000 -0500
++++ numpy/numpy/tests/test_reloading.py	2022-02-22 15:51:28.000000000 -0500
+@@ -6,6 +6,8 @@
+ import textwrap
+ from importlib import reload
+ 
++import pytest
++
+ 
+ def test_numpy_reloading():
+     # gh-7844. Also check that relevant globals retain their identity.
+@@ -37,6 +39,7 @@
+                                           protocol=proto)) is np._NoValue)
+ 
+ 
++@pytest.mark.skip('Not relevant')
+ def test_full_reimport():
+     """At the time of writing this, it is *not* truly supported, but
+     apparently enough users rely on it, for it to be an annoying change

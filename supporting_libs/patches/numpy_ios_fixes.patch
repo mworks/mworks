@@ -1,6 +1,6 @@
-diff -ur numpy-1.19.0/numpy/distutils/cpuinfo.py numpy/numpy/distutils/cpuinfo.py
---- numpy-1.19.0/numpy/distutils/cpuinfo.py	2020-06-04 17:00:28.000000000 -0400
-+++ numpy/numpy/distutils/cpuinfo.py	2020-07-14 15:46:45.000000000 -0400
+diff -ur numpy-1.22.2/numpy/distutils/cpuinfo.py numpy/numpy/distutils/cpuinfo.py
+--- numpy-1.22.2/numpy/distutils/cpuinfo.py	2022-01-10 12:36:38.000000000 -0500
++++ numpy/numpy/distutils/cpuinfo.py	2022-02-22 12:11:48.000000000 -0500
 @@ -25,6 +25,8 @@
  
  
@@ -9,4 +9,4 @@ diff -ur numpy-1.19.0/numpy/distutils/cpuinfo.py numpy/numpy/distutils/cpuinfo.p
 +    return False, ""
      try:
          status, output = getstatusoutput(cmd)
-     except EnvironmentError as e:
+     except OSError as e:
