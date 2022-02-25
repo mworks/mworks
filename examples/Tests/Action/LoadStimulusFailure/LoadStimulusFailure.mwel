@@ -1,0 +1,27 @@
+resource ('flamingos.jpg')
+
+
+var path = ''
+
+image_file image (
+    path = path
+    x_size = 20
+    deferred = explicit
+    )
+
+
+protocol {
+    path = 'foo.jpg'
+    // This should produce an error message but *not* stop the experiment
+    load_stimulus (image)
+
+    path = 'flamingos.jpg'
+    // This should succeed
+    load_stimulus (image)
+
+    queue_stimulus (image)
+    update_display ()
+    wait (5s)
+
+    unload_stimulus (image)
+}

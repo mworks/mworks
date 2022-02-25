@@ -486,8 +486,21 @@ Action() {
 
 LoadStimulus::~LoadStimulus() { }
 
-bool LoadStimulus::execute() {	
-    stimnode->load(display);
+bool LoadStimulus::execute() {
+    //
+    // Stimulus loading can fail with an exception due to legitimate runtime errors
+    // (e.g. a bad image file path).  Since we don't want such an exception to halt
+    // the state system (or crash the server by not getting caught on another thread),
+    // catch all exceptions and convert them to error messages.
+    //
+    try {
+        stimnode->load(display);
+    } catch (const std::exception &e) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Stimulus loading failed: %s", e.what());
+    } catch (...) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Stimulus loading failed");
+    }
+    
     return true;
 }
     

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">ERROR: Stimulus loading failed: Path does not exist: </message>
+    <message type="starts_with">Loading image </message>
+    <message type="starts_with">Image loaded into texture </message>
+    <message type="starts_with">Image unloaded from texture </message>
+  </expected_messages>
+</marionette_info>
