@@ -313,16 +313,26 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
             mainViewDelegate.currentCommandBuffer = currentCommandBuffer;
             
             if (mirrorView) {
+                //
                 // Wait until all main view rendering commands have been scheduled on the GPU
                 // before triggering a mirror window update.  This avoids the situation where,
                 // when display updates are stopped, the mirror window remains frozen on the
                 // last frame *before* the display was cleared.
+                //
+                // Also, since the mirror window update trigger is asynchronous, it's possible
+                // that this AppleStimulusDisplay instance will be deallocated before it executes.
+                // (This is most likely to happen when experiment loading fails, and the stimulus
+                // display is destroyed almost immediately after being created.)  To avoid
+                // sending messages to a deallocated instance, capture mirrorView as an ObjC
+                // weak reference.
+                //
+                MTKView * __weak weakMirrorView = mirrorView;
                 [currentCommandBuffer addScheduledHandler:^(id<MTLCommandBuffer> commandBuffer) {
                     dispatch_async(dispatch_get_main_queue(), ^{
 #if TARGET_OS_OSX
-                        mirrorView.needsDisplay = YES;
+                        weakMirrorView.needsDisplay = YES;
 #else
-                        [mirrorView setNeedsDisplay];
+                        [weakMirrorView setNeedsDisplay];
 #endif
                     });
                 }];
