@@ -251,18 +251,19 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
                                          currentVertexCoordRange,
                                          currentVertexCoordRange);
         if (!CGRectContainsRect(vertexCoordBox, pathBoundingBox)) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  boost::format("Vertex coordinate grid does not contain all points in the shape: "
-                                                "coordinate grid covers (%g, %g) to (%g, %g), but "
-                                                "shape points range from (%g, %g) to (%g, %g)")
-                                  % CGRectGetMinX(vertexCoordBox)
-                                  % CGRectGetMinY(vertexCoordBox)
-                                  % CGRectGetMaxX(vertexCoordBox)
-                                  % CGRectGetMaxY(vertexCoordBox)
-                                  % CGRectGetMinX(pathBoundingBox)
-                                  % CGRectGetMinY(pathBoundingBox)
-                                  % CGRectGetMaxX(pathBoundingBox)
-                                  % CGRectGetMaxY(pathBoundingBox));
+            mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                     "Vertex coordinate grid for parametric shape stimulus \"%s\" does not contain all points "
+                     "in the shape: coordinate grid covers (%g, %g) to (%g, %g), but shape points range from "
+                     "(%g, %g) to (%g, %g)",
+                     getTag().c_str(),
+                     CGRectGetMinX(vertexCoordBox),
+                     CGRectGetMinY(vertexCoordBox),
+                     CGRectGetMaxX(vertexCoordBox),
+                     CGRectGetMaxY(vertexCoordBox),
+                     CGRectGetMinX(pathBoundingBox),
+                     CGRectGetMinY(pathBoundingBox),
+                     CGRectGetMaxX(pathBoundingBox),
+                     CGRectGetMaxY(pathBoundingBox));
         }
     }
     
