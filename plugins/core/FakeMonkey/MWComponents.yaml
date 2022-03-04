@@ -1,0 +1,176 @@
+---
+
+
+name: Fake Monkey IO Device
+signature: iodevice/fake_monkey
+isa: IODevice
+platform: macos
+allowed_child: Fake Monkey Channel
+description: >
+    A simulated monkey that has the ability to generate spikes and continuous
+    eye position data
+parameters: 
+  - 
+    name: spike_rate
+    default: 25
+    description: >
+        Average rate of spike generation (spikes per second).  The actual times
+        between individual spikes are drawn from an `exponential distribution
+        <https://en.wikipedia.org/wiki/Exponential_distribution>`_ with lambda
+        equal to the specified spike rate.
+
+
+---
+
+
+name: Fake Monkey Channel
+abstract: yes
+isa: IOChannel
+platform: macos
+
+
+---
+
+
+name: Fake Monkey Eye Channel
+signature: iochannel/eye_movement
+isa: Fake Monkey Channel
+description: >
+    Provides simulated raw horizontal and vertical eye position data from a
+    `Fake Monkey IO Device`
+parameters: 
+  - 
+    name: eye_h
+    required: yes
+    description: >
+        Variable in which to store simulated horizontal eye position (in
+        degrees)
+  - 
+    name: eye_v
+    required: yes
+    description: >
+        Variable in which to store simulated vertical eye position (in degrees)
+  - 
+    name: data_interval
+    required: yes
+    example: 1ms
+    description: >
+        Interval between simulated eye position samples (microseconds)
+  - 
+    name: update_interval
+    required: yes
+    example: 10ms
+    description: >
+        Interval between eye position updates (microseconds).  If larger than
+        `data_interval`_, multiple eye positions will be generated during each
+        update.
+
+
+---
+
+
+name: Fake Monkey Juice Channel
+signature: iochannel/juice
+isa: Fake Monkey Channel
+description: >
+    Simulates dispensing juice to a `Fake Monkey IO Device`
+parameters: 
+  - 
+    name: variable
+    required: yes
+    description: >
+        Variable used to trigger simulated juice dispensing.  Whenever the
+        variable's value changes, MWorks logs a message (to the event stream and
+        server console) indicating that juice was dispensed.
+
+
+---
+
+
+name: Fake Monkey Spike Channel
+signature: iochannel/spike
+isa: Fake Monkey Channel
+description: >
+    Provides simulated spikes from a `Fake Monkey IO Device`
+parameters: 
+  - 
+    name: variable
+    required: yes
+    description: >
+        Variable to set to ``1`` whenever a new spike is generated
+
+
+---
+
+
+name: Fake Monkey Fixate
+signature: action/fake_monkey_fixate
+isa: Action
+platform: macos
+description: >
+    Causes a `Fake Monkey IO Device` to fixate at the current eye position for
+    a specified duration
+parameters: 
+  - 
+    name: fake_monkey
+    required: yes
+    description: Fake monkey device
+  - 
+    name: duration
+    required: yes
+    description: Fixation duration (microseconds)
+
+
+---
+
+
+name: Fake Monkey Saccade
+signature: action/fake_monkey_saccade_to_location
+isa: Action
+platform: macos
+description: >
+    Causes a `Fake Monkey IO Device` to saccade to the specified location
+parameters: 
+  - 
+    name: fake_monkey
+    required: yes
+    description: Fake monkey device
+  - 
+    name: h
+    required: yes
+    description: Horizontal target position (degrees)
+  - 
+    name: v
+    required: yes
+    description: Vertical target position (degrees)
+
+
+---
+
+
+name: Fake Monkey Saccade and Fixate
+signature: action/fake_monkey_saccade_and_fixate
+isa: Action
+platform: macos
+description: >
+    Causes a `Fake Monkey IO Device` to saccade to the specified location and
+    fixate for the specified duration
+parameters: 
+  - 
+    name: fake_monkey
+    required: yes
+    description: Fake monkey device
+  - 
+    name: h
+    required: yes
+    description: Horizontal target position (degrees)
+  - 
+    name: v
+    required: yes
+    description: Vertical target position (degrees)
+  - 
+    name: duration
+    required: yes
+    description: Fixation duration (microseconds)
+
+

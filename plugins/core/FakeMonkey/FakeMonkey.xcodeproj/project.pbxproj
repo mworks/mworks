@@ -1,0 +1,475 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E12D98D516BC24E0004FEF79 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12D98D616BC24E0004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E12D98DC16BC24ED004FEF79 /* CopyFiles */,
+			);
+			dependencies = (
+				E12D98DB16BC24EA004FEF79 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E17B9D8A119CA15400EEBF5D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E17B9D94119CA16000EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E12D98D916BC24E7004FEF79 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0E0C61170EB60DDC004B707E /* FakeMonkeyEyeMovementChannelFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C61160EB60DDC004B707E /* FakeMonkeyEyeMovementChannelFactory.cpp */; };
+		0E37FBA30E59C3DD008B885D /* FakeMonkeyPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* FakeMonkeyPlugin.cpp */; };
+		0E4F1E4A0EB20EF700AA5380 /* FakeMonkeyChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F1E490EB20EF700AA5380 /* FakeMonkeyChannel.cpp */; };
+		0E4F1E840EB2145100AA5380 /* FakeMonkeyEyeMovementChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F1E830EB2145100AA5380 /* FakeMonkeyEyeMovementChannel.cpp */; };
+		0E52AED30E93B9780013DFCC /* FakeMonkey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E52AECF0E93B9780013DFCC /* FakeMonkey.cpp */; };
+		0EBCF86B0EB18B790054C035 /* FakeMonkeySpikeChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EBCF86A0EB18B790054C035 /* FakeMonkeySpikeChannel.cpp */; };
+		0EBCF8D60EB199A50054C035 /* FakeMonkeySpikeChannelFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EBCF8D40EB199A50054C035 /* FakeMonkeySpikeChannelFactory.cpp */; };
+		0EBCF8E50EB19BC40054C035 /* FakeMonkeyJuiceChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EBCF8E30EB19BC40054C035 /* FakeMonkeyJuiceChannel.cpp */; };
+		0EBCF8F20EB19D650054C035 /* FakeMonkeyJuiceChannelFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EBCF8F00EB19D650054C035 /* FakeMonkeyJuiceChannelFactory.cpp */; };
+		0ECF986A0E9C732600DF3096 /* FakeMonkeySaccadeToLocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0ECF98690E9C732600DF3096 /* FakeMonkeySaccadeToLocation.cpp */; };
+		0ECF987B0E9C73DF00DF3096 /* FakeMonkeySaccadeToLocationFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0ECF987A0E9C73DF00DF3096 /* FakeMonkeySaccadeToLocationFactory.cpp */; };
+		0ECF98E40E9C7D5E00DF3096 /* FakeMonkeyFixate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0ECF98E30E9C7D5E00DF3096 /* FakeMonkeyFixate.cpp */; };
+		0ECF99000E9C7EB200DF3096 /* FakeMonkeyFixateFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0ECF98FF0E9C7EB200DF3096 /* FakeMonkeyFixateFactory.cpp */; };
+		5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MWorksCore.framework */; };
+		687C7C140E9D425100C76F25 /* FakeMonkeyJuiceNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 687C7C130E9D425100C76F25 /* FakeMonkeyJuiceNotification.cpp */; };
+		688D4D1C0E9D0A2200EC8832 /* FakeMonkeySaccadeAndFixate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 688D4D1B0E9D0A2200EC8832 /* FakeMonkeySaccadeAndFixate.cpp */; };
+		688D4D1F0E9D0A3300EC8832 /* FakeMonkeySaccadeAndFixateFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 688D4D1E0E9D0A3300EC8832 /* FakeMonkeySaccadeAndFixateFactory.cpp */; };
+		689708DC0E5A03BB00CE38EA /* FakeMonkeyFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 689708DB0E5A03BB00CE38EA /* FakeMonkeyFactory.cpp */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		E12D98DD16BC24F1004FEF79 /* FakeMonkeyPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* FakeMonkeyPlugin.bundle */; };
+		E1E07EA51C04F3B6008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07EA41C04F3B6008DD97E /* MWComponents.yaml */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E12D98D816BC24E7004FEF79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12D98D516BC24E0004FEF79;
+			remoteInfo = Install;
+		};
+		E12D98DA16BC24EA004FEF79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = FakeMonkeyPlugin;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E12D98DC16BC24ED004FEF79 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E12D98DD16BC24F1004FEF79 /* FakeMonkeyPlugin.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0E0C61150EB60DDC004B707E /* FakeMonkeyEyeMovementChannelFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyEyeMovementChannelFactory.h; sourceTree = "<group>"; };
+		0E0C61160EB60DDC004B707E /* FakeMonkeyEyeMovementChannelFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyEyeMovementChannelFactory.cpp; sourceTree = "<group>"; };
+		0E37FBA10E59C3DD008B885D /* FakeMonkeyPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyPlugin.cpp; sourceTree = "<group>"; };
+		0E37FBA20E59C3DD008B885D /* FakeMonkeyPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyPlugin.h; sourceTree = "<group>"; };
+		0E4F1E480EB20EF700AA5380 /* FakeMonkeyChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyChannel.h; sourceTree = "<group>"; };
+		0E4F1E490EB20EF700AA5380 /* FakeMonkeyChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyChannel.cpp; sourceTree = "<group>"; };
+		0E4F1E820EB2145100AA5380 /* FakeMonkeyEyeMovementChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyEyeMovementChannel.h; sourceTree = "<group>"; };
+		0E4F1E830EB2145100AA5380 /* FakeMonkeyEyeMovementChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyEyeMovementChannel.cpp; sourceTree = "<group>"; };
+		0E4F1EF30EB2226A00AA5380 /* FakeMonkeyStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyStatus.h; sourceTree = "<group>"; };
+		0E52AECF0E93B9780013DFCC /* FakeMonkey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkey.cpp; sourceTree = "<group>"; };
+		0E52AED00E93B9780013DFCC /* FakeMonkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkey.h; sourceTree = "<group>"; };
+		0EBCF8690EB18B790054C035 /* FakeMonkeySpikeChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeySpikeChannel.h; sourceTree = "<group>"; };
+		0EBCF86A0EB18B790054C035 /* FakeMonkeySpikeChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeySpikeChannel.cpp; sourceTree = "<group>"; };
+		0EBCF8D40EB199A50054C035 /* FakeMonkeySpikeChannelFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeySpikeChannelFactory.cpp; sourceTree = "<group>"; };
+		0EBCF8D50EB199A50054C035 /* FakeMonkeySpikeChannelFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeySpikeChannelFactory.h; sourceTree = "<group>"; };
+		0EBCF8E30EB19BC40054C035 /* FakeMonkeyJuiceChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyJuiceChannel.cpp; sourceTree = "<group>"; };
+		0EBCF8E40EB19BC40054C035 /* FakeMonkeyJuiceChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyJuiceChannel.h; sourceTree = "<group>"; };
+		0EBCF8F00EB19D650054C035 /* FakeMonkeyJuiceChannelFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyJuiceChannelFactory.cpp; sourceTree = "<group>"; };
+		0EBCF8F10EB19D650054C035 /* FakeMonkeyJuiceChannelFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyJuiceChannelFactory.h; sourceTree = "<group>"; };
+		0ECF98680E9C732600DF3096 /* FakeMonkeySaccadeToLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeySaccadeToLocation.h; sourceTree = "<group>"; };
+		0ECF98690E9C732600DF3096 /* FakeMonkeySaccadeToLocation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeySaccadeToLocation.cpp; sourceTree = "<group>"; };
+		0ECF98790E9C73DF00DF3096 /* FakeMonkeySaccadeToLocationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeySaccadeToLocationFactory.h; sourceTree = "<group>"; };
+		0ECF987A0E9C73DF00DF3096 /* FakeMonkeySaccadeToLocationFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeySaccadeToLocationFactory.cpp; sourceTree = "<group>"; };
+		0ECF98E20E9C7D5E00DF3096 /* FakeMonkeyFixate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyFixate.h; sourceTree = "<group>"; };
+		0ECF98E30E9C7D5E00DF3096 /* FakeMonkeyFixate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyFixate.cpp; sourceTree = "<group>"; };
+		0ECF98FE0E9C7EB200DF3096 /* FakeMonkeyFixateFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyFixateFactory.h; sourceTree = "<group>"; };
+		0ECF98FF0E9C7EB200DF3096 /* FakeMonkeyFixateFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyFixateFactory.cpp; sourceTree = "<group>"; };
+		32DBCF630370AF2F00C91783 /* FakeMonkeyPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyPlugin_Prefix.pch; sourceTree = "<group>"; };
+		5C4B0A630DC79212001BC518 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		687C7C120E9D425100C76F25 /* FakeMonkeyJuiceNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyJuiceNotification.h; sourceTree = "<group>"; };
+		687C7C130E9D425100C76F25 /* FakeMonkeyJuiceNotification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyJuiceNotification.cpp; sourceTree = "<group>"; };
+		688D4D1A0E9D0A2200EC8832 /* FakeMonkeySaccadeAndFixate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeySaccadeAndFixate.h; sourceTree = "<group>"; };
+		688D4D1B0E9D0A2200EC8832 /* FakeMonkeySaccadeAndFixate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeySaccadeAndFixate.cpp; sourceTree = "<group>"; };
+		688D4D1D0E9D0A3300EC8832 /* FakeMonkeySaccadeAndFixateFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeySaccadeAndFixateFactory.h; sourceTree = "<group>"; };
+		688D4D1E0E9D0A3300EC8832 /* FakeMonkeySaccadeAndFixateFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeySaccadeAndFixateFactory.cpp; sourceTree = "<group>"; };
+		689708DA0E5A03BB00CE38EA /* FakeMonkeyFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMonkeyFactory.h; sourceTree = "<group>"; };
+		689708DB0E5A03BB00CE38EA /* FakeMonkeyFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeMonkeyFactory.cpp; sourceTree = "<group>"; };
+		8D5B49B6048680CD000E48DA /* FakeMonkeyPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeMonkeyPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1E07EA41C04F3B6008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E1F7696422BD4C0100024441 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1F7696522BD4C0100024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* FakeMonkeyPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				E1895A19116FBBC100D8CBE0 /* External Configs */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = FakeMonkeyPlugin;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E1E07EA41C04F3B6008DD97E /* MWComponents.yaml */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0ECF98660E9C730600DF3096 /* Actions */,
+				0E52AFCA0E93C42A0013DFCC /* Device */,
+				0E37FBA10E59C3DD008B885D /* FakeMonkeyPlugin.cpp */,
+				0E37FBA20E59C3DD008B885D /* FakeMonkeyPlugin.h */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		0E52AFCA0E93C42A0013DFCC /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				0EBCF8D20EB199290054C035 /* Channels */,
+				0E52AECF0E93B9780013DFCC /* FakeMonkey.cpp */,
+				0E52AED00E93B9780013DFCC /* FakeMonkey.h */,
+				689708DA0E5A03BB00CE38EA /* FakeMonkeyFactory.h */,
+				689708DB0E5A03BB00CE38EA /* FakeMonkeyFactory.cpp */,
+				0E4F1EF30EB2226A00AA5380 /* FakeMonkeyStatus.h */,
+			);
+			name = Device;
+			sourceTree = "<group>";
+		};
+		0EBCF8D20EB199290054C035 /* Channels */ = {
+			isa = PBXGroup;
+			children = (
+				0EBCF8E10EB19ACC0054C035 /* Factories */,
+				0EBCF8E30EB19BC40054C035 /* FakeMonkeyJuiceChannel.cpp */,
+				0EBCF8E40EB19BC40054C035 /* FakeMonkeyJuiceChannel.h */,
+				687C7C120E9D425100C76F25 /* FakeMonkeyJuiceNotification.h */,
+				687C7C130E9D425100C76F25 /* FakeMonkeyJuiceNotification.cpp */,
+				0EBCF86A0EB18B790054C035 /* FakeMonkeySpikeChannel.cpp */,
+				0EBCF8690EB18B790054C035 /* FakeMonkeySpikeChannel.h */,
+				0E4F1E480EB20EF700AA5380 /* FakeMonkeyChannel.h */,
+				0E4F1E490EB20EF700AA5380 /* FakeMonkeyChannel.cpp */,
+				0E4F1E820EB2145100AA5380 /* FakeMonkeyEyeMovementChannel.h */,
+				0E4F1E830EB2145100AA5380 /* FakeMonkeyEyeMovementChannel.cpp */,
+			);
+			name = Channels;
+			sourceTree = "<group>";
+		};
+		0EBCF8E10EB19ACC0054C035 /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				0EBCF8F10EB19D650054C035 /* FakeMonkeyJuiceChannelFactory.h */,
+				0EBCF8F00EB19D650054C035 /* FakeMonkeyJuiceChannelFactory.cpp */,
+				0EBCF8D50EB199A50054C035 /* FakeMonkeySpikeChannelFactory.h */,
+				0EBCF8D40EB199A50054C035 /* FakeMonkeySpikeChannelFactory.cpp */,
+				0E0C61150EB60DDC004B707E /* FakeMonkeyEyeMovementChannelFactory.h */,
+				0E0C61160EB60DDC004B707E /* FakeMonkeyEyeMovementChannelFactory.cpp */,
+			);
+			name = Factories;
+			sourceTree = "<group>";
+		};
+		0ECF98660E9C730600DF3096 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				0ECF98680E9C732600DF3096 /* FakeMonkeySaccadeToLocation.h */,
+				0ECF98690E9C732600DF3096 /* FakeMonkeySaccadeToLocation.cpp */,
+				0ECF98790E9C73DF00DF3096 /* FakeMonkeySaccadeToLocationFactory.h */,
+				0ECF987A0E9C73DF00DF3096 /* FakeMonkeySaccadeToLocationFactory.cpp */,
+				0ECF98E20E9C7D5E00DF3096 /* FakeMonkeyFixate.h */,
+				0ECF98E30E9C7D5E00DF3096 /* FakeMonkeyFixate.cpp */,
+				0ECF98FE0E9C7EB200DF3096 /* FakeMonkeyFixateFactory.h */,
+				0ECF98FF0E9C7EB200DF3096 /* FakeMonkeyFixateFactory.cpp */,
+				688D4D1A0E9D0A2200EC8832 /* FakeMonkeySaccadeAndFixate.h */,
+				688D4D1B0E9D0A2200EC8832 /* FakeMonkeySaccadeAndFixate.cpp */,
+				688D4D1D0E9D0A3300EC8832 /* FakeMonkeySaccadeAndFixateFactory.h */,
+				688D4D1E0E9D0A3300EC8832 /* FakeMonkeySaccadeAndFixateFactory.cpp */,
+			);
+			name = Actions;
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* FakeMonkeyPlugin.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* FakeMonkeyPlugin_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		E1895A19116FBBC100D8CBE0 /* External Configs */ = {
+			isa = PBXGroup;
+			children = (
+				E1F7696522BD4C0100024441 /* macOS.xcconfig */,
+				E1F7696422BD4C0100024441 /* macOS_Plugin.xcconfig */,
+			);
+			name = "External Configs";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* FakeMonkeyPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "FakeMonkeyPlugin" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FakeMonkeyPlugin;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = FakeMonkeyPlugin;
+			productReference = 8D5B49B6048680CD000E48DA /* FakeMonkeyPlugin.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D98D516BC24E0004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+					E17B9D8A119CA15400EEBF5D = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "FakeMonkey" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* FakeMonkeyPlugin */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* FakeMonkeyPlugin */,
+				E12D98D516BC24E0004FEF79 /* Install */,
+				E17B9D8A119CA15400EEBF5D /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				E1E07EA51C04F3B6008DD97E /* MWComponents.yaml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E52AED30E93B9780013DFCC /* FakeMonkey.cpp in Sources */,
+				0E37FBA30E59C3DD008B885D /* FakeMonkeyPlugin.cpp in Sources */,
+				689708DC0E5A03BB00CE38EA /* FakeMonkeyFactory.cpp in Sources */,
+				0ECF986A0E9C732600DF3096 /* FakeMonkeySaccadeToLocation.cpp in Sources */,
+				0ECF987B0E9C73DF00DF3096 /* FakeMonkeySaccadeToLocationFactory.cpp in Sources */,
+				0ECF98E40E9C7D5E00DF3096 /* FakeMonkeyFixate.cpp in Sources */,
+				0ECF99000E9C7EB200DF3096 /* FakeMonkeyFixateFactory.cpp in Sources */,
+				688D4D1C0E9D0A2200EC8832 /* FakeMonkeySaccadeAndFixate.cpp in Sources */,
+				688D4D1F0E9D0A3300EC8832 /* FakeMonkeySaccadeAndFixateFactory.cpp in Sources */,
+				687C7C140E9D425100C76F25 /* FakeMonkeyJuiceNotification.cpp in Sources */,
+				0EBCF86B0EB18B790054C035 /* FakeMonkeySpikeChannel.cpp in Sources */,
+				0EBCF8D60EB199A50054C035 /* FakeMonkeySpikeChannelFactory.cpp in Sources */,
+				0EBCF8E50EB19BC40054C035 /* FakeMonkeyJuiceChannel.cpp in Sources */,
+				0EBCF8F20EB19D650054C035 /* FakeMonkeyJuiceChannelFactory.cpp in Sources */,
+				0E4F1E4A0EB20EF700AA5380 /* FakeMonkeyChannel.cpp in Sources */,
+				0E4F1E840EB2145100AA5380 /* FakeMonkeyEyeMovementChannel.cpp in Sources */,
+				0E0C61170EB60DDC004B707E /* FakeMonkeyEyeMovementChannelFactory.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E12D98D916BC24E7004FEF79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12D98D516BC24E0004FEF79 /* Install */;
+			targetProxy = E12D98D816BC24E7004FEF79 /* PBXContainerItemProxy */;
+		};
+		E12D98DB16BC24EA004FEF79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* FakeMonkeyPlugin */;
+			targetProxy = E12D98DA16BC24EA004FEF79 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E12D98D716BC24E0004FEF79 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696522BD4C0100024441 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E17B9D8B119CA15500EEBF5D /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696522BD4C0100024441 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E1895A24116FBC1200D8CBE0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1895A25116FBC1200D8CBE0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696422BD4C0100024441 /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = FakeMonkeyPlugin_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.mit.dicarlolab.FakeMonkeyPlugin;
+				PRODUCT_NAME = FakeMonkeyPlugin;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "FakeMonkeyPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1895A25116FBC1200D8CBE0 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "FakeMonkey" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1895A24116FBC1200D8CBE0 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E12D98D616BC24E0004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12D98D716BC24E0004FEF79 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E17B9D94119CA16000EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17B9D8B119CA15500EEBF5D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
