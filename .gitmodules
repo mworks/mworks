@@ -1,3 +1,6 @@
+[submodule "plugins/core/BlackrockLEDDriver"]
+	path = plugins/core/BlackrockLEDDriver
+	url = https://github.com/mworks/mworks-blackrock-led-driver.git
 [submodule "plugins/core/DATAPixx"]
 	path = plugins/core/DATAPixx
 	url = https://github.com/mworks/mworks-datapixx.git
