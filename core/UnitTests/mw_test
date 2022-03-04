@@ -269,13 +269,14 @@ def main():
 
     run_tests(unit_test_names, marionette_test_names)
 
+    # The Python interpreter will exit with status 1 if there's an exception and
+    # 2 if there's an argument-parsing error.  Use status 3 to indicate that
+    # some tests failed with errors and status 4 to denote warnings without
+    # errors.
     if error_tests:
-        rc = 1
-    elif warning_tests:
-        rc = 2
-    else:
-        rc = 0
-    sys.exit(rc)
+        sys.exit(3)
+    if warning_tests:
+        sys.exit(4)
 
 
 if __name__ == '__main__':
