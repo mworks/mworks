@@ -7,3 +7,6 @@
 [submodule "plugins/core/EyeLink"]
 	path = plugins/core/EyeLink
 	url = https://github.com/mworks/mworks-eyelink.git
+[submodule "plugins/core/XIMEACamera"]
+	path = plugins/core/XIMEACamera
+	url = https://github.com/mworks/mworks-ximea-camera.git
