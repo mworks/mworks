@@ -203,16 +203,6 @@ def python_tools():
     xcodebuild()
 
 
-@builder('tools/matlab')
-def matlab_tools():
-    try:
-        xcodebuild('MATLAB Install Check')
-    except subprocess.CalledProcessError:
-        warn('MATLAB install check failed; skipping matlab_tools')
-        raise BuilderSkipped
-    xcodebuild()
-
-
 @builder
 def swift():
     xcodebuild(scheme = 'MWorksSwift',
@@ -234,6 +224,19 @@ def client():
 @subdir_builder('plugins/client')
 def client_plugins():
     xcodebuild()
+
+
+@builder('tools/matlab')
+def matlab_tools():
+    try:
+        xcodebuild('MATLAB Install Check')
+    except subprocess.CalledProcessError:
+        warn('MATLAB install check failed; skipping matlab_tools')
+        raise BuilderSkipped
+
+    xcodebuild()
+    with workdir('MATLABWindow'):
+        xcodebuild()
 
 
 @builder('apps/server')

@@ -1,0 +1,349 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E12D994716BC37E5004FEF79 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12D994816BC37E5004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E12D994E16BC37F0004FEF79 /* CopyFiles */,
+			);
+			dependencies = (
+				E12D994D16BC37ED004FEF79 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E17B9ED0119CA80500EEBF5D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E17B9ED6119CA80E00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E12D994B16BC37EB004FEF79 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		5C8E4A69098FA2A600EB44CA /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C8E4A68098FA2A600EB44CA /* Main.xib */; };
+		5C8E4A7B098FB02400EB44CA /* MWRewardWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8E4A7A098FB02400EB44CA /* MWRewardWindowController.m */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		E12D994F16BC37F4004FEF79 /* MWorksRewardWindow.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */; };
+		E15D0B3C16C2CAA800F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B3B16C2CAA800F331B1 /* AppKit.framework */; };
+		E186EFCE207D255C00B32CA3 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E186EFCD207D255C00B32CA3 /* MWorksCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E12D994A16BC37EB004FEF79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12D994716BC37E5004FEF79;
+			remoteInfo = Install;
+		};
+		E12D994C16BC37ED004FEF79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = MWorksRewardWindow;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E12D994E16BC37F0004FEF79 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_CLIENT_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E12D994F16BC37F4004FEF79 /* MWorksRewardWindow.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32DBCF630370AF2F00C91783 /* MWorksRewardWindow_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksRewardWindow_Prefix.pch; sourceTree = "<group>"; };
+		5C8E4A68098FA2A600EB44CA /* Main.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
+		5C8E4A79098FB02400EB44CA /* MWRewardWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWRewardWindowController.h; sourceTree = "<group>"; };
+		5C8E4A7A098FB02400EB44CA /* MWRewardWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWRewardWindowController.m; sourceTree = "<group>"; };
+		686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWorksRewardWindow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E15D0B3B16C2CAA800F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E186EFCD207D255C00B32CA3 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E1C3651422BD6E7D00D1DBF6 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1C3651522BD6E7D00D1DBF6 /* macOS_ClientPlugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_ClientPlugin.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E186EFCE207D255C00B32CA3 /* MWorksCore.framework in Frameworks */,
+				E15D0B3C16C2CAA800F331B1 /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* MonkeyWorksRewardWindow */ = {
+			isa = PBXGroup;
+			children = (
+				E1895B45116FD7A500D8CBE0 /* External Configs */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = MonkeyWorksRewardWindow;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E186EFCD207D255C00B32CA3 /* MWorksCore.framework */,
+				E15D0B3B16C2CAA800F331B1 /* AppKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5C8E4A68098FA2A600EB44CA /* Main.xib */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5C8E4A79098FB02400EB44CA /* MWRewardWindowController.h */,
+				5C8E4A7A098FB02400EB44CA /* MWRewardWindowController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* MWorksRewardWindow_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		E1895B45116FD7A500D8CBE0 /* External Configs */ = {
+			isa = PBXGroup;
+			children = (
+				E1C3651422BD6E7D00D1DBF6 /* macOS.xcconfig */,
+				E1C3651522BD6E7D00D1DBF6 /* macOS_ClientPlugin.xcconfig */,
+			);
+			name = "External Configs";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* MWorksRewardWindow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MWorksRewardWindow" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MWorksRewardWindow;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = MonkeyWorksRewardWindow;
+			productReference = 686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					E12D994716BC37E5004FEF79 = {
+						ProvisioningStyle = Automatic;
+					};
+					E17B9ED0119CA80500EEBF5D = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksRewardWindow" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* MonkeyWorksRewardWindow */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* MWorksRewardWindow */,
+				E12D994716BC37E5004FEF79 /* Install */,
+				E17B9ED0119CA80500EEBF5D /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				5C8E4A69098FA2A600EB44CA /* Main.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C8E4A7B098FB02400EB44CA /* MWRewardWindowController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E12D994B16BC37EB004FEF79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12D994716BC37E5004FEF79 /* Install */;
+			targetProxy = E12D994A16BC37EB004FEF79 /* PBXContainerItemProxy */;
+		};
+		E12D994D16BC37ED004FEF79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* MWorksRewardWindow */;
+			targetProxy = E12D994C16BC37ED004FEF79 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E12D994916BC37E5004FEF79 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C3651422BD6E7D00D1DBF6 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E17B9ED1119CA80500EEBF5D /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C3651422BD6E7D00D1DBF6 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E1895B52116FD7FB00D8CBE0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1895B53116FD7FB00D8CBE0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C3651522BD6E7D00D1DBF6 /* macOS_ClientPlugin.xcconfig */;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PREFIX_HEADER = MWorksRewardWindow_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.mit.dicarlolab.MWorksRewardWindow;
+				PRODUCT_NAME = MWorksRewardWindow;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MWorksRewardWindow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1895B53116FD7FB00D8CBE0 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksRewardWindow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1895B52116FD7FB00D8CBE0 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E12D994816BC37E5004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12D994916BC37E5004FEF79 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E17B9ED6119CA80E00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17B9ED1119CA80500EEBF5D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
