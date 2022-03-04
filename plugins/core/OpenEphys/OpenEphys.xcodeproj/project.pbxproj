@@ -1,0 +1,343 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E16A0C8A1B5FE91600FB8EC1 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E16A0C8B1B5FE91600FB8EC1 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E16A0C8D1B5FE93800FB8EC1 /* CopyFiles */,
+			);
+			dependencies = (
+				E16A0C8F1B5FE93F00FB8EC1 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E16A0C911B5FE96000FB8EC1 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E16A0C921B5FE96000FB8EC1 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E16A0C951B5FE96500FB8EC1 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E11BCBE31CF4DB4100041BAC /* OpenEphysBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11BCBE11CF4DB4100041BAC /* OpenEphysBase.cpp */; };
+		E11BCBE61CF4E57200041BAC /* OpenEphysNetworkEventsClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11BCBE41CF4E57200041BAC /* OpenEphysNetworkEventsClient.cpp */; };
+		E16A0C901B5FE94C00FB8EC1 /* OpenEphys.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E16A0C7D1B5FE6DA00FB8EC1 /* OpenEphys.bundle */; };
+		E16A0C971B5FE9DB00FB8EC1 /* OpenEphysPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16A0C961B5FE9DB00FB8EC1 /* OpenEphysPlugin.cpp */; };
+		E16A0C9A1B5FF01900FB8EC1 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16A0C991B5FF01900FB8EC1 /* MWorksCore.framework */; };
+		E16A0CA21B60059100FB8EC1 /* OpenEphysInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16A0CA01B60059100FB8EC1 /* OpenEphysInterface.cpp */; };
+		E1E07EB11C04F4FC008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07EB01C04F4FC008DD97E /* MWComponents.yaml */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E16A0C8E1B5FE93F00FB8EC1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E16A0C751B5FE6DA00FB8EC1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E16A0C7C1B5FE6DA00FB8EC1;
+			remoteInfo = OpenEphys;
+		};
+		E16A0C941B5FE96500FB8EC1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E16A0C751B5FE6DA00FB8EC1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E16A0C8A1B5FE91600FB8EC1;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E16A0C8D1B5FE93800FB8EC1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E16A0C901B5FE94C00FB8EC1 /* OpenEphys.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E11BCBE11CF4DB4100041BAC /* OpenEphysBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenEphysBase.cpp; sourceTree = "<group>"; };
+		E11BCBE21CF4DB4100041BAC /* OpenEphysBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenEphysBase.hpp; sourceTree = "<group>"; };
+		E11BCBE41CF4E57200041BAC /* OpenEphysNetworkEventsClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenEphysNetworkEventsClient.cpp; sourceTree = "<group>"; };
+		E11BCBE51CF4E57200041BAC /* OpenEphysNetworkEventsClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenEphysNetworkEventsClient.hpp; sourceTree = "<group>"; };
+		E16A0C7D1B5FE6DA00FB8EC1 /* OpenEphys.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEphys.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E16A0C811B5FE6DA00FB8EC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E16A0C961B5FE9DB00FB8EC1 /* OpenEphysPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenEphysPlugin.cpp; sourceTree = "<group>"; };
+		E16A0C981B5FEA5600FB8EC1 /* OpenEphys-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenEphys-Prefix.pch"; sourceTree = "<group>"; };
+		E16A0C991B5FF01900FB8EC1 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E16A0CA01B60059100FB8EC1 /* OpenEphysInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenEphysInterface.cpp; sourceTree = "<group>"; };
+		E16A0CA11B60059100FB8EC1 /* OpenEphysInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEphysInterface.h; sourceTree = "<group>"; };
+		E1E07EB01C04F4FC008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E1F7696C22BD545900024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1F7696D22BD545900024441 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E16A0C7A1B5FE6DA00FB8EC1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E16A0C9A1B5FF01900FB8EC1 /* MWorksCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E16A0C741B5FE6DA00FB8EC1 = {
+			isa = PBXGroup;
+			children = (
+				E16A0C871B5FE7A700FB8EC1 /* External Config */,
+				E16A0C7F1B5FE6DA00FB8EC1 /* OpenEphys */,
+				E16A0C9B1B5FF02900FB8EC1 /* Frameworks */,
+				E16A0C7E1B5FE6DA00FB8EC1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E16A0C7E1B5FE6DA00FB8EC1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E16A0C7D1B5FE6DA00FB8EC1 /* OpenEphys.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E16A0C7F1B5FE6DA00FB8EC1 /* OpenEphys */ = {
+			isa = PBXGroup;
+			children = (
+				E11BCBE21CF4DB4100041BAC /* OpenEphysBase.hpp */,
+				E11BCBE11CF4DB4100041BAC /* OpenEphysBase.cpp */,
+				E16A0CA11B60059100FB8EC1 /* OpenEphysInterface.h */,
+				E16A0CA01B60059100FB8EC1 /* OpenEphysInterface.cpp */,
+				E11BCBE51CF4E57200041BAC /* OpenEphysNetworkEventsClient.hpp */,
+				E11BCBE41CF4E57200041BAC /* OpenEphysNetworkEventsClient.cpp */,
+				E16A0C961B5FE9DB00FB8EC1 /* OpenEphysPlugin.cpp */,
+				E16A0C801B5FE6DA00FB8EC1 /* Supporting Files */,
+			);
+			path = OpenEphys;
+			sourceTree = "<group>";
+		};
+		E16A0C801B5FE6DA00FB8EC1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E16A0C811B5FE6DA00FB8EC1 /* Info.plist */,
+				E16A0C981B5FEA5600FB8EC1 /* OpenEphys-Prefix.pch */,
+				E1E07EB01C04F4FC008DD97E /* MWComponents.yaml */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E16A0C871B5FE7A700FB8EC1 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1F7696C22BD545900024441 /* macOS.xcconfig */,
+				E1F7696D22BD545900024441 /* macOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E16A0C9B1B5FF02900FB8EC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E16A0C991B5FF01900FB8EC1 /* MWorksCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E16A0C7C1B5FE6DA00FB8EC1 /* OpenEphys */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E16A0C841B5FE6DA00FB8EC1 /* Build configuration list for PBXNativeTarget "OpenEphys" */;
+			buildPhases = (
+				E16A0C791B5FE6DA00FB8EC1 /* Sources */,
+				E16A0C7A1B5FE6DA00FB8EC1 /* Frameworks */,
+				E16A0C7B1B5FE6DA00FB8EC1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenEphys;
+			productName = OpenEphys;
+			productReference = E16A0C7D1B5FE6DA00FB8EC1 /* OpenEphys.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E16A0C751B5FE6DA00FB8EC1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E16A0C7C1B5FE6DA00FB8EC1 = {
+						CreatedOnToolsVersion = 6.4;
+						ProvisioningStyle = Automatic;
+					};
+					E16A0C8A1B5FE91600FB8EC1 = {
+						CreatedOnToolsVersion = 6.4;
+						ProvisioningStyle = Automatic;
+					};
+					E16A0C911B5FE96000FB8EC1 = {
+						CreatedOnToolsVersion = 6.4;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E16A0C781B5FE6DA00FB8EC1 /* Build configuration list for PBXProject "OpenEphys" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+			);
+			mainGroup = E16A0C741B5FE6DA00FB8EC1;
+			productRefGroup = E16A0C7E1B5FE6DA00FB8EC1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E16A0C7C1B5FE6DA00FB8EC1 /* OpenEphys */,
+				E16A0C8A1B5FE91600FB8EC1 /* Install */,
+				E16A0C911B5FE96000FB8EC1 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E16A0C7B1B5FE6DA00FB8EC1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1E07EB11C04F4FC008DD97E /* MWComponents.yaml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E16A0C791B5FE6DA00FB8EC1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E11BCBE61CF4E57200041BAC /* OpenEphysNetworkEventsClient.cpp in Sources */,
+				E16A0C971B5FE9DB00FB8EC1 /* OpenEphysPlugin.cpp in Sources */,
+				E11BCBE31CF4DB4100041BAC /* OpenEphysBase.cpp in Sources */,
+				E16A0CA21B60059100FB8EC1 /* OpenEphysInterface.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E16A0C8F1B5FE93F00FB8EC1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E16A0C7C1B5FE6DA00FB8EC1 /* OpenEphys */;
+			targetProxy = E16A0C8E1B5FE93F00FB8EC1 /* PBXContainerItemProxy */;
+		};
+		E16A0C951B5FE96500FB8EC1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E16A0C8A1B5FE91600FB8EC1 /* Install */;
+			targetProxy = E16A0C941B5FE96500FB8EC1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E16A0C821B5FE6DA00FB8EC1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E16A0C851B5FE6DA00FB8EC1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696D22BD545900024441 /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenEphys/OpenEphys-Prefix.pch";
+				INFOPLIST_FILE = OpenEphys/Info.plist;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lzmq",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.OpenEphys";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E16A0C8C1B5FE91600FB8EC1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696C22BD545900024441 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E16A0C931B5FE96000FB8EC1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7696C22BD545900024441 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E16A0C781B5FE6DA00FB8EC1 /* Build configuration list for PBXProject "OpenEphys" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E16A0C821B5FE6DA00FB8EC1 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E16A0C841B5FE6DA00FB8EC1 /* Build configuration list for PBXNativeTarget "OpenEphys" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E16A0C851B5FE6DA00FB8EC1 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E16A0C8B1B5FE91600FB8EC1 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E16A0C8C1B5FE91600FB8EC1 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E16A0C921B5FE96000FB8EC1 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E16A0C931B5FE96000FB8EC1 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E16A0C751B5FE6DA00FB8EC1 /* Project object */;
+}

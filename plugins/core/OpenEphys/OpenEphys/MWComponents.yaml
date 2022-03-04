@@ -1,0 +1,139 @@
+---
+
+
+name: Open Ephys Interface
+signature: iodevice/open_ephys_interface
+isa: IODevice
+platform: macos
+description: |
+    Interface to the `Open Ephys GUI <http://www.open-ephys.org/gui/>`_
+    application.  Requires an Open Ephys Event Broadcaster module listening on
+    the specified `hostname`_ and `port`_.
+
+    The primary function of this component is to compute the offset between the
+    Open Ephys and MWorks clocks.  To enable this, your experiment must send
+    periodic synchronization words to TTL inputs on the Open Ephys acquisition
+    board.  Although this component does not send the synchronization signals
+    itself, it must be made aware of them via the `sync`_ and `sync_channels`_
+    parameters.
+
+    Additionally, this component can receive information on `spikes`_ detected
+    by an Open Ephys `Spike Detector <https://open-
+    ephys.atlassian.net/wiki/display/OEW/Spike+Detector>`_ or `Spike Sorter
+    <https://open-ephys.atlassian.net/wiki/display/OEW/Spike+Sorter>`_ module.
+    (Note that the Event Broadcaster must appear *after* the spike detection
+    module in the signal chain.)
+parameters: 
+  - 
+    name: hostname
+    required: yes
+    example:
+      - localhost
+      - dicarlo-open-ephys-12.mit.edu
+    description: >
+        Hostname of the computer running the Open Ephys GUI
+  - 
+    name: port
+    required: yes
+    example: 5557
+    description: >
+        TCP port used by the Event Broadcaster module
+  - 
+    name: sync
+    required: yes
+    description: >
+        Variable from which to read synchronization words sent to TTL inputs on
+        the Open Ephys acquisition board.  Assigning to the variable should also
+        initiate transmission of the TTL signals (e.g. by associating it with
+        a digital output channel on another `Input/Output` device).
+  - 
+    name: sync_channels
+    required: yes
+    example: ['0,1', '4:7', '1,4:6,7']
+    description: >
+        TTL input channels on the Open Ephys acquisition board to which
+        synchronization words are sent.  The first channel should receive the
+        least significant bit, the last channel the most significant.
+  - 
+    name: clock_offset
+    description: >
+        Variable in which to store computed offsets between the Open Ephys and
+        MWorks clocks.
+
+        Dividing an Open Ephys time (i.e. sample number) by the sampling rate
+        and adding this offset (reported in microseconds) yields the
+        corresponding MWorks time.
+  - 
+    name: spikes
+    description: |
+        Variable in which to store information on detected spikes.
+
+        For every spike event it receives from Open Ephys, MWorks will assign a
+        new value to this variable.  The value will be a dictionary with the
+        following fields:
+
+        oe_timestamp
+          Timestamp on Open Ephys clock (i.e. sample number)
+
+        sorted_id
+          Sorted unit ID (or 0 if unsorted)
+
+        electrode_id
+          Electrode ID
+
+        channel
+          Channel in which threshold crossing was detected (relevant only for
+          stereotrodes and tetrodes)
+
+        The MWorks timestamp on the value (i.e. the time recorded in the event
+        file) will be the Open Ephys timestamp converted to MWorks' clock (using
+        the computed clock offset).  This enables direct comparison of spike
+        times with the times of other events.
+
+
+---
+
+
+name: Open Ephys Network Events Client
+signature: iodevice/open_ephys_network_events_client
+isa: IODevice
+platform: macos
+description: >
+    Interface to a `Network Events <https://open-
+    ephys.atlassian.net/wiki/display/OEW/Network+Events>`_ module in the `Open
+    Ephys GUI <http://www.open-ephys.org/gui/>`_ application
+parameters: 
+  - 
+    name: hostname
+    required: yes
+    example:
+      - localhost
+      - dicarlo-open-ephys-12.mit.edu
+    description: >
+        Hostname of the computer running the Open Ephys GUI
+  - 
+    name: port
+    required: yes
+    example: 5556
+    description: >
+        TCP port used by the Network Events module
+  - 
+    name: request
+    required: yes
+    description: |
+        Variable from which to read messages to send to the Network Events
+        module.
+
+        `Assigning <Assign Variable>` a value to the variable causes the message
+        to be sent immediately.  The assignment action will not complete until a
+        response is received or an error or timeout occurs.
+
+        Non-string values are converted to strings before being sent.
+  - 
+    name: response
+    required: yes
+    description: >
+        Variable in which to store responses from the Network Events module.
+        Response values are always strings.
+
+
