@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import collections
 from contextlib import contextmanager
 from functools import partial, wraps
 from optparse import OptionParser
@@ -23,6 +24,8 @@ xcrun = '/usr/bin/xcrun'
 
 mw_version = 'CUSTOM'
 
+srcroot = os.path.abspath((os.path.dirname(__file__) or '.') + '/..')
+
 
 ################################################################################
 #
@@ -31,9 +34,21 @@ mw_version = 'CUSTOM'
 ################################################################################
 
 
+class BuilderSkipped(Exception):
+    pass
+
+
 def announce(msg, *args):
     sys.stderr.write((msg + '\n') % args)
     sys.stderr.flush()
+
+
+did_warn = False
+
+def warn(msg, *args):
+    global did_warn
+    announce('WARNING: ' + msg, *args)
+    did_warn = True
 
 
 def check_call(args, **kwargs):
@@ -46,43 +61,75 @@ def workdir(path):
     old_path = os.getcwd()
     announce('Entering directory %r', path)
     os.chdir(path)
-    yield
+
+    try:
+        yield
+    except BuilderSkipped:
+        skipped = True
+    else:
+        skipped = False
+
     announce('Leaving directory %r', path)
     os.chdir(old_path)
+    if skipped:
+        raise BuilderSkipped
 
 
-all_builders = []
+all_builders = collections.OrderedDict()
 required_builder_names = []
 
-def builder(func, build_dir=None, required=False, transient=False):
+def builder(func, *, build_dir=None, name=None, required=False):
     if isinstance(func, str):
         return partial(builder,
                        build_dir = func,
-                       required = required,
-                       transient = transient)
+                       name = name,
+                       required = required)
 
-    builder_name = func.__name__ 
     if build_dir is None:
-        build_dir = builder_name
+        build_dir = func.__name__
+    if name is None:
+        name = func.__name__
 
     @wraps(func)
     def func_wrapper():
-        if transient and (not os.path.isdir(build_dir)):
-            announce('Directory %r not found; skipping %s', build_dir,
-                     builder_name)
-        else:
-            announce('Building %s', builder_name)
-            with workdir(build_dir):
-                func()
+        announce('Building %s', name)
+        with workdir(build_dir):
+            func()
 
-    all_builders.append(func_wrapper)
+    all_builders[name] = func_wrapper
     if required:
-        required_builder_names.append(builder_name)
+        required_builder_names.append(name)
 
 
-def list_subdirs():
-    return sorted(dir for dir in os.listdir('.')
-                  if os.path.isdir(dir) and (not dir.startswith('.')))
+def subdir_builder(func, *, base_dir=None, name=None):
+    if isinstance(func, str):
+        return partial(subdir_builder,
+                       base_dir = func,
+                       name = name)
+
+    if base_dir is None:
+        base_dir = func.__name__
+    if name is None:
+        name = func.__name__
+
+    @wraps(func)
+    def func_wrapper():
+        if os.listdir():
+            func()
+        else:
+            # An empty subdirectory is most likely a git submodule that hasn't
+            # been initialized and/or updated.  Warn the user, in case this
+            # isn't intentional.
+            warn('Directory %r is empty; skipping current builder', os.getcwd())
+            raise BuilderSkipped
+
+    base_dir_path = os.path.join(srcroot, base_dir)
+    for subdir in sorted(os.listdir(base_dir_path)):
+        subdir_path = os.path.join(base_dir_path, subdir)
+        if os.path.isdir(subdir_path) and (not subdir.startswith('.')):
+            builder(func_wrapper,
+                    build_dir = os.path.join(base_dir, subdir),
+                    name = name + '/' + subdir)
 
 
 def xcodebuild(scheme = 'Everything',
@@ -117,86 +164,56 @@ def make(args=[]):
 ################################################################################
 
 
-@builder('mworks/build')
+@builder('build')
 def prepare():
     check_call(['./prepare_for_install'])
 
 
-@builder('mworks/build/xcode', required=True)
+@builder('build/xcode', required=True)
 def build_requirements():
     make()
 
 
-@builder('mworks/supporting_libs')
+@builder
 def supporting_libs():
     xcodebuild()
+    with workdir('scarab'):
+        xcodebuild()
 
 
-@builder('mworks/supporting_libs/scarab')
-def scarab():
-    xcodebuild()
-
-
-@builder('mworks/core')
+@builder
 def core():
     xcodebuild()
 
 
 # Install the standard examples *before* building plugins, since some plugins
 # will install their own examples/tests
-@builder('mworks/examples')
+@builder
 def examples():
     make()
 
 
-@builder('mworks/plugins/core')
+@subdir_builder('plugins/core')
 def core_plugins():
-    for subdir in ('DriftingGratingStimulus',
-                   'EasyEye',
-                   'FaceRecognizer',
-                   'Firmata',
-                   'LayerStimulus',
-                   'MouseInput',
-                   'MoviePlugin',
-                   'MovingDots',
-                   'NE500',
-                   'ParametricShape',
-                   'RCBLVDS',
-                   'RenderActions',
-                   'ServersideConduit',
-                   'SidewinderPlugAndPlayGamepadPlugin',
-                   'TextStimulus',
-                   'TouchInput',
-                   'USBHID',
-                   'VideoStimulus',
-                   'WhiteNoiseBackground'):
-        with workdir(subdir):
-            xcodebuild()
+    xcodebuild()
 
 
-@builder('plugins/core', transient=True)
-def local_core_plugins():
-    for subdir in list_subdirs():
-        with workdir(subdir):
-            xcodebuild()
-
-
-@builder('mworks/tools/python')
+@builder('tools/python')
 def python_tools():
     xcodebuild()
 
 
-@builder('mworks/tools/matlab')
+@builder('tools/matlab')
 def matlab_tools():
     try:
         xcodebuild('MATLAB Install Check')
     except subprocess.CalledProcessError:
-        announce('MATLAB install check failed; skipping matlab_tools')
-    else:
-        xcodebuild()
+        warn('MATLAB install check failed; skipping matlab_tools')
+        raise BuilderSkipped
+    xcodebuild()
 
 
-@builder('mworks/swift')
+@builder
 def swift():
     xcodebuild(scheme = 'MWorksSwift',
                destination = 'platform=macOS,arch=' + platform.machine(),
@@ -204,44 +221,32 @@ def swift():
     xcodebuild(actions=['build'])
 
 
-@builder('mworks/cocoa')
+@builder
 def cocoa():
     xcodebuild()
 
 
-@builder('mworks/apps/client')
+@builder('apps/client')
 def client():
     xcodebuild()
 
 
-@builder('mworks/plugins/client')
+@subdir_builder('plugins/client')
 def client_plugins():
-    for subdir in ('BehavioralWindow',
-                   'ImageViewer',
-                   'PythonBridgePlugin',
-                   'VariablesWindow'):
-        with workdir(subdir):
-            xcodebuild()
+    xcodebuild()
 
 
-@builder('plugins/client', transient=True)
-def local_client_plugins():
-    for subdir in list_subdirs():
-        with workdir(subdir):
-            xcodebuild()
-
-
-@builder('mworks/apps/server')
+@builder('apps/server')
 def server():
     xcodebuild()
 
 
-@builder('mworks/doc')
+@builder
 def doc():
     xcodebuild()
 
 
-@builder('mworks/mwel')
+@builder
 def mwel():
     xcodebuild()
 
@@ -269,7 +274,7 @@ def main():
     (options, requested_builders) = parser.parse_args()
     mw_version = options.mw_version
 
-    all_builder_names = [builder.__name__ for builder in all_builders]
+    all_builder_names = list(all_builders.keys())
 
     if options.first_builder:
         if requested_builders:
@@ -286,15 +291,30 @@ def main():
             parser.error('unknown builders: ' +
                          ', '.join(repr(name) for name in unknown_builders))
 
-    srcroot = os.path.abspath((os.path.dirname(__file__) or '.') + '/../..')
+    skipped_builder_names = []
 
     with workdir(srcroot):
-        for builder_name, builder in zip(all_builder_names, all_builders):
+        for builder_name, builder in all_builders.items():
             if ((not requested_builders) or
                 (builder_name in requested_builders) or
                 (builder_name in required_builder_names)):
 
-                builder()
+                try:
+                    builder()
+                except BuilderSkipped:
+                    skipped_builder_names.append(builder_name)
+
+    if skipped_builder_names:
+        msg = '\nThe following builders were skipped:\n\n'
+        for name in skipped_builder_names:
+            msg += '    %s\n' % name
+        announce(msg)
+
+    if did_warn:
+        # The Python interpreter will exit with status 1 if there's an exception
+        # and 2 if there's an argument-parsing error.  Exit with status 3 to
+        # indicate that we omitted warnings but didn't otherwise fail.
+        sys.exit(3)
 
 
 if __name__ == '__main__':
