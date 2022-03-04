@@ -1,0 +1,28 @@
+//
+//  ISCAN-Prefix.pch
+//  ISCAN
+//
+//  Created by Christopher Stawarz on 5/20/16.
+//  Copyright © 2016 The MWorks Project. All rights reserved.
+//
+
+#ifndef ISCAN_Prefix_pch
+#define ISCAN_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <atomic>
+#include <mutex>
+#include <thread>
+
+#include <boost/endian/arithmetic.hpp>
+#include <boost/scope_exit.hpp>
+
+#include <MWorksCore/IODevice.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/SerialPort.hpp>
+#include <MWorksCore/StandardComponentFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* ISCAN_Prefix_pch */

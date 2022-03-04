@@ -1,0 +1,55 @@
+---
+
+
+name: ISCAN Device
+signature: iodevice/iscan
+isa: IODevice
+platform: macos
+description: |
+    Interface to an `ISCAN <http://www.iscaninc.com/>`_ eye tracking system.
+
+    On the device, the serial I/O baud rate must be set to 115200, and a
+    binary output format must be selected.
+parameters: 
+  - 
+    name: serial_port
+    example: /dev/tty.usbserial-FTH1RRH5
+    description: |
+        Filesystem path that represents the serial port to which the ISCAN
+        device is connected.
+
+        If omitted, MWorks looks for a single, connected serial device.  If it
+        finds one, it assumes it to be the desired ISCAN device and attempts to
+        connect.
+  - 
+    name: output_01
+    description: Variable in which to store output 1
+  - 
+    name: output_02
+    description: Variable in which to store output 2
+  - 
+    name: output_03
+    description: Variable in which to store output 3
+  - 
+    name: output_04
+    description: Variable in which to store output 4
+  - 
+    name: output_05
+    description: Variable in which to store output 5
+  - 
+    name: output_06
+    description: Variable in which to store output 6
+  - 
+    name: start_command
+    default: 128
+    description: >
+        Command byte used to start recording.  On some systems, the correct
+        value may be 132.
+  - 
+    name: stop_command
+    default: 129
+    description: >
+        Command byte used to stop recording.  On some systems, the correct
+        value may be 136.
+
+
