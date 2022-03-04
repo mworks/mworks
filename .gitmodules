@@ -1,0 +1,3 @@
+[submodule "plugins/core/DATAPixx"]
+	path = plugins/core/DATAPixx
+	url = https://github.com/mworks/mworks-datapixx.git
