@@ -4,3 +4,6 @@
 [submodule "plugins/core/DATAPixx"]
 	path = plugins/core/DATAPixx
 	url = https://github.com/mworks/mworks-datapixx.git
+[submodule "plugins/core/EyeLink"]
+	path = plugins/core/EyeLink
+	url = https://github.com/mworks/mworks-eyelink.git
