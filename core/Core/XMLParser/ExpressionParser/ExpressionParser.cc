@@ -719,7 +719,7 @@ namespace stx MW_SYMBOL_PUBLIC {
                 std::string value(part.value.begin(), part.value.end());
                 if (part.value.id().to_long() == identifier_id) {
                     // Add an interpolated variable part
-                    partInfoList.emplace_back(PartType::InterpolatedVariable, std::move(value));
+                    partInfoList.emplace_back(PartType::InterpolatedVariable, std::move(value), nullptr);
                 } else if (value == "$(") {
                     // Add an interpolated expression part
                     assert(part.children.size() == 1);
@@ -729,7 +729,7 @@ namespace stx MW_SYMBOL_PUBLIC {
                 } else if (partInfoList.empty() || std::get<PartType>(partInfoList.back()) != PartType::Constant) {
                     // No previous part, or previous part is not constant,
                     // so add a new constant part
-                    partInfoList.emplace_back(PartType::Constant, std::move(value));
+                    partInfoList.emplace_back(PartType::Constant, std::move(value), nullptr);
                 } else {
                     // The previous and current parts are both constant, so
                     // append the latter's value to the former's (thereby
