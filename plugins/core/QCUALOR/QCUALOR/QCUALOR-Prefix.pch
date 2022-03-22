@@ -1,0 +1,22 @@
+//
+//  QCUALOR-Prefix.pch
+//  QCUALOR
+//
+//  Created by Christopher Stawarz on 3/22/22.
+//
+
+#ifndef QCUALOR_Prefix_pch
+#define QCUALOR_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <boost/endian/conversion.hpp>
+
+#include <MWorksCore/IODevice.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/SerialPort.hpp>
+#include <MWorksCore/StandardComponentFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* QCUALOR_Prefix_pch */

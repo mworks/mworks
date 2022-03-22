@@ -1,0 +1,318 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1EB3B6327EA156F008EDABF /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1EB3B6427EA156F008EDABF /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1EB3B6827EA158A008EDABF /* CopyFiles */,
+			);
+			dependencies = (
+				E1EB3B6727EA157F008EDABF /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E1EB3B6A27EA15C5008EDABF /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1EB3B6B27EA15C5008EDABF /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1EB3B6E27EA15C9008EDABF /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E1EB3B5E27EA1407008EDABF /* QCUALORPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EB3B5D27EA1407008EDABF /* QCUALORPlugin.cpp */; };
+		E1EB3B6927EA159B008EDABF /* QCUALOR.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1EB3B5627EA1320008EDABF /* QCUALOR.bundle */; };
+		E1EB3B7427EA1C49008EDABF /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1EB3B7327EA1C49008EDABF /* MWorksCore.framework */; };
+		E1EB3B7727EA1DB1008EDABF /* QCUALORDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EB3B7527EA1DB1008EDABF /* QCUALORDevice.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1EB3B6627EA157F008EDABF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1EB3B4E27EA1320008EDABF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1EB3B5527EA1320008EDABF;
+			remoteInfo = QCUALOR;
+		};
+		E1EB3B6D27EA15C9008EDABF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1EB3B4E27EA1320008EDABF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1EB3B6327EA156F008EDABF;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1EB3B6827EA158A008EDABF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1EB3B6927EA159B008EDABF /* QCUALOR.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E1EB3B5627EA1320008EDABF /* QCUALOR.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QCUALOR.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1EB3B5D27EA1407008EDABF /* QCUALORPlugin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QCUALORPlugin.cpp; sourceTree = "<group>"; };
+		E1EB3B6027EA147D008EDABF /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1EB3B6127EA147D008EDABF /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1EB3B7127EA1A37008EDABF /* QCUALOR-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QCUALOR-Prefix.pch"; sourceTree = "<group>"; };
+		E1EB3B7327EA1C49008EDABF /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = "/Library/Application Support/MWorks/Frameworks/MWorksCore.framework"; sourceTree = "<absolute>"; };
+		E1EB3B7527EA1DB1008EDABF /* QCUALORDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QCUALORDevice.cpp; sourceTree = "<group>"; };
+		E1EB3B7627EA1DB1008EDABF /* QCUALORDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QCUALORDevice.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1EB3B5327EA1320008EDABF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1EB3B7427EA1C49008EDABF /* MWorksCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1EB3B4D27EA1320008EDABF = {
+			isa = PBXGroup;
+			children = (
+				E1EB3B5F27EA1449008EDABF /* External Config */,
+				E1EB3B6F27EA19A5008EDABF /* QCUALOR */,
+				E1EB3B5727EA1320008EDABF /* Products */,
+				E1EB3B7227EA1C49008EDABF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E1EB3B5727EA1320008EDABF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1EB3B5627EA1320008EDABF /* QCUALOR.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1EB3B5F27EA1449008EDABF /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1EB3B6127EA147D008EDABF /* macOS.xcconfig */,
+				E1EB3B6027EA147D008EDABF /* macOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E1EB3B6F27EA19A5008EDABF /* QCUALOR */ = {
+			isa = PBXGroup;
+			children = (
+				E1EB3B7627EA1DB1008EDABF /* QCUALORDevice.hpp */,
+				E1EB3B7527EA1DB1008EDABF /* QCUALORDevice.cpp */,
+				E1EB3B5D27EA1407008EDABF /* QCUALORPlugin.cpp */,
+				E1EB3B7027EA19F5008EDABF /* Supporting Files */,
+			);
+			path = QCUALOR;
+			sourceTree = "<group>";
+		};
+		E1EB3B7027EA19F5008EDABF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E1EB3B7127EA1A37008EDABF /* QCUALOR-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1EB3B7227EA1C49008EDABF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1EB3B7327EA1C49008EDABF /* MWorksCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E1EB3B5527EA1320008EDABF /* QCUALOR */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1EB3B5A27EA1320008EDABF /* Build configuration list for PBXNativeTarget "QCUALOR" */;
+			buildPhases = (
+				E1EB3B5227EA1320008EDABF /* Sources */,
+				E1EB3B5327EA1320008EDABF /* Frameworks */,
+				E1EB3B5427EA1320008EDABF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QCUALOR;
+			productName = QCUALOR;
+			productReference = E1EB3B5627EA1320008EDABF /* QCUALOR.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1EB3B4E27EA1320008EDABF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					E1EB3B5527EA1320008EDABF = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					E1EB3B6327EA156F008EDABF = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					E1EB3B6A27EA15C5008EDABF = {
+						CreatedOnToolsVersion = 13.3;
+					};
+				};
+			};
+			buildConfigurationList = E1EB3B5127EA1320008EDABF /* Build configuration list for PBXProject "QCUALOR" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E1EB3B4D27EA1320008EDABF;
+			productRefGroup = E1EB3B5727EA1320008EDABF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1EB3B5527EA1320008EDABF /* QCUALOR */,
+				E1EB3B6327EA156F008EDABF /* Install */,
+				E1EB3B6A27EA15C5008EDABF /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1EB3B5427EA1320008EDABF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1EB3B5227EA1320008EDABF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1EB3B5E27EA1407008EDABF /* QCUALORPlugin.cpp in Sources */,
+				E1EB3B7727EA1DB1008EDABF /* QCUALORDevice.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1EB3B6727EA157F008EDABF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1EB3B5527EA1320008EDABF /* QCUALOR */;
+			targetProxy = E1EB3B6627EA157F008EDABF /* PBXContainerItemProxy */;
+		};
+		E1EB3B6E27EA15C9008EDABF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1EB3B6327EA156F008EDABF /* Install */;
+			targetProxy = E1EB3B6D27EA15C9008EDABF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E1EB3B5827EA1320008EDABF /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1EB3B5B27EA1320008EDABF /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EB3B6027EA147D008EDABF /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "QCUALOR/QCUALOR-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.QCUALOR";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1EB3B6527EA156F008EDABF /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EB3B6127EA147D008EDABF /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1EB3B6C27EA15C5008EDABF /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EB3B6127EA147D008EDABF /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1EB3B5127EA1320008EDABF /* Build configuration list for PBXProject "QCUALOR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1EB3B5827EA1320008EDABF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1EB3B5A27EA1320008EDABF /* Build configuration list for PBXNativeTarget "QCUALOR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1EB3B5B27EA1320008EDABF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1EB3B6427EA156F008EDABF /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1EB3B6527EA156F008EDABF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1EB3B6B27EA15C5008EDABF /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1EB3B6C27EA15C5008EDABF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1EB3B4E27EA1320008EDABF /* Project object */;
+}
