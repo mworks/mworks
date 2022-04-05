@@ -6,13 +6,8 @@
     </iodevice>
   </io_devices>
   <variables>
-    <variable tag="reward" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed">
-      <action type="play_sound" sound="reward_sound"/>
-    </variable>
+    <variable tag="reward" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
   </variables>
-  <sounds>
-    <sound tag="reward_sound" type="wav_file" path="./sounds/reward.wav"/>
-  </sounds>
   <experiment tag="FakeMonkeyJuice">
     <protocol tag="protocol" selection="sequential_ascending" nsamples="1" sampling_method="cycles" interruptible="YES">
       <block tag="block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" interruptible="YES">
