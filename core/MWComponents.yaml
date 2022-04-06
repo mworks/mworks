@@ -649,12 +649,17 @@ parameters:
   - 
     name: trigger_flag
     required: yes
-    description: >
+    description: |
         Variable to which fixation status is written. When the
         subject's gaze (as reported by `trigger_watch_x`_ and
         `trigger_watch_y`_) enters the fixation window, the variable is set to
         true.  When the subject's gaze leaves the fixation window, the variable
         is set to false.
+
+        *Note*: Fixation is reported only when the fixation point is on screen
+        (i.e. after it has been `queued <Queue Stimulus>` and the display has
+        been `updated <Update Stimulus Display>`).  If you need a hidden
+        fixation point, set `alpha_multiplier`_ to zero.
 
 
 ---
@@ -663,7 +668,10 @@ parameters:
 name: Circular Fixation Point Stimulus
 signature: stimulus/circular_fixation_point
 isa: Ellipse Stimulus
-description: An elliptical fixation point stimulus
+description: >
+    An elliptical fixation point stimulus.  Also serves as a "calibratable"
+    object for calibrator-related actions (e.g. `Take Calibration Sample`, `End
+    Averaged Calibration Sample`).
 parameters: 
   - 
     name: trigger_width
@@ -684,12 +692,17 @@ parameters:
   - 
     name: trigger_flag
     required: yes
-    description: >
+    description: |
         Variable to which fixation status is written. When the
         subject's gaze (as reported by `trigger_watch_x`_ and
         `trigger_watch_y`_) enters the fixation window, the variable is set to
         true.  When the subject's gaze leaves the fixation window, the variable
         is set to false.
+
+        *Note*: Fixation is reported only when the fixation point is on screen
+        (i.e. after it has been `queued <Queue Stimulus>` and the display has
+        been `updated <Update Stimulus Display>`).  If you need a hidden
+        fixation point, set `alpha_multiplier`_ to zero.
 
 
 ---

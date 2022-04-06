@@ -1,0 +1,13 @@
+%include '../FixationPoint/ActiveWhenVisible.inc'
+
+
+circular_fixation_point fp (
+    trigger_width = size
+    trigger_watch_x = eye_x
+    trigger_watch_y = eye_y
+    trigger_flag = eye_in_window
+    color = 1,0,0
+    x_size = size
+    x_position = offset
+    y_position = offset
+    )

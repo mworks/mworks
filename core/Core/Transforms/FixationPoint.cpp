@@ -37,7 +37,15 @@ FixationPoint::FixationPoint(const ParameterValueMap &parameters):
                         VariablePtr(parameters[TRIGGER_WATCH_X]),
                         VariablePtr(parameters[TRIGGER_WATCH_Y]),
                         VariablePtr(parameters[TRIGGER_FLAG]))
-{ }
+{
+    active = false;
+}
+
+
+void FixationPoint::setVisible(bool newvis) {
+    RectangleStimulus::setVisible(newvis);
+    setActive(newvis);  // Trigger is active only when stimulus is visible
+}
 
 
 Datum FixationPoint::getCurrentAnnounceDrawData() {
@@ -83,7 +91,15 @@ CircularFixationPoint::CircularFixationPoint(const ParameterValueMap &parameters
                           VariablePtr(parameters[FixationPoint::TRIGGER_WATCH_X]),
                           VariablePtr(parameters[FixationPoint::TRIGGER_WATCH_Y]),
                           VariablePtr(parameters[FixationPoint::TRIGGER_FLAG]))
-{ }
+{
+    active = false;
+}
+
+
+void CircularFixationPoint::setVisible(bool newvis) {
+    EllipseStimulus::setVisible(newvis);
+    setActive(newvis);  // Trigger is active only when stimulus is visible
+}
 
 
 Datum CircularFixationPoint::getCurrentAnnounceDrawData() {

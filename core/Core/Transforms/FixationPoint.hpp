@@ -29,6 +29,7 @@ public:
     
     explicit FixationPoint(const ParameterValueMap &parameters);
     
+    void setVisible(bool newvis) override;
     Datum getCurrentAnnounceDrawData() override;
     ExpandableList<Datum> * getGoldStandardValues() override;
     
@@ -42,6 +43,7 @@ public:
     
     explicit CircularFixationPoint(const ParameterValueMap &parameters);
     
+    void setVisible(bool newvis) override;
     Datum getCurrentAnnounceDrawData() override;
     ExpandableList<Datum> * getGoldStandardValues() override;
     
