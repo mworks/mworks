@@ -9,9 +9,6 @@
 #include "CameraManager.hpp"
 
 
-#if TARGET_OS_IPHONE
-
-
 using MWKPhotoCaptureDelegateCallback = void (^)(AVCapturePhoto *photo, NSError *error);
 
 
@@ -34,9 +31,6 @@ error:(NSError *)error
 
 
 @end
-
-
-#endif /* TARGET_OS_IPHONE */
 
 
 BEGIN_NAMESPACE_MW
@@ -199,7 +193,11 @@ AVCaptureDevice * CameraManager::discoverCamera(const std::string &cameraUniqueI
     
 #else
     
-    auto cameras = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    auto discoverySession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera,
+                                                                                               AVCaptureDeviceTypeExternalUnknown]
+                                                                                   mediaType:AVMediaTypeVideo
+                                                                                    position:AVCaptureDevicePositionUnspecified];
+    auto cameras = discoverySession.devices;
     if (cameras.count == 0) {
         merror(M_IODEVICE_MESSAGE_DOMAIN, "No cameras detected");
         return nil;
@@ -251,12 +249,7 @@ AVCaptureSession * CameraManager::createCaptureSession(AVCaptureDevice *camera) 
     }
     
     {
-#if TARGET_OS_IPHONE
         auto captureOutput = [[AVCapturePhotoOutput alloc] init];
-#else
-        auto captureOutput = [[AVCaptureStillImageOutput alloc] init];
-        captureOutput.outputSettings = @{ AVVideoCodecKey: AVVideoCodecTypeJPEG };
-#endif
         if (![captureSession canAddOutput:captureOutput]) {
             merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot add image output to capture session");
             return nil;
@@ -272,7 +265,6 @@ AVCaptureSession * CameraManager::createCaptureSession(AVCaptureDevice *camera) 
 void CameraManager::captureImage(AVCaptureSession *captureSession, cf::DataPtr &image) {
     std::promise<void> p;
     auto f = p.get_future();
-#if TARGET_OS_IPHONE
     
     auto captureOutput = static_cast<AVCapturePhotoOutput *>(captureSession.outputs[0]);
     auto settings = [AVCapturePhotoSettings photoSettingsWithFormat:@{ AVVideoCodecKey: AVVideoCodecTypeJPEG }];
@@ -286,6 +278,7 @@ void CameraManager::captureImage(AVCaptureSession *captureSession, cf::DataPtr &
         }
         p.set_value();
     };
+#if TARGET_OS_IPHONE
     auto connection = captureOutput.connections[0];
     if (connection.supportsVideoOrientation) {
         switch (UIDevice.currentDevice.orientation) {
@@ -308,24 +301,9 @@ void CameraManager::captureImage(AVCaptureSession *captureSession, cf::DataPtr &
                 break;
         }
     }
+#endif
     [captureOutput capturePhotoWithSettings:settings delegate:delegate];
     
-#else
-    
-    auto captureOutput = static_cast<AVCaptureStillImageOutput *>(captureSession.outputs[0]);
-    auto completionHandler = [&image, &p](CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-        if (error) {
-            merror(M_IODEVICE_MESSAGE_DOMAIN, "Image capture failed: %s", error.localizedDescription.UTF8String);
-        } else {
-            auto jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-            image = cf::DataPtr::borrowed((__bridge CFDataRef)jpegData);
-        }
-        p.set_value();
-    };
-    [captureOutput captureStillImageAsynchronouslyFromConnection:captureOutput.connections[0]
-                                               completionHandler:completionHandler];
-    
-#endif
     if (std::future_status::ready != f.wait_for(std::chrono::seconds(1))) {
         merror(M_IODEVICE_MESSAGE_DOMAIN, "Timed out waiting for image capture to complete");
     }
