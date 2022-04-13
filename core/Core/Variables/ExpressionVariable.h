@@ -119,17 +119,11 @@ public:
         evaluateExpressionList(exprList, *global_variable_registry, values);
     }
     
-    ParsedExpressionVariable(const std::string &expression_string) :
-        expression_tree(parseExpression(expression_string))
-    {
-        getValue();
-    }
-	
-    ParsedExpressionVariable(const stx::ParseTree &expression_tree) :
-        expression_tree(expression_tree)
-    {
-        getValue();
-    }
+    explicit ParsedExpressionVariable(const std::string &expression_string)  :
+        ParsedExpressionVariable(parseExpression(expression_string))
+    { }
+    
+    explicit ParsedExpressionVariable(const stx::ParseTree &expression_tree);
     
     Datum getValue() override {
         return Datum(evaluateParseTree(expression_tree));

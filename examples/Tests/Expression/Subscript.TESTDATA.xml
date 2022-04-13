@@ -1,18 +1,6 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <!-- Load-time errors -->
-    <message type="whole_message">ERROR: Dictionary has no element for requested key (1)</message>
-    <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
-    <message type="whole_message">ERROR: Dictionary has no element for requested key ("foo")</message>
-    <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
-    <message type="whole_message">ERROR: Requested list index (3) is out of bounds</message>
-    <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
-    <message type="whole_message">ERROR: Requested list index (-1) is out of bounds</message>
-    <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
-    <message type="whole_message">ERROR: Cannot get element from integer</message>
-    <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
-    <!-- Run-time errors -->
     <message type="whole_message">ERROR: Dictionary has no element for requested key (1) [at line 20]</message>
     <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead. [at line 20]</message>
     <message type="whole_message">ERROR: Dictionary has no element for requested key ("foo") [at line 22]</message>

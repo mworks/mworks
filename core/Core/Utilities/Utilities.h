@@ -73,35 +73,27 @@ inline MWTime MIN_MWORKS_TIME() {
 inline MWTime MAX_MWORKS_TIME() {
     return std::numeric_limits<MWTime>::max();
 }
-	
+
+
+struct SilenceMessages {
+    static bool shouldSilence() noexcept {
+        return (silence > 0);
+    }
+    
+    SilenceMessages() noexcept {
+        silence++;
+    }
+    
+    ~SilenceMessages() {
+        silence--;
+    }
+    
+private:
+    static thread_local std::size_t silence;
+};
+
 
 END_NAMESPACE_MW
 
 
 #endif // !defined(MONKEYWORKS_UTILITIES_H__)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

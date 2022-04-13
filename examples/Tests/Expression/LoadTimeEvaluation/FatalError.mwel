@@ -1,0 +1,11 @@
+var x = []
+var y = 0
+
+
+protocol {
+    // This should not produce a load-time error
+    y = 2 + x
+
+    // This should produce a load-time error that causes loading to fail
+    y = abs('foo')
+}

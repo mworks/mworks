@@ -39,6 +39,11 @@ BEGIN_NAMESPACE_MW
         // at application shutdown, caused by a thread trying to acquire the mutex after it's been destructed.
         static boost::mutex * const globalMessageVariableMutex = new boost::mutex;
         
+        if (SilenceMessages::shouldSilence()) {
+            // Messages are temporarily silenced on the current thread.  Do nothing.
+            return;
+        }
+        
         char *buffer = nullptr;
         BOOST_SCOPE_EXIT(&buffer) {
             free(buffer);
@@ -207,6 +212,9 @@ BEGIN_NAMESPACE_MW
 		fprintf(stderr, "MDEBUG: %s\n", buffer); fflush(stderr);
 #endif
 	}
+
+
+thread_local std::size_t SilenceMessages::silence = 0;
 
 
 END_NAMESPACE_MW
