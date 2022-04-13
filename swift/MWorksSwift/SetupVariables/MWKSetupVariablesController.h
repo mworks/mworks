@@ -18,7 +18,7 @@ MWORKSSWIFT_PUBLIC_CLASS
 @interface MWKSetupVariablesController : NSObject
 
 @property(nonatomic, copy) NSString *serverName;
-@property(weak, nonatomic, readonly) NSArray *availableDisplays;
+@property(nonatomic, readonly) NSArray<NSString *> *availableDisplays;
 @property(nonatomic, strong) NSNumber *displayToUse;
 @property(nonatomic, strong) NSNumber *displayWidth;
 @property(nonatomic, strong) NSNumber *displayHeight;
