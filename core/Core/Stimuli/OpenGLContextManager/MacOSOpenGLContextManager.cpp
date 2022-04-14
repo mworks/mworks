@@ -112,7 +112,7 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
         }
         
         if (kIOPMNullAssertionID == display_sleep_block) {
-            if (kIOReturnSuccess != IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep,
+            if (kIOReturnSuccess != IOPMAssertionCreateWithName(kIOPMAssertPreventUserIdleDisplaySleep,
                                                                 kIOPMAssertionLevelOn,
                                                                 (CFStringRef)@"MWorks Prevent Display Sleep",
                                                                 &display_sleep_block)) {
