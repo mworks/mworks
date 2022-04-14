@@ -4,10 +4,6 @@
     <message type="contains"><![CDATA[File "<string>", line 1
     a = 3
       ^
-SyntaxError: invalid syntax]]></message>
-    <message type="contains"><![CDATA[File "<string>", line 1
-    a = 3
-      ^
 SyntaxError: invalid syntax
  [line 4, column 12]]]></message>
   </expected_messages>
