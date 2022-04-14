@@ -188,8 +188,10 @@ bool SerialPort::validatePath(std::string &path) {
                                                                                                             kCFAllocatorDefault,
                                                                                                             0)));
         if (pathAsCFString &&
-            // Ignore devices with "Bluetooth-" in the path, which are always present
-            kCFNotFound == CFStringFind(pathAsCFString.get(), CFSTR("Bluetooth-"), 0).location)
+            // Ignore paths containing "Bluetooth-" or "wlan-debug", which don't correspond to
+            // connected, physical devices
+            kCFNotFound == CFStringFind(pathAsCFString.get(), CFSTR("Bluetooth-"), 0).location &&
+            kCFNotFound == CFStringFind(pathAsCFString.get(), CFSTR("wlan-debug"), 0).location)
         {
             std::vector<char> buffer(CFStringGetMaximumSizeForEncoding(CFStringGetLength(pathAsCFString.get()),
                                                                        kCFStringEncodingUTF8) + 1);
@@ -243,30 +245,3 @@ inline void SerialPort::sysError(const std::string &msg) {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
