@@ -358,7 +358,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '1.1.1m'
+    version = '1.1.1n'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -393,7 +393,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.10.2'
+    version = '3.10.4'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -457,7 +457,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.22.2'
+    version = '1.22.3'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -522,7 +522,7 @@ def numpy():
 
 @builder
 def boost():
-    version = '1.78.0'
+    version = '1.79.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -585,7 +585,7 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '4.1.0'
+    version = '4.1.1'
     srcdir = 'msgpack-cxx-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -625,7 +625,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2022
-    version = '3370200'  # 3.37.2
+    version = '3380200'  # 3.38.2
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -646,7 +646,7 @@ def sqlite():
 
 @builder
 def libusb(ios=False):
-    version = '1.0.25'
+    version = '1.0.26'
     srcdir = 'libusb-' + version
     tarfile = srcdir + '.tar.bz2'
 
