@@ -552,6 +552,10 @@ class Parser(ExpressionParser):
         self.expect('IDENTIFIER')
         name = self.curr.value
 
+        if self.peek('NEWLINE'):
+            value = ast.IdentifierExpr(lineno, colno, value='true')
+            return self._expression_macro_stmt(lineno, colno, name, value=value)
+
         if self.accept('='):
             return self._expression_macro_stmt(lineno, colno, name)
 
@@ -586,8 +590,10 @@ class Parser(ExpressionParser):
                                       parameters = tuple(parameters),
                                       statements = tuple(statements))
 
-    def _expression_macro_stmt(self, lineno, colno, name, parameters=()):
-        value = self.expr()
+    def _expression_macro_stmt(self, lineno, colno, name, parameters=(),
+                               value=None):
+        if value is None:
+            value = self.expr()
         return ast.ExpressionMacroStmt(lineno,
                                        colno,
                                        name = name,

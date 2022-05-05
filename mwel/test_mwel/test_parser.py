@@ -15,6 +15,8 @@ class ParserTestMixin(ErrorLoggerMixin):
     foo = ast.IdentifierExpr(value='foo')
     bar = ast.IdentifierExpr(value='bar')
 
+    true = ast.IdentifierExpr(value='true')
+
     one = ast.NumberLiteralExpr(value='1')
     two = ast.NumberLiteralExpr(value='2')
     three = ast.NumberLiteralExpr(value='3')
@@ -1205,14 +1207,28 @@ class TestMacros(ParserTestMixin, unittest.TestCase):
                              lineno = 3,
                              colno = 30)
 
-    def test_simple_expression(self):
-        # Missing '='
+    def test_no_expression(self):
         with self.parse('''
-                        %define x
-                        x = y
-                        '''):
-            self.assertExpected("'=' or '('", lineno=2)
+                        %define abc
+                        %define xyz = true
+                        ''') as p:
+            self.assertIsInstance(p, ast.Module)
+            self.assertEqual(2, len(p.statements))
+            p = p.statements
 
+            self.assertIsInstance(p[0], ast.ExpressionMacroStmt)
+            self.assertLocation(p[0], 2, 26)
+            self.assertEqual('abc', p[0].name)
+            self.assertEqual((), p[0].parameters)
+            self.assertEqual(self.true, p[0].value)
+
+            self.assertIsInstance(p[1], ast.ExpressionMacroStmt)
+            self.assertLocation(p[1], 3, 26)
+            self.assertEqual('xyz', p[1].name)
+            self.assertEqual((), p[1].parameters)
+            self.assertEqual(self.true, p[1].value)
+
+    def test_simple_expression(self):
         # Missing value
         with self.parse('''
                         %define x =
@@ -1242,13 +1258,6 @@ class TestMacros(ParserTestMixin, unittest.TestCase):
             self.assertEqual(self.one_plus_foo, p[1].value)
 
     def test_parametrized_expression(self):
-        # Missing '('
-        with self.parse('''
-                        %define x
-                        x = y
-                        '''):
-            self.assertExpected("'=' or '('", lineno=2)
-
         # Bad parameter
         with self.parse('''
                         %define x(1)
