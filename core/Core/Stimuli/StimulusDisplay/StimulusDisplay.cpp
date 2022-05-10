@@ -217,6 +217,9 @@ void StimulusDisplay::refreshDisplay() {
                 case Action::Clear: {
                     // Remove all stimuli from the display stack
                     while (auto node = displayStack->getFrontmost()) {
+                        node->clearPending();
+                        node->clearPendingRemoval();
+                        node->setVisible(false);
                         node->remove();
                     }
                     needDraw = true;

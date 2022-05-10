@@ -33,7 +33,9 @@ var eye_in_window = false {
     wait (1s)
 %end
 
-protocol {
+var first_run = true
+
+protocol (nsamples = 2) {
     // Show eye marker
     live_queue_stimulus (eye_marker)
     update_display ()
@@ -60,7 +62,19 @@ protocol {
     // Hide fixation point.  Doing so should cause eye_in_window to be cleared
     // if set.
     eye_in_window = true
-    dequeue_stimulus (fp)
+    wait (1s)
+    choose {
+        when (first_run) {
+            // Hide just the fixation point
+            dequeue_stimulus (fp)
+        }
+        otherwise {
+            // Remove all stimuli with clear_display, then re-show the eye
+            // marker
+            clear_display ()
+            live_queue_stimulus (eye_marker)
+        }
+    }
     update_display ()
 
     // Fixation point is once again not visible, so eye_in_window should no
@@ -70,4 +84,11 @@ protocol {
     assert_and_wait (not eye_in_window)
     defixate ()
     assert_and_wait (not eye_in_window)
+
+    // Hide eye marker
+    dequeue_stimulus (eye_marker)
+    update_display ()
+    wait (1s)
+
+    first_run = false
 }
