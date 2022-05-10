@@ -1,7 +1,7 @@
-%include 'ActiveWhenVisible.inc'
+%include '../ActiveWhenVisible.inc'
 
 
-fixation_point fp (
+circular_fixation_point fp (
     trigger_width = size
     trigger_watch_x = eye_x
     trigger_watch_y = eye_y
