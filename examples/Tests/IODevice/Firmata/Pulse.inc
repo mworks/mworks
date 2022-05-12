@@ -1,7 +1,6 @@
-//
-// NOTE: This file must be included by a file that defines the macros
-// "bluetooth_local_name", "comm_delay_tolerance", and "duration_tolerance"
-//
+%require bluetooth_local_name
+%require comm_delay_tolerance
+%require duration_tolerance
 
 
 var output_on_time = 0

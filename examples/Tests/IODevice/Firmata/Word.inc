@@ -1,7 +1,4 @@
-//
-// NOTE: This file must be included by a file that defines the macro
-// "bluetooth_local_name"
-//
+%require bluetooth_local_name
 
 
 var word = 0 {

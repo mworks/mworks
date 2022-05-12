@@ -4,6 +4,8 @@
 // uncompressible.
 //
 
+%require capture_format, capture_height_pixels
+
 
 stimulus_display (
     capture_format = capture_format

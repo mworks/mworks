@@ -1,7 +1,5 @@
-//
-// NOTE: This file must be included by a file that defines the macro
-// "bluetooth_local_name"
-//
+%require bluetooth_local_name
+
 
 //
 // The values of min_pulse_width and max_pulse_width used below are for the

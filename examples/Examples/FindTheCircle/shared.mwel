@@ -10,6 +10,10 @@ var pointer_y = 0
 
 // The actual pointer device must be declared in a file that includes this one
 
+// The macro "reset_pointer_position" must be defined in a file that includes
+// this one
+%require reset_pointer_position
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -110,7 +114,6 @@ protocol 'Find the Circle' {
             state 'Start trial' {
                 num_trials += 1
 
-                // This macro must be defined in a file that includes this one
                 reset_pointer_position (
                     x_position = 0
                     y_position = square_offset

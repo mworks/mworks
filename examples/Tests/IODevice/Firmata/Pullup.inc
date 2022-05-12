@@ -1,12 +1,9 @@
 //
-// NOTE: This file must be included by a file that defines the macro
-// "bluetooth_local_name"
-//
-
-//
 // NOTE: This test is valid only if the input pin (A3) is *not*
 // connected
 //
+
+%require bluetooth_local_name
 
 
 var value = false {
