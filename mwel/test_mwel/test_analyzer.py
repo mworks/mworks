@@ -463,6 +463,29 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
                                             default_value = '4')
             self.assertEqual([], children)
 
+    def test_require(self):
+        with self.analyze('''
+                          %define foo = 'Hello, world!'
+                          %define bar (x, y)
+                              report ('x = $x, y = $y')
+                          %end
+                          %require foo
+                          %require blah
+                          %require foo, bar
+                          %require foo, baz, bar
+                          %define blah
+                          %define baz = 3
+                          %require blah, baz
+                          ''') as cmpts:
+            self.assertError("Macro 'blah' is not defined",
+                             lineno = 7,
+                             colno = 28)
+            self.assertError("Macro 'baz' is not defined",
+                             lineno = 9,
+                             colno = 28)
+
+            self.assertEqual(0, len(cmpts))
+
 
 class TestIncludes(AnalyzerTestMixin, TempFilesMixin, unittest.TestCase):
 

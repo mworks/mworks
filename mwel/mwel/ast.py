@@ -82,6 +82,11 @@ class StatementMacroStmt(MacroStmt):
     _fields = ('name', 'parameters', 'statements')
 
 
+class RequireStmt(Stmt):
+
+    _fields = ('names',)
+
+
 ###############################################################################
 #
 # Expressions

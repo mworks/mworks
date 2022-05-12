@@ -1380,3 +1380,53 @@ class TestMacros(ParserTestMixin, unittest.TestCase):
                               ast.AssignmentStmt(varname = 'y',
                                                  value = self.bar)),
                              p[2].statements)
+
+    def test_require(self):
+        # Wrong case
+        with self.parse('%REQUIRE x'):
+            self.assertError(token='%')
+
+        # Missing name
+        with self.parse('''
+                        %require
+                        x = y
+                        '''):
+            self.assertExpected('identifier', lineno=2)
+
+        # Bad name
+        with self.parse('%require 3'):
+            self.assertExpected('identifier', got='3')
+
+        # Extra comma
+        with self.parse('''
+                        %require a, b,
+                        '''):
+            self.assertExpected('identifier', lineno=2)
+
+        # Not at top level
+        with self.parse('''
+                        foo {
+                            %require x
+                        }
+                        '''):
+            self.assertError('Require statements are permitted at the top '
+                             'level only',
+                             lineno = 3,
+                             colno = 30)
+
+        # Success
+        with self.parse('''
+                        %require abc
+                        %require x,y, z
+                        ''') as p:
+            self.assertIsInstance(p, ast.Module)
+            self.assertEqual(2, len(p.statements))
+            p = p.statements
+
+            self.assertIsInstance(p[0], ast.RequireStmt)
+            self.assertLocation(p[0], 2, 26)
+            self.assertEqual(('abc',), p[0].names)
+
+            self.assertIsInstance(p[1], ast.RequireStmt)
+            self.assertLocation(p[1], 3, 26)
+            self.assertEqual(('x', 'y', 'z'), p[1].names)

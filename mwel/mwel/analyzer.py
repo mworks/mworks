@@ -142,6 +142,8 @@ class Analyzer(ExpressionAnalyzer):
                     cmpts.extend(self.analyze(stmt))
                 elif isinstance(stmt, ast.MacroStmt):
                     self._register_macro(stmt)
+                elif isinstance(stmt, ast.RequireStmt):
+                    self._require_macro(stmt)
                 else:
                     self._stmt(stmt, cmpts)
         return cmpts
@@ -155,6 +157,13 @@ class Analyzer(ExpressionAnalyzer):
         else:
             macro.filename = self.error_logger.current_filename
             self._macros[name] = macro
+
+    def _require_macro(self, require):
+        for name in require.names:
+            if name not in self._macros:
+                self.error_logger("Macro '%s' is not defined" % name,
+                                  lineno = require.lineno,
+                                  colno = require.colno)
 
     def _expr(self, expr):
         if isinstance(expr, ast.IdentifierExpr):

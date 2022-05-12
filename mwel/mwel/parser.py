@@ -420,6 +420,13 @@ class Parser(ExpressionParser):
                            token = self.curr)
             stmt = self._define_stmt()
 
+        elif self.accept_directive('require'):
+            if not _toplevel:
+                self.error('Require statements are permitted at the top level '
+                           'only',
+                           token = self.curr)
+            stmt = self._require_stmt()
+
         else:
             self.error()
 
@@ -599,3 +606,18 @@ class Parser(ExpressionParser):
                                        name = name,
                                        parameters = tuple(parameters),
                                        value = value)
+
+    def _require_stmt(self):
+        lineno = self.curr.lineno
+        colno = self.curr.colno
+        names = []
+
+        while True:
+            self.expect('IDENTIFIER')
+            names.append(self.curr.value)
+            if not self.accept(','):
+                break
+
+        return ast.RequireStmt(lineno,
+                               colno,
+                               names = tuple(names))
