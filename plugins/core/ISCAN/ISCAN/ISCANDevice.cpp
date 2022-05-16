@@ -38,7 +38,7 @@ void ISCANDevice::describeComponent(ComponentInfo &info) {
 
 ISCANDevice::ISCANDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
-    path(variableOrText(parameters[SERIAL_PORT])->getValue().getString()),
+    serialPortPath(optionalVariableOrText(parameters[SERIAL_PORT])),
     startCommand(parameters[START_COMMAND]),
     stopCommand(parameters[STOP_COMMAND]),
     running(false)
@@ -61,6 +61,9 @@ ISCANDevice::~ISCANDevice() {
 
 
 bool ISCANDevice::initialize() {
+    if (serialPortPath) {
+        path = serialPortPath->getValue().getString();
+    }
     if (!serialPort.connect(path, baudRate)) {
         return false;
     }

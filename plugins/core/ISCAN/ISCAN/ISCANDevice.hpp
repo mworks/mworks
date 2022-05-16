@@ -37,13 +37,15 @@ private:
     bool sendCommand(std::uint8_t cmd);
     void receiveData();
     
-    const std::string path;
+    const VariablePtr serialPortPath;
     const int startCommand;
     const int stopCommand;
-    SerialPort serialPort;
     
     static const std::size_t maxNumOutputs = 6;
     std::array<VariablePtr, maxNumOutputs> outputs;
+    
+    std::string path;
+    SerialPort serialPort;
     
     using lock_guard = std::lock_guard<std::mutex>;
     lock_guard::mutex_type mutex;
