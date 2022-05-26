@@ -123,13 +123,22 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
     def test_augmented_assignment_stmt(self):
         with self.analyze('''
                           foo += 'bar'
+                          bar -= 1 + 2
                           ''') as cmpts:
-            self.assertEqual(1, len(cmpts))
+            self.assertEqual(2, len(cmpts))
+
             children = self.assertComponent(cmpts[0], 2, 31,
                                             name = 'action',
                                             type = 'assignment',
                                             variable = 'foo',
-                                            value = "foo + 'bar'")
+                                            value = "foo + ('bar')")
+            self.assertEqual([], children)
+
+            children = self.assertComponent(cmpts[1], 3, 31,
+                                            name = 'action',
+                                            type = 'assignment',
+                                            variable = 'bar',
+                                            value = 'bar - (1 + 2)')
             self.assertEqual([], children)
 
     def test_index_assignment_stmt(self):
@@ -148,7 +157,7 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
                                             name = 'action',
                                             type = 'assignment',
                                             variable = 'blah[x][y][z]',
-                                            value = 'blah[x][y][z] - 1.5')
+                                            value = 'blah[x][y][z] - (1.5)')
             self.assertEqual([], children)
 
     def test_decl_stmt(self):

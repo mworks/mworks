@@ -1,0 +1,46 @@
+//
+// This test checks that the MWEL analyzer puts parentheses around the
+// right-hand side of augmented assignment statements before converting them
+// into assignment actions
+//
+
+
+var x = 0
+
+
+protocol {
+    x = 1
+    x += 3 > 2
+    assert (
+        condition = x == 2
+        message = 'expected 2, got $x'
+        )
+
+    x = 0
+    x -= 3 + 4
+    assert (
+        condition = x == -7
+        message = 'expected -7, got $x'
+        )
+
+    x = 2
+    x *= 3 + 4
+    assert (
+        condition = x == 14
+        message = 'expected 14, got $x'
+        )
+
+    x = 30
+    x /= 2 + 3
+    assert (
+        condition = x == 6
+        message = 'expected 6, got $x'
+        )
+
+    x = 10
+    x %= 1 + 2
+    assert (
+        condition = x == 1
+        message = 'expected 1, got $x'
+        )
+}

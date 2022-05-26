@@ -196,6 +196,7 @@ class Analyzer(ExpressionAnalyzer):
             variable += '[%s]' % self._expr(index)
         value = self._expr(stmt.value)
         if stmt.op:
+            value = '(%s)' % value
             value = ' '.join([variable, stmt.op, value])
         return self._component(stmt.lineno,
                                stmt.colno,
