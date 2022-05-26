@@ -267,7 +267,9 @@ Expression macros can be defined in two ways.  For macros that take no parameter
 
     %define name = expression
 
-*name* must be an `identifier <identifiers>`.  *expression* can be any `expression <Expressions>`.
+*name* must be an `identifier <identifiers>`.  *expression* can be any `expression <Expressions>`.  You can also specify just a name, in which case ``true`` is used as the expression::
+
+    %define name  // = true
 
 Expression macros that do take parameters are defined as follows::
 
@@ -394,6 +396,21 @@ For example::
     reported_var y = 3 (message = 'y = $y') {
         z = 2*y
     }
+
+
+Requiring Macros
+^^^^^^^^^^^^^^^^
+
+To ensure that your experiment defines a particular macro, use the ``%require`` directive::
+
+    %require subject_id
+    %require total_num_images, num_images_per_trial
+
+In the preceding example, if the experiment has not defined macros named ``subject_id``, ``total_num_images``, and/or ``num_images_per_trial``, the parser will issue an error message, and the experiment will not load.
+
+Requiring macros can be particularly useful inside MWEL files intended to be `included <includes>` by other files.  If the content of an included file depends on specific macros being defined *before* the file is included, that dependency can be made explicit by adding one or more ``%require`` directives at the beginning of the file.
+
+The ``%require`` directive can appear only at the top level of a source file.  It cannot be placed within a `protocol <Protocol>` or other component.
 
 
 Whitespace
