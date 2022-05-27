@@ -68,6 +68,11 @@ class DeclarationStmt(Stmt):
     _defaults = {'tag': None, 'value': None, 'params': (), 'children': ()}
 
 
+class IncludeStmt(Stmt):
+
+    _fields = ('target',)
+
+
 class MacroStmt(Stmt):
     pass
 

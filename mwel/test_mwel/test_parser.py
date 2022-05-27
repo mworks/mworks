@@ -1132,19 +1132,19 @@ foo = 1
             self.assertEqual(include3_path, included_files[2][0])
             self.assertEqual(include3_src, included_files[2][1])
 
-    def test_nested_errors(self):
+    def test_nested_error(self):
         os.makedirs(os.path.join(self.tmpdir, 'dir1/dir2'))
         os.makedirs(os.path.join(self.tmpdir, 'dir3/dir4'))
 
         include1_src = '''\
 %include 'dir2/include2'
-foo = / 2
+foo = 2
 '''
         self.write_file('dir1/include1.mwel', include1_src)
 
         include2_src = '''\
 %include '../../dir3/dir4/include3'
-foo = % 3
+foo = 3
 '''
         self.write_file('dir1/dir2/include2.mwel', include2_src)
 
@@ -1155,27 +1155,13 @@ bar = = 1
 
         with self.parse('''\
 %include 'dir1/include1'
-foo = * 1
+foo = 1
 ''', self.tmpdir):
             self.assertError(token = '=',
                              lineno = 1,
                              colno = 7,
                              filename = os.path.join(self.tmpdir,
                                                      'dir3/dir4/include3.mwel'))
-            self.assertError(token = '%',
-                             lineno = 2,
-                             colno = 7,
-                             filename = os.path.join(self.tmpdir,
-                                                     'dir1/dir2/include2.mwel'))
-            self.assertError(token = '/',
-                             lineno = 2,
-                             colno = 7,
-                             filename = os.path.join(self.tmpdir,
-                                                     'dir1/include1.mwel'))
-            self.assertError(token = '*',
-                             lineno = 2,
-                             colno = 7,
-                             filename = '')
 
 
 class TestMacros(ParserTestMixin, unittest.TestCase):

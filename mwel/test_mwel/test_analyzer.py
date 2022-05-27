@@ -126,14 +126,12 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
                           bar -= 1 + 2
                           ''') as cmpts:
             self.assertEqual(2, len(cmpts))
-
             children = self.assertComponent(cmpts[0], 2, 31,
                                             name = 'action',
                                             type = 'assignment',
                                             variable = 'foo',
                                             value = "foo + ('bar')")
             self.assertEqual([], children)
-
             children = self.assertComponent(cmpts[1], 3, 31,
                                             name = 'action',
                                             type = 'assignment',
