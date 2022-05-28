@@ -1,4 +1,5 @@
 from __future__ import division, print_function, unicode_literals
+import collections
 import os
 import unittest
 
@@ -933,6 +934,7 @@ class TestIncludes(ParserTestMixin, TempFilesMixin, unittest.TestCase):
     def test_basic(self):
         basedir = os.path.join(self.tmpdir, 'base')
         os.mkdir(basedir)
+        included_files = collections.OrderedDict()
 
         blah_src = '''\
 foo = 1
@@ -964,9 +966,9 @@ bar = foo
 %%include '%s/syntax_error.foo'
 bar = 1
 %%include 'blah.mwel'  // Repeated include is OK
-''' % self.tmpdir, basedir) as p:
+''' % self.tmpdir, basedir, included_files) as p:
             self.assertIsInstance(p, ast.Module)
-            self.assertEqual(10, len(p.statements))
+            self.assertEqual(7, len(p.statements))
 
             self.assertEqual(ast.DeclarationStmt(type = 'var',
                                                  tag = 'foo',
@@ -1006,49 +1008,35 @@ bar = 1
                               os.path.join(basedir, 'not_an_include.mwel')),
                              lineno = 6,
                              colno = 2)
-            not_an_include = p.statements[5]
-            self.assertIsInstance(not_an_include, ast.Module)
-            self.assertLocation(not_an_include, 6, 2)
-            self.assertEqual(os.path.join(basedir, 'not_an_include.mwel'),
-                             not_an_include.filename)
-            self.assertEqual(0, len(not_an_include.statements))
 
             self.assertEqual(ast.AssignmentStmt(varname='bar', value=self.foo),
-                             p.statements[6])
+                             p.statements[5])
 
             self.assertError(token = '=',
                              lineno = 1,
                              colno = 7,
                              filename = os.path.join(self.tmpdir,
                                                      'syntax_error.foo'))
-            syntax_error = p.statements[7]
-            self.assertIsInstance(syntax_error, ast.Module)
-            self.assertLocation(syntax_error, 8, 2)
-            self.assertEqual(syntax_error_path, syntax_error.filename)
-            self.assertEqual(0, len(syntax_error.statements))
 
             self.assertEqual(ast.AssignmentStmt(varname='bar', value=self.one),
-                             p.statements[8])
+                             p.statements[6])
 
-            blah_2 = p.statements[9]
-            self.assertIsInstance(blah_2, ast.Module)
-            self.assertLocation(blah_2, 10, 2)
-            self.assertEqual(blah_path, blah_2.filename)
-            self.assertEqual(0, len(blah_2.statements))
-
-            self.assertIsInstance(self.parser.included_files, dict)
-            self.assertEqual(3, len(self.parser.included_files))
-            included_files = list(self.parser.included_files.items())
+            self.assertEqual(4, len(included_files))
+            included_files = list(included_files.items())
             self.assertEqual(blah_path, included_files[0][0])
             self.assertEqual(blah_src, included_files[0][1])
             self.assertEqual(something_path, included_files[1][0])
             self.assertEqual(something_src, included_files[1][1])
-            self.assertEqual(syntax_error_path, included_files[2][0])
-            self.assertEqual(syntax_error_src, included_files[2][1])
+            self.assertEqual(os.path.join(basedir, 'not_an_include.mwel'),
+                             included_files[2][0])
+            self.assertIsNone(included_files[2][1])
+            self.assertEqual(syntax_error_path, included_files[3][0])
+            self.assertEqual(syntax_error_src, included_files[3][1])
 
     def test_nested(self):
         os.makedirs(os.path.join(self.tmpdir, 'dir1/dir2'))
         os.makedirs(os.path.join(self.tmpdir, 'dir3/dir4'))
+        included_files = collections.OrderedDict()
 
         include1_src = '''\
 foo = 2
@@ -1074,7 +1062,7 @@ bar = 1
 foo = 1
 %include 'dir1/include1'
 foo = 1
-''', self.tmpdir) as p:
+''', self.tmpdir, included_files) as p:
             self.assertIsInstance(p, ast.Module)
             self.assertEqual(3, len(p.statements))
 
@@ -1109,22 +1097,15 @@ foo = 1
 
             p = p.statements[1]
             self.assertIsInstance(p, ast.Module)
-            self.assertEqual(2, len(p.statements))
+            self.assertEqual(1, len(p.statements))
             self.assertLocation(p, 2, 2)
             self.assertEqual(include3_path, p.filename)
 
             self.assertEqual(ast.AssignmentStmt(varname='bar', value=self.one),
                              p.statements[0])
 
-            p = p.statements[1]
-            self.assertIsInstance(p, ast.Module)
-            self.assertEqual(0, len(p.statements))
-            self.assertLocation(p, 2, 2)
-            self.assertEqual(include3_path, p.filename)
-
-            self.assertIsInstance(self.parser.included_files, dict)
-            self.assertEqual(3, len(self.parser.included_files))
-            included_files = list(self.parser.included_files.items())
+            self.assertEqual(3, len(included_files))
+            included_files = list(included_files.items())
             self.assertEqual(include1_path, included_files[0][0])
             self.assertEqual(include1_src, included_files[0][1])
             self.assertEqual(include2_path, included_files[1][0])

@@ -126,8 +126,11 @@ def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
 
     src = readfile(filepath, error_logger)
     if src is not None:
-        parser = Parser(error_logger)
-        ast = parser.parse(src, os.path.dirname(filepath))
+        sources = collections.OrderedDict()
+        sources[filepath] = src
+        ast = Parser(error_logger).parse(src,
+                                         os.path.dirname(filepath),
+                                         sources)
         if ast:
             cmpts = Analyzer(error_logger).analyze(ast)
             cmpts = Validator(error_logger).validate(cmpts)
@@ -142,9 +145,6 @@ def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
     if not omit_metadata:
         # Store the sources for the experiment and all included files in an
         # assignment to #loadedExperiment
-        sources = collections.OrderedDict()
-        sources[filepath] = src
-        sources.update(parser.included_files)
         va_node = ET.SubElement(root,
                                 'variable_assignment',
                                 variable = '#loadedExperiment')

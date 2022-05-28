@@ -328,6 +328,11 @@ class ExpressionParser(object):
                                      self.curr.colno,
                                      value = self.curr.value)
 
+    def _identifier_expr(self):
+        return ast.IdentifierExpr(self.curr.lineno,
+                                  self.curr.colno,
+                                  value = self.curr.value)
+
     def _function_call_expr(self, name):
         lineno = self.curr.lineno
         colno = self.curr.colno
@@ -341,19 +346,8 @@ class ExpressionParser(object):
 
         return ast.FunctionCallExpr(lineno, colno, name=name, args=args)
 
-    def _identifier_expr(self):
-        return ast.IdentifierExpr(self.curr.lineno,
-                                  self.curr.colno,
-                                  value = self.curr.value)
-
 
 class Parser(ExpressionParser):
-
-    def __init__(self, error_logger, _included_files=None):
-        super(Parser, self).__init__(error_logger)
-        if _included_files is None:
-            _included_files = collections.OrderedDict()
-        self.included_files = _included_files
 
     def accept_newline(self):
         t = self.accept('NEWLINE')
@@ -369,18 +363,43 @@ class Parser(ExpressionParser):
             self.accept()
             return self.accept()
 
-    def parse(self, text, basepath=''):
+    def parse(self, text, basepath='', included_files=None):
         module = super(Parser, self).parse(text)
         if module:
             statements = []
+            if included_files is None:
+                included_files = collections.OrderedDict()
             for stmt in module.statements:
                 if isinstance(stmt, ast.IncludeStmt):
                     # Replace the include statement with the actual included
                     # module
-                    stmt = self._load_include(stmt, basepath)
-                statements.append(stmt)
+                    stmt = self._load_include(stmt, basepath, included_files)
+                if stmt is not None:
+                    statements.append(stmt)
             module.statements = tuple(statements)
         return module
+
+    def _load_include(self, stmt, basepath, included_files):
+        lineno = stmt.lineno
+        colno = stmt.colno
+
+        filepath = os.path.normpath(os.path.join(basepath, stmt.target))
+        root, ext = os.path.splitext(filepath)
+        filepath = root + (ext or '.mwel')
+
+        if filepath not in included_files:
+            src = readfile(filepath, self.error_logger, lineno, colno)
+            included_files[filepath] = src
+            if src is not None:
+                with self.error_logger.filename(filepath):
+                    include_module = self.parse(src,
+                                                os.path.dirname(filepath),
+                                                included_files)
+                if include_module:
+                    return ast.Module(lineno,
+                                      colno,
+                                      filename = filepath,
+                                      statements = include_module.statements)
 
     def start(self):
         return self.module()
@@ -602,29 +621,3 @@ class Parser(ExpressionParser):
         return ast.RequireStmt(lineno,
                                colno,
                                names = tuple(names))
-
-    def _load_include(self, stmt, basepath):
-        lineno = stmt.lineno
-        colno = stmt.colno
-        target = stmt.target
-
-        filepath = os.path.normpath(os.path.join(basepath, target))
-        root, ext = os.path.splitext(filepath)
-        filepath = root + (ext or '.mwel')
-
-        statements = ()
-        if filepath not in self.included_files:
-            src = readfile(filepath, self.error_logger, lineno, colno)
-            if src is not None:
-                self.included_files[filepath] = src
-                parser = type(self)(self.error_logger, self.included_files)
-                with self.error_logger.filename(filepath):
-                    include_module = parser.parse(src,
-                                                  os.path.dirname(filepath))
-                if include_module:
-                    statements = include_module.statements
-
-        return ast.Module(lineno,
-                          colno,
-                          filename = filepath,
-                          statements = statements)
