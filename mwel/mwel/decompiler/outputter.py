@@ -1,5 +1,3 @@
-from __future__ import division, print_function, unicode_literals
-
 from .converter import Comment, Assignment
 
 
@@ -69,7 +67,7 @@ class Outputter(object):
             line += ' ()'
         else:
             if item.params:
-                if isinstance(item.params, type('')):
+                if isinstance(item.params, str):
                     # Single param, name omitted
                     line += ' (%s)' % item.params
                 elif len(item.params) == 1:

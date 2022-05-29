@@ -1,4 +1,3 @@
-from __future__ import division, print_function, unicode_literals
 import collections
 
 from . import get_component_info
@@ -63,11 +62,11 @@ class ExpressionAnalyzer(object):
                             (':' + self._expr(expr.step) if expr.step else ''))
 
 
-class StringLiteralExprValue(type('')):
+class StringLiteralExprValue(str):
     pass
 
 
-class NonatomicExpandedExprValue(type('')):
+class NonatomicExpandedExprValue(str):
     pass
 
 

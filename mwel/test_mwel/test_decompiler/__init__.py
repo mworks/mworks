@@ -1,4 +1,3 @@
-from __future__ import division, print_function, unicode_literals
 from collections import OrderedDict
 
 from mwel.decompiler.converter import Comment, Assignment, Declaration
@@ -41,7 +40,7 @@ class DeclarationCheckMixin(object):
             self.assertIsInstance(d.params, OrderedDict)
             self.assertEqual(OrderedDict(params), d.params)
         else:
-            self.assertIsInstance(d.params, type(''))
+            self.assertIsInstance(d.params, str)
             self.assertEqual(params, d.params)
         self.assertEqual(num_children, len(d.children))
 

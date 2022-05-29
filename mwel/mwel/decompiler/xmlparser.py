@@ -1,4 +1,3 @@
-from __future__ import division, print_function, unicode_literals
 from collections import OrderedDict
 from xml.etree import ElementTree
 from xml.parsers import expat

@@ -1,4 +1,3 @@
-from __future__ import division, print_function, unicode_literals
 from collections import defaultdict, OrderedDict
 
 from .converter import Declaration
@@ -43,7 +42,7 @@ class Beautifier(object):
 
             # Some defaults are stored as int's or other non-string types, so
             # convert them to strings for comparison with parameter values
-            defaults = dict((p['name'], type('')(p['default']))
+            defaults = dict((p['name'], str(p['default']))
                             for p in params.values() if 'default' in p)
             if defaults:
                 self._default_param_values[signature] = defaults

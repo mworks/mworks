@@ -1,4 +1,3 @@
-from __future__ import division, print_function, unicode_literals
 import collections
 import os
 import unittest
@@ -191,7 +190,7 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
             with self.parse(expr) as p:
                 self.assertIsInstance(p, ast.FunctionCallExpr)
                 self.assertLocation(p, 1, colno)
-                self.assertIsInstance(p.name, type(''))
+                self.assertIsInstance(p.name, str)
                 self.assertEqual(name, p.name)
                 self.assertIsInstance(p.args, tuple)
                 self.assertEqual(args, p.args)
@@ -294,7 +293,7 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
                 self.assertIsInstance(p, ast.UnitsExpr)
                 self.assertLocation(p, 1, colno)
                 self.assertEqual(target, p.target)
-                self.assertIsInstance(p.unit, type(''))
+                self.assertIsInstance(p.unit, str)
                 self.assertEqual(unit, p.unit)
 
         # Basics
@@ -380,7 +379,7 @@ class TestExpressions(ParserTestMixin, unittest.TestCase):
                 self.assertIsInstance(p, ast.CastExpr)
                 self.assertLocation(p, 1, 1)
                 self.assertEqual(target, p.target)
-                self.assertIsInstance(p.totype, type(''))
+                self.assertIsInstance(p.totype, str)
                 self.assertEqual(totype, p.totype)
 
         test_cast('(bool)1', 'bool', self.one)
@@ -551,7 +550,7 @@ class TestStatements(ParserTestMixin, unittest.TestCase):
             with self.parse(src) as p:
                 self.assertIsInstance(p, ast.Module)
                 self.assertLocation(p, 0, 0)
-                self.assertIsInstance(p.filename, type(''))
+                self.assertIsInstance(p.filename, str)
                 self.assertEqual('', p.filename)
                 self.assertIsInstance(p.statements, tuple)
                 self.assertEqual(statements, p.statements)
