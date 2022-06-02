@@ -13,11 +13,29 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface MWClientPluginViewController : NSViewController <MWClientPluginViewControllerFactory>
+@interface MWClientPluginViewController : NSViewController <MWClientPluginViewControllerFactory, MWClientPluginWorkspaceState>
 
 - (instancetype)initWithClient:(id<MWKClient>)client;
 
 @property(nonatomic, weak, readonly) id<MWKClient> client;
+
+- (id<NSObject>)registerStoredPropertyWithName:(NSString *)name
+                                   defaultsKey:(NSString *)defaultsKey;
+
+- (id<NSObject>)registerStoredPropertyWithName:(NSString *)name
+                                   defaultsKey:(NSString *)defaultsKey
+                                  workspaceKey:(NSString *)workspaceKey;
+
+- (id<NSObject>)registerStoredPropertyWithName:(NSString *)name
+                                   defaultsKey:(NSString *)defaultsKey
+                                  handleEvents:(BOOL)handleEvents;
+
+- (id<NSObject>)registerStoredPropertyWithName:(NSString *)name
+                                   defaultsKey:(NSString *)defaultsKey
+                                  workspaceKey:(NSString *)workspaceKey
+                                  handleEvents:(BOOL)handleEvents;
+
+- (void)handleEvent:(MWKEvent *)event forStoredProperty:(id)property;
 
 @end
 
