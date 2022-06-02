@@ -138,7 +138,7 @@ NS_ASSUME_NONNULL_END
     if (value && [value isKindOfClass:[NSString class]] && value.length > 0) {
         NSInteger code = [self.client codeForTag:value];
         if (code < 0) {
-            [self.client logWarning:[NSString stringWithFormat:@"%@ can't find variable \"%@\"", self.title, value]];
+            [self postWarning:[NSString stringWithFormat:@"Can't find variable \"%@\"", value]];
         } else {
             [self.client registerCallbackWithKey:key
                                          forCode:code
@@ -221,6 +221,21 @@ static void * const storedPropertyContext = (void *)(&storedPropertyContext);
             [self setValue:value forKey:name];
         }
     }
+}
+
+
+- (void)postMessage:(NSString *)message {
+    [self.client logMessage:[NSString stringWithFormat:@"%@: %@", self.title, message]];
+}
+
+
+- (void)postWarning:(NSString *)warning {
+    [self.client logWarning:[NSString stringWithFormat:@"%@: %@", self.title, warning]];
+}
+
+
+- (void)postError:(NSString *)error {
+    [self.client logError:[NSString stringWithFormat:@"%@: %@", self.title, error]];
 }
 
 

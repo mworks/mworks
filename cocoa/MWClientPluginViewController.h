@@ -37,6 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)handleEvent:(MWKEvent *)event forStoredProperty:(id)property;
 
+- (void)postMessage:(NSString *)message;
+- (void)postWarning:(NSString *)warning;
+- (void)postError:(NSString *)error;
+
 @end
 
 
