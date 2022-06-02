@@ -15,9 +15,72 @@ sys.path.insert(0, mw_python_dir)
 
 import mworks
 import mworks._mworks
+from mworks import get_version, require_version
 
 assert (os.path.dirname(mworks.__file__) ==
         os.path.join(mw_python_dir, 'mworks')), 'Wrong mworks package!'
+
+
+class TestExtras(unittest.TestCase):
+
+    def test_get_version(self):
+        version, build_date = get_version()
+
+        self.assertIsInstance(version, tuple)
+        self.assertGreaterEqual(len(version), 2)
+        self.assertTrue(all(isinstance(d, int) for d in version))
+        # At least one digit in the version number must be greater than zero
+        self.assertTrue(any(d > 0 for d in version))
+
+        self.assertIsInstance(build_date, tuple)
+        self.assertEqual(3, len(build_date))
+        self.assertTrue(all(isinstance(d, int) for d in build_date))
+        self.assertTrue(all(d > 0 for d in build_date))
+
+        version_string = '.'.join(str(d) for d in version)
+        self.assertTrue(mworks.__version__.startswith(version_string))
+
+    def test_require_version(self):
+        current_version, current_build_date = get_version()
+
+        # Default arguments
+        require_version()
+
+        # Current version and build date
+        require_version(current_version, current_build_date)
+        require_version(min_version=current_version)
+        require_version(min_build_date=current_build_date)
+
+        # Older version
+        for i, d in enumerate(current_version):
+            version = list(current_version)
+            version[i] = d - 1
+            require_version(min_version=tuple(version))
+        # Missing digit counts as older version
+        require_version(min_version=current_version[:-1])
+
+        # Older build date
+        for i, d in enumerate(current_build_date):
+            build_date = list(current_build_date)
+            build_date[i] = d - 1
+            require_version(min_build_date=tuple(build_date))
+
+        # Newer version
+        for i, d in enumerate(current_version):
+            version = list(current_version)
+            version[i] = d + 1
+            with self.assertRaises(AssertionError):
+                require_version(min_version=tuple(version))
+        # Extra digit counts as newer version
+        with self.assertRaises(AssertionError):
+            require_version(min_version=current_version + (1,))
+
+        # Newer build date
+        for i, d in enumerate(current_build_date):
+            build_date = list(current_build_date)
+            build_date[i] = d + 1
+            with self.assertRaises(AssertionError):
+                require_version(min_build_date=tuple(build_date))
 
 
 class TypeConversionTestMixin(object):
