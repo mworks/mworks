@@ -17,15 +17,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "MWorksCore/Event.h"
+#include <MWorksCore/Event.h>
 using namespace mw;
 
 // Message type constants.
-const int MW_ERROR_MESSAGE          = (int)M_ERROR_MESSAGE;
-const int MW_WARNING_MESSAGE        = (int)M_WARNING_MESSAGE;
-const int MW_GENERIC_MESSAGE        = (int)M_GENERIC_MESSAGE;
-const int MW_FATAL_ERROR_MESSAGE    = (int)M_FATAL_ERROR_MESSAGE;
-const int MW_MAX_MESSAGE_TYPE       = (int)M_MAX_MESSAGE_TYPE;
+enum {
+    MW_ERROR_MESSAGE       = M_ERROR_MESSAGE,
+    MW_WARNING_MESSAGE     = M_WARNING_MESSAGE,
+    MW_GENERIC_MESSAGE     = M_GENERIC_MESSAGE,
+    MW_FATAL_ERROR_MESSAGE = M_FATAL_ERROR_MESSAGE,
+    MW_MAX_MESSAGE_TYPE    = M_MAX_MESSAGE_TYPE
+};
 
 @interface MWMessageContainer : NSObject {
     NSString * message;

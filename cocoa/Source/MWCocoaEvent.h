@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MWorksCore/GenericData.h"
+#include <MWorksCore/GenericData.h>
 using namespace mw;
 
 @interface MWCocoaEvent : NSObject {

@@ -2,6 +2,29 @@
 // Prefix header for all source files of the 'MWorksCocoa' target in the 'MWorksCocoa' project.
 //
 
+#ifndef MWorksCocoa_Prefix_pch
+#define MWorksCocoa_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <boost/bind.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/shared_ptr.hpp>
+
+#include <MWorksCore/Client.h>
+#include <MWorksCore/Event.h>
+#include <MWorksCore/EventStreamInterface.h>
+#include <MWorksCore/GenericData.h>
+#include <MWorksCore/StandardVariables.h>
+
 #ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
+
+#import <MWorksSwift/MWorksSwiftErrors_Private.h>
+#import <MWorksSwift/MWKClient_Private.h>
+#import <MWorksSwift/MWKCore_Private.h>
+
+#endif /* defined(__OBJC__) */
+
+#endif /* defined(__cplusplus) */
+
+#endif /* MWorksCocoa_Prefix_pch */

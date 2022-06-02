@@ -7,9 +7,6 @@
 
 #import "MWClientBase.h"
 
-#import <MWorksSwift/MWorksSwiftErrors_Private.h>
-#import <MWorksSwift/MWKClient_Private.h>
-
 #import "MWClientProtocol.h"
 #import "MWCodec.h"
 #import "OrderedDictionary.h"
@@ -36,11 +33,6 @@
 - (NSArray *)variableNames {
     // Return a copy of MWCodec's internal variable names array
     return [[self.variables variableNames] copy];
-}
-
-
-- (id<MWKClient>)clientCore {
-    return self.client;
 }
 
 

@@ -7,7 +7,6 @@
  * Copyright 2005 MIT. All rights reserved.
  */
 
-#include "boost/date_time/posix_time/posix_time.hpp"
 #import "MWMessageContainer.h"
 
 @implementation MWMessageContainer

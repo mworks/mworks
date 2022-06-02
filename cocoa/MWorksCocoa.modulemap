@@ -1,0 +1,14 @@
+framework module MWorksCocoa {
+  umbrella header "MWorksCocoa.h"
+
+  export *
+  module * { export * }
+
+  // These headers contain C++ code and can't be used from Objective-C
+  // or Swift
+  exclude header "MWClientProtocol.h"
+  exclude header "MWCocoaEvent.h"
+  exclude header "MWCocoaEventFunctor.h"
+  exclude header "MWCodec.h"
+  exclude header "MWMessageContainer.h"
+}

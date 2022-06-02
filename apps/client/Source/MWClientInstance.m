@@ -687,6 +687,16 @@
         loaded = [plugin_bundle loadAndReturnError:&error];
         
         if(loaded){
+            Class principalClass = plugin_bundle.principalClass;
+            if (principalClass && [principalClass conformsToProtocol:@protocol(MWClientPluginViewControllerFactory)]) {
+                NSViewController *viewController = [principalClass viewControllerWithClient:self.client];
+                if (viewController) {
+                    NSWindow *window = [NSWindow windowWithContentViewController:viewController];
+                    NSWindowController *windowController = [[NSWindowController alloc] initWithWindow:window];
+                    [self addPlugin:windowController withName:plugin_file.stringByDeletingPathExtension];
+                    continue;
+                }
+            }
       
             NSArray *toplevel;
             NSNib *nib;
@@ -937,11 +947,17 @@
     NSMutableDictionary *pluginState = [NSMutableDictionary dictionary];
     
     for (NSWindowController *controller in pluginWindows) {
+        NSDictionary *state = nil;
         if ([controller respondsToSelector:@selector(workspaceState)]) {
-            NSDictionary *state = [(id<MWClientPluginWorkspaceState>)controller workspaceState];
-            if ([state count] > 0) {
-                [pluginState setObject:state forKey:[controller windowFrameAutosaveName]];
+            state = [(id<MWClientPluginWorkspaceState>)controller workspaceState];
+        } else {
+            NSViewController *viewController = controller.contentViewController;
+            if (viewController && [viewController respondsToSelector:@selector(workspaceState)]) {
+                state = [(id<MWClientPluginWorkspaceState>)viewController workspaceState];
             }
+        }
+        if (state && state.count > 0) {
+            [pluginState setObject:state forKey:[controller windowFrameAutosaveName]];
         }
     }
     
@@ -1001,12 +1017,15 @@
     if (newPluginState && [newPluginState isKindOfClass:[NSDictionary class]]) {
         for (NSWindowController *controller in pluginWindows) {
             NSDictionary *state = [newPluginState objectForKey:[controller windowFrameAutosaveName]];
-            if (state &&
-                [state isKindOfClass:[NSDictionary class]] &&
-                [state count] > 0 &&
-                [controller respondsToSelector:@selector(setWorkspaceState:)])
-            {
-                [(id<MWClientPluginWorkspaceState>)controller setWorkspaceState:state];
+            if (state && [state isKindOfClass:[NSDictionary class]] && state.count > 0) {
+                if ([controller respondsToSelector:@selector(setWorkspaceState:)]) {
+                    [(id<MWClientPluginWorkspaceState>)controller setWorkspaceState:state];
+                } else {
+                    NSViewController *viewController = controller.contentViewController;
+                    if (viewController && [viewController respondsToSelector:@selector(setWorkspaceState:)]) {
+                        [(id<MWClientPluginWorkspaceState>)viewController setWorkspaceState:state];
+                    }
+                }
             }
         }
     }

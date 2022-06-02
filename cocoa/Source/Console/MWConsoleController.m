@@ -9,7 +9,6 @@
 #import "MWMessageContainer.h"
 #import "MWConsoleController.h"
 #import "MWCocoaEvent.h"
-#import "MWorksCore/StandardVariables.h"
 #import "MWClientServerBase.h"
 
 #define MW_CONSOLE_CONTROLLER_CALLBACK_KEY "MWorksCocoa console controller callback key"

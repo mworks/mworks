@@ -20,7 +20,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface MWClientBase : MWClientServerBase <MWClientPluginHost>
+@interface MWClientBase : MWClientServerBase
 
 - (instancetype)initWithClient:(MWKClient *)client;
 

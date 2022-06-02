@@ -11,9 +11,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-const int MWGenericMessageSegment = 0;
-const int MWWarningMessageSegment = 2;
-const int MWErrorMessageSegment = 1;
+enum {
+    MWGenericMessageSegment = 0,
+    MWWarningMessageSegment = 2,
+    MWErrorMessageSegment = 1
+};
 
 @interface MWConsoleController : NSWindowController {
 	IBOutlet NSTextView *msgTextView;

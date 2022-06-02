@@ -5,16 +5,12 @@
 //  Created by Christopher Stawarz on 9/13/19.
 //
 
-#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 
 #import <MWorksSwift/MWorksSwift.h>
 
 
-@protocol MWClientPluginHost <NSObject>
-
-@property(nonatomic, readonly) id<MWKClient> clientCore;
-
-@end
+NS_ASSUME_NONNULL_BEGIN
 
 
 @protocol MWClientPluginWindowController <NSObject>
@@ -30,3 +26,13 @@
 - (void)setWorkspaceState:(NSDictionary *)workspaceState;
 
 @end
+
+
+@protocol MWClientPluginViewControllerFactory <NSObject>
+
++ (NSViewController *)viewControllerWithClient:(id<MWKClient>)client;
+
+@end
+
+
+NS_ASSUME_NONNULL_END

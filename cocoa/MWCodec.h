@@ -7,13 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <MWorksCore/Client.h>
+#include <MWorksCore/Client.h>
 
 #import "MWCocoaEvent.h"
 #import "MWClientProtocol.h"
 
-#define MW_CODEC_CALLBACK_KEY	"mw_codec_callback_key"
-#define MW_CODEC_VALUE_CHANGE_CALLBACK_KEY	"mw_codec_value_change_callback_key"
 
 @interface MWCodec : NSObject {
 

@@ -7,9 +7,6 @@
 
 #import "MWClientServerBase.h"
 
-#import <MWorksSwift/MWorksSwiftErrors_Private.h>
-#import <MWorksSwift/MWKCore_Private.h>
-
 #import "MWCocoaEventFunctor.h"
 
 

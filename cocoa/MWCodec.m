@@ -9,6 +9,7 @@
 #import "MWCodec.h"
 #import "MWCocoaEventFunctor.h"
 
+#define MW_CODEC_CALLBACK_KEY "mw_codec_callback_key"
 #define UPDATE_INTERVAL	0.1
 
 @implementation MWCodec

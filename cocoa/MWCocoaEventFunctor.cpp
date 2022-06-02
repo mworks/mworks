@@ -9,7 +9,6 @@
 
 #import "MWCocoaEventFunctor.h"
 
-#import <boost/bind.hpp>
 
 namespace mw{
 

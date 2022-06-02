@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import <MWorksCore/Client.h>
-#import <MWorksCore/GenericData.h>
+#include <MWorksCore/Client.h>
+#include <MWorksCore/GenericData.h>
 
 #import <MWorksCocoa/MWClientPlugin.h>  // Include for compatibility with existing code
 #import <MWorksCocoa/MWClientServerBase.h>

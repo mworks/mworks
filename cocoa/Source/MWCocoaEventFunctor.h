@@ -12,7 +12,7 @@
 
 #include "MWCocoaEvent.h"
 #import "CocoaBindingsSetter.h"
-#include "MWorksCore/EventStreamInterface.h"
+#include <MWorksCore/EventStreamInterface.h>
 #include <boost/shared_ptr.hpp>
 
 
