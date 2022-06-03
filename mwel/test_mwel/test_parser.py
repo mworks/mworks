@@ -1396,3 +1396,441 @@ class TestMacros(ParserTestMixin, unittest.TestCase):
             self.assertIsInstance(p[1], ast.RequireStmt)
             self.assertLocation(p[1], 3, 26)
             self.assertEqual(('x', 'y', 'z'), p[1].names)
+
+
+class TestConditionalInclusion(ParserTestMixin,
+                               TempFilesMixin,
+                               unittest.TestCase):
+
+    def assertDefine(self, p, name, lineno, colno):
+        self.assertIsInstance(p, ast.ExpressionMacroStmt)
+        self.assertLocation(p, lineno, colno)
+        self.assertEqual(name, p.name)
+        self.assertEqual((), p.parameters)
+        self.assertEqual(self.true, p.value)
+
+    def assertVar(self, p, name, value, lineno, colno):
+        self.assertIsInstance(p, ast.DeclarationStmt)
+        self.assertLocation(p, lineno, colno)
+        self.assertEqual('var', p.type)
+        self.assertEqual(name, p.tag)
+        self.assertEqual(value, p.value)
+        self.assertEqual((), p.params)
+        self.assertEqual((), p.children)
+
+    def assertAssign(self, p, varname, value, lineno, colno):
+        self.assertIsInstance(p, ast.AssignmentStmt)
+        self.assertLocation(p, lineno, colno)
+        self.assertEqual(varname, p.varname)
+        self.assertEqual((), p.indices)
+        self.assertIsNone(p.op)
+        self.assertEqual(value, p.value)
+
+    def test_syntax_errors(self):
+        # Wrong case
+        with self.parse('''
+                        %IFDEF foo
+                            x = foo()
+                        %end
+                        '''):
+            self.assertError(token='%', lineno=2)
+        with self.parse('''
+                        %IFUNDEF foo
+                            x = foo()
+                        %end
+                        '''):
+            self.assertError(token='%', lineno=2)
+        with self.parse('''
+                        %ifdef foo
+                            x = foo()
+                        %ELSE
+                            x = bar()
+                        %end
+                        '''):
+            self.assertError(token='%', lineno=4)
+
+        # Missing macro name
+        with self.parse('''
+                        %ifundef
+                            x = y
+                        %end
+                        '''):
+            self.assertExpected('identifier', lineno=2)
+
+        # Bad macro name
+        with self.parse('''
+                        %ifdef 3
+                            y = 4
+                        %end
+                        '''):
+            self.assertExpected('identifier', got='3')
+
+        # Extra text after macro name
+        with self.parse('''
+                        %ifundef foo ()
+                            x = y
+                        %end
+                        '''):
+            self.assertExpected('line ending', got='(')
+
+        # Extra '%else'
+        with self.parse('''
+                        %ifdef foo
+                            x = foo()
+                        %else
+                            x = bar()
+                        %else
+                            x = baz()
+                        %end
+                        '''):
+            self.assertError('Conditional inclusion statement can contain '
+                             'at most one %else clause', lineno=6)
+
+        # Missing '%end'
+        with self.parse('''
+                        %ifundef foo
+                            x = foo()
+                        '''):
+            self.assertError('Input ended unexpectedly')
+
+    def test_empty(self):
+        with self.parse('''
+                        %ifdef blah
+                        %end
+
+                        %ifundef bazz
+                        %end
+
+                        %ifdef blah
+                        %else
+                        %end
+
+                        %ifundef bazz
+                        %else
+                        %end
+
+                        %define blah
+                        %define bazz
+
+                        %ifdef blah
+                        %end
+
+                        %ifundef bazz
+                        %end
+
+                        %ifdef blah
+                        %else
+                        %end
+
+                        %ifundef bazz
+                        %else
+                        %end
+                        ''') as p:
+            self.assertIsInstance(p, ast.Module)
+            self.assertEqual(2, len(p.statements))
+            p = p.statements
+
+            self.assertDefine(p[0], 'blah', 16, 26)
+            self.assertDefine(p[1], 'bazz', 17, 26)
+
+    def test_without_else(self):
+        with self.parse('''
+                        %ifdef blah
+                            var x1 = 1
+                            x1 = 2
+                        %end
+
+                        %ifundef bazz
+                            var x2 = 1
+                            x2 = 2
+                        %end
+
+                        %define blah
+                        %define bazz
+
+                        %ifdef blah
+                            var x3 = 1
+                            x3 = 2
+                        %end
+
+                        %ifundef bazz
+                            var x4 = 2
+                            x4 = 2
+                        %end
+                        ''') as p:
+            self.assertIsInstance(p, ast.Module)
+            self.assertEqual(6, len(p.statements))
+            p = p.statements
+
+            self.assertVar(p[0], 'x2', self.one, 8, 29)
+            self.assertAssign(p[1], 'x2', self.two, 9, 32)
+
+            self.assertDefine(p[2], 'blah', 12, 26)
+            self.assertDefine(p[3], 'bazz', 13, 26)
+
+            self.assertVar(p[4], 'x3', self.one, 16, 29)
+            self.assertAssign(p[5], 'x3', self.two, 17, 32)
+
+    def test_with_else(self):
+        with self.parse('''
+                        %ifdef blah
+                            var x1 = 1
+                            x1 = 2
+                        %else
+                            var x2 = 1
+                            x2 = 2
+                        %end
+
+                        %ifundef bazz
+                            var x3 = 1
+                            x3 = 2
+                        %else
+                            var x4 = 2
+                            x4 = 2
+                        %end
+
+                        %define blah
+                        %define bazz
+
+                        %ifdef blah
+                            var x5 = 1
+                            x5 = 2
+                        %else
+                            var x6 = 1
+                            x6 = 2
+                        %end
+
+                        %ifundef bazz
+                            var x7 = 1
+                            x7 = 2
+                        %else
+                            var x8 = 1
+                            x8 = 2
+                        %end
+                        ''') as p:
+            self.assertIsInstance(p, ast.Module)
+            self.assertEqual(10, len(p.statements))
+            p = p.statements
+
+            self.assertVar(p[0], 'x2', self.one, 6, 29)
+            self.assertAssign(p[1], 'x2', self.two, 7, 32)
+
+            self.assertVar(p[2], 'x3', self.one, 11, 29)
+            self.assertAssign(p[3], 'x3', self.two, 12, 32)
+
+            self.assertDefine(p[4], 'blah', 18, 26)
+            self.assertDefine(p[5], 'bazz', 19, 26)
+
+            self.assertVar(p[6], 'x5', self.one, 22, 29)
+            self.assertAssign(p[7], 'x5', self.two, 23, 32)
+
+            self.assertVar(p[8], 'x8', self.one, 33, 29)
+            self.assertAssign(p[9], 'x8', self.two, 34, 32)
+
+    def test_not_at_top_level(self):
+        with self.parse('''
+                        %define foo
+                        %define bar
+                        %define blah ()
+                            a = true
+                            block () {
+                                x = 1
+                                %ifundef foo
+                                    y = 1
+                                %else
+                                    y = 2
+                                    trial () {
+                                        z = 1
+                                        %ifdef bar
+                                            z = 2
+                                        %end
+                                        z = 3
+                                    }
+                                %end
+                            }
+                            %ifdef blah
+                                // blah isn't defined while its definition is
+                                // still being parsed, so the following
+                                // assignment should be dropped
+                                b = true
+                            %end
+                        %end
+                        ''') as p:
+            self.assertIsInstance(p, ast.Module)
+            self.assertEqual(3, len(p.statements))
+            p = p.statements
+
+            self.assertDefine(p[0], 'foo', 2, 26)
+            self.assertDefine(p[1], 'bar', 3, 26)
+
+            self.assertIsInstance(p[2], ast.StatementMacroStmt)
+            self.assertEqual('blah', p[2].name)
+            self.assertEqual((), p[2].parameters)
+            self.assertEqual(2, len(p[2].statements))
+            p = p[2].statements
+
+            self.assertAssign(p[0], 'a', self.true, 5, 31)
+
+            self.assertIsInstance(p[1], ast.DeclarationStmt)
+            self.assertEqual('block', p[1].type)
+            self.assertEqual(3, len(p[1].children))
+            p = p[1].children
+
+            self.assertAssign(p[0], 'x', self.one, 7, 35)
+            self.assertAssign(p[1], 'y', self.two, 11, 39)
+
+            self.assertIsInstance(p[2], ast.DeclarationStmt)
+            self.assertEqual('trial', p[2].type)
+            self.assertEqual(3, len(p[2].children))
+            p = p[2].children
+
+            self.assertAssign(p[0], 'z', self.one, 13, 43)
+            self.assertAssign(p[1], 'z', self.two, 15, 47)
+            self.assertAssign(p[2], 'z', self.three, 17, 43)
+
+    def test_preserves_top_level(self):
+        with self.parse('''
+                        // Top level
+                        %ifdef foo
+                            // Still top level
+                            %define bar = 3
+                        %else
+                            // Still top level
+                            %require bar
+                            %ifundef blah
+                                // Still top level
+                                %define blah
+                            %else
+                                // Still top level
+                                %require baz
+                            %end
+                        %end
+                        ''') as p:
+            self.assertIsInstance(p, ast.Module)
+            self.assertEqual(2, len(p.statements))
+            p = p.statements
+
+            self.assertIsInstance(p[0], ast.RequireStmt)
+            self.assertLocation(p[0], 8, 30)
+            self.assertEqual(('bar',), p[0].names)
+
+            self.assertIsInstance(p[1], ast.ExpressionMacroStmt)
+            self.assertLocation(p[1], 11, 34)
+            self.assertEqual((), p[1].parameters)
+            self.assertEqual(self.true, p[1].value)
+
+    def test_preserves_not_top_level(self):
+        with self.parse('''
+                        // Top level
+                        %define blah ()
+                            // No longer top level
+                            %ifdef bar
+                                // Still not top level
+                                %require bloop
+                            %end
+                        %end
+                        ''') as p:
+            self.assertError('Require statements are permitted at the top '
+                             'level only',
+                             lineno = 7,
+                             colno = 34)
+
+        with self.parse('''
+                        // Top level
+                        %define blah ()
+                            // No longer top level
+                            %ifdef bar
+                                // Still not top level
+                                y = 2
+                            %else
+                                // Still not top level
+                                %require bloop
+                            %end
+                        %end
+                        ''') as p:
+            self.assertError('Require statements are permitted at the top '
+                             'level only',
+                             lineno = 10,
+                             colno = 34)
+        with self.parse('''
+                        // Top level
+                        %define blah ()
+                            // No longer top level
+                            %ifundef bar
+                                // Still not top level
+                                %require bloop
+                            %end
+                        %end
+                        ''') as p:
+            self.assertError('Require statements are permitted at the top '
+                             'level only',
+                             lineno = 7,
+                             colno = 34)
+
+        with self.parse('''
+                        // Top level
+                        %define blah ()
+                            // No longer top level
+                            %ifundef bar
+                                // Still not top level
+                                y = 2
+                            %else
+                                // Still not top level
+                                %require bloop
+                            %end
+                        %end
+                        ''') as p:
+            self.assertError('Require statements are permitted at the top '
+                             'level only',
+                             lineno = 10,
+                             colno = 34)
+
+    def test_includes(self):
+        included_files = collections.OrderedDict()
+
+        include1_src = '''\
+%ifdef foo
+    x = 1
+%else
+    x = 2
+%end
+%define bar
+'''
+        include1_path = self.write_file('inc1.mwel', include1_src)
+
+        include2_src = '''\
+// This file should never be loaded or parsed, so we shouldn't see a syntax
+// error
+x = 1 + * 2
+'''
+        include2_path = self.write_file('inc2.mwel', include2_src)
+
+        with self.parse('''\
+%define foo
+%include inc1
+%ifundef bar
+   %include inc2
+%else
+   y = 3
+%end
+''', self.tmpdir, included_files) as p:
+            self.assertIsInstance(p, ast.Module)
+            self.assertEqual(3, len(p.statements))
+            p = p.statements
+
+            self.assertDefine(p[0], 'foo', 1, 2)
+            self.assertAssign(p[2], 'y', self.three, 6, 6)
+
+            self.assertIsInstance(p[1], ast.Module)
+            self.assertLocation(p[1], 2, 2)
+            self.assertEqual(include1_path, p[1].filename)
+            self.assertEqual(2, len(p[1].statements))
+            p = p[1].statements
+
+            self.assertAssign(p[0], 'x', self.one, 2, 7)
+            self.assertDefine(p[1], 'bar', 6, 2)
+
+            self.assertEqual(1, len(included_files))
+            included_files = list(included_files.items())
+            self.assertEqual(include1_path, included_files[0][0])
+            self.assertEqual(include1_src, included_files[0][1])

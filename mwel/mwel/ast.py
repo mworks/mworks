@@ -89,6 +89,11 @@ class RequireStmt(Stmt):
     _fields = ('names',)
 
 
+class ConditionalInclusionStmt(Stmt):
+
+    _fields = ('macro_name', 'def_statements', 'undef_statements')
+
+
 ###############################################################################
 #
 # Expressions

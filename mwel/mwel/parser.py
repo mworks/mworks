@@ -57,9 +57,9 @@ class TokenStream(object):
 
 class ExpressionParser(object):
 
-    def __init__(self, error_logger):
+    def __init__(self, error_logger, _lexer=None):
         self.error_logger = error_logger
-        self.lexer = Lexer(error_logger)
+        self._lexer = (Lexer(error_logger) if _lexer is None else _lexer)
 
     def peek(self, ttype=None, depth=1):
         t = self._tokens.peek(depth)
@@ -102,7 +102,7 @@ class ExpressionParser(object):
         return self._tokens.ignore_newlines()
 
     def parse(self, text):
-        self._tokens = TokenStream(self.lexer, text)
+        self._tokens = TokenStream(self._lexer, text)
         try:
             result = self.start()
             if self.peek():
@@ -355,6 +355,9 @@ class Parser(ExpressionParser):
                 pass
         return t
 
+    def expect_newline(self):
+        return self.accept_newline() or self.unexpected_token('line ending')
+
     def accept_directive(self, name):
         t1 = self.peek('%')
         t2 = self.peek('IDENTIFIER', depth=2)
@@ -362,43 +365,78 @@ class Parser(ExpressionParser):
             self.accept()
             return self.accept()
 
-    def parse(self, text, basepath='', included_files=None):
+    def parse(self, text, basepath='', included_files=None,
+              _defined_macros=None):
+        self._basepath = basepath
+        self._included_files = (included_files if included_files is not None
+                                else collections.OrderedDict())
+        self._defined_macros = (_defined_macros if _defined_macros is not None
+                                else set())
+
         module = super(Parser, self).parse(text)
         if module:
-            statements = []
-            if included_files is None:
-                included_files = collections.OrderedDict()
-            for stmt in module.statements:
-                if isinstance(stmt, ast.IncludeStmt):
-                    # Replace the include statement with the actual included
-                    # module
-                    stmt = self._load_include(stmt, basepath, included_files)
-                if stmt is not None:
-                    statements.append(stmt)
-            module.statements = tuple(statements)
+            module.statements = self._filter_statements(module.statements)
         return module
 
-    def _load_include(self, stmt, basepath, included_files):
+    def _filter_statements(self, statements):
+        filtered_statements = []
+
+        for stmt in statements:
+            if isinstance(stmt, ast.DeclarationStmt):
+                stmt.children = self._filter_statements(stmt.children)
+
+            elif isinstance(stmt, ast.IncludeStmt):
+                # Replace the include statement with the actual included
+                # module
+                stmt = self._load_include(stmt)
+
+            elif isinstance(stmt, ast.MacroStmt):
+                if isinstance(stmt, ast.StatementMacroStmt):
+                    # Filter the macro's statements before adding its name to
+                    # the list of defined macros, since it isn't defined until
+                    # we've finished parsing it
+                    stmt.statements = self._filter_statements(stmt.statements)
+                self._defined_macros.add(stmt.name)
+
+            elif isinstance(stmt, ast.ConditionalInclusionStmt):
+                # Replace the conditional inclusion statement with the
+                # appropriate included statements
+                if stmt.macro_name in self._defined_macros:
+                    inc_statements = stmt.def_statements
+                else:
+                    inc_statements = stmt.undef_statements
+                inc_statements = self._filter_statements(inc_statements)
+                filtered_statements.extend(inc_statements)
+                stmt = None
+
+            if stmt is not None:
+                filtered_statements.append(stmt)
+
+        return tuple(filtered_statements)
+
+    def _load_include(self, stmt):
         lineno = stmt.lineno
         colno = stmt.colno
 
-        filepath = os.path.normpath(os.path.join(basepath, stmt.target))
+        filepath = os.path.normpath(os.path.join(self._basepath, stmt.target))
         root, ext = os.path.splitext(filepath)
         filepath = root + (ext or '.mwel')
 
-        if filepath not in included_files:
+        if filepath not in self._included_files:
             src = readfile(filepath, self.error_logger, lineno, colno)
-            included_files[filepath] = src
+            self._included_files[filepath] = src
             if src is not None:
                 with self.error_logger.filename(filepath):
-                    include_module = self.parse(src,
-                                                os.path.dirname(filepath),
-                                                included_files)
-                if include_module:
+                    parser = type(self)(self.error_logger, self._lexer)
+                    module = parser.parse(src,
+                                          os.path.dirname(filepath),
+                                          self._included_files,
+                                          self._defined_macros)
+                if module:
                     return ast.Module(lineno,
                                       colno,
                                       filename = filepath,
-                                      statements = include_module.statements)
+                                      statements = module.statements)
 
     def start(self):
         return self.module()
@@ -437,6 +475,12 @@ class Parser(ExpressionParser):
                            'only',
                            token = self.curr)
             stmt = self._require_stmt()
+
+        elif self.accept_directive('ifdef'):
+            stmt = self._conditional_inclusion_stmt(_toplevel)
+
+        elif self.accept_directive('ifundef'):
+            stmt = self._conditional_inclusion_stmt(_toplevel, inverted=True)
 
         else:
             self.error()
@@ -620,3 +664,41 @@ class Parser(ExpressionParser):
         return ast.RequireStmt(lineno,
                                colno,
                                names = tuple(names))
+
+    def _conditional_inclusion_stmt(self, toplevel, inverted=False):
+        lineno = self.curr.lineno
+        colno = self.curr.colno
+
+        self.expect('IDENTIFIER')
+        macro_name = self.curr.value
+        self.expect_newline()
+
+        def_statements = []
+        undef_statements = []
+        have_else = False
+
+        while not self.accept_directive('end'):
+            if self.accept_directive('else'):
+                self.expect_newline()
+                have_else = True
+                break
+            def_statements.append(self.stmt(toplevel))
+
+        if have_else:
+            while not self.accept_directive('end'):
+                if self.accept_directive('else'):
+                    self.error('Conditional inclusion statement can contain '
+                               'at most one %else clause',
+                               token = self.curr)
+                undef_statements.append(self.stmt(toplevel))
+
+        def_statements = tuple(def_statements)
+        undef_statements = tuple(undef_statements)
+        if inverted:
+            def_statements, undef_statements = undef_statements, def_statements
+
+        return ast.ConditionalInclusionStmt(lineno,
+                                            colno,
+                                            macro_name = macro_name,
+                                            def_statements = def_statements,
+                                            undef_statements = undef_statements)
