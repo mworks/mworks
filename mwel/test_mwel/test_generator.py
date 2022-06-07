@@ -95,9 +95,10 @@ protocol 'Test Protocol' {
 
         self.generator.format(root)
 
-        output_stream = io.StringIO()
+        output_stream = io.BytesIO()
         self.generator.write(root, output_stream)
-        self.assertEqual(expected_xml_output, output_stream.getvalue())
+        self.assertEqual(expected_xml_output,
+                         output_stream.getvalue().decode('utf-8'))
 
     def test_omit_metadata(self):
         base_src = '''\
@@ -151,6 +152,7 @@ protocol 'Test Protocol' {
 
         self.generator.format(root)
 
-        output_stream = io.StringIO()
+        output_stream = io.BytesIO()
         self.generator.write(root, output_stream)
-        self.assertEqual(expected_xml_output, output_stream.getvalue())
+        self.assertEqual(expected_xml_output,
+                         output_stream.getvalue().decode('utf-8'))

@@ -154,7 +154,7 @@ def toxml(argv=sys.argv, stdout=sys.stdout, stderr=sys.stderr):
             ET.SubElement(dict_elem_node, 'value', type='string').text = src
 
     generator.format(root)
-    generator.write(root, stdout)
+    generator.write(root, getattr(stdout, 'buffer', stdout))
 
     return 0
 

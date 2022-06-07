@@ -112,12 +112,12 @@ backtrace to a file [a.mwel: line 1, column 3; via b.mwel: line 3, column 4]
 class TestToXML(TempFilesMixin, unittest.TestCase):
 
     def toxml(self, *argv):
-        self.stdout = io.StringIO()
+        self.stdout = io.BytesIO()
         self.stderr = io.StringIO()
         return toxml(argv, self.stdout, self.stderr)
 
     def assertOutput(self, stdout='', stderr=''):
-        self.assertEqual(stdout, self.stdout.getvalue())
+        self.assertEqual(stdout, self.stdout.getvalue().decode('utf-8'))
         self.assertEqual(stderr, self.stderr.getvalue())
 
     def test_usage_error(self):
