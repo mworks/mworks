@@ -12,6 +12,8 @@ To be loadable by MWorks, MWEL experiment files must be named with the extension
 The following sections describe MWEL in detail.
 
 
+.. _comments:
+
 Comments
 --------
 
@@ -239,7 +241,7 @@ To promote code reuse, or to simplify the management of a complex experiment, yo
     %include 'stims/setA.mwel'
     %include '/my_lab/shared/setup1_io.inc'
 
-When the MWEL parser encounters an include statement, it loads and parses the specified file and inserts the result in to the including file's parse tree at the location of the statement.  The provided file path may be absolute or relative to the including file.  If the path does not include a file extension, ``.mwel`` is assumed.
+When processing an include statement, the MWEL parser loads and parses the specified file and inserts the result in to the including file's parse tree at the location of the statement.  The provided file path may be absolute or relative to the including file.  If the path does not include a file extension, ``.mwel`` is assumed.
 
 Included files can themselves include other files.  A file may even be included multiple times in multiple files; the parser will process only the first instance of the include that it encounters and ignore all others.
 
@@ -398,6 +400,8 @@ For example::
     }
 
 
+.. _requiring macros:
+
 Requiring Macros
 ^^^^^^^^^^^^^^^^
 
@@ -411,6 +415,68 @@ In the preceding example, if the experiment has not defined macros named ``subje
 Requiring macros can be particularly useful inside MWEL files intended to be `included <includes>` by other files.  If the content of an included file depends on specific macros being defined *before* the file is included, that dependency can be made explicit by adding one or more ``%require`` directives at the beginning of the file.
 
 The ``%require`` directive can appear only at the top level of a source file.  It cannot be placed within a `protocol <Protocol>` or other component.
+
+
+.. _conditional inclusion:
+
+Conditional Inclusion
+---------------------
+
+Conditional inclusion directives include or exclude parts of an experiment based on whether specific `macros <macros>` are defined.  This allows you to specialize your experiment code for particular conditions or use cases, without needing to maintain separate source files or `comment <comments>` out sections of code when conditions change.
+
+For example, you may want to use a `fake monkey <Fake Monkey IO Device>` for developing and testing your experiment but an `EyeLink <EyeLink Device>` when collecting real data::
+
+    %ifdef testing
+        fake_monkey eye_tracker {
+            ...
+        }
+    %else
+        eyelink eye_tracker {
+            ...
+        }
+    %end
+
+If a definition of the macro ``testing`` precedes the above code (either earlier in the same source file, or prior to the include statement in another file that `includes <includes>` the source file), e.g.::
+
+    %define testing
+
+the experiment will define a fake monkey.  Otherwise, it will define an EyeLink interface.  To switch from testing to production mode, simply remove or comment out the macro definition.
+
+In addition to ``%ifdef``, MWEL provides the ``%ifundef`` directive, which includes code if a given macro is *not* defined::
+
+    %ifundef testing
+        firmata juice_pump {
+            ...
+        }
+    %end
+
+Both ``%ifdef`` and ``%ifundef`` may be paired with an optional ``%else`` that provides code to include when the specified macro is or is not defined, respectively, as shown above.
+
+Unlike other directives, conditional inclusion directives can appear at any level in a source file.  (Specifically, they can appear anywhere a :ref:`component declaration <component declarations>` is allowed.)  For example, you can use them to conditionally execute actions inside a `protocol <Protocol>` or other `paradigm component <Paradigm Components>`::
+
+    %ifdef testing
+        fake_monkey_saccade_and_fixate (
+            fake_monkey = eye_tracker
+            ...
+            )
+    %end
+
+If a conditional inclusion directive does appear at the top level of a source file, it can itself contain top-level-only directives.  This allows an experiment to conditionally include other files or conditionally define or :ref:`require <requiring macros>` macros::
+
+    %ifundef testing
+        %include eyelink_def
+        %define simulate_fixation ()
+            // Do nothing
+        %end
+    %else
+        %include fake_monkey_def
+        %define simulate_fixation ()
+            fake_monkey_saccade_and_fixate (
+                fake_monkey = eye_tracker
+                ...
+                )
+        %end
+    %end
 
 
 Whitespace
@@ -433,6 +499,7 @@ The exception to this rule is newline (aka line feed) characters, which, while o
   * :ref:`Component <component declarations>` and :ref:`variable <variable declarations>` declarations
   * :ref:`Include statements <includes>`
   * :ref:`Macro definitions <macros>`
+  * :ref:`Macro requirement <requiring macros>` and :ref:`conditional inclusion <conditional inclusion>` directives
 
 * Name/value pairs in a component declaration's :ref:`parameter list <component declaration parameters>` must be separated by either newlines or semicolons.
 * The statements in a :ref:`statement macro <statement macros>` definition must be separated from the parameter list by a newline.
