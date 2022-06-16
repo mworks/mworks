@@ -450,7 +450,7 @@ In addition to ``%ifdef``, MWEL provides the ``%ifundef`` directive, which inclu
         }
     %end
 
-Both ``%ifdef`` and ``%ifundef`` may be paired with an optional ``%else`` that provides code to include when the specified macro is or is not defined, respectively, as shown above.
+Both ``%ifundef`` and ``%ifdef`` may be paired with an optional ``%else`` that provides code to include when the specified macro is or is not defined, respectively, as shown above.
 
 Unlike other directives, conditional inclusion directives can appear at any level in a source file.  (Specifically, they can appear anywhere a :ref:`component declaration <component declarations>` is allowed.)  For example, you can use them to conditionally execute actions inside a `protocol <Protocol>` or other `paradigm component <Paradigm Components>`::
 
