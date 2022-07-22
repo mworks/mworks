@@ -19,6 +19,6 @@ If you want detailed information on a specific component, tool, etc., please see
 Other Resources
 ---------------
 
-If you have questions or problems that this documentation does not address, try searching the `MWorks support site <https://mworks.tenderapp.com/>`_ or browsing its `knowledge base <https://mworks.tenderapp.com/kb>`_.
+If you have questions or problems that this documentation does not address, try searching the `MWorks support site <https://mworks.discourse.group>`_ or browsing its `knowledge base <https://mworks.discourse.group/docs>`_.
 
-If you require additional assistance, please open a `support request <https://mworks.tenderapp.com/discussion/new>`_.
+If you require additional assistance, please open a `support request <https://mworks.discourse.group/new-topic?category=support>`_.

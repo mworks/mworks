@@ -19,7 +19,7 @@
 #define DEFAULTS_CURRENT_PREFERENCES_TAB_INDEX @"currentPreferencesTabIndex"
 
 #define MWORKS_DOC_PATH @"/Library/Application Support/MWorks/Documentation/index.html"
-#define MWORKS_HELP_URL @"https://mworks.tenderapp.com/"
+#define MWORKS_HELP_URL @"https://mworks.discourse.group/"
 
 
 @implementation MWSServer {

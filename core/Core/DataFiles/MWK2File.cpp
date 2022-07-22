@@ -50,7 +50,7 @@ inline void logSQLError(int error, const std::string &description) {
 // setting "synchronous" to "OFF" seems like our best option.
 //
 // [1] https://sqlite.org/pragma.html#pragma_synchronous
-// [2] https://mworks.tenderapp.com/discussions/problems/413
+// [2] https://mworks.discourse.group/t/long-saving-time/211
 // [3] https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/fsync.2.html
 // [4] https://sqlite.org/pragma.html#pragma_fullfsync
 //
