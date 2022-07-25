@@ -1,17 +1,17 @@
-diff -ur numpy-1.22.2/numpy/core/tests/test_regression.py numpy/numpy/core/tests/test_regression.py
---- numpy-1.22.2/numpy/core/tests/test_regression.py	2022-01-10 12:36:38.000000000 -0500
-+++ numpy/numpy/core/tests/test_regression.py	2022-02-22 12:12:56.000000000 -0500
-@@ -2484,6 +2484,7 @@
+diff -ur numpy-1.23.1/numpy/core/tests/test_regression.py numpy/numpy/core/tests/test_regression.py
+--- numpy-1.23.1/numpy/core/tests/test_regression.py	2022-07-08 19:01:04.000000000 -0400
++++ numpy/numpy/core/tests/test_regression.py	2022-07-25 14:11:51.000000000 -0400
+@@ -2479,6 +2479,7 @@
          arr = np.array([t])
          assert arr.shape == (1, 0, 0)
  
 +    @pytest.mark.skip('memory allocation fails on iOS')
      @pytest.mark.skipif(sys.maxsize < 2 ** 31 + 1, reason='overflows 32-bit python')
-     @pytest.mark.skipif(sys.platform == 'win32' and sys.version_info[:2] < (3, 8),
-                         reason='overflows on windows, fixed in bpo-16865')
-diff -ur numpy-1.22.2/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/distutils/tests/test_fcompiler_gnu.py
---- numpy-1.22.2/numpy/distutils/tests/test_fcompiler_gnu.py	2021-11-03 14:18:02.000000000 -0400
-+++ numpy/numpy/distutils/tests/test_fcompiler_gnu.py	2022-02-22 12:12:56.000000000 -0500
+     def test_to_ctypes(self):
+         #gh-14214
+diff -ur numpy-1.23.1/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/distutils/tests/test_fcompiler_gnu.py
+--- numpy-1.23.1/numpy/distutils/tests/test_fcompiler_gnu.py	2022-07-08 19:01:04.000000000 -0400
++++ numpy/numpy/distutils/tests/test_fcompiler_gnu.py	2022-07-25 14:11:51.000000000 -0400
 @@ -1,3 +1,5 @@
 +import pytest
 +
@@ -34,9 +34,9 @@ diff -ur numpy-1.22.2/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/di
  class TestGFortranVersions:
      def test_gfortran_version(self):
          fc = numpy.distutils.fcompiler.new_fcompiler(compiler='gnu95')
-diff -ur numpy-1.22.2/numpy/distutils/tests/test_fcompiler_intel.py numpy/numpy/distutils/tests/test_fcompiler_intel.py
---- numpy-1.22.2/numpy/distutils/tests/test_fcompiler_intel.py	2021-11-03 14:18:02.000000000 -0400
-+++ numpy/numpy/distutils/tests/test_fcompiler_intel.py	2022-02-22 12:12:56.000000000 -0500
+diff -ur numpy-1.23.1/numpy/distutils/tests/test_fcompiler_intel.py numpy/numpy/distutils/tests/test_fcompiler_intel.py
+--- numpy-1.23.1/numpy/distutils/tests/test_fcompiler_intel.py	2022-07-08 19:01:04.000000000 -0400
++++ numpy/numpy/distutils/tests/test_fcompiler_intel.py	2022-07-25 14:11:51.000000000 -0400
 @@ -1,3 +1,5 @@
 +import pytest
 +
@@ -59,9 +59,9 @@ diff -ur numpy-1.22.2/numpy/distutils/tests/test_fcompiler_intel.py numpy/numpy/
  class TestIntelEM64TFCompilerVersions:
      def test_64bit_version(self):
          fc = numpy.distutils.fcompiler.new_fcompiler(compiler='intelem')
-diff -ur numpy-1.22.2/numpy/distutils/tests/test_fcompiler_nagfor.py numpy/numpy/distutils/tests/test_fcompiler_nagfor.py
---- numpy-1.22.2/numpy/distutils/tests/test_fcompiler_nagfor.py	2021-11-03 14:18:02.000000000 -0400
-+++ numpy/numpy/distutils/tests/test_fcompiler_nagfor.py	2022-02-22 12:12:56.000000000 -0500
+diff -ur numpy-1.23.1/numpy/distutils/tests/test_fcompiler_nagfor.py numpy/numpy/distutils/tests/test_fcompiler_nagfor.py
+--- numpy-1.23.1/numpy/distutils/tests/test_fcompiler_nagfor.py	2022-07-08 19:01:04.000000000 -0400
++++ numpy/numpy/distutils/tests/test_fcompiler_nagfor.py	2022-07-25 14:11:51.000000000 -0400
 @@ -1,3 +1,5 @@
 +import pytest
 +
@@ -76,14 +76,14 @@ diff -ur numpy-1.22.2/numpy/distutils/tests/test_fcompiler_nagfor.py numpy/numpy
  class TestNagFCompilerVersions:
      def test_version_match(self):
          for comp, vs, version in nag_version_strings:
-diff -ur numpy-1.22.2/numpy/lib/tests/test_io.py numpy/numpy/lib/tests/test_io.py
---- numpy-1.22.2/numpy/lib/tests/test_io.py	2022-02-03 13:44:41.000000000 -0500
-+++ numpy/numpy/lib/tests/test_io.py	2022-02-22 12:12:56.000000000 -0500
+diff -ur numpy-1.23.1/numpy/lib/tests/test_io.py numpy/numpy/lib/tests/test_io.py
+--- numpy-1.23.1/numpy/lib/tests/test_io.py	2022-07-08 19:01:04.000000000 -0400
++++ numpy/numpy/lib/tests/test_io.py	2022-07-25 14:13:01.000000000 -0400
 @@ -203,6 +203,7 @@
                  self.arr_reloaded.fid.close()
                  os.remove(self.arr_reloaded.fid.name)
  
 +    @pytest.mark.skip('fails on iOS')
+     @pytest.mark.skipif(IS_PYPY, reason="Hangs on PyPy")
      @pytest.mark.skipif(not IS_64BIT, reason="Needs 64bit platform")
      @pytest.mark.slow
-     def test_big_arrays(self):
