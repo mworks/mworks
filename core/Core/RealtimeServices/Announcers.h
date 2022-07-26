@@ -27,8 +27,6 @@ class Announcable {
 
 	private:
 	shared_ptr<Variable> announceVariable;
-        Datum       lastAnnouncedData;
-        bool        validAnnounceData;
         
     public:
         Announcable(std::string _announceVariableTagname);
@@ -37,7 +35,6 @@ class Announcable {
 		void announce(Datum _announceData, MWTime time);  // will announce this data
 		
 		void announce(Datum _announceData);  // will announce this data
-        void announce();                       // will announce last data
         
 };
 

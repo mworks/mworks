@@ -28,33 +28,19 @@ Announcable::Announcable(std::string _announceVariableTagname) {
         throw SimpleException( "Announcable object has unknown variable tagname.");
     }
     
-    validAnnounceData = false;
-    
 }
 
 Announcable::~Announcable() {};
 
 
 void Announcable::announce(Datum _announceData, MWTime now) {    
-    lastAnnouncedData = _announceData;
-    validAnnounceData = true;
-    announceVariable->setValue(lastAnnouncedData, now);
+    announceVariable->setValue(_announceData, now);
     if (VERBOSE_ANNOUNCERS > 1) mprintf("*** Announcing data now");
 }
 
 void Announcable::announce(Datum _announceData) {
 	shared_ptr <Clock> clock = Clock::instance();
     announce(_announceData, clock->getCurrentTimeUS());
-}
-
-void Announcable::announce() {    
-    if (validAnnounceData) {
-        announceVariable->setValue(lastAnnouncedData);
-    }
-    else {
-        mwarning(M_SYSTEM_MESSAGE_DOMAIN, 
-				 "Request to announce data, but nothing yet known.");
-    }
 }
 
 
