@@ -5,6 +5,8 @@
 #import "MWCalibratorWindowController.h"
 #import "MWCalibratorRecord.h"
 
+#define DEFAULTS_PRESERVE_HIDDEN_PARAMS_ON_UPDATE_KEY @"Eye Calibrator Window - preserve hidden params on update"
+
 #define CALIBRATOR_WINDOW_CALLBACK_KEY @"MWCalibratorWindowController callback key"
 
 
@@ -28,6 +30,8 @@
 	
 	displayedCalibratorIndex = -1;
 	calibratorAnnounceCode = [[NSNumber alloc] initWithInt:-1];
+    
+    self.preserveHiddenParamsOnUpdate = [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_PRESERVE_HIDDEN_PARAMS_ON_UPDATE_KEY];
 	
 	[self setSelectedCalibratorName:DEFAULT_CALIBRATOR_DISPLAY];
 	[self setVOffset:DEFAULT_V_OFFSET];
@@ -131,6 +135,19 @@
 /////////////////////////////////////////////////
 // Accessors
 /////////////////////////////////////////////////
+
+
+- (void)setPreserveHiddenParamsOnUpdate:(BOOL)value {
+    if (value != _preserveHiddenParamsOnUpdate) {
+        [self willChangeValueForKey:@"preserveHiddenParamsOnUpdate"];
+        _preserveHiddenParamsOnUpdate = value;
+        [self didChangeValueForKey:@"preserveHiddenParamsOnUpdate"];
+        [[NSUserDefaults standardUserDefaults] setBool:_preserveHiddenParamsOnUpdate
+                                                forKey:DEFAULTS_PRESERVE_HIDDEN_PARAMS_ON_UPDATE_KEY];
+    }
+}
+
+
 @synthesize vOffset = v_offset;
 @synthesize vGain = v_gain;
 @synthesize hOffset = h_offset;
@@ -234,7 +251,11 @@ static void endEditingInWindow(NSWindow *window) {
 						value = [self hGain];
 						break;
 					default:
-						value = 0;
+                        if (self.preserveHiddenParamsOnUpdate) {
+                            value = [cr getHParameter:i];
+                        } else {
+                            value = 0.0;
+                        }
 						break;
 				}
 				
@@ -252,7 +273,11 @@ static void endEditingInWindow(NSWindow *window) {
 						value = [self vGain];
 						break;
 					default:
-						value = 0;
+                        if (self.preserveHiddenParamsOnUpdate) {
+                            value = [cr getVParameter:i];
+                        } else {
+                            value = 0.0;
+                        }
 						break;
 				}
 				

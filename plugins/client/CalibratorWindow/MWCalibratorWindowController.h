@@ -35,6 +35,7 @@ const int MIN_NUM_CALIBRATION_PARAMS = 3;
 - (IBAction)updateCalibratorParams:(id)sender;
 
 // Accessors
+@property (nonatomic, assign) BOOL preserveHiddenParamsOnUpdate;
 @property (readwrite, assign) float vOffset, hOffset, vGain, hGain;
 @property (readwrite, copy) NSString *selectedCalibratorName;
 @property (nonatomic, readwrite, unsafe_unretained) id delegate;
