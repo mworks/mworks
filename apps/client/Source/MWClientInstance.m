@@ -689,6 +689,10 @@
                 if (viewController) {
                     NSWindow *window = [NSWindow windowWithContentViewController:viewController];
                     NSWindowController *windowController = [[NSWindowController alloc] initWithWindow:window];
+                    [window bind:@"displayPatternTitle1"
+                        toObject:self
+                     withKeyPath:@"serverURL"
+                         options:@{NSDisplayPatternBindingOption: [viewController.title stringByAppendingString:@" (%{title1}@)"]}];
                     [self addPlugin:windowController withName:plugin_file.stringByDeletingPathExtension];
                     continue;
                 }
