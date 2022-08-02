@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
                                   workspaceKey:(NSString *)workspaceKey
                                   handleEvents:(BOOL)handleEvents;
 
+- (BOOL)validateWorkspaceValue:(id)value forStoredProperty:(id)property;
 - (void)handleEvent:(MWKEvent *)event forStoredProperty:(id)property;
 
 - (void)postMessage:(NSString *)message;

@@ -112,6 +112,36 @@ NS_ASSUME_NONNULL_END
 }
 
 
+- (NSDictionary *)workspaceState {
+    NSMutableDictionary *workspaceState = [NSMutableDictionary dictionary];
+    for (NSString *name in storedProperties) {
+        MWClientPluginViewControllerStoredPropertyInfo *info = storedProperties[name];
+        id value = [self valueForKey:name];
+        if (value && [self validateWorkspaceValue:value forStoredProperty:info]) {
+            workspaceState[info.workspaceKey] = value;
+        }
+    }
+    return workspaceState;
+}
+
+
+- (void)setWorkspaceState:(NSDictionary *)workspaceState {
+    for (NSString *name in storedProperties) {
+        MWClientPluginViewControllerStoredPropertyInfo *info = storedProperties[name];
+        id value = workspaceState[info.workspaceKey];
+        if (value && [self validateWorkspaceValue:value forStoredProperty:info]) {
+            [self setValue:value forKey:name];
+        }
+    }
+}
+
+
+- (BOOL)validateWorkspaceValue:(id)value forStoredProperty:(id)property {
+    // Default implementation accepts all values
+    return YES;
+}
+
+
 - (NSString *)eventCallbackKeyWithLabel:(NSString *)label {
     return [NSString stringWithFormat:@"%@ %@ callback key", NSStringFromClass([self class]), label];
 }
@@ -201,25 +231,6 @@ static void * const storedPropertyContext = (void *)(&storedPropertyContext);
 - (void)dealloc {
     for (NSString *name in storedProperties) {
         [self removeObserver:self forKeyPath:name context:storedPropertyContext];
-    }
-}
-
-
-- (NSDictionary *)workspaceState {
-    NSMutableDictionary *workspaceState = [NSMutableDictionary dictionary];
-    for (NSString *name in storedProperties) {
-        workspaceState[storedProperties[name].workspaceKey] = [self valueForKey:name];
-    }
-    return workspaceState;
-}
-
-
-- (void)setWorkspaceState:(NSDictionary *)workspaceState {
-    for (NSString *name in storedProperties) {
-        id value = workspaceState[storedProperties[name].workspaceKey];
-        if (value) {
-            [self setValue:value forKey:name];
-        }
     }
 }
 
