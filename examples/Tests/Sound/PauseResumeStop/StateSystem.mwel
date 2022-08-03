@@ -1,0 +1,63 @@
+audio_file sound ('abcslow2.mp3')
+
+
+var wait_duration = 5s
+
+%define do_wait ()
+    report ('Waiting for $(wait_duration / 1e6) seconds')
+    wait (wait_duration)
+%end
+
+%define async_actions ()
+    schedule (
+        delay = 0
+        duration = 0
+        repeats = 1
+        )
+%end
+
+
+protocol {
+    report ('Sound should not be playing')
+    do_wait ()
+
+    async_actions {
+        pause_experiment ()
+        report ('Sound should not be playing')
+        do_wait ()
+        resume_experiment ()
+    }
+    wait (100ms)
+
+    report ('Sound should not be playing')
+    do_wait ()
+
+    report ('Playing sound')
+    play_sound (sound)
+    report ('Sound should start playing')
+    do_wait ()
+
+    async_actions {
+        pause_experiment ()
+        report ('Sound should stop playing')
+        do_wait ()
+        resume_experiment ()
+    }
+    wait (100ms)
+
+    report ('Sound should resume playing')
+    do_wait ()
+
+    async_actions {
+        pause_experiment ()
+        report ('Sound should stop playing')
+        do_wait ()
+        resume_experiment ()
+    }
+    wait (100ms)
+
+    report ('Sound should resume playing')
+    do_wait ()
+
+    report ('Sound should stop playing')
+}

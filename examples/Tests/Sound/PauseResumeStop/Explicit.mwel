@@ -1,0 +1,65 @@
+audio_file sound ('abcslow2.mp3')
+
+
+var wait_duration = 5s
+
+%define do_wait ()
+    report ('Waiting for $(wait_duration / 1e6) seconds')
+    wait (wait_duration)
+%end
+
+
+protocol (nsamples = 2) {
+    report ('Sound should not be playing')
+    do_wait ()
+
+    report ('Pausing sound')
+    pause_sound (sound)
+    report ('Sound should not be playing')
+    do_wait ()
+
+    report ('Playing sound')
+    play_sound (sound)
+    report ('Sound should start playing')
+    do_wait ()
+
+    report ('Playing sound again')
+    play_sound (sound)
+    report ('Sound should continue playing')
+    do_wait ()
+
+    report ('Pausing sound')
+    pause_sound (sound)
+    report ('Sound should stop playing')
+    do_wait ()
+
+    report ('Pausing sound again')
+    pause_sound (sound)
+    report ('Sound should not be playing')
+    do_wait ()
+
+    report ('Playing sound')
+    play_sound (sound)
+    report ('Sound should resume playing')
+    do_wait ()
+
+    report ('Pausing sound')
+    pause_sound (sound)
+    report ('Sound should stop playing')
+    do_wait ()
+
+    report ('Playing sound')
+    play_sound (sound)
+    report ('Sound should resume playing')
+    do_wait ()
+
+    report ('Stopping sound')
+    stop_sound (sound)
+    report ('Sound should stop playing')
+    do_wait ()
+
+    report ('Stopping sound again')
+    stop_sound (sound)
+    report ('Sound should not be playing')
+    do_wait ()
+}
