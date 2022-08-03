@@ -709,6 +709,8 @@
 		E1BD1C432620AEAF0094FACB /* FairMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BD1C402620AEAF0094FACB /* FairMutex.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1BD1C442620AEAF0094FACB /* FairMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BD1C412620AEAF0094FACB /* FairMutex.cpp */; };
 		E1BD1C452620AEAF0094FACB /* FairMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BD1C412620AEAF0094FACB /* FairMutex.cpp */; };
+		E1BE8C13289AF6C90025B0F4 /* StandardSoundFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BE8C10289AF6C90025B0F4 /* StandardSoundFactory.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1BE8C14289AF6C90025B0F4 /* StandardSoundFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BE8C10289AF6C90025B0F4 /* StandardSoundFactory.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CA751425B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */; };
@@ -1393,6 +1395,7 @@
 		E1BC637C1D51001900745034 /* ZeroMQSocketTests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQSocketTests.hpp; sourceTree = "<group>"; };
 		E1BD1C402620AEAF0094FACB /* FairMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FairMutex.hpp; sourceTree = "<group>"; };
 		E1BD1C412620AEAF0094FACB /* FairMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FairMutex.cpp; sourceTree = "<group>"; };
+		E1BE8C10289AF6C90025B0F4 /* StandardSoundFactory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = StandardSoundFactory.hpp; sourceTree = "<group>"; };
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
 		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
 		E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = EllipseStimulus.cpp; sourceTree = "<group>"; };
@@ -1960,6 +1963,7 @@
 				E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */,
 				5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */,
 				5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */,
+				E1BE8C10289AF6C90025B0F4 /* StandardSoundFactory.hpp */,
 				5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */,
 				5CBA76E10AE0706300D6F4A6 /* OpenALContextManager.cpp */,
 			);
@@ -2719,6 +2723,7 @@
 				DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */,
 				DA2B6D52098AAAEC00DDE06D /* StandardSystemEventHandler.h in Headers */,
 				E1EE384C2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */,
+				E1BE8C13289AF6C90025B0F4 /* StandardSoundFactory.hpp in Headers */,
 				DA871F2609995B180084304E /* StandardClientCoreBuilder.h in Headers */,
 				E18163162588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */,
 				5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */,
@@ -2948,6 +2953,7 @@
 				E17917071E4E531D00528B91 /* ComponentInfo.h in Headers */,
 				E17917641E4E55D800528B91 /* IODevice.h in Headers */,
 				E17917041E4E52F400528B91 /* XMLVariableWriter.h in Headers */,
+				E1BE8C14289AF6C90025B0F4 /* StandardSoundFactory.hpp in Headers */,
 				E18161972582ABD4004D8156 /* ColoredTransformStimulus.hpp in Headers */,
 				E179174A1E4E550000528B91 /* MachUtilities.h in Headers */,
 				E11F2FD226B84B4E0092D10B /* AudioEngineSound.hpp in Headers */,

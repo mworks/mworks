@@ -28,15 +28,17 @@ public:
     ~AudioFileSound();
     
 private:
+    void load(AVAudioEngine *engine, AVAudioMixerNode *mixerNode) override;
+    
     bool startPlaying() override;
     bool stopPlaying() override;
     bool beginPause() override;
     bool endPause() override;
     
-    const boost::filesystem::path path;
+    const VariablePtr path;
     
-    AVAudioPCMBuffer *buffer;
     AVAudioPlayerNode *playerNode;
+    AVAudioPCMBuffer *buffer;
     
 };
 

@@ -25,20 +25,15 @@ AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     amplitude(parameters[AMPLITUDE]),
     engineManager(getEngineManager()),
     mixerNode(nil),
+    loaded(false),
     running(false),
     playing(false),
     paused(false),
     pausedWithStateSystem(false)
 {
     @autoreleasepool {
-        // Create and connect the mixer node
-        {
-            mixerNode = [[AVAudioMixerNode alloc] init];
-            unique_lock engineLock;
-            auto engine = getEngine(engineLock);
-            [engine attachNode:mixerNode];
-            [engine connect:mixerNode to:engine.mainMixerNode format:nil];
-        }
+        // Create the mixer node
+        mixerNode = [[AVAudioMixerNode alloc] init];
         
         // Install a callback to handle amplitude changes
         {
@@ -46,9 +41,6 @@ AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
             amplitudeNotification = boost::make_shared<VariableCallbackNotification>(callback);
             amplitude->addNotification(amplitudeNotification);
         }
-        
-        // Initialize amplitude to the current value
-        setCurrentAmplitude(amplitude->getValue());
         
         // Install a callback to respond to state system mode changes
         {
@@ -69,6 +61,33 @@ AudioEngineSound::~AudioEngineSound() {
         
         mixerNode = nil;
     }
+}
+
+
+void AudioEngineSound::load() {
+    lock_guard lock(mutex);
+    
+    if (loaded) {
+        return;
+    }
+    
+    @autoreleasepool {
+        unique_lock engineLock;
+        auto engine = engineManager->getEngine(engineLock);
+        
+        // Connect the mixer node
+        [engine attachNode:mixerNode];
+        [engine connect:mixerNode to:engine.mainMixerNode format:nil];
+        
+        // Initialize amplitude to the current value (must be done *after*
+        // connecting the mixer node)
+        setCurrentAmplitude(amplitude->getValue());
+        
+        // Perform subclass-specific loading tasks
+        load(engine, mixerNode);
+    }
+    
+    loaded = true;
 }
 
 

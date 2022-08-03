@@ -29,28 +29,29 @@ public:
     explicit AudioEngineSound(const ParameterValueMap &parameters);
     ~AudioEngineSound();
     
+    void load() override;
+    
     void play() override;
     void pause() override;
     void stop() override;
     
 protected:
-    using mutex_type = std::recursive_mutex;
-    using lock_guard = std::lock_guard<mutex_type>;
-    using unique_lock = std::unique_lock<mutex_type>;
+    using lock_guard = std::lock_guard<std::recursive_mutex>;
     
-    AVAudioEngine * getEngine(unique_lock &lock) const { return engineManager->getEngine(lock); }
-    AVAudioMixerNode * getMixerNode() const { return mixerNode; }
+    lock_guard acquireLock() const { return lock_guard(mutex); }
+    void didStopPlaying() { playing = paused = pausedWithStateSystem = false; }
+    
+    virtual void load(AVAudioEngine *engine, AVAudioMixerNode *mixerNode) { }
     
     virtual bool startPlaying() = 0;
     virtual bool stopPlaying() = 0;
     virtual bool beginPause() = 0;
     virtual bool endPause() = 0;
     
-    void didStopPlaying() { playing = paused = pausedWithStateSystem = false; }
-    
-    mutex_type mutex;
-    
 private:
+    using mutex_type = lock_guard::mutex_type;
+    using unique_lock = std::unique_lock<mutex_type>;
+    
     void amplitudeCallback(const Datum &data, MWorksTime time);
     void setCurrentAmplitude(const Datum &data);
     void stateSystemModeCallback(const Datum &data, MWorksTime time);
@@ -75,6 +76,7 @@ private:
     const boost::shared_ptr<EngineManager> engineManager;
     
     AVAudioMixerNode *mixerNode;
+    bool loaded;
     bool running;
     bool playing;
     bool paused;
@@ -82,6 +84,8 @@ private:
     
     boost::shared_ptr<VariableNotification> amplitudeNotification;
     boost::shared_ptr<VariableNotification> stateSystemModeNotification;
+    
+    mutable mutex_type mutex;
     
 };
 

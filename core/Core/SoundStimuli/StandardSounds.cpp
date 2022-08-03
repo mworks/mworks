@@ -11,14 +11,14 @@
 #include "StandardSounds.h"
 
 #include "AudioFileSound.hpp"
-#include "StandardComponentFactory.h"
+#include "StandardSoundFactory.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
 void registerStandardSounds(ComponentRegistry &registry) {
-    registry.registerFactory<StandardComponentFactory, AudioFileSound>();
+    registry.registerFactory<StandardSoundFactory, AudioFileSound>();
     registry.registerFactoryAlias<AudioFileSound>("sound/wav_file");
 }
 
