@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">Starting state system....</message>
+    <message type="starts_with">Sound should not be playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="starts_with">Playing sound</message>
+    <message type="starts_with">Sound should start playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="starts_with">Pausing sound</message>
+    <message type="starts_with">Sound should stop playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="whole_message">Pausing state system</message>
+    <message type="starts_with">Sound should not be playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="whole_message">Resuming paused state system</message>
+    <message type="starts_with">Sound should not be playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="starts_with">Playing sound</message>
+    <message type="starts_with">Sound should resume playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="whole_message">Pausing state system</message>
+    <message type="starts_with">Sound should stop playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="starts_with">Pausing sound</message>
+    <message type="whole_message">ERROR: Cannot pause sound while experiment is not running</message>
+    <message type="starts_with">Sound should not be playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="starts_with">Playing sound</message>
+    <message type="whole_message">ERROR: Cannot play sound while experiment is not running</message>
+    <message type="starts_with">Sound should not be playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="starts_with">Stopping sound</message>
+    <message type="whole_message">ERROR: Cannot stop sound while experiment is not running</message>
+    <message type="starts_with">Sound should not be playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="whole_message">Resuming paused state system</message>
+    <message type="starts_with">Sound should resume playing</message>
+    <message type="starts_with">Waiting for 5 seconds</message>
+    <message type="starts_with">Sound should stop playing</message>
+    <message type="whole_message">State system ending</message>
+  </expected_messages>
+</marionette_info>

@@ -27,7 +27,8 @@ AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     mixerNode(nil),
     running(false),
     playing(false),
-    paused(false)
+    paused(false),
+    pausedWithStateSystem(false)
 {
     @autoreleasepool {
         // Create and connect the mixer node
@@ -146,18 +147,20 @@ void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime tim
         switch (data.getInteger()) {
             case RUNNING:
                 running = true;
-                if (playing && paused) {
-                    if (endPause()) {
-                        paused = false;
+                if (playing && pausedWithStateSystem) {
+                    if (!endPause()) {
+                        // Still paused, but no longer with the state system
+                        paused = true;
                     }
+                    pausedWithStateSystem = false;
                 }
                 break;
                 
             case PAUSED:
                 running = false;
-                if (playing && !paused) {
+                if (playing && !paused && !pausedWithStateSystem) {
                     if (beginPause()) {
-                        paused = true;
+                        pausedWithStateSystem = true;
                     }
                 }
                 break;

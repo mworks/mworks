@@ -46,7 +46,7 @@ protected:
     virtual bool beginPause() = 0;
     virtual bool endPause() = 0;
     
-    void didStopPlaying() { playing = paused = false; }
+    void didStopPlaying() { playing = paused = pausedWithStateSystem = false; }
     
     mutex_type mutex;
     
@@ -78,6 +78,7 @@ private:
     bool running;
     bool playing;
     bool paused;
+    bool pausedWithStateSystem;
     
     boost::shared_ptr<VariableNotification> amplitudeNotification;
     boost::shared_ptr<VariableNotification> stateSystemModeNotification;
