@@ -11,13 +11,18 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string AudioPCMBufferSound::LOOP("loop");
+
+
 void AudioPCMBufferSound::describeComponent(ComponentInfo &info) {
     AudioEngineSound::describeComponent(info);
+    info.addParameter(LOOP, "NO");
 }
 
 
 AudioPCMBufferSound::AudioPCMBufferSound(const ParameterValueMap &parameters) :
     AudioEngineSound(parameters),
+    loop(parameters[LOOP]),
     playerNode(nil),
     buffer(nil)
 {
@@ -49,20 +54,27 @@ bool AudioPCMBufferSound::startPlaying() {
     // Reset the player node
     [playerNode stop];
     
-    boost::weak_ptr<AudioPCMBufferSound> weakThis(component_shared_from_this<AudioPCMBufferSound>());
-    auto completionHandler = [weakThis](AVAudioPlayerNodeCompletionCallbackType callbackType) {
-        if (callbackType == AVAudioPlayerNodeCompletionDataPlayedBack) {
-            if (auto sharedThis = weakThis.lock()) {
-                auto lock = sharedThis->acquireLock();
-                sharedThis->didStopPlaying();
+    if (loop->getValue().getBool()) {
+        [playerNode scheduleBuffer:buffer
+                            atTime:nil
+                           options:AVAudioPlayerNodeBufferLoops
+                 completionHandler:nil];
+    } else {
+        boost::weak_ptr<AudioPCMBufferSound> weakThis(component_shared_from_this<AudioPCMBufferSound>());
+        auto completionHandler = [weakThis](AVAudioPlayerNodeCompletionCallbackType callbackType) {
+            if (callbackType == AVAudioPlayerNodeCompletionDataPlayedBack) {
+                if (auto sharedThis = weakThis.lock()) {
+                    auto lock = sharedThis->acquireLock();
+                    sharedThis->didStopPlaying();
+                }
             }
-        }
-    };
-    [playerNode scheduleBuffer:buffer
-                        atTime:nil
-                       options:0
-        completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
-             completionHandler:completionHandler];
+        };
+        [playerNode scheduleBuffer:buffer
+                            atTime:nil
+                           options:0
+            completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
+                 completionHandler:completionHandler];
+    }
     
     [playerNode play];
     return true;

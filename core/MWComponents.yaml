@@ -744,6 +744,12 @@ parameters:
     description: >
         Controls the volume at which the sound plays.  ``1.0`` is full volume,
         while ``0.0`` is silent.
+  - 
+    name: loop
+    default: 'NO'
+    description: >
+        If ``YES``, the sound will repeat indefinitely (or until `Stop Sound` is
+        invoked)
 
 
 ---

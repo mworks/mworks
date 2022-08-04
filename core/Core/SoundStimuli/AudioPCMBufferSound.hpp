@@ -20,6 +20,8 @@ BEGIN_NAMESPACE_MW
 class AudioPCMBufferSound : public AudioEngineSound {
     
 public:
+    static const std::string LOOP;
+    
     static void describeComponent(ComponentInfo &info);
     
     explicit AudioPCMBufferSound(const ParameterValueMap &parameters);
@@ -35,6 +37,8 @@ private:
     bool stopPlaying() override;
     bool beginPause() override;
     bool endPause() override;
+    
+    const VariablePtr loop;
     
     AVAudioPlayerNode *playerNode;
     AVAudioPCMBuffer *buffer;
