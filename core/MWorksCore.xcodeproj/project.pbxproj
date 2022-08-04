@@ -711,6 +711,10 @@
 		E1BD1C452620AEAF0094FACB /* FairMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BD1C412620AEAF0094FACB /* FairMutex.cpp */; };
 		E1BE8C13289AF6C90025B0F4 /* StandardSoundFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BE8C10289AF6C90025B0F4 /* StandardSoundFactory.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1BE8C14289AF6C90025B0F4 /* StandardSoundFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BE8C10289AF6C90025B0F4 /* StandardSoundFactory.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1BE8C17289BFE350025B0F4 /* AudioPCMBufferSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BE8C15289BFE350025B0F4 /* AudioPCMBufferSound.cpp */; };
+		E1BE8C18289BFE350025B0F4 /* AudioPCMBufferSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BE8C15289BFE350025B0F4 /* AudioPCMBufferSound.cpp */; };
+		E1BE8C19289BFE350025B0F4 /* AudioPCMBufferSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BE8C16289BFE350025B0F4 /* AudioPCMBufferSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1BE8C1A289BFE350025B0F4 /* AudioPCMBufferSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BE8C16289BFE350025B0F4 /* AudioPCMBufferSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CA751425B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */; };
@@ -1396,6 +1400,8 @@
 		E1BD1C402620AEAF0094FACB /* FairMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FairMutex.hpp; sourceTree = "<group>"; };
 		E1BD1C412620AEAF0094FACB /* FairMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FairMutex.cpp; sourceTree = "<group>"; };
 		E1BE8C10289AF6C90025B0F4 /* StandardSoundFactory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = StandardSoundFactory.hpp; sourceTree = "<group>"; };
+		E1BE8C15289BFE350025B0F4 /* AudioPCMBufferSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioPCMBufferSound.cpp; sourceTree = "<group>"; };
+		E1BE8C16289BFE350025B0F4 /* AudioPCMBufferSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioPCMBufferSound.hpp; sourceTree = "<group>"; };
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
 		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
 		E1CA751225B0EAC5003B22C5 /* EllipseStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = EllipseStimulus.cpp; sourceTree = "<group>"; };
@@ -1957,6 +1963,8 @@
 				5CBA76D30AE069A300D6F4A6 /* Sound.cpp */,
 				E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */,
 				E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */,
+				E1BE8C16289BFE350025B0F4 /* AudioPCMBufferSound.hpp */,
+				E1BE8C15289BFE350025B0F4 /* AudioPCMBufferSound.cpp */,
 				E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */,
 				E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */,
 				E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */,
@@ -2749,6 +2757,7 @@
 				5C2B51210BB6838200928E03 /* ScopedVariable.h in Headers */,
 				E18161DC2582AE56004D8156 /* RectangleStimulus.hpp in Headers */,
 				5C0B04AC0BB8A46500FD57B9 /* ScopedVariableEnvironment.h in Headers */,
+				E1BE8C19289BFE350025B0F4 /* AudioPCMBufferSound.hpp in Headers */,
 				5C7CEFE30BC5D7AB00434931 /* LegacyBuffers.h in Headers */,
 				5C7CF4EF0BC6B48D00434931 /* LinkedList.h in Headers */,
 				E1B43C5A1FA3858B00CB6A97 /* VariableAssignment.hpp in Headers */,
@@ -2821,6 +2830,7 @@
 				E17917401E4E54A000528B91 /* Timer.h in Headers */,
 				E17916F01E4E523900528B91 /* StandardSystemEventHandler.h in Headers */,
 				E17916B31E4E50C300528B91 /* ZeroMQConnection.hpp in Headers */,
+				E1BE8C1A289BFE350025B0F4 /* AudioPCMBufferSound.hpp in Headers */,
 				E181600725811EB0004D8156 /* LegacyStandardStimuli.hpp in Headers */,
 				E17916B51E4E50CB00528B91 /* ZeroMQClient.hpp in Headers */,
 				E17917431E4E54D500528B91 /* LinkedList.h in Headers */,
@@ -3689,6 +3699,7 @@
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
 				E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */,
 				E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */,
+				E1BE8C17289BFE350025B0F4 /* AudioPCMBufferSound.cpp in Sources */,
 				E19B79261D525CCC00110665 /* ZeroMQUtilities.cpp in Sources */,
 				E194BF6E1590DB5300D4A62D /* StimulusDisplayDevice.cpp in Sources */,
 			);
@@ -3769,6 +3780,7 @@
 				E179176D1E4E561D00528B91 /* DataFileManager.cpp in Sources */,
 				E17917011E4E52E200528B91 /* ParsedColorTrio.cpp in Sources */,
 				E17916FF1E4E52DA00528B91 /* ExpressionParser.cc in Sources */,
+				E1BE8C18289BFE350025B0F4 /* AudioPCMBufferSound.cpp in Sources */,
 				E17916F91E4E529E00528B91 /* StandardClientCoreBuilder.cpp in Sources */,
 				E179175C1E4E558000528B91 /* Averagers.cpp in Sources */,
 				E11E9E2525AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */,
