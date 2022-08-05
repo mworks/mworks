@@ -84,9 +84,9 @@ ComponentRegistry::ComponentRegistry() {
     registerFactoryAlias<UpdateStimulusDisplay>("action/update_display");
     registerFactory<StandardComponentFactory, ClearStimulusDisplay>();
     registerFactoryAlias<ClearStimulusDisplay>("action/clear_display");
-	registerFactory("action/play_sound", new PlaySoundFactory());
-	registerFactory("action/stop_sound", new StopSoundFactory());
-	registerFactory("action/pause_sound", new PauseSoundFactory());
+    registerFactory<StandardComponentFactory, PlaySound>();
+    registerFactory<StandardComponentFactory, PauseSound>();
+    registerFactory<StandardComponentFactory, StopSound>();
 	registerFactory("action/start_device_io", new StartDeviceIOFactory());
     registerFactoryAlias("action/start_device_io", "action/start_io_device");
 	registerFactory("action/stop_device_io", new StopDeviceIOFactory());

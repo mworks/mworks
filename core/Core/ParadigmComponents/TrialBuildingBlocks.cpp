@@ -914,55 +914,106 @@ const char * ClearStimulusDisplay::getActionName() const {
 
 
 /****************************************************************
- *                 PlaySound Methods
+ *                 SoundAction Methods
  ****************************************************************/
-shared_ptr<mw::Component> PlaySoundFactory::createObject(std::map<std::string, std::string> parameters,
-													   ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "sound");
-	
-	shared_ptr<Sound> theSound = reg->getObject<Sound>(parameters.find("sound")->second);
-	
-	checkAttribute(theSound, parameters["reference_id"], "sound", parameters.find("sound")->second);		
-	
-	
-	shared_ptr <mw::Component> newPlaySoundAction = shared_ptr<mw::Component>(new PlaySound(theSound));
-	return newPlaySoundAction;		
+
+
+const std::string SoundAction::SOUND("sound");
+
+
+void SoundAction::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.addParameter(SOUND);
 }
 
-/****************************************************************
- *                 StopSound Methods
- ****************************************************************/
-shared_ptr<mw::Component> StopSoundFactory::createObject(std::map<std::string, std::string> parameters,
-													   ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "sound");
-	
-	shared_ptr<Sound> theSound = reg->getObject<Sound>(parameters.find("sound")->second);
-	
-	checkAttribute(theSound, parameters["reference_id"], "sound", parameters.find("sound")->second);		
-	
-	
-	shared_ptr <mw::Component> newStopSoundAction = shared_ptr<mw::Component>(new StopSound(theSound));
-	return newStopSoundAction;		
+
+template<>
+boost::shared_ptr<Sound> ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    auto sound = reg->getObject<Sound>(s);
+    if (!sound) {
+        throw SimpleException("Unknown sound", s);
+    }
+    return sound;
 }
+
+
+SoundAction::SoundAction(const ParameterValueMap &parameters) :
+    Action(parameters),
+    sound(parameters[SOUND])
+{ }
+
+
+/****************************************************************
+ *                 PlaySound Methods
+ ****************************************************************/
+
+
+void PlaySound::describeComponent(ComponentInfo &info) {
+    SoundAction::describeComponent(info);
+    info.setSignature("action/play_sound");
+}
+
+
+PlaySound::PlaySound(const ParameterValueMap &parameters) :
+    SoundAction(parameters)
+{
+    setName("PlaySound");
+}
+
+
+bool PlaySound::execute() {
+    sound->play();
+    return true;
+}
+
 
 /****************************************************************
  *                 PauseSound Methods
  ****************************************************************/
-shared_ptr<mw::Component> PauseSoundFactory::createObject(std::map<std::string, std::string> parameters,
-														ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "sound");
-	
-	shared_ptr<Sound> theSound = reg->getObject<Sound>(parameters.find("sound")->second);
-	
-	checkAttribute(theSound, parameters["reference_id"], "sound", parameters.find("sound")->second);		
-	
-	
-	shared_ptr <mw::Component> newPauseSoundAction = shared_ptr<mw::Component>(new PauseSound(theSound));
-	return newPauseSoundAction;		
+
+
+void PauseSound::describeComponent(ComponentInfo &info) {
+    SoundAction::describeComponent(info);
+    info.setSignature("action/pause_sound");
 }
+
+
+PauseSound::PauseSound(const ParameterValueMap &parameters) :
+    SoundAction(parameters)
+{
+    setName("PauseSound");
+}
+
+
+bool PauseSound::execute() {
+    sound->pause();
+    return true;
+}
+
+
+/****************************************************************
+ *                 StopSound Methods
+ ****************************************************************/
+
+
+void StopSound::describeComponent(ComponentInfo &info) {
+    SoundAction::describeComponent(info);
+    info.setSignature("action/stop_sound");
+}
+
+
+StopSound::StopSound(const ParameterValueMap &parameters) :
+    SoundAction(parameters)
+{
+    setName("StopSound");
+}
+
+
+bool StopSound::execute() {
+    sound->stop();
+    return true;
+}
+
 
 /****************************************************************
  *                 StartDeviceIO Methods

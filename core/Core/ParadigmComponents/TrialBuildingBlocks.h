@@ -427,96 +427,54 @@ private:
 };
 
 
-class PlaySound : public Action {
-	
-protected:
-	shared_ptr<Sound> sound;
-	
+class SoundAction : public Action {
+    
 public:
-	
-	PlaySound(shared_ptr<Sound> _sound){
-		sound = _sound;
-		setName("PlaySound");
-	}
-	
-	virtual ~PlaySound(){}
-	
-	virtual bool execute(){
-		if(sound == NULL){
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-					 "Attempt to play a NULL sound");
-			return false;
-		}
-		sound->play();
-		return true;
-	}
-};
-
-class PlaySoundFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
-
-
-class StopSound : public Action {
-	
+    static const std::string SOUND;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit SoundAction(const ParameterValueMap &parameters);
+    
 protected:
-	shared_ptr<Sound> sound;
-	
+    const boost::shared_ptr<Sound> sound;
+    
+};
+
+
+class PlaySound : public SoundAction {
+    
 public:
-	
-	StopSound(shared_ptr<Sound> _sound){
-		sound = _sound;
-		setName("StopSound");
-	}
-	
-	virtual ~StopSound(){}
-	
-	virtual bool execute(){
-		if(sound == NULL){
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-					 "Attempt to play a NULL sound");
-			return false;
-		}
-		sound->stop();
-		return true;
-	}
-};
-
-class StopSoundFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit PlaySound(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
 };
 
 
-class PauseSound : public Action {
-	
-protected:
-	shared_ptr<Sound> sound;
-	
+class PauseSound : public SoundAction {
+    
 public:
-	
-	PauseSound(shared_ptr<Sound> _sound){
-		sound = _sound;
-		setName("PauseSound");
-	}
-	
-	virtual ~PauseSound(){}
-	
-	virtual bool execute(){
-		if(sound == NULL){
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-					 "Attempt to play a NULL sound");
-			return false;
-		}
-		sound->pause();
-		return true;
-	}
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit PauseSound(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
 };
 
-class PauseSoundFactory : public ComponentFactory{	
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+
+class StopSound : public SoundAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit StopSound(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
 };
 
 
