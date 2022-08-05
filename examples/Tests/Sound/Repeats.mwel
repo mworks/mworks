@@ -3,20 +3,33 @@ resource ('abcintro.m4a')
 
 
 var repeats = 0
+var ended = false
 
 audio_file sound (
     path = 'abcintro.m4a'
     repeats = repeats
+    ended = ended
     )
 
 
 %define play_with_repeats (num_repeats)
     trial {
         repeats = num_repeats
+        ended = false
+
         report ('Playing sound with repeats = $repeats')
         play_sound (sound)
-        wait (sound_duration * (max(repeats, 0) + 1))
+        assert (not ended)
+
+        wait (sound_duration * max(repeats, 0))
+        assert (not ended)
+
+        wait_for_condition (
+            condition = ended
+            timeout = sound_duration
+            )
         report ('Sound should have stopped')
+
         wait (2 * sound_duration)
     }
 %end

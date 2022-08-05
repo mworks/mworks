@@ -758,6 +758,15 @@ parameters:
         play at least once, even if this value is less than one.
 
         If `loop`_ is ``YES``, this parameter is ignored.
+  - 
+    name: ended
+    description: |
+        Variable that will be set to true after the sound finishes playing.
+
+        If `repeats`_ is greater than zero, the variable will be set only once,
+        after all play-throughs complete.  If `loop`_ is ``YES``, or if the
+        sound is stopped explicitly with `Stop Sound` before playback
+        completes, the variable will never be set.
 
 
 ---

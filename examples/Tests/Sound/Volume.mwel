@@ -5,34 +5,44 @@ var amplitude = 0.0 {
     report ('amplitude = $amplitude')
 }
 
+var ended = false
+
 audio_file sound (
     path = 'reward.wav'
     amplitude = amplitude
+    ended = ended
     )
+
+
+%define play_and_wait ()
+    ended = false
+    play_sound (sound)
+    wait (500ms)
+    assert (not ended)
+    wait_for_condition (
+        condition = ended
+        timeout = 500ms
+        )
+    wait (1s)
+%end
 
 
 protocol {
     amplitude = 1.0
-    play_sound (sound)
-    wait (2s)
+    play_and_wait ()
 
     amplitude = 0.25
-    play_sound (sound)
-    wait (2s)
+    play_and_wait ()
 
     amplitude = -0.1
-    play_sound (sound)
-    wait (2s)
+    play_and_wait ()
 
     amplitude = 1.1
-    play_sound (sound)
-    wait (2s)
+    play_and_wait ()
 
     amplitude = 1.0
-    play_sound (sound)
-    wait (2s)
+    play_and_wait ()
 
     amplitude = 0.0
-    play_sound (sound)
-    wait (2s)
+    play_and_wait ()
 }

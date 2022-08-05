@@ -2,9 +2,12 @@ var amplitude = 0.2 {
     report ('New amplitude = $amplitude')
 }
 
+var ended = false
+
 audio_file sound (
     path = 'abcslow2.mp3'
     amplitude = amplitude
+    ended = ended
     )
 
 
@@ -26,4 +29,7 @@ protocol {
     }
 
     wait (5s)
+
+    // Playback never reaches the end of the file, so ended should not be set
+    assert (not ended)
 }

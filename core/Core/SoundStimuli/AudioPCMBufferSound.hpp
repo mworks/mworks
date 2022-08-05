@@ -22,6 +22,7 @@ class AudioPCMBufferSound : public AudioEngineSound {
 public:
     static const std::string LOOP;
     static const std::string REPEATS;
+    static const std::string ENDED;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -39,8 +40,11 @@ private:
     bool beginPause() override;
     bool endPause() override;
     
+    void handlePlaybackCompleted();
+    
     const VariablePtr loop;
     const VariablePtr repeats;
+    const VariablePtr ended;
     
     AVAudioPlayerNode *playerNode;
     AVAudioPCMBuffer *buffer;
