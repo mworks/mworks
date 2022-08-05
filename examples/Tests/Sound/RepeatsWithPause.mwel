@@ -1,0 +1,51 @@
+resource ('abcintro.m4a')
+%define sound_duration = 2s
+
+
+audio_file sound (
+    path = 'abcintro.m4a'
+    repeats = 4
+    )
+
+
+var first_pass = true
+
+protocol {
+    first_pass = true
+
+    block (nsamples = 2) {
+        report ('Playing sound')
+        play_sound (sound)
+        report ('Sound should start at the beginning')
+
+        wait (1.5 * sound_duration)
+
+        report ('Pausing sound')
+        pause_sound (sound)
+        report ('Sound should stop in the middle of repetition 2')
+
+        wait (2s)
+
+        report ('Playing sound')
+        play_sound (sound)
+        report ('Sound should resume playing')
+
+        choose {
+            when (first_pass) {
+                wait (2 * sound_duration)
+
+                report ('Stopping sound')
+                stop_sound (sound)
+                report ('Sound should stop in the middle of repetition 4')
+            }
+            otherwise {
+                wait (3.5 * sound_duration)
+
+                report ('Sound should have stopped after all 5 repetitions')
+            }
+        }
+
+        wait (2s)
+        first_pass = false
+    }
+}

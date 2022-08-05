@@ -36,7 +36,7 @@ public:
     void stop() override;
     
 protected:
-    using lock_guard = std::lock_guard<std::recursive_mutex>;
+    using lock_guard = std::lock_guard<std::mutex>;
     
     lock_guard acquireLock() const { return lock_guard(mutex); }
     void didStopPlaying() { playing = paused = pausedWithStateSystem = false; }

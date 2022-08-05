@@ -750,6 +750,14 @@ parameters:
     description: >
         If ``YES``, the sound will repeat indefinitely (or until `Stop Sound` is
         invoked)
+  - 
+    name: repeats
+    default: 0
+    description: |
+        Number of times to repeat the sound.  Note that the sound will always
+        play at least once, even if this value is less than one.
+
+        If `loop`_ is ``YES``, this parameter is ignored.
 
 
 ---
