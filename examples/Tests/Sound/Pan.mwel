@@ -1,0 +1,54 @@
+resource ('reward.wav')
+
+
+var pan = 0.0 {
+    report ('pan = $pan')
+}
+
+var ended = false
+
+audio_file sound (
+    path = 'reward.wav'
+    pan = pan
+    ended = ended
+    )
+
+
+%define play_and_wait ()
+    ended = false
+    play_sound (sound)
+    wait (500ms)
+    assert (not ended)
+    wait_for_condition (
+        condition = ended
+        timeout = 500ms
+        )
+    wait (1s)
+%end
+
+
+protocol {
+    pan = -1.0
+    play_and_wait ()
+
+    pan = -0.7
+    play_and_wait ()
+
+    pan = 0.0
+    play_and_wait ()
+
+    pan = 0.7
+    play_and_wait ()
+
+    pan = 1.0
+    play_and_wait ()
+
+    pan = -1.1
+    play_and_wait ()
+
+    pan = 1.1
+    play_and_wait ()
+
+    pan = 0.0
+    play_and_wait ()
+}

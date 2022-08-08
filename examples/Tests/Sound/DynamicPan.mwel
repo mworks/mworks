@@ -1,0 +1,41 @@
+var pan = 0.0 {
+    report ('New pan = $pan')
+}
+
+var ended = false
+
+audio_file sound (
+    path = 'abcslow2.mp3'
+    pan = pan
+    ended = ended
+    )
+
+
+protocol {
+    report ('Initial pan = $pan')
+
+    play_sound (sound)
+
+    block (nsamples = 2) {
+        wait (4s)
+
+        pan = 0.65
+        wait (4s)
+
+        pan = -0.65
+        wait (4s)
+
+        pan = 1.0
+        wait (4s)
+
+        pan = -1.0
+        wait (4s)
+
+        pan = 0.0
+    }
+
+    wait_for_condition (
+        condition = ended
+        timeout = 5s
+        )
+}

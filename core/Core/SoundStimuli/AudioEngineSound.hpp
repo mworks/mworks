@@ -23,6 +23,7 @@ class AudioEngineSound : public Sound, boost::noncopyable {
     
 public:
     static const std::string AMPLITUDE;
+    static const std::string PAN;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -53,8 +54,13 @@ private:
     using unique_lock = std::unique_lock<mutex_type>;
     
     void amplitudeCallback(const Datum &data, MWorksTime time);
-    void setCurrentAmplitude(const Datum &data);
+    void panCallback(const Datum &data, MWorksTime time);
     void stateSystemModeCallback(const Datum &data, MWorksTime time);
+    
+    void setCurrentAmplitude(const Datum &data);
+    void applyCurrentAmplitude() { mixerNode.outputVolume = currentAmplitude; }
+    void setCurrentPan(const Datum &data);
+    void applyCurrentPan() { mixerNode.pan = currentPan; }
     
     struct EngineManager : boost::noncopyable {
         EngineManager();
@@ -73,9 +79,13 @@ private:
     static boost::shared_ptr<EngineManager> getEngineManager();
     
     const VariablePtr amplitude;
+    const VariablePtr pan;
     const boost::shared_ptr<EngineManager> engineManager;
     
     AVAudioMixerNode *mixerNode;
+    double currentAmplitude;
+    double currentPan;
+    
     bool loaded;
     bool running;
     bool playing;
@@ -83,6 +93,7 @@ private:
     bool pausedWithStateSystem;
     
     boost::shared_ptr<VariableNotification> amplitudeNotification;
+    boost::shared_ptr<VariableNotification> panNotification;
     boost::shared_ptr<VariableNotification> stateSystemModeNotification;
     
     mutable mutex_type mutex;

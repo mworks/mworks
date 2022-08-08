@@ -745,6 +745,13 @@ parameters:
         Controls the volume at which the sound plays.  ``1.0`` is full volume,
         while ``0.0`` is silent.
   - 
+    name: pan
+    default: 0.0
+    description: >
+        Controls the stereo panning of the sound.  Acceptable values range from
+        ``-1.0`` (left channel only) to ``1.0`` (right channel only).  A value
+        of ``0.0`` produces an even balance of the left and right channels.
+  - 
     name: loop
     default: 'NO'
     description: >

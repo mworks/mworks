@@ -12,19 +12,24 @@ BEGIN_NAMESPACE_MW
 
 
 const std::string AudioEngineSound::AMPLITUDE("amplitude");
+const std::string AudioEngineSound::PAN("pan");
 
 
 void AudioEngineSound::describeComponent(ComponentInfo &info) {
     Sound::describeComponent(info);
     info.addParameter(AMPLITUDE, "1.0");
+    info.addParameter(PAN, "0.0");
 }
 
 
 AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     Sound(parameters),
     amplitude(parameters[AMPLITUDE]),
+    pan(parameters[PAN]),
     engineManager(getEngineManager()),
     mixerNode(nil),
+    currentAmplitude(1.0),
+    currentPan(0.0),
     loaded(false),
     running(false),
     playing(false),
@@ -42,6 +47,13 @@ AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
             amplitude->addNotification(amplitudeNotification);
         }
         
+        // Install a callback to handle pan changes
+        {
+            auto callback = [this](const Datum &data, MWorksTime time) { panCallback(data, time); };
+            panNotification = boost::make_shared<VariableCallbackNotification>(callback);
+            pan->addNotification(panNotification);
+        }
+        
         // Install a callback to respond to state system mode changes
         {
             auto callback = [this](const Datum &data, MWorksTime time) { stateSystemModeCallback(data, time); };
@@ -57,6 +69,7 @@ AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
 AudioEngineSound::~AudioEngineSound() {
     @autoreleasepool {
         stateSystemModeNotification->remove();
+        panNotification->remove();
         amplitudeNotification->remove();
         
         mixerNode = nil;
@@ -79,9 +92,9 @@ void AudioEngineSound::load() {
         [engine attachNode:mixerNode];
         [engine connect:mixerNode to:engine.mainMixerNode format:nil];
         
-        // Initialize amplitude to the current value (must be done *after*
-        // connecting the mixer node)
+        // Initialize amplitude and pan to their current values
         setCurrentAmplitude(amplitude->getValue());
+        setCurrentPan(pan->getValue());
         
         // Perform subclass-specific loading tasks
         load(engine, mixerNode);
@@ -149,12 +162,11 @@ void AudioEngineSound::amplitudeCallback(const Datum &data, MWorksTime time) {
 }
 
 
-void AudioEngineSound::setCurrentAmplitude(const Datum &data) {
-    auto value = data.getFloat();
-    if (value < 0.0 || value > 1.0) {
-        merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound amplitude must be between 0 and 1 (inclusive)");
-    } else {
-        mixerNode.outputVolume = value;
+void AudioEngineSound::panCallback(const Datum &data, MWorksTime time) {
+    lock_guard lock(mutex);
+    
+    @autoreleasepool {
+        setCurrentPan(data);
     }
 }
 
@@ -165,6 +177,16 @@ void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime tim
     @autoreleasepool {
         switch (data.getInteger()) {
             case RUNNING:
+                //
+                // Although it isn't documented, it appears that the audio engine must have
+                // been started in order for changes to amplitude and pan to take effect.
+                // Therefore, always re-apply the current values when the experiment enters
+                // the RUNNING state, in case the experiment (and therefore the audio engine)
+                // have just started.
+                //
+                applyCurrentAmplitude();
+                applyCurrentPan();
+                
                 running = true;
                 if (playing && pausedWithStateSystem) {
                     if (!endPause()) {
@@ -184,7 +206,9 @@ void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime tim
                 }
                 break;
                 
-            case IDLE:
+            case STOPPING:
+                // Stop on STOPPING, rather than IDLE, so that the sound stops playing
+                // before the audio engine pauses
                 running = false;
                 if (playing) {
                     if (stopPlaying()) {
@@ -193,6 +217,28 @@ void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime tim
                 }
                 break;
         }
+    }
+}
+
+
+void AudioEngineSound::setCurrentAmplitude(const Datum &data) {
+    auto value = data.getFloat();
+    if (value < 0.0 || value > 1.0) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound amplitude must be between 0 and 1 (inclusive)");
+    } else {
+        currentAmplitude = value;
+        applyCurrentAmplitude();
+    }
+}
+
+
+void AudioEngineSound::setCurrentPan(const Datum &data) {
+    auto value = data.getFloat();
+    if (value < -1.0 || value > 1.0) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound pan must be between -1 and 1 (inclusive)");
+    } else {
+        currentPan = value;
+        applyCurrentPan();
     }
 }
 

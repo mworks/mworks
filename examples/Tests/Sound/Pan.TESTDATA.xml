@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">pan = -1 </message>
+    <message type="starts_with">pan = -0.7 </message>
+    <message type="starts_with">pan = 0 </message>
+    <message type="starts_with">pan = 0.7 </message>
+    <message type="starts_with">pan = 1 </message>
+    <message type="whole_message">ERROR: Sound pan must be between -1 and 1 (inclusive) [line 46, column 9]</message>
+    <message type="starts_with">pan = -1.1 </message>
+    <message type="whole_message">ERROR: Sound pan must be between -1 and 1 (inclusive) [line 49, column 9]</message>
+    <message type="starts_with">pan = 1.1 </message>
+    <message type="starts_with">pan = 0 (</message>
+  </expected_messages>
+</marionette_info>
