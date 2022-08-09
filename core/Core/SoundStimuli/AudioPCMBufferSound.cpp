@@ -49,13 +49,13 @@ AudioPCMBufferSound::~AudioPCMBufferSound() {
 }
 
 
-void AudioPCMBufferSound::load(AVAudioEngine *engine, AVAudioMixerNode *mixerNode) {
-    AudioEngineSound::load(engine, mixerNode);
-    
+id<AVAudioMixing> AudioPCMBufferSound::load(AVAudioEngine *engine) {
     buffer = loadBuffer();
     
     [engine attachNode:playerNode];
-    [engine connect:playerNode to:mixerNode format:buffer.format];
+    [engine connect:playerNode to:engine.mainMixerNode format:buffer.format];
+    
+    return playerNode;
 }
 
 

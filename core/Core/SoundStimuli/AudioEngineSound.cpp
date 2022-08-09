@@ -27,7 +27,7 @@ AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     amplitude(parameters[AMPLITUDE]),
     pan(parameters[PAN]),
     engineManager(getEngineManager()),
-    mixerNode(nil),
+    mixer(nil),
     currentAmplitude(1.0),
     currentPan(0.0),
     loaded(false),
@@ -37,9 +37,6 @@ AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     pausedWithStateSystem(false)
 {
     @autoreleasepool {
-        // Create the mixer node
-        mixerNode = [[AVAudioMixerNode alloc] init];
-        
         // Install a callback to handle amplitude changes
         {
             auto callback = [this](const Datum &data, MWorksTime time) { amplitudeCallback(data, time); };
@@ -72,7 +69,7 @@ AudioEngineSound::~AudioEngineSound() {
         panNotification->remove();
         amplitudeNotification->remove();
         
-        mixerNode = nil;
+        mixer = nil;
     }
 }
 
@@ -88,16 +85,12 @@ void AudioEngineSound::load() {
         unique_lock engineLock;
         auto engine = engineManager->getEngine(engineLock);
         
-        // Connect the mixer node
-        [engine attachNode:mixerNode];
-        [engine connect:mixerNode to:engine.mainMixerNode format:nil];
+        // Perform subclass-specific loading tasks
+        mixer = load(engine);
         
         // Initialize amplitude and pan to their current values
         setCurrentAmplitude(amplitude->getValue());
         setCurrentPan(pan->getValue());
-        
-        // Perform subclass-specific loading tasks
-        load(engine, mixerNode);
     }
     
     loaded = true;

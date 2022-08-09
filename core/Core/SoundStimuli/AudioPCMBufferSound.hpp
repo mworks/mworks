@@ -30,16 +30,15 @@ public:
     ~AudioPCMBufferSound();
     
 protected:
+    id<AVAudioMixing> load(AVAudioEngine *engine) override;
     virtual AVAudioPCMBuffer * loadBuffer() const = 0;
-    
-private:
-    void load(AVAudioEngine *engine, AVAudioMixerNode *mixerNode) override final;
     
     bool startPlaying() override;
     bool stopPlaying() override;
     bool beginPause() override;
     bool endPause() override;
     
+private:
     void handlePlaybackCompleted();
     
     const VariablePtr loop;

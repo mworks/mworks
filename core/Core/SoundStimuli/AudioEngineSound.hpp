@@ -42,7 +42,7 @@ protected:
     lock_guard acquireLock() const { return lock_guard(mutex); }
     void didStopPlaying() { playing = paused = pausedWithStateSystem = false; }
     
-    virtual void load(AVAudioEngine *engine, AVAudioMixerNode *mixerNode) { }
+    virtual id<AVAudioMixing> load(AVAudioEngine *engine) = 0;
     
     virtual bool startPlaying() = 0;
     virtual bool stopPlaying() = 0;
@@ -58,9 +58,9 @@ private:
     void stateSystemModeCallback(const Datum &data, MWorksTime time);
     
     void setCurrentAmplitude(const Datum &data);
-    void applyCurrentAmplitude() { mixerNode.outputVolume = currentAmplitude; }
+    void applyCurrentAmplitude() { mixer.volume = currentAmplitude; }
     void setCurrentPan(const Datum &data);
-    void applyCurrentPan() { mixerNode.pan = currentPan; }
+    void applyCurrentPan() { mixer.pan = currentPan; }
     
     struct EngineManager : boost::noncopyable {
         EngineManager();
@@ -82,7 +82,7 @@ private:
     const VariablePtr pan;
     const boost::shared_ptr<EngineManager> engineManager;
     
-    AVAudioMixerNode *mixerNode;
+    id<AVAudioMixing> mixer;
     double currentAmplitude;
     double currentPan;
     
