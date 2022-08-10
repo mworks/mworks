@@ -77,23 +77,24 @@ AudioEngineSound::~AudioEngineSound() {
 void AudioEngineSound::load() {
     lock_guard lock(mutex);
     
-    if (loaded) {
-        return;
-    }
-    
     @autoreleasepool {
-        unique_lock engineLock;
-        auto engine = engineManager->getEngine(engineLock);
+        if (loaded) {
+            return;
+        }
         
         // Perform subclass-specific loading tasks
-        mixer = load(engine);
+        {
+            unique_lock engineLock;
+            auto engine = engineManager->getEngine(engineLock);
+            mixer = load(engine);
+        }
         
         // Initialize amplitude and pan to their current values
         setCurrentAmplitude(amplitude->getValue());
         setCurrentPan(pan->getValue());
+        
+        loaded = true;
     }
-    
-    loaded = true;
 }
 
 
@@ -101,9 +102,17 @@ void AudioEngineSound::play() {
     lock_guard lock(mutex);
     
     @autoreleasepool {
-        if (!running) {
+        if (!loaded) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot play: sound is not loaded");
+        } else if (!running) {
             merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot play sound while experiment is not running");
         } else if (!playing) {
+            // Although it isn't documented, it appears that the audio engine must have
+            // been started in order for changes to amplitude and pan to take effect.
+            // Therefore, always apply the current values immediately before playing, as
+            // we know the audio engine will be started by then.
+            applyCurrentAmplitude();
+            applyCurrentPan();
             if (startPlaying()) {
                 playing = true;
             }
@@ -120,7 +129,9 @@ void AudioEngineSound::pause() {
     lock_guard lock(mutex);
     
     @autoreleasepool {
-        if (!running) {
+        if (!loaded) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot pause: sound is not loaded");
+        } else if (!running) {
             merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot pause sound while experiment is not running");
         } else if (playing && !paused) {
             if (beginPause()) {
@@ -135,7 +146,9 @@ void AudioEngineSound::stop() {
     lock_guard lock(mutex);
     
     @autoreleasepool {
-        if (!running) {
+        if (!loaded) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot stop: sound is not loaded");
+        } else if (!running) {
             merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot stop sound while experiment is not running");
         } else if (playing) {
             if (stopPlaying()) {
@@ -170,16 +183,6 @@ void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime tim
     @autoreleasepool {
         switch (data.getInteger()) {
             case RUNNING:
-                //
-                // Although it isn't documented, it appears that the audio engine must have
-                // been started in order for changes to amplitude and pan to take effect.
-                // Therefore, always re-apply the current values when the experiment enters
-                // the RUNNING state, in case the experiment (and therefore the audio engine)
-                // have just started.
-                //
-                applyCurrentAmplitude();
-                applyCurrentPan();
-                
                 running = true;
                 if (playing && pausedWithStateSystem) {
                     if (!endPause()) {
@@ -220,7 +223,9 @@ void AudioEngineSound::setCurrentAmplitude(const Datum &data) {
         merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound amplitude must be between 0 and 1 (inclusive)");
     } else {
         currentAmplitude = value;
-        applyCurrentAmplitude();
+        if (playing) {
+            applyCurrentAmplitude();
+        }
     }
 }
 
@@ -231,7 +236,9 @@ void AudioEngineSound::setCurrentPan(const Datum &data) {
         merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound pan must be between -1 and 1 (inclusive)");
     } else {
         currentPan = value;
-        applyCurrentPan();
+        if (playing) {
+            applyCurrentPan();
+        }
     }
 }
 
