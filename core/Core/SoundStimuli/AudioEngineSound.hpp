@@ -31,6 +31,7 @@ public:
     ~AudioEngineSound();
     
     void load() override;
+    void unload() override;
     
     void play() override;
     void pause() override;
@@ -43,6 +44,7 @@ protected:
     void didStopPlaying() { playing = paused = pausedWithStateSystem = false; }
     
     virtual id<AVAudioMixing> load(AVAudioEngine *engine) = 0;
+    virtual void unload(AVAudioEngine *engine) = 0;
     
     virtual bool startPlaying() = 0;
     virtual bool stopPlaying() = 0;

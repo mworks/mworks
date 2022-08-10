@@ -59,6 +59,14 @@ id<AVAudioMixing> AudioPCMBufferSound::load(AVAudioEngine *engine) {
 }
 
 
+void AudioPCMBufferSound::unload(AVAudioEngine *engine) {
+    [engine disconnectNodeOutput:playerNode];
+    [engine detachNode:playerNode];
+    
+    buffer = nil;
+}
+
+
 bool AudioPCMBufferSound::startPlaying() {
     // Reset the player node
     [playerNode stop];

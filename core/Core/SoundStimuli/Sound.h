@@ -23,6 +23,7 @@ public:
     explicit Sound(const ParameterValueMap &parameters);
     
     virtual void load() { }
+    virtual void unload() { }
     
     virtual void play() = 0;
     virtual void pause() = 0;

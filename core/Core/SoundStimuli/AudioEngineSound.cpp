@@ -98,6 +98,31 @@ void AudioEngineSound::load() {
 }
 
 
+void AudioEngineSound::unload() {
+    lock_guard lock(mutex);
+    
+    @autoreleasepool {
+        if (!loaded) {
+            return;
+        } else if (playing) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot unload sound while it is playing");
+            return;
+        }
+        
+        mixer = nil;
+        
+        // Perform subclass-specific unloading tasks
+        {
+            unique_lock engineLock;
+            auto engine = engineManager->getEngine(engineLock);
+            unload(engine);
+        }
+        
+        loaded = false;
+    }
+}
+
+
 void AudioEngineSound::play() {
     lock_guard lock(mutex);
     
