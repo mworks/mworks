@@ -1,0 +1,49 @@
+resource ('abcslow2.mp3')
+resource ('reward.wav')
+
+
+var path = ''
+
+audio_file sound (
+    path = path
+    autoload = false
+    )
+
+
+protocol {
+    // Not loaded
+    play_sound (sound)
+    pause_sound (sound)
+    stop_sound (sound)
+
+    // Load failure (so still not loaded)
+    path = 'not_a_file.wav'
+    load_sound (sound)
+    play_sound (sound)
+    pause_sound (sound)
+    stop_sound (sound)
+
+    // Successfully loaded
+    path = 'abcslow2.mp3'
+    load_sound (sound)
+    play_sound (sound)
+    wait (3s)
+    pause_sound (sound)
+    wait (3s)
+    play_sound (sound)
+    wait (3s)
+    stop_sound (sound)
+    unload_sound (sound)
+
+    // Successfully reloaded
+    path = 'reward.wav'
+    load_sound (sound)
+    play_sound (sound)
+    wait (1s)
+    unload_sound (sound)
+
+    // Unloaded
+    play_sound (sound)
+    pause_sound (sound)
+    stop_sound (sound)
+}

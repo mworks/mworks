@@ -74,6 +74,7 @@ private:
     private:
         void stateSystemModeCallback(const Datum &data, MWorksTime time);
         AVAudioEngine *engine;
+        AVAudioNode *dummyNode;
         boost::shared_ptr<VariableNotification> stateSystemModeNotification;
         mutable mutex_type mutex;
     };

@@ -7,6 +7,8 @@
 
 #include "AudioEngineSound.hpp"
 
+#include <AVFoundation/AVAudioPlayerNode.h>
+
 
 BEGIN_NAMESPACE_MW
 
@@ -269,10 +271,19 @@ void AudioEngineSound::setCurrentPan(const Datum &data) {
 
 
 AudioEngineSound::EngineManager::EngineManager() :
-    engine(nil)
+    engine(nil),
+    dummyNode(nil)
 {
     @autoreleasepool {
         engine = [[AVAudioEngine alloc] init];
+        
+        // Attempting to start the engine with no nodes attached crashes the application.
+        // (This can happen if all the sounds in an experiment have autoload disabled.)
+        // Therefore, we attach and connect a dummy node, which is never played, to prevent
+        // this.
+        dummyNode = [[AVAudioPlayerNode alloc] init];
+        [engine attachNode:dummyNode];
+        [engine connect:dummyNode to:engine.mainMixerNode format:nil];
         
         auto callback = [this](const Datum &data, MWorksTime time) { stateSystemModeCallback(data, time); };
         stateSystemModeNotification = boost::make_shared<VariableCallbackNotification>(callback);
@@ -287,12 +298,15 @@ AudioEngineSound::EngineManager::~EngineManager() {
     @autoreleasepool {
         stateSystemModeNotification->remove();
         
-        if (engine) {
-            if (engine.running) {
-                [engine stop];
-            }
-            engine = nil;
+        if (engine.running) {
+            [engine stop];
         }
+        
+        [engine disconnectNodeOutput:dummyNode];
+        [engine detachNode:dummyNode];
+        dummyNode = nil;
+        
+        engine = nil;
     }
 }
 

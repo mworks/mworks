@@ -29,7 +29,7 @@ AudioFileSound::AudioFileSound(const ParameterValueMap &parameters) :
 { }
 
 
-AVAudioPCMBuffer * AudioFileSound::loadBuffer() const {
+AVAudioPCMBuffer * AudioFileSound::loadBuffer(AVAudioEngine *engine) {
     auto filePath = pathFromParameterValue(path).string();
     auto fileURL = [NSURL fileURLWithPath:@(filePath.c_str()) isDirectory:NO];
     NSError *error = nil;

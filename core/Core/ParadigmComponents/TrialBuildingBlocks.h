@@ -442,6 +442,30 @@ protected:
 };
 
 
+class LoadSound : public SoundAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit LoadSound(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
+};
+
+
+class UnloadSound : public SoundAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit UnloadSound(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
+};
+
+
 class PlaySound : public SoundAction {
     
 public:

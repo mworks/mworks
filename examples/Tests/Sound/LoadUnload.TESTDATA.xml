@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Cannot play: sound is not loaded [line 15, column 5]</message>
+    <message type="whole_message">ERROR: Cannot pause: sound is not loaded [line 16, column 5]</message>
+    <message type="whole_message">ERROR: Cannot stop: sound is not loaded [line 17, column 5]</message>
+    <message type="starts_with">ERROR: Sound loading failed: Path does not exist: </message>
+    <message type="whole_message">ERROR: Cannot play: sound is not loaded [line 22, column 5]</message>
+    <message type="whole_message">ERROR: Cannot pause: sound is not loaded [line 23, column 5]</message>
+    <message type="whole_message">ERROR: Cannot stop: sound is not loaded [line 24, column 5]</message>
+    <message type="whole_message">ERROR: Cannot play: sound is not loaded [line 46, column 5]</message>
+    <message type="whole_message">ERROR: Cannot pause: sound is not loaded [line 47, column 5]</message>
+    <message type="whole_message">ERROR: Cannot stop: sound is not loaded [line 48, column 5]</message>
+  </expected_messages>
+</marionette_info>

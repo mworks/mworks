@@ -719,25 +719,23 @@ name: Sound Stimulus
 abstract: yes
 group: Sounds
 toplevel: yes
+parameters: 
+  - 
+    name: autoload
+    default: 'YES'
+    description: >
+        If true, the sound will be loaded automatically at experiment load time.
+        Otherwise, the experiment must load the sound explicitly with `Load
+        Sound`.
 
 
 ---
 
 
-name: Audio File Stimulus
-signature: sound/audio_file
-alias: sound/wav_file
+name: Audio Engine Sound Stimulus
+abstract: yes
 isa: Sound Stimulus
-description: >
-    A simple file-based sound stimulus
 parameters: 
-  - 
-    name: path
-    required: yes
-    example:
-      - sounds/sound1.wav
-      - /path/to/sound.m4a
-    description: Filesystem path to the sound file
   - 
     name: amplitude
     default: 1.0
@@ -751,6 +749,15 @@ parameters:
         Controls the stereo panning of the sound.  Acceptable values range from
         ``-1.0`` (left channel only) to ``1.0`` (right channel only).  A value
         of ``0.0`` produces an even balance of the left and right channels.
+
+
+---
+
+
+name: Audio PCM Buffer Sound Stimulus
+abstract: yes
+isa: Audio Engine Sound Stimulus
+parameters: 
   - 
     name: loop
     default: 'NO'
@@ -774,6 +781,46 @@ parameters:
         after all play-throughs complete.  If `loop`_ is ``YES``, or if the
         sound is stopped explicitly with `Stop Sound` before playback
         completes, the variable will never be set.
+
+
+---
+
+
+name: Audio File Stimulus
+signature: sound/audio_file
+alias: sound/wav_file
+isa: Audio PCM Buffer Sound Stimulus
+description: >
+    A simple file-based sound stimulus
+parameters: 
+  - 
+    name: path
+    required: yes
+    example:
+      - sounds/sound1.wav
+      - /path/to/sound.m4a
+    description: Filesystem path to the sound file
+
+
+---
+
+
+name: Tone Stimulus
+signature: sound/tone
+isa: Audio PCM Buffer Sound Stimulus
+description: >
+    A simple tone sound stimulus
+parameters: 
+  - 
+    name: frequency
+    required: yes
+    example: 440.0
+    description: Frequency of the tone (hertz)
+  - 
+    name: duration
+    required: yes
+    example: 2s
+    description: Duration of the tone (microseconds)
 
 
 ---
@@ -1517,15 +1564,53 @@ description: |
 ---
 
 
-name: Play Sound
-signature: action/play_sound
+name: Sound Action
+abstract: yes
 isa: Action
-description: Play a sound
 parameters: 
   - 
     name: sound
     required: yes
-    description: Name of the sound to play
+    description: Name of the sound
+
+
+---
+
+
+name: Load Sound
+signature: action/load_sound
+isa: Sound Action
+description: |
+  Load a `sound <Sounds>`.
+
+  If the sound is already loaded, this action does nothing.
+
+
+---
+
+
+name: Unload Sound
+signature: action/unload_sound
+isa: Sound Action
+description: |
+  Unload a `sound <Sounds>`.
+
+  If the sound is not loaded, this action does nothing.
+
+
+---
+
+
+name: Play Sound
+signature: action/play_sound
+isa: Sound Action
+description: |
+  Play a `sound <Sounds>`.
+
+  If the sound is not playing, it will begin playing immediately.  If the sound
+  is `paused <Pause Sound>`, it will resume playing from the point at which it
+  was paused.  If the sound is playing and not paused, this action does
+  nothing.
 
 
 ---
@@ -1533,13 +1618,13 @@ parameters:
 
 name: Pause Sound
 signature: action/pause_sound
-isa: Action
-description: Pause a sound
-parameters: 
-  - 
-    name: sound
-    required: yes
-    description: Name of the sound to pause
+isa: Sound Action
+description: |
+  Pause a `sound <Sounds>`.
+
+  If the sound is `playing <Play Sound>`, playback will pause and not resume
+  until the sound is played again.  If the sound is not playing or already
+  paused, this action does nothing.
 
 
 ---
@@ -1547,13 +1632,14 @@ parameters:
 
 name: Stop Sound
 signature: action/stop_sound
-isa: Action
-description: Stop playing a sound
-parameters: 
-  - 
-    name: sound
-    required: yes
-    description: Name of the sound to stop
+isa: Sound Action
+description: |
+  Stop a `sound <Sounds>`.
+
+  If the sound is `playing <Play Sound>` or `paused <Pause Sound>`, playback
+  will end immediately, and the next playback will start at the beginning of
+  the sound.  If the sound is neither playing nor paused, this action does
+  nothing.
 
 
 ---

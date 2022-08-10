@@ -22,8 +22,10 @@ public:
     boost::shared_ptr<Component> createObject(ComponentFactory::StdStringMap parameters,
                                               ComponentRegistryPtr reg) override
     {
-        auto sound = StandardComponentFactory<SoundType>::createObject(parameters, reg);
-        boost::dynamic_pointer_cast<Sound>(sound)->load();
+        auto sound = boost::dynamic_pointer_cast<Sound>(StandardComponentFactory<SoundType>::createObject(parameters, reg));
+        if (sound->shouldAutoload()) {
+            sound->load();
+        }
         return sound;
     }
     

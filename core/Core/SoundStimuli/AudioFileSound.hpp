@@ -24,7 +24,7 @@ public:
     explicit AudioFileSound(const ParameterValueMap &parameters);
     
 private:
-    AVAudioPCMBuffer * loadBuffer() const override;
+    AVAudioPCMBuffer * loadBuffer(AVAudioEngine *engine) override;
     
     const VariablePtr path;
     

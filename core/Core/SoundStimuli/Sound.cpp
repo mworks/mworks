@@ -13,8 +13,18 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string Sound::AUTOLOAD("autoload");
+
+
+void Sound::describeComponent(ComponentInfo &info) {
+    Component::describeComponent(info);
+    info.addParameter(AUTOLOAD, "YES");
+}
+
+
 Sound::Sound(const ParameterValueMap &parameters) :
-    Component(parameters)
+    Component(parameters),
+    autoload(parameters[AUTOLOAD])
 { }
 
 

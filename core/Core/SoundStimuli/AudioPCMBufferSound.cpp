@@ -50,7 +50,7 @@ AudioPCMBufferSound::~AudioPCMBufferSound() {
 
 
 id<AVAudioMixing> AudioPCMBufferSound::load(AVAudioEngine *engine) {
-    buffer = loadBuffer();
+    buffer = loadBuffer(engine);
     
     [engine attachNode:playerNode];
     [engine connect:playerNode to:engine.mainMixerNode format:buffer.format];

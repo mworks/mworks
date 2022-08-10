@@ -31,7 +31,7 @@ public:
     
 protected:
     id<AVAudioMixing> load(AVAudioEngine *engine) override;
-    virtual AVAudioPCMBuffer * loadBuffer() const = 0;
+    virtual AVAudioPCMBuffer * loadBuffer(AVAudioEngine *engine) = 0;
     void unload(AVAudioEngine *engine) override;
     
     bool startPlaying() override;

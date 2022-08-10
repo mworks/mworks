@@ -944,6 +944,67 @@ SoundAction::SoundAction(const ParameterValueMap &parameters) :
 
 
 /****************************************************************
+ *                 LoadSound Methods
+ ****************************************************************/
+
+
+void LoadSound::describeComponent(ComponentInfo &info) {
+    SoundAction::describeComponent(info);
+    info.setSignature("action/load_sound");
+}
+
+
+LoadSound::LoadSound(const ParameterValueMap &parameters) :
+    SoundAction(parameters)
+{
+    setName("LoadSound");
+}
+
+
+bool LoadSound::execute() {
+    //
+    // Sound loading can fail with an exception due to legitimate runtime errors
+    // (e.g. a bad audio file path).  Since we don't want such an exception to halt
+    // the state system (or crash the server by not getting caught on another thread),
+    // catch all exceptions and convert them to error messages.
+    //
+    try {
+        sound->load();
+    } catch (const std::exception &e) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Sound loading failed: %s", e.what());
+    } catch (...) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Sound loading failed");
+    }
+    
+    return true;
+}
+
+
+/****************************************************************
+ *                 UnloadSound Methods
+ ****************************************************************/
+
+
+void UnloadSound::describeComponent(ComponentInfo &info) {
+    SoundAction::describeComponent(info);
+    info.setSignature("action/unload_sound");
+}
+
+
+UnloadSound::UnloadSound(const ParameterValueMap &parameters) :
+    SoundAction(parameters)
+{
+    setName("UnloadSound");
+}
+
+
+bool UnloadSound::execute() {
+    sound->unload();
+    return true;
+}
+
+
+/****************************************************************
  *                 PlaySound Methods
  ****************************************************************/
 

@@ -423,6 +423,10 @@
 		E16A21021E5772AE00C48E10 /* ZenStateSystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4688C00EB9061000B01560 /* ZenStateSystemFactory.cpp */; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
+		E17088DC28A43C9A00262E77 /* ToneSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17088DA28A43C9A00262E77 /* ToneSound.cpp */; };
+		E17088DD28A43C9A00262E77 /* ToneSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17088DA28A43C9A00262E77 /* ToneSound.cpp */; };
+		E17088DE28A43C9A00262E77 /* ToneSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E17088DB28A43C9A00262E77 /* ToneSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17088DF28A43C9A00262E77 /* ToneSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E17088DB28A43C9A00262E77 /* ToneSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916A21E4E416C00528B91 /* MacOSStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */; };
 		E17916A31E4E416C00528B91 /* MacOSStimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916A41E4E504C00528B91 /* ExpandableList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30C0AD94214009C0B0B /* ExpandableList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1348,6 +1352,8 @@
 		E16A21141E5789B900C48E10 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachUtilities.cpp; sourceTree = "<group>"; };
+		E17088DA28A43C9A00262E77 /* ToneSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ToneSound.cpp; sourceTree = "<group>"; };
+		E17088DB28A43C9A00262E77 /* ToneSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToneSound.hpp; sourceTree = "<group>"; };
 		E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacOSStimulusDisplay.h; sourceTree = "<group>"; };
 		E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = BlankScreenStimulus.cpp; sourceTree = "<group>"; };
@@ -1967,6 +1973,8 @@
 				E1BE8C15289BFE350025B0F4 /* AudioPCMBufferSound.cpp */,
 				E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */,
 				E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */,
+				E17088DB28A43C9A00262E77 /* ToneSound.hpp */,
+				E17088DA28A43C9A00262E77 /* ToneSound.cpp */,
 				E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */,
 				E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */,
 				5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */,
@@ -2757,6 +2765,7 @@
 				5C2B51210BB6838200928E03 /* ScopedVariable.h in Headers */,
 				E18161DC2582AE56004D8156 /* RectangleStimulus.hpp in Headers */,
 				5C0B04AC0BB8A46500FD57B9 /* ScopedVariableEnvironment.h in Headers */,
+				E17088DE28A43C9A00262E77 /* ToneSound.hpp in Headers */,
 				E1BE8C19289BFE350025B0F4 /* AudioPCMBufferSound.hpp in Headers */,
 				5C7CEFE30BC5D7AB00434931 /* LegacyBuffers.h in Headers */,
 				5C7CF4EF0BC6B48D00434931 /* LinkedList.h in Headers */,
@@ -2892,6 +2901,7 @@
 				E17916E11E4E51CD00528B91 /* Event.h in Headers */,
 				E17916C51E4E512700528B91 /* GenericVariable.h in Headers */,
 				E17916CB1E4E514000528B91 /* GlobalVariable.h in Headers */,
+				E17088DF28A43C9A00262E77 /* ToneSound.hpp in Headers */,
 				E1E4AF421E54AE61001A2159 /* IOSStimulusDisplay.hpp in Headers */,
 				E17917571E4E556800528B91 /* EyeCalibrators.h in Headers */,
 				E17916D71E4E517100528B91 /* StandardVariables.h in Headers */,
@@ -3675,6 +3685,7 @@
 				5CCA2B590E8F1F99007BDA56 /* Conduit.cpp in Sources */,
 				5CCA2B5C0E8F1F9C007BDA56 /* IPCEventTransport.cpp in Sources */,
 				5CCA2B5E0E8F1F9E007BDA56 /* Serialization.cpp in Sources */,
+				E17088DC28A43C9A00262E77 /* ToneSound.cpp in Sources */,
 				E102D9F625B8958000F2EF03 /* ImageFileStimulus.cpp in Sources */,
 				5CB6C47D0E9A92CA006923EC /* SimpleConduit.cpp in Sources */,
 				0EFC71410EDBAF6800FFABA8 /* ScheduledActions.cpp in Sources */,
@@ -3782,6 +3793,7 @@
 				E17916FF1E4E52DA00528B91 /* ExpressionParser.cc in Sources */,
 				E1BE8C18289BFE350025B0F4 /* AudioPCMBufferSound.cpp in Sources */,
 				E17916F91E4E529E00528B91 /* StandardClientCoreBuilder.cpp in Sources */,
+				E17088DD28A43C9A00262E77 /* ToneSound.cpp in Sources */,
 				E179175C1E4E558000528B91 /* Averagers.cpp in Sources */,
 				E11E9E2525AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */,
 				E179177A1E4E56BB00528B91 /* StandardStimuli.cpp in Sources */,
