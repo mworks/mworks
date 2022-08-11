@@ -521,7 +521,7 @@ def numpy():
 
 @builder
 def boost():
-    version = '1.79.0'
+    version = '1.80.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
