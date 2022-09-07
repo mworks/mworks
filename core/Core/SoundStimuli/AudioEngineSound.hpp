@@ -34,6 +34,7 @@ public:
     void unload() override;
     
     void play() override;
+    void play(MWTime startTime) override;
     void pause() override;
     void stop() override;
     
@@ -46,7 +47,7 @@ protected:
     virtual id<AVAudioMixing> load(AVAudioEngine *engine) = 0;
     virtual void unload(AVAudioEngine *engine) = 0;
     
-    virtual bool startPlaying() = 0;
+    virtual bool startPlaying(MWTime startTime) = 0;
     virtual bool stopPlaying() = 0;
     virtual bool beginPause() = 0;
     virtual bool endPause() = 0;

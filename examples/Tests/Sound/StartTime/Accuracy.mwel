@@ -1,0 +1,85 @@
+%define frequency = 440.0
+%define duration = 2s
+
+%define tone1_amplitude = 0.4
+var tone2_amplitude = tone1_amplitude
+
+var tone1_ended = false
+var tone2_ended = false
+
+tone tone1 (
+    frequency = frequency
+    duration = duration
+    amplitude = tone1_amplitude
+    ended = tone1_ended
+    )
+
+tone tone2 (
+    frequency = frequency
+    duration = duration
+    amplitude = tone2_amplitude
+    ended = tone2_ended
+    )
+
+
+%define start_delay = 50ms
+var start_time = 0
+var tone2_cycle_offset = 0.0
+var tone2_delay = 0
+
+%define do_test ()
+    tone1_ended = false
+    tone2_ended = false
+    start_time = now() + start_delay
+    tone2_delay = round(tone2_cycle_offset * 1e6 / frequency)
+
+    play_sound (
+        sound = tone1
+        start_time = start_time
+        )
+    play_sound (
+        sound = tone2
+        start_time = start_time + tone2_delay
+        )
+
+    choose {
+        when (tone2_amplitude == 0.0) {
+            report ('tone1 only')
+        }
+        otherwise {
+            report ('tone1 plus tone2 delayed by $tone2_cycle_offset cycles ($tone2_delay us)')
+        }
+    }
+
+    wait_for_condition (
+        condition = tone1_ended and tone2_ended
+        timeout = start_delay + duration + tone2_delay + 100ms
+        )
+%end
+
+protocol (nsamples = 2) {
+    tone2_amplitude = tone1_amplitude
+    tone2_cycle_offset = 0.0
+    do_test ()
+
+    tone2_amplitude = 0.0
+    do_test ()
+
+    tone2_amplitude = tone1_amplitude
+    tone2_cycle_offset = 0.45
+    do_test ()
+
+    tone2_cycle_offset = 0.5
+    do_test ()
+
+    tone2_cycle_offset = 0.55
+    do_test ()
+
+    tone2_amplitude = 0.0
+    tone2_cycle_offset = 0.0
+    do_test ()
+
+    tone2_amplitude = tone1_amplitude
+    tone2_cycle_offset = 1.0
+    do_test ()
+}

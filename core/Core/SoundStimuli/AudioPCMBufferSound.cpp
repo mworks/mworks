@@ -9,6 +9,8 @@
 
 #include <boost/scope_exit.hpp>
 
+#include <CoreAudio/HostTime.h>
+
 
 BEGIN_NAMESPACE_MW
 
@@ -31,6 +33,7 @@ AudioPCMBufferSound::AudioPCMBufferSound(const ParameterValueMap &parameters) :
     loop(parameters[LOOP]),
     repeats(parameters[REPEATS]),
     ended(optionalVariable(parameters[ENDED])),
+    clock(Clock::instance()),
     playerNode(nil),
     buffer(nil),
     stopping(false)
@@ -67,7 +70,7 @@ void AudioPCMBufferSound::unload(AVAudioEngine *engine) {
 }
 
 
-bool AudioPCMBufferSound::startPlaying() {
+bool AudioPCMBufferSound::startPlaying(MWTime startTime) {
     // Reset the player node
     [playerNode stop];
     
@@ -111,7 +114,13 @@ bool AudioPCMBufferSound::startPlaying() {
                  completionHandler:completionHandler];
     }
     
-    [playerNode play];
+    AVAudioTime *when = nil;
+    if (startTime > 0) {
+        when = [AVAudioTime timeWithHostTime:AudioConvertNanosToHostTime(startTime * 1000 /*us to ns*/ +
+                                                                         clock->getSystemBaseTimeNS())];
+    }
+    [playerNode playAtTime:when];
+    
     return true;
 }
 

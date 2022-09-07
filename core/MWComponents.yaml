@@ -1611,6 +1611,16 @@ description: |
   is `paused <Pause Sound>`, it will resume playing from the point at which it
   was paused.  If the sound is playing and not paused, this action does
   nothing.
+parameters: 
+  - 
+    name: start_time
+    example:
+      - now() + 5s
+      - next_frame_time()
+    description: |
+        Experiment time at which to start playing the sound (microseconds).
+
+        If omitted, the sound will start playing immediately.
 
 
 ---

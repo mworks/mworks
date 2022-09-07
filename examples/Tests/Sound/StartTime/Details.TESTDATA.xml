@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">WARNING: Requested sound start time is in the past [line 15, column 5; via line 28, column 5]</message>
+    <message type="whole_message">WARNING: Requested sound start time is in the past [line 15, column 5; via line 31, column 5]</message>
+    <message type="whole_message">WARNING: Requested sound start time is in the past [line 15, column 5; via line 34, column 5]</message>
+    <message type="whole_message">WARNING: Requested sound start time is in the past [line 15, column 5; via line 37, column 5]</message>
+    <message type="whole_message">WARNING: Start time is ignored when resuming a paused sound [line 47, column 5]</message>
+  </expected_messages>
+</marionette_info>

@@ -1,0 +1,92 @@
+resource ('bells')
+
+
+var start_time = 0
+var ended = false
+
+audio_file bell_1 ('bells/1.wav')
+audio_file bell_2 ('bells/2.wav')
+audio_file bell_3 ('bells/3.wav')
+audio_file bell_4 ('bells/4.wav')
+audio_file bell_5 ('bells/5.wav')
+audio_file bell_6 ('bells/6.wav')
+audio_file bell_7 ('bells/7.wav')
+
+audio_file bell_8 (
+    path = 'bells/8.wav'
+    ended = ended
+    )
+
+
+protocol {
+    start_time = now() + 3s
+    ended = false
+
+    report ('Scheduling all sounds for future playback in random order')
+
+    list (selection = random_without_replacement) {
+        list {
+            report ('Scheduling sound 1')
+            play_sound (
+                sound = bell_1
+                start_time = start_time
+                )
+        }
+        list {
+            report ('Scheduling sound 2')
+            play_sound (
+                sound = bell_2
+                start_time = start_time + 1s
+                )
+        }
+        list {
+            report ('Scheduling sound 3')
+            play_sound (
+                sound = bell_3
+                start_time = start_time + 1.9s
+                )
+        }
+        list {
+            report ('Scheduling sound 4')
+            play_sound (
+                sound = bell_4
+                start_time = start_time + 2.95s
+                )
+        }
+        list {
+            report ('Scheduling sound 5')
+            play_sound (
+                sound = bell_5
+                start_time = start_time + 3.85s
+                )
+        }
+        list {
+            report ('Scheduling sound 6')
+            play_sound (
+                sound = bell_6
+                start_time = start_time + 5.05s
+                )
+        }
+        list {
+            report ('Scheduling sound 7')
+            play_sound (
+                sound = bell_7
+                start_time = start_time + 6.15s
+                )
+        }
+        list {
+            report ('Scheduling sound 8')
+            play_sound (
+                sound = bell_8
+                start_time = start_time + 7.2s
+                )
+        }
+    }
+
+    report ('All sounds scheduled; waiting for playback to complete')
+
+    wait_for_condition (
+        condition = ended
+        timeout = start_time + 20s - now()
+        )
+}

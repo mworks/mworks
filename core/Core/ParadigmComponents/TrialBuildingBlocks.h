@@ -469,11 +469,16 @@ public:
 class PlaySound : public SoundAction {
     
 public:
+    static const std::string START_TIME;
+    
     static void describeComponent(ComponentInfo &info);
     
     explicit PlaySound(const ParameterValueMap &parameters);
     
     bool execute() override;
+    
+private:
+    const VariablePtr startTime;
     
 };
 

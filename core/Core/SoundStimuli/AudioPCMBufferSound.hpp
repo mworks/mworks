@@ -34,7 +34,7 @@ protected:
     virtual AVAudioPCMBuffer * loadBuffer(AVAudioEngine *engine) = 0;
     void unload(AVAudioEngine *engine) override;
     
-    bool startPlaying() override;
+    bool startPlaying(MWTime startTime) override;
     bool stopPlaying() override;
     bool beginPause() override;
     bool endPause() override;
@@ -45,6 +45,8 @@ private:
     const VariablePtr loop;
     const VariablePtr repeats;
     const VariablePtr ended;
+    
+    const boost::shared_ptr<Clock> clock;
     
     AVAudioPlayerNode *playerNode;
     AVAudioPCMBuffer *buffer;

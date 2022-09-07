@@ -1,0 +1,112 @@
+%define duration = 1s
+
+var ended = false
+
+tone tone (
+    frequency = 440.0
+    duration = duration
+    amplitude = 0.5
+    ended = ended
+    )
+
+
+%define play_and_wait (start_time)
+    ended = false
+    play_sound (
+        sound = tone
+        start_time = start_time
+        )
+    wait_for_condition (
+        condition = ended
+        timeout = max(0, start_time - now()) + duration + 100ms
+        )
+    wait (1s)
+%end
+
+protocol {
+    report ('Start time is -1; sound should play immediately')
+    play_and_wait (-1)
+
+    report ('Start time is 0; sound should play immediately')
+    play_and_wait (0)
+
+    report ('Start time is 1; sound should play immediately')
+    play_and_wait (1)
+
+    report ('Start time is now()-1; sound should play immediately')
+    play_and_wait (now() - 1)
+
+    report ('Playing without start time')
+    ended = false
+    play_sound (tone)
+    wait (duration / 2)
+    report ('Pausing')
+    pause_sound (tone)
+    wait (1s)
+    report ('Start time is now()+10s; sound should resume immediately')
+    play_sound (
+        sound = tone
+        start_time = now() + 10s
+        )
+    wait_for_condition (
+        condition = ended
+        timeout = duration/2 + 100ms
+        )
+    wait (1s)
+
+    report ('Start time is now()+2s')
+    ended = false
+    play_sound (
+        sound = tone
+        start_time = now() + 2s
+        )
+    report ('Waiting for 1s')
+    wait (1s)
+    report ('Stopping and waiting for 3s; sound should not play')
+    stop_sound (tone)
+    wait (3s)
+    assert (not ended)
+
+    report ('Start time is now()+3s')
+    ended = false
+    play_sound (
+        sound = tone
+        start_time = now() + 3s
+        )
+    report ('Waiting for 1s')
+    wait (1s)
+    report ('Pausing and waiting for 1s')
+    pause_sound (tone)
+    wait (1s)
+    report ('Resuming before start time; should should play in 2s')
+    play_sound (tone)
+    assert (not ended)
+    wait_for_condition (
+        condition = ended
+        timeout = 2s + duration + 100ms
+        )
+    wait (1s)
+
+    report ('Start time is now()+3s')
+    ended = false
+    play_sound (
+        sound = tone
+        start_time = now() + 3s
+        )
+    report ('Waiting for 1s')
+    wait (1s)
+    report ('Pausing and waiting for 3s')
+    pause_sound (tone)
+    wait (3s)
+    report ('Resuming after start time; should should play in 2s')
+    play_sound (tone)
+    assert (not ended)
+    wait_for_condition (
+        condition = ended
+        timeout = 2s + duration + 100ms
+        )
+    wait (1s)
+
+    report ('Start time is now()+2s; sound should play in 2s')
+    play_and_wait (now() + 2s)
+}

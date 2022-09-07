@@ -1009,21 +1009,34 @@ bool UnloadSound::execute() {
  ****************************************************************/
 
 
+const std::string PlaySound::START_TIME("start_time");
+
+
 void PlaySound::describeComponent(ComponentInfo &info) {
     SoundAction::describeComponent(info);
     info.setSignature("action/play_sound");
+    info.addParameter(START_TIME, false);
 }
 
 
 PlaySound::PlaySound(const ParameterValueMap &parameters) :
-    SoundAction(parameters)
+    SoundAction(parameters),
+    startTime(optionalVariable(parameters[START_TIME]))
 {
     setName("PlaySound");
 }
 
 
 bool PlaySound::execute() {
-    sound->play();
+    if (!startTime) {
+        sound->play();
+    } else {
+        const auto currentStartTime = startTime->getValue().getInteger();
+        if (currentStartTime < Clock::instance()->getCurrentTimeUS()) {
+            mwarning(M_PARADIGM_MESSAGE_DOMAIN, "Requested sound start time is in the past");
+        }
+        sound->play(currentStartTime);
+    }
     return true;
 }
 

@@ -28,4 +28,9 @@ Sound::Sound(const ParameterValueMap &parameters) :
 { }
 
 
+void Sound::play(MWTime startTime) {
+    merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound does not support scheduled playback");
+}
+
+
 END_NAMESPACE_MW

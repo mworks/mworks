@@ -126,6 +126,10 @@ void AudioEngineSound::unload() {
 
 
 void AudioEngineSound::play() {
+    play(0);
+}
+
+void AudioEngineSound::play(MWTime startTime) {
     lock_guard lock(mutex);
     
     @autoreleasepool {
@@ -140,10 +144,13 @@ void AudioEngineSound::play() {
             // we know the audio engine will be started by then.
             applyCurrentAmplitude();
             applyCurrentPan();
-            if (startPlaying()) {
+            if (startPlaying(startTime)) {
                 playing = true;
             }
         } else if (paused) {
+            if (startTime > 0) {
+                mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Start time is ignored when resuming a paused sound");
+            }
             if (endPause()) {
                 paused = false;
             }

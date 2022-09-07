@@ -3,9 +3,9 @@
   <expected_messages>
     <message type="starts_with">amplitude = 1 </message>
     <message type="starts_with">amplitude = 0.25 </message>
-    <message type="whole_message">ERROR: Sound amplitude must be between 0 and 1 (inclusive) [line 23, column 15]</message>
+    <message type="whole_message">ERROR: Sound amplitude must be between 0 and 1 (inclusive) [line 37, column 15]</message>
     <message type="starts_with">amplitude = -0.1 </message>
-    <message type="whole_message">ERROR: Sound amplitude must be between 0 and 1 (inclusive) [line 27, column 15]</message>
+    <message type="whole_message">ERROR: Sound amplitude must be between 0 and 1 (inclusive) [line 40, column 15]</message>
     <message type="starts_with">amplitude = 1.1 </message>
     <message type="starts_with">amplitude = 1 </message>
     <message type="starts_with">amplitude = 0 (</message>
