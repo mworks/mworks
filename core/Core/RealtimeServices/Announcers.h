@@ -23,22 +23,20 @@ BEGIN_NAMESPACE_MW
 class RequestNotification;
 class PrivateDataNotification;
 
+
 class Announcable {
-
-	private:
-	shared_ptr<Variable> announceVariable;
-        
-    public:
-        Announcable(std::string _announceVariableTagname);
-        virtual ~Announcable();
-        
-		void announce(Datum _announceData, MWTime time);  // will announce this data
-		
-		void announce(Datum _announceData);  // will announce this data
-        
+    
+public:
+    explicit Announcable(const std::string &announceVariableTagname);
+    virtual ~Announcable() { }
+    
+    void announce(Datum announceData, MWTime time) const;
+    void announce(Datum announceData) const;
+    
+private:
+    const boost::shared_ptr<Variable> announceVariable;
+    
 };
-
-
 
 
 class Requestable {

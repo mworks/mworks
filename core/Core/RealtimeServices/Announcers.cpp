@@ -18,29 +18,23 @@ BEGIN_NAMESPACE_MW
 
 #define VERBOSE_ANNOUNCERS 0
 
-Announcable::Announcable(std::string _announceVariableTagname) {
-	
-	shared_ptr<VariableRegistry> registry = 
-				GlobalCurrentExperiment->getVariableRegistry();
-	
-    // check if the announce variable is in the registry and get its handle
-    if (!(announceVariable = registry->getVariable(_announceVariableTagname))){
+
+Announcable::Announcable(const std::string &announceVariableTagname) :
+    announceVariable(GlobalCurrentExperiment->getVariableRegistry()->getVariable(announceVariableTagname))
+{
+    if (!announceVariable) {
         throw SimpleException( "Announcable object has unknown variable tagname.");
     }
-    
 }
 
-Announcable::~Announcable() {};
 
-
-void Announcable::announce(Datum _announceData, MWTime now) {    
-    announceVariable->setValue(_announceData, now);
-    if (VERBOSE_ANNOUNCERS > 1) mprintf("*** Announcing data now");
+void Announcable::announce(Datum announceData, MWTime now) const {
+    announceVariable->setValue(announceData, now);
 }
 
-void Announcable::announce(Datum _announceData) {
-	shared_ptr <Clock> clock = Clock::instance();
-    announce(_announceData, clock->getCurrentTimeUS());
+
+void Announcable::announce(Datum announceData) const {
+    announce(announceData, Clock::instance()->getCurrentTimeUS());
 }
 
 
