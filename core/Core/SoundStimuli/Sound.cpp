@@ -24,6 +24,7 @@ void Sound::describeComponent(ComponentInfo &info) {
 
 Sound::Sound(const ParameterValueMap &parameters) :
     Component(parameters),
+    Announcable(ANNOUNCE_SOUND_TAGNAME),
     autoload(parameters[AUTOLOAD])
 { }
 

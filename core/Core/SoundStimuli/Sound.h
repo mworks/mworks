@@ -10,6 +10,7 @@
 #ifndef SOUND_H_
 #define SOUND_H_
 
+#include "Announcers.h"
 #include "Component.h"
 #include "ParameterValue.h"
 
@@ -17,7 +18,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class Sound : public Component {
+class Sound : public Component, public Announcable {
     
 public:
     static const std::string AUTOLOAD;

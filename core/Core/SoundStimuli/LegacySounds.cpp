@@ -10,7 +10,6 @@
 #include <boost/bind.hpp>
 #include <boost/filesystem/operations.hpp>
 
-#include "Announcers.h"
 #include "StandardVariables.h"
 
 
@@ -19,7 +18,6 @@ BEGIN_NAMESPACE_MW
 
 LegacySound::LegacySound(const ParameterValueMap &parameters) :
     Sound(parameters),
-    Announcable(ANNOUNCE_SOUND_TAGNAME),
     isPlaying(false),
     isPaused(false)
 {

@@ -8,7 +8,6 @@
 #ifndef LegacySounds_hpp
 #define LegacySounds_hpp
 
-#include "Announcers.h"
 #include "Sound.h"
 #include "OpenALContextManager.h"
 #include <boost/filesystem/path.hpp>
@@ -18,7 +17,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class LegacySound : public Sound, public Announcable {
+class LegacySound : public Sound {
     
 public:
     explicit LegacySound(const ParameterValueMap &parameters);
