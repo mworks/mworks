@@ -39,6 +39,8 @@ protected:
     bool beginPause() override;
     bool endPause() override;
     
+    void setCurrentAnnounceData(Datum::dict_value_type &announceData) const override;
+    
 private:
     void handlePlaybackCompleted();
     
@@ -50,6 +52,8 @@ private:
     
     AVAudioPlayerNode *playerNode;
     AVAudioPCMBuffer *buffer;
+    bool currentLoop;
+    long long currentRepeats;
     
     std::atomic_bool stopping;
     

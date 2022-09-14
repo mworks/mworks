@@ -52,6 +52,8 @@ protected:
     virtual bool beginPause() = 0;
     virtual bool endPause() = 0;
     
+    virtual void setCurrentAnnounceData(Datum::dict_value_type &announceData) const { }
+    
 private:
     using mutex_type = lock_guard::mutex_type;
     using unique_lock = std::unique_lock<mutex_type>;
@@ -64,6 +66,10 @@ private:
     void applyCurrentAmplitude() { mixer.volume = currentAmplitude; }
     void setCurrentPan(const Datum &data);
     void applyCurrentPan() { mixer.pan = currentPan; }
+    
+    enum class Action { Play, Pause, Resume, Stop };
+    static const char * getActionName(Action action);
+    void announceAction(Action action, MWTime startTime = 0) const;
     
     struct EngineManager : boost::noncopyable {
         EngineManager();

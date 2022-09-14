@@ -36,6 +36,8 @@ AudioPCMBufferSound::AudioPCMBufferSound(const ParameterValueMap &parameters) :
     clock(Clock::instance()),
     playerNode(nil),
     buffer(nil),
+    currentLoop(false),
+    currentRepeats(0),
     stopping(false)
 {
     @autoreleasepool {
@@ -74,7 +76,10 @@ bool AudioPCMBufferSound::startPlaying(MWTime startTime) {
     // Reset the player node
     [playerNode stop];
     
-    if (loop->getValue().getBool()) {
+    currentLoop = loop->getValue().getBool();
+    currentRepeats = repeats->getValue().getInteger();
+    
+    if (currentLoop) {
         //
         // Schedule the buffer to loop indefinitely.  No completion handler
         // is needed, because playback can only be stopped explicitly.
@@ -87,13 +92,11 @@ bool AudioPCMBufferSound::startPlaying(MWTime startTime) {
         //
         // Schedule all play-throughs except the last
         //
-        auto repeatCount = repeats->getValue().getInteger();
-        while (repeatCount > 0) {
+        for (auto repeatCount = currentRepeats; repeatCount > 0; repeatCount--) {
             [playerNode scheduleBuffer:buffer
                                 atTime:nil
                                options:0
                      completionHandler:nil];
-            repeatCount--;
         }
         
         //
@@ -144,6 +147,16 @@ bool AudioPCMBufferSound::beginPause() {
 bool AudioPCMBufferSound::endPause() {
     [playerNode play];
     return true;
+}
+
+
+void AudioPCMBufferSound::setCurrentAnnounceData(Datum::dict_value_type &announceData) const {
+    AudioEngineSound::setCurrentAnnounceData(announceData);
+    if (currentLoop) {
+        announceData[LOOP] = true;
+    } else if (currentRepeats > 0) {
+        announceData[REPEATS] = currentRepeats;
+    }
 }
 
 

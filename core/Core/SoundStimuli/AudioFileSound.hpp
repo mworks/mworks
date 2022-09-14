@@ -25,8 +25,10 @@ public:
     
 private:
     AVAudioPCMBuffer * loadBuffer(AVAudioEngine *engine) override;
+    void setCurrentAnnounceData(Datum::dict_value_type &announceData) const override;
     
     const VariablePtr path;
+    std::string currentPath;
     
 };
 

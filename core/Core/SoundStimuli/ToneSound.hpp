@@ -26,9 +26,13 @@ public:
     
 private:
     AVAudioPCMBuffer * loadBuffer(AVAudioEngine *engine) override;
+    void setCurrentAnnounceData(Datum::dict_value_type &announceData) const override;
     
     const VariablePtr frequency;
     const VariablePtr duration;
+    
+    double currentFrequency;
+    long long currentDuration;
     
 };
 

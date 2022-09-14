@@ -30,8 +30,9 @@ AudioFileSound::AudioFileSound(const ParameterValueMap &parameters) :
 
 
 AVAudioPCMBuffer * AudioFileSound::loadBuffer(AVAudioEngine *engine) {
-    auto filePath = pathFromParameterValue(path).string();
-    auto fileURL = [NSURL fileURLWithPath:@(filePath.c_str()) isDirectory:NO];
+    currentPath = pathFromParameterValue(path).string();
+    
+    auto fileURL = [NSURL fileURLWithPath:@(currentPath.c_str()) isDirectory:NO];
     NSError *error = nil;
     auto file = [[AVAudioFile alloc] initForReading:fileURL error:&error];
     if (!file) {
@@ -52,6 +53,13 @@ AVAudioPCMBuffer * AudioFileSound::loadBuffer(AVAudioEngine *engine) {
     }
     
     return buffer;
+}
+
+
+void AudioFileSound::setCurrentAnnounceData(Datum::dict_value_type &announceData) const {
+    AudioPCMBufferSound::setCurrentAnnounceData(announceData);
+    announceData[SOUND_TYPE] = "audio_file";
+    announceData[SOUND_FILENAME] = currentPath;
 }
 
 

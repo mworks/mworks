@@ -55,8 +55,10 @@ BEGIN_NAMESPACE_MW
 // Sounds ===========================================================
 #define ANNOUNCE_SOUND_TAGNAME			"#announceSound"
 
-	#define SOUND_NAME	"name"
-	#define SOUND_FILENAME	"filename"
+    #define SOUND_NAME     "name"
+    #define SOUND_TYPE     "type"
+    #define SOUND_ACTION   "action"
+    #define SOUND_FILENAME "filename"
 
 
 

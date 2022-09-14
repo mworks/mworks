@@ -146,6 +146,7 @@ void AudioEngineSound::play(MWTime startTime) {
             applyCurrentPan();
             if (startPlaying(startTime)) {
                 playing = true;
+                announceAction(Action::Play, startTime);
             }
         } else if (paused) {
             if (startTime > 0) {
@@ -153,6 +154,7 @@ void AudioEngineSound::play(MWTime startTime) {
             }
             if (endPause()) {
                 paused = false;
+                announceAction(Action::Resume);
             }
         }
     }
@@ -170,6 +172,7 @@ void AudioEngineSound::pause() {
         } else if (playing && !paused) {
             if (beginPause()) {
                 paused = true;
+                announceAction(Action::Pause);
             }
         }
     }
@@ -187,6 +190,7 @@ void AudioEngineSound::stop() {
         } else if (playing) {
             if (stopPlaying()) {
                 didStopPlaying();
+                announceAction(Action::Stop);
             }
         }
     }
@@ -274,6 +278,46 @@ void AudioEngineSound::setCurrentPan(const Datum &data) {
             applyCurrentPan();
         }
     }
+}
+
+
+const char * AudioEngineSound::getActionName(Action action) {
+    switch (action) {
+        case Action::Play:
+            return "play";
+        case Action::Pause:
+            return "pause";
+        case Action::Resume:
+            return "resume";
+        case Action::Stop:
+            return "stop";
+    }
+}
+
+
+void AudioEngineSound::announceAction(Action action, MWTime startTime) const {
+    Datum::dict_value_type announceData;
+    
+    announceData[SOUND_NAME] = getTag();
+    announceData[SOUND_ACTION] = getActionName(action);
+    
+    // Include detailed info only when playing
+    if (action == Action::Play) {
+        announceData[AMPLITUDE] = currentAmplitude;
+        
+        if (currentPan != 0.0) {
+            announceData[PAN] = currentPan;
+        }
+        
+        if (startTime > 0) {
+            announceData["start_time"] = startTime;
+        }
+        
+        // Add subclass-specific data
+        setCurrentAnnounceData(announceData);
+    }
+    
+    announce(Datum(announceData));
 }
 
 

@@ -26,7 +26,9 @@ void ToneSound::describeComponent(ComponentInfo &info) {
 ToneSound::ToneSound(const ParameterValueMap &parameters) :
     AudioPCMBufferSound(parameters),
     frequency(parameters[FREQUENCY]),
-    duration(parameters[DURATION])
+    duration(parameters[DURATION]),
+    currentFrequency(0.0),
+    currentDuration(0)
 { }
 
 
@@ -40,12 +42,12 @@ static inline AVAudioFrameCount getNumSamples(MWTime duration, double sampleRate
 
 
 AVAudioPCMBuffer * ToneSound::loadBuffer(AVAudioEngine *engine) {
-    const auto currentFrequency = frequency->getValue().getFloat();
+    currentFrequency = frequency->getValue().getFloat();
     if (currentFrequency <= 0.0) {
         throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Tone frequency must be greater than zero");
     }
     
-    const auto currentDuration = duration->getValue().getInteger();
+    currentDuration = duration->getValue().getInteger();
     if (currentDuration <= 0) {
         throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Tone duration must be greater than zero");
     }
@@ -70,6 +72,14 @@ AVAudioPCMBuffer * ToneSound::loadBuffer(AVAudioEngine *engine) {
     }
     
     return buffer;
+}
+
+
+void ToneSound::setCurrentAnnounceData(Datum::dict_value_type &announceData) const {
+    AudioPCMBufferSound::setCurrentAnnounceData(announceData);
+    announceData[SOUND_TYPE] = "tone";
+    announceData[FREQUENCY] = currentFrequency;
+    announceData[DURATION] = currentDuration;
 }
 
 

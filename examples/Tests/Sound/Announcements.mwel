@@ -1,0 +1,254 @@
+//
+// Common parameters
+//
+
+%define default_amplitude = 1.0
+%define default_pan = 0.0
+%define default_loop = false
+%define default_repeats = 0
+
+var amplitude = default_amplitude
+var pan = default_pan
+var loop = default_loop
+var repeats = default_repeats
+
+var ended = false
+
+
+//
+// Tone
+//
+
+%define default_frequency = 440.0
+%define default_duration = 1s
+
+var frequency = default_frequency
+var duration = default_duration
+
+tone test_tone (
+    frequency = frequency
+    duration = duration
+    loop = loop
+    repeats = repeats
+    ended = ended
+    amplitude = amplitude
+    pan = pan
+    autoload = false
+    )
+
+
+//
+// Audio file
+//
+
+resource ('abcintro.m4a')
+resource ('reward.wav')
+
+%define default_path = 'abcintro.m4a'
+
+var path = default_path
+
+audio_file test_audio_file (
+    path = path
+    loop = loop
+    repeats = repeats
+    ended = ended
+    amplitude = amplitude
+    pan = pan
+    autoload = false
+    )
+
+
+//
+// Protocol
+//
+
+python_file ('get_announce_data.py')
+
+%define reset_params ()
+    amplitude = default_amplitude
+    pan = default_pan
+    loop = default_loop
+    repeats = default_repeats
+
+    path = default_path
+
+    frequency = default_frequency
+    duration = default_duration
+%end
+
+%define reload_sound (sound)
+    unload_sound (sound)
+    load_sound (sound)
+%end
+
+%define wait_until_ended ()
+    wait_for_condition (
+        condition = ended
+        timeout = 10s
+        )
+%end
+
+var expected_data = {}
+var actual_data = {}
+
+%define assert_announcement (expected)
+    expected_data = expected
+    actual_data = py_eval('get_announce_data()')
+    assert (
+        condition = expected_data == actual_data
+        message = 'expected $expected_data, got $actual_data'
+        )
+%end
+
+var start_time = 0
+
+protocol {
+    //
+    // Tone
+    //
+
+    // Default params
+    reset_params ()
+    reload_sound (test_tone)
+    ended = false
+    play_sound (test_tone)
+    assert_announcement ({
+        'name': 'test_tone',
+        'action': 'play',
+        'amplitude': default_amplitude,
+        'type': 'tone',
+        'frequency': default_frequency,
+        'duration': default_duration
+        })
+    wait_until_ended ()
+
+    // Modified params, repeats, and start_time
+    amplitude /= 2
+    pan = 0.75
+    repeats = 3
+    frequency /= 2
+    duration /= 2
+    reload_sound (test_tone)
+    ended = false
+    start_time = now() + 1s
+    play_sound (sound = test_tone; start_time = start_time)
+    assert_announcement ({
+        'name': 'test_tone',
+        'action': 'play',
+        'amplitude': default_amplitude / 2,
+        'pan': 0.75,
+        'start_time': start_time,
+        'repeats': 3,
+        'type': 'tone',
+        'frequency': default_frequency / 2,
+        'duration': default_duration / 2
+        })
+    wait_until_ended ()
+
+    // Default params, loop, pause, resume, and stop
+    reset_params ()
+    loop = true
+    reload_sound (test_tone)
+    play_sound (test_tone)
+    assert_announcement ({
+        'name': 'test_tone',
+        'action': 'play',
+        'amplitude': default_amplitude,
+        'loop': true,
+        'type': 'tone',
+        'frequency': default_frequency,
+        'duration': default_duration
+        })
+    wait (1s)
+    pause_sound (test_tone)
+    assert_announcement ({
+        'name': 'test_tone',
+        'action': 'pause'
+        })
+    wait (1s)
+    play_sound (test_tone)
+    assert_announcement ({
+        'name': 'test_tone',
+        'action': 'resume'
+        })
+    wait (1s)
+    stop_sound (test_tone)
+    assert_announcement ({
+        'name': 'test_tone',
+        'action': 'stop'
+        })
+    wait (1s)
+
+    //
+    // Audio file
+    //
+
+    // Default params
+    reset_params ()
+    reload_sound (test_audio_file)
+    ended = false
+    play_sound (test_audio_file)
+    assert_announcement ({
+        'name': 'test_audio_file',
+        'action': 'play',
+        'amplitude': default_amplitude,
+        'type': 'audio_file',
+        'filename': default_path
+        })
+    wait_until_ended ()
+
+    // Modified params, repeats, and start_time
+    amplitude /= 4
+    pan = -0.75
+    repeats = 2
+    path = 'reward.wav'
+    reload_sound (test_audio_file)
+    ended = false
+    start_time = now() + 2s
+    play_sound (sound = test_audio_file; start_time = start_time)
+    assert_announcement ({
+        'name': 'test_audio_file',
+        'action': 'play',
+        'amplitude': default_amplitude / 4,
+        'pan': -0.75,
+        'start_time': start_time,
+        'repeats': 2,
+        'type': 'audio_file',
+        'filename': 'reward.wav'
+        })
+    wait_until_ended ()
+
+    // Default params, loop, pause, resume, and stop
+    reset_params ()
+    loop = true
+    reload_sound (test_audio_file)
+    play_sound (test_audio_file)
+    assert_announcement ({
+        'name': 'test_audio_file',
+        'action': 'play',
+        'amplitude': default_amplitude,
+        'loop': true,
+        'type': 'audio_file',
+        'filename': default_path
+        })
+    wait (2s)
+    pause_sound (test_audio_file)
+    assert_announcement ({
+        'name': 'test_audio_file',
+        'action': 'pause'
+        })
+    wait (2s)
+    play_sound (test_audio_file)
+    assert_announcement ({
+        'name': 'test_audio_file',
+        'action': 'resume'
+        })
+    wait (2s)
+    stop_sound (test_audio_file)
+    assert_announcement ({
+        'name': 'test_audio_file',
+        'action': 'stop'
+        })
+    wait (2s)
+}
