@@ -20,7 +20,7 @@ tone sound (
     assert (not ended)
     wait_for_condition (
         condition = ended
-        timeout = 200ms
+        timeout = 300ms
         )
     wait (1s)
 %end

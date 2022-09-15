@@ -1033,9 +1033,12 @@ bool PlaySound::execute() {
     } else {
         const auto currentStartTime = startTime->getValue().getInteger();
         if (currentStartTime < Clock::instance()->getCurrentTimeUS()) {
-            mwarning(M_PARADIGM_MESSAGE_DOMAIN, "Requested sound start time is in the past");
+            mwarning(M_PARADIGM_MESSAGE_DOMAIN,
+                     "Requested sound start time is in the past; sound will play immediately");
+            sound->play();
+        } else {
+            sound->play(currentStartTime);
         }
-        sound->play(currentStartTime);
     }
     return true;
 }

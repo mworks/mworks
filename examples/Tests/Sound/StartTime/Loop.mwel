@@ -1,0 +1,17 @@
+resource ('abcintro.m4a')
+
+
+audio_file sound (
+    path = 'abcintro.m4a'
+    loop = true
+    )
+
+
+protocol {
+    play_sound (
+        sound = sound
+        start_time = now() + 2s
+        )
+    report ('Sound should start in 2 seconds then play for 5 seconds')
+    wait (7s)
+}

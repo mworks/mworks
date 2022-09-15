@@ -9,7 +9,7 @@
 
 #include <boost/scope_exit.hpp>
 
-#include <CoreAudio/HostTime.h>
+#include "MachUtilities.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -79,13 +79,20 @@ bool AudioPCMBufferSound::startPlaying(MWTime startTime) {
     currentLoop = loop->getValue().getBool();
     currentRepeats = repeats->getValue().getInteger();
     
+    AVAudioTime *when = nil;
+    if (startTime > 0) {
+        static const MachTimebase timebase;
+        when = [AVAudioTime timeWithHostTime:timebase.nanosToAbsolute(startTime * 1000 /*us to ns*/ +
+                                                                      clock->getSystemBaseTimeNS())];
+    }
+    
     if (currentLoop) {
         //
         // Schedule the buffer to loop indefinitely.  No completion handler
         // is needed, because playback can only be stopped explicitly.
         //
         [playerNode scheduleBuffer:buffer
-                            atTime:nil
+                            atTime:when
                            options:AVAudioPlayerNodeBufferLoops
                  completionHandler:nil];
     } else {
@@ -94,9 +101,10 @@ bool AudioPCMBufferSound::startPlaying(MWTime startTime) {
         //
         for (auto repeatCount = currentRepeats; repeatCount > 0; repeatCount--) {
             [playerNode scheduleBuffer:buffer
-                                atTime:nil
+                                atTime:when
                                options:0
                      completionHandler:nil];
+            when = nil;  // The next play-through should start immediately after this one
         }
         
         //
@@ -111,18 +119,13 @@ bool AudioPCMBufferSound::startPlaying(MWTime startTime) {
             }
         };
         [playerNode scheduleBuffer:buffer
-                            atTime:nil
+                            atTime:when
                            options:0
             completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
                  completionHandler:completionHandler];
     }
     
-    AVAudioTime *when = nil;
-    if (startTime > 0) {
-        when = [AVAudioTime timeWithHostTime:AudioConvertNanosToHostTime(startTime * 1000 /*us to ns*/ +
-                                                                         clock->getSystemBaseTimeNS())];
-    }
-    [playerNode playAtTime:when];
+    [playerNode play];
     
     return true;
 }

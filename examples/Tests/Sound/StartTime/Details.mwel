@@ -18,7 +18,7 @@ tone tone (
         )
     wait_for_condition (
         condition = ended
-        timeout = max(0, start_time - now()) + duration + 100ms
+        timeout = max(0, start_time - now()) + duration + 200ms
         )
     wait (1s)
 %end
@@ -50,7 +50,7 @@ protocol {
         )
     wait_for_condition (
         condition = ended
-        timeout = duration/2 + 100ms
+        timeout = duration/2 + 200ms
         )
     wait (1s)
 
@@ -83,7 +83,7 @@ protocol {
     assert (not ended)
     wait_for_condition (
         condition = ended
-        timeout = 2s + duration + 100ms
+        timeout = 2s + duration + 200ms
         )
     wait (1s)
 
@@ -103,7 +103,7 @@ protocol {
     assert (not ended)
     wait_for_condition (
         condition = ended
-        timeout = 2s + duration + 100ms
+        timeout = 2s + duration + 200ms
         )
     wait (1s)
 

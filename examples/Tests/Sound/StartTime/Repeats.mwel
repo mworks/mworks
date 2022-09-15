@@ -1,43 +1,44 @@
-resource ('abcintro.m4a')
-%define sound_duration = 2s
-
+%define duration = 1s
 
 var repeats = 0
 var ended = false
 
-audio_file sound (
-    path = 'abcintro.m4a'
+tone tone (
+    frequency = 440.0
+    duration = duration
     repeats = repeats
+    amplitude = 0.5
     ended = ended
     )
 
+
+%define start_delay = 2s
 
 %define play_with_repeats (num_repeats)
     trial {
         repeats = num_repeats
         ended = false
 
-        report ('Playing sound with repeats = $repeats')
-        play_sound (sound)
+        report ('Playing with repeats = $repeats')
+        play_sound (
+            sound = tone
+            start_time = now() + start_delay
+            )
         assert (not ended)
 
-        wait (sound_duration * max(repeats, 0))
+        wait (start_delay + duration * repeats)
         assert (not ended)
 
         wait_for_condition (
             condition = ended
-            timeout = sound_duration + 100ms
+            timeout = duration + 200ms
             )
-        report ('Sound should have stopped')
-
-        wait (2 * sound_duration)
+        wait (1s)
     }
 %end
 
-
 protocol {
     block (selection = random_without_replacement) {
-        play_with_repeats (-1)
         play_with_repeats (0)
         play_with_repeats (1)
         play_with_repeats (2)

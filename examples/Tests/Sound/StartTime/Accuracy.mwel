@@ -53,7 +53,7 @@ var tone2_delay = 0
 
     wait_for_condition (
         condition = tone1_ended and tone2_ended
-        timeout = start_delay + duration + tone2_delay + 100ms
+        timeout = start_delay + duration + tone2_delay + 200ms
         )
 %end
 
