@@ -13,6 +13,7 @@ import xml.etree.ElementTree as etree
 available_features = set()
 server_address = None
 skip_unit_tests = False
+show_marionette_output = False
 
 tests_dir = '/Library/Application Support/MWorks/Developer/tests'
 test_file_dir = os.path.join(tests_dir, 'XML')
@@ -158,7 +159,8 @@ def run_marionette_tests(test_names=None):
         else:
             test_name = test_file
 
-        print('(%d/%d) %s:' %  (test_num + 1, len(all_test_names), test_name), end=' ')
+        print('(%d/%d) %s:' %  (test_num + 1, len(all_test_names), test_name),
+              end = ('\n' if show_marionette_output else ' '))
         sys.stdout.flush()
 
         if missing_features:
@@ -182,7 +184,9 @@ def run_marionette_tests(test_names=None):
         if server_address:
             env['MARIONETTE_SERVER_ADDRESS'] = server_address
 
-        cmd = Popen(args, env=env, stderr=PIPE)
+        cmd = Popen(args,
+                    env = env,
+                    stderr = (None if show_marionette_output else PIPE))
         output = cmd.communicate()[1]
         if cmd.returncode == 0:
             print('OK')
@@ -193,7 +197,7 @@ def run_marionette_tests(test_names=None):
             else:
                 print('error')
                 error_tests.append(test_name)
-            for line in output.strip().split(b'\n'):
+            for line in (output or b'').strip().split(b'\n'):
                 print('    >', line.decode('utf-8'))
 
     if not server_address:
@@ -239,7 +243,7 @@ def run_tests(unit_test_names, marionette_test_names):
 
 
 def main():
-    global server_address, skip_unit_tests
+    global server_address, skip_unit_tests, show_marionette_output
 
     op = OptionParser(usage='Usage: %prog [options] [test_name ...]')
     op.add_option('--features',
@@ -251,6 +255,9 @@ def main():
     op.add_option('--skip-unit-tests',
                   action = 'store_true',
                   help = 'do not run unit tests')
+    op.add_option('--show-marionette-output',
+                  action = 'store_true',
+                  help = 'display output from all marionette tests')
 
     (opts, args) = op.parse_args()
 
@@ -258,6 +265,7 @@ def main():
                               opts.features.split(',') if name.strip())
     server_address = opts.server_address
     skip_unit_tests = opts.skip_unit_tests
+    show_marionette_output = opts.show_marionette_output
 
     unit_test_names = []
     marionette_test_names = []
