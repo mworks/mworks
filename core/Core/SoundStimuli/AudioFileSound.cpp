@@ -7,7 +7,7 @@
 
 #include "AudioFileSound.hpp"
 
-#include <AVFoundation/AVAudioFile.h>
+#include <AVFAudio/AVAudioFile.h>
 
 
 BEGIN_NAMESPACE_MW

@@ -7,6 +7,8 @@
 
 #include "ToneSound.hpp"
 
+#include <Accelerate/Accelerate.h>
+
 
 BEGIN_NAMESPACE_MW
 
@@ -16,70 +18,139 @@ const std::string ToneSound::DURATION("duration");
 
 
 void ToneSound::describeComponent(ComponentInfo &info) {
-    AudioPCMBufferSound::describeComponent(info);
+    AudioSourceNodeSound::describeComponent(info);
     info.setSignature("sound/tone");
     info.addParameter(FREQUENCY);
-    info.addParameter(DURATION);
+    info.addParameter(DURATION, "0");
+    info.addParameter(ENDED, false);  // AudioSourceNodeSound doesn't add this
 }
 
 
 ToneSound::ToneSound(const ParameterValueMap &parameters) :
-    AudioPCMBufferSound(parameters),
+    AudioSourceNodeSound(parameters),
     frequency(parameters[FREQUENCY]),
     duration(parameters[DURATION]),
+    format(nil),
     currentFrequency(0.0),
-    currentDuration(0)
+    currentDuration(0),
+    currentPhase(0.0),
+    currentPhaseIncrement(0.0)
 { }
 
 
-static inline AVAudioFrameCount getNumSamples(MWTime duration, double sampleRate) {
-    const auto numSamples = std::round(double(duration) / 1e6 * sampleRate);
-    if (numSamples > double(std::numeric_limits<AVAudioFrameCount>::max())) {
-        throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Requested tone duration requires too many audio samples");
+ToneSound::~ToneSound() {
+    @autoreleasepool {
+        format = nil;
     }
-    return AVAudioFrameCount(numSamples);
 }
 
 
-AVAudioPCMBuffer * ToneSound::loadBuffer(AVAudioEngine *engine) {
-    currentFrequency = frequency->getValue().getFloat();
-    if (currentFrequency <= 0.0) {
-        throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Tone frequency must be greater than zero");
-    }
-    
-    currentDuration = duration->getValue().getInteger();
-    if (currentDuration <= 0) {
-        throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Tone duration must be greater than zero");
-    }
-    
+id<AVAudioMixing> ToneSound::load(AVAudioEngine *engine) {
     const auto sampleRate = [engine.outputNode inputFormatForBus:0].sampleRate;
-    const auto numSamples = getNumSamples(currentDuration, sampleRate);
-    
-    auto format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:sampleRate channels:1];
+    format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:sampleRate channels:1];
     if (!format) {
         throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Cannot create format for tone audio samples");
     }
-    
-    auto buffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:format frameCapacity:numSamples];
-    if (!buffer) {
-        throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Cannot create buffer for tone audio samples");
+    return AudioSourceNodeSound::load(engine);
+}
+
+
+void ToneSound::unload(AVAudioEngine *engine) {
+    AudioSourceNodeSound::unload(engine);
+    format = nil;
+}
+
+
+bool ToneSound::startPlaying(MWTime startTime) {
+    currentFrequency = frequency->getValue().getFloat();
+    if (currentFrequency <= 0.0) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Tone frequency must be greater than zero");
+        return false;
     }
-    buffer.frameLength = numSamples;
     
-    auto bufferData = buffer.floatChannelData[0];
-    for (AVAudioFrameCount sampleIndex = 0; sampleIndex < numSamples; sampleIndex++) {
-        bufferData[sampleIndex] = std::sin(2 * M_PI * currentFrequency * double(sampleIndex) / sampleRate);
+    currentDuration = duration->getValue().getInteger();
+    if (currentDuration > 0) {
+        const auto numSamples = std::round(double(currentDuration) / 1e6 * format.sampleRate);
+        if (numSamples > double(std::numeric_limits<decltype(framesRemaining)>::max())) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Requested tone duration requires too many audio samples");
+            return false;
+        }
+        framesRemaining = numSamples;
     }
     
-    return buffer;
+    currentPhase = 0.0;
+    currentPhaseIncrement = 2.0 * M_PI * currentFrequency  / format.sampleRate;
+    
+    return AudioSourceNodeSound::startPlaying(startTime);
 }
 
 
 void ToneSound::setCurrentAnnounceData(Datum::dict_value_type &announceData) const {
-    AudioPCMBufferSound::setCurrentAnnounceData(announceData);
+    AudioSourceNodeSound::setCurrentAnnounceData(announceData);
     announceData[SOUND_TYPE] = "tone";
     announceData[FREQUENCY] = currentFrequency;
-    announceData[DURATION] = currentDuration;
+    if (haveCurrentDuration()) {
+        announceData[DURATION] = currentDuration;
+    }
+}
+
+
+bool ToneSound::renderFrames(AVAudioTime *firstFrameTime,
+                             AVAudioFrameCount framesRequested,
+                             AVAudioFrameCount &framesProvided,
+                             std::size_t frameSize,
+                             AudioBufferList *outputData)
+{
+    //
+    // Check that the output data has the expected layout
+    //
+    {
+        const auto actualNumBuffers = outputData->mNumberBuffers;
+        if (actualNumBuffers != 1) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN,
+                   "Output data has wrong number of buffers: expected 1, got %u",
+                   actualNumBuffers);
+            return false;
+        }
+    }
+    {
+        const auto actualNumChannels = outputData->mBuffers[0].mNumberChannels;
+        if (actualNumChannels != 1) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN,
+                   "Output data buffer has wrong number of channels: expected 1, got %u",
+                   actualNumChannels);
+            return false;
+        }
+    }
+    
+    //
+    // Provide as many of the requested frames as possible
+    //
+    auto framesToCompute = framesRequested - framesProvided;
+    if (haveCurrentDuration()) {
+        framesToCompute = std::min(framesToCompute, framesRemaining);
+    }
+    if (framesToCompute > 0) {
+        auto samples = static_cast<float *>(outputData->mBuffers[0].mData) + framesProvided;
+        {
+            const float initialValue = currentPhase;
+            const float increment = currentPhaseIncrement;
+            vDSP_vramp(&initialValue, &increment, samples, 1, framesToCompute);
+        }
+        {
+            const int numElements = framesToCompute;
+            vvsinf(samples, samples, &numElements);
+        }
+        
+        framesProvided += framesToCompute;
+        if (haveCurrentDuration()) {
+            framesRemaining -= framesToCompute;
+        }
+        
+        currentPhase = std::fmod(currentPhase + currentPhaseIncrement * double(framesToCompute), 2 * M_PI);
+    }
+    
+    return true;
 }
 
 

@@ -78,12 +78,12 @@ protocol {
     report ('Pausing and waiting for 1s')
     pause_sound (tone)
     wait (1s)
-    report ('Resuming before start time; should should play in 2s')
+    report ('Resuming before start time; should should play in 1s')
     play_sound (tone)
     assert (not ended)
     wait_for_condition (
         condition = ended
-        timeout = 2s + duration + 200ms
+        timeout = 1s + duration + 200ms
         )
     wait (1s)
 
@@ -98,12 +98,12 @@ protocol {
     report ('Pausing and waiting for 3s')
     pause_sound (tone)
     wait (3s)
-    report ('Resuming after start time; should should play in 2s')
+    report ('Resuming after start time; should should play immediately')
     play_sound (tone)
     assert (not ended)
     wait_for_condition (
         condition = ended
-        timeout = 2s + duration + 200ms
+        timeout = duration + 200ms
         )
     wait (1s)
 

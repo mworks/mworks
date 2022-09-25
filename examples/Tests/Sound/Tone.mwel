@@ -1,22 +1,18 @@
 var frequency = 440.0
 var duration = 1s
-var loop = false
-var repeats = 0
 var ended = false
 
 tone sound (
     frequency = frequency
     duration = duration
-    loop = loop
-    repeats = repeats
     ended = ended
     )
 
 
-%define play_and_wait (expected_duration)
+%define play_and_wait ()
     ended = false
     play_sound (sound)
-    wait (expected_duration - 100ms)
+    wait (duration - 100ms)
     assert (not ended)
     wait_for_condition (
         condition = ended
@@ -27,16 +23,16 @@ tone sound (
 
 
 protocol {
-    report ('Playing tone with no repeats')
-    play_and_wait (duration)
+    report ('Playing with initial frequency and duration')
+    play_and_wait ()
 
-    report ('Playing tone with 2 repeats. No gaps should be audible.')
-    repeats = 2
-    play_and_wait (duration * (repeats + 1))
-    repeats = 0
+    report ('Playing with different frequency and duration')
+    frequency = 220.0
+    duration = 3s
+    play_and_wait ()
 
-    report ('Playing tone on a loop. No gaps should be audible.')
-    loop = true
+    report ('Playing with no duration')
+    duration = 0
     ended = false
     play_sound (sound)
     wait (4s)
@@ -44,31 +40,13 @@ protocol {
     stop_sound (sound)
     assert (not ended)
     wait (1s)
-    loop = false
-
-    report ('Changing tone frequency and duration.')
-    frequency = 220.0
-    duration = 5s
-
-    report ('Playing before reloading.  The tone should be unchanged.')
-    play_and_wait (1s)
-
-    report ('Playing after reloading.  The tone should be different.')
-    unload_sound (sound)
-    load_sound (sound)
-    play_and_wait (duration)
 
     report ('Testing invalid values for frequency and duration')
-    unload_sound (sound)
     frequency = 0.0
-    duration = 0
-    load_sound (sound)
-    frequency = -0.1
-    load_sound (sound)
-    frequency = 0.1
-    load_sound (sound)
-    duration = -1
-    load_sound (sound)
     duration = 1000000s
-    load_sound (sound)
+    play_sound (sound)
+    frequency = -0.1
+    play_sound (sound)
+    frequency = 0.1
+    play_sound (sound)
 }

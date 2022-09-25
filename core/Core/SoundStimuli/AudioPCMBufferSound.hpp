@@ -8,21 +8,19 @@
 #ifndef AudioPCMBufferSound_hpp
 #define AudioPCMBufferSound_hpp
 
-#include "AudioEngineSound.hpp"
+#include "AudioSourceNodeSound.hpp"
 
-#include <AVFoundation/AVAudioBuffer.h>
-#include <AVFoundation/AVAudioPlayerNode.h>
+#include <AVFAudio/AVAudioBuffer.h>
 
 
 BEGIN_NAMESPACE_MW
 
 
-class AudioPCMBufferSound : public AudioEngineSound {
+class AudioPCMBufferSound : public AudioSourceNodeSound {
     
 public:
     static const std::string LOOP;
     static const std::string REPEATS;
-    static const std::string ENDED;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -31,31 +29,31 @@ public:
     
 protected:
     id<AVAudioMixing> load(AVAudioEngine *engine) override;
-    virtual AVAudioPCMBuffer * loadBuffer(AVAudioEngine *engine) = 0;
+    virtual AVAudioPCMBuffer * loadBuffer(AVAudioEngine *engine) = 0;  // Called by load()
+    AVAudioFormat * getFormat() const override { return buffer.format; }
     void unload(AVAudioEngine *engine) override;
     
     bool startPlaying(MWTime startTime) override;
-    bool stopPlaying() override;
-    bool beginPause() override;
-    bool endPause() override;
     
     void setCurrentAnnounceData(Datum::dict_value_type &announceData) const override;
     
-private:
-    void handlePlaybackCompleted();
+    bool renderFrames(AVAudioTime *firstFrameTime,
+                      AVAudioFrameCount framesRequested,
+                      AVAudioFrameCount &framesProvided,
+                      std::size_t frameSize,
+                      AudioBufferList *outputData) override;
     
+private:
     const VariablePtr loop;
     const VariablePtr repeats;
-    const VariablePtr ended;
     
-    const boost::shared_ptr<Clock> clock;
-    
-    AVAudioPlayerNode *playerNode;
     AVAudioPCMBuffer *buffer;
+    
     bool currentLoop;
     long long currentRepeats;
     
-    std::atomic_bool stopping;
+    AVAudioFrameCount nextFrame;
+    long long remainingRepeats;
     
 };
 

@@ -8,8 +8,8 @@
 #ifndef AudioEngineSound_hpp
 #define AudioEngineSound_hpp
 
-#include <AVFoundation/AVAudioEngine.h>
-#include <AVFoundation/AVAudioMixerNode.h>
+#include <AVFAudio/AVAudioEngine.h>
+#include <AVFAudio/AVAudioMixerNode.h>
 
 #include <boost/noncopyable.hpp>
 

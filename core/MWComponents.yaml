@@ -807,7 +807,7 @@ parameters:
 
 name: Tone Stimulus
 signature: sound/tone
-isa: Audio PCM Buffer Sound Stimulus
+isa: Audio Engine Sound Stimulus
 description: >
     A simple tone sound stimulus
 parameters: 
@@ -818,9 +818,19 @@ parameters:
     description: Frequency of the tone (hertz)
   - 
     name: duration
-    required: yes
+    default: 0
     example: 2s
-    description: Duration of the tone (microseconds)
+    description: >
+        Duration of the tone (microseconds).  If less than or equal to zero, the
+        tone will continue playing until stopped explicitly with `Stop Sound`.
+  - 
+    name: ended
+    description: |
+        Variable that will be set to true after the tone finishes playing.
+
+        If `duration`_ is less than or equal to zero, or if the tone is stopped
+        explicitly with `Stop Sound` before playback completes, the variable
+        will never be set.
 
 
 ---

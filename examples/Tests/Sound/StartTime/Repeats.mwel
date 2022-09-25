@@ -1,13 +1,12 @@
-%define duration = 1s
+resource ('abcintro.m4a')
+%define sound_duration = 2s
 
 var repeats = 0
 var ended = false
 
-tone tone (
-    frequency = 440.0
-    duration = duration
+audio_file sound (
+    path = 'abcintro.m4a'
     repeats = repeats
-    amplitude = 0.5
     ended = ended
     )
 
@@ -21,17 +20,17 @@ tone tone (
 
         report ('Playing with repeats = $repeats')
         play_sound (
-            sound = tone
+            sound = sound
             start_time = now() + start_delay
             )
         assert (not ended)
 
-        wait (start_delay + duration * repeats)
+        wait (start_delay + sound_duration * repeats)
         assert (not ended)
 
         wait_for_condition (
             condition = ended
-            timeout = duration + 200ms
+            timeout = sound_duration + 200ms
             )
         wait (1s)
     }

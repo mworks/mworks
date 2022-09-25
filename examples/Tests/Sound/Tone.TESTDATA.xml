@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="whole_message">ERROR: Sound loading failed: Tone frequency must be greater than zero [line 65, column 5]</message>
-    <message type="whole_message">ERROR: Sound loading failed: Tone frequency must be greater than zero [line 67, column 5]</message>
-    <message type="whole_message">ERROR: Sound loading failed: Tone duration must be greater than zero [line 69, column 5]</message>
-    <message type="whole_message">ERROR: Sound loading failed: Tone duration must be greater than zero [line 71, column 5]</message>
-    <message type="whole_message">ERROR: Sound loading failed: Requested tone duration requires too many audio samples [line 73, column 5]</message>
+    <message type="whole_message">ERROR: Tone frequency must be greater than zero [line 47, column 5]</message>
+    <message type="whole_message">ERROR: Tone frequency must be greater than zero [line 49, column 5]</message>
+    <message type="whole_message">ERROR: Requested tone duration requires too many audio samples [line 51, column 5]</message>
   </expected_messages>
 </marionette_info>

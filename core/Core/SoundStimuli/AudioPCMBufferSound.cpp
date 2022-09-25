@@ -7,8 +7,6 @@
 
 #include "AudioPCMBufferSound.hpp"
 
-#include <boost/scope_exit.hpp>
-
 #include "MachUtilities.h"
 
 
@@ -17,144 +15,60 @@ BEGIN_NAMESPACE_MW
 
 const std::string AudioPCMBufferSound::LOOP("loop");
 const std::string AudioPCMBufferSound::REPEATS("repeats");
-const std::string AudioPCMBufferSound::ENDED("ended");
 
 
 void AudioPCMBufferSound::describeComponent(ComponentInfo &info) {
-    AudioEngineSound::describeComponent(info);
+    AudioSourceNodeSound::describeComponent(info);
     info.addParameter(LOOP, "NO");
     info.addParameter(REPEATS, "0");
-    info.addParameter(ENDED, false);
+    info.addParameter(ENDED, false);  // AudioSourceNodeSound doesn't add this
 }
 
 
 AudioPCMBufferSound::AudioPCMBufferSound(const ParameterValueMap &parameters) :
-    AudioEngineSound(parameters),
+    AudioSourceNodeSound(parameters),
     loop(parameters[LOOP]),
     repeats(parameters[REPEATS]),
-    ended(optionalVariable(parameters[ENDED])),
-    clock(Clock::instance()),
-    playerNode(nil),
     buffer(nil),
     currentLoop(false),
     currentRepeats(0),
-    stopping(false)
-{
-    @autoreleasepool {
-        playerNode = [[AVAudioPlayerNode alloc] init];
-    }
-}
+    nextFrame(0),
+    remainingRepeats(0)
+{ }
 
 
 AudioPCMBufferSound::~AudioPCMBufferSound() {
     @autoreleasepool {
         buffer = nil;
-        playerNode = nil;
     }
 }
 
 
 id<AVAudioMixing> AudioPCMBufferSound::load(AVAudioEngine *engine) {
     buffer = loadBuffer(engine);
-    
-    [engine attachNode:playerNode];
-    [engine connect:playerNode to:engine.mainMixerNode format:buffer.format];
-    
-    return playerNode;
+    return AudioSourceNodeSound::load(engine);
 }
 
 
 void AudioPCMBufferSound::unload(AVAudioEngine *engine) {
-    [engine disconnectNodeOutput:playerNode];
-    [engine detachNode:playerNode];
-    
+    AudioSourceNodeSound::unload(engine);
     buffer = nil;
 }
 
 
 bool AudioPCMBufferSound::startPlaying(MWTime startTime) {
-    // Reset the player node
-    [playerNode stop];
-    
     currentLoop = loop->getValue().getBool();
     currentRepeats = repeats->getValue().getInteger();
     
-    AVAudioTime *when = nil;
-    if (startTime > 0) {
-        static const MachTimebase timebase;
-        when = [AVAudioTime timeWithHostTime:timebase.nanosToAbsolute(startTime * 1000 /*us to ns*/ +
-                                                                      clock->getSystemBaseTimeNS())];
-    }
+    nextFrame = 0;
+    remainingRepeats = currentRepeats;
     
-    if (currentLoop) {
-        //
-        // Schedule the buffer to loop indefinitely.  No completion handler
-        // is needed, because playback can only be stopped explicitly.
-        //
-        [playerNode scheduleBuffer:buffer
-                            atTime:when
-                           options:AVAudioPlayerNodeBufferLoops
-                 completionHandler:nil];
-    } else {
-        //
-        // Schedule all play-throughs except the last
-        //
-        for (auto repeatCount = currentRepeats; repeatCount > 0; repeatCount--) {
-            [playerNode scheduleBuffer:buffer
-                                atTime:when
-                               options:0
-                     completionHandler:nil];
-            when = nil;  // The next play-through should start immediately after this one
-        }
-        
-        //
-        // Schedule the final play-through
-        //
-        boost::weak_ptr<AudioPCMBufferSound> weakThis(component_shared_from_this<AudioPCMBufferSound>());
-        auto completionHandler = [weakThis](AVAudioPlayerNodeCompletionCallbackType callbackType) {
-            if (callbackType == AVAudioPlayerNodeCompletionDataPlayedBack) {
-                if (auto sharedThis = weakThis.lock()) {
-                    sharedThis->handlePlaybackCompleted();
-                }
-            }
-        };
-        [playerNode scheduleBuffer:buffer
-                            atTime:when
-                           options:0
-            completionCallbackType:AVAudioPlayerNodeCompletionDataPlayedBack
-                 completionHandler:completionHandler];
-    }
-    
-    [playerNode play];
-    
-    return true;
-}
-
-
-bool AudioPCMBufferSound::stopPlaying() {
-    stopping = true;
-    BOOST_SCOPE_EXIT(&stopping) {
-        stopping = false;
-    } BOOST_SCOPE_EXIT_END
-    [playerNode stop];
-    return true;
-}
-
-
-bool AudioPCMBufferSound::beginPause() {
-    [playerNode pause];
-    return true;
-}
-
-
-bool AudioPCMBufferSound::endPause() {
-    [playerNode play];
-    return true;
+    return AudioSourceNodeSound::startPlaying(startTime);
 }
 
 
 void AudioPCMBufferSound::setCurrentAnnounceData(Datum::dict_value_type &announceData) const {
-    AudioEngineSound::setCurrentAnnounceData(announceData);
+    AudioSourceNodeSound::setCurrentAnnounceData(announceData);
     if (currentLoop) {
         announceData[LOOP] = true;
     } else if (currentRepeats > 0) {
@@ -163,20 +77,67 @@ void AudioPCMBufferSound::setCurrentAnnounceData(Datum::dict_value_type &announc
 }
 
 
-void AudioPCMBufferSound::handlePlaybackCompleted() {
-    if (stopping) {
-        // If this handler is being called because stopPlaying() is executing, then do nothing,
-        // because (1) we'll cause a deadlock if we try to acquire the lock while the thread
-        // executing stopPlaying() holds it; (2) didStopPlaying() will be called after
-        // stopPlaying() returns, so we don't need to call it here; and (3) playback was stopped
-        // explicitly, rather than ending naturally, so "ended" shouldn't be set.
-        return;
+bool AudioPCMBufferSound::renderFrames(AVAudioTime *firstFrameTime,
+                                       AVAudioFrameCount framesRequested,
+                                       AVAudioFrameCount &framesProvided,
+                                       std::size_t frameSize,
+                                       AudioBufferList *outputData)
+{
+    auto sourceData = buffer.audioBufferList;
+    
+    //
+    // Check that the output data and source data have the same layout
+    //
+    {
+        const auto expectedNumBuffers = sourceData->mNumberBuffers;
+        const auto actualNumBuffers = outputData->mNumberBuffers;
+        if (expectedNumBuffers != actualNumBuffers) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN,
+                   "Output data has wrong number of buffers: expected %u, got %u",
+                   expectedNumBuffers,
+                   actualNumBuffers);
+            return false;
+        }
     }
-    auto lock = acquireLock();
-    didStopPlaying();
-    if (ended && !(ended->getValue().getBool())) {
-        ended->setValue(Datum(true));
+    for (std::size_t i = 0; i < outputData->mNumberBuffers; i++) {
+        const auto expectedNumChannels = sourceData->mBuffers[i].mNumberChannels;
+        const auto actualNumChannels = outputData->mBuffers[i].mNumberChannels;
+        if (expectedNumChannels != actualNumChannels) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN,
+                   "Output data buffer has wrong number of channels: expected %u, got %u",
+                   expectedNumChannels,
+                   actualNumChannels);
+            return false;
+        }
     }
+    
+    //
+    // Provide as many of the requested frames as possible
+    //
+    do {
+        auto framesToCopy = std::min(framesRequested - framesProvided, buffer.frameLength - nextFrame);
+        if (framesToCopy > 0) {
+            for (std::size_t i = 0; i < outputData->mNumberBuffers; i++) {
+                std::memcpy(static_cast<std::uint8_t *>(outputData->mBuffers[i].mData) + framesProvided * frameSize,
+                            static_cast<std::uint8_t *>(sourceData->mBuffers[i].mData) + nextFrame * frameSize,
+                            framesToCopy * frameSize);
+            }
+            framesProvided += framesToCopy;
+            nextFrame += framesToCopy;
+        }
+        if (framesProvided < framesRequested) {
+            if (currentLoop) {
+                nextFrame = 0;
+                continue;
+            } else if (remainingRepeats > 0) {
+                nextFrame = 0;
+                remainingRepeats--;
+                continue;
+            }
+        }
+    } while (false);
+    
+    return true;
 }
 
 

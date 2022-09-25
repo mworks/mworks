@@ -377,7 +377,6 @@
 		E11F2FD026B84B4E0092D10B /* AudioEngineSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */; };
 		E11F2FD126B84B4E0092D10B /* AudioEngineSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11F2FD226B84B4E0092D10B /* AudioEngineSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		E11F2FD426B84EA00092D10B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E11F2FD326B84EA00092D10B /* AVFoundation.framework */; };
 		E11F2FD726B9893D0092D10B /* AudioFileSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */; };
 		E11F2FD826B9893D0092D10B /* AudioFileSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */; };
 		E11F2FD926B9893D0092D10B /* AudioFileSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -414,6 +413,10 @@
 		E148A4411E4B75BE002DFB1C /* MWMediaPackagerTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */; };
 		E148A4421E4B76A5002DFB1C /* PlatformDependentServices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE19007E9F94300C68AEF /* PlatformDependentServices.cpp */; };
 		E148A4431E4B76A8002DFB1C /* PlatformDependentServices.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE19107E9F94300C68AEF /* PlatformDependentServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E15E5DDD28E49E410087DA1F /* AudioSourceNodeSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E15E5DDB28E49E410087DA1F /* AudioSourceNodeSound.cpp */; };
+		E15E5DDE28E49E410087DA1F /* AudioSourceNodeSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E15E5DDB28E49E410087DA1F /* AudioSourceNodeSound.cpp */; };
+		E15E5DDF28E49E410087DA1F /* AudioSourceNodeSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E15E5DDC28E49E410087DA1F /* AudioSourceNodeSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E15E5DE028E49E410087DA1F /* AudioSourceNodeSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E15E5DDC28E49E410087DA1F /* AudioSourceNodeSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16A20E11E576B8F00C48E10 /* SimpleClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */; };
 		E16A20E21E576B9300C48E10 /* HighPrecisionClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E106CF181CA43380001A0928 /* HighPrecisionClock.cpp */; };
 		E16A20E31E576B9700C48E10 /* HighPrecisionClockPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */; };
@@ -675,6 +678,7 @@
 		E18163162588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E18163172588020D004D8156 /* AppleStimulusDisplay.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
+		E1884FCF28E7480C00D41388 /* AVFAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1884FCE28E7480C00D41388 /* AVFAudio.framework */; };
 		E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */; };
 		E188BE911D47CAAC0001483A /* ZeroMQClient.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E188BE8F1D47CAAC0001483A /* ZeroMQClient.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E188BE941D47F23B0001483A /* ZeroMQSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE921D47F23B0001483A /* ZeroMQSocket.cpp */; };
@@ -1319,7 +1323,6 @@
 		E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AAPLMathUtilities.cpp; sourceTree = "<group>"; };
 		E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioEngineSound.cpp; sourceTree = "<group>"; };
 		E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioEngineSound.hpp; sourceTree = "<group>"; };
-		E11F2FD326B84EA00092D10B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioFileSound.cpp; sourceTree = "<group>"; };
 		E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioFileSound.hpp; sourceTree = "<group>"; };
 		E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LegacySounds.cpp; sourceTree = "<group>"; };
@@ -1342,6 +1345,8 @@
 		E148071022EA41BD0094DB1C /* DataFileDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileDevice.cpp; sourceTree = "<group>"; };
 		E148071122EA41BD0094DB1C /* DataFileDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataFileDevice.hpp; sourceTree = "<group>"; };
 		E148A4371E4B7106002DFB1C /* MWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15E5DDB28E49E410087DA1F /* AudioSourceNodeSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioSourceNodeSound.cpp; sourceTree = "<group>"; };
+		E15E5DDC28E49E410087DA1F /* AudioSourceNodeSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioSourceNodeSound.hpp; sourceTree = "<group>"; };
 		E16A20D41E5769DF00C48E10 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E16A20DA1E576A3300C48E10 /* HighPrecisionClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HighPrecisionClock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZenSchedulerPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1375,6 +1380,7 @@
 		E18163122588020D004D8156 /* AppleStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AppleStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E18163132588020D004D8156 /* AppleStimulusDisplay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AppleStimulusDisplay.hpp; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E1884FCE28E7480C00D41388 /* AVFAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFAudio.framework; path = System/Library/Frameworks/AVFAudio.framework; sourceTree = SDKROOT; };
 		E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQClient.cpp; sourceTree = "<group>"; };
 		E188BE8F1D47CAAC0001483A /* ZeroMQClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQClient.hpp; sourceTree = "<group>"; };
 		E188BE921D47F23B0001483A /* ZeroMQSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQSocket.cpp; sourceTree = "<group>"; };
@@ -1512,7 +1518,7 @@
 			files = (
 				E1ADE3B31BDE8F8B0055642F /* Accelerate.framework in Frameworks */,
 				E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */,
-				E11F2FD426B84EA00092D10B /* AVFoundation.framework in Frameworks */,
+				E1884FCF28E7480C00D41388 /* AVFAudio.framework in Frameworks */,
 				E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */,
 				E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */,
 				E114A02F1E1FF2DD00A69E77 /* GLKit.framework in Frameworks */,
@@ -1969,6 +1975,8 @@
 				5CBA76D30AE069A300D6F4A6 /* Sound.cpp */,
 				E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */,
 				E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */,
+				E15E5DDC28E49E410087DA1F /* AudioSourceNodeSound.hpp */,
+				E15E5DDB28E49E410087DA1F /* AudioSourceNodeSound.cpp */,
 				E1BE8C16289BFE350025B0F4 /* AudioPCMBufferSound.hpp */,
 				E1BE8C15289BFE350025B0F4 /* AudioPCMBufferSound.cpp */,
 				E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */,
@@ -2586,7 +2594,7 @@
 			children = (
 				E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */,
 				E1DB974C16C16C30001481E9 /* AppKit.framework */,
-				E11F2FD326B84EA00092D10B /* AVFoundation.framework */,
+				E1884FCE28E7480C00D41388 /* AVFAudio.framework */,
 				E1DB974816C16BEE001481E9 /* CoreAudio.framework */,
 				E1DB977716C17068001481E9 /* CoreServices.framework */,
 				E1DB974A16C16C1F001481E9 /* CoreVideo.framework */,
@@ -2679,6 +2687,7 @@
 				E1EC364B25BA32C2005AEEEE /* FixationPoint.hpp in Headers */,
 				DA2CE12507E9F88900C68AEF /* Buffers.h in Headers */,
 				DA2CE12707E9F88900C68AEF /* Event.h in Headers */,
+				E15E5DDF28E49E410087DA1F /* AudioSourceNodeSound.hpp in Headers */,
 				DA2CE12B07E9F8B200C68AEF /* LoadingUtilities.h in Headers */,
 				E1FE64132142BEB700209279 /* MWK2File.hpp in Headers */,
 				DA2CE17F07E9F93900C68AEF /* BlockAndProtocol.h in Headers */,
@@ -2928,6 +2937,7 @@
 				E17916F21E4E524100528B91 /* VariableRegistryInterface.h in Headers */,
 				E179171E1E4E53CA00528B91 /* ScheduledActions.h in Headers */,
 				E17917551E4E555F00528B91 /* EyeMonitors.h in Headers */,
+				E15E5DE028E49E410087DA1F /* AudioSourceNodeSound.hpp in Headers */,
 				E17917801E4E56D500528B91 /* StimulusNode.h in Headers */,
 				E179173C1E4E548F00528B91 /* Scheduler.h in Headers */,
 				E1EE384D2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */,
@@ -3573,6 +3583,7 @@
 				0ED112870A83C48D008C1F48 /* VariableSave.cpp in Sources */,
 				DA2CE11407E9F85800C68AEF /* ComponentRegistry.cpp in Sources */,
 				DA2CE11607E9F85800C68AEF /* VariableRegistry.cpp in Sources */,
+				E15E5DDD28E49E410087DA1F /* AudioSourceNodeSound.cpp in Sources */,
 				E181615E2582A62D004D8156 /* AlphaBlendedTransformStimulus.cpp in Sources */,
 				DA2CE11E07E9F86300C68AEF /* DataFileManager.cpp in Sources */,
 				E18161942582ABD4004D8156 /* ColoredTransformStimulus.cpp in Sources */,
@@ -3763,6 +3774,7 @@
 				E17916DC1E4E51B900528B91 /* EventBuffer.cpp in Sources */,
 				E1F82A5E1E53532E00A2690B /* IOSOpenGLContextManager.cpp in Sources */,
 				E179171F1E4E53CE00528B91 /* ScheduledActions.cpp in Sources */,
+				E15E5DDE28E49E410087DA1F /* AudioSourceNodeSound.cpp in Sources */,
 				E179176F1E4E563700528B91 /* DynamicStimulusDriver.cpp in Sources */,
 				E17917051E4E52F900528B91 /* XMLVariableWriter.cpp in Sources */,
 				E17917521E4E555000528B91 /* Transforms.cpp in Sources */,
@@ -4140,7 +4152,7 @@
 					"-framework",
 					Accelerate,
 					"-framework",
-					AVFoundation,
+					AVFAudio,
 					"-framework",
 					CoreGraphics,
 					"-framework",

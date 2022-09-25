@@ -4,13 +4,9 @@
 
 %define default_amplitude = 1.0
 %define default_pan = 0.0
-%define default_loop = false
-%define default_repeats = 0
 
 var amplitude = default_amplitude
 var pan = default_pan
-var loop = default_loop
-var repeats = default_repeats
 
 var ended = false
 
@@ -28,12 +24,9 @@ var duration = default_duration
 tone test_tone (
     frequency = frequency
     duration = duration
-    loop = loop
-    repeats = repeats
     ended = ended
     amplitude = amplitude
     pan = pan
-    autoload = false
     )
 
 
@@ -45,8 +38,12 @@ resource ('abcintro.m4a')
 resource ('reward.wav')
 
 %define default_path = 'abcintro.m4a'
+%define default_loop = false
+%define default_repeats = 0
 
 var path = default_path
+var loop = default_loop
+var repeats = default_repeats
 
 audio_file test_audio_file (
     path = path
@@ -110,7 +107,6 @@ protocol {
 
     // Default params
     reset_params ()
-    reload_sound (test_tone)
     ended = false
     play_sound (test_tone)
     assert_announcement ({
@@ -123,13 +119,11 @@ protocol {
         })
     wait_until_ended ()
 
-    // Modified params, repeats, and start_time
+    // Modified params and start_time
     amplitude /= 2
     pan = 0.75
-    repeats = 3
     frequency /= 2
-    duration /= 2
-    reload_sound (test_tone)
+    duration *= 2
     ended = false
     start_time = now() + 1s
     play_sound (sound = test_tone; start_time = start_time)
@@ -139,26 +133,22 @@ protocol {
         'amplitude': default_amplitude / 2,
         'pan': 0.75,
         'start_time': start_time,
-        'repeats': 3,
         'type': 'tone',
         'frequency': default_frequency / 2,
-        'duration': default_duration / 2
+        'duration': default_duration * 2
         })
     wait_until_ended ()
 
-    // Default params, loop, pause, resume, and stop
+    // No duration, pause, resume, and stop
     reset_params ()
-    loop = true
-    reload_sound (test_tone)
+    duration = 0
     play_sound (test_tone)
     assert_announcement ({
         'name': 'test_tone',
         'action': 'play',
         'amplitude': default_amplitude,
-        'loop': true,
         'type': 'tone',
-        'frequency': default_frequency,
-        'duration': default_duration
+        'frequency': default_frequency
         })
     wait (1s)
     pause_sound (test_tone)
