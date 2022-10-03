@@ -27,6 +27,9 @@
 BEGIN_NAMESPACE_MW
 
 
+class Sound;
+
+
 class ParameterValue {
     
 public:
@@ -116,6 +119,10 @@ inline StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentR
     }
     return stimGroup;
 }
+
+
+template<>
+boost::shared_ptr<Sound> ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 
 boost::filesystem::path pathFromParameterValue(const std::string &s, bool directoryAllowed = false);

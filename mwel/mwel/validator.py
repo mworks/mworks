@@ -25,6 +25,7 @@ class Validator(object):
         'range_replicator',
         'resource',
         'sound',
+        'sound_group',
         'staircase',
         'stimulus',
         'stimulus_group',

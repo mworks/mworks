@@ -704,6 +704,10 @@
 		E1A5A07E25E93B4F007B345D /* MWKTripleBufferedMTLResource.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A5A07A25E93B4F007B345D /* MWKTripleBufferedMTLResource.m */; };
 		E1A911F21D64B74000DF4AAC /* SimpleClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */; };
 		E1ADE3B31BDE8F8B0055642F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */; };
+		E1AF742228EC832900F26CEC /* SoundGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1AF742028EC832900F26CEC /* SoundGroup.cpp */; };
+		E1AF742328EC832900F26CEC /* SoundGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1AF742028EC832900F26CEC /* SoundGroup.cpp */; };
+		E1AF742428EC832900F26CEC /* SoundGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1AF742128EC832900F26CEC /* SoundGroup.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1AF742528EC832900F26CEC /* SoundGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1AF742128EC832900F26CEC /* SoundGroup.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1B43C581FA3858B00CB6A97 /* VariableAssignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B43C561FA3858B00CB6A97 /* VariableAssignment.cpp */; };
 		E1B43C591FA3858B00CB6A97 /* VariableAssignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B43C561FA3858B00CB6A97 /* VariableAssignment.cpp */; };
 		E1B43C5A1FA3858B00CB6A97 /* VariableAssignment.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B43C571FA3858B00CB6A97 /* VariableAssignment.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1402,6 +1406,8 @@
 		E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleClock.cpp; sourceTree = "<group>"; };
 		E1A911F11D64B74000DF4AAC /* SimpleClock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SimpleClock.hpp; sourceTree = "<group>"; };
 		E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		E1AF742028EC832900F26CEC /* SoundGroup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundGroup.cpp; sourceTree = "<group>"; };
+		E1AF742128EC832900F26CEC /* SoundGroup.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SoundGroup.hpp; sourceTree = "<group>"; };
 		E1B43C561FA3858B00CB6A97 /* VariableAssignment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = VariableAssignment.cpp; path = Core/Variables/VariableAssignment.cpp; sourceTree = "<group>"; };
 		E1B43C571FA3858B00CB6A97 /* VariableAssignment.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableAssignment.hpp; path = Core/Variables/VariableAssignment.hpp; sourceTree = "<group>"; };
 		E1B6373D1D4A4B0700116BB3 /* MessageTestFixture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageTestFixture.cpp; sourceTree = "<group>"; };
@@ -1988,6 +1994,8 @@
 				5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */,
 				5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */,
 				E1BE8C10289AF6C90025B0F4 /* StandardSoundFactory.hpp */,
+				E1AF742128EC832900F26CEC /* SoundGroup.hpp */,
+				E1AF742028EC832900F26CEC /* SoundGroup.cpp */,
 				5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */,
 				5CBA76E10AE0706300D6F4A6 /* OpenALContextManager.cpp */,
 			);
@@ -2746,6 +2754,7 @@
 				E19B79271D525CCC00110665 /* ZeroMQUtilities.hpp in Headers */,
 				DA2B6B170989915900DDE06D /* Server.h in Headers */,
 				DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */,
+				E1AF742428EC832900F26CEC /* SoundGroup.hpp in Headers */,
 				DA2B6D52098AAAEC00DDE06D /* StandardSystemEventHandler.h in Headers */,
 				E1EE384C2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */,
 				E1BE8C13289AF6C90025B0F4 /* StandardSoundFactory.hpp in Headers */,
@@ -2852,6 +2861,7 @@
 				E181600725811EB0004D8156 /* LegacyStandardStimuli.hpp in Headers */,
 				E17916B51E4E50CB00528B91 /* ZeroMQClient.hpp in Headers */,
 				E17917431E4E54D500528B91 /* LinkedList.h in Headers */,
+				E1AF742528EC832900F26CEC /* SoundGroup.hpp in Headers */,
 				E179170F1E4E534100528B91 /* ComponentFactory.h in Headers */,
 				E17916CF1E4E514F00528B91 /* ScopedVariableEnvironment.h in Headers */,
 				E17916C31E4E511F00528B91 /* GenericData.h in Headers */,
@@ -3703,6 +3713,7 @@
 				E13464EB1D4BD8B200E4CF08 /* ZeroMQConnection.cpp in Sources */,
 				0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */,
 				0E2FE5A20EF00CC900CEB818 /* ParsedColorTrio.cpp in Sources */,
+				E1AF742228EC832900F26CEC /* SoundGroup.cpp in Sources */,
 				5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */,
 				5CA0794F10CEDFBB00000A95 /* EventStreamConduit.cpp in Sources */,
 				5CA07B4B10D055F600000A95 /* EventCallbackHandler.cpp in Sources */,
@@ -3825,6 +3836,7 @@
 				E17917141E4E535A00528B91 /* PluginServices.cpp in Sources */,
 				E17916FB1E4E52A600528B91 /* StandardServerCoreBuilder.cpp in Sources */,
 				E17916A51E4E505300528B91 /* ExpandableList.cpp in Sources */,
+				E1AF742328EC832900F26CEC /* SoundGroup.cpp in Sources */,
 				E11F2FDE26B9D7600092D10B /* LegacySounds.cpp in Sources */,
 				E181609F25817757004D8156 /* MetalStimulus.cpp in Sources */,
 				E18162792583B481004D8156 /* AppleStimulusDisplay.metal in Sources */,

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Sound group index is out of bounds: -1 [line 52, column 5]</message>
+    <message type="whole_message">ERROR: Sound group index is out of bounds: 5 [line 53, column 5]</message>
+    <message type="whole_message">ERROR: Sound group index is out of bounds: -1 [line 54, column 5]</message>
+    <message type="whole_message">ERROR: Sound group index is out of bounds: 0 [line 55, column 5]</message>
+    <message type="whole_message">ERROR: Sound group element at index 1 is not a sound [line 58, column 5]</message>
+    <message type="whole_message">ERROR: Sound group element at index 0 is not a sound [line 59, column 5]</message>
+    <message type="whole_message">ERROR: Sound group element at index 2 is not a sub group [line 60, column 5]</message>
+    <message type="whole_message">ERROR: Sound group element at index 3 is not a sub group [line 61, column 5]</message>
+  </expected_messages>
+</marionette_info>

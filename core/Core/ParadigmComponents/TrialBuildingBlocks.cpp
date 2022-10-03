@@ -927,16 +927,6 @@ void SoundAction::describeComponent(ComponentInfo &info) {
 }
 
 
-template<>
-boost::shared_ptr<Sound> ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
-    auto sound = reg->getObject<Sound>(s);
-    if (!sound) {
-        throw SimpleException("Unknown sound", s);
-    }
-    return sound;
-}
-
-
 SoundAction::SoundAction(const ParameterValueMap &parameters) :
     Action(parameters),
     sound(parameters[SOUND])

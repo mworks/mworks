@@ -1,0 +1,62 @@
+%define duration = 1s
+var ended = false
+
+%define test_tone (index)
+    tone (
+        frequency = 262.0 * [1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8, 2][index]
+        duration = duration
+        ended = ended
+        amplitude = 0.4
+        )
+%end
+
+sound_group sounds {
+    test_tone (0)
+    sound_group {
+        sound_group {
+            test_tone (1)
+            test_tone (2)
+            test_tone (3)
+        }
+        test_tone (4)
+        test_tone (5)
+    }
+    sound_group {
+        // Empty
+    }
+    test_tone (6)
+    test_tone (7)
+}
+
+
+%define play_and_wait (sound)
+    ended = false
+    play_sound (sound)
+    wait_for_condition (
+        condition = ended
+        timeout = duration + 100ms
+        )
+%end
+
+protocol {
+    play_and_wait (sounds[0])
+    play_and_wait (sounds[1][0][0])
+    play_and_wait (sounds[1][0][1])
+    play_and_wait (sounds[1][0][2])
+    play_and_wait (sounds[1][1])
+    play_and_wait (sounds[1][2])
+    play_and_wait (sounds[3])
+    play_and_wait (sounds[4])
+
+    // Out of bounds
+    play_sound (sounds[-1])
+    play_sound (sounds[5])
+    play_sound (sounds[1][0][-1])
+    play_sound (sounds[2][0])
+
+    // Wrong type
+    play_sound (sounds[1])
+    play_sound (sounds[1][0])
+    play_sound (sounds[1][2][0])
+    play_sound (sounds[3][4])
+}

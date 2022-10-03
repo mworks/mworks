@@ -1,0 +1,10 @@
+sound_group sounds {
+    tone (frequency = 220)
+    tone (frequency = 440)
+    tone (frequency = 660)
+}
+
+
+protocol {
+    play_sound (sounds[abs()])
+}

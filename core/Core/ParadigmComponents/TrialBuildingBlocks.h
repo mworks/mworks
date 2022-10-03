@@ -437,7 +437,7 @@ public:
     explicit SoundAction(const ParameterValueMap &parameters);
     
 protected:
-    const boost::shared_ptr<Sound> sound;
+    const SoundPtr sound;
     
 };
 

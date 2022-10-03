@@ -47,6 +47,7 @@ abstract_to_group = {
     'IODevice': 'Input/Output',
     'Optimizer': 'Optimizers and Variable Monitors',
     'Resource': 'Resources',
+    'Sound Stimulus': 'Sounds',
     'Stimulus': 'Stimuli',
     'Transition': 'Transitions',
 }

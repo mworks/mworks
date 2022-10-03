@@ -1,0 +1,30 @@
+%include 'wait_durations.inc'
+
+
+var index = 0 (scope = local)
+
+sound_group bells {
+    range_replicator (
+        variable = index
+        from = 1
+        to = 8
+        step = 1
+        ) {
+        audio_file bell_${index} ('bells/${index}.wav')
+    }
+}
+
+
+protocol {
+    range_replicator (
+        variable = index
+        from = 0
+        to = 7
+        step = 1
+        ) {
+        list {
+            play_sound (bells[index])
+            wait (wait_durations[index])
+        }
+    }
+}

@@ -1,0 +1,38 @@
+sound_group sounds {
+    audio_file (
+        path = 'abcslow2.mp3'
+        autoload = false
+        )
+}
+
+
+var index = 0
+
+protocol {
+    index = 0
+
+    block (nsamples = 2) {
+        play_sound (sounds[index])
+        load_sound (sounds[index])
+
+        play_sound (
+            sound = sounds[index]
+            start_time = now() + 2s
+            )
+        wait (6s)
+
+        pause_sound (sounds[index])
+        wait (3s)
+
+        play_sound (sounds[index])
+        wait (3s)
+
+        stop_sound (sounds[index])
+        wait (1s)
+
+        unload_sound (sounds[index])
+        play_sound (sounds[index])
+
+        index += 1
+    }
+}

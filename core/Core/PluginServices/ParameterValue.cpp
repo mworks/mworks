@@ -9,8 +9,24 @@
 
 #include "ParameterValue.h"
 
+#include "Sound.h"
+#include "SoundGroup.hpp"
+
 
 BEGIN_NAMESPACE_MW
+
+
+template<>
+SoundPtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    if (s.find_first_of('[') != std::string::npos) {
+        return boost::make_shared<SoundGroupReferenceSound>(s, reg);
+    }
+    auto sound = reg->getObject<Sound>(s);
+    if (!sound) {
+        throw SimpleException("Unknown sound", s);
+    }
+    return sound;
+}
 
 
 boost::filesystem::path pathFromParameterValue(const std::string &s, bool directoryAllowed) {

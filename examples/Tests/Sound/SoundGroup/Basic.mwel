@@ -1,0 +1,25 @@
+%include 'wait_durations.inc'
+
+
+sound_group bells {
+    audio_file ('bells/1.wav')
+    audio_file ('bells/2.wav')
+    audio_file ('bells/3.wav')
+    audio_file ('bells/4.wav')
+    audio_file ('bells/5.wav')
+    audio_file ('bells/6.wav')
+    audio_file ('bells/7.wav')
+    audio_file ('bells/8.wav')
+}
+
+
+var index = 0
+
+protocol {
+    index = 0
+    while (index < 8) {
+        play_sound (bells[index])
+        wait (wait_durations[index])
+        index += 1
+    }
+}

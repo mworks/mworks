@@ -18,6 +18,7 @@
 #include "ScheduledActions.h"
 #include "PulseAction.h"
 #include "StandardSounds.h"
+#include "SoundGroup.hpp"
 #include "Averagers.h"
 #include "SimpleStaircase.h"
 #include "DataFileDevice.hpp"
@@ -137,6 +138,7 @@ ComponentRegistry::ComponentRegistry() {
 	
 	// sounds
     registerStandardSounds(*this);
+    registerFactory<StandardComponentFactory, SoundGroup>();
     
 }
 

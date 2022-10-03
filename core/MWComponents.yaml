@@ -146,6 +146,7 @@ allowed_child:
   - Replicator
   - Resource
   - Selection Variable
+  - Sound Group
   - Sound Stimulus
   - Stimulus
   - Stimulus Group
@@ -732,6 +733,20 @@ parameters:
 ---
 
 
+name: Sound Group
+signature: sound_group
+group: Sounds
+toplevel: yes
+allowed_child:
+  - Replicator
+  - Sound Group
+  - Sound Stimulus
+description: An indexable group of sounds
+
+
+---
+
+
 name: Audio Engine Sound Stimulus
 abstract: yes
 isa: Sound Stimulus
@@ -993,6 +1008,7 @@ toplevel: yes
 allowed_child:
   - List State
   - Replicator
+  - Sound Group
   - Sound Stimulus
   - Stimulus
   - Stimulus Group

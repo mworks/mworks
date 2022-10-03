@@ -29,7 +29,10 @@
 			<xsl:apply-templates mode="stimulus_create"/>
 			<xsl:apply-templates mode="stimulus_group_connect"/>
 			
+			<xsl:apply-templates mode="sound_group_create"/>
 			<xsl:apply-templates mode="sound_create"/>
+			<xsl:apply-templates mode="sound_group_connect"/>
+			
 			<xsl:apply-templates mode="list_create"/>
 			<xsl:apply-templates mode="task_system_state_create"/>
 			
@@ -253,6 +256,14 @@
 
 	<xsl:template match="text()" mode = "sound_create"/>
 
+	<!-- Sound Group -->
+	<xsl:template match="//sound_group" mode="sound_group_create">
+		<xsl:call-template name="generic_create"/>
+		<xsl:apply-templates select="node()" mode="sound_group_create"/>
+	</xsl:template>
+	
+	<xsl:template match="text()" mode = "sound_group_create"/>
+
 	<!-- IO Device -->
 	<xsl:template match="//iodevice" mode="iodevice_create">
 		<xsl:call-template name="generic_create"/>
@@ -386,6 +397,7 @@
 					<xsl:when test="name() = 'stimulus'"/>
 					<xsl:when test="name() = 'stimulus_group'"/>
 					<xsl:when test="name() = 'sound'"/>
+					<xsl:when test="name() = 'sound_group'"/>
 					<!-- TODO -->
 					<xsl:otherwise>
 						<xsl:call-template name="generic_alias"/>
@@ -427,6 +439,7 @@
 					<xsl:when test="name() = 'stimulus'"/>
 					<xsl:when test="name() = 'stimulus_group'"/>
 					<xsl:when test="name() = 'sound'"/>
+					<xsl:when test="name() = 'sound_group'"/>
 					<!-- TODO -->
 					<xsl:otherwise>
 						<xsl:call-template name="generic_alias"/>
@@ -583,6 +596,13 @@
 	</xsl:template>
 
 	<xsl:template match="text()" mode = "stimulus_group_connect"/>
+
+	<xsl:template match="//sound_group" mode="sound_group_connect">
+		<xsl:call-template name="generic_connect"/>
+		<xsl:apply-templates select="node()" mode="sound_group_connect"/>
+	</xsl:template>
+
+	<xsl:template match="text()" mode = "sound_group_connect"/>
 
 	<xsl:template match="//iodevice" mode="iodevice_connect">
 		<xsl:call-template name="generic_connect"/>

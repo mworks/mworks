@@ -127,6 +127,9 @@ BEGIN_NAMESPACE_MW
 	};
 
 
+using ComponentPtr = boost::shared_ptr<Component>;
+
+
 END_NAMESPACE_MW
 
 

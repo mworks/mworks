@@ -29,6 +29,13 @@ Sound::Sound(const ParameterValueMap &parameters) :
 { }
 
 
+Sound::Sound(const std::string &tag, bool autoload) :
+    Component(tag),
+    Announcable(ANNOUNCE_SOUND_TAGNAME),
+    autoload(autoload)
+{ }
+
+
 void Sound::play(MWTime startTime) {
     merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound does not support scheduled playback");
 }

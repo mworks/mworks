@@ -26,6 +26,7 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit Sound(const ParameterValueMap &parameters);
+    explicit Sound(const std::string &tag = "", bool autoload = true);
     
     bool shouldAutoload() const { return autoload; }
     virtual void load() { }
@@ -40,6 +41,9 @@ private:
     const bool autoload;
     
 };
+
+
+using SoundPtr = boost::shared_ptr<Sound>;
 
 
 END_NAMESPACE_MW

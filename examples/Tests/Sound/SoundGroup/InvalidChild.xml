@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<monkeyml version="1.0">
+  <sound_group tag="group">
+    <stimulus tag="stim" type="ellipse" x_size="10" />
+  </sound_group>
+  <experiment tag="Experiment">
+    <protocol tag="Empty Protocol" />
+  </experiment>
+</monkeyml>

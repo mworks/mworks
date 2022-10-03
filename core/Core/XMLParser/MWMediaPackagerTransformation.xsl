@@ -23,7 +23,9 @@
 			<xsl:apply-templates mode="stimulus_create"/>
 			<xsl:apply-templates mode="stimulus_group_connect"/>
 			
+			<xsl:apply-templates mode="sound_group_create"/>
 			<xsl:apply-templates mode="sound_create"/>
+			<xsl:apply-templates mode="sound_group_connect"/>
 			
       <!--<xsl:apply-templates mode="list_create"/>
 			<xsl:apply-templates mode="task_system_state_create"/>
@@ -182,7 +184,43 @@
 		<xsl:apply-templates select="node()" mode="sound_create"/>
 	</xsl:template>
 
+	<xsl:template match="//range_replicator" mode="sound_create">
+		<xsl:if test=".//sound | .//range_replicator">
+			<xsl:element name="mw_range_replicator">
+				<xsl:attribute name="reference_id">
+					<xsl:value-of select="generate-id(.)"/>
+				</xsl:attribute>
+				<xsl:attribute name="variable"><xsl:value-of select="./@variable"/></xsl:attribute>
+				<xsl:attribute name="from"><xsl:value-of select="./@from"/></xsl:attribute>
+				<xsl:attribute name="to"><xsl:value-of select="./@to"/></xsl:attribute>
+				<xsl:attribute name="step"><xsl:value-of select="./@step"/></xsl:attribute>
+				<xsl:apply-templates select="./node()" mode="sound_create"/>
+			</xsl:element>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="//list_replicator" mode="sound_create">
+		<xsl:if test=".//sound | .//list_replicator">
+			<xsl:element name="mw_list_replicator">
+				<xsl:attribute name="reference_id">
+					<xsl:value-of select="generate-id(.)"/>
+				</xsl:attribute>
+				<xsl:attribute name="variable"><xsl:value-of select="./@variable"/></xsl:attribute>
+				<xsl:attribute name="values"><xsl:value-of select="./@values"/></xsl:attribute>
+				<xsl:apply-templates select="./node()" mode="sound_create"/>
+			</xsl:element>
+		</xsl:if>
+	</xsl:template>
+
 	<xsl:template match="text()" mode = "sound_create"/>
+
+	<!-- Sound Group -->
+	<xsl:template match="//sound_group" mode="sound_group_create">
+		<xsl:call-template name="generic_create"/>
+		<xsl:apply-templates select="node()" mode="sound_group_create"/>
+	</xsl:template>
+	
+	<xsl:template match="text()" mode = "sound_group_create"/>
 
 	<!-- IO Device -->
 	<xsl:template match="//iodevice" mode="iodevice_create">
@@ -370,6 +408,8 @@
 					<!-- TODO: Need to prevent this from aliasing things that shouldn't be aliased. A more general/robust solution is needed -->
 					<xsl:when test="name() = 'stimulus'"/>
 					<xsl:when test="name() = 'stimulus_group'"/>
+					<xsl:when test="name() = 'sound'"/>
+					<xsl:when test="name() = 'sound_group'"/>
 					<!-- TODO -->
 					<xsl:otherwise>
 						<xsl:call-template name="generic_alias"/>
@@ -593,6 +633,13 @@
 	</xsl:template>
 
 	<xsl:template match="text()" mode = "stimulus_group_connect"/>
+
+	<xsl:template match="//sound_group" mode="sound_group_connect">
+		<xsl:call-template name="generic_connect"/>
+		<xsl:apply-templates select="node()" mode="sound_group_connect"/>
+	</xsl:template>
+
+	<xsl:template match="text()" mode = "sound_group_connect"/>
 
 	<xsl:template match="//iodevice" mode="iodevice_connect">
 		<xsl:call-template name="generic_connect"/>
