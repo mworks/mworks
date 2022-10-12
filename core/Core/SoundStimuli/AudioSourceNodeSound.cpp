@@ -159,9 +159,17 @@ bool AudioSourceNodeSound::renderCallback(BOOL &isSilence,
                 return false;
             }
             
-            auto framesToFill = std::max(AVAudioFramePosition(0),
-                                         std::min(AVAudioFramePosition(framesRequested),
-                                                  extrapolatedStartTime.sampleTime - firstFrameTime.sampleTime));
+            AVAudioFrameCount framesToFill = 0;
+            auto framesUntilStartTime = extrapolatedStartTime.sampleTime - firstFrameTime.sampleTime;
+            if (framesUntilStartTime < 0) {
+                mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                         "Sound %s is starting %g ms later than requested",
+                         getTag().c_str(),
+                         double(-framesUntilStartTime) / sampleRate * 1000.0);
+            } else {
+                framesToFill = std::min(framesRequested, AVAudioFrameCount(framesUntilStartTime));
+            }
+            
             if (framesToFill > 0) {
                 for (std::size_t i = 0; i < outputData->mNumberBuffers; i++) {
                     std::memset(outputData->mBuffers[i].mData, 0, framesToFill * frameSize);

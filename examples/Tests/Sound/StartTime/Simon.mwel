@@ -1,0 +1,116 @@
+//
+// This experiment mimics the game "Simon" in order to demonstrate coordination
+// of audio and visual stimuli
+//
+
+
+var current_tone = -1
+var tone_ended = false
+
+%define button_tone (frequency)
+    tone (
+        frequency = frequency
+        duration = 1s
+        amplitude = 0.4
+        ended = tone_ended
+        )
+%end
+
+sound_group button_tones {
+    button_tone blue_tone (frequency = 329.628)   // E
+    button_tone yellow_tone (frequency = 277.183) // C-sharp
+    button_tone red_tone (frequency = 220.0)      // A
+    button_tone green_tone (frequency = 164.814)  // E
+}
+
+
+%define button_size = 10
+
+%define button (color, position, alpha)
+    rectangle (
+        color = color
+        alpha_multiplier = alpha and (not tone_ended)
+        x_size = button_size
+        x_position = position[0] * button_size / 2
+        y_position = position[1] * button_size / 2
+        )
+%end
+
+layer buttons {
+    rectangle (
+        color = 0,0,0
+        x_size = 2 * button_size
+        )
+
+    button blue_button (
+        color = 0,0,1
+        position = [1,-1]
+        alpha = current_tone == 0
+        )
+
+    button yellow_button (
+        color = 1,1,0
+        position = [-1,-1]
+        alpha = current_tone == 1
+        )
+
+    button red_button (
+        color = 1,0,0
+        position = [1,1]
+        alpha = current_tone == 2
+        )
+
+    button green_button (
+        color = 0,1,0
+        position = [-1,1]
+        alpha = current_tone == 3
+        )
+
+    mask (
+        mask = ellipse
+        x_size = 2 * button_size
+        )
+}
+
+
+var num_tones_played = 0
+var tones_per_run = 8
+
+render_actions update_buttons {
+    if (tone_ended and num_tones_played < tones_per_run) {
+        current_tone = disc_rand(0, 3)
+        tone_ended = false
+        play_sound (
+            sound = button_tones[current_tone]
+            start_time = next_frame_time()
+            )
+        num_tones_played += 1
+        report ('Tone should start in $((next_frame_time() - now()) / 1000) ms')
+    }
+}
+
+
+protocol {
+    task {
+        state 'Begin' {
+            current_tone = -1
+            tone_ended = true
+            num_tones_played = 0
+
+            queue_stimulus (update_buttons)
+            live_queue_stimulus (buttons)
+            update_display ()
+
+            goto (
+                target = 'End'
+                when = tone_ended and num_tones_played >= tones_per_run
+                )
+        }
+
+        state 'End' {
+            clear_display ()
+
+            yield ()
+        }
+    }
+}
