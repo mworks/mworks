@@ -11,6 +11,7 @@
 #define _MW_COMPONENT_INFO_H
 
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 
 #include "ParameterInfo.h"
@@ -56,6 +57,10 @@ public:
         ignoredParameters.insert(name);
     }
     
+    void addParameterAlias(const std::string &name, const std::string &alias) {
+        parameterAliases[alias] = name;
+    }
+    
     const std::string& getSignature() const {
         return signature;
     }
@@ -72,8 +77,21 @@ public:
         return parameters;
     }
     
+    bool hasParameter(const std::string &name) const {
+        return (parameters.find(name) != parameters.end());
+    }
+    
     bool shouldIgnoreParameter(const std::string &name) const {
         return (ignoredParameters.find(name) != ignoredParameters.end());
+    }
+    
+    bool resolveParameterAlias(std::string &name) const {
+        auto iter = parameterAliases.find(name);
+        if (iter != parameterAliases.end()) {
+            name = iter->second;
+            return true;
+        }
+        return false;
     }
     
 private:
@@ -82,6 +100,7 @@ private:
     std::string description;
     ParameterInfoMap parameters;
     std::unordered_set<std::string> ignoredParameters;
+    std::unordered_map<std::string, std::string> parameterAliases;
     
 };
 
@@ -90,26 +109,3 @@ END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

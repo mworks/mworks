@@ -53,6 +53,14 @@ public:
 };
 
 
+class DuplicateAttributeException : public ComponentFactoryException {
+public:
+    DuplicateAttributeException(const std::string &attributeName) :
+        ComponentFactoryException("Object has multiple values for attribute \"" + attributeName + "\"")
+    { }
+};
+
+
 class InvalidReferenceException : public ComponentFactoryException {
 public:
 	InvalidReferenceException(const std::string &referenceID, const std::string &name, const std::string &value) :

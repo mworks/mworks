@@ -112,7 +112,7 @@ protocol {
     assert_announcement ({
         'name': 'test_tone',
         'action': 'play',
-        'amplitude': default_amplitude,
+        'volume': default_amplitude,
         'type': 'tone',
         'frequency': default_frequency,
         'duration': default_duration
@@ -130,7 +130,7 @@ protocol {
     assert_announcement ({
         'name': 'test_tone',
         'action': 'play',
-        'amplitude': default_amplitude / 2,
+        'volume': default_amplitude / 2,
         'pan': 0.75,
         'start_time': start_time,
         'type': 'tone',
@@ -146,7 +146,7 @@ protocol {
     assert_announcement ({
         'name': 'test_tone',
         'action': 'play',
-        'amplitude': default_amplitude,
+        'volume': default_amplitude,
         'type': 'tone',
         'frequency': default_frequency
         })
@@ -182,7 +182,7 @@ protocol {
     assert_announcement ({
         'name': 'test_audio_file',
         'action': 'play',
-        'amplitude': default_amplitude,
+        'volume': default_amplitude,
         'type': 'audio_file',
         'filename': default_path
         })
@@ -200,7 +200,7 @@ protocol {
     assert_announcement ({
         'name': 'test_audio_file',
         'action': 'play',
-        'amplitude': default_amplitude / 4,
+        'volume': default_amplitude / 4,
         'pan': -0.75,
         'start_time': start_time,
         'repeats': 2,
@@ -217,7 +217,7 @@ protocol {
     assert_announcement ({
         'name': 'test_audio_file',
         'action': 'play',
-        'amplitude': default_amplitude,
+        'volume': default_amplitude,
         'loop': true,
         'type': 'audio_file',
         'filename': default_path

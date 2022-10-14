@@ -1,31 +1,31 @@
-var amplitude = 0.2 {
-    report ('New amplitude = $amplitude')
+var volume = 0.2 {
+    report ('New volume = $volume')
 }
 
 var ended = false
 
 audio_file sound (
     path = 'abcslow2.mp3'
-    amplitude = amplitude
+    volume = volume
     ended = ended
     )
 
 
 protocol {
-    report ('Initial amplitude = $amplitude')
+    report ('Initial volume = $volume')
 
     play_sound (sound)
 
     block (nsamples = 2) {
         wait (5s)
 
-        amplitude = 1.0
+        volume = 1.0
         wait (5s)
 
-        amplitude = 0.0
+        volume = 0.0
         wait (2s)
 
-        amplitude = 0.2
+        volume = 0.2
     }
 
     wait (5s)

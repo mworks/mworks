@@ -1,15 +1,10 @@
-from __future__ import print_function, unicode_literals
 from collections import defaultdict
 from contextlib import closing, contextmanager
 import glob
+from io import StringIO
 import json
 import os
 import string
-try:
-    from StringIO import StringIO
-except ImportError:
-    # Python 3
-    from io import StringIO
 import sys
 
 import yaml
@@ -209,6 +204,15 @@ def write_parameters(fp, kind, params):
 
     for p in params:
         write_header(fp, p['name'], '^')
+
+        if 'alias' in p:
+            alias = p['alias']
+            if not isinstance(alias, list):
+                print(':Alias: %s' % alias, file=fp)
+            else:
+                print(':Aliases: | %s' % alias[0], file=fp)
+                for a in alias[1:]:
+                    print('          | %s' % a, file=fp)
 
         if 'recommended' in p:
             print(':Recommended: ``%s``' % p['recommended'], file=fp)

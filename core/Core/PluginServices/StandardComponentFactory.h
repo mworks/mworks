@@ -27,12 +27,16 @@ class StandardComponentFactory : public ComponentFactory {
     // explicit ComponentType(const ParameterValueMap &parameters);
     //
     
-public:
-    StandardComponentFactory() {
+    static ComponentInfo describeComponent() {
+        ComponentInfo info;
         ComponentType::describeComponent(info);
+        return info;
     }
     
-    boost::shared_ptr<mw::Component> createObject(StdStringMap parameters, ComponentRegistryPtr reg) override {
+public:
+    StandardComponentFactory() : ComponentFactory(describeComponent()) { }
+    
+    ComponentPtr createObject(StdStringMap parameters, ComponentRegistryPtr reg) override {
         ParameterValueMap values;
         processParameters(parameters, reg, values);
         return boost::make_shared<ComponentType>(values);
@@ -45,25 +49,3 @@ END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

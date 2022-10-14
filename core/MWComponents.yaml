@@ -752,7 +752,8 @@ abstract: yes
 isa: Sound Stimulus
 parameters: 
   - 
-    name: amplitude
+    name: volume
+    alias: amplitude
     default: 1.0
     description: >
         Controls the volume at which the sound plays.  ``1.0`` is full volume,

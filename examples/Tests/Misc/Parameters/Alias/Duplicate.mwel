@@ -1,0 +1,7 @@
+tone tone (
+    frequency = 164.814
+    duration = 1s
+    // "amplitude" is an alias for "volume".  They can't both be provided.
+    volume = 0.5
+    amplitude = 0.5
+    )

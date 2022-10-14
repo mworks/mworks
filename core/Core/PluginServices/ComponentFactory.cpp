@@ -16,7 +16,7 @@
 BEGIN_NAMESPACE_MW
 
 
-bool ComponentFactory::shouldIgnoreParameter(const std::string &name) {
+bool ComponentFactory::shouldIgnoreParameter(const std::string &name) const {
     return (
             //
             // Parameters added or used by the parser
@@ -29,7 +29,7 @@ bool ComponentFactory::shouldIgnoreParameter(const std::string &name) {
             (name == "xml_document_path") ||
             (name == "_line_number") ||  // No longer used, but may be in experiments extracted from event files
             (name == "_location") ||
-
+            
             //
             // Generic, currently-unused parameters that appear in many old experiments
             //
@@ -38,91 +38,77 @@ bool ComponentFactory::shouldIgnoreParameter(const std::string &name) {
             //
             // The editor used to add this, so it's probably still in many experiments
             //
-            (name == "_id")
+            (name == "_id") ||
+            
+            //
+            // Other parameters ignored by the component type
+            //
+            info.shouldIgnoreParameter(name)
             );
 }
 
 
-void ComponentFactory::processParameters(StdStringMap &parameters, ComponentRegistryPtr reg, ParameterValueMap &values)
+void ComponentFactory::processParameters(const StdStringMap &parameters,
+                                         ComponentRegistryPtr reg,
+                                         ParameterValueMap &values) const
 {
-    const ParameterInfoMap &infoMap = info.getParameters();
-    
-    for (ParameterInfoMap::const_iterator iter = infoMap.begin(); iter != infoMap.end(); iter++) {
-        const std::string &name = (*iter).first;
-
-        if (parameters.find(name) == parameters.end()) {
-            const ParameterInfo &info = (*iter).second;
-
-            if (info.isRequired()) {
-                if (info.hasDefaultValue()) {
-                    parameters[name] = info.getDefaultValue();
-                } else {
-                    throw MissingAttributeException(name);
-                }
-            } else {
-                parameters[name] = "";
+    //
+    // Process the provided parameters
+    //
+    for (auto &param : parameters) {
+        auto name = param.first;  // Copy for passing to resolveParameterAlias
+        
+        if (!(info.hasParameter(name) || info.resolveParameterAlias(name))) {
+            if (!shouldIgnoreParameter(name)) {
+                throw UnknownAttributeException(name);
+            }
+        } else {
+            if (!(values.emplace(name, ParameterValue(param.second, reg)).second)) {
+                throw DuplicateAttributeException(name);
             }
         }
     }
     
-    for (StdStringMap::const_iterator param = parameters.begin(); param != parameters.end(); param++) {
-        const std::string &name = (*param).first;
+    //
+    // Handle any missing parameters
+    //
+    for (auto &param : info.getParameters()) {
+        auto &name = param.first;
         
-        if ((infoMap.find(name) == infoMap.end()) &&
-            !shouldIgnoreParameter(name) &&
-            !info.shouldIgnoreParameter(name))
-        {
-            throw UnknownAttributeException(name);
+        if (values.find(name) == values.end()) {
+            auto &paramInfo = param.second;
+            
+            if (paramInfo.hasDefaultValue()) {
+                values.emplace(name, ParameterValue(paramInfo.getDefaultValue(), reg));
+            } else if (!paramInfo.isRequired()) {
+                values.emplace(name, ParameterValue("", reg));
+            } else {
+                throw MissingAttributeException(name);
+            }
         }
-        
-        values.insert(std::make_pair(name, ParameterValue((*param).second, reg)));
     }
 }
 
 
-void ComponentFactory::requireAttributes(StdStringMap &parameters, const StdStringVector &requiredAttributes)
+void ComponentFactory::requireAttributes(StdStringMap &parameters, const StdStringVector &requiredAttributes) const
 {
-    for (StdStringVector::const_iterator attr = requiredAttributes.begin(); attr != requiredAttributes.end(); attr++)
-    {
-        if (parameters.find(*attr) == parameters.end()) {
-            throw MissingAttributeException(*attr);
+    for (auto &attr : requiredAttributes) {
+        if (parameters.find(attr) == parameters.end()) {
+            throw MissingAttributeException(attr);
         }
     }
 }
 
 
-void ComponentFactory::checkAttribute(shared_ptr<mw::Component> component,
+void ComponentFactory::checkAttribute(ComponentPtr component,
                                       const std::string &refID,
                                       const std::string &name,
-                                      const std::string &value)
+                                      const std::string &value) const
 {
-	if(component == 0) {
+	if (!component) {
 		throw MissingReferenceException(refID, name, value);		
 	}
 }
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,0 +1,24 @@
+%define duration = 1s
+%define volume = 0.4
+
+tone tone1 (
+    frequency = 164.814
+    duration = duration
+    // "volume" is the actual parameter name
+    volume = volume
+    )
+
+tone tone2 (
+    frequency = 329.628
+    duration = duration
+    // "amplitude" is an alias for "volume"
+    amplitude = volume
+    )
+
+
+protocol {
+    play_sound (tone1)
+    wait (duration)
+    play_sound (tone2)
+    wait (duration)
+}

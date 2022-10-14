@@ -22,7 +22,7 @@ BEGIN_NAMESPACE_MW
 class AudioEngineSound : public Sound, boost::noncopyable {
     
 public:
-    static const std::string AMPLITUDE;
+    static const std::string VOLUME;
     static const std::string PAN;
     
     static void describeComponent(ComponentInfo &info);
@@ -58,12 +58,12 @@ private:
     using mutex_type = lock_guard::mutex_type;
     using unique_lock = std::unique_lock<mutex_type>;
     
-    void amplitudeCallback(const Datum &data, MWorksTime time);
+    void volumeCallback(const Datum &data, MWorksTime time);
     void panCallback(const Datum &data, MWorksTime time);
     void stateSystemModeCallback(const Datum &data, MWorksTime time);
     
-    void setCurrentAmplitude(const Datum &data);
-    void applyCurrentAmplitude() { mixer.volume = currentAmplitude; }
+    void setCurrentVolume(const Datum &data);
+    void applyCurrentVolume() { mixer.volume = currentVolume; }
     void setCurrentPan(const Datum &data);
     void applyCurrentPan() { mixer.pan = currentPan; }
     
@@ -88,12 +88,12 @@ private:
     
     static boost::shared_ptr<EngineManager> getEngineManager();
     
-    const VariablePtr amplitude;
+    const VariablePtr volume;
     const VariablePtr pan;
     const boost::shared_ptr<EngineManager> engineManager;
     
     id<AVAudioMixing> mixer;
-    double currentAmplitude;
+    double currentVolume;
     double currentPan;
     
     bool loaded;
@@ -102,7 +102,7 @@ private:
     bool paused;
     bool pausedWithStateSystem;
     
-    boost::shared_ptr<VariableNotification> amplitudeNotification;
+    boost::shared_ptr<VariableNotification> volumeNotification;
     boost::shared_ptr<VariableNotification> panNotification;
     boost::shared_ptr<VariableNotification> stateSystemModeNotification;
     

@@ -50,32 +50,34 @@ class Variable;
 class ComponentFactory {
     
 public:
-    typedef std::map<std::string, std::string> StdStringMap;
-    typedef std::vector<std::string> StdStringVector;
+    using StdStringMap = std::map<std::string, std::string>;
+    using StdStringVector = std::vector<std::string>;
     
-	ComponentFactory() { }
-	virtual ~ComponentFactory() { }
+    ComponentFactory() { }
+    explicit ComponentFactory(const ComponentInfo &info) : info(info) { }
+    
+    virtual ~ComponentFactory() { }
     
     const ComponentInfo& getComponentInfo() const {
         return info;
     }
-	
-	virtual shared_ptr<mw::Component> createObject(StdStringMap parameters, ComponentRegistry *reg) {
-        return shared_ptr<mw::Component>();
+    
+    virtual ComponentPtr createObject(StdStringMap parameters, ComponentRegistry *reg) {
+        return ComponentPtr();
     }
     
 protected:
-    static bool shouldIgnoreParameter(const std::string &name);
+    bool shouldIgnoreParameter(const std::string &name) const;
+    void processParameters(const StdStringMap &parameters, ComponentRegistry *reg, Map<ParameterValue> &values) const;
     
-    void processParameters(StdStringMap &parameters, ComponentRegistry *reg, Map<ParameterValue> &values);
-    
-    void requireAttributes(StdStringMap &parameters, const StdStringVector &attributes);
-    void checkAttribute(shared_ptr<mw::Component> component,
+    void requireAttributes(StdStringMap &parameters, const StdStringVector &attributes) const;
+    void checkAttribute(ComponentPtr component,
                         const std::string &refID,
                         const std::string &name,
-                        const std::string &value);
+                        const std::string &value) const;
     
-    ComponentInfo info;
+private:
+    const ComponentInfo info;
     
 };
 
@@ -84,25 +86,3 @@ END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

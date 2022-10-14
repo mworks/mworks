@@ -13,24 +13,25 @@
 BEGIN_NAMESPACE_MW
 
 
-const std::string AudioEngineSound::AMPLITUDE("amplitude");
+const std::string AudioEngineSound::VOLUME("volume");
 const std::string AudioEngineSound::PAN("pan");
 
 
 void AudioEngineSound::describeComponent(ComponentInfo &info) {
     Sound::describeComponent(info);
-    info.addParameter(AMPLITUDE, "1.0");
+    info.addParameter(VOLUME, "1.0");
+    info.addParameterAlias(VOLUME, "amplitude");
     info.addParameter(PAN, "0.0");
 }
 
 
 AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     Sound(parameters),
-    amplitude(parameters[AMPLITUDE]),
+    volume(parameters[VOLUME]),
     pan(parameters[PAN]),
     engineManager(getEngineManager()),
     mixer(nil),
-    currentAmplitude(1.0),
+    currentVolume(1.0),
     currentPan(0.0),
     loaded(false),
     running(false),
@@ -39,11 +40,11 @@ AudioEngineSound::AudioEngineSound(const ParameterValueMap &parameters) :
     pausedWithStateSystem(false)
 {
     @autoreleasepool {
-        // Install a callback to handle amplitude changes
+        // Install a callback to handle volume changes
         {
-            auto callback = [this](const Datum &data, MWorksTime time) { amplitudeCallback(data, time); };
-            amplitudeNotification = boost::make_shared<VariableCallbackNotification>(callback);
-            amplitude->addNotification(amplitudeNotification);
+            auto callback = [this](const Datum &data, MWorksTime time) { volumeCallback(data, time); };
+            volumeNotification = boost::make_shared<VariableCallbackNotification>(callback);
+            volume->addNotification(volumeNotification);
         }
         
         // Install a callback to handle pan changes
@@ -69,7 +70,7 @@ AudioEngineSound::~AudioEngineSound() {
     @autoreleasepool {
         stateSystemModeNotification->remove();
         panNotification->remove();
-        amplitudeNotification->remove();
+        volumeNotification->remove();
         
         mixer = nil;
     }
@@ -91,8 +92,8 @@ void AudioEngineSound::load() {
             mixer = load(engine);
         }
         
-        // Initialize amplitude and pan to their current values
-        setCurrentAmplitude(amplitude->getValue());
+        // Initialize volume and pan to their current values
+        setCurrentVolume(volume->getValue());
         setCurrentPan(pan->getValue());
         
         loaded = true;
@@ -140,10 +141,10 @@ void AudioEngineSound::play(MWTime startTime) {
             merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot play sound while experiment is not running");
         } else if (!playing) {
             // Although it isn't documented, it appears that the audio engine must have
-            // been started in order for changes to amplitude and pan to take effect.
+            // been started in order for changes to volume and pan to take effect.
             // Therefore, always apply the current values immediately before playing, as
             // we know the audio engine will be started by then.
-            applyCurrentAmplitude();
+            applyCurrentVolume();
             applyCurrentPan();
             if (startPlaying(startTime)) {
                 playing = true;
@@ -198,11 +199,11 @@ void AudioEngineSound::stop() {
 }
 
 
-void AudioEngineSound::amplitudeCallback(const Datum &data, MWorksTime time) {
+void AudioEngineSound::volumeCallback(const Datum &data, MWorksTime time) {
     lock_guard lock(mutex);
     
     @autoreleasepool {
-        setCurrentAmplitude(data);
+        setCurrentVolume(data);
     }
 }
 
@@ -256,14 +257,14 @@ void AudioEngineSound::stateSystemModeCallback(const Datum &data, MWorksTime tim
 }
 
 
-void AudioEngineSound::setCurrentAmplitude(const Datum &data) {
+void AudioEngineSound::setCurrentVolume(const Datum &data) {
     auto value = data.getFloat();
     if (value < 0.0 || value > 1.0) {
-        merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound amplitude must be between 0 and 1 (inclusive)");
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Sound volume must be between 0 and 1 (inclusive)");
     } else {
-        currentAmplitude = value;
+        currentVolume = value;
         if (playing) {
-            applyCurrentAmplitude();
+            applyCurrentVolume();
         }
     }
 }
@@ -304,7 +305,7 @@ void AudioEngineSound::announceAction(Action action, MWTime startTime) const {
     
     // Include detailed info only when playing
     if (action == Action::Play) {
-        announceData[AMPLITUDE] = currentAmplitude;
+        announceData[VOLUME] = currentVolume;
         
         if (currentPan != 0.0) {
             announceData[PAN] = currentPan;
