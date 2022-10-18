@@ -8,7 +8,6 @@
 #define UI_INTERFACE_H
  
 #include "GenericData.h"
-#include "GenericVariable.h"
 #include "stdlib.h"
 #include <string>
 #include <vector>
@@ -22,59 +21,95 @@ BEGIN_NAMESPACE_MW
 #define ALL_VARIABLES "# ALL VARIABLES"
 
 
-enum DomainType{ M_CONTINUOUS_INFINITE, M_CONTINUOUS_FINITE, M_DISCRETE,
-                  M_DISCRETE_BOOLEAN, M_INTEGER_FINITE, M_INTEGER_INFINITE,
-                  M_STRUCTURED };
+enum WhenType {
+    M_NEVER = -1,
+    //M_WHEN_IDLE,
+    //M_ALWAYS,
+    //M_AT_STARTUP,
+    //M_EVERY_TRIAL,
+    M_WHEN_CHANGED = 4  // Maintain legacy value, which is present in old data files
+};
+
+
+enum DomainType {
+    M_CONTINUOUS_INFINITE,
+    M_CONTINUOUS_FINITE,
+    M_DISCRETE,
+    M_DISCRETE_BOOLEAN,
+    M_INTEGER_FINITE,
+    M_INTEGER_INFINITE,
+    M_STRUCTURED
+};
 
 
 class VariableProperties {
-	private:
-		std::string tagname; // element tag
-		bool persistant; // save the variable from run to run
-        bool excludeFromDataFile; // should the variable be excluded from data files
-		WhenType logging; // when does this variable get logged
-		Datum defaultvalue; // the default value Datum object.
-		std::vector <std::string> groups; // the groups that the variable belongs to
     
-		std::vector <std::string> parseGroupList(const std::string &groups_csv) const;
-
-	public:
-        VariableProperties(const Datum &def,
-                           const std::string &tag,
-                           WhenType log,
-                           bool persist,
-                           const std::string &groups = "",
-                           bool exclude = false);
-
-        // This constructor exists only for compatibility with existing code.  New code
-        // should use the preceding constructor.
-        VariableProperties(const Datum &def,
-							std::string tag, 
-							std::string full, 
-							std::string desc,
-							WhenType edit, 
-							WhenType log, 
-							bool view, 
-							bool persist,
-							DomainType dType, 
-							std::string groups,
-                            bool exclude = false) :
-            VariableProperties(def, tag, log, persist, groups, exclude)
-        { }
-
-        explicit VariableProperties(const Datum &datum);
+public:
+    VariableProperties(const Datum &def,
+                       const std::string &tag,
+                       WhenType log,
+                       bool persist,
+                       const std::string &groups = "",
+                       bool exclude = false) :
+        VariableProperties(def, tag, log, persist, parseGroupList(groups), exclude)
+    { }
     
-        const Datum& getDefaultValue() const;
-		WhenType getLogging() const;
-        const std::string& getTagName() const;
-		bool getPersistant() const;
-        bool getExcludeFromDataFile() const;
-		const std::vector<std::string>& getGroups() const;
-        
-		/**
-         * Packages this interface setting object into a dictionary.
-         */
-		operator Datum() const;
+    // This constructor exists only for compatibility with existing code.  New code
+    // should use the preceding constructor.
+    VariableProperties(const Datum &def,
+                       const std::string &tag,
+                       const std::string &full,
+                       const std::string &desc,
+                       WhenType edit,
+                       WhenType log,
+                       bool view,
+                       bool persist,
+                       DomainType dType,
+                       const std::string &groups,
+                       bool exclude = false) :
+        VariableProperties(def, tag, log, persist, groups, exclude)
+    { }
+    
+    const std::string & getTagName() const { return tagName; }
+    const Datum & getDefaultValue() const { return defaultValue; }
+    WhenType getLogging() const { return logging; }
+    bool getPersistent() const { return persistent; }
+    bool getExcludeFromDataFile() const { return excludeFromDataFile; }
+    const std::vector<std::string> & getGroups() const { return groups; }
+    
+    static VariableProperties fromDatum(const Datum &datum);
+    Datum toDatum() const;
+    
+private:
+    static std::vector<std::string> parseGroupList(const std::string &groups_csv);
+    
+    VariableProperties() :
+        logging(M_NEVER),
+        persistent(false),
+        excludeFromDataFile(false)
+    { }
+    
+    VariableProperties(const Datum &def,
+                       const std::string &tag,
+                       WhenType log,
+                       bool persist,
+                       const std::vector<std::string> &groups,
+                       bool exclude) :
+        tagName(tag),
+        defaultValue(def),
+        logging(log),
+        persistent(persist),
+        excludeFromDataFile(exclude),
+        groups(groups)
+    { }
+    
+    const std::string tagName;
+    const Datum defaultValue;
+    const WhenType logging;
+    const bool persistent;
+    const bool excludeFromDataFile;
+    const std::vector<std::string> groups;
+    
 };
 
 
@@ -82,4 +117,3 @@ END_NAMESPACE_MW
 
 
 #endif
-

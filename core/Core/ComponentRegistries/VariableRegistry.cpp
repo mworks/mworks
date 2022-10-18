@@ -90,8 +90,8 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
                 continue;
 			}
 						
-			VariableProperties *props = new VariableProperties(serializedVariable);
-			shared_ptr<Variable> newvar(new GlobalVariable(props));
+			VariableProperties props = VariableProperties::fromDatum(serializedVariable);
+			shared_ptr<Variable> newvar(new GlobalVariable(&props));
 			newvar->setCodecCode(i); //necessary? .. Yup
 			
 			master_variable_list.push_back(newvar);
@@ -343,7 +343,7 @@ Datum VariableRegistry::generateCodecDatum() {
             continue; 
         }
         
-        Datum serialized_var(*props);
+        Datum serialized_var(props->toDatum());
 		
         if(serialized_var.isUndefined()) {
             mdebug("local parameter null value at param (%d)", i);

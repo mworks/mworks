@@ -13,59 +13,47 @@
 BEGIN_NAMESPACE_MW
 
 
-VariableProperties::VariableProperties(const Datum &def,
-                                       const std::string &tag,
-                                       WhenType log,
-                                       bool persist,
-                                       const std::string &groups,
-                                       bool exclude) :
-    tagname(tag),
-    persistant(persist),
-    excludeFromDataFile(exclude),
-    logging(log),
-    defaultvalue(def),
-    groups(parseGroupList(groups))
-{ }
-
-
-VariableProperties::VariableProperties(const Datum &datum) {
+VariableProperties VariableProperties::fromDatum(const Datum &datum) {
     if (!datum.isDictionary()) {
         merror(M_NETWORK_MESSAGE_DOMAIN, "Failed to create an VariableProperties object: invalid Datum type");
-        return;
+        return VariableProperties();
     }
     
     // tagname
+    std::string tagName;
     {
         Datum d = datum.getElement("tagname");
         if (!d.isString()) {
             mwarning(M_NETWORK_MESSAGE_DOMAIN,
                      "Invalid tagname on variable received in event stream.");
-            tagname = "<unknown>";
+            tagName = "<unknown>";
         } else {
-            tagname = d.getString();
+            tagName = d.getString();
         }
     }
     
-    // persistant
+    // persistent
+    bool persistent = false;
     {
         Datum d = datum.getElement("persistant");
         if (!d.isInteger()) {
             mwarning(M_NETWORK_MESSAGE_DOMAIN,
                      "Invalid persistant value on variable (%s) received in event stream.",
-                     tagname.c_str());
-            persistant = false;
+                     tagName.c_str());
+            persistent = false;
         } else {
-            persistant = d.getBool();
+            persistent = d.getBool();
         }
     }
     
     // excludeFromDataFile
+    bool excludeFromDataFile = false;
     {
         Datum d = datum.getElement("exclude_from_data_file");
         if (!d.isInteger()) {
             mwarning(M_NETWORK_MESSAGE_DOMAIN,
                      "Invalid exclude_from_data_file value on variable (%s) received in event stream.",
-                     tagname.c_str());
+                     tagName.c_str());
             excludeFromDataFile = false;
         } else {
             excludeFromDataFile = d.getBool();
@@ -73,12 +61,13 @@ VariableProperties::VariableProperties(const Datum &datum) {
     }
     
     // logging
+    WhenType logging = M_NEVER;
     {
         Datum d = datum.getElement("logging");
         if (!d.isInteger()) {
             mwarning(M_NETWORK_MESSAGE_DOMAIN,
                      "Invalid logging value on variable (%s) received in event stream.",
-                     tagname.c_str());
+                     tagName.c_str());
             logging = M_WHEN_CHANGED;
         } else {
             logging = (WhenType)d.getInteger();
@@ -86,26 +75,28 @@ VariableProperties::VariableProperties(const Datum &datum) {
     }
     
     // default value
+    Datum defaultValue;
     {
         Datum d = datum.getElement("defaultvalue");
         if (d.isUndefined()) {
             mwarning(M_NETWORK_MESSAGE_DOMAIN,
                      "Invalid defaultvalue value on variable (%s) received in event stream.",
-                     tagname.c_str());
-            defaultvalue = Datum(0L);
+                     tagName.c_str());
+            defaultValue = Datum(0L);
         } else {
-            defaultvalue = d;
+            defaultValue = d;
         }
     }
     
     // groups
+    std::vector<std::string> groups;
     {
         Datum d = datum.getElement("groups");
         if (!d.isUndefined()) {
             if (!d.isList()) {
                 mwarning(M_NETWORK_MESSAGE_DOMAIN,
                          "Invalid groups value on variable (%s) received in event stream.",
-                         tagname.c_str());
+                         tagName.c_str());
             } else {
                 for (auto &group : d.getList()) {
                     if (group.isString()) {
@@ -115,44 +106,27 @@ VariableProperties::VariableProperties(const Datum &datum) {
             }
         }
     }
+    
+    return VariableProperties(defaultValue,
+                              tagName,
+                              logging,
+                              persistent,
+                              groups,
+                              excludeFromDataFile);
 }
 
 
-const Datum& VariableProperties::getDefaultValue() const {
-    return defaultvalue;
-}
-
-WhenType VariableProperties::getLogging() const {
-    return logging;
-}
-
-const std::string& VariableProperties::getTagName() const {
-    return tagname;
-}
-
-bool VariableProperties::getPersistant() const {
-    return persistant;
-}
-
-bool VariableProperties::getExcludeFromDataFile() const {
-    return excludeFromDataFile;
-}
-
-const std::vector<std::string>& VariableProperties::getGroups() const {
-	return groups;
-}
-
-VariableProperties::operator Datum() const {
+Datum VariableProperties::toDatum() const {
 	
  Datum dict(M_DICTIONARY, 6);
 	
-	dict.addElement("tagname", tagname.c_str());
-	dict.addElement("persistant", Datum((long)persistant));
+	dict.addElement("tagname", tagName.c_str());
+	dict.addElement("persistant", Datum((long)persistent));
     dict.addElement("exclude_from_data_file", Datum((long)excludeFromDataFile));
 	dict.addElement("logging", Datum((long)logging));
 	
-	if(!defaultvalue.isUndefined()) {
-		dict.addElement("defaultvalue", defaultvalue);
+	if(!defaultValue.isUndefined()) {
+		dict.addElement("defaultvalue", defaultValue);
 	} else {
 		dict.addElement("defaultvalue", 0L);
 	}		
@@ -172,11 +146,11 @@ VariableProperties::operator Datum() const {
 }
 
 
-std::vector <std::string> VariableProperties::parseGroupList(const std::string &groups_csv) const {
-    vector <string> gps;
+std::vector<std::string> VariableProperties::parseGroupList(const std::string &groups_csv) {
+    std::vector<std::string> gps;
     gps.push_back(std::string(ALL_VARIABLES));
     
-    for (string field : boost::tokenizer<boost::escaped_list_separator<char>>(groups_csv)) {
+    for (auto field : boost::tokenizer<boost::escaped_list_separator<char>>(groups_csv)) {
         boost::algorithm::trim(field);
         if (!field.empty()) {
             gps.push_back(field);
@@ -188,28 +162,3 @@ std::vector <std::string> VariableProperties::parseGroupList(const std::string &
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

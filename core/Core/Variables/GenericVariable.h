@@ -12,6 +12,7 @@
 #include "ComponentFactory.h"
 #include "GenericData.h"
 #include "LinkedList.h"
+#include "VariableProperties.h"
 #include "VariableNotification.h"
 #include "Utilities.h"
 #include <boost/noncopyable.hpp>
@@ -20,20 +21,6 @@
 
 
 BEGIN_NAMESPACE_MW
-
-
-enum WhenType {
-    M_NEVER = -1,
-    //M_WHEN_IDLE,
-    //M_ALWAYS,
-    //M_AT_STARTUP,
-    //M_EVERY_TRIAL,
-    M_WHEN_CHANGED = 4  // Maintain legacy value, which is present in old data files
-};
-
-
-// Forward declarations
-class VariableProperties;
 
 
 class Variable : public mw::Component, boost::noncopyable {
