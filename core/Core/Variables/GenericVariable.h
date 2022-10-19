@@ -23,6 +23,9 @@
 BEGIN_NAMESPACE_MW
 
 
+class ParameterValue;
+
+
 class Variable : public Component, boost::noncopyable {
     
 public:
@@ -99,15 +102,6 @@ private:
 using VariablePtr = boost::shared_ptr<Variable>;
 
 
-class VariableFactory : public ComponentFactory {
-
-	// Factory method
-    shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-                                           ComponentRegistry *reg) override;
-
-};
-
-
 class ReadOnlyVariable : public Variable {
     
 public:
@@ -144,34 +138,38 @@ public:
 };
 
 
+class VariableFactory : public ComponentFactory {
+    
+public:
+    static const std::string DEFAULT_VALUE;
+    static const std::string TYPE;
+    static const std::string SCOPE;
+    static const std::string LOGGING;
+    static const std::string PERSISTENT;
+    static const std::string EXCLUDE_FROM_DATA_FILE;
+    static const std::string GROUPS;
+    
+    static ComponentInfo describeComponent();
+    
+    VariableFactory() : ComponentFactory(describeComponent()) { }
+    
+    ComponentPtr createObject(StdStringMap parameters, ComponentRegistry *reg) override;
+    
+private:
+    enum class Scope { Global, Local };
+    
+    static ComponentPtr createVariable(const Map<ParameterValue> &parameters);
+    
+    static GenericDataType getType(const ParameterValue &paramValue);
+    static Datum getDefaultValue(const ParameterValue &paramValue, GenericDataType type);
+    static WhenType getLogging(const ParameterValue &paramValue);
+    static std::string getGroups(const ParameterValue &paramValue);
+    static Scope getScope(const ParameterValue &paramValue);
+    
+};
+
+
 END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

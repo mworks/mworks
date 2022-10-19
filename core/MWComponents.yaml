@@ -207,7 +207,8 @@ parameters:
         Determines when the variable's value is written to the event stream (and
         thereby the data file)
   -
-    name: persistant
+    name: persistent
+    alias: saved
     default: 'NO'
     description: >
         If ``YES``, then the variable's value is included in saved variable sets

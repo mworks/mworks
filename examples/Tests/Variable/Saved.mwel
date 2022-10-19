@@ -1,0 +1,37 @@
+// "persistent" is the actual parameter name
+var saved_1 = 0 (persistent = true)
+
+// "saved" is a documented alias
+var saved_2 = 0 (saved = 1)
+
+// "persistant" is an undocumented alias that exists for backwards
+// compatilbility
+var saved_3 = 0 (persistant = YES)
+
+// Various ways to declare non-saved variables
+var not_saved_1 = 0
+var not_saved_2 = 0 (persistent = 0)
+var not_saved_3 = 0 (saved = NO)
+var not_saved_4 = 0 (persistant = false)
+
+
+protocol {
+    saved_1 = 1
+    saved_2 = 2
+    saved_3 = 3
+    not_saved_1 = 1
+    not_saved_2 = 2
+    not_saved_3 = 3
+    not_saved_4 = 4
+
+    report ('Save a variable set now, then load it after the experiment ends')
+    wait (10s)
+
+    saved_1 = 0
+    saved_2 = 0
+    saved_3 = 0
+    not_saved_1 = 0
+    not_saved_2 = 0
+    not_saved_3 = 0
+    not_saved_4 = 0
+}

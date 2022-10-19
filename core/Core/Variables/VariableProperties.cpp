@@ -35,10 +35,10 @@ VariableProperties VariableProperties::fromDatum(const Datum &datum) {
     // persistent
     bool persistent = false;
     {
-        Datum d = datum.getElement("persistant");
+        Datum d = datum.getElement("persistent");
         if (!d.isInteger()) {
             mwarning(M_NETWORK_MESSAGE_DOMAIN,
-                     "Invalid persistant value on variable (%s) received in event stream.",
+                     "Invalid persistent value on variable (%s) received in event stream.",
                      tagName.c_str());
             persistent = false;
         } else {
@@ -121,7 +121,7 @@ Datum VariableProperties::toDatum() const {
  Datum dict(M_DICTIONARY, 6);
 	
 	dict.addElement("tagname", tagName.c_str());
-	dict.addElement("persistant", Datum((long)persistent));
+	dict.addElement("persistent", Datum((long)persistent));
     dict.addElement("exclude_from_data_file", Datum((long)excludeFromDataFile));
 	dict.addElement("logging", Datum((long)logging));
 	

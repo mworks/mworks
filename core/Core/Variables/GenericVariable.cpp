@@ -20,8 +20,6 @@
 #include "EventBuffer.h"
 #include "TrialBuildingBlocks.h"
 
-using boost::algorithm::to_lower_copy;
-
 
 BEGIN_NAMESPACE_MW
 
@@ -97,140 +95,142 @@ MWTime Variable::getCurrentTimeUS() {
 }
 
 
-// Factory method
-shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, std::string> parameters,
-											   ComponentRegistry *reg){
-	REQUIRE_ATTRIBUTES(parameters,
-					   "tag",
-					   "default_value");
-	std::string tag;
-	std::string type_string("");
-	std::string persistant_string("");
-    std::string exclude_from_data_file_string("");
-	std::string logging_string("");
-	std::string scope_string("");
-	
-	GenericDataType type = M_UNDEFINED;
-	bool persistant = false; // save the variable from run to run
-    bool excludeFromDataFile = false; // should the variable be excluded from data files
-	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
-	Datum defaultValue(0L); // the default value Datum object.
-	std::string groups(EXPERIMENT_DEFINED_VARIABLES);
-	
-	GET_ATTRIBUTE(parameters, tag, "tag", "NO_TAG");
-	GET_ATTRIBUTE(parameters, type_string, "type", "any");
-	GET_ATTRIBUTE(parameters, persistant_string, "persistant", "0");
-    GET_ATTRIBUTE(parameters, exclude_from_data_file_string, "exclude_from_data_file", "0");
-	GET_ATTRIBUTE(parameters, logging_string, "logging", "when_changed");
-	GET_ATTRIBUTE(parameters, scope_string, "scope", "global");
+const std::string VariableFactory::DEFAULT_VALUE("default_value");
+const std::string VariableFactory::TYPE("type");
+const std::string VariableFactory::SCOPE("scope");
+const std::string VariableFactory::LOGGING("logging");
+const std::string VariableFactory::PERSISTENT("persistent");
+const std::string VariableFactory::EXCLUDE_FROM_DATA_FILE("exclude_from_data_file");
+const std::string VariableFactory::GROUPS("groups");
 
 
-	type_string = to_lower_copy(type_string);
-	
-    if (type_string.empty() || type_string == "any") {
-        type = M_UNDEFINED;
-    } else if(type_string == "integer") {
-		type = M_INTEGER;
-		defaultValue = 0L;
-	} else if(type_string == "float" || 
-			  type_string == "double") {
-		type = M_FLOAT;
-		defaultValue = 0.0;
-	} else if(type_string == "string") {
-		type = M_STRING;
-		defaultValue = "";
-	} else if(type_string == "boolean") {
-		type = M_BOOLEAN;
-		defaultValue = false;
-	} else if(type_string == "list") {
-		type = M_LIST;
-		defaultValue = Datum(M_LIST, 0);
-	} else {
-		throw InvalidAttributeException(parameters["reference_id"], "type", parameters.find("type")->second);
-	}
-	
-	try {
-		persistant = reg->getBoolean(persistant_string);
-	} catch (boost::bad_lexical_cast &) {
-		throw InvalidAttributeException(parameters["reference_id"], "persistant", parameters.find("persistant")->second);
-	}
+ComponentInfo VariableFactory::describeComponent() {
+    ComponentInfo info;
     
-    try {
-        excludeFromDataFile = reg->getBoolean(exclude_from_data_file_string);
-    } catch (boost::bad_lexical_cast &) {
-        throw InvalidAttributeException(parameters["reference_id"], "exclude_from_data_file", parameters.find("exclude_from_data_file")->second);
+    info.setSignature("variable");
+    
+    info.addParameter(Component::TAG);
+    info.addParameter(DEFAULT_VALUE);
+    
+    info.addParameter(TYPE, "any");
+    info.addParameter(SCOPE, "global");
+    info.addParameter(LOGGING, "when_changed");
+    
+    info.addParameter(PERSISTENT, "NO");
+    info.addParameterAlias(PERSISTENT, "saved");
+    // "persistant" is too embarrassing to document, but it was the one correct name
+    // for well over a decade and will be present in experiments for a long time
+    info.addParameterAlias(PERSISTENT, "persistant");
+    
+    info.addParameter(EXCLUDE_FROM_DATA_FILE, "NO");
+    info.addParameter(GROUPS, false);
+    
+    // "editable" is no longer used but is still present in old experiments
+    info.addIgnoredParameter("editable");
+    
+    return info;
+}
+
+
+ComponentPtr VariableFactory::createObject(StdStringMap parameters, ComponentRegistryPtr reg) {
+    ParameterValueMap values;
+    processParameters(parameters, reg, values);
+    return createVariable(values);
+}
+
+
+ComponentPtr VariableFactory::createVariable(const ParameterValueMap &parameters) {
+    VariableProperties props(getDefaultValue(parameters[DEFAULT_VALUE], getType(parameters[TYPE])),
+                             parameters[Component::TAG].str(),
+                             getLogging(parameters[LOGGING]),
+                             bool(parameters[PERSISTENT]),
+                             getGroups(parameters[GROUPS]),
+                             bool(parameters[EXCLUDE_FROM_DATA_FILE]));
+    
+    if (getScope(parameters[SCOPE]) == Scope::Local) {
+        return global_variable_registry->createScopedVariable(GlobalCurrentExperiment, props);
     }
-	
-	
-	if(to_lower_copy(logging_string) == "never") {
-		logging = M_NEVER;
-	} else if(to_lower_copy(logging_string) == "when_changed") {
-		logging = M_WHEN_CHANGED;
-	} else {
-		throw InvalidAttributeException(parameters["reference_id"], "logging", logging_string);
-	}
-	
-	
-	
-	switch(type) {
+    return global_variable_registry->createGlobalVariable(props);
+}
+
+
+GenericDataType VariableFactory::getType(const ParameterValue &paramValue) {
+    const auto type = boost::algorithm::to_lower_copy(paramValue.str());
+    if (type.empty() || type == "any") {
+        return M_UNDEFINED;
+    } else if (type == "integer") {
+        return M_INTEGER;
+    } else if (type == "float" || type == "double") {
+        return M_FLOAT;
+    } else if (type == "boolean") {
+        return M_BOOLEAN;
+    } else if (type == "string") {
+        return M_STRING;
+    } else if (type == "list") {
+        return M_LIST;
+    } else {
+        throw InvalidAttributeException(TYPE, type);
+    }
+}
+
+
+Datum VariableFactory::getDefaultValue(const ParameterValue &paramValue, GenericDataType type) {
+    auto &defaultValue = paramValue.str();
+    switch (type) {
         case M_UNDEFINED:
             // Type is "any", so let the expression parser infer the type
-            defaultValue = ParsedExpressionVariable::evaluateExpression(parameters.find("default_value")->second);
-            break;
-		case M_INTEGER:
-		case M_FLOAT:
-		case M_BOOLEAN:
-			try {
-				defaultValue = reg->getNumber(parameters.find("default_value")->second, type);
-				//mData(type, boost::lexical_cast<double>(parameters.find("default_value")->second));					
-			} catch (boost::bad_lexical_cast &) {
-				throw InvalidAttributeException(parameters["reference_id"], "default_value", parameters.find("default_value")->second);
-			}
-			break;
-		case M_STRING:
-			defaultValue = Datum(parameters.find("default_value")->second);
-			break;
+            return ParsedExpressionVariable::evaluateExpression(defaultValue);
+            
+        case M_INTEGER:
+        case M_FLOAT:
+        case M_BOOLEAN:
+            return paramValue.getRegistry()->getNumber(defaultValue, type);
+            
+        case M_STRING:
+            return Datum(defaultValue);
+            
         case M_LIST: {
             std::vector<Datum> values;
-            ParsedExpressionVariable::evaluateExpressionList(parameters.find("default_value")->second, values);
-            
-            defaultValue = Datum(M_LIST, int(values.size()));
-            for (int i = 0; i < values.size(); i++) {
-                defaultValue.setElement(i, values[i]);
-            }
-            
-            break;
+            ParsedExpressionVariable::evaluateExpressionList(defaultValue, values);
+            return Datum(std::move(values));
         }
-		default:
-			throw InvalidAttributeException(parameters["reference_id"], "default_value", parameters.find("default_value")->second);
-			break;
-	}
-	
-	if(parameters.find("groups") != parameters.end()) {
-        groups.append(", ");
-		groups.append(parameters.find("groups")->second);
-	}
-	
-	// TODO when the variable properties get fixed, we can get rid of this nonsense
-    VariableProperties props(defaultValue,
-                             tag,
-                             logging,
-                             persistant,
-                             groups,
-                             excludeFromDataFile);
-	
-	shared_ptr<mw::Component>newVar;
-	
-	scope_string = to_lower_copy(scope_string);
-	if(scope_string == "global") {
-		newVar = global_variable_registry->createGlobalVariable(props);
-	} else if(scope_string == "local") {
-		newVar = global_variable_registry->createScopedVariable(GlobalCurrentExperiment, props);
-	} else {
-		throw InvalidAttributeException(parameters["reference_id"], "scope", parameters.find("scope")->second);
-	}
-	
-	return newVar;
+            
+        default:
+            throw InvalidAttributeException(DEFAULT_VALUE, defaultValue);
+    }
+}
+
+
+WhenType VariableFactory::getLogging(const ParameterValue &paramValue) {
+    const auto logging = boost::algorithm::to_lower_copy(paramValue.str());
+    if (logging == "when_changed") {
+        return M_WHEN_CHANGED;
+    } else if (logging == "never") {
+        return M_NEVER;
+    } else {
+        throw InvalidAttributeException(LOGGING, logging);
+    }
+}
+
+
+std::string VariableFactory::getGroups(const ParameterValue &paramValue) {
+    const auto groups = boost::algorithm::trim_copy(paramValue.str());
+    if (groups.empty()) {
+        return EXPERIMENT_DEFINED_VARIABLES;
+    }
+    return (EXPERIMENT_DEFINED_VARIABLES ",") + groups;
+}
+
+
+auto VariableFactory::getScope(const ParameterValue &paramValue) -> Scope {
+    const auto scope = boost::algorithm::to_lower_copy(paramValue.str());
+    if (scope == "global") {
+        return Scope::Global;
+    } else if (scope == "local") {
+        return Scope::Local;
+    } else {
+        throw InvalidAttributeException(SCOPE, scope);
+    }
 }
 
 

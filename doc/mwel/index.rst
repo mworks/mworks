@@ -223,7 +223,7 @@ The default value can be any expression::
 
 Variables declared in this way can still include parameters and/or child components::
 
-    var x = 3 (persistant = YES) {
+    var x = 3 (persistent = true) {
         report ('x = $x')
     }
 

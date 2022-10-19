@@ -16,7 +16,7 @@
  * Experiment.h
  *
  * Description:
- *     The Experiment object encapsulates essentially all of the persistant
+ *     The Experiment object encapsulates essentially all of the persistent
  * state of an experiment.  This allows, in principle, multiple experiment
  * objects to exist simultaneously each keeping track of themselves 
  * independently.  Though the experiment object will contain vastly different
