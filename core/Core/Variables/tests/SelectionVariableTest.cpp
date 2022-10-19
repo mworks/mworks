@@ -36,7 +36,7 @@ void SelectionVariableTestFixture::tearDown(){
 }
 
 void SelectionVariableTestFixture::testWithConstantVariables(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	
 	var.addValue(a);
@@ -81,7 +81,7 @@ void SelectionVariableTestFixture::testWithConstantVariables(){
 }
 
 void SelectionVariableTestFixture::testWithConstantVariablesDescending(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	
 	var.addValue(a);
@@ -108,7 +108,7 @@ void SelectionVariableTestFixture::testWithConstantVariablesDescending(){
 }
 
 void SelectionVariableTestFixture::testReset(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -155,7 +155,7 @@ void SelectionVariableTestFixture::testReset(){
 }
 
 void SelectionVariableTestFixture::testResetDescending(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(d);
 	var.addValue(c);
@@ -201,7 +201,7 @@ void SelectionVariableTestFixture::testResetDescending(){
 
 
 void SelectionVariableTestFixture::testPartialSamples(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	shared_ptr<Selection> sel( new SequentialSelection(3) );
 	var.attachSelection(sel);	
@@ -227,7 +227,7 @@ void SelectionVariableTestFixture::testPartialSamples(){
 
 
 void SelectionVariableTestFixture::testSurplusSamples(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	shared_ptr<Selection> sel( new SequentialSelection(5) );
 	var.attachSelection(sel);	
 	
@@ -257,7 +257,7 @@ void SelectionVariableTestFixture::testSurplusSamples(){
 }
 
 void SelectionVariableTestFixture::testCycles(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	shared_ptr<Selection> sel( new SequentialSelection(4) );
 	var.attachSelection(sel);	
 		
@@ -282,7 +282,7 @@ void SelectionVariableTestFixture::testCycles(){
 }
 
 void SelectionVariableTestFixture::testMultipleCycles(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	
 	shared_ptr<Selection> sel( new SequentialSelection(8) );
@@ -324,7 +324,7 @@ void SelectionVariableTestFixture::testMultipleCycles(){
 
 
 void SelectionVariableTestFixture::testAutoReset(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	shared_ptr<Selection> sel( new SequentialSelection(4, true, true) );
 	var.attachSelection(sel);	
     
@@ -349,7 +349,7 @@ void SelectionVariableTestFixture::testAutoReset(){
 }
 
 void SelectionVariableTestFixture::testAcceptSelections(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	shared_ptr<Selection> sel( new SequentialSelection(4) );
 	var.attachSelection(sel);	
 		
@@ -380,7 +380,7 @@ void SelectionVariableTestFixture::testAcceptSelections(){
 }
 
 void SelectionVariableTestFixture::testRejectSelections(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	shared_ptr<Selection> sel( new SequentialSelection(4) );
 	var.attachSelection(sel);	
 	
@@ -421,7 +421,7 @@ void SelectionVariableTestFixture::testRejectSelections(){
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequentialAscending(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	shared_ptr<Selection> sel( new SequentialSelection(6) ); // 2 cycles
 	var.attachSelection(sel);	
@@ -466,7 +466,7 @@ void SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequenti
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequentialDescending(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -513,7 +513,7 @@ void SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequenti
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsAfterHittingEdge(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	shared_ptr<Selection> sel( new SequentialSelection(3) );
 	var.attachSelection(sel);	
@@ -570,7 +570,7 @@ void SelectionVariableTestFixture::testRejectSelectionsAfterHittingEdge(){
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsAfterHittingEdgeDescending(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -619,7 +619,7 @@ void SelectionVariableTestFixture::testRejectSelectionsAfterHittingEdgeDescendin
 
 
 void SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHittingEdge(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	shared_ptr<Selection> sel( new SequentialSelection(6) );
 	var.attachSelection(sel);	
@@ -692,7 +692,7 @@ void SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHi
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHittingEdgeDescending(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -765,7 +765,7 @@ void SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHi
 
 
 void SelectionVariableTestFixture::testRandomWORSelections(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -857,7 +857,7 @@ void SelectionVariableTestFixture::testRandomWORSelections(){
 
 
 void SelectionVariableTestFixture::testRandomWORCycles(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -892,7 +892,7 @@ void SelectionVariableTestFixture::testRandomWORCycles(){
 }
 
 void SelectionVariableTestFixture::testResetRandomWOR(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -1087,7 +1087,7 @@ void SelectionVariableTestFixture::testResetRandomWOR(){
 
 
 void SelectionVariableTestFixture::testRandomWORPartialSamples(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	long L10 = 1;
 	long L20 = 1;
@@ -1179,7 +1179,7 @@ void SelectionVariableTestFixture::testRandomWORPartialSamples(){
 
 
 void SelectionVariableTestFixture::testRandomWORSurplusSamples(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	long L10 = 2;
 	long L20 = 2;
@@ -1261,7 +1261,7 @@ void SelectionVariableTestFixture::testRandomWORSurplusSamples(){
 }
 
 void SelectionVariableTestFixture::testRandomWORRejects(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -1328,7 +1328,7 @@ void SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge1(){
 	long L10 = 2;
 	long L20 = 2;
 	
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -1422,7 +1422,7 @@ void SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge2(){
 	
 	bool testRunning = true;
 	
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -1765,7 +1765,7 @@ void SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge2(){
 
 
 void SelectionVariableTestFixture::testRandomWithReplacementSelections(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	
 	var.addValue(a);
@@ -1831,7 +1831,7 @@ void SelectionVariableTestFixture::testRandomWithReplacementSelections(){
 
 
 void SelectionVariableTestFixture::testRandomWithReplacementCycles(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	
 	var.addValue(a);
@@ -1934,7 +1934,7 @@ void SelectionVariableTestFixture::testRandomWithReplacementCycles(){
 }
 
 void SelectionVariableTestFixture::testResetRandomWithReplacement(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	
 	var.addValue(a);
@@ -2058,7 +2058,7 @@ void SelectionVariableTestFixture::testResetRandomWithReplacement(){
 
 
 void SelectionVariableTestFixture::testRandomWithReplacementRejects(){
-	SelectionVariable var(NULL);
+	SelectionVariable var;
 	
 	
 	var.addValue(a);
@@ -2226,7 +2226,7 @@ void SelectionVariableTestFixture::testRandomWithReplacementRejects(){
 
 
 void SelectionVariableTestFixture::testGetTentativeSelection() {
-    SelectionVariable var(NULL);
+    SelectionVariable var;
     
     var.addValue(Datum(true));
     var.addValue(Datum(2L));

@@ -31,7 +31,8 @@ protected:
     bool advanceOnAccept;
     
 public:
-	SelectionVariable(VariableProperties *props, shared_ptr<Selection> _sel = shared_ptr<Selection>());
+    explicit SelectionVariable(const VariableProperties &props = VariableProperties(),
+                               shared_ptr<Selection> _sel = shared_ptr<Selection>());
     
     void setAdvanceOnAccept(bool val) {
         advanceOnAccept = val;

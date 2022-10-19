@@ -20,7 +20,7 @@ BEGIN_NAMESPACE_MW
 /*******************************************************************
 *                   ScopedVariable member functions
 *******************************************************************/
-ScopedVariable::ScopedVariable(VariableProperties *props) : Variable(props){
+ScopedVariable::ScopedVariable(const VariableProperties &props) : Variable(props) {
     context_index = -1;
 	environment = NULL;
 }

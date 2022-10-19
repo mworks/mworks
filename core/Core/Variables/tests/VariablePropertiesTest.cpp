@@ -37,7 +37,7 @@ void VariablePropertiesTestFixture::testGroups(){
 																						M_INTEGER_INFINITE,
 																						""));
 
-	std::vector <std::string> groups0 = v0->getProperties()->getGroups();
+	std::vector <std::string> groups0 = v0->getProperties().getGroups();
 	CPPUNIT_ASSERT(groups0.size() == 1);	
 	CPPUNIT_ASSERT(groups0[0] == "# ALL VARIABLES");
 	
@@ -52,7 +52,7 @@ void VariablePropertiesTestFixture::testGroups(){
 																						M_INTEGER_INFINITE,
 																						"g1,g2"));
 
-	std::vector <std::string> groups1 = v1->getProperties()->getGroups();
+	std::vector <std::string> groups1 = v1->getProperties().getGroups();
 	CPPUNIT_ASSERT(groups1.size() == 3);
 	CPPUNIT_ASSERT(groups1[0] == "# ALL VARIABLES");
 	CPPUNIT_ASSERT(groups1[1] == "g1");
@@ -71,7 +71,7 @@ void VariablePropertiesTestFixture::testGroups(){
 																						M_INTEGER_INFINITE,
 																						"g3"));
 	
-	std::vector <std::string> groups2 = v2->getProperties()->getGroups();
+	std::vector <std::string> groups2 = v2->getProperties().getGroups();
 	CPPUNIT_ASSERT(groups2.size() == 2);	
 	CPPUNIT_ASSERT(groups2[0] == "# ALL VARIABLES");
 	CPPUNIT_ASSERT(groups2[1] == "g3");
@@ -87,7 +87,7 @@ void VariablePropertiesTestFixture::testGroups(){
 																						M_INTEGER_INFINITE,
 																						"  g3  "));
 	
-	std::vector <std::string> groups2point5 = v2point5->getProperties()->getGroups();
+	std::vector <std::string> groups2point5 = v2point5->getProperties().getGroups();
 	CPPUNIT_ASSERT(groups2point5.size() == 2);	
 	CPPUNIT_ASSERT(groups2point5[0] == "# ALL VARIABLES");
 	CPPUNIT_ASSERT(groups2point5[1] == "g3");
@@ -103,7 +103,7 @@ void VariablePropertiesTestFixture::testGroups(){
 																						M_INTEGER_INFINITE,
 																						"   g2   ,  g3  "));
 	
-	std::vector <std::string> groups3 = v3->getProperties()->getGroups();
+	std::vector <std::string> groups3 = v3->getProperties().getGroups();
 	CPPUNIT_ASSERT(groups3.size() == 3);	
 	CPPUNIT_ASSERT(groups3[0] == "# ALL VARIABLES");
 	CPPUNIT_ASSERT(groups3[1] == "g2");
@@ -120,7 +120,7 @@ void VariablePropertiesTestFixture::testGroups(){
 																						M_INTEGER_INFINITE,
 																						"   g2   ,    "));
 	
-	std::vector <std::string> groups3point5 = v3point5->getProperties()->getGroups();
+	std::vector <std::string> groups3point5 = v3point5->getProperties().getGroups();
 	CPPUNIT_ASSERT(groups3point5.size() == 2);	
 	CPPUNIT_ASSERT(groups3point5[0] == "# ALL VARIABLES");
 	CPPUNIT_ASSERT(groups3point5[1] == "g2");
@@ -136,7 +136,7 @@ void VariablePropertiesTestFixture::testGroups(){
 																						M_INTEGER_INFINITE,
 																						"   "));
 	
-	std::vector <std::string> groups4 = v4->getProperties()->getGroups();
+	std::vector <std::string> groups4 = v4->getProperties().getGroups();
 	CPPUNIT_ASSERT(groups4.size() == 1);	
 	CPPUNIT_ASSERT(groups4[0] == "# ALL VARIABLES");
 
@@ -151,7 +151,7 @@ void VariablePropertiesTestFixture::testGroups(){
 																						M_INTEGER_INFINITE,
 																						",,g1,,,g2,,"));
 	
-	std::vector <std::string> groups5 = v5->getProperties()->getGroups();
+	std::vector <std::string> groups5 = v5->getProperties().getGroups();
 	CPPUNIT_ASSERT(groups5.size() == 3);	
 	CPPUNIT_ASSERT(groups5[0] == "# ALL VARIABLES");
 	CPPUNIT_ASSERT(groups5[1] == "g1");

@@ -28,7 +28,7 @@ class ScopedVariable : public Variable {
 
 	public:
 	
-	ScopedVariable(VariableProperties *_properties);
+	explicit ScopedVariable(const VariableProperties &properties);
 
 
 	// Accessors

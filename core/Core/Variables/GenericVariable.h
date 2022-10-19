@@ -26,7 +26,7 @@ BEGIN_NAMESPACE_MW
 class Variable : public mw::Component, boost::noncopyable {
 
 private:
-	VariableProperties *properties;
+	VariableProperties properties;
 	LinkedList<VariableNotification> notifications;
 
 	int codec_code;		// dictionary key value in the parameter registry.
@@ -42,11 +42,7 @@ protected:
     void performNotifications(Datum data, MWTime timeUS = getCurrentTimeUS());
 
 public:
-    // Destructor
-    ~Variable();
-    
-	// Constructors
-	explicit Variable(VariableProperties *properties = nullptr);
+	explicit Variable(const VariableProperties &properties = VariableProperties());
 
     
 	// Accessors
@@ -55,7 +51,7 @@ public:
 		event_target = _event_target;
 	}
 
-    const VariableProperties * getProperties() const { return properties; }
+    const VariableProperties & getProperties() const { return properties; }
 	
 	std::string getVariableName() const;
 	

@@ -68,15 +68,15 @@
         auto nVars = self.client.client->numberOfVariablesInRegistry();
         for (int i = mw::N_RESERVED_CODEC_CODES; i < nVars + mw::N_RESERVED_CODEC_CODES; i++) {
             auto var = self.client.client->getVariable(i);
-            if (var && var->getProperties()) {
-                for (auto &group : var->getProperties()->getGroups()) {
+            if (var) {
+                for (auto &group : var->getProperties().getGroups()) {
                     NSString *groupName = @(group.c_str());
                     NSMutableArray *aGroup = [allGroups valueForKey:groupName];
                     if (!aGroup) {
                         aGroup = [NSMutableArray array];
                         [allGroups setValue:aGroup forKey:groupName];
                     }
-                    [aGroup addObject:@(var->getProperties()->getTagName().c_str())];
+                    [aGroup addObject:@(var->getProperties().getTagName().c_str())];
                 }
             }
         }

@@ -46,7 +46,7 @@ private:
     using scoped_lock = boost::mutex::scoped_lock;
 
 public:
-	Timer(VariableProperties *props = 0);
+	explicit Timer(const VariableProperties &props = VariableProperties());
 
 	void startMS(MWTime howlongms);
 	void startUS(MWTime howlongus);

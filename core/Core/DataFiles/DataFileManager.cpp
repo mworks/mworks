@@ -70,7 +70,7 @@ DataFileManager::DataFile::~DataFile() {
 static std::unordered_set<int> getExcludedEventCodes() {
     std::unordered_set<int> excludedEventCodes;
     for (auto &var : global_variable_registry->getGlobalVariables()) {
-        if (var->getProperties()->getExcludeFromDataFile()) {
+        if (var->getProperties().getExcludeFromDataFile()) {
             excludedEventCodes.insert(var->getCodecCode());
         }
     }

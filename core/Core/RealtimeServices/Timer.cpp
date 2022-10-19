@@ -34,7 +34,7 @@ MWTime TimeBase::getTime() const {
 }
 
 
-Timer::Timer(VariableProperties *props) :
+Timer::Timer(const VariableProperties &props) :
     ReadOnlyVariable(props),
     clock(Clock::instance()),
     expirationTimeUS(0)

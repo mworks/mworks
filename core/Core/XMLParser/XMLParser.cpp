@@ -802,7 +802,7 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
                 shared_ptr<Variable> var = registry->getVariable(variable_name);
 				
 				string content = _getContent(alias_child);
-                GenericDataType dataType = var->getProperties()->getDefaultValue().getDataType();
+                GenericDataType dataType = var->getProperties().getDefaultValue().getDataType();
                 Datum value = registry->getNumber(content, dataType);
 				
 				if(value.isUndefined()){

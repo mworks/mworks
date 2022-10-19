@@ -16,10 +16,10 @@ BEGIN_NAMESPACE_MW
 
 void MessageTestFixture::setUp() {
     if (!GlobalMessageVariable) {
-        VariableProperties *props = new VariableProperties(Datum(0),
-                                                           ANNOUNCE_MESSAGE_VAR_TAGNAME,
-                                                           M_WHEN_CHANGED,
-                                                           false);
+        VariableProperties props(Datum(0),
+                                 ANNOUNCE_MESSAGE_VAR_TAGNAME,
+                                 M_WHEN_CHANGED,
+                                 false);
         GlobalMessageVariable = boost::make_shared<GlobalVariable>(props);
     }
     

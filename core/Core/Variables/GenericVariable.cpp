@@ -40,21 +40,13 @@ MWTime Variable::getCurrentTimeUS() {
 }
 
 
-Variable::Variable(VariableProperties *_properties) : mw::Component() {
-    codec_code = -1;
-    properties = _properties;
-	
-	if(properties != NULL){
-		logging = properties->getLogging();
-	}
-	
-	
-	event_target = global_outgoing_event_buffer;
-    
-    if(_properties != NULL){
-        setTag(_properties->getTagName());
-    }
-	
+Variable::Variable(const VariableProperties &properties) :
+    properties(properties),
+    codec_code(-1),
+    logging(properties.getLogging()),
+    event_target(global_outgoing_event_buffer)
+{
+    setTag(properties.getTagName());
 }
 
 
@@ -195,12 +187,6 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 }
 
 
-Variable::~Variable() {
-	if(properties) {
-		delete properties;
-	}
-}
-
 void Variable::addChild(std::map<std::string, std::string> parameters,
 						 ComponentRegistry *reg,
 						 shared_ptr<mw::Component> child) {
@@ -239,13 +225,10 @@ void Variable::performNotifications(Datum data, MWTime timeUS) {
 
 
 void Variable::announce(MWTime timeUS){
-
-	if(properties){
-		if(properties->getLogging() == M_WHEN_CHANGED && event_target != 0) {
-			shared_ptr<Event> new_event(new Event(codec_code, timeUS, getValue()));
-			event_target->putEvent(new_event);
-		}
-	}
+    if (properties.getLogging() == M_WHEN_CHANGED && event_target != 0) {
+        shared_ptr<Event> new_event(new Event(codec_code, timeUS, getValue()));
+        event_target->putEvent(new_event);
+    }
 }
 
 
@@ -262,13 +245,7 @@ void Variable::setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, M
 
 
 std::string Variable::getVariableName() const {
-	std::string returnval = "";
-	
-	if(properties != NULL){
-		returnval = properties->getTagName();
-	}
-	
-	return returnval;
+    return properties.getTagName();
 }
 
 

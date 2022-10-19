@@ -42,12 +42,12 @@ public:
     /**
      * Sets the data value to '_value'
      */
-    explicit GlobalVariable(Datum _value, VariableProperties *interface = nullptr);
+    explicit GlobalVariable(Datum _value, const VariableProperties &properties = VariableProperties());
     
     /**
      * Constructs a value object from an interface setting object
      */
-    explicit GlobalVariable(VariableProperties *_interface);
+    explicit GlobalVariable(const VariableProperties &properties);
     
     /**
      * Returns the value data or returns a new data object initialized
@@ -78,29 +78,3 @@ END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

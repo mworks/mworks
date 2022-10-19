@@ -26,7 +26,7 @@ using boost::algorithm::to_lower_copy;
 BEGIN_NAMESPACE_MW
 
 
-SelectionVariable::SelectionVariable(VariableProperties *props, shared_ptr<Selection> _selection) :
+SelectionVariable::SelectionVariable(const VariableProperties &props, shared_ptr<Selection> _selection) :
     ReadOnlyVariable(props),
     selected_index(NO_SELECTION),
     advanceOnAccept(false)

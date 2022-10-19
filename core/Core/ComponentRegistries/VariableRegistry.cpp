@@ -91,7 +91,7 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 			}
 						
 			VariableProperties props = VariableProperties::fromDatum(serializedVariable);
-			shared_ptr<Variable> newvar(new GlobalVariable(&props));
+			shared_ptr<Variable> newvar(new GlobalVariable(props));
 			newvar->setCodecCode(i); //necessary? .. Yup
 			
 			master_variable_list.push_back(newvar);
@@ -235,8 +235,7 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
 {
     // create a new entry and return one instance
 	
-	VariableProperties *props_copy = new VariableProperties(props);
-    shared_ptr<ScopedVariable> new_variable(new ScopedVariable(props_copy));
+    shared_ptr<ScopedVariable> new_variable(new ScopedVariable(props));
     
     addVariable(new_variable);
     
@@ -254,8 +253,7 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
 
 
 shared_ptr<GlobalVariable> VariableRegistry::addGlobalVariable(const VariableProperties &props) {
-	VariableProperties *copy = new VariableProperties(props);
-	shared_ptr<GlobalVariable> returnref(new GlobalVariable(copy));
+	shared_ptr<GlobalVariable> returnref(new GlobalVariable(props));
     
     addVariable(returnref);
     
@@ -268,8 +266,7 @@ shared_ptr<GlobalVariable> VariableRegistry::addGlobalVariable(const VariablePro
 shared_ptr<Timer> VariableRegistry::createTimer(const VariableProperties &props) {
     boost::mutex::scoped_lock s_lock(lock);
     
-	VariableProperties *props_copy = new VariableProperties(props);
-	shared_ptr<Timer> new_timer(new Timer(props_copy));
+	shared_ptr<Timer> new_timer(new Timer(props));
 	
     registerVariableName(new_timer);
 	new_timer->setCodecCode(-1);
@@ -280,8 +277,7 @@ shared_ptr<Timer> VariableRegistry::createTimer(const VariableProperties &props)
 
 
 shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(const VariableProperties &props) {
-	VariableProperties *props_copy = new VariableProperties(props);
-	shared_ptr<SelectionVariable> returnref(new SelectionVariable(props_copy));
+	shared_ptr<SelectionVariable> returnref(new SelectionVariable(props));
     
     addVariable(returnref);
     
@@ -332,18 +328,12 @@ Datum VariableRegistry::generateCodecDatum() {
         }
         
 		int codec_code = var->getCodecCode();
-		
-		if(codec_code == RESERVED_CODEC_CODE) {
+		if (codec_code < N_RESERVED_CODEC_CODES) {
 			continue;
 		}
         
 		auto props = var->getProperties();
-		
-        if(props == NULL){ 
-            continue; 
-        }
-        
-        Datum serialized_var(props->toDatum());
+        Datum serialized_var(props.toDatum());
 		
         if(serialized_var.isUndefined()) {
             mdebug("local parameter null value at param (%d)", i);

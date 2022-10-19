@@ -45,6 +45,12 @@ enum DomainType {
 class VariableProperties {
     
 public:
+    VariableProperties() :
+        logging(M_NEVER),
+        persistent(false),
+        excludeFromDataFile(false)
+    { }
+    
     VariableProperties(const Datum &def,
                        const std::string &tag,
                        WhenType log,
@@ -82,12 +88,6 @@ public:
     
 private:
     static std::vector<std::string> parseGroupList(const std::string &groups_csv);
-    
-    VariableProperties() :
-        logging(M_NEVER),
-        persistent(false),
-        excludeFromDataFile(false)
-    { }
     
     VariableProperties(const Datum &def,
                        const std::string &tag,

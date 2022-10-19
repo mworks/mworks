@@ -15,19 +15,16 @@
 BEGIN_NAMESPACE_MW
 
 
-GlobalVariable::GlobalVariable(Datum value, VariableProperties *props) :
+GlobalVariable::GlobalVariable(Datum value, const VariableProperties &props) :
     Variable(props),
     value(value)
 { }
 
 
-GlobalVariable::GlobalVariable(VariableProperties *props) :
-    Variable(props)
-{
-    if (props) {
-        value = props->getDefaultValue();
-    }
-}
+GlobalVariable::GlobalVariable(const VariableProperties &props) :
+    Variable(props),
+    value(props.getDefaultValue())
+{ }
 
 
 Datum GlobalVariable::getValue() {
