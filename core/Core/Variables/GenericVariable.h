@@ -23,90 +23,80 @@
 BEGIN_NAMESPACE_MW
 
 
-class Variable : public mw::Component, boost::noncopyable {
-
-private:
-	VariableProperties properties;
-	LinkedList<VariableNotification> notifications;
-
-	int codec_code;		// dictionary key value in the parameter registry.
-
-	WhenType logging;  // how often should this variable's value be placed in 
-						// the event stream
-						
-	shared_ptr<EventReceiver> event_target;
+class Variable : public Component, boost::noncopyable {
     
-    static MWTime getCurrentTimeUS();
-    
-protected:
-    void performNotifications(Datum data, MWTime timeUS = getCurrentTimeUS());
-
 public:
-	explicit Variable(const VariableProperties &properties = VariableProperties());
-
+    explicit Variable(const VariableProperties &properties = VariableProperties());
     
-	// Accessors
-
-    void setEventTarget(const shared_ptr<EventReceiver> &_event_target) {
-		event_target = _event_target;
-	}
-
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  ComponentPtr child) override;
+    
     const VariableProperties & getProperties() const { return properties; }
-	
-	std::string getVariableName() const;
-	
-	int getCodecCode() const { return codec_code; }
-	void setCodecCode(int _code) { codec_code = _code; }
-	
+    const std::string & getVariableName() const { return properties.getTagName(); }
+    
+    int getCodecCode() const { return codec_code; }
+    void setCodecCode(int code) { codec_code = code; }
+    
     WhenType getLogging() const { return logging; }
     void setLogging(WhenType when) { logging = when; }
-	
-
-	// Attaching notifications to variables for asynchronous "spring-loading"
-    void addNotification(const shared_ptr<VariableNotification> &note);
-	
-	// Announcing a variable's value to the event stream
+    
+    void setEventTarget(const boost::shared_ptr<EventReceiver> &target) { event_target = target; }
+    
+    // Attaching notifications to variables for asynchronous "spring-loading"
+    void addNotification(const boost::shared_ptr<VariableNotification> &note);
+    
+    // Announcing a variable's value to the event stream
     void announce(MWTime when = getCurrentTimeUS());
-	
-	// Basic value get and set (overridden in subclasses)
-	virtual Datum getValue() = 0;
-	virtual void setValue(Datum value, MWTime when = getCurrentTimeUS());
+    
+    // Basic value get and set (overridden in subclasses)
+    virtual Datum getValue() = 0;
+    virtual void setValue(Datum value, MWTime when = getCurrentTimeUS());
     virtual void setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when = getCurrentTimeUS());
     virtual void setSilentValue(Datum value, MWTime when = getCurrentTimeUS()) = 0;
     virtual void setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when = getCurrentTimeUS()) = 0;
-	
+    
     // Can the value be modified?
     virtual bool isWritable() const = 0;
-	
-	// Equals operators
-	void operator=(long a);
-	void operator=(int a);
-	void operator=(short a);
-	void operator=(double a);
-	void operator=(float a);
-	void operator=(bool a);
-	void operator=(MWTime a);
-	void operator=(std::string a);
-	void operator=(Datum a);
-	
-	// Cast operators
-	operator long();
-	operator int();
-	operator short();
-	operator double();
-	operator float();
-	operator bool();
-	operator MWTime();
-	operator Datum();
-	
-    void addChild(std::map<std::string, std::string> parameters,
-                  ComponentRegistry *reg,
-                  shared_ptr<mw::Component> child) override;
+    
+    // Equals operators
+    void operator=(long a) { setValue(a); }
+    void operator=(int a) { setValue(a); }
+    void operator=(short a) { setValue(int(a)); }
+    void operator=(double a) { setValue(a); }
+    void operator=(float a) { setValue(a); }
+    void operator=(bool a) { setValue(a); }
+    void operator=(long long a) { setValue(a); }
+    void operator=(const std::string &a) { setValue(a); }
+    void operator=(Datum a) { setValue(a); }
+    
+    // Cast operators
+    operator long() { return getValue().getInteger(); }
+    operator int() { return getValue().getInteger(); }
+    operator short() { return getValue().getInteger(); }
+    operator double() { return getValue().getFloat(); }
+    operator float() { return getValue().getFloat(); }
+    operator bool() { return getValue().getBool(); }
+    operator long long() { return getValue().getInteger(); }
+    operator Datum() { return getValue(); }
+    
+protected:
+    void performNotifications(Datum data, MWTime timeUS = getCurrentTimeUS());
+    
+private:
+    static MWTime getCurrentTimeUS();
+    
+    VariableProperties properties;
+    int codec_code;
+    WhenType logging;
+    boost::shared_ptr<EventReceiver> event_target;
+    
+    LinkedList<VariableNotification> notifications;
     
 };
 
 
-typedef boost::shared_ptr<Variable> VariablePtr;
+using VariablePtr = boost::shared_ptr<Variable>;
 
 
 class VariableFactory : public ComponentFactory {

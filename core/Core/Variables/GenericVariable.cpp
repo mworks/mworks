@@ -26,9 +26,66 @@ using boost::algorithm::to_lower_copy;
 BEGIN_NAMESPACE_MW
 
 
-/*******************************************************************
-*                   Variable member functions
-*******************************************************************/
+Variable::Variable(const VariableProperties &properties) :
+    properties(properties),
+    codec_code(-1),
+    logging(properties.getLogging()),
+    event_target(global_outgoing_event_buffer)
+{
+    setTag(properties.getTagName());
+}
+
+
+void Variable::addChild(std::map<std::string, std::string> parameters,
+                        ComponentRegistryPtr reg,
+                        ComponentPtr child)
+{
+    auto act = boost::dynamic_pointer_cast<Action>(child);
+    if (!act) {
+        throw SimpleException("Attempting to add illegal object (" + child->getTag() + ") to variable (" + getVariableName() + ")");
+    }
+    addNotification(boost::make_shared<ActionVariableNotification>(act));
+}
+
+
+void Variable::addNotification(const boost::shared_ptr<VariableNotification> &notif) {
+    if (!notif) {
+        mwarning(M_PARADIGM_MESSAGE_DOMAIN, "Attempt to add a null notification to a variable");
+        return;
+    }
+    notifications.addToBack(notif);
+}
+
+
+void Variable::announce(MWTime timeUS) {
+    if (properties.getLogging() == M_WHEN_CHANGED && event_target) {
+        event_target->putEvent(boost::make_shared<Event>(codec_code, timeUS, getValue()));
+    }
+}
+
+
+void Variable::setValue(Datum value, MWTime time) {
+    setSilentValue(value, time);
+    announce(time);
+}
+
+
+void Variable::setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime time) {
+    setSilentValue(indexOrKeyPath, value, time);
+    announce(time);
+}
+
+
+void Variable::performNotifications(Datum data, MWTime timeUS) {
+    Locker locker(notifications);
+    
+    auto node = notifications.getFrontmost();
+    
+    while (node) {
+        node->notify(data, timeUS);
+        node = node->getNext();
+    }
+}
 
 
 MWTime Variable::getCurrentTimeUS() {
@@ -37,16 +94,6 @@ MWTime Variable::getCurrentTimeUS() {
         return clock->getCurrentTimeUS();
     }
     return 0;
-}
-
-
-Variable::Variable(const VariableProperties &properties) :
-    properties(properties),
-    codec_code(-1),
-    logging(properties.getLogging()),
-    event_target(global_outgoing_event_buffer)
-{
-    setTag(properties.getTagName());
 }
 
 
@@ -184,139 +231,6 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	}
 	
 	return newVar;
-}
-
-
-void Variable::addChild(std::map<std::string, std::string> parameters,
-						 ComponentRegistry *reg,
-						 shared_ptr<mw::Component> child) {
-	
-	shared_ptr<Action> act = boost::dynamic_pointer_cast<Action,mw::Component>(child);
-	
-	if(act == 0) {
-		throw SimpleException("Attempting to add illegal object (" + child->getTag() + ") to variable (" + this->getVariableName() + ")");
-	}
-	
-	
-	shared_ptr<ActionVariableNotification> avn(new ActionVariableNotification(act));
-	addNotification(avn);	
-}
-
-void Variable::addNotification(const shared_ptr<VariableNotification> &_notif) {
-	if (!_notif) {
-		mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-					"Attempt to add a null notification to a variable");
-		return;
-	}
-	notifications.addToBack(_notif);
-}
-
-
-void Variable::performNotifications(Datum data, MWTime timeUS) {
-    Locker locker(notifications);
-    
-    auto node = notifications.getFrontmost();
-    
-    while (node) {
-        node->notify(data, timeUS);
-        node = node->getNext();
-    }
-}
-
-
-void Variable::announce(MWTime timeUS){
-    if (properties.getLogging() == M_WHEN_CHANGED && event_target != 0) {
-        shared_ptr<Event> new_event(new Event(codec_code, timeUS, getValue()));
-        event_target->putEvent(new_event);
-    }
-}
-
-
-void Variable::setValue(Datum value, MWTime time) {
-    setSilentValue(value, time);
-    announce(time);
-}
-
-
-void Variable::setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime time) {
-    setSilentValue(indexOrKeyPath, value, time);
-    announce(time);
-}
-
-
-std::string Variable::getVariableName() const {
-    return properties.getTagName();
-}
-
-
-// Get and setValue shortcuts
-void Variable::operator=(long a) {
-    setValue(a);
-}
-    
-void Variable::operator=(int a) {
-    setValue((long)a);
-}
-
-void Variable::operator=(short a) {
-    setValue((long)a);
-}
-
-void Variable::operator=(double a) {
-   setValue(a);
-}
-    
-void Variable::operator=(float a) {
-   setValue((double)a);
-}
-
-void Variable::operator=(bool a) {
-    setValue(a);
-}
-
-void Variable::operator=(MWTime a) {
-    setValue((long)a);
-}
-
-void Variable::operator=(std::string a){
-	setValue(Datum(a));
-}
-
-void Variable::operator=(Datum a) {
-    setValue(a);
-}
-
-Variable::operator MWTime() {
-	return (MWTime)getValue(); 
-}
-
-    
-Variable::operator long() {
-	return (long)getValue();
-}
-    
-Variable::operator int() {
-	return (int)getValue();
-}
-    
-Variable::operator short() {
-	return (short)getValue();
-}
-
-Variable::operator double() {
-	return (double)getValue();
-}
-
-Variable::operator float() {
-    return (float)getValue();
-}
-    
-Variable::operator bool() {
-	return (bool)getValue();
-}
-
-Variable::operator Datum(){
-	return getValue();
 }
 
 
