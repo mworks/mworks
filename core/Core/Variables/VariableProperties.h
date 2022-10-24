@@ -56,8 +56,9 @@ public:
                        WhenType log,
                        bool persist,
                        const std::string &groups = "",
-                       bool exclude = false) :
-        VariableProperties(def, tag, log, persist, parseGroupList(groups), exclude)
+                       bool exclude = false,
+                       const std::string &desc = "") :
+        VariableProperties(def, tag, log, persist, parseGroupList(groups), exclude, desc)
     { }
     
     // This constructor exists only for compatibility with existing code.  New code
@@ -73,7 +74,7 @@ public:
                        DomainType dType,
                        const std::string &groups,
                        bool exclude = false) :
-        VariableProperties(def, tag, log, persist, groups, exclude)
+        VariableProperties(def, tag, log, persist, groups, exclude, desc)
     { }
     
     const std::string & getTagName() const { return tagName; }
@@ -82,6 +83,7 @@ public:
     bool getPersistent() const { return persistent; }
     bool getExcludeFromDataFile() const { return excludeFromDataFile; }
     const std::vector<std::string> & getGroups() const { return groups; }
+    const std::string & getDescription() const { return description; }
     
     static VariableProperties fromDatum(const Datum &datum);
     Datum toDatum() const;
@@ -94,13 +96,15 @@ private:
                        WhenType log,
                        bool persist,
                        const std::vector<std::string> &groups,
-                       bool exclude) :
+                       bool exclude,
+                       const std::string &desc) :
         tagName(tag),
         defaultValue(def),
         logging(log),
         persistent(persist),
         excludeFromDataFile(exclude),
-        groups(groups)
+        groups(groups),
+        description(desc)
     { }
     
     const std::string tagName;
@@ -109,6 +113,7 @@ private:
     const bool persistent;
     const bool excludeFromDataFile;
     const std::vector<std::string> groups;
+    const std::string description;
     
 };
 

@@ -107,48 +107,63 @@ VariableProperties VariableProperties::fromDatum(const Datum &datum) {
         }
     }
     
+    // description
+    std::string description;
+    {
+        Datum d = datum.getElement("description");
+        if (!d.isString()) {
+            mwarning(M_NETWORK_MESSAGE_DOMAIN,
+                     "Invalid description on variable received in event stream.");
+        } else {
+            description = d.getString();
+        }
+    }
+    
     return VariableProperties(defaultValue,
                               tagName,
                               logging,
                               persistent,
                               groups,
-                              excludeFromDataFile);
+                              excludeFromDataFile,
+                              description);
 }
 
 
 Datum VariableProperties::toDatum() const {
-	
- Datum dict(M_DICTIONARY, 6);
-	
-	dict.addElement("tagname", tagName.c_str());
-	dict.addElement("persistent", Datum((long)persistent));
+    Datum dict(M_DICTIONARY, 7);
+    
+    dict.addElement("tagname", tagName);
+    dict.addElement("persistent", Datum((long)persistent));
     dict.addElement("exclude_from_data_file", Datum((long)excludeFromDataFile));
-	dict.addElement("logging", Datum((long)logging));
-	
-	if(!defaultValue.isUndefined()) {
-		dict.addElement("defaultvalue", defaultValue);
-	} else {
-		dict.addElement("defaultvalue", 0L);
-	}		
-	
-	if(groups.size() > 0) {
-	 Datum gps(M_LIST, (int)groups.size());
-		auto iter = groups.begin();
-		while (iter != groups.end()) {
-		 Datum group(*iter);
-			gps.addElement(group);
-			++iter;
-		}
-		
-		dict.addElement("groups", gps);
-	}
-	return dict;
+    dict.addElement("logging", Datum((long)logging));
+    
+    if(!defaultValue.isUndefined()) {
+        dict.addElement("defaultvalue", defaultValue);
+    } else {
+        dict.addElement("defaultvalue", 0L);
+    }
+    
+    if (groups.size() > 0) {
+        Datum gps(M_LIST, (int)groups.size());
+        auto iter = groups.begin();
+        while (iter != groups.end()) {
+            Datum group(*iter);
+            gps.addElement(group);
+            ++iter;
+        }
+        
+        dict.addElement("groups", gps);
+    }
+    
+    dict.addElement("description", description);
+    
+    return dict;
 }
 
 
 std::vector<std::string> VariableProperties::parseGroupList(const std::string &groups_csv) {
     std::vector<std::string> gps;
-    gps.push_back(std::string(ALL_VARIABLES));
+    gps.emplace_back(ALL_VARIABLES);
     
     for (auto field : boost::tokenizer<boost::escaped_list_separator<char>>(groups_csv)) {
         boost::algorithm::trim(field);
