@@ -13,8 +13,15 @@
 
 
 - (instancetype)initWithName:(NSString *)name {
-    if ((self = [super init])) {
+    return [self initWithName:name varDescription:@""];
+}
+
+
+- (instancetype)initWithName:(NSString *)name varDescription:(NSString *)varDescription {
+    self = [super init];
+    if (self) {
         _name = [name copy];
+        _varDescription = [varDescription copy];
         _value = @"";
     }
     return self;
@@ -35,29 +42,3 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

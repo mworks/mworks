@@ -138,10 +138,9 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
            byItem:(id)_item
 {
     MWVariableDisplayItem *item = _item;
-    if (tableColumn == self.outlineView.tableColumns[NAME_COLUMN_INDEX]) {
-        return item.name;
+    if (tableColumn == self.outlineView.tableColumns[VALUE_COLUMN_INDEX]) {
+        item.value = [self valueForVariable:item.name];
     }
-    item.value = [self valueForVariable:item.name];
     return item;
 }
 
@@ -290,7 +289,8 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
         NSArray<NSString *> *varNames = groups[groupName];
         NSMutableArray<MWVariableDisplayItem *> *children = [NSMutableArray arrayWithCapacity:varNames.count];
         for (NSString *varName in varNames) {
-            [children addObject:[[MWVariableDisplayItem alloc] initWithName:varName]];
+            NSString *varDesc = [variables descriptionForVariable:varName];
+            [children addObject:[[MWVariableDisplayItem alloc] initWithName:varName varDescription:varDesc]];
         }
         item.children = children;
         if ([groupName isEqualToString:@(ALL_VARIABLES)]) {

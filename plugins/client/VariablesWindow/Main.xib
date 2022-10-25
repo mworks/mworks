@@ -58,7 +58,8 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="cEs-gt-9Dp" name="value" keyPath="objectValue" id="1T2-we-UDl"/>
+                                                                <binding destination="cEs-gt-9Dp" name="value" keyPath="objectValue.name" id="POa-OT-RnT"/>
+                                                                <binding destination="cEs-gt-9Dp" name="toolTip" keyPath="objectValue.varDescription" id="vly-h2-PbE"/>
                                                             </connections>
                                                         </textField>
                                                     </subviews>

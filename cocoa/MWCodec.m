@@ -257,32 +257,14 @@
 }
 
 
+- (NSString *)descriptionForVariable:(NSString *)name {
+    @synchronized (clientInstance) {
+        if (auto variable = core->getVariable(name.UTF8String)) {
+            return @(variable->getProperties().getDescription().c_str());
+        }
+        return @"";
+    }
+}
+
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

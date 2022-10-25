@@ -48,5 +48,7 @@
 - (mw::Datum)valueForVariable:(NSString *)name;
 - (void)setValue:(const mw::Datum &)val forVariable:(NSString *)name;
 
+- (NSString *)descriptionForVariable:(NSString *)name;
+
 
 @end

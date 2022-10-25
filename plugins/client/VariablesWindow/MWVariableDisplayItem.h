@@ -12,11 +12,13 @@
 @interface MWVariableDisplayItem : NSObject
 
 @property(nonatomic, readonly, copy) NSString *name;
+@property(nonatomic, readonly, copy) NSString *varDescription;
 @property(nonatomic, copy) NSString *value;
 @property(nonatomic, copy) NSArray<MWVariableDisplayItem *> *children;
 @property(nonatomic, readonly) BOOL isGroup;
 @property(nonatomic, readonly) NSInteger numberOfChildren;
 
-- (instancetype)initWithName:(NSString *)name NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithName:(NSString *)name;
+- (instancetype)initWithName:(NSString *)name varDescription:(NSString *)varDescription NS_DESIGNATED_INITIALIZER;
 
 @end
