@@ -71,11 +71,11 @@ BEGIN_NAMESPACE_MW
 #ifdef	__APPLE__
 		
 #if TARGET_OS_OSX
-		sprintf(dynamic_library_path, "%s/%s.bundle/Contents/MacOS/%s",
-				pluginPath().string().c_str(), path.c_str(), path.c_str());
+        snprintf(dynamic_library_path, sizeof(dynamic_library_path), "%s/%s.bundle/Contents/MacOS/%s",
+                 pluginPath().string().c_str(), path.c_str(), path.c_str());
 #elif TARGET_OS_IPHONE
-        sprintf(dynamic_library_path, "%s/%s.framework/%s",
-                pluginPath().string().c_str(), path.c_str(), path.c_str());
+        snprintf(dynamic_library_path, sizeof(dynamic_library_path), "%s/%s.framework/%s",
+                 pluginPath().string().c_str(), path.c_str(), path.c_str());
         
         // On iOS, frameworks and plugins have the same extension and reside in the same
         // subdirectory of the app bundle.  However, frameworks are loaded automatically
@@ -92,8 +92,8 @@ BEGIN_NAMESPACE_MW
 #endif
 		
 #elif	linux
-		sprintf(dynamic_library_path, "%s/%s.so",
-				pluginPath().string().c_str(), path.c_str());
+        snprintf(dynamic_library_path, sizeof(dynamic_library_path), "%s/%s.so",
+                 pluginPath().string().c_str(), path.c_str());
 		
 #endif
         

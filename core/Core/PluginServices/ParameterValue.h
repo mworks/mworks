@@ -15,7 +15,10 @@
 #include <string>
 
 #include <boost/filesystem.hpp>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #include <boost/lexical_cast.hpp>
+#pragma clang diagnostic pop
 
 #include "ComponentRegistry.h"
 #include "Experiment.h"

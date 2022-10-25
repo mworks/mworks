@@ -27,7 +27,10 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #include <boost/lexical_cast.hpp>
+#pragma clang diagnostic pop
 
 using std::string;
 using std::vector;

@@ -1,0 +1,19 @@
+diff -ur Python-3.10.7/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.10.7/pyconfig.h.in	2022-09-05 09:00:02
++++ Python/pyconfig.h.in	2022-10-25 09:53:32
+@@ -722,13 +722,13 @@
+ #undef HAVE_MKFIFO
+ 
+ /* Define to 1 if you have the `mkfifoat' function. */
+-#undef HAVE_MKFIFOAT
++/* #undef HAVE_MKFIFOAT */
+ 
+ /* Define to 1 if you have the `mknod' function. */
+ #undef HAVE_MKNOD
+ 
+ /* Define to 1 if you have the `mknodat' function. */
+-#undef HAVE_MKNODAT
++/* #undef HAVE_MKNODAT */
+ 
+ /* Define to 1 if you have the `mktime' function. */
+ #undef HAVE_MKTIME
