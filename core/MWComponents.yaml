@@ -226,6 +226,12 @@ parameters:
         Comma-separated list containing the names of groups to which the
         variable belongs.  Variable groups are displayed as expandable sections
         in MWClient's variables window.
+  -
+    name: description
+    alias: desc
+    description: >
+        Description of the variable's meaning or intended usage.  Variable
+        descriptions are displayed as tooltips in MWClient's variables window.
 
 
 ---

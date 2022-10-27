@@ -1,0 +1,22 @@
+// Descriptions are optional
+var no_desc = 1
+
+// "description" is the actual parameter name
+var short_desc = 2 (description = 'This is a short description')
+
+// "desc" is an alias for "description"
+var long_desc = 3 (
+    desc = (
+        'This is a longer description. All of this text should be readable ' +
+        'in the variables window. It clearly contains important information ' +
+        'for the experimenter.'
+        )
+    )
+
+
+protocol {
+    report ('Confirm that the descriptions are displayed as tooltips in the variables window')
+    assert (no_desc == 1)
+    assert (short_desc == 2)
+    assert (long_desc == 3)
+}

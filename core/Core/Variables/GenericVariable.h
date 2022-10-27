@@ -148,6 +148,7 @@ public:
     static const std::string PERSISTENT;
     static const std::string EXCLUDE_FROM_DATA_FILE;
     static const std::string GROUPS;
+    static const std::string DESCRIPTION;
     
     static ComponentInfo describeComponent();
     
@@ -164,6 +165,7 @@ private:
     static Datum getDefaultValue(const ParameterValue &paramValue, GenericDataType type);
     static WhenType getLogging(const ParameterValue &paramValue);
     static std::string getGroups(const ParameterValue &paramValue);
+    static std::string getDescription(const ParameterValue &paramValue);
     static Scope getScope(const ParameterValue &paramValue);
     
 };

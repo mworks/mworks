@@ -102,6 +102,7 @@ const std::string VariableFactory::LOGGING("logging");
 const std::string VariableFactory::PERSISTENT("persistent");
 const std::string VariableFactory::EXCLUDE_FROM_DATA_FILE("exclude_from_data_file");
 const std::string VariableFactory::GROUPS("groups");
+const std::string VariableFactory::DESCRIPTION("description");
 
 
 ComponentInfo VariableFactory::describeComponent() {
@@ -125,6 +126,9 @@ ComponentInfo VariableFactory::describeComponent() {
     info.addParameter(EXCLUDE_FROM_DATA_FILE, "NO");
     info.addParameter(GROUPS, false);
     
+    info.addParameter(DESCRIPTION, false);
+    info.addParameterAlias(DESCRIPTION, "desc");
+    
     // "editable" is no longer used but is still present in old experiments
     info.addIgnoredParameter("editable");
     
@@ -145,7 +149,8 @@ ComponentPtr VariableFactory::createVariable(const ParameterValueMap &parameters
                              getLogging(parameters[LOGGING]),
                              bool(parameters[PERSISTENT]),
                              getGroups(parameters[GROUPS]),
-                             bool(parameters[EXCLUDE_FROM_DATA_FILE]));
+                             bool(parameters[EXCLUDE_FROM_DATA_FILE]),
+                             getDescription(parameters[DESCRIPTION]));
     
     if (getScope(parameters[SCOPE]) == Scope::Local) {
         return global_variable_registry->createScopedVariable(GlobalCurrentExperiment, props);
@@ -219,6 +224,14 @@ std::string VariableFactory::getGroups(const ParameterValue &paramValue) {
         return EXPERIMENT_DEFINED_VARIABLES;
     }
     return (EXPERIMENT_DEFINED_VARIABLES ",") + groups;
+}
+
+
+std::string VariableFactory::getDescription(const ParameterValue &paramValue) {
+    if (auto description = optionalVariableOrText(paramValue)) {
+        return description->getValue().getString();
+    }
+    return "";
 }
 
 
