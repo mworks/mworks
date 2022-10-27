@@ -49,7 +49,7 @@ BEGIN_NAMESPACE_MW
         alt_failover = registry->createGlobalVariable(    VariableProperties(     Datum((bool)true),
                                                                                    ALT_FAILOVER_TAGNAME, 
                                                                                    "allow_alt_failover", 
-                                                                                   "Allow failover to 'alt' defined objects", 
+                                                                                   "Allow failover to alternative I/O devices",
                                                                                    M_WHEN_CHANGED,
                                                                                    M_WHEN_CHANGED, 
                                                                                    true, 
@@ -61,7 +61,7 @@ BEGIN_NAMESPACE_MW
 																			Datum((long)IDLE), 
 																			STATE_SYSTEM_MODE_TAGNAME, 
 																			"Task Mode", 
-																			"Current Task Mode", 
+																			"Reports the execution state of the current experiment",
 																			M_WHEN_CHANGED,
 																			M_WHEN_CHANGED, 
 																			true, 
@@ -75,7 +75,7 @@ BEGIN_NAMESPACE_MW
 		GlobalMessageVariable = registry->createGlobalVariable(VariableProperties(Datum((long)0),
 																					   ANNOUNCE_MESSAGE_VAR_TAGNAME,
 																					   "message", 
-																					   "message event channel",
+																					   "Used to log messages to the event stream and event file",
 																					   M_NEVER,			// never user edit
 																					   M_WHEN_CHANGED,		// log when changed
 																					   true, 
@@ -89,7 +89,7 @@ BEGIN_NAMESPACE_MW
 																				   Datum(M_LIST, 1),
 																				   STIMULUS_DISPLAY_UPDATE_TAGNAME, 
 																				   "Stimulus Display Update",
-																				   "Stimulus Display about to be Updated", 
+																				   "Reports updates to the visual stimulus presentation",
 																				   M_NEVER,			// never user edit
 																				   M_WHEN_CHANGED,		// log when changed
 																				   true, 
@@ -102,7 +102,9 @@ BEGIN_NAMESPACE_MW
                                                                                STIMULUS_DISPLAY_CAPTURE_TAGNAME,
                                                                                M_WHEN_CHANGED,
                                                                                false,
-                                                                               PRIVATE_SYSTEM_VARIABLES));
+                                                                               PRIVATE_SYSTEM_VARIABLES,
+                                                                               false,
+                                                                               "Used to record captured stimulus display frames"));
         
         
 		experimentLoadProgress = registry->createGlobalVariable(
@@ -110,7 +112,7 @@ BEGIN_NAMESPACE_MW
 																						Datum((double)0),
 																						EXPERIMENT_LOAD_PROGRESS_TAGNAME, 
 																						"Progress while loading an experiment",
-																						"Progress while loading an experiment", 
+																						"Reports experiment loading progress",
 																						M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, 
 																						M_CONTINUOUS_FINITE,
 																						PRIVATE_SYSTEM_VARIABLES));
@@ -121,7 +123,7 @@ BEGIN_NAMESPACE_MW
                                                                                  Datum(""),
                                                                                  LOADED_EXPERIMENT_TAGNAME,
                                                                                  "Source code of current experiment",
-                                                                                 "The complete XML description of the currently-loaded experiment",
+                                                                                 "Used to record the source file(s) of the currently-loaded experiment to the event stream and event file",
                                                                                  M_WHEN_CHANGED, M_WHEN_CHANGED,
                                                                                  true, false, M_STRUCTURED, PRIVATE_SYSTEM_VARIABLES));
 		
@@ -130,7 +132,7 @@ BEGIN_NAMESPACE_MW
 									   VariableProperties(
 															   Datum((long)0),       // constructor to create default
 															   ANNOUNCE_SOUND_TAGNAME, "Announce Sound",
-															   "Indicates that a sound was played", 
+															   "Reports sound-related actions",
 															   M_NEVER,M_WHEN_CHANGED,     // never useer edit, log when changed
 															   true, false, M_STRUCTURED,
 															   PRIVATE_SYSTEM_VARIABLES));  // view   
@@ -140,7 +142,7 @@ BEGIN_NAMESPACE_MW
 									   VariableProperties(
 															   Datum(M_DICTIONARY, (int)1),       // constructor to create default
 															   ANNOUNCE_CALIBRATOR_TAGNAME, "Announce calibration",
-															   "A calibration event has occured", 
+															   "Reports changes to the state of a calibrator",
 															   M_NEVER,M_WHEN_CHANGED,     // never useer edit, log when changed
 															   true, false, M_STRUCTURED,
 															   PRIVATE_SYSTEM_VARIABLES));  // view                                     
@@ -149,7 +151,7 @@ BEGIN_NAMESPACE_MW
 									   VariableProperties(
 															   Datum(M_DICTIONARY, (int)1),
 															   REQUEST_CALIBRATOR_TAGNAME, "Request calibrator",
-															   "used to request calibrator actions",       // e.g. update parameters
+															   "Used to request updates to a calibrator’s parameters",
 															   M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, M_DISCRETE,
 															   PRIVATE_SYSTEM_VARIABLES));                           
 		
@@ -158,7 +160,7 @@ BEGIN_NAMESPACE_MW
 		currentState = registry->createGlobalVariable(VariableProperties(Datum(std::string("<empty>")),
 																			  ANNOUNCE_CURRENT_STATE_TAGNAME,
 																			  "Current State",
-																			  "reports the current state",   
+																			  "Reports the numeric identifier of the component that is currently executing",
 																			  M_WHEN_CHANGED,
 																			  M_WHEN_CHANGED, 
 																			  true, 
@@ -178,14 +180,14 @@ BEGIN_NAMESPACE_MW
 																			   Datum(0L),
 																			   ANNOUNCE_TRIAL_TAGNAME, 
 																			   "Trial Announce",
-																			   "reports the entry or exit of a trial paradigm component",       // e.g. update parameters
+																			   "Reports the entry or exit of a trial paradigm component",
 																			   M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, M_DISCRETE,
 																			   PRIVATE_SYSTEM_VARIABLES));                           
 		
 		blockAnnounce = registry->createGlobalVariable(VariableProperties(
 																			   Datum(0L),
 																			   ANNOUNCE_BLOCK_TAGNAME, "Block Announce",
-																			   "reports the entry or exit of a block paradigm component",       // e.g. update parameters
+																			   "Reports the entry or exit of a block paradigm component",
 																			   M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, M_DISCRETE,
 																			   PRIVATE_SYSTEM_VARIABLES));                           
 		
@@ -213,7 +215,7 @@ BEGIN_NAMESPACE_MW
 		mainDisplayInfo = registry->createGlobalVariable(VariableProperties(default_screen_info,
 																				MAIN_SCREEN_INFO_TAGNAME, 
 																				"Main Screen Geometry Information",
-																				"Used to convert from screen units into degrees",
+																				"Used to configure the stimulus display",
 																				M_WHEN_CHANGED, M_WHEN_CHANGED, true, false, M_STRUCTURED,
 																				PRIVATE_SYSTEM_VARIABLES));
         
@@ -221,7 +223,7 @@ BEGIN_NAMESPACE_MW
         warnOnSkippedRefresh = registry->createGlobalVariable(VariableProperties(Datum((bool)true), 
                                                                                      WARN_ON_SKIPPED_REFRESH_TAGNAME, 
                                                                                      "Warn On Skipped Refresh", 
-                                                                                     "Issue a warning if stimulus display driver misses a display refresh cycle", 
+                                                                                     "Issue a warning if the stimulus presentation skips a display refresh cycle",
                                                                                      M_WHEN_CHANGED,
                                                                                      M_WHEN_CHANGED, 
                                                                                      true, 
@@ -234,7 +236,9 @@ BEGIN_NAMESPACE_MW
                                                                         STOP_ON_ERROR_TAGNAME,
                                                                         M_WHEN_CHANGED,
                                                                         false,
-                                                                        PRIVATE_SYSTEM_VARIABLES));
+                                                                        PRIVATE_SYSTEM_VARIABLES,
+                                                                        false,
+                                                                        "Stop the experiment automatically when an error is reported"));
         
         
         Datum defaultRealtimeComponents(M_DICTIONARY, 0);
