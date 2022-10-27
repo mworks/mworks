@@ -15,8 +15,6 @@
 #pragma clang diagnostic pop
 #include <boost/algorithm/string/case_conv.hpp>
 
-#include "VariableProperties.h"
-#include "VariableRegistry.h"
 #include "SequentialSelection.h"
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
@@ -29,26 +27,28 @@ using boost::algorithm::to_lower_copy;
 BEGIN_NAMESPACE_MW
 
 
-SelectionVariable::SelectionVariable(const VariableProperties &props, shared_ptr<Selection> _selection) :
+SelectionVariable::SelectionVariable(const VariableProperties &props, const boost::shared_ptr<Selection> &sel) :
     ReadOnlyVariable(props),
     selected_index(NO_SELECTION),
     advanceOnAccept(false)
 {
-    if (_selection) {
-        attachSelection(_selection);
+    if (sel) {
+        attachSelection(sel);
     }
 }
 
 
 Datum SelectionVariable::getTentativeSelection(int index) {
+    lock_guard lock(mutex);
+    
     if (!selection) {
         merror(M_PARADIGM_MESSAGE_DOMAIN, "Internal error: selection variable has no selection attached");
         return Datum(0L);
     }
     
-    const std::vector<int>& tenativeSelections = selection->getTentativeSelections();
+    auto &tenativeSelections = selection->getTentativeSelections();
     
-    if (tenativeSelections.size() == 0) {
+    if (tenativeSelections.empty()) {
         // Issue an error message only if the experiment is running.  Otherwise, all selection variable indexing
         // expressions will produce load-time errors (since ParsedExpressionVariable's constructors evaluate the
         // expression to test for validity).
@@ -62,49 +62,76 @@ Datum SelectionVariable::getTentativeSelection(int index) {
         merror(M_PARADIGM_MESSAGE_DOMAIN, "Selection variable index (%d) is out of bounds.  Returning 0.", index);
         return Datum(0L);
     }
-        
-    return values[tenativeSelections[index]];
+    
+    return values.at(tenativeSelections.at(index));
 }
 
 
 void SelectionVariable::nextValue() {
-	if (selection != NULL) {
-		
-		try {
-            
-			selected_index = selection->draw();
-
-		} catch (std::exception &e) {
-			
-			merror(M_PARADIGM_MESSAGE_DOMAIN, "%s", e.what());
-			return;
-            
-		}
-		
-        // announce your new value so that the event stream contains
-        // all information about what happened in the experiment
-        announce();
-        performNotifications(values[selected_index]);
-		
-	} else {
-		merror(M_PARADIGM_MESSAGE_DOMAIN,
-			   "Attempt to advance a selection variable with a NULL selection");
-	}
+    lock_guard lock(mutex);
+    
+    if (!selection) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Attempt to advance a selection variable with a NULL selection");
+        return;
+    }
+    
+    try {
+        selected_index = selection->draw();
+    } catch (std::exception &e) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "%s", e.what());
+        return;
+    }
+    
+    // Announce the new value so that the event stream contains
+    // all information about what happened in the experiment
+    announce();
+    performNotifications(values.at(selected_index));
 }
 
 
 Datum SelectionVariable::getValue() {
-	if (selected_index == NO_SELECTION) {
-		nextValue();
-	}
-	
-	if (selected_index == NO_SELECTION) {
-		merror(M_PARADIGM_MESSAGE_DOMAIN,
-			   "Attempt to select a value from a selection variable with no values defined");
-		return Datum(0L);
-	}
-	
-	return values[selected_index];
+    lock_guard lock(mutex);
+    
+    if (selected_index == NO_SELECTION) {
+        nextValue();
+    }
+    
+    if (selected_index == NO_SELECTION) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN,
+               "Attempt to select a value from a selection variable with no values defined");
+        return Datum(0L);
+    }
+    
+    return values.at(selected_index);
+}
+
+
+int SelectionVariable::getNItems() {
+    lock_guard lock(mutex);
+    return values.size();
+}
+
+
+void SelectionVariable::resetSelections() {
+    lock_guard lock(mutex);
+    Selectable::resetSelections();
+    selected_index = NO_SELECTION;
+}
+
+
+void SelectionVariable::rejectSelections() {
+    lock_guard lock(mutex);
+    Selectable::rejectSelections();
+    nextValue();
+}
+
+
+void SelectionVariable::acceptSelections() {
+    lock_guard lock(mutex);
+    Selectable::acceptSelections();
+    if (advanceOnAccept && (getNLeft() > 0)) {
+        nextValue();
+    }
 }
 
 
@@ -200,41 +227,10 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	}
 	
 	selectionVar->attachSelection(selection);
-	
-	for(std::vector<Datum>::const_iterator i = values.begin();
-		i != values.end();
-		++i) {
-		selectionVar->addValue(*i);
-	}
+    selectionVar->addValues(values);
 	
 	return selectionVar;
 }
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

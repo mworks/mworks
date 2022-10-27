@@ -23,63 +23,59 @@ BEGIN_NAMESPACE_MW
 
 class SelectionVariable : public Selectable, public ReadOnlyVariable {
     
-protected:
-    static const int NO_SELECTION = -1;
-    
-    std::vector<Datum> values;
-    int selected_index;
-    bool advanceOnAccept;
-    
 public:
     explicit SelectionVariable(const VariableProperties &props = VariableProperties(),
-                               shared_ptr<Selection> _sel = shared_ptr<Selection>());
+                               const boost::shared_ptr<Selection> &sel = boost::shared_ptr<Selection>());
     
     void setAdvanceOnAccept(bool val) {
+        lock_guard lock(mutex);
         advanceOnAccept = val;
     }
     
+    void addValues(const std::vector<Datum> &vals) {
+        lock_guard lock(mutex);
+        values.insert(values.end(), vals.begin(), vals.end());
+        if (selection) {
+            resetSelections();
+        }
+    }
+    
     void addValue(const Datum &val) {
+        lock_guard lock(mutex);
         values.push_back(val);
-		if (selection != NULL) {
-			resetSelections();
-		}
+        if (selection) {
+            resetSelections();
+        }
     }
     
     void addValue(const shared_ptr<Variable> &var) {
         if (var) {
             addValue(var->getValue());
         }
-	}
-	
+    }
+    
     Datum getTentativeSelection(int index);
     void nextValue();
-	
+    
     // Variable overrides
     Datum getValue() override;
-
-    //
+    
     // Selectable overrides
-    //
+    int getNItems() override;
+    void resetSelections() override;
+    void rejectSelections() override;
+    void acceptSelections() override;
     
-    int getNItems() override { return values.size(); }
+private:
+    static constexpr int NO_SELECTION = -1;
     
-    void resetSelections() override {
-        Selectable::resetSelections();
-		selected_index = NO_SELECTION;
-	}
-	
-	void rejectSelections() override {
-        Selectable::rejectSelections();
-		nextValue();
-	}
-
-    void acceptSelections() override {
-        Selectable::acceptSelections();
-        if (advanceOnAccept && (getNLeft() > 0)) {
-            nextValue();
-        }
-    }
-
+    std::vector<Datum> values;
+    int selected_index;
+    bool advanceOnAccept;
+    
+    using lock_guard = std::lock_guard<std::recursive_mutex>;
+    lock_guard::mutex_type mutex;
+    
 };
 
 
@@ -95,29 +91,3 @@ END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
