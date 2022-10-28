@@ -138,7 +138,29 @@ public:
 };
 
 
-class VariableFactory : public ComponentFactory {
+class BaseVariableFactory : public ComponentFactory {
+    
+public:
+    static const std::string GROUPS;
+    static const std::string DESCRIPTION;
+    
+    static ComponentInfo describeComponent();
+    
+    explicit BaseVariableFactory(const ComponentInfo &info) : ComponentFactory(info) { }
+    
+    ComponentPtr createObject(StdStringMap parameters, ComponentRegistry *reg) override;
+    
+protected:
+    static std::string getGroups(const ParameterValue &paramValue);
+    static std::string getDescription(const ParameterValue &paramValue);
+    
+private:
+    virtual ComponentPtr createVariable(const Map<ParameterValue> &parameters) const = 0;
+    
+};
+
+
+class VariableFactory : public BaseVariableFactory {
     
 public:
     static const std::string DEFAULT_VALUE;
@@ -147,26 +169,20 @@ public:
     static const std::string LOGGING;
     static const std::string PERSISTENT;
     static const std::string EXCLUDE_FROM_DATA_FILE;
-    static const std::string GROUPS;
-    static const std::string DESCRIPTION;
     
     static ComponentInfo describeComponent();
     
-    VariableFactory() : ComponentFactory(describeComponent()) { }
-    
-    ComponentPtr createObject(StdStringMap parameters, ComponentRegistry *reg) override;
+    VariableFactory() : BaseVariableFactory(describeComponent()) { }
     
 private:
     enum class Scope { Global, Local };
     
-    static ComponentPtr createVariable(const Map<ParameterValue> &parameters);
-    
     static GenericDataType getType(const ParameterValue &paramValue);
     static Datum getDefaultValue(const ParameterValue &paramValue, GenericDataType type);
     static WhenType getLogging(const ParameterValue &paramValue);
-    static std::string getGroups(const ParameterValue &paramValue);
-    static std::string getDescription(const ParameterValue &paramValue);
     static Scope getScope(const ParameterValue &paramValue);
+    
+    ComponentPtr createVariable(const Map<ParameterValue> &parameters) const override;
     
 };
 

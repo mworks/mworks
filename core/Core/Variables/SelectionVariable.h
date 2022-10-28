@@ -79,10 +79,25 @@ private:
 };
 
 
-class SelectionVariableFactory : public ComponentFactory {
+class SelectionVariableFactory : public BaseVariableFactory {
     
-    shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-                                           ComponentRegistry *reg) override;
+public:
+    static const std::string VALUES;
+    static const std::string ADVANCE_ON_ACCEPT;
+    static const std::string AUTORESET;
+    
+    static ComponentInfo describeComponent();
+    
+    SelectionVariableFactory() : BaseVariableFactory(describeComponent()) { }
+    
+private:
+    static std::vector<Datum> getValues(const ParameterValue &paramValue);
+    static long getNumSamples(const ParameterValue &paramValue,
+                              SampleType sampleType,
+                              const std::vector<Datum> &values);
+    static boost::shared_ptr<Selection> getSelection(SelectionType selectionType, long numSamples, bool autoreset);
+    
+    ComponentPtr createVariable(const Map<ParameterValue> &parameters) const override;
     
 };
 

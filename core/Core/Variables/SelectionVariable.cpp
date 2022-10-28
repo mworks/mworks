@@ -9,19 +9,12 @@
 
 #include "SelectionVariable.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#include <boost/lexical_cast.hpp>
-#pragma clang diagnostic pop
-#include <boost/algorithm/string/case_conv.hpp>
-
 #include "SequentialSelection.h"
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
 #include "ComponentRegistry.h"
 #include "ExpressionVariable.h"
-
-using boost::algorithm::to_lower_copy;
+#include "ParameterValue.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -135,101 +128,94 @@ void SelectionVariable::acceptSelections() {
 }
 
 
-shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::string, std::string> parameters,
-														ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters,
-					   "tag",
-					   "values");
+const std::string SelectionVariableFactory::VALUES("values");
+const std::string SelectionVariableFactory::ADVANCE_ON_ACCEPT("advance_on_accept");
+const std::string SelectionVariableFactory::AUTORESET("autoreset");
+
+
+ComponentInfo SelectionVariableFactory::describeComponent() {
+    auto info = BaseVariableFactory::describeComponent();
     
-    std::string sampling_method_string;
-    std::string nsamples_string;
-    std::string selection_string;
-	
-    GET_ATTRIBUTE(parameters, sampling_method_string, "sampling_method", "cycles");
-    GET_ATTRIBUTE(parameters, nsamples_string, "nsamples", "1");
-    GET_ATTRIBUTE(parameters, selection_string, "selection", "sequential");
+    info.setSignature("variable/selection");
     
-	std::string groups(EXPERIMENT_DEFINED_VARIABLES);
-    bool advanceOnAccept = false;
-	
-	string tag(parameters.find("tag")->second);
-	
-	if(parameters.find("groups") != parameters.end()) {
-        groups.append(", ");
-        groups.append(parameters.find("groups")->second);
-	}
-	
-	if (parameters.find("advance_on_accept") != parameters.end()) {
-		try {
-			advanceOnAccept = reg->getBoolean(parameters.find("advance_on_accept")->second);
-		} catch (boost::bad_lexical_cast &) {
-			throw InvalidAttributeException(parameters["reference_id"], "advance_on_accept", parameters.find("advance_on_accept")->second);
-		}
-	}
-	
-	// TODO when the variable properties get fixed, we can get rid of this nonsense
+    info.addParameter(VALUES);
+    info.addParameter(ADVANCE_ON_ACCEPT, "NO");
+    info.addParameter(AUTORESET, "NO");
+    
+    info.addParameter(ListState::SELECTION, "sequential");
+    info.addParameter(ListState::NSAMPLES, "1");
+    info.addParameter(ListState::SAMPLING_METHOD, "cycles");
+    
+    return info;
+}
+
+
+std::vector<Datum> SelectionVariableFactory::getValues(const ParameterValue &paramValue) {
+    std::vector<Datum> values;
+    ParsedExpressionVariable::evaluateExpressionList(paramValue.str(), values);
+    return values;
+}
+
+
+long SelectionVariableFactory::getNumSamples(const ParameterValue &paramValue,
+                                             SampleType sampleType,
+                                             const std::vector<Datum> &values)
+{
+    long numSamples(paramValue);
+    if (numSamples < 1) {
+        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "\"nsamples\" must be greater than or equal to 1");
+    }
+    if (sampleType == M_CYCLES) {
+        numSamples *= values.size();
+    }
+    return numSamples;
+}
+
+
+boost::shared_ptr<Selection> SelectionVariableFactory::getSelection(SelectionType selectionType,
+                                                                    long numSamples,
+                                                                    bool autoreset)
+{
+    switch (selectionType) {
+        case M_SEQUENTIAL:
+        case M_SEQUENTIAL_ASCENDING:
+            return boost::make_shared<SequentialSelection>(numSamples, true, autoreset);
+            
+        case M_SEQUENTIAL_DESCENDING:
+            return boost::make_shared<SequentialSelection>(numSamples, false, autoreset);
+            
+        case M_RANDOM_WITH_REPLACEMENT:
+            return boost::make_shared<RandomWithReplacementSelection>(numSamples, autoreset);
+            
+        case M_RANDOM_WOR:
+            return boost::make_shared<RandomWORSelection>(numSamples, autoreset);
+    }
+}
+
+
+ComponentPtr SelectionVariableFactory::createVariable(const ParameterValueMap &parameters) const {
+    const auto values = getValues(parameters[VALUES]);
+    const bool advanceOnAccept(parameters[ADVANCE_ON_ACCEPT]);
+    const bool autoreset(parameters[AUTORESET]);
+    
+    const SelectionType selectionType(parameters[ListState::SELECTION]);
+    const auto numSamples = getNumSamples(parameters[ListState::NSAMPLES],
+                                          SampleType(parameters[ListState::SAMPLING_METHOD]),
+                                          values);
+    
     VariableProperties props(Datum(0L),
-                             tag,
+                             parameters[Component::TAG].str(),
                              M_WHEN_CHANGED,
                              false,
-                             groups);
-	
-	boost::shared_ptr<SelectionVariable>selectionVar;
-	selectionVar = global_variable_registry->createSelectionVariable(props);
+                             getGroups(parameters[GROUPS]),
+                             false,
+                             getDescription(parameters[DESCRIPTION]));
     
+    auto selectionVar = global_variable_registry->createSelectionVariable(props);
     selectionVar->setAdvanceOnAccept(advanceOnAccept);
-	
-	// get the values
-    std::vector<Datum> values;
-    ParsedExpressionVariable::evaluateExpressionList(parameters["values"], values);
-	
-	// get the number of samples
-	unsigned int numSamples = 0;
-	try {
-		numSamples = boost::lexical_cast<unsigned int>(nsamples_string);
-	} catch (boost::bad_lexical_cast &) {
-		throw InvalidAttributeException(parameters["reference_id"], "nsamples", nsamples_string);
-	}
-	
-	// if it's cycles, multiply by the number of elements in the possible values
-	if (to_lower_copy(sampling_method_string) == "cycles") {
-		numSamples *= values.size();
-	} else if (to_lower_copy(sampling_method_string) == "samples") {
-		// do nothing
-	} else {
-		throw InvalidAttributeException(parameters["reference_id"], "sampling_method", sampling_method_string);
-	}
-	
-    bool autoreset_behavior = false;
-    string autoreset_value = parameters["autoreset"];
-    
-    if(!autoreset_value.empty()){ 
-        boost::algorithm::to_lower(autoreset_value);
-        if(autoreset_value == "yes" || autoreset_value == "1" || autoreset_value == "true"){
-            autoreset_behavior = true;
-        }
-    }
-    
-	// get the selection type
-	shared_ptr<Selection> selection;
-	if (to_lower_copy(selection_string) == "sequential_ascending") {
-		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, true, autoreset_behavior));
-    } else if (to_lower_copy(selection_string) == "sequential") {
-        selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, true, autoreset_behavior));
-	} else if (to_lower_copy(selection_string) == "sequential_descending") {
-		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, false, autoreset_behavior));			
-	} else if (to_lower_copy(selection_string) == "random_without_replacement") {
-		selection = shared_ptr<RandomWORSelection>(new RandomWORSelection(numSamples, autoreset_behavior));			
-	} else if (to_lower_copy(selection_string) == "random_with_replacement") {
-		selection = shared_ptr<RandomWithReplacementSelection>(new RandomWithReplacementSelection(numSamples, autoreset_behavior));			
-	} else {
-		throw InvalidAttributeException(parameters["reference_id"], "selection", selection_string);
-	}
-	
-	selectionVar->attachSelection(selection);
+    selectionVar->attachSelection(getSelection(selectionType, numSamples, autoreset));
     selectionVar->addValues(values);
-	
-	return selectionVar;
+    return selectionVar;
 }
 
 

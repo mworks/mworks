@@ -160,11 +160,32 @@ description: >
 ---
 
 
+name: Base Variable
+abstract: yes
+group: Variables
+toplevel: yes
+parameters: 
+  -
+    name: groups
+    description: >
+        Comma-separated list containing the names of groups to which the
+        variable belongs.  Variable groups are displayed as expandable sections
+        in MWClient's variables window.
+  -
+    name: description
+    alias: desc
+    description: >
+        Description of the variable's meaning or intended usage.  Variable
+        descriptions are displayed as tooltips in MWClient's variables window.
+
+
+---
+
+
 name: Variable
 signature: variable
 mwel_alias: var
-group: Variables
-toplevel: yes
+isa: Base Variable
 allowed_child: Action
 description: >
     A general-purpose variable, used to store experiment parameters, collect
@@ -220,18 +241,6 @@ parameters:
         If ``YES``, then the variable's value is *not* written to the data file.
         Other event stream listeners (e.g. MWClient, client- and server-side
         conduits) continue to receive its value.
-  -
-    name: groups
-    description: >
-        Comma-separated list containing the names of groups to which the
-        variable belongs.  Variable groups are displayed as expandable sections
-        in MWClient's variables window.
-  -
-    name: description
-    alias: desc
-    description: >
-        Description of the variable's meaning or intended usage.  Variable
-        descriptions are displayed as tooltips in MWClient's variables window.
 
 
 ---
@@ -270,9 +279,7 @@ parameters:
 
 name: Selection Variable
 signature: variable/selection
-isa: Selectable
-group: Variables
-toplevel: yes
+isa: [Selectable, Base Variable]
 description: >
     A variable whose current value is drawn from a list of possible values.  The
     order and number of selected values are determined by `selection`_,
@@ -297,12 +304,6 @@ parameters:
     description: >
         If ``YES``, `Reset Selections` will be invoked automatically when all
         selections have been exhausted
-  -
-    name: groups
-    description: >
-        Comma-separated list containing the names of groups to which the
-        variable belongs.  Variable groups are displayed as expandable sections
-        in MWClient's variables window.
 
 
 ---

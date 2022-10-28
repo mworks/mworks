@@ -50,7 +50,7 @@ ComponentRegistry::ComponentRegistry() {
     registerFactory<StandardComponentFactory, TaskSystemState>();
 	
 	registerFactory("variable", boost::make_shared<VariableFactory>());
-	registerFactory("variable/selection", new SelectionVariableFactory());
+	registerFactory("variable/selection", boost::make_shared<SelectionVariableFactory>());
 	
 	
     registerFactory<StandardComponentFactory, ScheduledActions>();

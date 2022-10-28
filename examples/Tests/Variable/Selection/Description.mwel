@@ -1,0 +1,28 @@
+// Descriptions are optional
+selection no_desc (
+    values = 1:3
+    )
+
+// "description" is the actual parameter name
+selection short_desc (
+    values = 4:6
+    description = 'This is a short description'
+    )
+
+// "desc" is an alias for "description"
+selection long_desc (
+    values = 7:9
+    desc = (
+        'This is a longer description. All of this text should be readable ' +
+        'in the variables window. It clearly contains important information ' +
+        'for the experimenter.'
+        )
+    )
+
+
+protocol {
+    report ('Confirm that the descriptions are displayed as tooltips in the variables window')
+    assert (no_desc == 1)
+    assert (short_desc == 4)
+    assert (long_desc == 7)
+}

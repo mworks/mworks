@@ -95,24 +95,61 @@ MWTime Variable::getCurrentTimeUS() {
 }
 
 
+const std::string BaseVariableFactory::GROUPS("groups");
+const std::string BaseVariableFactory::DESCRIPTION("description");
+
+
+ComponentInfo BaseVariableFactory::describeComponent() {
+    ComponentInfo info;
+    
+    info.addParameter(Component::TAG);
+    info.addParameter(GROUPS, false);
+    
+    info.addParameter(DESCRIPTION, false);
+    info.addParameterAlias(DESCRIPTION, "desc");
+    
+    return info;
+}
+
+
+ComponentPtr BaseVariableFactory::createObject(StdStringMap parameters, ComponentRegistryPtr reg) {
+    ParameterValueMap values;
+    processParameters(parameters, reg, values);
+    return createVariable(values);
+}
+
+
+std::string BaseVariableFactory::getGroups(const ParameterValue &paramValue) {
+    const auto groups = boost::algorithm::trim_copy(paramValue.str());
+    if (groups.empty()) {
+        return EXPERIMENT_DEFINED_VARIABLES;
+    }
+    return (EXPERIMENT_DEFINED_VARIABLES ",") + groups;
+}
+
+
+std::string BaseVariableFactory::getDescription(const ParameterValue &paramValue) {
+    if (auto description = optionalVariableOrText(paramValue)) {
+        return description->getValue().getString();
+    }
+    return "";
+}
+
+
 const std::string VariableFactory::DEFAULT_VALUE("default_value");
 const std::string VariableFactory::TYPE("type");
 const std::string VariableFactory::SCOPE("scope");
 const std::string VariableFactory::LOGGING("logging");
 const std::string VariableFactory::PERSISTENT("persistent");
 const std::string VariableFactory::EXCLUDE_FROM_DATA_FILE("exclude_from_data_file");
-const std::string VariableFactory::GROUPS("groups");
-const std::string VariableFactory::DESCRIPTION("description");
 
 
 ComponentInfo VariableFactory::describeComponent() {
-    ComponentInfo info;
+    auto info = BaseVariableFactory::describeComponent();
     
     info.setSignature("variable");
     
-    info.addParameter(Component::TAG);
     info.addParameter(DEFAULT_VALUE);
-    
     info.addParameter(TYPE, "any");
     info.addParameter(SCOPE, "global");
     info.addParameter(LOGGING, "when_changed");
@@ -124,38 +161,11 @@ ComponentInfo VariableFactory::describeComponent() {
     info.addParameterAlias(PERSISTENT, "persistant");
     
     info.addParameter(EXCLUDE_FROM_DATA_FILE, "NO");
-    info.addParameter(GROUPS, false);
-    
-    info.addParameter(DESCRIPTION, false);
-    info.addParameterAlias(DESCRIPTION, "desc");
     
     // "editable" is no longer used but is still present in old experiments
     info.addIgnoredParameter("editable");
     
     return info;
-}
-
-
-ComponentPtr VariableFactory::createObject(StdStringMap parameters, ComponentRegistryPtr reg) {
-    ParameterValueMap values;
-    processParameters(parameters, reg, values);
-    return createVariable(values);
-}
-
-
-ComponentPtr VariableFactory::createVariable(const ParameterValueMap &parameters) {
-    VariableProperties props(getDefaultValue(parameters[DEFAULT_VALUE], getType(parameters[TYPE])),
-                             parameters[Component::TAG].str(),
-                             getLogging(parameters[LOGGING]),
-                             bool(parameters[PERSISTENT]),
-                             getGroups(parameters[GROUPS]),
-                             bool(parameters[EXCLUDE_FROM_DATA_FILE]),
-                             getDescription(parameters[DESCRIPTION]));
-    
-    if (getScope(parameters[SCOPE]) == Scope::Local) {
-        return global_variable_registry->createScopedVariable(GlobalCurrentExperiment, props);
-    }
-    return global_variable_registry->createGlobalVariable(props);
 }
 
 
@@ -218,23 +228,6 @@ WhenType VariableFactory::getLogging(const ParameterValue &paramValue) {
 }
 
 
-std::string VariableFactory::getGroups(const ParameterValue &paramValue) {
-    const auto groups = boost::algorithm::trim_copy(paramValue.str());
-    if (groups.empty()) {
-        return EXPERIMENT_DEFINED_VARIABLES;
-    }
-    return (EXPERIMENT_DEFINED_VARIABLES ",") + groups;
-}
-
-
-std::string VariableFactory::getDescription(const ParameterValue &paramValue) {
-    if (auto description = optionalVariableOrText(paramValue)) {
-        return description->getValue().getString();
-    }
-    return "";
-}
-
-
 auto VariableFactory::getScope(const ParameterValue &paramValue) -> Scope {
     const auto scope = boost::algorithm::to_lower_copy(paramValue.str());
     if (scope == "global") {
@@ -244,6 +237,22 @@ auto VariableFactory::getScope(const ParameterValue &paramValue) -> Scope {
     } else {
         throw InvalidAttributeException(SCOPE, scope);
     }
+}
+
+
+ComponentPtr VariableFactory::createVariable(const ParameterValueMap &parameters) const {
+    VariableProperties props(getDefaultValue(parameters[DEFAULT_VALUE], getType(parameters[TYPE])),
+                             parameters[Component::TAG].str(),
+                             getLogging(parameters[LOGGING]),
+                             bool(parameters[PERSISTENT]),
+                             getGroups(parameters[GROUPS]),
+                             bool(parameters[EXCLUDE_FROM_DATA_FILE]),
+                             getDescription(parameters[DESCRIPTION]));
+    
+    if (getScope(parameters[SCOPE]) == Scope::Local) {
+        return global_variable_registry->createScopedVariable(GlobalCurrentExperiment, props);
+    }
+    return global_variable_registry->createGlobalVariable(props);
 }
 
 

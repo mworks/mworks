@@ -128,6 +128,14 @@ template<>
 boost::shared_ptr<Sound> ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 
+template<>
+SelectionType ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
+
+
+template<>
+SampleType ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
+
+
 boost::filesystem::path pathFromParameterValue(const std::string &s, bool directoryAllowed = false);
 
 
