@@ -302,8 +302,8 @@ void GenericDataTestFixture::testDictionaryStrings() {
     
     for(int i = 0; i<num_elem; i++)
     {
-        sprintf(test, "string%d", i);
-        sprintf(key, "key%d", i);
+        snprintf(test, 20, "string%d", i);
+        snprintf(key, 20, "key%d", i);
         Datum data(test);
         
         dic_c.addElement(key, data);
@@ -313,8 +313,8 @@ void GenericDataTestFixture::testDictionaryStrings() {
     
     for(int i = 0; i<num_elem; i++)
     {
-        sprintf(test, "string%d", i);
-        sprintf(key, "key%d", i);
+        snprintf(test, 20, "string%d", i);
+        snprintf(key, 20, "key%d", i);
         
         Datum data = dic_c.getElement(key);
         

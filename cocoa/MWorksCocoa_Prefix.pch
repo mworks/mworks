@@ -8,7 +8,10 @@
 #ifdef __cplusplus
 
 #include <boost/bind.hpp>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #include <boost/date_time/posix_time/posix_time.hpp>
+#pragma clang diagnostic pop
 #include <boost/shared_ptr.hpp>
 
 #include <MWorksCore/Client.h>

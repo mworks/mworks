@@ -29,7 +29,10 @@ public:
         fd(-1)
     {
         if (!create) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             mktemp(filename.data());
+#pragma clang diagnostic pop
         } else if (-1 == (fd = mkstemp(filename.data()))) {
             throw std::runtime_error("Cannot create named temporary file");
         }
