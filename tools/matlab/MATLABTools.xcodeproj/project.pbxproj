@@ -416,6 +416,7 @@
 			baseConfigurationReference = E1F7696E22BD5CC400024441 /* macOS.xcconfig */;
 			buildSettings = {
 				ARCHS = x86_64;
+				CODE_SIGNING_ALLOWED = YES;
 				EXECUTABLE_EXTENSION = mexmaci64;
 				EXPORTED_SYMBOLS_FILE = "$(MATLAB_DIR)/extern/lib/$(MATLAB_ARCH_$(CURRENT_ARCH))/mexFunction.map";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

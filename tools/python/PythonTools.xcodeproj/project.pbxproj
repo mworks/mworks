@@ -665,6 +665,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E105D17320FE7662002E2464 /* macOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGNING_ALLOWED = YES;
 				EXECUTABLE_EXTENSION = so;
 				EXPORTED_SYMBOLS_FILE = "PythonTools-Exports.exp";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
