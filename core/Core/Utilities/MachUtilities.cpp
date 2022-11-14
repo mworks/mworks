@@ -300,40 +300,4 @@ void logMachThreadInfo() {
 }
 
 
-bool logMachError(const char *functionName, mach_error_t error) {
-    const bool failed = (error != ERR_SUCCESS);
-    if (failed) {
-        merror(M_SYSTEM_MESSAGE_DOMAIN, "%s failed: %s (%d)", functionName, mach_error_string(error), error);
-    }
-    return failed;
-}
-
-
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

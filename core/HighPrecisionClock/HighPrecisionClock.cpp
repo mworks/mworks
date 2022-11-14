@@ -15,7 +15,7 @@ BEGIN_NAMESPACE_MW
 HighPrecisionClock::HighPrecisionClock() :
     period(timebase.nanosToAbsolute(periodUS * nanosPerMicro)),
     computation(timebase.nanosToAbsolute(computationUS * nanosPerMicro)),
-    threadSpecificSemaphore(&destroySemaphore)
+    running(false)
 { }
 
 
@@ -26,24 +26,16 @@ HighPrecisionClock::~HighPrecisionClock() {
 
 void HighPrecisionClock::startClock() {
     if (!isRunning()) {
-        try {
-            runLoopThread = boost::thread(boost::bind(&HighPrecisionClock::runLoop,
-                                                      component_shared_from_this<HighPrecisionClock>()));
-        } catch (const boost::thread_resource_error &e) {
-            throw SimpleException(M_SCHEDULER_MESSAGE_DOMAIN, "Unable to start HighPrecisionClock", e.what());
-        }
+        running = true;
+        runLoopThread = std::thread([this] { runLoop(); });
     }
 }
 
 
 void HighPrecisionClock::stopClock() {
     if (isRunning()) {
-        runLoopThread.interrupt();
-        try {
-            runLoopThread.join();
-        } catch (const boost::system::system_error &e) {
-            merror(M_SCHEDULER_MESSAGE_DOMAIN, "Unable to stop HighPrecisionClock: %s", e.what());
-        }
+        running = false;
+        runLoopThread.join();
     }
 }
 
@@ -59,39 +51,12 @@ void HighPrecisionClock::yield() {
 
 
 void HighPrecisionClock::wait(uint64_t expirationTime) {
-    semaphore_t *sem = threadSpecificSemaphore.get();
-    if (!sem) {
-        semaphore_t newSem;
-        if (logMachError("semaphore_create", semaphore_create(mach_task_self(), &newSem, SYNC_POLICY_FIFO, 0)) ||
-            (threadSpecificSemaphore.reset(new semaphore_t(newSem)), false) ||
-            // NOTE: This final test looks unnecessary, but omitting it leads to server crashes when using
-            // Boost 1.60.0
-            !(sem = threadSpecificSemaphore.get()))
-        {
-            // If we can't create the semaphore, do a low-precision wait with mach_wait_until, and hope
-            // that semaphore_create will work next time
-            if (0 == expirationTime) {
-                expirationTime = mach_absolute_time() + period;
-            }
-            logMachError("mach_wait_until", mach_wait_until(expirationTime));
-            return;
-        }
-    }
-    
+    thread_local Semaphore sem;
     {
         lock_guard lock(waitsMutex);
-        waits.push(WaitInfo(expirationTime, *sem));
+        waits.emplace(expirationTime, sem);
     }
-    
-    logMachError("semaphore_wait", semaphore_wait(*sem));
-}
-
-
-void HighPrecisionClock::destroySemaphore(semaphore_t *sem) {
-    if (sem) {
-        logMachError("semaphore_destroy", semaphore_destroy(mach_task_self(), *sem));
-        delete sem;
-    }
+    sem.wait();
 }
 
 
@@ -100,19 +65,16 @@ void HighPrecisionClock::runLoop() {
         merror(M_SCHEDULER_MESSAGE_DOMAIN, "HighPrecisionClock failed to achieve real time scheduling");
     }
     
-    uint64_t startTime = mach_absolute_time();
+    auto startTime = mach_absolute_time();
     
-    while (true) {
+    while (running) {
         {
             lock_guard lock(waitsMutex);
             while (!waits.empty() && waits.top().getExpirationTime() <= startTime) {
-                logMachError("semaphore_signal", semaphore_signal(waits.top().getSemaphore()));
+                waits.top().getSemaphore().signal();
                 waits.pop();
             }
         }
-        
-        // Give another thread a chance to terminate this one
-        boost::this_thread::interruption_point();
         
         // Sleep until the next work cycle
         startTime += period;
@@ -123,29 +85,26 @@ void HighPrecisionClock::runLoop() {
 }
 
 
+HighPrecisionClock::Semaphore::Semaphore() :
+    semaphore(SEMAPHORE_NULL)
+{
+    throwMachError("semaphore_create", semaphore_create(mach_task_self(), &semaphore, SYNC_POLICY_FIFO, 0));
+}
+
+
+HighPrecisionClock::Semaphore::~Semaphore() {
+    logMachError("semaphore_destroy", semaphore_destroy(mach_task_self(), semaphore));
+}
+
+
+void HighPrecisionClock::Semaphore::wait() {
+    logMachError("semaphore_wait", semaphore_wait(semaphore));
+}
+
+
+void HighPrecisionClock::Semaphore::signal() {
+    logMachError("semaphore_signal", semaphore_signal(semaphore));
+}
+
+
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

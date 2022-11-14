@@ -22,8 +22,8 @@ BEGIN_NAMESPACE_MW
 class Clock {
 
 public:
-    static const MWTime nanosPerMilli = 1000000LL;
-    static const MWTime nanosPerMicro = 1000LL;
+    static constexpr MWTime nanosPerMilli = 1000000LL;
+    static constexpr MWTime nanosPerMicro = 1000LL;
     
 	virtual ~Clock() { }
 	
@@ -56,28 +56,3 @@ END_NAMESPACE_MW
 
 
 #endif // !defined(CLOCK_H)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

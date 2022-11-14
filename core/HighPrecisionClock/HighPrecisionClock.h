@@ -21,36 +21,49 @@ public:
     HighPrecisionClock();
     ~HighPrecisionClock();
 	
-    void startClock() MW_OVERRIDE;
-    void stopClock() MW_OVERRIDE;
+    void startClock() override;
+    void stopClock() override;
     
-    void sleepNS(MWTime time) MW_OVERRIDE;
-    void yield() MW_OVERRIDE;
+    void sleepNS(MWTime time) override;
+    void yield() override;
     
 private:
-    static const MWTime periodUS = 200LL;
-    static const MWTime computationUS = 50LL;
+    static constexpr MWTime periodUS = 200LL;
+    static constexpr MWTime computationUS = 50LL;
     
-    static void destroySemaphore(semaphore_t *sem);
-    
-    bool isRunning() const { return (runLoopThread.get_id() != boost::thread::id()); }
+    bool isRunning() const { return runLoopThread.joinable(); }
     void wait(uint64_t expirationTime = 0);
     void runLoop();
     
     const uint64_t period;
     const uint64_t computation;
     
-    boost::thread runLoopThread;
+    std::atomic_bool running;
+    static_assert(decltype(running)::is_always_lock_free);
+    std::thread runLoopThread;
     
-    class WaitInfo {
-    public:
-        WaitInfo(uint64_t expirationTime, semaphore_t semaphore) :
+    struct WaitInfo;
+    std::priority_queue<WaitInfo> waits;
+    using lock_guard = std::lock_guard<std::mutex>;
+    lock_guard::mutex_type waitsMutex;
+    
+    struct Semaphore : boost::noncopyable {
+        Semaphore();
+        ~Semaphore();
+        void wait();
+        void signal();
+    private:
+        semaphore_t semaphore;
+    };
+    
+    struct WaitInfo {
+        WaitInfo(uint64_t expirationTime, Semaphore &semaphore) :
             expirationTime(expirationTime),
-            semaphore(semaphore)
+            semaphore(&semaphore)
         { }
         
         uint64_t getExpirationTime() const { return expirationTime; }
-        semaphore_t getSemaphore() const { return semaphore; }
+        Semaphore & getSemaphore() const { return *semaphore; }
         
         bool operator<(const WaitInfo &rhs) const {
             // Use greater-than so that the instance with the smaller expiration time is closer to
@@ -60,13 +73,8 @@ private:
         
     private:
         uint64_t expirationTime;
-        semaphore_t semaphore;
+        Semaphore *semaphore;
     };
-    
-    boost::thread_specific_ptr<semaphore_t> threadSpecificSemaphore;
-    std::priority_queue<WaitInfo> waits;
-    boost::mutex waitsMutex;
-    typedef boost::lock_guard<boost::mutex> lock_guard;
     
 };
 
@@ -75,29 +83,3 @@ END_NAMESPACE_MW
 
 
 #endif // !defined(__HighPrecisionClock__HighPrecisionClock__)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

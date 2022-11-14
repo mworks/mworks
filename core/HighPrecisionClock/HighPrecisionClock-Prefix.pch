@@ -7,13 +7,14 @@
 #include <mach/task.h>
 
 #ifdef __cplusplus
-    #include <queue>
-    
-    #include <boost/noncopyable.hpp>
-    #include <boost/thread/thread.hpp>
-    #include <boost/thread/tss.hpp>
-    
-    #include <MWorksCore/MachUtilities.h>
-    #include <MWorksCore/Plugin.h>
-    #include <MWorksCore/StandardComponentFactory.h>
+
+#include <queue>
+#include <thread>
+
+#include <boost/noncopyable.hpp>
+
+#include <MWorksCore/MachUtilities.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardComponentFactory.h>
+
 #endif

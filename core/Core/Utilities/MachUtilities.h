@@ -62,36 +62,26 @@ private:
 
 
 void logMachThreadInfo();
-bool logMachError(const char *functionName, mach_error_t error);
+
+
+inline void throwMachError(const char *functionName, mach_error_t error) {
+    if (error != ERR_SUCCESS) {
+        throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN,
+                              boost::format("%s failed: %s (%d)") % functionName % mach_error_string(error) % error);
+    }
+}
+
+
+inline bool logMachError(const char *functionName, mach_error_t error) {
+    const bool failed = (error != ERR_SUCCESS);
+    if (failed) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "%s failed: %s (%d)", functionName, mach_error_string(error), error);
+    }
+    return failed;
+}
 
 
 END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
