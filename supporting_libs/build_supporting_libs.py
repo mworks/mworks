@@ -46,9 +46,9 @@ else:
     common_flags += ' -mmacosx-version-min=%(MACOSX_DEPLOYMENT_TARGET)s'
 common_flags %= os.environ
 
-compile_flags = ('-g -Os -fexceptions -fvisibility=hidden ' +
-                 '-Werror=unguarded-availability ' +
-                 common_flags)
+compile_flags = ('-g -O%(GCC_OPTIMIZATION_LEVEL)s -fexceptions ' +
+                 '-fvisibility=hidden -Werror=unguarded-availability ' +
+                 common_flags) % os.environ
 if os.environ['ENABLE_BITCODE'] == 'YES':
     compile_flags += {
         'bitcode': ' -fembed-bitcode',

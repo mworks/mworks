@@ -175,7 +175,7 @@ void ImageFileStimulus::loadMetal(MetalDisplay &display) {
             .bitsPerComponent = 8,
             .bitsPerPixel = 32,
             .colorSpace = colorSpace.get(),
-            .bitmapInfo = kCGImageAlphaFirst | kCGBitmapByteOrder32Little,
+            .bitmapInfo = CGBitmapInfo(kCGImageAlphaFirst) | kCGBitmapByteOrder32Little,
             .version = 0,
             .decode = nullptr,
             .renderingIntent = kCGRenderingIntentPerceptual
