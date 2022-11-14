@@ -12,10 +12,24 @@
 
 
 @interface MWKStimulusDisplayViewController : UIViewController
+
+- (instancetype)initWithInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
+
 @end
 
 
-@implementation MWKStimulusDisplayViewController
+@implementation MWKStimulusDisplayViewController {
+    UIInterfaceOrientation _interfaceOrientation;
+}
+
+
+- (instancetype)initWithInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    self = [super init];
+    if (self) {
+        _interfaceOrientation = interfaceOrientation;
+    }
+    return self;
+}
 
 
 - (BOOL)prefersStatusBarHidden {
@@ -23,8 +37,11 @@
 }
 
 
-- (BOOL)shouldAutorotate {
-    return NO;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    if (UIInterfaceOrientationIsPortrait(_interfaceOrientation)) {
+        return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown);
+    }
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 
@@ -74,7 +91,9 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
             if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
                 if (window.screen != screen) {
                     merror(M_DISPLAY_MESSAGE_DOMAIN, "Window is not on the requested screen");
-                } else if (MWKStimulusDisplayViewController *viewController = [[MWKStimulusDisplayViewController alloc] init]) {
+                } else if (MWKStimulusDisplayViewController *viewController =
+                           [[MWKStimulusDisplayViewController alloc] initWithInterfaceOrientation:window.windowScene.interfaceOrientation])
+                {
                     window.rootViewController = viewController;
                     
                     if (MTKView *view = [[MTKView alloc] initWithFrame:window.bounds device:metalDevice]) {
