@@ -22,6 +22,8 @@
 #include <cppunit/XmlOutputter.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include <MWorksCore/MachUtilities.h>
+
 
 class MWorksTestProgressListener : public CppUnit::BriefTestProgressListener {
     
@@ -66,6 +68,15 @@ int MWorksCoreTestMain(int argc, char *argv[]) {
         std::cerr << "Waiting for debugger to attach...";
         pause();
         std::cerr << " continuing" << std::endl;
+    }
+    
+    // Set the current thread's priority to TaskPriority::Default, so that the tested code
+    // runs at the minimum priority it would likely run at inside MWServer.  This is
+    // particularly important for timing-related tests, which may not perform as expected
+    // when executed at the system's default thread priority.
+    if (!mw::MachThreadSelf("MWorksCoreTestMain").setPriority(mw::TaskPriority::Default)) {
+        std::cerr << "Cannot set thread priority" << std::endl;
+        return 1;
     }
     
     CppUnit::TextTestRunner runner;

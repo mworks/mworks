@@ -25,10 +25,6 @@ BEGIN_NAMESPACE_MW
 
 class FullCoreEnvironmentTestFixture : public CppUnit::TestFixture {
 	
- private:
-	
-	TestBedCoreBuilder *builder;
-	
  public:
 	
 	void setUp();

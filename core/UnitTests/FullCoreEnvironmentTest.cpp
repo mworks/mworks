@@ -23,8 +23,8 @@ BEGIN_NAMESPACE_MW
 
 
 void FullCoreEnvironmentTestFixture::setUp(){
-	builder = new TestBedCoreBuilder();
-	CoreBuilderForeman::constructCoreStandardOrder(builder);
+    TestBedCoreBuilder builder;
+    CoreBuilderForeman::constructCoreStandardOrder(&builder);
 }
 
 void FullCoreEnvironmentTestFixture::tearDown(){
