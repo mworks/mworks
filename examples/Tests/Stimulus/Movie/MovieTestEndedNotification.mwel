@@ -1,0 +1,59 @@
+%define num_frames = 52
+
+var frames_per_second = refresh_rate()
+var start_time = 0
+var stop_time = 0
+var expected_duration = num_frames / frames_per_second
+var actual_duration = 0.0
+var slop = 0.0
+var tolerance = 0.5 / refresh_rate()
+
+var movie_ended = false {
+    if (movie_ended) {
+        stop_time = next_frame_time()
+    }
+}
+
+
+stimulus_group images {
+    range_replicator (
+        from = 1
+        to = num_frames
+        step = 1
+        variable = index
+        ) {
+        image_file image_${index} (
+            path = 'images/MotIm_${index}.jpg'
+            x_size = 25
+            announce_load = false
+            )
+    }
+}
+
+movie movie (
+    stimulus_group = images
+    frames_per_second = frames_per_second
+    ended = movie_ended
+    autoplay = true
+    )
+
+
+protocol {
+    movie_ended = false
+    queue_stimulus (movie)
+    update_stimulus_display (
+        predicted_output_time = start_time
+        )
+
+    wait_for_condition (
+        condition = movie_ended
+        timeout = expected_duration * 2e6
+        )
+
+    actual_duration = (stop_time - start_time) / 1e6
+    slop = abs(actual_duration - expected_duration)
+    assert (
+        condition = slop <= tolerance
+        message = 'Duration slop ($slop) not within tolerance ($tolerance)'
+        )
+}

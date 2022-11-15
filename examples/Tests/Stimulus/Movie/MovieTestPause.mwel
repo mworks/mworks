@@ -1,0 +1,83 @@
+%define num_frames = 52
+
+var frames_per_second = 10
+var start_time = 0
+var stop_time = 0
+var pause_duration = 5.0
+var num_pauses = 3
+var expected_duration = num_frames / frames_per_second + pause_duration * num_pauses
+var actual_duration = 0.0
+var slop = 0.0
+var tolerance = 1.5 / refresh_rate()
+var num_repeats = 0
+
+var movie_ended = false {
+    if (movie_ended) {
+        stop_time = next_frame_time()
+    }
+}
+
+
+stimulus_group images {
+    range_replicator (
+        from = 1
+        to = num_frames
+        step = 1
+        variable = index
+        ) {
+        image_file image_${index} (
+            path = 'images/MotIm_${index}.jpg'
+            x_size = 25
+            announce_load = false
+            )
+    }
+}
+
+movie movie (
+    stimulus_group = images
+    frames_per_second = frames_per_second
+    ended = movie_ended
+    autoplay = true
+    )
+
+
+protocol {
+    movie_ended = false
+    num_repeats = 0
+
+    queue_stimulus (movie)
+    update_stimulus_display (
+        predicted_output_time = start_time
+        )
+
+    task {
+        state Begin {
+            wait (1s)
+            pause_dynamic_stimulus (movie)
+            wait (pause_duration * 1e6)
+            unpause_dynamic_stimulus (movie)
+            num_repeats += 1
+            assert (not movie_ended)
+
+            goto (
+                target = Begin
+                when = num_repeats < num_pauses
+                )
+            goto (
+                target = End
+                when = movie_ended
+                )
+        }
+
+        state End {
+            actual_duration = (stop_time - start_time) / 1e6
+            slop = abs(actual_duration - expected_duration)
+            assert (
+                condition = slop <= tolerance
+                message = 'Duration slop ($slop) not within tolerance ($tolerance)'
+                )
+
+            yield ()
+        }
+    }
+}
