@@ -231,7 +231,6 @@ def run_b2(libraries, clean=False):
         '--includedir=' + includedir,
         '--libdir=' + libdir,
         'variant=release',
-        'optimization=space',
         'debug-symbols=on',
         'link=static',
         'threading=multi',
