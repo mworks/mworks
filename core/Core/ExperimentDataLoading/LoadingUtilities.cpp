@@ -162,12 +162,12 @@ BEGIN_NAMESPACE_MW
 			return false;
 		}
         
-        if (experiment->hasStimulusDisplay()) {
+        if (experiment->hasDefaultStimulusDisplay()) {
             // At this point, the display is already cleared.  However, by clearing it again now, *after* all the
             // stimuli have been created and (probably) loaded, we can "commit" any OpenGL and/or Metal actions
             // that have been taken.  While it seems like this shouldn't matter much, it appears to have a definite,
             // beneficial influence on subsequent display-update performance, particularly on iOS.
-            experiment->getStimulusDisplay()->clearDisplay();
+            experiment->getDefaultStimulusDisplay()->clearDisplay();
         }
         
         // Store the XML source of the experiment in #loadedExperiment, so that it will be

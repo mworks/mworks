@@ -514,13 +514,13 @@ shared_ptr<mw::Component> LoadStimulusFactory::createObject(std::map<std::string
 	}
 	
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getStimulusDisplay();
+	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getDefaultStimulusDisplay();
 	
 	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	if(stimDisplay == 0) {
-		throw SimpleException("GlobalCurrentExperiment->getStimulusDisplay() is not defined");
+		throw SimpleException("GlobalCurrentExperiment->getDefaultStimulusDisplay() is not defined");
 	}
 	
 	shared_ptr <mw::Component> newLoadStimulusAction = shared_ptr<mw::Component>(new LoadStimulus(stimulus, stimDisplay));
@@ -556,13 +556,13 @@ shared_ptr<mw::Component> UnloadStimulusFactory::createObject(std::map<std::stri
 	}
 	
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getStimulusDisplay();
+	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getDefaultStimulusDisplay();
 	
 	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	if(stimDisplay == 0) {
-		throw SimpleException("GlobalCurrentExperiment->getStimulusDisplay() is not defined");
+		throw SimpleException("GlobalCurrentExperiment->getDefaultStimulusDisplay() is not defined");
 	}
 	
 	shared_ptr <mw::Component> newUnloadStimulusAction = shared_ptr<mw::Component>(new UnloadStimulus(stimulus, stimDisplay));
@@ -612,13 +612,13 @@ shared_ptr<mw::Component> QueueStimulusFactory::createObject(std::map<std::strin
 	}
 	
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getStimulusDisplay();
+	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getDefaultStimulusDisplay();
 	
 	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	if(stimDisplay == 0) {
-		throw SimpleException("GlobalCurrentExperiment->getStimulusDisplay() is not defined");
+		throw SimpleException("GlobalCurrentExperiment->getDefaultStimulusDisplay() is not defined");
 	}
 	
 	shared_ptr <mw::Component> newQueueStimulusAction = shared_ptr<mw::Component>(new QueueStimulus(stimulus, stimDisplay));
@@ -669,13 +669,13 @@ shared_ptr<mw::Component> LiveQueueStimulusFactory::createObject(std::map<std::s
 	}
 	
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getStimulusDisplay();
+	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getDefaultStimulusDisplay();
 	
 	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	if(stimDisplay == 0) {
-		throw SimpleException("GlobalCurrentExperiment->getStimulusDisplay() is not defined");
+		throw SimpleException("GlobalCurrentExperiment->getDefaultStimulusDisplay() is not defined");
 	}
 	
 	shared_ptr <mw::Component> newLiveQueueStimulusAction = shared_ptr<mw::Component>(new LiveQueueStimulus(stimulus, stimDisplay));

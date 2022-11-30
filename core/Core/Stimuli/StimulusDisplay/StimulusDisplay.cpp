@@ -34,7 +34,7 @@ boost::shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() 
         throw SimpleException("No experiment currently defined");
     }
     
-    auto currentDisplay = currentExperiment->getStimulusDisplay();
+    auto currentDisplay = currentExperiment->getDefaultStimulusDisplay();
     if (!currentDisplay) {
         throw SimpleException("No stimulus display in current experiment");
     }

@@ -22,7 +22,7 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 	//current_protocol = NULL;
 	n_protocols = 0;
 	
-    //stimulus_display = NULL;
+    //defaultStimulusDisplay = NULL;
 	
 	// This fields will eventually be self-referential (set during "finalize")
 	current_state = weak_ptr<State>();
@@ -48,11 +48,11 @@ void Experiment::createVariableContexts(){
 }
 
 
-shared_ptr<StimulusDisplay> Experiment::getStimulusDisplay() {
+shared_ptr<StimulusDisplay> Experiment::getDefaultStimulusDisplay() {
     std::call_once(stimulusDisplayCreated, [this]() {
-        prepareStimulusDisplay();
+        prepareDefaultStimulusDisplay();
     });
-    return stimulus_display;
+    return defaultStimulusDisplay;
 }
 
 
@@ -154,8 +154,8 @@ void Experiment::reset(){
 	weak_ptr<State> state_ptr(current_protocol);
 	setCurrentState(state_ptr);
 	
-	if(stimulus_display != NULL){
-		stimulus_display->clearDisplay();
+	if(defaultStimulusDisplay != NULL){
+		defaultStimulusDisplay->clearDisplay();
 	}
 	
 	//variable_registry->reset();
@@ -199,7 +199,7 @@ std::string Experiment::getExperimentDirectory() {
 }
 
 
-void Experiment::prepareStimulusDisplay() {
+void Experiment::prepareDefaultStimulusDisplay() {
     auto opengl_context_manager = OpenGLContextManager::instance(false);
     if (!opengl_context_manager) {
         opengl_context_manager = OpenGLContextManager::createPlatformOpenGLContextManager();
@@ -231,7 +231,7 @@ void Experiment::prepareStimulusDisplay() {
         }
     }
     
-    stimulus_display = StimulusDisplay::createPlatformStimulusDisplay(use_color_management);
+    defaultStimulusDisplay = StimulusDisplay::createPlatformStimulusDisplay(use_color_management);
     
     if (display_to_use >= 0 && (opengl_context_manager->getNumDisplays() > 1 || display_to_use == 0)) {
         if (display_to_use >= opengl_context_manager->getNumDisplays()) {
@@ -244,18 +244,18 @@ void Experiment::prepareStimulusDisplay() {
         }
         
         auto new_context = opengl_context_manager->newFullscreenContext(display_to_use, make_window_opaque);
-        stimulus_display->setMainContext(new_context);
+        defaultStimulusDisplay->setMainContext(new_context);
         
         if (always_display_mirror_window) {
             auto auxilliary_context = opengl_context_manager->newMirrorContext(new_context);
-            stimulus_display->setMirrorContext(auxilliary_context);
+            defaultStimulusDisplay->setMirrorContext(auxilliary_context);
         }
     } else {
         auto new_context = opengl_context_manager->newMirrorContext();
-        stimulus_display->setMainContext(new_context);
+        defaultStimulusDisplay->setMainContext(new_context);
     }
     
-    stimulus_display->clearDisplay();
+    defaultStimulusDisplay->clearDisplay();
 }
 
 

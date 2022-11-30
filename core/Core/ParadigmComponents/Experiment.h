@@ -164,7 +164,7 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		shared_ptr<VariableRegistry> variable_registry; 
         
 		// An abstract stimulus display associated with this experiment
-		shared_ptr<StimulusDisplay> stimulus_display;
+		shared_ptr<StimulusDisplay> defaultStimulusDisplay;
         std::once_flag stimulusDisplayCreated;
         
 		int n_protocols; 
@@ -176,7 +176,7 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
     
         std::string currentSavedVariablesFile;
     
-        void prepareStimulusDisplay();
+        void prepareDefaultStimulusDisplay();
         			
     public:
 		Experiment(shared_ptr<VariableRegistry> variable_reg);
@@ -239,8 +239,8 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		
 		
 		// Accessors for stimulus display
-        bool hasStimulusDisplay() const { return bool(stimulus_display); }
-	    shared_ptr<StimulusDisplay> getStimulusDisplay();
+        bool hasDefaultStimulusDisplay() const { return bool(defaultStimulusDisplay); }
+	    shared_ptr<StimulusDisplay> getDefaultStimulusDisplay();
     
 
 		// Current mw::Protocol
