@@ -805,7 +805,7 @@ void StimulusDisplayAction::describeComponent(ComponentInfo &info) {
 StimulusDisplayAction::StimulusDisplayAction(const ParameterValueMap &parameters) :
     Action(parameters),
     predictedOutputTime(optionalVariable(parameters[PREDICTED_OUTPUT_TIME])),
-    display(StimulusDisplay::getCurrentStimulusDisplay()),
+    display(StimulusDisplay::getDefaultStimulusDisplay()),
     clock(Clock::instance())
 { }
 

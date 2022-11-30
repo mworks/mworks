@@ -71,7 +71,7 @@ MouseInputDevice::~MouseInputDevice() {
 bool MouseInputDevice::initialize() {
     @autoreleasepool {
         {
-            auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(StimulusDisplay::getCurrentStimulusDisplay());
+            auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(StimulusDisplay::getDefaultStimulusDisplay());
             
             if (useMirrorWindow) {
                 // If there's no mirror window, getMirrorView will return the main window's view

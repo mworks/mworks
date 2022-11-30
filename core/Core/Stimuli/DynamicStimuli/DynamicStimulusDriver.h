@@ -37,7 +37,7 @@ protected:
     bool isPlaying() const { return (startTime != NOT_STARTED); }
     bool isPaused() const { return (pauseTime != NOT_PAUSED); }
     MWTime getStartTime() const { return startTime; }
-    MWTime getCurrentTime() const { return StimulusDisplay::getCurrentStimulusDisplay()->getCurrentOutputTimeUS(); }
+    MWTime getCurrentTime() const { return StimulusDisplay::getDefaultStimulusDisplay()->getCurrentOutputTimeUS(); }
     MWTime getElapsedTime() const;
     
     virtual void startPlaying();

@@ -28,7 +28,7 @@ public:
         auto stim = boost::dynamic_pointer_cast<StimulusType>(StandardComponentFactory<StimulusType>::createObject(parameters, reg));
         
         if (stim->getDeferred() == Stimulus::nondeferred_load) {
-            stim->load(StimulusDisplay::getCurrentStimulusDisplay());
+            stim->load(StimulusDisplay::getDefaultStimulusDisplay());
         }
         
         reg->registerStimulusNode(stim->getTag(), boost::make_shared<StimulusNode>(stim));

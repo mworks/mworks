@@ -50,7 +50,7 @@ TouchInputDevice::~TouchInputDevice() {
 
 bool TouchInputDevice::initialize() {
     @autoreleasepool {
-        auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(StimulusDisplay::getCurrentStimulusDisplay());
+        auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(StimulusDisplay::getDefaultStimulusDisplay());
         targetView = stimulusDisplay->getMainView();
         
         auto sharedThis = component_shared_from_this<TouchInputDevice>();

@@ -59,7 +59,7 @@ void BaseMovieStimulus::startPlaying() {
     }
     
     const double frameRate = framesPerSecond->getValue().getFloat();
-    const double refreshRate = StimulusDisplay::getCurrentStimulusDisplay()->getMainDisplayRefreshRate();
+    const double refreshRate = StimulusDisplay::getDefaultStimulusDisplay()->getMainDisplayRefreshRate();
     
     if ((frameRate > refreshRate) || (fmod(refreshRate, frameRate) != 0.0)) {
         mwarning(M_DISPLAY_MESSAGE_DOMAIN,

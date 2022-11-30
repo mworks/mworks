@@ -27,19 +27,19 @@
 BEGIN_NAMESPACE_MW
 
 
-boost::shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
+boost::shared_ptr<StimulusDisplay> StimulusDisplay::getDefaultStimulusDisplay() {
     // Make a copy to ensure the experiment stays alive until we're done with it
     auto currentExperiment = GlobalCurrentExperiment;
     if (!currentExperiment) {
         throw SimpleException("No experiment currently defined");
     }
     
-    auto currentDisplay = currentExperiment->getDefaultStimulusDisplay();
-    if (!currentDisplay) {
-        throw SimpleException("No stimulus display in current experiment");
+    auto defaultDisplay = currentExperiment->getDefaultStimulusDisplay();
+    if (!defaultDisplay) {
+        throw SimpleException("No default stimulus display in current experiment");
     }
     
-    return currentDisplay;
+    return defaultDisplay;
 }
 
 

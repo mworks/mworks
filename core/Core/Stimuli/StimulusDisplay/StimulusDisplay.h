@@ -60,7 +60,7 @@ public:
     };
     
     static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool useColorManagement);
-    static boost::shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
+    static boost::shared_ptr<StimulusDisplay> getDefaultStimulusDisplay();
     
     static void getDisplayBounds(const Datum &mainScreenInfo, double &left, double &right, double &bottom, double &top);
     

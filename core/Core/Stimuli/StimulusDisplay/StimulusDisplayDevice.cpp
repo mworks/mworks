@@ -48,7 +48,7 @@ StimulusDisplayDevice::StimulusDisplayDevice(const ParameterValueMap &parameters
     captureHeightPixels(parameters[CAPTURE_HEIGHT_PIXELS]),
     captureEnabled(parameters[CAPTURE_ENABLED])
 {
-    auto display = StimulusDisplay::getCurrentStimulusDisplay();
+    auto display = StimulusDisplay::getDefaultStimulusDisplay();
     
     display->setBackgroundColor(backgroundColor.red,
                                 backgroundColor.green,

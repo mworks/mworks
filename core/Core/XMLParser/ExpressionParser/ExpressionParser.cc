@@ -2536,13 +2536,13 @@ namespace stx MW_SYMBOL_PUBLIC {
 	
 	Datum BasicSymbolTable::funcREFRESH_RATE(const paramlist_type &paramlist)
 	{
-        boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
+        boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getDefaultStimulusDisplay());
 		return Datum( display->getMainDisplayRefreshRate() );
 	}
 	
 	Datum BasicSymbolTable::funcNEXT_FRAME_TIME(const paramlist_type &paramlist)
     {
-        boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
+        boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getDefaultStimulusDisplay());
         return Datum( display->getCurrentOutputTimeUS() );
     }
     
@@ -2555,7 +2555,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             throw BadFunctionCallException("Parameter to function DISPLAY_BOUNDS() must be a string");
         }
         
-        const auto display = mw::StimulusDisplay::getCurrentStimulusDisplay();
+        const auto display = mw::StimulusDisplay::getDefaultStimulusDisplay();
         double left, right, bottom, top;
         display->getDisplayBounds(left, right, bottom, top);
         
