@@ -49,8 +49,6 @@ BEGIN_NAMESPACE_MW
 #define CHECK_DICT_VALUE_IS_NUMBER(dict, key) dict.getElement(key).isNumber() 
     
 	bool loadSetupVariables() {
-		
-		
 		boost::filesystem::path setupPath(setupVariablesFile());
 		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 		XMLParser parser(reg, setupPath.string());
@@ -64,59 +62,18 @@ BEGIN_NAMESPACE_MW
         bool width_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_WIDTH_KEY);
         bool height_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_HEIGHT_KEY);
         bool dist_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_DISTANCE_KEY);
-        bool refresh_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_REFRESH_RATE_KEY);
         
-        if (!(width_ok && height_ok && dist_ok && refresh_ok)) {
+        if (!(width_ok && height_ok && dist_ok)) {
             string stem = "Invalid display info defined in setup_variables.xml (missing/invalid: ";
             if(!width_ok) stem = stem + M_DISPLAY_WIDTH_KEY + " ";
             if(!height_ok) stem = stem + M_DISPLAY_HEIGHT_KEY + " ";
             if(!dist_ok) stem = stem + M_DISPLAY_DISTANCE_KEY + " ";
-            if(!refresh_ok) stem = stem + M_REFRESH_RATE_KEY + " ";
             stem += ")";
             throw SimpleException(stem);
         }
         
         // TODO: more error checking.  THESE SHOULD ALL THROW IF SOMETHING IS WRONG!!!
         
-        
-        
-        // DDC: HOLY CRAP!  Why was he quietly replacing missing values with defaults?  This is a recipe for 
-        //      serious errors quietly creeping in!
-        
-        //Datum loaded_values = main_screen_info->getValue();
-//        Datum new_values(M_DICTIONARY, 7);
-//		
-//		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_WIDTH_KEY, 14.75);
-//		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_HEIGHT_KEY, 11.09);
-//		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_DISTANCE_KEY, 10.0);
-//		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_REFRESH_RATE_KEY, 60L);
-//		
-//		if(!(loaded_values.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).isNumber())) {
-//			merror(M_PARSER_MESSAGE_DOMAIN, "'always_display_mirror_window' is either empty or has an illegal value, setting default to 0");
-//			new_values.addElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, 0L);
-//		} else {
-//			long always_display_mirror_window = loaded_values.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).getInteger();
-//			if(!(always_display_mirror_window != 0 || always_display_mirror_window != 1)) {
-//				merror(M_PARSER_MESSAGE_DOMAIN, "'always_display_mirror_window' has an illegal value (%d), setting default to 0", always_display_mirror_window);
-//				new_values.addElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, 0L);				
-//			} else {
-//				new_values.addElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, always_display_mirror_window);								
-//				
-//				if(always_display_mirror_window == 1) {
-//					// now check the base height
-//					new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_MIRROR_WINDOW_BASE_HEIGHT_KEY, 400L);
-//				}
-//			}
-//		}		
-//		
-//		if(!(loaded_values.getElement(M_DISPLAY_TO_USE_KEY).isInteger())) {
-//			merror(M_PARSER_MESSAGE_DOMAIN, "'%s' is either empty or has an illegal value, setting default to 0", M_DISPLAY_TO_USE_KEY);
-//			new_values.addElement(M_DISPLAY_TO_USE_KEY, 0L);
-//		} else {
-//			new_values.addElement(M_DISPLAY_TO_USE_KEY, loaded_values.getElement(M_DISPLAY_TO_USE_KEY));								
-//		}
-//		
-//		main_screen_info->setValue(new_values);
 		return true;
 	}
 	

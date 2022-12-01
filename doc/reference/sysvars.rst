@@ -47,8 +47,8 @@ The following keys are recognized.  If a key is omitted, the default value is us
      - Distance from the center of the main display to the experimental subject's eye (in the same units as ``width`` and ``height``)
      - 
    * - ``refresh_rate_hz``
-     - Refresh rate of the main display in hertz (required, but currently unused)
-     - 
+     - Refresh rate of the main display in hertz (currently unused)
+     - ``60.0``
    * - ``always_display_mirror_window``
      - True or false, indicating whether the stimulus display mirror window should be enabled or disabled.  When enabled, the mirror window "mirrors" the main stimulus display, allowing you to observe the stimulus presentation even if the main display is in another room or otherwise not visible.
      - ``false``
