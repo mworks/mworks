@@ -26,25 +26,22 @@
         _serverName = @(mw::serverName->getValue().toString().c_str());
         
         {
-            mw::Datum mdi = mw::mainDisplayInfo->getValue();
-            if (mdi.isDictionary()) {
-                // NOTE: The default values used with getValueWithDefault are chosen to match the defaults used
-                // in mw::prepareStimulusDisplay.  If the defaults in prepareStimulusDisplay change, the defaults
-                // used here need to change, too.
-                _displayToUse = [[NSNumber alloc] initWithLong:(getValueWithDefault(mdi, M_DISPLAY_TO_USE_KEY, 0).getInteger() + 1)];
-                _displayWidth = @(mdi.getElement(M_DISPLAY_WIDTH_KEY).getFloat());
-                _displayHeight = @(mdi.getElement(M_DISPLAY_HEIGHT_KEY).getFloat());
-                _displayDistance = @(mdi.getElement(M_DISPLAY_DISTANCE_KEY).getFloat());
-                _displayRefreshRateHz = @(mdi.getElement(M_REFRESH_RATE_KEY).getFloat());
-                _alwaysDisplayMirrorWindow = getValueWithDefault(mdi, M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, false).getBool();
-                _mirrorWindowBaseHeight = @(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat());
-                _useColorManagement = getValueWithDefault(mdi, M_USE_COLOR_MANAGEMENT_KEY, true).getBool();
-                _setDisplayGamma = getValueWithDefault(mdi, M_SET_DISPLAY_GAMMA_KEY, false).getBool();
-                _redGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_RED_KEY, 0.0).getFloat());
-                _greenGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_GREEN_KEY, 0.0).getFloat());
-                _blueGamma = @(getValueWithDefault(mdi, M_DISPLAY_GAMMA_BLUE_KEY, 0.0).getFloat());
-                _makeWindowOpaque = getValueWithDefault(mdi, M_MAKE_WINDOW_OPAQUE_KEY, true).getBool();
-            }
+            // Use getDisplayConfiguration to get the display settings, because it will set defaults for keys missing
+            // from #mainScreenInfo
+            const auto config = mw::StimulusDisplay::getDisplayConfiguration(mw::mainDisplayInfo->getValue());
+            _displayToUse = @(config.displayToUse + 1);
+            _displayWidth = @(config.width);
+            _displayHeight = @(config.height);
+            _displayDistance = @(config.distance);
+            _displayRefreshRateHz = @(config.refreshRateHz);
+            _alwaysDisplayMirrorWindow = (BOOL)(config.alwaysDisplayMirrorWindow);
+            _mirrorWindowBaseHeight = @(config.mirrorWindowBaseHeight);
+            _useColorManagement = (BOOL)(config.useColorManagement);
+            _setDisplayGamma = (BOOL)(config.setDisplayGamma);
+            _redGamma = @(config.redGamma);
+            _greenGamma = @(config.greenGamma);
+            _blueGamma = @(config.blueGamma);
+            _makeWindowOpaque = (BOOL)(config.makeWindowOpaque);
         }
         
         _warnOnSkippedRefresh = (BOOL)(mw::warnOnSkippedRefresh->getValue().getBool());
@@ -53,14 +50,6 @@
     }
     
     return self;
-}
-
-
-static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, const mw::Datum &defaultValue) {
-    if (dict.hasKey(key)) {
-        return dict.getElement(key);
-    }
-    return defaultValue;
 }
 
 
@@ -89,7 +78,7 @@ static mw::Datum getValueWithDefault(const mw::Datum &dict, const char *key, con
     _displayToUse = displayToUse;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_TO_USE_KEY
-                   value:(displayToUse.longValue - 1)];
+                   value:(displayToUse.intValue - 1)];
 }
 
 

@@ -43,6 +43,37 @@ boost::shared_ptr<StimulusDisplay> StimulusDisplay::getDefaultStimulusDisplay() 
 }
 
 
+template <typename T>
+static inline void getConfigValue(const Datum::dict_value_type &infoDict, const char *key, T &value) {
+    auto iter = infoDict.find(Datum(key));
+    if (iter != infoDict.end()) {
+        value = T(iter->second);
+    }
+}
+
+
+auto StimulusDisplay::getDisplayConfiguration(const Datum &displayInfo) -> Configuration {
+    Configuration config;
+    if (displayInfo.isDictionary()) {
+        auto &infoDict = displayInfo.getDict();
+        getConfigValue(infoDict, M_DISPLAY_TO_USE_KEY, config.displayToUse);
+        getConfigValue(infoDict, M_DISPLAY_WIDTH_KEY, config.width);
+        getConfigValue(infoDict, M_DISPLAY_HEIGHT_KEY, config.height);
+        getConfigValue(infoDict, M_DISPLAY_DISTANCE_KEY, config.distance);
+        getConfigValue(infoDict, M_REFRESH_RATE_KEY, config.refreshRateHz);
+        getConfigValue(infoDict, M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, config.alwaysDisplayMirrorWindow);
+        getConfigValue(infoDict, M_MIRROR_WINDOW_BASE_HEIGHT_KEY, config.mirrorWindowBaseHeight);
+        getConfigValue(infoDict, M_USE_COLOR_MANAGEMENT_KEY, config.useColorManagement);
+        getConfigValue(infoDict, M_SET_DISPLAY_GAMMA_KEY, config.setDisplayGamma);
+        getConfigValue(infoDict, M_DISPLAY_GAMMA_RED_KEY, config.redGamma);
+        getConfigValue(infoDict, M_DISPLAY_GAMMA_GREEN_KEY, config.greenGamma);
+        getConfigValue(infoDict, M_DISPLAY_GAMMA_BLUE_KEY, config.blueGamma);
+        getConfigValue(infoDict, M_MAKE_WINDOW_OPAQUE_KEY, config.makeWindowOpaque);
+    }
+    return config;
+}
+
+
 void StimulusDisplay::getDisplayBounds(const Datum &display_info,
                                        double &left,
                                        double &right,

@@ -47,6 +47,18 @@ enum class RenderingMode {
 class StimulusDisplay : public boost::enable_shared_from_this<StimulusDisplay>, boost::noncopyable {
     
 public:
+    struct Configuration {
+        int displayToUse = 0;
+        double width = 0.0, height = 0.0, distance = 0.0;
+        double refreshRateHz = 60.0;
+        bool alwaysDisplayMirrorWindow = false;
+        double mirrorWindowBaseHeight = 0.0;
+        bool useColorManagement = true;
+        bool setDisplayGamma = false;
+        double redGamma = 0.0, greenGamma = 0.0, blueGamma = 0.0;
+        bool makeWindowOpaque = true;
+    };
+    
     struct UpdateInfo {
         UpdateInfo() : predictedOutputTime(-1) { }
         
@@ -62,6 +74,7 @@ public:
     static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool useColorManagement);
     static boost::shared_ptr<StimulusDisplay> getDefaultStimulusDisplay();
     
+    static Configuration getDisplayConfiguration(const Datum &displayInfo);
     static void getDisplayBounds(const Datum &mainScreenInfo, double &left, double &right, double &bottom, double &top);
     
     explicit StimulusDisplay(bool useColorManagement);

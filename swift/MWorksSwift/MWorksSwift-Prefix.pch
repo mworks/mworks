@@ -18,6 +18,7 @@
 #include <MWorksCore/StandardClientCoreBuilder.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
 #include <MWorksCore/StandardVariables.h>
+#include <MWorksCore/StimulusDisplay.h>
 #include <MWorksCore/XMLVariableWriter.h>
 #include <MWorksCore/ZeroMQUtilities.hpp>
 
