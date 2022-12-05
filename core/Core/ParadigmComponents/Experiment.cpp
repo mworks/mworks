@@ -50,7 +50,9 @@ void Experiment::createVariableContexts(){
 
 shared_ptr<StimulusDisplay> Experiment::getDefaultStimulusDisplay() {
     std::call_once(stimulusDisplayCreated, [this]() {
-        prepareDefaultStimulusDisplay();
+        auto mainScreenInfo = ComponentRegistry::getSharedRegistry()->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+        const auto config = StimulusDisplay::getDisplayConfiguration(mainScreenInfo->getValue());
+        defaultStimulusDisplay = StimulusDisplay::prepareStimulusDisplay(config);
     });
     return defaultStimulusDisplay;
 }
@@ -196,66 +198,6 @@ std::string Experiment::getExperimentPath() {
 std::string Experiment::getExperimentDirectory() {
     namespace bf = boost::filesystem;
     return bf::path(experimentPath).filename().string();
-}
-
-
-void Experiment::prepareDefaultStimulusDisplay() {
-    auto opengl_context_manager = OpenGLContextManager::instance(false);
-    if (!opengl_context_manager) {
-        opengl_context_manager = OpenGLContextManager::createPlatformOpenGLContextManager();
-        OpenGLContextManager::registerInstance(opengl_context_manager);
-    }
-    
-    bool always_display_mirror_window = false;
-    int display_to_use = 0;
-    bool use_color_management = true;
-    bool make_window_opaque = true;
-    
-    if (auto main_screen_info = ComponentRegistry::getSharedRegistry()->getVariable(MAIN_SCREEN_INFO_TAGNAME)) {
-        Datum val = *(main_screen_info);
-        
-        if (val.hasKey(M_DISPLAY_TO_USE_KEY)) {
-            display_to_use = (int)val.getElement(M_DISPLAY_TO_USE_KEY);
-        }
-        
-        if (val.hasKey(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY)) {
-            always_display_mirror_window = (bool)val.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY);
-        }
-        
-        if (val.hasKey(M_USE_COLOR_MANAGEMENT_KEY)) {
-            use_color_management = (bool)val.getElement(M_USE_COLOR_MANAGEMENT_KEY);
-        }
-        
-        if (val.hasKey(M_MAKE_WINDOW_OPAQUE_KEY)) {
-            make_window_opaque = (bool)val.getElement(M_MAKE_WINDOW_OPAQUE_KEY);
-        }
-    }
-    
-    defaultStimulusDisplay = StimulusDisplay::createPlatformStimulusDisplay(use_color_management);
-    
-    if (display_to_use >= 0 && (opengl_context_manager->getNumDisplays() > 1 || display_to_use == 0)) {
-        if (display_to_use >= opengl_context_manager->getNumDisplays()) {
-            merror(M_SERVER_MESSAGE_DOMAIN,
-                   "Requested display index (%d) is greater than the number of displays (%d).  "
-                   "Using default display.",
-                   display_to_use,
-                   opengl_context_manager->getNumDisplays());
-            display_to_use = 1;
-        }
-        
-        auto new_context = opengl_context_manager->newFullscreenContext(display_to_use, make_window_opaque);
-        defaultStimulusDisplay->setMainContext(new_context);
-        
-        if (always_display_mirror_window) {
-            auto auxilliary_context = opengl_context_manager->newMirrorContext(new_context);
-            defaultStimulusDisplay->setMirrorContext(auxilliary_context);
-        }
-    } else {
-        auto new_context = opengl_context_manager->newMirrorContext();
-        defaultStimulusDisplay->setMainContext(new_context);
-    }
-    
-    defaultStimulusDisplay->clearDisplay();
 }
 
 

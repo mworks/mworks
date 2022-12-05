@@ -12,16 +12,14 @@
 
 #include <CoreAudio/HostTime.h>
 
-#include "ComponentRegistry.h"
-#include "StandardVariables.h"
 #include "Utilities.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
-MacOSStimulusDisplay::MacOSStimulusDisplay(bool useColorManagement) :
-    AppleStimulusDisplay(useColorManagement),
+MacOSStimulusDisplay::MacOSStimulusDisplay(const Configuration &config) :
+    AppleStimulusDisplay(config),
     displayLink(nil),
     lastFrameTime(0),
     didSetDisplayGamma(false)
@@ -77,10 +75,9 @@ void MacOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
     }
     
     if (!getUseColorManagement()) {
-        auto reg = ComponentRegistry::getSharedRegistry();
-        auto displayInfo = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME)->getValue();
-        if (displayInfo.hasKey(M_SET_DISPLAY_GAMMA_KEY) && displayInfo.getElement(M_SET_DISPLAY_GAMMA_KEY).getBool()) {
-            setDisplayGamma(displayInfo, displayID);
+        auto &config = getConfiguration();
+        if (config.setDisplayGamma) {
+            setDisplayGamma(displayID, config.redGamma, config.greenGamma, config.blueGamma);
         }
     }
     
@@ -99,11 +96,11 @@ void MacOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
 }
 
 
-void MacOSStimulusDisplay::setDisplayGamma(const Datum &displayInfo, CGDirectDisplayID displayID) {
-    CGGammaValue redGamma = displayInfo.getElement(M_DISPLAY_GAMMA_RED_KEY).getFloat();
-    CGGammaValue greenGamma = displayInfo.getElement(M_DISPLAY_GAMMA_GREEN_KEY).getFloat();
-    CGGammaValue blueGamma = displayInfo.getElement(M_DISPLAY_GAMMA_BLUE_KEY).getFloat();
-    
+void MacOSStimulusDisplay::setDisplayGamma(CGDirectDisplayID displayID,
+                                           CGGammaValue redGamma,
+                                           CGGammaValue greenGamma,
+                                           CGGammaValue blueGamma)
+{
     if (redGamma <= 0.0 || greenGamma <= 0.0 || blueGamma <= 0.0) {
         merror(M_DISPLAY_MESSAGE_DOMAIN,
                "Invalid display gamma values: red = %g, green = %g, blue = %g",
@@ -201,8 +198,8 @@ CVReturn MacOSStimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink
 }
 
 
-boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(bool useColorManagement) {
-    return boost::make_shared<MacOSStimulusDisplay>(useColorManagement);
+boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(const Configuration &config) {
+    return boost::make_shared<MacOSStimulusDisplay>(config);
 }
 
 

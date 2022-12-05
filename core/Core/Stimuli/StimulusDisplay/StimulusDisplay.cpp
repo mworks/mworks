@@ -27,22 +27,6 @@
 BEGIN_NAMESPACE_MW
 
 
-boost::shared_ptr<StimulusDisplay> StimulusDisplay::getDefaultStimulusDisplay() {
-    // Make a copy to ensure the experiment stays alive until we're done with it
-    auto currentExperiment = GlobalCurrentExperiment;
-    if (!currentExperiment) {
-        throw SimpleException("No experiment currently defined");
-    }
-    
-    auto defaultDisplay = currentExperiment->getDefaultStimulusDisplay();
-    if (!defaultDisplay) {
-        throw SimpleException("No default stimulus display in current experiment");
-    }
-    
-    return defaultDisplay;
-}
-
-
 template <typename T>
 static inline void getConfigValue(const Datum::dict_value_type &infoDict, const char *key, T &value) {
     auto iter = infoDict.find(Datum(key));
@@ -74,6 +58,85 @@ auto StimulusDisplay::getDisplayConfiguration(const Datum &displayInfo) -> Confi
 }
 
 
+boost::shared_ptr<StimulusDisplay> StimulusDisplay::prepareStimulusDisplay(const Configuration &config) {
+    auto contextManager = OpenGLContextManager::instance(false);
+    if (!contextManager) {
+        contextManager = OpenGLContextManager::createPlatformOpenGLContextManager();
+        OpenGLContextManager::registerInstance(contextManager);
+    }
+    
+    if (config.displayToUse >= contextManager->getNumDisplays()) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              boost::format("Requested display index (%1%) is invalid")
+                              % config.displayToUse);
+    }
+    if (config.width <= 0.0 || config.height <= 0.0 || config.distance <= 0.0) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              "Stimulus display width, height, and distance must be positive numbers");
+    }
+    double mirrorWindowWidth = 0.0;
+    if (config.displayToUse < 0 || config.alwaysDisplayMirrorWindow) {
+        if (config.mirrorWindowBaseHeight <= 0.0) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  "Stimulus display mirror window height must be a positive number");
+        }
+        mirrorWindowWidth = config.mirrorWindowBaseHeight * (config.width / config.height);
+    }
+    
+    auto display = createPlatformStimulusDisplay(config);
+    
+    if (config.displayToUse < 0) {
+        // Mirror window only
+        display->setMainContext(contextManager->newMirrorContext(mirrorWindowWidth, config.mirrorWindowBaseHeight));
+    } else {
+        auto mainContext = contextManager->newFullscreenContext(config.displayToUse, config.makeWindowOpaque);
+        display->setMainContext(mainContext);
+        if (config.alwaysDisplayMirrorWindow) {
+            display->setMirrorContext(contextManager->newMirrorContext(mirrorWindowWidth,
+                                                                       config.mirrorWindowBaseHeight,
+                                                                       mainContext));
+        }
+    }
+    
+    display->clearDisplay();
+    
+    return display;
+}
+
+
+boost::shared_ptr<StimulusDisplay> StimulusDisplay::getDefaultStimulusDisplay() {
+    // Make a copy to ensure the experiment stays alive until we're done with it
+    auto currentExperiment = GlobalCurrentExperiment;
+    if (!currentExperiment) {
+        throw SimpleException("No experiment currently defined");
+    }
+    
+    auto defaultDisplay = currentExperiment->getDefaultStimulusDisplay();
+    if (!defaultDisplay) {
+        throw SimpleException("No default stimulus display in current experiment");
+    }
+    
+    return defaultDisplay;
+}
+
+
+void StimulusDisplay::getDisplayBounds(double width,
+                                       double height,
+                                       double distance,
+                                       double &left,
+                                       double &right,
+                                       double &bottom,
+                                       double &top)
+{
+    const double half_width_deg = (180.0 / M_PI) * std::atan((width / 2.0) / distance);
+    const double half_height_deg = half_width_deg * height / width;
+    left = -half_width_deg;
+    right = half_width_deg;
+    bottom = -half_height_deg;
+    top = half_height_deg;
+}
+
+
 void StimulusDisplay::getDisplayBounds(const Datum &display_info,
                                        double &left,
                                        double &right,
@@ -85,31 +148,23 @@ void StimulusDisplay::getDisplayBounds(const Datum &display_info,
         display_info.hasKey(M_DISPLAY_HEIGHT_KEY) &&
         display_info.hasKey(M_DISPLAY_DISTANCE_KEY))
     {
-        double width_unknown_units = display_info.getElement(M_DISPLAY_WIDTH_KEY);
-        double height_unknown_units = display_info.getElement(M_DISPLAY_HEIGHT_KEY);
-        double distance_unknown_units = display_info.getElement(M_DISPLAY_DISTANCE_KEY);
-        
-        double half_width_deg = (180.0 / M_PI) * std::atan((width_unknown_units / 2.0) / distance_unknown_units);
-        double half_height_deg = half_width_deg * height_unknown_units / width_unknown_units;
-        //double half_height_deg = (180. / M_PI) * atan((height_unknown_units/2.)/distance_unknown_units);
-        
-        left = -half_width_deg;
-        right = half_width_deg;
-        top = half_height_deg;
-        bottom = -half_height_deg;
+        const auto width = display_info.getElement(M_DISPLAY_WIDTH_KEY).getFloat();
+        const auto height = display_info.getElement(M_DISPLAY_HEIGHT_KEY).getFloat();
+        const auto distance = display_info.getElement(M_DISPLAY_DISTANCE_KEY).getFloat();
+        getDisplayBounds(width, height, distance, left, right, bottom, top);
     } else {
         left = M_STIMULUS_DISPLAY_LEFT_EDGE;
         right = M_STIMULUS_DISPLAY_RIGHT_EDGE;
-        top = M_STIMULUS_DISPLAY_TOP_EDGE;
         bottom = M_STIMULUS_DISPLAY_BOTTOM_EDGE;
+        top = M_STIMULUS_DISPLAY_TOP_EDGE;
     }
 }
 
 
-StimulusDisplay::StimulusDisplay(bool useColorManagement) :
+StimulusDisplay::StimulusDisplay(const Configuration &config) :
     contextManager(OpenGLContextManager::instance()),
     clock(Clock::instance()),
-    useColorManagement(useColorManagement),
+    config(config),
     backgroundRed(0.5),
     backgroundGreen(0.5),
     backgroundBlue(0.5),
@@ -126,8 +181,7 @@ StimulusDisplay::StimulusDisplay(bool useColorManagement) :
     didDrawWhilePaused(false)
 {
     // Set display bounds
-    auto reg = mw::ComponentRegistry::getSharedRegistry();
-    getDisplayBounds(reg->getVariable(MAIN_SCREEN_INFO_TAGNAME)->getValue(),
+    getDisplayBounds(config.width, config.height, config.distance,
                      boundsLeft, boundsRight, boundsBottom, boundsTop);
     projectionMatrix = GLKMatrix4MakeOrtho(boundsLeft, boundsRight, boundsBottom, boundsTop, -1.0, 1.0);
     mprintf("Display bounds set to (%g left, %g right, %g top, %g bottom)",

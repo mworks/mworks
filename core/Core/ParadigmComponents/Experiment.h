@@ -175,8 +175,6 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
         std::string workingPath;
     
         std::string currentSavedVariablesFile;
-    
-        void prepareDefaultStimulusDisplay();
         			
     public:
 		Experiment(shared_ptr<VariableRegistry> variable_reg);

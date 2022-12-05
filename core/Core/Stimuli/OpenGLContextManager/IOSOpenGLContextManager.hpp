@@ -22,7 +22,7 @@ public:
     ~IOSOpenGLContextManager();
     
     int newFullscreenContext(int screen_number, bool opaque) override;
-    int newMirrorContext(int main_context_id) override;
+    int newMirrorContext(double width, double height, int main_context_id) override;
     
     void releaseContexts() override;
     

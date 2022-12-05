@@ -7,7 +7,6 @@
 
 #include "MacOSOpenGLContextManager.hpp"
 
-#include "ComponentRegistry.h"
 #include "OpenGLUtilities.hpp"
 
 
@@ -125,33 +124,17 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
 }
 
 
-int MacOSOpenGLContextManager::newMirrorContext(int main_context_id) {
+int MacOSOpenGLContextManager::newMirrorContext(double width, double height, int main_context_id) {
     @autoreleasepool {
         MWKOpenGLContext *context = createOpenGLContext();
         if (!context) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for mirror window");
         }
         
-        NSSize size = NSMakeSize(100.0, 100.0);  // Conspicuously wrong defaults
-        
-        if (auto mainScreenInfo = ComponentRegistry::getSharedRegistry()->getVariable(MAIN_SCREEN_INFO_TAGNAME)) {
-            auto value = mainScreenInfo->getValue();
-            if (value.hasKey(M_DISPLAY_WIDTH_KEY) &&
-                value.hasKey(M_DISPLAY_HEIGHT_KEY) &&
-                value.hasKey(M_MIRROR_WINDOW_BASE_HEIGHT_KEY))
-            {
-                auto displayWidth = value.getElement(M_DISPLAY_WIDTH_KEY).getFloat();
-                auto displayHeight = value.getElement(M_DISPLAY_HEIGHT_KEY).getFloat();
-                auto displayAspectRatio = displayWidth / displayHeight;
-                size.height = value.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat();
-                size.width = size.height * displayAspectRatio;
-            }
-        }
-        
         __block bool success = false;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            if (NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(50.0, 50.0, size.width, size.height)
+            if (NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(50.0, 50.0, width, height)
                                                                styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskMiniaturizable)
                                                                  backing:NSBackingStoreBuffered
                                                                    defer:NO])
@@ -164,7 +147,7 @@ int MacOSOpenGLContextManager::newMirrorContext(int main_context_id) {
                     metalDevice = getMetalDeviceForScreen(window.screen);
                 }
                 
-                if (MTKView *view = [[MTKView alloc] initWithFrame:NSMakeRect(0.0, 0.0, size.width, size.height)
+                if (MTKView *view = [[MTKView alloc] initWithFrame:NSMakeRect(0.0, 0.0, width, height)
                                                             device:metalDevice])
                 {
                     window.contentView = view;

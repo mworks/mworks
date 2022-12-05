@@ -23,7 +23,7 @@ BEGIN_NAMESPACE_MW
 class MacOSStimulusDisplay : public AppleStimulusDisplay {
     
 public:
-    explicit MacOSStimulusDisplay(bool useColorManagement);
+    explicit MacOSStimulusDisplay(const Configuration &config);
     ~MacOSStimulusDisplay();
     
     const CVTimeStamp& getCurrentOutputTimeStamp() const { return currentOutputTimeStamp; }
@@ -37,7 +37,10 @@ private:
                                         void *_display);
     
     void prepareContext(int context_id, bool isMainContext) override;
-    void setDisplayGamma(const Datum &displayInfo, CGDirectDisplayID displayID);
+    void setDisplayGamma(CGDirectDisplayID displayID,
+                         CGGammaValue redGamma,
+                         CGGammaValue greenGamma,
+                         CGGammaValue blueGamma);
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;
     

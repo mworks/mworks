@@ -30,50 +30,11 @@
 BEGIN_NAMESPACE_MW
 
 
-// DDC: HOLY CRAP: WHY WAS HE QUIETLY REPLACING MISSING VALUES WITH DEFAULTS?!?
-// Datum checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(const Datum main_window_values, 
-//																			   const Datum current_values, 
-//																			   const std::string &key, 
-//																			   const Datum default_values) {
-//	 Datum new_values(current_values);
-//		if(!(main_window_values.getElement(key).isNumber())) {
-//			merror(M_PARSER_MESSAGE_DOMAIN, "'%s' is either empty or has an illegal value, setting default to %f", key.c_str(), default_values.getFloat());
-//			new_values.addElement(key.c_str(), default_values);
-//		} else {
-//			new_values.addElement(key.c_str(), main_window_values.getElement(key));
-//		}
-//		
-//		return new_values;
-//	}
-	
-#define CHECK_DICT_VALUE_IS_NUMBER(dict, key) dict.getElement(key).isNumber() 
-    
 	bool loadSetupVariables() {
 		boost::filesystem::path setupPath(setupVariablesFile());
 		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 		XMLParser parser(reg, setupPath.string());
-		
 		parser.parse();
-		
-		// check setup variables for validity
-		shared_ptr<Variable> main_screen_info_variable = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
-		Datum main_screen_dict = main_screen_info_variable->getValue();
-           
-        bool width_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_WIDTH_KEY);
-        bool height_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_HEIGHT_KEY);
-        bool dist_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_DISTANCE_KEY);
-        
-        if (!(width_ok && height_ok && dist_ok)) {
-            string stem = "Invalid display info defined in setup_variables.xml (missing/invalid: ";
-            if(!width_ok) stem = stem + M_DISPLAY_WIDTH_KEY + " ";
-            if(!height_ok) stem = stem + M_DISPLAY_HEIGHT_KEY + " ";
-            if(!dist_ok) stem = stem + M_DISPLAY_DISTANCE_KEY + " ";
-            stem += ")";
-            throw SimpleException(stem);
-        }
-        
-        // TODO: more error checking.  THESE SHOULD ALL THROW IF SOMETHING IS WRONG!!!
-        
 		return true;
 	}
 	

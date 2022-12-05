@@ -142,8 +142,8 @@ using namespace mw::aapl_math_utilities;
 BEGIN_NAMESPACE_MW
 
 
-AppleStimulusDisplay::AppleStimulusDisplay(bool useColorManagement) :
-    StimulusDisplay(useColorManagement),
+AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
+    StimulusDisplay(config),
     device(nil),
     commandQueue(nil),
     mainView(nil),

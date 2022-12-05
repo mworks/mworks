@@ -27,7 +27,7 @@ BEGIN_NAMESPACE_MW
 class AppleStimulusDisplay : public StimulusDisplay {
     
 public:
-    explicit AppleStimulusDisplay(bool useColorManagement);
+    explicit AppleStimulusDisplay(const Configuration &config);
     ~AppleStimulusDisplay();
     
     simd::float4x4 getMetalProjectionMatrix() const { return metalProjectionMatrix; }

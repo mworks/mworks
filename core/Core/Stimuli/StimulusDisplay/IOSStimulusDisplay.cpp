@@ -59,8 +59,8 @@
 BEGIN_NAMESPACE_MW
 
 
-IOSStimulusDisplay::IOSStimulusDisplay(bool useColorManagement) :
-    AppleStimulusDisplay(useColorManagement),
+IOSStimulusDisplay::IOSStimulusDisplay(const Configuration &config) :
+    AppleStimulusDisplay(config),
     displayLink(nil),
     lastTargetTimestamp(0.0)
 { }
@@ -217,8 +217,8 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
 }
 
 
-boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(bool useColorManagement) {
-    return boost::make_shared<IOSStimulusDisplay>(useColorManagement);
+boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(const Configuration &config) {
+    return boost::make_shared<IOSStimulusDisplay>(config);
 }
 
 

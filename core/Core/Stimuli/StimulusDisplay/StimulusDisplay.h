@@ -71,16 +71,19 @@ public:
         static_assert(decltype(predictedOutputTime)::is_always_lock_free);
     };
     
-    static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool useColorManagement);
+    static Configuration getDisplayConfiguration(const Datum &displayInfo);
+    static boost::shared_ptr<StimulusDisplay> prepareStimulusDisplay(const Configuration &config);
+    static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(const Configuration &config);
     static boost::shared_ptr<StimulusDisplay> getDefaultStimulusDisplay();
     
-    static Configuration getDisplayConfiguration(const Datum &displayInfo);
+    static void getDisplayBounds(double width, double height, double distance,
+                                 double &left, double &right, double &bottom, double &top);
     static void getDisplayBounds(const Datum &mainScreenInfo, double &left, double &right, double &bottom, double &top);
     
-    explicit StimulusDisplay(bool useColorManagement);
+    explicit StimulusDisplay(const Configuration &config);
     virtual ~StimulusDisplay();
     
-    bool getUseColorManagement() const { return useColorManagement; }
+    bool getUseColorManagement() const { return config.useColorManagement; }
     void getDisplayBounds(double &left, double &right, double &bottom, double &top) const {
         std::tie(left, right, bottom, top) = std::tie(boundsLeft, boundsRight, boundsBottom, boundsTop);
     }
@@ -120,6 +123,7 @@ public:
 protected:
     const boost::shared_ptr<OpenGLContextManager> & getContextManager() const { return contextManager; }
     const boost::shared_ptr<Clock> & getClock() const { return clock; }
+    const Configuration & getConfiguration() const { return config; }
     void getBackgroundColor(double &red, double &green, double &blue, double &alpha) const {
         std::tie(red, green, blue, alpha) = std::tie(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
     }
@@ -156,12 +160,12 @@ private:
     const boost::shared_ptr<OpenGLContextManager> contextManager;
     const boost::shared_ptr<Clock> clock;
     
-    const bool useColorManagement;
+    const Configuration config;
     double backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha;  // background color
     bool redrawOnEveryRefresh;
     bool announceStimuliOnImplicitUpdates;
     
-    double boundsLeft, boundsRight, boundsTop, boundsBottom;  // display bounds
+    double boundsLeft, boundsRight, boundsBottom, boundsTop;  // display bounds
     GLKMatrix4 projectionMatrix;
     
     boost::shared_ptr<VariableCallbackNotification> stateSystemNotification;
