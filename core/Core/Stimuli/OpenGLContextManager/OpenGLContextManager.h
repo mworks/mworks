@@ -21,14 +21,14 @@ public:
     static constexpr int NO_CONTEXT_ID = -1;
     
     // Create a fullscreen context on a particular display
-    virtual int newFullscreenContext(int screen_number, bool opaque) = 0;
+    int createFullscreenContext(int screen_number, bool opaque);
     
     // Create a "mirror" window (smaller, movable window that displays whatever
     // is on the "main" display) and return its context index
-    virtual int newMirrorContext(double width, double height, int main_context_id = NO_CONTEXT_ID) = 0;
+    int createMirrorContext(double width, double height, int main_context_id = NO_CONTEXT_ID);
     
     // Release all contexts and associated resources
-    virtual void releaseContexts() = 0;
+    virtual void releaseContexts();
     
     virtual int getNumDisplays() const = 0;
     
@@ -38,6 +38,12 @@ public:
     static boost::shared_ptr<OpenGLContextManager> createPlatformOpenGLContextManager();
     
     REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
+    
+private:
+    virtual int newFullscreenContext(int screen_number, bool opaque) = 0;
+    virtual int newMirrorContext(double width, double height, int main_context_id) = 0;
+    
+    std::set<int> screensInUse;
     
 };
 

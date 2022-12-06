@@ -61,11 +61,6 @@ static id<MTLDevice> getMetalDeviceForScreen(NSScreen *screen) {
 
 int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque) {
     @autoreleasepool {
-        if (screen_number < 0 || screen_number >= getNumDisplays()) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  (boost::format("Invalid screen number (%d)") % screen_number).str());
-        }
-        
         MWKOpenGLContext *context = createOpenGLContext();
         if (!context) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for fullscreen window");
@@ -189,6 +184,8 @@ void MacOSOpenGLContextManager::releaseContexts() {
         
         [contexts removeAllObjects];
     }
+    
+    AppleOpenGLContextManager::releaseContexts();
 }
 
 

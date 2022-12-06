@@ -87,14 +87,14 @@ boost::shared_ptr<StimulusDisplay> StimulusDisplay::prepareStimulusDisplay(const
     
     if (config.displayToUse < 0) {
         // Mirror window only
-        display->setMainContext(contextManager->newMirrorContext(mirrorWindowWidth, config.mirrorWindowBaseHeight));
+        display->setMainContext(contextManager->createMirrorContext(mirrorWindowWidth, config.mirrorWindowBaseHeight));
     } else {
-        auto mainContext = contextManager->newFullscreenContext(config.displayToUse, config.makeWindowOpaque);
+        auto mainContext = contextManager->createFullscreenContext(config.displayToUse, config.makeWindowOpaque);
         display->setMainContext(mainContext);
         if (config.alwaysDisplayMirrorWindow) {
-            display->setMirrorContext(contextManager->newMirrorContext(mirrorWindowWidth,
-                                                                       config.mirrorWindowBaseHeight,
-                                                                       mainContext));
+            display->setMirrorContext(contextManager->createMirrorContext(mirrorWindowWidth,
+                                                                          config.mirrorWindowBaseHeight,
+                                                                          mainContext));
         }
     }
     

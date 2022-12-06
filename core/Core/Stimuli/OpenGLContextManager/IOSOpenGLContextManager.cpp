@@ -79,11 +79,6 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
     //
     
     @autoreleasepool {
-        if (screen_number < 0 || screen_number >= getNumDisplays()) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  (boost::format("Invalid screen number (%d)") % screen_number).str());
-        }
-        
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         auto screen = UIScreen.screens[screen_number];
@@ -137,6 +132,8 @@ void IOSOpenGLContextManager::releaseContexts() {
             [views removeAllObjects];
         });
     }
+    
+    AppleOpenGLContextManager::releaseContexts();
 }
 
 

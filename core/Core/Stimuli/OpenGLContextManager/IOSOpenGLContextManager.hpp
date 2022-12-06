@@ -21,9 +21,6 @@ public:
     IOSOpenGLContextManager();
     ~IOSOpenGLContextManager();
     
-    int newFullscreenContext(int screen_number, bool opaque) override;
-    int newMirrorContext(double width, double height, int main_context_id) override;
-    
     void releaseContexts() override;
     
     int getNumDisplays() const override;
@@ -32,6 +29,9 @@ public:
     void clearCurrent() override;
     
 private:
+    int newFullscreenContext(int screen_number, bool opaque) override;
+    int newMirrorContext(double width, double height, int main_context_id) override;
+    
     id<MTLDevice> metalDevice;
     
 };
