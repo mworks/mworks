@@ -151,6 +151,8 @@
 		<xsl:apply-templates select="node()" mode="variable_create"/>
 	</xsl:template>
 
+	<xsl:template match="text()" mode = "variable_create"/>
+
 	<xsl:template match="//variable[@type='selection']" mode="selection_variable_create">
 		<xsl:call-template name="generic_create">
 			<xsl:with-param name="groups">
@@ -162,7 +164,7 @@
 		<xsl:apply-templates select="node()" mode="variable_create"/>
 	</xsl:template>
 
-	<xsl:template match="text()" mode = "variable_create"/>
+	<xsl:template match="text()" mode = "selection_variable_create"/>
 
 	<!-- Resource -->
 	<!-- Resources with no "type" attribute exist only to identify files the
@@ -589,6 +591,8 @@
         <xsl:call-template name="generic_connect"/>
         <xsl:apply-templates select="node()" mode="stimulus_connect"/>
     </xsl:template>
+
+    <xsl:template match="text()" mode = "stimulus_connect"/>
 	
 	<xsl:template match="//stimulus_group" mode="stimulus_group_connect">
 		<xsl:call-template name="generic_connect"/>
