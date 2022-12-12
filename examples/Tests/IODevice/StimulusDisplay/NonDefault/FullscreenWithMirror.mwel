@@ -1,0 +1,16 @@
+stimulus_display (
+    display_info = {
+        'display_to_use': 1,
+        'width': 400,
+        'height': 300,
+        'distance': 100,
+        'always_display_mirror_window': true,
+        'mirror_window_base_height': 500
+        }
+    background_color = 0,0,1
+    )
+
+
+protocol {
+    wait (5s)
+}

@@ -1,0 +1,27 @@
+%define display (display_to_use, background_color)
+    stimulus_display (
+        display_info = {
+            'display_to_use': display_to_use,
+            'width': 400,
+            'height': 300,
+            'distance': 100
+            }
+        background_color = background_color
+        )
+%end
+
+
+display red_screen (
+    display_to_use = 0
+    background_color = 1,0,0
+    )
+
+display blue_screen (
+    display_to_use = 1
+    background_color = 0,0,1
+    )
+
+
+protocol {
+    wait (5s)
+}

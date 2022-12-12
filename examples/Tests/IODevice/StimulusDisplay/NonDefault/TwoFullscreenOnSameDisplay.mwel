@@ -1,0 +1,9 @@
+var display_info = {
+    'display_to_use': 0,
+    'width': 100,
+    'height': 100,
+    'distance': 100
+}
+
+stimulus_display d1 (display_info = display_info)
+stimulus_display d2 (display_info = display_info)

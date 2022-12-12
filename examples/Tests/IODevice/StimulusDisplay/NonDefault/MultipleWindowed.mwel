@@ -1,0 +1,33 @@
+%define display (background_color, base_height)
+    stimulus_display (
+        display_info = {
+            'display_to_use': -1,
+            'width': 400,
+            'height': 300,
+            'distance': 100,
+            'mirror_window_base_height': base_height
+            }
+        background_color = background_color
+        )
+%end
+
+
+display red_window (
+    background_color = 1,0,0
+    base_height = 500
+    )
+
+display green_window (
+    background_color = 0,1,0
+    base_height = 400
+    )
+
+display blue_window (
+    background_color = 0,0,1
+    base_height = 300
+    )
+
+
+protocol {
+    wait (5s)
+}

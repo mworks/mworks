@@ -8,12 +8,11 @@
 
 #include "StimulusDisplayDevice.h"
 
-#include "StimulusDisplay.h"
-
 
 BEGIN_NAMESPACE_MW
 
 
+const std::string StimulusDisplayDevice::DISPLAY_INFO("display_info");
 const std::string StimulusDisplayDevice::BACKGROUND_COLOR("background_color");
 const std::string StimulusDisplayDevice::BACKGROUND_ALPHA_MULTIPLIER("background_alpha_multiplier");
 const std::string StimulusDisplayDevice::REDRAW_ON_EVERY_REFRESH("redraw_on_every_refresh");
@@ -28,6 +27,7 @@ void StimulusDisplayDevice::describeComponent(ComponentInfo &info) {
     
     info.setSignature("iodevice/stimulus_display");
     
+    info.addParameter(DISPLAY_INFO, false);
     info.addParameter(BACKGROUND_COLOR, "0.5,0.5,0.5");
     info.addParameter(BACKGROUND_ALPHA_MULTIPLIER, "1.0");
     info.addParameter(REDRAW_ON_EVERY_REFRESH, "NO");
@@ -40,6 +40,7 @@ void StimulusDisplayDevice::describeComponent(ComponentInfo &info) {
 
 StimulusDisplayDevice::StimulusDisplayDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
+    displayInfo(optionalVariable(parameters[DISPLAY_INFO])),
     backgroundColor(parameters[BACKGROUND_COLOR]),
     backgroundAlphaMultiplier(parameters[BACKGROUND_ALPHA_MULTIPLIER]),
     redrawOnEveryRefresh(parameters[REDRAW_ON_EVERY_REFRESH]),
@@ -48,7 +49,31 @@ StimulusDisplayDevice::StimulusDisplayDevice(const ParameterValueMap &parameters
     captureHeightPixels(parameters[CAPTURE_HEIGHT_PIXELS]),
     captureEnabled(parameters[CAPTURE_ENABLED])
 {
-    auto display = StimulusDisplay::getDefaultStimulusDisplay();
+    // Make a copy to ensure the experiment stays alive until we're done with it
+    auto experiment = GlobalCurrentExperiment;
+    if (!experiment) {
+        throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "No experiment currently defined");
+    }
+    
+    if (displayInfo) {
+        // Create a new display using the provided display info
+        const auto config = StimulusDisplay::getDisplayConfiguration(displayInfo->getValue());
+        display = StimulusDisplay::prepareStimulusDisplay(config);
+    } else if (experiment->getShouldCreateDefaultStimulusDisplay()) {
+        // The experiment has a default display, so just configure that
+        isDefaultDisplay.set();
+        display = experiment->getDefaultStimulusDisplay();
+    } else {
+        // Create a new display using the contents of #mainScreenInfo
+        auto mainScreenInfo = parameters[DISPLAY_INFO].getRegistry()->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+        const auto config = StimulusDisplay::getDisplayConfiguration(mainScreenInfo->getValue());
+        display = StimulusDisplay::prepareStimulusDisplay(config);
+    }
+    
+    if (!isDefaultDisplay.get()) {
+        // Register the new display with the experiment
+        experiment->addStimulusDisplay(display);
+    }
     
     display->setBackgroundColor(backgroundColor.red,
                                 backgroundColor.green,
@@ -65,19 +90,23 @@ StimulusDisplayDevice::StimulusDisplayDevice(const ParameterValueMap &parameters
 }
 
 
-StimulusDisplayDevice::UniqueDeviceGuard::UniqueDeviceGuard() {
-    if (deviceExists.test_and_set()) {
-        throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Experiment can contain at most one stimulus display device");
+StimulusDisplayDevice::IsDefaultDisplay::~IsDefaultDisplay() {
+    if (isDefaultDisplay) {
+        defaultDisplayInUse.clear();
     }
 }
 
 
-StimulusDisplayDevice::UniqueDeviceGuard::~UniqueDeviceGuard() {
-    deviceExists.clear();
+void StimulusDisplayDevice::IsDefaultDisplay::set() {
+    if (defaultDisplayInUse.test_and_set()) {
+        throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN,
+                              "At most one stimulus display device can configure the default display");
+    }
+    isDefaultDisplay = true;
 }
 
 
-std::atomic_flag StimulusDisplayDevice::UniqueDeviceGuard::deviceExists = ATOMIC_FLAG_INIT;
+std::atomic_flag StimulusDisplayDevice::IsDefaultDisplay::defaultDisplayInUse = ATOMIC_FLAG_INIT;
 
 
 END_NAMESPACE_MW

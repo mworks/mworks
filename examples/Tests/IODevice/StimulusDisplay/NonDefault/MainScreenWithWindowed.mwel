@@ -1,0 +1,19 @@
+// This display will get its configuration from #mainScreenInfo
+stimulus_display d1 ()
+
+// This display uses a custom configuration
+stimulus_display d2 (
+    display_info = {
+        'display_to_use': -1,
+        'width': 400,
+        'height': 300,
+        'distance': 100,
+        'mirror_window_base_height': 300
+        }
+    background_color = 0,0,1
+    )
+
+
+protocol {
+    wait (5s)
+}

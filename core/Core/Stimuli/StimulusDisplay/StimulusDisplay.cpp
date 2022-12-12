@@ -106,17 +106,12 @@ boost::shared_ptr<StimulusDisplay> StimulusDisplay::prepareStimulusDisplay(const
 
 boost::shared_ptr<StimulusDisplay> StimulusDisplay::getDefaultStimulusDisplay() {
     // Make a copy to ensure the experiment stays alive until we're done with it
-    auto currentExperiment = GlobalCurrentExperiment;
-    if (!currentExperiment) {
-        throw SimpleException("No experiment currently defined");
+    auto experiment = GlobalCurrentExperiment;
+    if (!experiment) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "No experiment currently defined");
     }
-    
-    auto defaultDisplay = currentExperiment->getDefaultStimulusDisplay();
-    if (!defaultDisplay) {
-        throw SimpleException("No default stimulus display in current experiment");
-    }
-    
-    return defaultDisplay;
+    // getDefaultStimulusDisplay will either succeed or throw, so we don't need to check the result
+    return experiment->getDefaultStimulusDisplay();
 }
 
 

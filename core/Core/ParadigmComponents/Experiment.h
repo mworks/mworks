@@ -163,9 +163,11 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		// A pointer to this experiment's variable registry
 		shared_ptr<VariableRegistry> variable_registry; 
         
-		// An abstract stimulus display associated with this experiment
-		shared_ptr<StimulusDisplay> defaultStimulusDisplay;
-        std::once_flag stimulusDisplayCreated;
+        // Stimulus displays associated with the experiment
+        boost::shared_ptr<StimulusDisplay> defaultDisplay;
+        std::vector<boost::shared_ptr<StimulusDisplay>> nonDefaultDisplays;
+        using lock_guard = std::lock_guard<std::mutex>;
+        lock_guard::mutex_type displaysMutex;
         
 		int n_protocols; 
 		
@@ -173,6 +175,7 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		std::string experimentName;
 		std::string experimentPath;
         std::string workingPath;
+        bool shouldCreateDefaultStimulusDisplay;
     
         std::string currentSavedVariablesFile;
         			
@@ -217,6 +220,14 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
             return workingPath;
         }
     
+        void setShouldCreateDefaultStimulusDisplay(bool newShouldCreateDefaultStimulusDisplay) {
+            shouldCreateDefaultStimulusDisplay = newShouldCreateDefaultStimulusDisplay;
+        }
+    
+        bool getShouldCreateDefaultStimulusDisplay() const {
+            return shouldCreateDefaultStimulusDisplay;
+        }
+    
         const std::string& getCurrentSavedVariablesFile() const {
             return currentSavedVariablesFile;
         }
@@ -236,9 +247,10 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		}
 		
 		
-		// Accessors for stimulus display
-        bool hasDefaultStimulusDisplay() const { return bool(defaultStimulusDisplay); }
-	    shared_ptr<StimulusDisplay> getDefaultStimulusDisplay();
+		// Stimulus display management
+        boost::shared_ptr<StimulusDisplay> getDefaultStimulusDisplay();
+        void addStimulusDisplay(const boost::shared_ptr<StimulusDisplay> &display);
+        void clearStimulusDisplays();
     
 
 		// Current mw::Protocol
@@ -279,20 +291,7 @@ class ExperimentFactory : public ComponentFactory {
 	public:
 		
     shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-                                           ComponentRegistry *reg) override
-    {
-        auto experiment = boost::make_shared<Experiment>(global_variable_registry);
-		
-		if(!parameters["tag"].empty()){
-			experiment->setExperimentName(parameters["tag"]);
-		}
-        
-        experiment->setWorkingPath(parameters["working_path"]);
-        
-        GlobalCurrentExperiment = experiment;
-        
-		return experiment;
-	}
+                                           ComponentRegistry *reg) override;
 		
 };
 

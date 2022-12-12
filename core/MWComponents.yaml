@@ -2209,6 +2209,14 @@ description: |
     on this device.
 parameters: 
   - 
+    name: display_info
+    example: { 'display_to_use': 1, 'width': 400, 'height': 300, 'distance': 200 }
+    description: |
+        Dictionary containing configuration information for the display.  The
+        keys and values are the same as those used with `mainScreenInfo var`.
+
+        If omitted, the value of `mainScreenInfo var` is used.
+  - 
     name: background_color
     default: 0.5,0.5,0.5
     description: >

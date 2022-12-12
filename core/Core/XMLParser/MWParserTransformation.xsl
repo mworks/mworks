@@ -113,6 +113,22 @@
 			<xsl:for-each select="./@*">
 				<xsl:element name="{name()}"><xsl:value-of select="."/></xsl:element>
 			</xsl:for-each>
+            
+			<xsl:if test="name() = 'experiment'">
+				<!-- The experiment should create a default stimulus display only if it contains no definitions of
+				     non-default displays.  The reason we have to use an attribute to encode this information is that
+				     variables can have default-value expressions that call functions (e.g. refresh_rate()) that make
+				     use of the default display.  Since variable_create happens immediately after experiment_create,
+				     the experiment must know at the time of its creation whether it should create a default display
+				     as requested by these functions or whether such requests should cause experiment loading to
+				     fail. -->
+				<xsl:element name="should_create_default_stimulus_display">
+					<xsl:choose>
+						<xsl:when test="count(//iodevice[@type='stimulus_display' and @display_info and @display_info!='']) = 0">YES</xsl:when>
+						<xsl:otherwise>NO</xsl:otherwise>
+					</xsl:choose>
+				</xsl:element>
+			</xsl:if>
 		</xsl:element>
 	</xsl:template>
 	

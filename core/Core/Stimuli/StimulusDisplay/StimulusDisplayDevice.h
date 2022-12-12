@@ -10,6 +10,7 @@
 #define MWorksCore_StimulusDisplayDevice_h
 
 #include "IODevice.h"
+#include "StimulusDisplay.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -18,6 +19,7 @@ BEGIN_NAMESPACE_MW
 class StimulusDisplayDevice : public IODevice {
     
 public:
+    static const std::string DISPLAY_INFO;
     static const std::string BACKGROUND_COLOR;
     static const std::string BACKGROUND_ALPHA_MULTIPLIER;
     static const std::string REDRAW_ON_EVERY_REFRESH;
@@ -30,15 +32,20 @@ public:
     
     explicit StimulusDisplayDevice(const ParameterValueMap &parameters);
     
+    const boost::shared_ptr<StimulusDisplay> & getDisplay() const { return display; }
+    
 private:
-    struct UniqueDeviceGuard : boost::noncopyable {
-        UniqueDeviceGuard();
-        ~UniqueDeviceGuard();
+    struct IsDefaultDisplay : boost::noncopyable {
+        IsDefaultDisplay() : isDefaultDisplay(false) { }
+        ~IsDefaultDisplay();
+        void set();
+        bool get() const { return isDefaultDisplay; }
     private:
-        static std::atomic_flag deviceExists;
+        static std::atomic_flag defaultDisplayInUse;
+        bool isDefaultDisplay;
     };
     
-    const UniqueDeviceGuard uniqueDeviceGuard;
+    const VariablePtr displayInfo;
     const RGBColor backgroundColor;
     const double backgroundAlphaMultiplier;
     const bool redrawOnEveryRefresh;
@@ -46,6 +53,9 @@ private:
     const std::string captureFormat;
     const int captureHeightPixels;
     const VariablePtr captureEnabled;
+    
+    IsDefaultDisplay isDefaultDisplay;
+    boost::shared_ptr<StimulusDisplay> display;
     
 };
 

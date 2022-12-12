@@ -1,0 +1,10 @@
+// This display will get its configuration from #mainScreenInfo, but, because
+// of the presence of d2 below, it will *not* represent the default display
+stimulus_display d1 ()
+
+// This display will use all default values for its configuration
+stimulus_display d2 (display_info = {})
+
+// The call to refresh_rate will raise a load-time error, because there is no
+// default display
+var x = refresh_rate()

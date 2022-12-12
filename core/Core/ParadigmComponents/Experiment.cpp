@@ -29,6 +29,8 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 	
     experimentName = "";
 	setName(experimentName);
+    
+    shouldCreateDefaultStimulusDisplay = false;
 	
 }
 
@@ -48,13 +50,39 @@ void Experiment::createVariableContexts(){
 }
 
 
-shared_ptr<StimulusDisplay> Experiment::getDefaultStimulusDisplay() {
-    std::call_once(stimulusDisplayCreated, [this]() {
+boost::shared_ptr<StimulusDisplay> Experiment::getDefaultStimulusDisplay() {
+    lock_guard lock(displaysMutex);
+    
+    if (!defaultDisplay) {
+        if (!shouldCreateDefaultStimulusDisplay) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  "The default stimulus display is not available.  You must explicitly specify the "
+                                  "display to use.");
+        }
         auto mainScreenInfo = ComponentRegistry::getSharedRegistry()->getVariable(MAIN_SCREEN_INFO_TAGNAME);
         const auto config = StimulusDisplay::getDisplayConfiguration(mainScreenInfo->getValue());
-        defaultStimulusDisplay = StimulusDisplay::prepareStimulusDisplay(config);
-    });
-    return defaultStimulusDisplay;
+        defaultDisplay = StimulusDisplay::prepareStimulusDisplay(config);
+    }
+    
+    return defaultDisplay;
+}
+
+
+void Experiment::addStimulusDisplay(const boost::shared_ptr<StimulusDisplay> &display) {
+    lock_guard lock(displaysMutex);
+    nonDefaultDisplays.emplace_back(display);
+}
+
+
+void Experiment::clearStimulusDisplays() {
+    lock_guard lock(displaysMutex);
+    if (defaultDisplay) {
+        defaultDisplay->clearDisplay();
+    } else {
+        for (const auto &display : nonDefaultDisplays) {
+            display->clearDisplay();
+        }
+    }
 }
 
 
@@ -156,9 +184,7 @@ void Experiment::reset(){
 	weak_ptr<State> state_ptr(current_protocol);
 	setCurrentState(state_ptr);
 	
-	if(defaultStimulusDisplay != NULL){
-		defaultStimulusDisplay->clearDisplay();
-	}
+    clearStimulusDisplays();
 	
 	//variable_registry->reset();
 	//	delete variable_registry;
@@ -198,6 +224,29 @@ std::string Experiment::getExperimentPath() {
 std::string Experiment::getExperimentDirectory() {
     namespace bf = boost::filesystem;
     return bf::path(experimentPath).filename().string();
+}
+
+
+boost::shared_ptr<Component> ExperimentFactory::createObject(std::map<std::string, std::string> parameters,
+                                                             ComponentRegistry *reg)
+{
+    auto experiment = boost::make_shared<Experiment>(global_variable_registry);
+    
+    const auto &experimentName = parameters["tag"];
+    if (!experimentName.empty()) {
+        experiment->setExperimentName(experimentName);
+    }
+    
+    experiment->setWorkingPath(parameters["working_path"]);
+    
+    const auto &shouldCreateDefaultStimulusDisplay = parameters["should_create_default_stimulus_display"];
+    if (!shouldCreateDefaultStimulusDisplay.empty()) {
+        experiment->setShouldCreateDefaultStimulusDisplay(reg->getBoolean(shouldCreateDefaultStimulusDisplay));
+    }
+    
+    GlobalCurrentExperiment = experiment;
+    
+    return experiment;
 }
 
 
