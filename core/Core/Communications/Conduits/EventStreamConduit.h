@@ -19,6 +19,8 @@
 #ifndef EVENT_STREAM_CONDUIT_H_
 #define EVENT_STREAM_CONDUIT_H_
 
+#include <set>
+
 #include "Conduit.h"
 #include "Event.h"
 #include "SimpleConduit.h"

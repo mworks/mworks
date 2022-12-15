@@ -99,7 +99,7 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 			
 			//cerr << expXMLFile.string() << endl;
             
-			bf::path expPath(expXMLFile.branch_path().branch_path());
+			bf::path expPath(expXMLFile.parent_path().parent_path());
 			
             //cerr << expPath.string() << endl;
             

@@ -70,7 +70,7 @@ bool ExperimentUnpackager::unpackageExperiment(Datum payload) {
 	loadedExperimentFilename = prependExperimentInstallPath(removeFileExtension(experimentName.string()),
 								experimentName.string());
 	
-	bf::path experimentPath = loadedExperimentFilename.branch_path();
+	bf::path experimentPath = loadedExperimentFilename.parent_path();
 	
 	createExperimentInstallDirectoryStructure(experimentName.string());
 	

@@ -339,7 +339,7 @@ def add_object_files_to_libpythonall(exclude=()):
 
 @builder
 def libffi():
-    version = '3.4.3'
+    version = '3.4.4'
     srcdir = 'libffi-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -357,7 +357,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '3.0.5'
+    version = '3.0.7'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -522,7 +522,7 @@ def numpy():
 
 @builder
 def boost():
-    version = '1.80.0'
+    version = '1.81.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -626,7 +626,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2022
-    version = '3390300'  # 3.39.3
+    version = '3400000'  # 3.40.0
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 

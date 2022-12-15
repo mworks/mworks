@@ -589,7 +589,7 @@ std::string XMLParser::getWorkingPathString(){
 		std::string escaped_path_string = path;
 		//boost::replace_all(escaped_path_string, " ", "\\ ");
 		boost::filesystem::path the_path(escaped_path_string);
-		boost::filesystem::path the_branch = the_path.branch_path();
+		boost::filesystem::path the_branch = the_path.parent_path();
 		std::string branch_string = the_branch.string();
 		
 		return branch_string;

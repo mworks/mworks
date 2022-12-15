@@ -82,7 +82,7 @@ boost::filesystem::path dfindex::prepareDataFile(const boost::filesystem::path &
 		throw DataFileIndexerError(boost::format("File \"%s\" does not exist") % mwk_data_file.string());
 	}
     
-    const boost::filesystem::path actual_mwk_file(mwk_data_file / mwk_data_file.leaf());
+    const boost::filesystem::path actual_mwk_file(mwk_data_file / mwk_data_file.filename());
 	
 	if (!boost::filesystem::is_directory(mwk_data_file)) {
 		const boost::filesystem::path temp_location(mwk_data_file.string() + ".orig");
