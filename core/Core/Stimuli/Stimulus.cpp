@@ -164,12 +164,14 @@ void StimulusGroup::addChild(std::map<std::string, std::string> parameters,
 
 
 const std::string Stimulus::DEFERRED("deferred");
+const std::string Stimulus::DISPLAY("display");
 
 
 void Stimulus::describeComponent(ComponentInfo &info) {
     Component::describeComponent(info);
     info.addParameter(TAG);  // Make tag required
     info.addParameter(DEFERRED, "no");
+    info.addParameter(DISPLAY, false);
 }
 
 
@@ -193,7 +195,8 @@ Stimulus::Stimulus(const ParameterValueMap &parameters) :
     mw::Component(parameters),
     loaded(false),
     visible(false),
-    deferred(parameters[DEFERRED])
+    deferred(parameters[DEFERRED]),
+    weakDisplay(boost::shared_ptr<StimulusDisplay>(parameters[DISPLAY]))
 { }
 
 
@@ -201,7 +204,8 @@ Stimulus::Stimulus(const std::string &_tag) :
     mw::Component(_tag),
     loaded(false),
     visible(false),
-    deferred(nondeferred_load)
+    deferred(nondeferred_load),
+    weakDisplay(StimulusDisplay::getDefaultStimulusDisplay())
 { }
 
 

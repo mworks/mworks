@@ -94,6 +94,10 @@ int StimulusNode::getDeferred(){
   return stim->getDeferred(); 
 }
 
+boost::shared_ptr<StimulusDisplay> StimulusNode::getDisplay() {
+    return stim->getDisplay();
+}
+
 bool StimulusNode::needDraw(shared_ptr<StimulusDisplay> display) {
     return stim && stim->needDraw(display);
 }
@@ -280,6 +284,15 @@ int StimulusGroupReferenceNode::getDeferred(){
 		return (stimulus_nodes->getElement(index_value))->getDeferred();
 	}
     return Stimulus::nondeferred_load;
+}
+
+boost::shared_ptr<StimulusDisplay> StimulusGroupReferenceNode::getDisplay() {
+    int index_value = getIndexValue();
+    int nelements = stimulus_nodes->getNElements();
+    if (index_value >= 0 && index_value < nelements) {
+        return (stimulus_nodes->getElement(index_value))->getDisplay();
+    }
+    return boost::shared_ptr<StimulusDisplay>();
 }
 
 // Passthrough to the referenced node

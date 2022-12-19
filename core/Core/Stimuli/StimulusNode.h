@@ -107,7 +107,8 @@ public:
     
     virtual bool isLoaded();
     virtual int getDeferred();
-	
+    virtual boost::shared_ptr<StimulusDisplay> getDisplay();
+    
 private:
     // this disables copying the object.
     StimulusNode(const StimulusNode&) { }
@@ -194,7 +195,8 @@ class StimulusGroupReferenceNode : public StimulusNode {
         virtual bool isLoaded();
             
         virtual int getDeferred();
-  
+        boost::shared_ptr<StimulusDisplay> getDisplay() override;
+        
 		// LinkedListNode methods
         void bringToFront() override;
         void sendToBack() override;

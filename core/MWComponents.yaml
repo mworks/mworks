@@ -372,6 +372,11 @@ parameters:
         at experiment load time.  If ``yes``, the stimulus is loaded the first
         time it is `queued <Queue Stimulus>`.  If ``explicit``, the stimulus
         must be loaded explictly with `Load Stimulus`.
+  - 
+    name: display
+    description: >
+        Name of the display on which the stimulus will be presented.  If
+        omitted, the default display (if available) will be used.
 
 
 ---

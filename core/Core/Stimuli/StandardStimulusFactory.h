@@ -12,7 +12,6 @@
 
 #include "StandardComponentFactory.h"
 #include "StimulusNode.h"
-#include "StimulusDisplay.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -22,13 +21,17 @@ template<typename StimulusType>
 class StandardStimulusFactory : public StandardComponentFactory<StimulusType> {
     
 public:
-    virtual boost::shared_ptr<mw::Component> createObject(ComponentFactory::StdStringMap parameters,
-                                                          ComponentRegistryPtr reg)
+    boost::shared_ptr<Component> createObject(ComponentFactory::StdStringMap parameters,
+                                              ComponentRegistryPtr reg) override
     {
         auto stim = boost::dynamic_pointer_cast<StimulusType>(StandardComponentFactory<StimulusType>::createObject(parameters, reg));
         
         if (stim->getDeferred() == Stimulus::nondeferred_load) {
-            stim->load(StimulusDisplay::getDefaultStimulusDisplay());
+            auto display = stim->getDisplay();
+            if (!display) {
+                throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Stimulus has no associated display");
+            }
+            stim->load(display);
         }
         
         reg->registerStimulusNode(stim->getTag(), boost::make_shared<StimulusNode>(stim));

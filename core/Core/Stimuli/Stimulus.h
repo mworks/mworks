@@ -54,9 +54,11 @@ public:
 protected:
     bool loaded, visible;
     load_style deferred;
+    const boost::weak_ptr<StimulusDisplay> weakDisplay;
     
 public:
     static const std::string DEFERRED;
+    static const std::string DISPLAY;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -107,6 +109,7 @@ public:
     bool isVisible();
     int getDeferred(){ return deferred; }
     void setDeferred(load_style _deferred){ deferred = _deferred; }
+    boost::shared_ptr<StimulusDisplay> getDisplay() const { return weakDisplay.lock(); }
     
     // these method should be overriden to provide more announcement detail       
     virtual Datum getCurrentAnnounceDrawData();  
