@@ -374,6 +374,7 @@ class SendStimulusToBackFactory : public ComponentFactory{
 class StimulusDisplayAction : public Action {
     
 public:
+    static const std::string DISPLAY;
     static const std::string PREDICTED_OUTPUT_TIME;
     
     static void describeComponent(ComponentInfo &info);
@@ -389,8 +390,8 @@ protected:
     virtual boost::shared_ptr<StimulusDisplay::UpdateInfo> performAction() = 0;
     virtual const char * getActionName() const = 0;
     
-    const VariablePtr predictedOutputTime;
     const boost::shared_ptr<StimulusDisplay> display;
+    const VariablePtr predictedOutputTime;
     const boost::shared_ptr<Clock> clock;
     
     MWTime startTime;

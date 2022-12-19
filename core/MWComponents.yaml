@@ -1548,6 +1548,11 @@ abstract: yes
 isa: Action
 parameters: 
   - 
+    name: display
+    description: >
+        Name of the display.  If omitted, the default display (if available)
+        will be used.
+  - 
     name: predicted_output_time
     description: >
         Name of a variable in which to store the predicted output time of the

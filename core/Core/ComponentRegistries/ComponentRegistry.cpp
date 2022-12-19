@@ -465,6 +465,18 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 	return refnode;
 }
 
+
+boost::shared_ptr<StimulusDisplay> ComponentRegistry::getStimulusDisplay(const std::string &tag_name) {
+    boost::shared_ptr<StimulusDisplay> display;
+    if (tag_name.empty()) {
+        display = StimulusDisplay::getDefaultStimulusDisplay();
+    } else if (auto device = getObject<StimulusDisplayDevice>(tag_name)) {
+        display = device->getDisplay();
+    }
+    return display;
+}
+
+
 bool ComponentRegistry::getBoolean(std::string expression){
 
 	// cheap and dirty for now

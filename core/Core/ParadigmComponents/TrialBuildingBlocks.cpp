@@ -793,19 +793,21 @@ shared_ptr<mw::Component> SendStimulusToBackFactory::createObject(std::map<std::
  ****************************************************************/
 
 
+const std::string StimulusDisplayAction::DISPLAY("display");
 const std::string StimulusDisplayAction::PREDICTED_OUTPUT_TIME("predicted_output_time");
 
 
 void StimulusDisplayAction::describeComponent(ComponentInfo &info) {
     Action::describeComponent(info);
+    info.addParameter(DISPLAY, false);
     info.addParameter(PREDICTED_OUTPUT_TIME, false);
 }
 
 
 StimulusDisplayAction::StimulusDisplayAction(const ParameterValueMap &parameters) :
     Action(parameters),
+    display(parameters[DISPLAY]),
     predictedOutputTime(optionalVariable(parameters[PREDICTED_OUTPUT_TIME])),
-    display(StimulusDisplay::getDefaultStimulusDisplay()),
     clock(Clock::instance())
 { }
 

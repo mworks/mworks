@@ -125,6 +125,16 @@ inline StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentR
 
 
 template<>
+inline boost::shared_ptr<StimulusDisplay> ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    auto display = reg->getStimulusDisplay(s);
+    if (!display) {
+        throw SimpleException("Unknown stimulus display", s);
+    }
+    return display;
+}
+
+
+template<>
 boost::shared_ptr<Sound> ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 

@@ -198,6 +198,7 @@ BEGIN_NAMESPACE_MW
 											std::string default_expression);
         shared_ptr<Variable>    getParsedString(std::string input);
 		shared_ptr<StimulusNode>	getStimulus(std::string expression);
+        boost::shared_ptr<StimulusDisplay> getStimulusDisplay(const std::string &tag_name);
 		
 		// Utility look-ups to centralize commonly used parsing
 		bool getBoolean(std::string expression);

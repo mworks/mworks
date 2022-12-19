@@ -8,6 +8,8 @@
 #ifndef OPENGL_CONTEXT_MANAGER__
 #define OPENGL_CONTEXT_MANAGER__
 
+#include <set>
+
 #include "OpenGLContextLock.h"
 #include "RegisteredSingleton.h"
 

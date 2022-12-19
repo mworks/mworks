@@ -356,13 +356,13 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
     def test_decl_stmt_parameter_name_inference(self):
         # Single param
         with self.analyze('''
-                          action/update_stimulus_display ('foo')
+                          action/next_selection ('foo')
                           ''') as cmpts:
             self.assertEqual(1, len(cmpts))
             children = self.assertComponent(cmpts[0], 2, 27,
                                             name = 'action',
-                                            type = 'update_stimulus_display',
-                                            predicted_output_time = 'foo')
+                                            type = 'next_selection',
+                                            selection = 'foo')
             self.assertEqual([], children)
 
         # Single required param
