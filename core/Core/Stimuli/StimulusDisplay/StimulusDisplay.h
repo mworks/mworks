@@ -194,6 +194,9 @@ private:
 };
 
 
+using StimulusDisplayPtr = boost::shared_ptr<StimulusDisplay>;
+
+
 END_NAMESPACE_MW
 
 

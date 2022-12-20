@@ -474,19 +474,54 @@ bool WaitForCondition::stillWaiting() const {
 
 
 /****************************************************************
- *                       LoadStimulus Methods
+ *                 StimulusAction Methods
  ****************************************************************/
-LoadStimulus::LoadStimulus(shared_ptr<StimulusNode> _stimnode,
-                             shared_ptr<StimulusDisplay> _display) : 
-Action() {
-	stimnode = _stimnode;
-	display = _display;
-	setName("LoadStimulus");
+
+
+const std::string StimulusAction::STIMULUS("stimulus");
+
+
+void StimulusAction::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.addParameter(STIMULUS);
 }
 
-LoadStimulus::~LoadStimulus() { }
 
-bool LoadStimulus::execute() {
+StimulusAction::StimulusAction(const ParameterValueMap &parameters) :
+    Action(parameters),
+    stimNode(parameters[STIMULUS])
+{ }
+
+
+bool StimulusAction::execute() {
+    if (auto display = stimNode->getDisplay()) {
+        performAction(stimNode, display);
+    } else {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Stimulus has no associated display");
+    }
+    return true;
+}
+
+
+/****************************************************************
+ *                       LoadStimulus Methods
+ ****************************************************************/
+
+
+void LoadStimulus::describeComponent(ComponentInfo &info) {
+    StimulusAction::describeComponent(info);
+    info.setSignature("action/load_stimulus");
+}
+
+
+LoadStimulus::LoadStimulus(const ParameterValueMap &parameters) :
+    StimulusAction(parameters)
+{
+    setName("LoadStimulus");
+}
+
+
+void LoadStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
     //
     // Stimulus loading can fail with an exception due to legitimate runtime errors
     // (e.g. a bad image file path).  Since we don't want such an exception to halt
@@ -494,297 +529,178 @@ bool LoadStimulus::execute() {
     // catch all exceptions and convert them to error messages.
     //
     try {
-        stimnode->load(display);
+        stimNode->load(display);
     } catch (const std::exception &e) {
         merror(M_PARADIGM_MESSAGE_DOMAIN, "Stimulus loading failed: %s", e.what());
     } catch (...) {
         merror(M_PARADIGM_MESSAGE_DOMAIN, "Stimulus loading failed");
     }
-    
-    return true;
-}
-    
-shared_ptr<mw::Component> LoadStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-                                                             ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "stimulus");
-	
-	if(GlobalCurrentExperiment == 0) {
-		throw SimpleException("GlobalCurrentExperiment is not defined");
-	}
-	
-	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getDefaultStimulusDisplay();
-	
-	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
-	
-	
-	if(stimDisplay == 0) {
-		throw SimpleException("GlobalCurrentExperiment->getDefaultStimulusDisplay() is not defined");
-	}
-	
-	shared_ptr <mw::Component> newLoadStimulusAction = shared_ptr<mw::Component>(new LoadStimulus(stimulus, stimDisplay));
-	return newLoadStimulusAction;	
 }
 
 
 /****************************************************************
  *                       UnloadStimulus Methods
  ****************************************************************/
-UnloadStimulus::UnloadStimulus(shared_ptr<StimulusNode> _stimnode,
-                               shared_ptr<StimulusDisplay> _display) : 
-Action() {
-	stimnode = _stimnode;
-	display = _display;
-	setName("UnloadStimulus");
+
+
+void UnloadStimulus::describeComponent(ComponentInfo &info) {
+    StimulusAction::describeComponent(info);
+    info.setSignature("action/unload_stimulus");
 }
 
-UnloadStimulus::~UnloadStimulus() { }
 
-bool UnloadStimulus::execute() {	
-    stimnode->unload(display);
-    return true;
+UnloadStimulus::UnloadStimulus(const ParameterValueMap &parameters) :
+    StimulusAction(parameters)
+{
+    setName("UnloadStimulus");
 }
 
-shared_ptr<mw::Component> UnloadStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-                                                              ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "stimulus");
-	
-	if(GlobalCurrentExperiment == 0) {
-		throw SimpleException("GlobalCurrentExperiment is not defined");
-	}
-	
-	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getDefaultStimulusDisplay();
-	
-	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
-	
-	
-	if(stimDisplay == 0) {
-		throw SimpleException("GlobalCurrentExperiment->getDefaultStimulusDisplay() is not defined");
-	}
-	
-	shared_ptr <mw::Component> newUnloadStimulusAction = shared_ptr<mw::Component>(new UnloadStimulus(stimulus, stimDisplay));
-	return newUnloadStimulusAction;	
-}
 
+void UnloadStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
+    stimNode->unload(display);
+}
 
 
 /****************************************************************
  *                       QueueStimulus Methods
  ****************************************************************/
-QueueStimulus::QueueStimulus(shared_ptr<StimulusNode> _stimnode,
-						       shared_ptr<StimulusDisplay> _display) : 
-Action() {
-	stimnode = _stimnode;
-	display = _display;
-	setName("QueueStimulus");
+
+
+void QueueStimulus::describeComponent(ComponentInfo &info) {
+    StimulusAction::describeComponent(info);
+    info.setSignature("action/queue_stimulus");
 }
 
-QueueStimulus::~QueueStimulus() { }
 
-bool QueueStimulus::execute() {
-    if (!(stimnode->isLoaded()) &&
-        stimnode->getDeferred() == Stimulus::deferred_load)
+QueueStimulus::QueueStimulus(const ParameterValueMap &parameters) :
+    StimulusAction(parameters)
+{
+    setName("QueueStimulus");
+}
+
+
+void QueueStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
+    if (!(stimNode->isLoaded()) &&
+        stimNode->getDeferred() == Stimulus::deferred_load)
     {
-        stimnode->load(display);
+        stimNode->load(display);
     }
     
     // freeze the stimulus
-    stimnode->freeze();
+    stimNode->freeze();
     
-    stimnode->setPendingVisible(true);
-    stimnode->clearPendingRemoval();
+    stimNode->setPendingVisible(true);
+    stimNode->clearPendingRemoval();
     
-    stimnode->addToDisplay(display);
-    
-    return true;
-}	
-
-shared_ptr<mw::Component> QueueStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-														   ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "stimulus");
-	
-	if(GlobalCurrentExperiment == 0) {
-		throw SimpleException("GlobalCurrentExperiment is not defined");
-	}
-	
-	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getDefaultStimulusDisplay();
-	
-	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
-	
-	
-	if(stimDisplay == 0) {
-		throw SimpleException("GlobalCurrentExperiment->getDefaultStimulusDisplay() is not defined");
-	}
-	
-	shared_ptr <mw::Component> newQueueStimulusAction = shared_ptr<mw::Component>(new QueueStimulus(stimulus, stimDisplay));
-	return newQueueStimulusAction;	
+    stimNode->addToDisplay(display);
 }
+
 
 /****************************************************************
  *                       LiveQueueStimulus Methods
  ****************************************************************/
-LiveQueueStimulus::LiveQueueStimulus(
-									   shared_ptr<StimulusNode>  _stimnode,
-									   shared_ptr<StimulusDisplay> _display) : 
-Action() {
-	stimnode = _stimnode;
-	display = _display;
-	setName("LiveQueueStimulus");
+
+
+void LiveQueueStimulus::describeComponent(ComponentInfo &info) {
+    StimulusAction::describeComponent(info);
+    info.setSignature("action/live_queue_stimulus");
 }
 
-LiveQueueStimulus::~LiveQueueStimulus() {
-	
+
+LiveQueueStimulus::LiveQueueStimulus(const ParameterValueMap &parameters) :
+    StimulusAction(parameters)
+{
+    setName("LiveQueueStimulus");
 }
 
-bool LiveQueueStimulus::execute() {
-    if (!(stimnode->isLoaded()) &&
-        stimnode->getDeferred() == Stimulus::deferred_load)
+
+void LiveQueueStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
+    if (!(stimNode->isLoaded()) &&
+        stimNode->getDeferred() == Stimulus::deferred_load)
     {
-        stimnode->load(display);
+        stimNode->load(display);
     }
     
     // don't freeze the stimulus
-    stimnode->thaw();
+    stimNode->thaw();
     
-    stimnode->setPendingVisible(true);
-    stimnode->clearPendingRemoval();
+    stimNode->setPendingVisible(true);
+    stimNode->clearPendingRemoval();
     
-    stimnode->addToDisplay(display);
-    
-    return true;
-}	
-
-shared_ptr<mw::Component> LiveQueueStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-															   ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "stimulus");
-	
-	if(GlobalCurrentExperiment == 0) {
-		throw SimpleException("GlobalCurrentExperiment is not defined");
-	}
-	
-	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getDefaultStimulusDisplay();
-	
-	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
-	
-	
-	if(stimDisplay == 0) {
-		throw SimpleException("GlobalCurrentExperiment->getDefaultStimulusDisplay() is not defined");
-	}
-	
-	shared_ptr <mw::Component> newLiveQueueStimulusAction = shared_ptr<mw::Component>(new LiveQueueStimulus(stimulus, stimDisplay));
-	return newLiveQueueStimulusAction;	
+    stimNode->addToDisplay(display);
 }
+
 
 /****************************************************************
  *                       DequeueStimulus Methods
  ****************************************************************/
-DequeueStimulus::DequeueStimulus(shared_ptr<StimulusNode> _stimnode) : 
-Action() {
-	stimnode = _stimnode;
-	setName("DequeueStimulus");
+
+
+void DequeueStimulus::describeComponent(ComponentInfo &info) {
+    StimulusAction::describeComponent(info);
+    info.setSignature("action/dequeue_stimulus");
 }
 
-DequeueStimulus::~DequeueStimulus() { }
 
-bool DequeueStimulus::execute() {
+DequeueStimulus::DequeueStimulus(const ParameterValueMap &parameters) :
+    StimulusAction(parameters)
+{
+    setName("DequeueStimulus");
+}
+
+
+void DequeueStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
+    stimNode->setPendingVisible(false);
     
-    stimnode->setPendingVisible(false);
-		
-    // set a flag that this node should be removed on the 
+    // set a flag that this node should be removed on the
     // next "explicit" update
-	stimnode->setPendingRemoval();
-    
-	return true;
+    stimNode->setPendingRemoval();
 }
 
-shared_ptr<mw::Component> DequeueStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-															 ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, "stimulus");
-	
-	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	
-	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
-	
-	
-	shared_ptr <mw::Component> newDequeueStimulusAction = shared_ptr<mw::Component>(new DequeueStimulus(stimulus));
-	return newDequeueStimulusAction;	
-}
 
 /****************************************************************
  *                       BringStimulusToFront Methods
  ****************************************************************/
-BringStimulusToFront::BringStimulusToFront(
-											 shared_ptr<StimulusNode> _lnode) : 
-Action() {
-	list_node = _lnode;
-	setName("BringStimulusToFront");
+
+
+void BringStimulusToFront::describeComponent(ComponentInfo &info) {
+    StimulusAction::describeComponent(info);
+    info.setSignature("action/bring_stimulus_to_front");
 }
 
-BringStimulusToFront::~BringStimulusToFront() { }
 
-bool BringStimulusToFront::execute() {
-    list_node->bringToFront();
-	return true;
+BringStimulusToFront::BringStimulusToFront(const ParameterValueMap &parameters) :
+    StimulusAction(parameters)
+{
+    setName("BringStimulusToFront");
 }
 
-shared_ptr<StimulusNode> BringStimulusToFront::getStimulusNode() {
-    return list_node;
+
+void BringStimulusToFront::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
+    stimNode->bringToFront();
 }
 
-shared_ptr<mw::Component> BringStimulusToFrontFactory::createObject(std::map<std::string, std::string> parameters,
-																  ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "stimulus");
-	
-	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	
-	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
-	
-	
-	shared_ptr <mw::Component> newBringStimulusToFrontAction = shared_ptr<mw::Component>(new BringStimulusToFront(stimulus));
-	return newBringStimulusToFrontAction;	
-}
 
 /****************************************************************
  *                       SendStimulusToBack Methods
  ****************************************************************/
-SendStimulusToBack::SendStimulusToBack(
-										 shared_ptr<StimulusNode> _lnode) :
-Action() {
-	list_node = _lnode;
-	setName("SendStimulusToBack");
+
+
+void SendStimulusToBack::describeComponent(ComponentInfo &info) {
+    StimulusAction::describeComponent(info);
+    info.setSignature("action/send_stimulus_to_back");
 }
 
-SendStimulusToBack::~SendStimulusToBack() { }
 
-bool SendStimulusToBack::execute() {
-    list_node->sendToBack();
-	return true;
+SendStimulusToBack::SendStimulusToBack(const ParameterValueMap &parameters) :
+    StimulusAction(parameters)
+{
+    setName("SendStimulusToBack");
 }
 
-shared_ptr<StimulusNode> SendStimulusToBack::getStimulusNode() {
-    return list_node;
-}
 
-shared_ptr<mw::Component> SendStimulusToBackFactory::createObject(std::map<std::string, std::string> parameters,
-																ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "stimulus");
-	
-	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
-	
-	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
-	
-	
-	shared_ptr <mw::Component> newSendStimulusToBackAction = shared_ptr<mw::Component>(new SendStimulusToBack(stimulus));
-	return newSendStimulusToBackAction;	
+void SendStimulusToBack::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
+    stimNode->sendToBack();
 }
 
 

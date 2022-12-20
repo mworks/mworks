@@ -1434,18 +1434,26 @@ parameters:
 ---
 
 
-name: Load Stimulus
-signature: action/load_stimulus
+name: Stimulus Action
+abstract: yes
 isa: Action
-description: >
-    Explicitly load a stimulus object (e.g. load a file from disk, compute a
-    dynamically generated stimulus, etc.).  This is useful when the ``deferred``
-    parameter on the stimulus is set to ``yes`` or ``explicit``.
 parameters: 
   - 
     name: stimulus
     required: yes
-    description: Stimulus to load
+    description: Name of the stimulus
+
+
+---
+
+
+name: Load Stimulus
+signature: action/load_stimulus
+isa: Stimulus Action
+description: >
+    Explicitly load a stimulus object (e.g. load a file from disk, compute a
+    dynamically generated stimulus, etc.).  This is useful when the ``deferred``
+    parameter on the stimulus is set to ``yes`` or ``explicit``.
 
 
 ---
@@ -1453,16 +1461,11 @@ parameters:
 
 name: Unload Stimulus
 signature: action/unload_stimulus
-isa: Action
+isa: Stimulus Action
 description: >
     Explicitly unload a stimulus object, thereby releasing any memory or other
     resources used by the stimulus.  This is useful when the ``deferred``
     parameter on the stimulus is set to ``yes`` or ``explicit``.
-parameters: 
-  - 
-    name: stimulus
-    required: yes
-    description: Stimulus to unload
 
 
 ---
@@ -1471,15 +1474,10 @@ parameters:
 name: Queue Stimulus
 signature: action/queue_stimulus
 alias: action/show_stimulus
-isa: Action
+isa: Stimulus Action
 description: >
     Place a stimulus into the display queue, ready to be displayed when
     the next `Update Stimulus Display` action is issued
-parameters: 
-  - 
-    name: stimulus
-    required: yes
-    description: Stimulus to queue
 
 
 ---
@@ -1487,17 +1485,12 @@ parameters:
 
 name: Live Queue Stimulus
 signature: action/live_queue_stimulus
-isa: Action
+isa: Stimulus Action
 description: >
     Place a stimulus into the display queue, ready to be displayed when the next
     `Update Stimulus Display` action is issued.  Differs from `Queue Stimulus`
     in that values for variables controlling the appearance of the stimulus will
     remain malleable right up until the moment that the display is updated.
-parameters: 
-  - 
-    name: stimulus
-    required: yes
-    description: Stimulus to queue
 
 
 ---
@@ -1506,15 +1499,10 @@ parameters:
 name: Dequeue Stimulus
 signature: action/dequeue_stimulus
 alias: action/hide_stimulus
-isa: Action
+isa: Stimulus Action
 description: >
     Remove a stimulus from the display queue, so that it will no longer be
     displayed after the next `Update Stimulus Display` action is issued
-parameters: 
-  - 
-    name: stimulus
-    required: yes
-    description: Stimulus to dequeue
 
 
 ---
@@ -1522,13 +1510,8 @@ parameters:
 
 name: Bring Stimulus to Front
 signature: action/bring_stimulus_to_front
-isa: Action
+isa: Stimulus Action
 description: Move a stimulus to the top of the display queue
-parameters: 
-  - 
-    name: stimulus
-    required: yes
-    description: Stimulus to move
 
 
 ---
@@ -1536,13 +1519,8 @@ parameters:
 
 name: Send Stimulus to Back
 signature: action/send_stimulus_to_back
-isa: Action
+isa: Stimulus Action
 description: Move a stimulus to the bottom of the display queue
-parameters: 
-  - 
-    name: stimulus
-    required: yes
-    description: Stimulus to move
 
 
 ---

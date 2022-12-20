@@ -257,117 +257,114 @@ private:
     
 };
 
-    
-class LoadStimulus : public Action {
-protected:
-    shared_ptr<StimulusNode> stimnode;
-    shared_ptr<StimulusDisplay> display;
+
+class StimulusAction : public Action {
     
 public:
-    LoadStimulus(shared_ptr<StimulusNode> _stimnode, 
-                  shared_ptr<StimulusDisplay> _display);
-    virtual ~LoadStimulus();
-    virtual bool execute();
-};
+    static const std::string STIMULUS;
     
-class LoadStimulusFactory : public ComponentFactory{
-    virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-                                                   ComponentRegistry *reg);
-};    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit StimulusAction(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
+private:
+    virtual void performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) = 0;
+    
+    const StimulusNodePtr stimNode;
+    
+};
 
-class UnloadStimulus : public Action {
-protected:
-    shared_ptr<StimulusNode> stimnode;
-    shared_ptr<StimulusDisplay> display;
-        
-public:
-    UnloadStimulus(shared_ptr<StimulusNode> _stimnode, 
-                   shared_ptr<StimulusDisplay> _display);
-    virtual ~UnloadStimulus();
-    virtual bool execute();
-};
-    
-class UnloadStimulusFactory : public ComponentFactory{
-    virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-                                                   ComponentRegistry *reg);
-};    
-    
-class QueueStimulus : public Action {
-protected:
-	shared_ptr<StimulusNode> stimnode;
-	shared_ptr<StimulusDisplay> display;
+
+class LoadStimulus : public StimulusAction {
     
 public:
-	QueueStimulus(shared_ptr<StimulusNode> _stimnode, 
-				   shared_ptr<StimulusDisplay> _display);
-	virtual ~QueueStimulus();
-	virtual bool execute();
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit LoadStimulus(const ParameterValueMap &parameters);
+    
+private:
+    void performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) override;
+    
 };
 
-class QueueStimulusFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
 
-class LiveQueueStimulus : public Action {
-protected:
-	shared_ptr<StimulusNode> stimnode;
-	shared_ptr<StimulusDisplay> display;
+class UnloadStimulus : public StimulusAction {
+    
 public:
-	LiveQueueStimulus(shared_ptr<StimulusNode> _stimnode, 
-					   shared_ptr<StimulusDisplay> _display);
-	virtual ~LiveQueueStimulus();
-	virtual bool execute();
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit UnloadStimulus(const ParameterValueMap &parameters);
+    
+private:
+    void performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) override;
+    
 };
 
-class LiveQueueStimulusFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
 
-class DequeueStimulus : public Action {
-protected:
-	shared_ptr<StimulusNode> stimnode;
+class QueueStimulus : public StimulusAction {
+    
 public:
-	DequeueStimulus(shared_ptr<StimulusNode> _stimnode);
-	virtual ~DequeueStimulus();
-	virtual bool execute();
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit QueueStimulus(const ParameterValueMap &parameters);
+    
+private:
+    void performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) override;
+    
 };
 
-class DequeueStimulusFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
 
-
-class BringStimulusToFront : public Action {
-protected:
-	shared_ptr<StimulusNode> list_node;
+class LiveQueueStimulus : public StimulusAction {
+    
 public:
-	BringStimulusToFront(shared_ptr<StimulusNode> _stimnode);
-	virtual ~BringStimulusToFront();
-	virtual bool execute();
-	shared_ptr<StimulusNode> getStimulusNode();
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit LiveQueueStimulus(const ParameterValueMap &parameters);
+    
+private:
+    void performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) override;
+    
 };
 
-class BringStimulusToFrontFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
 
-class SendStimulusToBack : public Action {
-protected:
-	shared_ptr<StimulusNode> list_node;
+class DequeueStimulus : public StimulusAction {
+    
 public:
-	SendStimulusToBack(shared_ptr<StimulusNode> _stimnode);
-	virtual ~SendStimulusToBack();
-	virtual bool execute();
-	shared_ptr<StimulusNode> getStimulusNode();
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit DequeueStimulus(const ParameterValueMap &parameters);
+    
+private:
+    void performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) override;
+    
 };
 
-class SendStimulusToBackFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+
+class BringStimulusToFront : public StimulusAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit BringStimulusToFront(const ParameterValueMap &parameters);
+    
+private:
+    void performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) override;
+    
+};
+
+
+class SendStimulusToBack : public StimulusAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit SendStimulusToBack(const ParameterValueMap &parameters);
+    
+private:
+    void performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) override;
+    
 };
 
 
