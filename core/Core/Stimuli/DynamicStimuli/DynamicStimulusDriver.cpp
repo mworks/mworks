@@ -17,7 +17,8 @@
 BEGIN_NAMESPACE_MW
 
 
-DynamicStimulusDriver::DynamicStimulusDriver() :
+DynamicStimulusDriver::DynamicStimulusDriver(const StimulusDisplayPtr &display) :
+    weakDisplay(display),
     startTime(NOT_STARTED),
     pauseTime(NOT_PAUSED),
     elapsedTimeWhilePaused(0)
@@ -126,29 +127,3 @@ void DynamicStimulusDriver::endPause() {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -25,7 +25,7 @@ public:
     static const std::string AUTOPLAY;
     
     static void describeComponent(ComponentInfo &info);
-
+    
     explicit DynamicStimulusBase(const ParameterValueMap &parameters);
     
     void setVisible(bool newvis) override;
@@ -59,6 +59,7 @@ void DynamicStimulusBase<BaseStimulus>::describeComponent(ComponentInfo &info) {
 template<typename BaseStimulus>
 DynamicStimulusBase<BaseStimulus>::DynamicStimulusBase(const ParameterValueMap &parameters) :
     BaseStimulus(parameters),
+    DynamicStimulusDriver(BaseStimulus::getDisplay()),
     autoplay(parameters[AUTOPLAY]),
     didDrawWhilePaused(false)
 { }

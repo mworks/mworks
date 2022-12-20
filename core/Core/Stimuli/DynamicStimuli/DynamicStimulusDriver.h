@@ -18,18 +18,18 @@ BEGIN_NAMESPACE_MW
 
 
 class DynamicStimulusDriver {
-	
+    
 public:
-	DynamicStimulusDriver();
+    explicit DynamicStimulusDriver(const StimulusDisplayPtr &display);
     
     virtual ~DynamicStimulusDriver();
-	
+    
     void play();
     void stop();
     
     void pause();
     void unpause();
-
+    
 protected:
     static constexpr MWTime NOT_STARTED = -1LL;
     static constexpr MWTime NOT_PAUSED = -1LL;
@@ -37,7 +37,14 @@ protected:
     bool isPlaying() const { return (startTime != NOT_STARTED); }
     bool isPaused() const { return (pauseTime != NOT_PAUSED); }
     MWTime getStartTime() const { return startTime; }
-    MWTime getCurrentTime() const { return StimulusDisplay::getDefaultStimulusDisplay()->getCurrentOutputTimeUS(); }
+    
+    MWTime getCurrentTime() const {
+        if (auto display = weakDisplay.lock()) {
+            return display->getCurrentOutputTimeUS();
+        }
+        return 0;
+    }
+    
     MWTime getElapsedTime() const;
     
     virtual void startPlaying();
@@ -46,51 +53,26 @@ protected:
     virtual void beginPause();
     virtual void endPause();
     
-	boost::mutex stim_lock;
-	
+    boost::mutex stim_lock;
+    
 private:
     void stateSystemCallback(const Datum &data, MWorksTime time);
     
-	MWTime startTime;
-	MWTime pauseTime;
-	MWTime elapsedTimeWhilePaused;
+    const boost::weak_ptr<StimulusDisplay> weakDisplay;
+    
+    MWTime startTime;
+    MWTime pauseTime;
+    MWTime elapsedTimeWhilePaused;
     
     boost::shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
-
+    
 };
 
 
-typedef boost::shared_ptr<DynamicStimulusDriver> DynamicStimulusDriverPtr;
+using DynamicStimulusDriverPtr = boost::shared_ptr<DynamicStimulusDriver>;
 
 
 END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
