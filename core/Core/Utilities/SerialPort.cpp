@@ -188,8 +188,8 @@ bool SerialPort::validatePath(std::string &path) {
                                                                                                             kCFAllocatorDefault,
                                                                                                             0)));
         if (pathAsCFString &&
-            // Ignore paths containing "Bluetooth-" or "wlan-debug", which don't correspond to
-            // connected, physical devices
+            // Ignore known paths that don't correspond to connected, physical devices
+            kCFNotFound == CFStringFind(pathAsCFString.get(), CFSTR("BLTH"), 0).location &&
             kCFNotFound == CFStringFind(pathAsCFString.get(), CFSTR("Bluetooth-"), 0).location &&
             kCFNotFound == CFStringFind(pathAsCFString.get(), CFSTR("wlan-debug"), 0).location)
         {
