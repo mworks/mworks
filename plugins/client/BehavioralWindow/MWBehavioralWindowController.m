@@ -603,10 +603,13 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
     [self addNotebookEntryString:summary_string];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)controlTextDidEndEditing:(NSNotification *)aNotification {
     [self addNotebookEntry:self];
     [addNotebookEntryField setStringValue:@""];
 }
+#pragma clang diagnostic pop
 
 
 - (NSDictionary *)workspaceState {
