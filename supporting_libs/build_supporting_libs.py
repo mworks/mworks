@@ -406,7 +406,6 @@ def python():
                 apply_patch('python_ctypes.patch')
                 apply_patch('python_static_zlib.patch')
                 if building_for_ios:
-                    apply_patch('python_ios_16_0_required.patch')
                     apply_patch('python_ios_build.patch')
                     apply_patch('python_ios_disabled_modules.patch')
                     apply_patch('python_ios_fixes.patch')

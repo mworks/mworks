@@ -84,7 +84,10 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
                                   (boost::format("Invalid screen number (%d)") % screen_number).str());
         }
         
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         auto screen = UIScreen.screens[screen_number];
+#pragma clang diagnostic pop
         __block bool success = false;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
