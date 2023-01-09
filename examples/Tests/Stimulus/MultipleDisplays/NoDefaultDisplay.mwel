@@ -1,0 +1,18 @@
+stimulus_display d1 (
+    // Get configuration from #mainScreenInfo
+    )
+
+stimulus_display d2 (
+    display_info = {
+        'display_to_use': -1,
+        'width': 300,
+        'height': 400,
+        'distance': 500,
+        'mirror_window_base_height': 500
+        }
+    )
+
+
+// This stimulus declaration will raise a load-time error, because it doesn't
+// specify a display, and there is no default display
+blank_screen (color = 0.5, 0.5, 0.5)

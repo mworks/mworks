@@ -1,0 +1,223 @@
+//
+// Displays
+//
+
+stimulus_display d1 (
+    // Get configuration from #mainScreenInfo
+    background_color = 0.7, 0.5, 0.5  // Slightly red
+    )
+
+stimulus_display d2 (
+    display_info = {
+        'display_to_use': -1,
+        'width': 300,
+        'height': 400,
+        'distance': 500,
+        'mirror_window_base_height': 500
+        }
+    background_color = 0.5, 0.7, 0.5  // Slightly green
+    )
+
+
+//
+// Stimuli
+//
+
+var alpha_multiplier = 1.0
+
+rectangle d1_s1 (
+    color = 1,0,0
+    alpha_multiplier = alpha_multiplier
+    x_size = 6
+    y_size = 4
+    x_position = -5
+    y_position = -5
+    deferred = explicit
+    display = d1
+    )
+
+ellipse d1_s2 (
+    color = 0,1,0
+    alpha_multiplier = alpha_multiplier
+    x_size = 6
+    y_size = 4
+    deferred = true
+    display = d1
+    )
+
+drifting_grating d1_s3 (
+    spatial_frequency = 1
+    speed = 1
+    grating_type = sinusoid
+    color = 0,0,1
+    alpha_multiplier = alpha_multiplier
+    x_size = 6
+    y_size = 4
+    x_position = 5
+    y_position = 5
+    rotation = 45
+    autoplay = true
+    display = d1
+    )
+
+blank_screen d1_s4 (
+    color = 1,1,0
+    display = d1
+    )
+
+stimulus_group d2_s {
+    rectangle d2_s1 (
+        color = 0,1,0
+        alpha_multiplier = alpha_multiplier
+        x_size = 6
+        y_size = 8
+        x_position = -7
+        y_position = 7
+        deferred = explicit
+        display = d2
+        )
+
+    ellipse d2_s2 (
+        color = 0,0,1
+        alpha_multiplier = alpha_multiplier
+        x_size = 6
+        y_size = 8
+        deferred = true
+        display = d2
+        )
+
+    drifting_grating d2_s3 (
+        spatial_frequency = 0.5
+        speed = 2
+        grating_type = sinusoid
+        color = 1,0,0
+        alpha_multiplier = alpha_multiplier
+        x_size = 6
+        y_size = 8
+        x_position = 7
+        y_position = -7
+        rotation = 45
+        autoplay = true
+        display = d2
+        )
+
+    blank_screen d2_s4 (
+        color = 1,0,1
+        display = d2
+        )
+}
+
+
+//
+// Protocol
+//
+
+protocol (nsamples = 2) {
+    alpha_multiplier = 1.0
+
+    // Live queue an unloaded explicit-load stimulus
+    live_queue_stimulus (d1_s1)
+    update_display (display = d1)
+    wait (2s)
+
+    // Queue an unloaded explicit-load stimulus
+    queue_stimulus (d2_s[0])
+    update_display (display = d2)
+    wait (2s)
+
+    // Live queue a loaded explicit-load stimulus
+    load_stimulus (d1_s1)
+    live_queue_stimulus (d1_s1)
+    update_display (display = d1)
+    wait (2s)
+
+    // Queue a loaded explicit-load stimulus
+    load_stimulus (d2_s[0])
+    queue_stimulus (d2_s[0])
+    update_display (display = d2)
+    wait (2s)
+
+    // Queue an unloaded deferred-load stimulus
+    queue_stimulus (d1_s2)
+    update_display (display = d1)
+    wait (2s)
+
+    // Live queue an unloaded deferred-load stimulus
+    live_queue_stimulus (d2_s[1])
+    update_display (display = d2)
+    wait (2s)
+
+    // Live queue a loaded non-deferred-load stimulus
+    live_queue_stimulus (d1_s3)
+    update_display (display = d1)
+    wait (2s)
+
+    // Queue a loaded non-deferred-load stimulus
+    queue_stimulus (d2_s[2])
+    update_display (display = d2)
+    wait (2s)
+
+    // Make a parameter change that will affect all live-queued stimuli
+    alpha_multiplier = 0.2
+    wait (2s)
+
+    // Queue a stimulus to each display, but don't update yet
+    queue_stimulus (d2_s[3])
+    queue_stimulus (d1_s4)
+    wait (2s)
+
+    // Update one display, showing the queued stimulus
+    update_display (display = d2)
+    wait (2s)
+
+    // Update the other display, showing the queued stimulus
+    update_display (display = d1)
+    wait (2s)
+
+    // Bring a stimulus to the front on one display
+    bring_stimulus_to_front (d2_s[0])
+    update_display (display = d2)
+    wait (2s)
+
+    // Bring a stimulus to the front on the other display
+    bring_stimulus_to_front (d1_s2)
+    update_display (display = d1)
+    wait (2s)
+
+    // Send a stimulus to the back on one display
+    send_stimulus_to_back (d2_s[3])
+    update_display (display = d2)
+    wait (2s)
+
+    // Send a stimulus to the back on the other display
+    send_stimulus_to_back (d1_s4)
+    update_display (display = d1)
+    wait (2s)
+
+    // Dequeue a stimulus from each display, but don't update yet
+    dequeue_stimulus (d2_s[3])
+    dequeue_stimulus (d1_s4)
+    wait (2s)
+
+    // Update one display, removing the dequeued stimulus
+    update_display (display = d2)
+    wait (2s)
+
+    // Update the other display, removing the dequeued stimulus
+    update_display (display = d1)
+    wait (2s)
+
+    // Clear one display
+    clear_display (display = d1)
+    wait (2s)
+
+    // Clear the other display
+    clear_display (display = d2)
+    wait (2s)
+
+    // Unload all explicit- and deferred-load stimuli
+    unload_stimulus (d1_s1)
+    unload_stimulus (d2_s[0])
+    unload_stimulus (d1_s2)
+    unload_stimulus (d2_s[1])
+}
