@@ -58,15 +58,16 @@ void BaseMovieStimulus::startPlaying() {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Movie \"%s\" has no frames to display", getTag().c_str());
     }
     
-    const double frameRate = framesPerSecond->getValue().getFloat();
-    const double refreshRate = StimulusDisplay::getDefaultStimulusDisplay()->getMainDisplayRefreshRate();
+    const auto frameRate = framesPerSecond->getValue().getFloat();
     
-    if ((frameRate > refreshRate) || (fmod(refreshRate, frameRate) != 0.0)) {
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                 "Requested frame rate (%g) is incompatible with display refresh rate (%g)",
-                 frameRate,
-                 refreshRate);
-        
+    if (auto display = getDisplay()) {
+        const auto refreshRate = display->getMainDisplayRefreshRate();
+        if ((frameRate > refreshRate) || (fmod(refreshRate, frameRate) != 0.0)) {
+            mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                     "Requested frame rate (%g) is incompatible with display refresh rate (%g)",
+                     frameRate,
+                     refreshRate);
+        }
     }
     
     framesPerUS = frameRate / 1.0e6;
