@@ -21,6 +21,7 @@ public:
     static const std::string TOUCH_POSITION_X;
     static const std::string TOUCH_POSITION_Y;
     static const std::string TOUCH_IN_PROGRESS;
+    static const std::string DISPLAY;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -41,6 +42,7 @@ private:
     const VariablePtr posX;
     const VariablePtr posY;
     const VariablePtr inProgress;
+    const StimulusDisplayPtr display;
     const boost::shared_ptr<Clock> clock;
     
     MTKView *targetView;

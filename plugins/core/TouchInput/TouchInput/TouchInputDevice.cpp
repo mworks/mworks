@@ -15,6 +15,7 @@ BEGIN_NAMESPACE_MW
 const std::string TouchInputDevice::TOUCH_POSITION_X("touch_position_x");
 const std::string TouchInputDevice::TOUCH_POSITION_Y("touch_position_y");
 const std::string TouchInputDevice::TOUCH_IN_PROGRESS("touch_in_progress");
+const std::string TouchInputDevice::DISPLAY("display");
 
 
 void TouchInputDevice::describeComponent(ComponentInfo &info) {
@@ -25,6 +26,7 @@ void TouchInputDevice::describeComponent(ComponentInfo &info) {
     info.addParameter(TOUCH_POSITION_X);
     info.addParameter(TOUCH_POSITION_Y);
     info.addParameter(TOUCH_IN_PROGRESS);
+    info.addParameter(DISPLAY, false);
 }
 
 
@@ -33,6 +35,7 @@ TouchInputDevice::TouchInputDevice(const ParameterValueMap &parameters) :
     posX(parameters[TOUCH_POSITION_X]),
     posY(parameters[TOUCH_POSITION_Y]),
     inProgress(parameters[TOUCH_IN_PROGRESS]),
+    display(parameters[DISPLAY]),
     clock(Clock::instance()),
     targetView(nil),
     touchInputRecognizer(nil),
@@ -50,7 +53,7 @@ TouchInputDevice::~TouchInputDevice() {
 
 bool TouchInputDevice::initialize() {
     @autoreleasepool {
-        auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(StimulusDisplay::getDefaultStimulusDisplay());
+        auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(display);
         targetView = stimulusDisplay->getMainView();
         
         auto sharedThis = component_shared_from_this<TouchInputDevice>();

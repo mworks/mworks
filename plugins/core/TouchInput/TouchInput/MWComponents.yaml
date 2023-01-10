@@ -31,5 +31,10 @@ parameters:
     description: >
         Variable in which to store the touch state (true if a touch is in
         progress, false otherwise)
+  - 
+    name: display
+    description: >
+        Name of the display on which to track touches. If omitted, the default
+        display (if available) will be used.
 
 
