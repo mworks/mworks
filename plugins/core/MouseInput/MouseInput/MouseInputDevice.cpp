@@ -17,6 +17,7 @@ const std::string MouseInputDevice::MOUSE_POSITION_Y("mouse_position_y");
 const std::string MouseInputDevice::MOUSE_DOWN("mouse_down");
 const std::string MouseInputDevice::HIDE_CURSOR("hide_cursor");
 const std::string MouseInputDevice::USE_MIRROR_WINDOW("use_mirror_window");
+const std::string MouseInputDevice::DISPLAY("display");
 
 
 void MouseInputDevice::describeComponent(ComponentInfo &info) {
@@ -29,6 +30,7 @@ void MouseInputDevice::describeComponent(ComponentInfo &info) {
     info.addParameter(MOUSE_DOWN, false);
     info.addParameter(HIDE_CURSOR, "NO");
     info.addParameter(USE_MIRROR_WINDOW, "NO");
+    info.addParameter(DISPLAY, false);
 }
 
 
@@ -39,6 +41,7 @@ MouseInputDevice::MouseInputDevice(const ParameterValueMap &parameters) :
     down(optionalVariable(parameters[MOUSE_DOWN])),
     hideCursor(parameters[HIDE_CURSOR]),
     useMirrorWindow(parameters[USE_MIRROR_WINDOW]),
+    display(parameters[DISPLAY]),
     targetView(nil),
     tracker(nil),
     trackingArea(nil),
@@ -71,7 +74,7 @@ MouseInputDevice::~MouseInputDevice() {
 bool MouseInputDevice::initialize() {
     @autoreleasepool {
         {
-            auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(StimulusDisplay::getDefaultStimulusDisplay());
+            auto stimulusDisplay = boost::dynamic_pointer_cast<AppleStimulusDisplay>(display);
             
             if (useMirrorWindow) {
                 // If there's no mirror window, getMirrorView will return the main window's view

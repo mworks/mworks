@@ -1,0 +1,102 @@
+stimulus_display display (
+    display_info = {
+        'display_to_use': -1,
+        'width': 400,
+        'height': 300,
+        'distance': 100,
+        'mirror_window_base_height': 500
+        }
+    background_color = 0,0,1
+    )
+
+
+var mouse_position_x = 0
+var mouse_position_y = 0
+
+var mouse_down = false {
+    choose {
+        when (mouse_down) {
+            report ('Mouse DOWN')
+        }
+        otherwise {
+            report ('Mouse UP')
+        }
+    }
+}
+
+var mouse_on_target = false {
+    choose {
+        when (mouse_on_target) {
+            report ('Mouse ON target')
+        }
+        otherwise {
+            report ('Mouse OFF target')
+        }
+    }
+}
+
+mouse_input mouse (
+    mouse_position_x = mouse_position_x
+    mouse_position_y = mouse_position_y
+    mouse_down = mouse_down
+    autostart = true
+    display = display
+    )
+
+
+%define target_size = 10.0
+%define target_position_max = 30.0
+var target_position_x = 0
+var target_position_y = 0
+
+fixation_point target (
+    color = 1,0,0
+    trigger_width = target_size
+    trigger_watch_x = mouse_position_x
+    trigger_watch_y = mouse_position_y
+    trigger_flag = mouse_on_target
+    x_size = target_size
+    x_position = target_position_x
+    y_position = target_position_y
+    display = display
+    )
+
+
+protocol {
+    task {
+        state 'Present Target' {
+            mouse_position_x = -9999
+            mouse_position_y = -9999
+            target_position_x = rand(-target_position_max, target_position_max)
+            target_position_y = rand(-target_position_max, target_position_max)
+
+            queue_stimulus (target)
+            update_display (display = display)
+
+            start_timer (
+                timer = timer
+                duration = 10s
+                )
+
+            goto (
+                target = 'Remove Target'
+                when = timer_expired(timer)
+                )
+        }
+
+        state 'Remove Target' {
+            clear_display (display = display)
+
+            goto (
+                target = 'Exit'
+                when = (mouse_position_x == -9999) && (mouse_position_y == -9999)
+                )
+            goto ('Present Target')
+        }
+
+        state 'Exit' {
+            report ('Exiting on timeout')
+            yield ()
+        }
+    }
+}

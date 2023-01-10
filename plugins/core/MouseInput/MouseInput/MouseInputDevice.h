@@ -23,6 +23,7 @@ public:
     static const std::string MOUSE_DOWN;
     static const std::string HIDE_CURSOR;
     static const std::string USE_MIRROR_WINDOW;
+    static const std::string DISPLAY;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -45,6 +46,7 @@ private:
     const VariablePtr down;
     const bool hideCursor;
     const bool useMirrorWindow;
+    const StimulusDisplayPtr display;
     
     GLKMatrix4 projectionMatrix;
     std::array<int, 4> viewport;

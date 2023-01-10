@@ -33,6 +33,11 @@ parameters:
     description: >
         If ``YES``, track pointer location on the mirror window instead of the
         main stimulus display window
+  - 
+    name: display
+    description: >
+        Name of the display on which to track pointer position and button
+        clicks. If omitted, the default display (if available) will be used.
 
 
 ---
