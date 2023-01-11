@@ -2536,7 +2536,28 @@ namespace stx MW_SYMBOL_PUBLIC {
 	
 	Datum BasicSymbolTable::funcREFRESH_RATE(const paramlist_type &paramlist)
 	{
-        boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getDefaultStimulusDisplay());
+        std::string displayName;
+        switch (paramlist.size()) {
+            case 0:
+                break;
+                
+            case 1:
+                if (!(paramlist[0].isString())) {
+                    throw BadFunctionCallException("Parameter to function REFRESH_RATE() must be a string");
+                }
+                displayName = paramlist[0].getString();
+                break;
+                
+            default:
+                throw BadFunctionCallException("Function REFRESH_RATE() requires 0 or 1 parameters");
+        }
+        
+        auto display = mw::ComponentRegistry::getSharedRegistry()->getStimulusDisplay(displayName);
+        if (!display) {
+            throw BadFunctionCallException("Parameter to function REFRESH_RATE() does not name a stimulus display, "
+                                           "or the requested stimulus display has not yet been created");
+        }
+        
 		return Datum( display->getMainDisplayRefreshRate() );
 	}
 	
@@ -2895,7 +2916,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 		
 		setFunction("NOW", 0, funcNOW);
 		setFunction("TIMER_EXPIRED", 1, funcTIMER_EXPIRED);
-		setFunction("REFRESH_RATE", 0, funcREFRESH_RATE);
+		setFunction("REFRESH_RATE", -1, funcREFRESH_RATE);
 		setFunction("NEXT_FRAME_TIME", 0, funcNEXT_FRAME_TIME);
         
         setFunction("DISPLAY_BOUNDS", -1, funcDISPLAY_BOUNDS);
@@ -2913,7 +2934,7 @@ namespace stx MW_SYMBOL_PUBLIC {
         // following functions originally had underscore-free names, so we still accept those names
         // for compatibility with existing experiments.
         setFunction("TIMEREXPIRED", 1, funcTIMER_EXPIRED);
-        setFunction("REFRESHRATE", 0, funcREFRESH_RATE);
+        setFunction("REFRESHRATE", -1, funcREFRESH_RATE);
         setFunction("NEXTFRAMETIME", 0, funcNEXT_FRAME_TIME);
         setFunction("NUMACCEPTED", 1, funcNUMACCEPTED);
 	}

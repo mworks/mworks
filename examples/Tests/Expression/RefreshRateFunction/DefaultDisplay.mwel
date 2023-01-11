@@ -1,0 +1,46 @@
+var elapsed_time = 0
+var frame_count = 0
+var done = false
+
+var expected_refresh_rate = refresh_rate()
+var measured_refresh_rate = 0.0
+
+
+render_actions frame_counter (elapsed_time = elapsed_time) {
+    if (frame_count == 500) {
+        measured_refresh_rate = 1e6 * frame_count / elapsed_time
+        done = true
+    }
+    frame_count += 1
+}
+
+
+protocol {
+    task {
+        state Begin {
+            assert (expected_refresh_rate > 0.0)
+
+            frame_count = 0
+            done = false
+
+            queue_stimulus (frame_counter)
+            update_display ()
+
+            goto (
+                target = End
+                when = done
+                )
+        }
+
+        state End {
+            clear_display ()
+
+            report ('Expected $expected_refresh_rate Hz, measured $measured_refresh_rate Hz')
+
+            // Accept no more than 0.1% difference between expected and measured
+            assert (abs(measured_refresh_rate - expected_refresh_rate) / expected_refresh_rate <= 0.001)
+
+            yield ()
+        }
+    }
+}

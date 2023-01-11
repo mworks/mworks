@@ -1,0 +1,19 @@
+stimulus_display display (
+    display_info = {
+        'display_to_use': 1,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    )
+
+
+var refresh_rate = 0.0
+
+protocol {
+    // This is OK
+    refresh_rate = refresh_rate('display')
+
+    // This is not OK, because there's no default display
+    refresh_rate = refresh_rate()
+}

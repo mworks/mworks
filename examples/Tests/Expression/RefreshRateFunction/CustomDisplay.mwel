@@ -1,0 +1,99 @@
+stimulus_display d1 (
+    display_info = {
+        'display_to_use': 1,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    background_color = 1,0,0
+    )
+
+stimulus_display d2 (
+    display_info = {
+        'display_to_use': -1,
+        'width': 300,
+        'height': 400,
+        'distance': 100,
+        'mirror_window_base_height': 500
+        }
+    background_color = 0,1,0
+    )
+
+
+var d1_elapsed_time = 0
+var d1_frame_count = 0
+var d1_done = false
+var d1_expected_refresh_rate = 0.0
+var d1_measured_refresh_rate = 0.0
+
+var d2_elapsed_time = 0
+var d2_frame_count = 0
+var d2_done = false
+var d2_expected_refresh_rate = 0.0
+var d2_measured_refresh_rate = 0.0
+
+
+render_actions d1_frame_counter (
+    elapsed_time = d1_elapsed_time
+    display = d1
+    ) {
+    if (d1_frame_count == 500) {
+        d1_measured_refresh_rate = 1e6 * d1_frame_count / d1_elapsed_time
+        d1_done = true
+    }
+    d1_frame_count += 1
+}
+
+render_actions d2_frame_counter (
+    elapsed_time = d2_elapsed_time
+    display = d2
+    ) {
+    if (d2_frame_count == 500) {
+        d2_measured_refresh_rate = 1e6 * d2_frame_count / d2_elapsed_time
+        d2_done = true
+    }
+    d2_frame_count += 1
+}
+
+
+protocol {
+    task {
+        state Begin {
+            d1_expected_refresh_rate = refresh_rate('d1')
+            d2_expected_refresh_rate = refresh_rate('d2')
+
+            assert (d1_expected_refresh_rate > 0.0)
+            assert (d2_expected_refresh_rate > 0.0)
+
+            d1_frame_count = 0
+            d2_frame_count = 0
+            d1_done = false
+            d2_done = false
+
+            queue_stimulus (d1_frame_counter)
+            queue_stimulus (d2_frame_counter)
+
+            update_display (display = d1)
+            update_display (display = d2)
+
+            goto (
+                target = End
+                when = d1_done and d2_done
+                )
+        }
+
+        state End {
+            clear_display (display = d1)
+            clear_display (display = d2)
+
+            report ('Display 1: expected $d1_expected_refresh_rate Hz, measured $d1_measured_refresh_rate Hz')
+            report ('Display 2: expected $d2_expected_refresh_rate Hz, measured $d2_measured_refresh_rate Hz')
+
+            // Accept no more than 0.1% difference between expected and measured
+            assert (abs(d1_measured_refresh_rate - d1_expected_refresh_rate) / d1_expected_refresh_rate <= 0.001)
+            assert (abs(d2_measured_refresh_rate - d2_expected_refresh_rate) / d2_expected_refresh_rate <= 0.001)
+
+            yield ()
+        }
+    }
+}

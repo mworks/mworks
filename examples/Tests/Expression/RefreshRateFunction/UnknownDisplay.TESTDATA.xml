@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="contains">Parameter to function REFRESH_RATE() does not name a stimulus display, or the requested stimulus display has not yet been created</message>
+    <message type="starts_with">ERROR: Failed to parse experiment</message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't load, so we don't expect the normal state-system events -->
+  </expected_events>
+</marionette_info>

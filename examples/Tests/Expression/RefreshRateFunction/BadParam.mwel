@@ -1,0 +1,5 @@
+var refresh_rate = 0.0
+
+protocol {
+    refresh_rate = refresh_rate(3)
+}

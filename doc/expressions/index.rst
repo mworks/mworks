@@ -327,7 +327,10 @@ Time-Related
    Current experiment time in microseconds
 
 ``refresh_rate()``
-   Main display’s refresh rate in hertz
+   Returns the refresh rate in hertz of the default stimulus display (if available)
+
+``refresh_rate('disp')``
+   Takes the name of a stimulus display (as a string) and returns its refresh rate in hertz
 
 ``timer_expired(timer)``
    1 if the specified timer has expired, 0 otherwise
