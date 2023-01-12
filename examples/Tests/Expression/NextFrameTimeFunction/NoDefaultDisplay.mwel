@@ -1,0 +1,19 @@
+stimulus_display display (
+    display_info = {
+        'display_to_use': 1,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    )
+
+
+var next_frame_time = 0
+
+protocol {
+    // This is OK
+    next_frame_time = next_frame_time('display')
+
+    // This is not OK, because there's no default display
+    next_frame_time = next_frame_time()
+}

@@ -1,0 +1,5 @@
+var next_frame_time = 0
+
+protocol {
+    next_frame_time = next_frame_time('not_a_display')
+}

@@ -1,0 +1,127 @@
+stimulus_display d1 (
+    display_info = {
+        'display_to_use': 1,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    background_color = 1,0,0
+    )
+
+stimulus_display d2 (
+    display_info = {
+        'display_to_use': -1,
+        'width': 300,
+        'height': 400,
+        'distance': 100,
+        'mirror_window_base_height': 500
+        }
+    background_color = 0,1,0
+    )
+
+
+var d1_start_time = 0
+var d1_elapsed_time = 0
+var d1_last_expected_time = 0
+var d1_expected_time = 0
+var d1_actual_time = 0
+var d1_frame_count = 0
+var d1_done = false
+
+var d2_start_time = 0
+var d2_elapsed_time = 0
+var d2_last_expected_time = 0
+var d2_expected_time = 0
+var d2_actual_time = 0
+var d2_frame_count = 0
+var d2_done = false
+
+
+render_actions d1_time_checker (
+    elapsed_time = d1_elapsed_time
+    display = d1
+    ) {
+    if (d1_start_time > 0) {
+        d1_expected_time = d1_start_time + d1_elapsed_time
+        assert (d1_expected_time > d1_last_expected_time)
+
+        d1_actual_time = next_frame_time('d1')
+        assert (
+            condition = d1_expected_time == d1_actual_time
+            message = 'Display 1: expected $d1_expected_time us, got $d1_actual_time us'
+            )
+
+        d1_last_expected_time = d1_expected_time
+
+        d1_frame_count += 1
+        if (d1_frame_count == 500) {
+            d1_done = true
+        }
+    }
+}
+
+render_actions d2_time_checker (
+    elapsed_time = d2_elapsed_time
+    display = d2
+    ) {
+    if (d2_start_time > 0) {
+        d2_expected_time = d2_start_time + d2_elapsed_time
+        assert (d2_expected_time > d2_last_expected_time)
+
+        d2_actual_time = next_frame_time('d2')
+        assert (
+            condition = d2_expected_time == d2_actual_time
+            message = 'Display 2: expected $d2_expected_time us, got $d2_actual_time us'
+            )
+
+        d2_last_expected_time = d2_expected_time
+
+        d2_frame_count += 1
+        if (d2_frame_count == 500) {
+            d2_done = true
+        }
+    }
+}
+
+
+protocol {
+    task {
+        state Begin {
+            d1_start_time = 0
+            d2_start_time = 0
+
+            d1_last_expected_time = 0
+            d2_last_expected_time = 0
+
+            d1_frame_count = 0
+            d2_frame_count = 0
+
+            d1_done = false
+            d2_done = false
+
+            queue_stimulus (d1_time_checker)
+            queue_stimulus (d2_time_checker)
+
+            update_display (
+                display = d1
+                predicted_output_time = d1_start_time
+                )
+            update_display (
+                display = d2
+                predicted_output_time = d2_start_time
+                )
+
+            goto (
+                target = End
+                when = d1_done and d2_done
+                )
+        }
+
+        state End {
+            clear_display (display = d1)
+            clear_display (display = d2)
+
+            yield ()
+        }
+    }
+}

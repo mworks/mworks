@@ -321,7 +321,10 @@ Time-Related
 ^^^^^^^^^^^^
 
 ``next_frame_time()``
-   Anticipated output time (in microseconds) of the frame that the stimulus display is currently rendering
+   Returns the anticipated output time (in microseconds) of the frame currently being rendered by the default stimulus display (if available)
+
+``next_frame_time('disp')``
+   Takes the name of a stimulus display (as a string) and returns the anticipated output time (in microseconds) of the frame it is currently rendering
 
 ``now()``
    Current experiment time in microseconds
