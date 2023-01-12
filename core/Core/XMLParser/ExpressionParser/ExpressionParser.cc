@@ -2588,44 +2588,101 @@ namespace stx MW_SYMBOL_PUBLIC {
         return Datum( display->getCurrentOutputTimeUS() );
     }
     
+    namespace {
+        enum class DisplayBound {
+            Invalid = -1,
+            Left,
+            Right,
+            Bottom,
+            Top,
+            All
+        };
+        
+        DisplayBound getDisplayBound(const std::string &name) {
+            auto bound = DisplayBound::Invalid;
+            if (name == "left") {
+                bound = DisplayBound::Left;
+            } else if (name == "right") {
+                bound = DisplayBound::Right;
+            } else if (name == "bottom") {
+                bound = DisplayBound::Bottom;
+            } else if (name == "top") {
+                bound = DisplayBound::Top;
+            }
+            return bound;
+        }
+    }
+    
     Datum BasicSymbolTable::funcDISPLAY_BOUNDS(const paramlist_type &paramlist)
     {
-        if (paramlist.size() > 1) {
-            throw BadFunctionCallException("Function DISPLAY_BOUNDS() requires 0 or 1 parameters");
-        }
-        if (!(paramlist.empty() || paramlist[0].isString())) {
-            throw BadFunctionCallException("Parameter to function DISPLAY_BOUNDS() must be a string");
+        if (std::any_of(paramlist.begin(), paramlist.end(), [](const Datum &d) { return !(d.isString()); })) {
+            throw BadFunctionCallException("All parameters to function DISPLAY_BOUNDS() must be strings");
         }
         
-        const auto display = mw::StimulusDisplay::getDefaultStimulusDisplay();
+        std::string displayName;
+        auto bound = DisplayBound::Invalid;
+        switch (paramlist.size()) {
+            case 0:
+                bound = DisplayBound::All;
+                break;
+                
+            case 1:
+                displayName = paramlist[0].getString();
+                bound = getDisplayBound(displayName);
+                if (DisplayBound::Invalid == bound) {
+                    // Parameter is not a valid boundary name, so assume the caller is requesting all the bounds of
+                    // a named display
+                    bound = DisplayBound::All;
+                } else {
+                    // Parameter is a valid boundary name, so assume the caller is requesting a specific bound of the
+                    // default display
+                    displayName.clear();
+                }
+                break;
+                
+            case 2:
+                displayName = paramlist[0].getString();
+                bound = getDisplayBound(paramlist[1].getString());
+                break;
+                
+            default:
+                throw BadFunctionCallException("Function DISPLAY_BOUNDS() requires 0, 1, or 2 parameters");
+        }
+        
+        auto display = mw::ComponentRegistry::getSharedRegistry()->getStimulusDisplay(displayName);
+        if (!display) {
+            throw BadFunctionCallException("First parameter to function DISPLAY_BOUNDS() does not name a stimulus "
+                                           "display, or the requested stimulus display has not yet been created");
+        }
+        
         double left, right, bottom, top;
         display->getDisplayBounds(left, right, bottom, top);
         
-        if (paramlist.empty()) {
-            return Datum( Datum::dict_value_type {
-                { Datum("left"), Datum(left) },
-                { Datum("right"), Datum(right) },
-                { Datum("bottom"), Datum(bottom) },
-                { Datum("top"), Datum(top) }
-            } );
+        switch (bound) {
+            case DisplayBound::Invalid:
+                throw BadFunctionCallException("Second parameter to function DISPLAY_BOUNDS() must be one of "
+                                               "\"left\", \"right\", \"bottom\", or \"top\"");
+                
+            case DisplayBound::Left:
+                return Datum(left);
+                
+            case DisplayBound::Right:
+                return Datum(right);
+                
+            case DisplayBound::Bottom:
+                return Datum(bottom);
+                
+            case DisplayBound::Top:
+                return Datum(top);
+                
+            case DisplayBound::All:
+                return Datum( Datum::dict_value_type {
+                    { Datum("left"), Datum(left) },
+                    { Datum("right"), Datum(right) },
+                    { Datum("bottom"), Datum(bottom) },
+                    { Datum("top"), Datum(top) }
+                } );
         }
-        
-        auto &boundaryName = paramlist[0].getString();
-        double value = 0.0;
-        if (boundaryName == "left") {
-            value = left;
-        } else if (boundaryName == "right") {
-            value = right;
-        } else if (boundaryName == "bottom") {
-            value = bottom;
-        } else if (boundaryName == "top") {
-            value = top;
-        } else {
-            throw BadFunctionCallException("Parameter to function DISPLAY_BOUNDS() must be one of "
-                                           "\"left\", \"right\", \"bottom\", or \"top\"");
-        }
-        
-        return Datum( value );
     }
 
     Datum BasicSymbolTable::funcDATE(const paramlist_type& paramlist)

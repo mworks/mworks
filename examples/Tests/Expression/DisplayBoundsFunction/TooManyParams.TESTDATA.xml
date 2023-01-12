@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="contains">Parameter to function DISPLAY_BOUNDS() must be a string</message>
+    <message type="contains">Function DISPLAY_BOUNDS() requires 0, 1, or 2 parameters</message>
     <message type="starts_with">ERROR: Failed to parse experiment</message>
   </expected_messages>
   <expected_events>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="contains">Function DISPLAY_BOUNDS() requires 0 or 1 parameters</message>
+    <message type="contains">First parameter to function DISPLAY_BOUNDS() does not name a stimulus display, or the requested stimulus display has not yet been created</message>
     <message type="starts_with">ERROR: Failed to parse experiment</message>
   </expected_messages>
   <expected_events>

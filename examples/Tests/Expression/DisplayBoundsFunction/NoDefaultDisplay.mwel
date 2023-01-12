@@ -1,0 +1,19 @@
+stimulus_display display (
+    display_info = {
+        'display_to_use': 1,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    )
+
+
+var bounds = 0
+
+protocol {
+    // This is OK
+    bounds = display_bounds('display')
+
+    // This is not OK, because there's no default display
+    bounds = display_bounds()
+}

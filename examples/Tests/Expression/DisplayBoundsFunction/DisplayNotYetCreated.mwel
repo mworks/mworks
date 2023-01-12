@@ -1,0 +1,14 @@
+stimulus_display display (
+    display_info = {
+        'display_to_use': 1,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    )
+
+
+// This call to display_bounds() will cause a load-time error, because variables
+// are created before I/O devices, so the display won't exist at the time of
+// the call
+var bounds = display_bounds('display', 'left')

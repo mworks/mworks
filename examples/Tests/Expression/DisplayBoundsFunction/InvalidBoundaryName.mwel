@@ -1,0 +1,8 @@
+stimulus_display default_display ()
+
+
+var bounds = 0
+
+protocol {
+    bounds = display_bounds('default_display', 'left side')
+}
