@@ -146,6 +146,8 @@ int MacOSOpenGLContextManager::newMirrorContext(double width, double height, int
                                                             device:metalDevice])
                 {
                     window.contentView = view;
+                    [window setFrameAutosaveName:[NSString stringWithFormat:@"OpenGLContextManager Window %lu",
+                                                  windows.count]];
                     
                     [window makeKeyAndOrderFront:nil];
                     
