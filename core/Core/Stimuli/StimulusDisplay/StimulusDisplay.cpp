@@ -166,6 +166,8 @@ StimulusDisplay::StimulusDisplay(const Configuration &config) :
     backgroundAlpha(1.0),
     redrawOnEveryRefresh(false),
     announceStimuliOnImplicitUpdates(true),
+    updateVar(stimDisplayUpdate),
+    captureVar(stimDisplayCapture),
     main_context_id(NO_CONTEXT_ID),
     mirror_context_id(NO_CONTEXT_ID),
     mainDisplayRefreshRate(0.0),
@@ -211,6 +213,18 @@ void StimulusDisplay::setRedrawOnEveryRefresh(bool value) {
 void StimulusDisplay::setAnnounceStimuliOnImplicitUpdates(bool value) {
     lock_guard lock(mutex);
     announceStimuliOnImplicitUpdates = value;
+}
+
+
+void StimulusDisplay::setUpdateVar(const boost::shared_ptr<Variable> &var) {
+    lock_guard lock(mutex);
+    updateVar = var;
+}
+
+
+void StimulusDisplay::setCaptureVar(const boost::shared_ptr<Variable> &var) {
+    lock_guard lock(mutex);
+    captureVar = var;
 }
 
 
@@ -383,7 +397,7 @@ void StimulusDisplay::refreshDisplay() {
             }
             stimAnnounce = Datum(std::move(stimAnnouncements));
         }
-        stimDisplayUpdate->setValue(std::move(stimAnnounce), displayUpdateTime);
+        updateVar->setValue(std::move(stimAnnounce), displayUpdateTime);
         
         for (auto &updateInfo : pendingUpdateInfo) {
             updateInfo->setPredictedOutputTime(displayUpdateTime);

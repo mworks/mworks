@@ -655,15 +655,11 @@ void AppleStimulusDisplay::captureCurrentFrame() {
                                "Cannot capture stimulus display frame for output time %lld",
                                captureOutputTimeUS);
                     } else {
-                        // Acquire a local strong reference to stimDisplayCapture to guard against the situation
-                        // where the experiment is being unloaded while this code is executing
-                        if (auto sdc = stimDisplayCapture) {
-                            Datum value(std::move(imageFile));
-                            // JPEG and PNG are compressed formats, so we're likely to spend many CPU cycles for
-                            // little reduction in event file size if we try to compress the image data again
-                            value.setCompressible(false);
-                            sdc->setValue(std::move(value), captureOutputTimeUS);
-                        }
+                        Datum value(std::move(imageFile));
+                        // JPEG and PNG are compressed formats, so we're likely to spend many CPU cycles for
+                        // little reduction in event file size if we try to compress the image data again
+                        value.setCompressible(false);
+                        sharedThis->getCaptureVar()->setValue(std::move(value), captureOutputTimeUS);
                     }
                 }
             });

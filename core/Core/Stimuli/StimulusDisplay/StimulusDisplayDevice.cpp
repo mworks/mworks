@@ -17,9 +17,11 @@ const std::string StimulusDisplayDevice::BACKGROUND_COLOR("background_color");
 const std::string StimulusDisplayDevice::BACKGROUND_ALPHA_MULTIPLIER("background_alpha_multiplier");
 const std::string StimulusDisplayDevice::REDRAW_ON_EVERY_REFRESH("redraw_on_every_refresh");
 const std::string StimulusDisplayDevice::ANNOUNCE_STIMULI_ON_IMPLICIT_UPDATES("announce_stimuli_on_implicit_updates");
+const std::string StimulusDisplayDevice::UPDATE_VARIABLE("update_variable");
 const std::string StimulusDisplayDevice::CAPTURE_FORMAT("capture_format");
 const std::string StimulusDisplayDevice::CAPTURE_HEIGHT_PIXELS("capture_height_pixels");
 const std::string StimulusDisplayDevice::CAPTURE_ENABLED("capture_enabled");
+const std::string StimulusDisplayDevice::CAPTURE_VARIABLE("capture_variable");
 
 
 void StimulusDisplayDevice::describeComponent(ComponentInfo &info) {
@@ -32,9 +34,11 @@ void StimulusDisplayDevice::describeComponent(ComponentInfo &info) {
     info.addParameter(BACKGROUND_ALPHA_MULTIPLIER, "1.0");
     info.addParameter(REDRAW_ON_EVERY_REFRESH, "NO");
     info.addParameter(ANNOUNCE_STIMULI_ON_IMPLICIT_UPDATES, "YES");
+    info.addParameter(UPDATE_VARIABLE, false);
     info.addParameter(CAPTURE_FORMAT, "none");
     info.addParameter(CAPTURE_HEIGHT_PIXELS, "0");
     info.addParameter(CAPTURE_ENABLED, "YES");
+    info.addParameter(CAPTURE_VARIABLE, false);
 }
 
 
@@ -45,9 +49,11 @@ StimulusDisplayDevice::StimulusDisplayDevice(const ParameterValueMap &parameters
     backgroundAlphaMultiplier(parameters[BACKGROUND_ALPHA_MULTIPLIER]),
     redrawOnEveryRefresh(parameters[REDRAW_ON_EVERY_REFRESH]),
     announceStimuliOnImplicitUpdates(parameters[ANNOUNCE_STIMULI_ON_IMPLICIT_UPDATES]),
+    updateVar(optionalVariable(parameters[UPDATE_VARIABLE])),
     captureFormat(variableOrText(parameters[CAPTURE_FORMAT])->getValue().getString()),
     captureHeightPixels(parameters[CAPTURE_HEIGHT_PIXELS]),
-    captureEnabled(parameters[CAPTURE_ENABLED])
+    captureEnabled(parameters[CAPTURE_ENABLED]),
+    captureVar(optionalVariable(parameters[CAPTURE_VARIABLE]))
 {
     // Make a copy to ensure the experiment stays alive until we're done with it
     auto experiment = GlobalCurrentExperiment;
@@ -83,9 +89,15 @@ StimulusDisplayDevice::StimulusDisplayDevice(const ParameterValueMap &parameters
     
     display->setRedrawOnEveryRefresh(redrawOnEveryRefresh);
     display->setAnnounceStimuliOnImplicitUpdates(announceStimuliOnImplicitUpdates);
+    if (updateVar) {
+        display->setUpdateVar(updateVar);
+    }
     
     if (captureFormat != "none") {
         display->configureCapture(captureFormat, captureHeightPixels, captureEnabled);
+        if (captureVar) {
+            display->setCaptureVar(captureVar);
+        }
     }
 }
 

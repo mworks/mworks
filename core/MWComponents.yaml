@@ -2241,6 +2241,14 @@ parameters:
         the number of stimuli displayed (in place of the usual list of stimulus
         parameters).
   - 
+    name: update_variable
+    description: |
+        Variable in which to store update announcements for the display.  The
+        announcements have the same format as those assigned to
+        `stimDisplayUpdate var`.
+
+        If omitted, `stimDisplayUpdate var` is used.
+  - 
     name: capture_format
     options: [none, JPEG, PNG]
     default: none
@@ -2251,7 +2259,7 @@ parameters:
         display redraw for which `capture_enabled`_ evaluates to true, the
         contents of the display will be captured in the specified format, at the
         resolution determined by `capture_height_pixels`_, and stored (as binary
-        data) in the variable `stimDisplayCapture var`.
+        data) in the variable specified by `capture_variable`_.
   - 
     name: capture_height_pixels
     default: 0
@@ -2279,6 +2287,11 @@ parameters:
         dynamically enable or disable frame capture by assigning a true or false
         value, respectively, to the variable.  This allows you to capture frames
         only when needed.
+  - 
+    name: capture_variable
+    description: |
+        Variable in which to store captured display frames.  If omitted,
+        `stimDisplayCapture var` is used.
 
 
 ---

@@ -94,6 +94,8 @@ public:
     void setBackgroundColor(double red, double green, double blue, double alpha);
     void setRedrawOnEveryRefresh(bool value);
     void setAnnounceStimuliOnImplicitUpdates(bool value);
+    void setUpdateVar(const boost::shared_ptr<Variable> &var);
+    void setCaptureVar(const boost::shared_ptr<Variable> &var);
     
     void setMainContext(int context_id);
     void setMirrorContext(int context_id);
@@ -127,6 +129,7 @@ protected:
     void getBackgroundColor(double &red, double &green, double &blue, double &alpha) const {
         std::tie(red, green, blue, alpha) = std::tie(backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha);
     }
+    const boost::shared_ptr<Variable> & getCaptureVar() const { return captureVar; }
     bool getDisplayUpdatesStarted() const { return displayUpdatesStarted; }
     MWTime getEventTimeForCurrentOutputTime() const {
         return (currentOutputTimeUS == NO_CURRENT_OUTPUT_TIME ? clock->getCurrentTimeUS() : getCurrentOutputTimeUS());
@@ -164,6 +167,8 @@ private:
     double backgroundRed, backgroundGreen, backgroundBlue, backgroundAlpha;  // background color
     bool redrawOnEveryRefresh;
     bool announceStimuliOnImplicitUpdates;
+    boost::shared_ptr<Variable> updateVar;
+    boost::shared_ptr<Variable> captureVar;
     
     double boundsLeft, boundsRight, boundsBottom, boundsTop;  // display bounds
     GLKMatrix4 projectionMatrix;

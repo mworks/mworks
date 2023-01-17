@@ -1,0 +1,59 @@
+var capture_enabled = false
+var display_capture = 0
+
+stimulus_display (
+    capture_format = 'PNG'
+    capture_height_pixels = 300
+    capture_enabled = capture_enabled
+    capture_variable = display_capture
+    )
+
+
+%define size = 10
+
+circle red_circle (
+    color = 1,0,0
+    x_size = size
+    x_position = -size
+    )
+
+circle green_circle (
+    color = 0,1,0
+    x_size = size
+    x_position = 0
+    )
+
+circle blue_circle (
+    color = 0,0,1
+    x_size = size
+    x_position = size
+    )
+
+
+protocol {
+    run_python_file ('check_captures.py')
+
+    block (nsamples = 3) {
+        queue_stimulus (red_circle)
+        update_display ()
+        wait (1s)
+        dequeue_stimulus (red_circle)
+
+        queue_stimulus (green_circle)
+        update_display ()
+        wait (1s)
+        dequeue_stimulus (green_circle)
+
+        queue_stimulus (blue_circle)
+        update_display ()
+        wait (1s)
+        dequeue_stimulus (blue_circle)
+
+        capture_enabled = !capture_enabled
+    }
+
+    run_python_string ('unregister_event_callbacks()')
+    capture_enabled = false
+
+    run_python_string ('check_captures()')
+}
