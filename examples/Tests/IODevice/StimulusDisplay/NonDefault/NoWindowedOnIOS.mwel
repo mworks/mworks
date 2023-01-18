@@ -1,0 +1,9 @@
+stimulus_display (
+    display_info = {
+        'display_to_use': -1,
+        'width': 400,
+        'height': 300,
+        'distance': 100,
+        'mirror_window_base_height': 500
+        }
+    )

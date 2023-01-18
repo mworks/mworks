@@ -1,0 +1,13 @@
+stimulus_display display (
+    display_info = {
+        'display_to_use': 0,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    )
+
+
+// This stimulus declaration will raise a load-time error, because it doesn't
+// specify a display, and there is no default display
+blank_screen (color = 0.5, 0.5, 0.5)

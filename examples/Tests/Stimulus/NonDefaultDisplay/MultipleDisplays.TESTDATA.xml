@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <requirements>
+    <feature name="macos"/>
+  </requirements>
   <expected_messages>
     <message type="whole_message">ERROR: Stimulus "d1_s1" is not loaded and will not be displayed</message>
     <message type="whole_message">ERROR: Stimulus "d2_s1" is not loaded and will not be displayed</message>

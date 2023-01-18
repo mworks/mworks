@@ -1,0 +1,66 @@
+stimulus_display d1 (
+    display_info = {
+        'display_to_use': {'macos': 1, 'ios': 0}[osname()],
+        'width': 300,
+        'height': 400,
+        'distance': 500,
+        'always_display_mirror_window': (osname() == 'macos'),
+        'mirror_window_base_height': 500
+        }
+    background_color = 0.7, 0.5, 0.5  // Slightly red
+    )
+
+
+rectangle d1_s1 (
+    color = 1,0,0
+    x_size = 5
+    x_position = -5
+    y_position = -5
+    display = d1
+    )
+
+ellipse d1_s2 (
+    color = 0,1,0
+    x_size = 5
+    display = d1
+    )
+
+drifting_grating d1_s3 (
+    spatial_frequency = 1
+    speed = 1
+    grating_type = sinusoid
+    color = 0,0,1
+    x_size = 5
+    x_position = 5
+    y_position = 5
+    rotation = 45
+    autoplay = true
+    display = d1
+    )
+
+
+protocol {
+    queue_stimulus (d1_s1)
+    update_display (display = d1)
+    wait (2s)
+
+    queue_stimulus (d1_s2)
+    update_display (display = d1)
+    wait (2s)
+
+    queue_stimulus (d1_s3)
+    update_display (display = d1)
+    wait (2s)
+
+    dequeue_stimulus (d1_s1)
+    update_display (display = d1)
+    wait (2s)
+
+    dequeue_stimulus (d1_s2)
+    update_display (display = d1)
+    wait (2s)
+
+    dequeue_stimulus (d1_s3)
+    update_display (display = d1)
+    wait (2s)
+}

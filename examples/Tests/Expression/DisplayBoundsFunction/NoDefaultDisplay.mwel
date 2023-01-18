@@ -1,6 +1,6 @@
 stimulus_display display (
     display_info = {
-        'display_to_use': 1,
+        'display_to_use': 0,
         'width': 400,
         'height': 300,
         'distance': 100

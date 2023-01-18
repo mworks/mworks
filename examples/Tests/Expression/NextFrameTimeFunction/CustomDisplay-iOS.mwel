@@ -1,0 +1,73 @@
+stimulus_display d1 (
+    display_info = {
+        'display_to_use': 0,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    background_color = 1,0,0
+    )
+
+
+var start_time = 0
+var elapsed_time = 0
+
+var last_expected_time = 0
+var expected_time = 0
+var actual_time = 0
+
+var frame_count = 0
+var done = false
+
+
+render_actions time_checker (
+    elapsed_time = elapsed_time
+    display = d1
+    ) {
+    if (start_time > 0) {
+        expected_time = start_time + elapsed_time
+        assert (expected_time > last_expected_time)
+
+        actual_time = next_frame_time('d1')
+        assert (
+            condition = expected_time == actual_time
+            message = 'Expected $expected_time us, got $actual_time us'
+            )
+
+        last_expected_time = expected_time
+
+        frame_count += 1
+        if (frame_count == 500) {
+            done = true
+        }
+    }
+}
+
+
+protocol {
+    task {
+        state Begin {
+            start_time = 0
+            last_expected_time = 0
+            frame_count = 0
+            done = false
+
+            queue_stimulus (time_checker)
+            update_display (
+                display = d1
+                predicted_output_time = start_time
+                )
+
+            goto (
+                target = End
+                when = done
+                )
+        }
+
+        state End {
+            clear_display (display = d1)
+
+            yield ()
+        }
+    }
+}

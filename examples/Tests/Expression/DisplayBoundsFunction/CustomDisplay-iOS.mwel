@@ -1,0 +1,32 @@
+stimulus_display d1 (
+    display_info = {
+        'display_to_use': 0,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    background_color = 1,0,0
+    )
+
+
+var bounds = 0
+
+
+protocol {
+    bounds = display_bounds('d1')
+
+    assert (size(bounds) == 4)
+
+    assert (bounds['left'] < 0)
+    assert (bounds['right'] > 0)
+    assert (bounds['left'] == -bounds['right'])
+
+    assert (bounds['bottom'] < 0)
+    assert (bounds['top'] > 0)
+    assert (bounds['bottom'] == -bounds['top'])
+
+    assert (display_bounds('d1', 'left') == bounds['left'])
+    assert (display_bounds('d1', 'right') == bounds['right'])
+    assert (display_bounds('d1', 'bottom') == bounds['bottom'])
+    assert (display_bounds('d1', 'top') == bounds['top'])
+}

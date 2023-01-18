@@ -1,0 +1,16 @@
+stimulus_display d1 (
+    display_info = {
+        'display_to_use': 0,
+        'width': 400,
+        'height': 300,
+        'distance': 100
+        }
+    )
+
+
+// This stimulus declaration will raise a load-time error, because d2 isn't a
+// stimulus display
+blank_screen (
+    color = 0.5, 0.5, 0.5
+    display = d2
+    )
