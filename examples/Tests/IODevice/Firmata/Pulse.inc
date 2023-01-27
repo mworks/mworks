@@ -3,49 +3,17 @@
 %require duration_tolerance
 
 
+var output = false
 var output_on_time = 0
 var output_duration = 0
-var output = false {
-    choose {
-        when (output) {
-            output_on_time = now()
-            report ('Output on')
-        }
-        when (output_on_time != 0) {
-            output_duration = now() - output_on_time
-            report ('Output off; duration = $(output_duration / 1000) ms')
-            output_on_time = 0
-        }
-    }
-}
 
-var input_pulse = 0 {
-    if (input_pulse != 0) {
-        report ('Input pulse duration = $(input_pulse / 1000) ms')
-    }
-}
+var input_pulse = 0
 
-var output_pulse = 0 {
-    if (output_pulse != 0) {
-        report ('Output pulse duration = $(output_pulse / 1000) ms')
-    }
-}
+var output_pulse = 0
 
+var input = false
 var input_on_time = 0
 var input_duration = 0
-var input = false {
-    choose {
-        when (input) {
-            input_on_time = now()
-            report ('Input on')
-        }
-        when (input_on_time != 0) {
-            input_duration = now() - input_on_time
-            report ('Input off; duration = $(input_duration / 1000) ms')
-            input_on_time = 0
-        }
-    }
-}
 
 
 firmata firmata (
@@ -73,31 +41,47 @@ firmata firmata (
 
 %define test_input_pulse (duration_ms)
     output = false
-    input_pulse = 0
     wait (comm_delay_tolerance)
+    input_pulse = 0
+
+    report ('Output on')
+    output_on_time = now()
     output = true
-    wait (duration_ms * 1ms)
+
+    wait ((output_on_time + duration_ms * 1ms) - now())
+    output_duration = now() - output_on_time
     output = false
+    report ('Output off; duration = $(output_duration / 1000) ms')
+
     wait_for_condition (
         condition = input_pulse != 0
         timeout = comm_delay_tolerance
         )
+    report ('Input pulse duration = $(input_pulse / 1000) ms')
+
     assert (abs(output_duration - input_pulse) <= duration_tolerance)
 %end
 
 %define test_output_pulse (duration_ms)
     input = false
-    input_duration = 0
-    wait (comm_delay_tolerance)
+
     output_pulse = duration_ms * 1ms
+    report ('Output pulse duration = $(output_pulse / 1000) ms')
+
     wait_for_condition (
         condition = input
         timeout = comm_delay_tolerance
         )
+    input_on_time = now()
+    report ('Input on')
+
     wait_for_condition (
-        condition = input_duration != 0
+        condition = not input
         timeout = output_pulse + comm_delay_tolerance
         )
+    input_duration = now() - input_on_time
+    report ('Input off; duration = $(input_duration / 1000) ms')
+
     assert (abs(output_pulse - input_duration) <= duration_tolerance)
 %end
 

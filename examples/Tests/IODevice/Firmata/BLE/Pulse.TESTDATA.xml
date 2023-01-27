@@ -4,7 +4,7 @@
     <feature name="firmata_ble"/>
   </requirements>
   <expected_messages>
-    <message type="whole_message">ERROR: Firmata digital output pulse duration must be >=1ms; 999 us is not valid [Pulse.inc: line 123, column 18]</message>
-    <message type="whole_message">ERROR: Firmata digital output pulse duration must be a whole number of milliseconds; 1.5 ms is not valid [Pulse.inc: line 124, column 18]</message>
+    <message type="whole_message">ERROR: Firmata digital output pulse duration must be >=1ms; 999 us is not valid [Pulse.inc: line 107, column 18]</message>
+    <message type="whole_message">ERROR: Firmata digital output pulse duration must be a whole number of milliseconds; 1.5 ms is not valid [Pulse.inc: line 108, column 18]</message>
   </expected_messages>
 </marionette_info>
