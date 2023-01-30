@@ -13,6 +13,9 @@ Glossary
    component codec
        One-to-one mapping between numeric component identifiers and component names
 
+   default stimulus display
+       The stimulus display created automatically by an experiment.  An experiment will create a default stimulus display only if (1) it requires one and (2) it contains no :ref:`stimulus display devices <Stimulus Display>` with non-empty ``display_info`` parameters.
+
    event
        Trio consisting of an event code, time, and value.  Primarily used to announce changes to variable values in the event stream.
 
@@ -27,3 +30,6 @@ Glossary
 
    selectable object
        Component that supports selection-related actions (e.g. `Accept Selections`).  `Protocol`, `Block`, `Trial`, `List`, and `Selection Variable` are all selectable objects.
+
+   stimulus display
+       A computer monitor or other physical screen (or portion of such a screen) on which `visual stimuli <Stimuli>` are displayed

@@ -23,7 +23,7 @@ Controls MWorks' behavior when an `I/O device <Input/Output>` fails to initializ
 #mainScreenInfo
 ^^^^^^^^^^^^^^^
 
-The value of this variable is a dictionary whose key/value pairs describe and configure the stimulus display.
+The value of this variable is a dictionary whose key/value pairs describe and configure the default stimulus display.
 
 The following keys are recognized.  If a key is omitted, the default value is used:
 
@@ -71,7 +71,7 @@ The following keys are recognized.  If a key is omitted, the default value is us
      - Inverse of blue channel gamma (must be greater than zero)
      - 
    * - ``make_window_opaque``
-     - True or false, indicating whether the stimulus display window should be opaque.  If the window is not opaque, and the experiment includes a `Stimulus Display` device whose ``background_alpha_multiplier`` parameter is less than 1, then the display background and/or application windows beneath the stimulus window will show through it.  Does not affect the mirror window, which is always opaque.
+     - True or false, indicating whether the stimulus display window should be opaque.  If the window is not opaque, and the experiment includes a :ref:`Stimulus Display` device whose ``background_alpha_multiplier`` parameter is less than 1, then the display background and/or application windows beneath the stimulus window will show through it.  Does not affect the mirror window, which is always opaque.
      - ``true``
 
 The ``width``, ``height``, and ``distance`` values are used to compute the angular field of view covered by the main display.  The bounds of the field of view (in degrees) are reported by MWorks when the experiment is loaded, e.g.::
@@ -219,7 +219,7 @@ Used to announce the execution state of the current experiment.  The value of th
 #stimDisplayCapture
 ^^^^^^^^^^^^^^^^^^^
 
-Used to record captured stimulus display frames.  To configure display frame capture, include a `Stimulus Display` device in your experiment, and set its ``capture_format`` parameter to an appropriate value.
+Used to record captured stimulus display frames.  To configure display frame capture, include a :ref:`Stimulus Display` device in your experiment, and set its ``capture_format`` parameter to an appropriate value.
 
 The time stamp of a ``#stimDisplayCapture`` event is identical to that of the corresponding `stimDisplayUpdate var` event.
 

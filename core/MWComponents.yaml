@@ -2188,13 +2188,44 @@ isa: IODevice
 description: |
     A stimulus display device.
 
-    At present, MWorks creates one (and only one) of these automatically when
-    needed, regardless of whether the experiment file defines one.  By including
-    a definition in your experiment file, you can change the display's default
-    background color and configure its run-time behavior.
+    By including a stimulus display device definition in your experiment file,
+    you can configure the default display or create one or more non-default
+    displays.  (See below for more information.)
 
     *Note*: `Start IO Device`, `Stop IO Device`, and `autostart`_ have no effect
     on this device.
+
+    .. rubric:: Default Display
+
+    If an experiment requires a stimulus display (e.g. because it includes one
+    or more `stimuli <Stimuli>`) but does not define a stimulus display device,
+    it will create a display automatically.  This display is called the
+    :term:`default stimulus display`.
+
+    If you want to configure the default display (e.g. change its background
+    color or enable frame capture), add a stimulus display device with no
+    `display_info`_ parameter to your experiment, and set its other parameters
+    as desired.  Note that only one stimulus display device can configure the
+    default display.
+
+    .. rubric:: Non-Default Displays
+
+    If your experiment defines one or more stimulus display devices with
+    non-empty `display_info`_ parameters, it will *not* create a default
+    stimulus display.  Instead, each stimulus display definition will create
+    and configure a non-default display.
+
+    Because the default display is not available, all `stimulus <Stimuli>`
+    definitions and display-related actions (e.g. `Update Stimulus Display`)
+    must specify explicitly which display to use.  If not, the experiment will
+    fail to load.
+
+    Note that if an experiment that defines non-default displays includes a
+    stimulus display device with no `display_info`_ parameter, that device will
+    *not* configure the default display (which does not exist). Instead, it
+    will create another non-default display that takes its configuration
+    information from `mainScreenInfo var`.
+
 parameters: 
   - 
     name: display_info
@@ -2219,10 +2250,10 @@ parameters:
         Controls the transparency of the background.  ``1.0`` is fully opaque,
         while ``0.0`` is fully tranparent.
 
-        *Note*: To enable background transparency, you must set `mainScreenInfo
-        var`'s  ``make_window_opaque`` key to ``false``.  To make the stimulus
-        display window fully transparent, set this parameter and all components
-        of `background_color`_ to 0.
+        *Note*: To enable background transparency, you must set
+        `display_info`_'s  ``make_window_opaque`` key to ``false``.  To make
+        the stimulus display window fully transparent, set this parameter and
+        all components of `background_color`_ to 0.
   - 
     name: redraw_on_every_refresh
     default: 'NO'
@@ -2237,9 +2268,9 @@ parameters:
         Controls the announcement of stimuli during "implicit" display updates
         (i.e. updates requested by running dynamic stimuli and *not* triggered
         by an explicit `Update Stimulus Display` action).  If set to ``NO``,
-        `stimDisplayUpdate var` events for implicit updates will contain only
-        the number of stimuli displayed (in place of the usual list of stimulus
-        parameters).
+        values assigned to `update_variable`_ for implicit updates will contain
+        only the number of stimuli displayed (in place of the usual list of
+        stimulus parameters).
   - 
     name: update_variable
     description: |

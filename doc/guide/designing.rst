@@ -623,7 +623,7 @@ Consider the following `circle stimulus <Ellipse Stimulus>` declaration::
 
 The ``color`` and ``x_size`` parameters have simple, constant values.  However, the value of ``x_position`` is an expression that depends on ``next_frame_time``.  This function returns the predicted output time of the frame that the stimulus display is currently rendering.  (For more information, see `Understanding Display Updates`_.)  Every time the expression is evaluated, it will return a different value, varying sinusoidally with a period of three seconds.  (Including the ``start_time`` variable in the expression for ``x_position`` allows us to control the initial position of the ball.  While not really necessary in this example, the starting time is a crucial parameter in most real-world stimulus animations, so we illustrate its use here.)
 
-Now that we have a stimulus parameter with a time-varying value (step 1), we must force the stimulus display to redraw during every refresh cycle (step 2).  There are two ways to accomplish this.  The first is to include a `Stimulus Display` device declaration in your experiment, and set its ``redraw_on_every_refresh`` parameter to ``true``::
+Now that we have a stimulus parameter with a time-varying value (step 1), we must force the stimulus display to redraw during every refresh cycle (step 2).  There are two ways to accomplish this.  The first is to include a :ref:`Stimulus Display` device declaration in your experiment, and set its ``redraw_on_every_refresh`` parameter to ``true``::
 
     stimulus_display (
         background_color = 0,0,0
