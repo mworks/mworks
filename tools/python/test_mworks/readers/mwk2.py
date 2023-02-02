@@ -1,24 +1,16 @@
-from __future__ import division, print_function, unicode_literals
 import sqlite3
 import zlib
 
 import msgpack
 
-try:
-    buffer
-except NameError:
-    # Python 3
-    buffer = bytes
 
-
-class MWK2Reader(object):
+class MWK2Reader:
 
     _compressed_text_type_code = 1
     _compressed_msgpack_stream_type_code = 2
 
     def __init__(self, filename):
         self._conn = sqlite3.connect(filename)
-        self._unpacker = msgpack.Unpacker(raw=False, strict_map_key=False)
 
     def close(self):
         self._conn.close()
@@ -34,28 +26,18 @@ class MWK2Reader(object):
         return zlib.decompress(data, -15)
 
     def __iter__(self):
+        unpacker = msgpack.Unpacker(strict_map_key=False)
         for code, time, data in self._conn.execute('SELECT * FROM events'):
-            if not isinstance(data, buffer):
+            if not isinstance(data, bytes):
                 yield (code, time, data)
             else:
-                try:
-                    obj = msgpack.unpackb(data, raw=False)
-                except msgpack.ExtraData:
-                    # Multiple values, so not valid compressed data
-                    pass
-                else:
+                unpacker.feed(data)
+                for obj in unpacker:
                     if isinstance(obj, msgpack.ExtType):
                         if obj.code == self._compressed_text_type_code:
-                            yield (code,
-                                   time,
-                                   self._decompress(obj.data).decode('utf-8'))
-                            continue
+                            obj = self._decompress(obj.data).decode('utf-8')
                         elif (obj.code ==
                               self._compressed_msgpack_stream_type_code):
-                            data = self._decompress(obj.data)
-                self._unpacker.feed(data)
-                try:
-                    while True:
-                        yield (code, time, self._unpacker.unpack())
-                except msgpack.OutOfData:
-                    pass
+                            unpacker.feed(self._decompress(obj.data))
+                            continue
+                    yield (code, time, obj)

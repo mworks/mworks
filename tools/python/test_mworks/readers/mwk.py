@@ -1,18 +1,11 @@
-from __future__ import division, print_function, unicode_literals
 import struct
-
-try:
-    xrange
-except NameError:
-    # Python 3
-    xrange = range
 
 
 class LDOError(Exception):
     pass
 
 
-class LDOReader(object):
+class LDOReader:
 
     MAGIC = b'\x89CBF\x01\x00\x00'
 
@@ -26,7 +19,7 @@ class LDOReader(object):
 
     def __init__(self, file, string_encoding='utf-8'):
         magic = file.read(len(self.MAGIC))
-        if not isinstance(magic, type(b'')):
+        if not isinstance(magic, bytes):
             raise TypeError('file.read() must return binary data')
         if magic != self.MAGIC:
             raise LDOError('invalid magic')
@@ -86,11 +79,11 @@ class LDOReader(object):
 
     def _read_list(self):
         size = self._read_ber()
-        return list(self.read() for _ in xrange(size))
+        return list(self.read() for _ in range(size))
 
     def _read_dict(self):
         size = self._read_ber()
-        return dict((self.read(), self.read()) for _ in xrange(size))
+        return dict((self.read(), self.read()) for _ in range(size))
 
     def _read_float(self):
         size = self._read_ber()  # Should always be 8
@@ -104,7 +97,7 @@ class LDOReader(object):
             raise LDOError('invalid type code (0x%0.2X)' % typecode)
 
 
-class MWKReader(object):
+class MWKReader:
 
     def __init__(self, filename):
         self._fp = open(filename, 'rb')
