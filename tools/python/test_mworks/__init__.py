@@ -230,7 +230,7 @@ class TypeConversionTestMixin(object):
         # The key (1, 2) is converted on the other end into [1, 2],
         # which is unhashable and can't be used as a key
         self.send({(1, 2): 3})
-        self.assertIsInstance(self.receive(), TypeError)
+        self.assertRaises(TypeError, self.receive)
 
     @unittest.skipIf(mworks._mworks._Py_LIMITED_API < 0x03090000,
                      'stable ABI does not include Py_EnterRecursiveCall')

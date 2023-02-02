@@ -86,6 +86,7 @@
 		E1D645861B31C5FF0092C428 /* RunPythonStringAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D645841B31C5FF0092C428 /* RunPythonStringAction.cpp */; };
 		E1DCF20E23577AF700562BA3 /* PythonEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19EB9EC2356313200402436 /* PythonEvent.cpp */; };
 		E1E07E931C04F17E008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E921C04F17E008DD97E /* MWComponents.yaml */; };
+		E1ED2785298AC91500DD26BE /* mwk2reader.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1ED2784298AC8E600DD26BE /* mwk2reader.py */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 			files = (
 				E127A89322CBABD700D58D2B /* dump_codec in CopyFiles */,
 				E127A89422CBABDB00D58D2B /* dump_events in CopyFiles */,
+				E1ED2785298AC91500DD26BE /* mwk2reader.py in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +207,7 @@
 		E1E07E921C04F17E008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1E6039E1B1904D2009BA19D /* PythonPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PythonPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E603A11B1904D2009BA19D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1ED2784298AC8E600DD26BE /* mwk2reader.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = mwk2reader.py; sourceTree = "<group>"; };
 		E1FEB5B923438C6500798B01 /* ObjectPtr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectPtr.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -345,6 +348,7 @@
 				E18D3BD916554D7D00D472D0 /* __init__.py */,
 				E18D3BDA16554D7D00D472D0 /* conduit.py */,
 				E18D3BDB16554D7D00D472D0 /* data.py */,
+				E1ED2784298AC8E600DD26BE /* mwk2reader.py */,
 			);
 			name = "Python Modules";
 			path = Modules;

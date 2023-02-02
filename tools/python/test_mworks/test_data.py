@@ -16,13 +16,20 @@ from .readers.mwk import MWKReader
 from .readers.mwk2 import MWK2Reader
 
 
-class MWKTestMixin(object):
+class BaseTestMixin:
+
+    @staticmethod
+    def init_file(filename):
+        return MWKFile(filename)
+
+
+class MWKTestMixin(BaseTestMixin):
 
     file_extension = '.mwk'
     file_writer = _MWKWriter
 
 
-class MWK2TestMixin(object):
+class MWK2TestMixin(BaseTestMixin):
 
     file_extension = '.mwk2'
     file_writer = _MWK2Writer
@@ -45,16 +52,13 @@ class FileTypeConversionTestMixin(TypeConversionTestMixin):
 
     def receive(self):
         try:
-            with MWKFile(self.filename) as fp:
+            with self.init_file(self.filename) as fp:
                 evts = fp.get_events()
                 self.assertEqual(1, len(evts))
                 e = evts[0]
                 self.assertEqual(1, e.code)
                 self.assertEqual(2, e.time)
-                try:
-                    return e.data
-                except Exception as e:
-                    return e
+                return e.data
         finally:
             try:
                 fp.unindex()
@@ -109,13 +113,13 @@ class TestMWK2FileTypeConversion(MWK2TestMixin,
         self.assertIsNone(received)
 
 
-class FileTestMixin(object):
+class FileTestMixin:
 
     def setUp(self):
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', RuntimeWarning)
             self.filename = tempfile.mktemp(suffix=self.file_extension)
-        self.fp = MWKFile(self.filename)
+        self.fp = self.init_file(self.filename)
 
     def tearDown(self):
         self.fp.close()  # OK to close even if not opened
@@ -163,10 +167,8 @@ class FileBasicsTestMixin(FileTestMixin):
         self.assertRaises(IOError, (lambda: self.fp.codec))
         self.assertRaises(IOError, (lambda: self.fp.reverse_codec))
 
-        self.assertRaises(IOError, next, self.fp.get_events_iter())
+        self.assertRaises(IOError, (lambda: next(self.fp.get_events_iter())))
         self.assertRaises(IOError, self.fp.get_events)
-        self.assertRaises(IOError, self.fp.reindex)
-        self.assertRaises(IOError, self.fp.unindex)
 
     def test_nonexistent_file(self):
         self.assertRaises(RuntimeError, self.fp.open)
@@ -317,7 +319,7 @@ class TestMWK2FileSelection(MWK2TestMixin,
     pass
 
 
-class RealFileTestMixin(object):
+class RealFileTestMixin(BaseTestMixin):
 
     @classmethod
     def setUpClass(cls):
@@ -332,7 +334,7 @@ class RealFileTestMixin(object):
         cls.event_counts = dict(cls.event_counts)
         cls.event_times = numpy.array(cls.event_times)
 
-        cls.fp = MWKFile(cls.filename)
+        cls.fp = cls.init_file(cls.filename)
 
     @classmethod
     def tearDownClass(cls):

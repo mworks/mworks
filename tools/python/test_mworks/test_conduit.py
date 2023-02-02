@@ -37,7 +37,10 @@ class ConduitTestMixin(object):
         self.client.send_data(self.event_code, data)
 
     def receive(self):
-        return self.queue.get(timeout=self.queue_timeout)
+        data = self.queue.get(timeout=self.queue_timeout)
+        if isinstance(data, Exception):
+            raise data
+        return data
 
 
 class TestConduitTypeConversion(ConduitTestMixin,

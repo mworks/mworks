@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
-from mworks.data import MWKFile, ReservedEventCode
+try:
+    from mworks.data import MWKFile, ReservedEventCode
+except ImportError:
+    from mwk2reader import MWKFile, ReservedEventCode
 
 
 def dump_codec(filename):
