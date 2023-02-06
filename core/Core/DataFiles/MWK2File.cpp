@@ -574,6 +574,10 @@ void MWK2Reader::selectEvents(const std::unordered_set<int> &codes, MWTime timeM
             throwSQLError(result, "Cannot bind parameters to SQL SELECT statement");
         }
     }
+    
+    // Clear any unused data from the unpacking buffer
+    unpackingBuffer.clear();
+    unpackingBufferOffset = 0;
 }
 
 

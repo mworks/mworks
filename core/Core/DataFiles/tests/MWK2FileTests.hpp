@@ -27,6 +27,7 @@ class MWK2FileTests : public MessageTestFixture {
     CPPUNIT_TEST( testEventConcatenation );
     CPPUNIT_TEST( testSorting );
     CPPUNIT_TEST( testSelection );
+    CPPUNIT_TEST( testUnpackingBufferNotExhausted );
     CPPUNIT_TEST( testWriteEvent );
     CPPUNIT_TEST( testWriteEvents );
     CPPUNIT_TEST( testInvalidEventData );
@@ -46,6 +47,7 @@ public:
     void testEventConcatenation();
     void testSorting();
     void testSelection();
+    void testUnpackingBufferNotExhausted();
     void testWriteEvent();
     void testWriteEvents();
     void testInvalidEventData();

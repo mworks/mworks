@@ -428,6 +428,66 @@ void MWK2FileTests::testSelection() {
 }
 
 
+void MWK2FileTests::testUnpackingBufferNotExhausted() {
+    NamedTempFile tempFile;
+    
+    const std::vector<Datum> testData = {
+        Datum(123),
+        Datum(1.5),
+        Datum("abcdef"),
+        Datum(Datum::list_value_type { Datum(true), Datum(2), Datum(3.0) })
+    };
+    
+    {
+        MWK2Writer writer(tempFile.getFilename());
+        for (std::size_t i = 0; i < testData.size() / 2; i++) {
+            writer.writeEvent(1, 2, testData.at(i));
+        }
+        for (std::size_t i = testData.size() / 2; i < testData.size(); i++) {
+            writer.writeEvent(1, 3, testData.at(i));
+        }
+    }
+    
+    MWK2Reader reader(tempFile.getFilename());
+    
+    CPPUNIT_ASSERT_EQUAL( testData.size(), reader.getNumEvents() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(2), reader.getTimeMin() );
+    CPPUNIT_ASSERT_EQUAL( MWTime(3), reader.getTimeMax() );
+    
+    // Make a selection that returns a pair of concatenated events, but read only the first event
+    reader.selectEvents({ 1 }, 2, 2);
+    {
+        code = -1;
+        time = -1;
+        CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
+        
+        CPPUNIT_ASSERT_EQUAL( 1, code );
+        CPPUNIT_ASSERT_EQUAL( MWTime(2), time );
+        
+        auto &expectedData = testData.at(0);
+        CPPUNIT_ASSERT_EQUAL( expectedData.getDataType(), data.getDataType() );
+        CPPUNIT_ASSERT_EQUAL( expectedData, data );
+    }
+    
+    // Make a new selection that returns a different pair of concatenated events, and read both
+    reader.selectEvents({ 1 }, 3, 3);
+    for (std::size_t i = testData.size() / 2; i < testData.size(); i++) {
+        code = -1;
+        time = -1;
+        CPPUNIT_ASSERT( reader.nextEvent(code, time, data) );
+        
+        CPPUNIT_ASSERT_EQUAL( 1, code );
+        CPPUNIT_ASSERT_EQUAL( MWTime(3), time );
+        
+        auto &expectedData = testData.at(i);
+        CPPUNIT_ASSERT_EQUAL( expectedData.getDataType(), data.getDataType() );
+        CPPUNIT_ASSERT_EQUAL( expectedData, data );
+    }
+    
+    CPPUNIT_ASSERT( !reader.nextEvent(code, time, data) );
+}
+
+
 void MWK2FileTests::testWriteEvent() {
     NamedTempFile tempFile;
     
