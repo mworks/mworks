@@ -41,9 +41,8 @@ private:
     [[noreturn]] static void needMoreInputs();
     
     template<typename T>
-    static T* getData(const mxArray *matrix) {
-        BOOST_STATIC_ASSERT(TypeInfo<T>::is_numeric);
-        return static_cast<T*>(mxGetData(matrix));
+    static const T* getData(const mxArray *array) {
+        return TypeInfo<T>::getData(array);
     }
     
     [[noreturn]] void invalidInput() const;
@@ -63,9 +62,9 @@ private:
 
 template<typename T>
 MEXInputs& MEXInputs::operator>>(T& value) {
-    const mxArray *arg = next();
+    auto arg = next();
     
-    if ((mxGetClassID(arg) != TypeInfo<T>::class_id) || mxIsComplex(arg) || (mxGetNumberOfElements(arg) != 1)) {
+    if ((mxGetClassID(arg) != TypeInfo<T>::classID) || mxIsComplex(arg) || (mxGetNumberOfElements(arg) != 1)) {
         invalidInput();
     }
     
@@ -85,14 +84,14 @@ MEXInputs& MEXInputs::operator>>(boost::filesystem::path& value);
 
 template<typename T>
 MEXInputs& MEXInputs::operator>>(std::vector<T> &values) {
-    const mxArray *arg = next();
+    auto arg = next();
     
-    if ((mxGetClassID(arg) != TypeInfo<T>::class_id) || mxIsComplex(arg)) {
+    if ((mxGetClassID(arg) != TypeInfo<T>::classID) || mxIsComplex(arg)) {
         invalidInput();
     }
     
-    const T* data = getData<T>(arg);
-    std::size_t size = mxGetNumberOfElements(arg);
+    auto data = getData<T>(arg);
+    auto size = mxGetNumberOfElements(arg);
     values.assign(data, data+size);
     
     return (*this);

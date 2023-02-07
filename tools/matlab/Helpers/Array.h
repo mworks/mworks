@@ -22,7 +22,10 @@ private:
     static ArrayPtr createMatrix(mwSize rows, mwSize cols);
     
     template<typename T>
-    static T* getData(const ArrayPtr &matrix);
+    static ArrayPtr createVector(mwSize size);
+    
+    template<typename T>
+    static T * getData(const ArrayPtr &array);
     
 public:
     template<typename T>
@@ -37,24 +40,31 @@ public:
     template<typename T>
     static ArrayPtr createVector(const std::vector<T> &values);
     
-    static ArrayPtr createVector(std::vector<ArrayPtr> &&values);
-    
-    static ArrayPtr createString(const char *str);
     static ArrayPtr createString(const std::string &str);
+    static ArrayPtr createCell(std::vector<ArrayPtr> &&values);
+    
+    using FieldNames = std::vector<const char *>;
+    using FieldValues = std::vector<ArrayPtr>;
+    static ArrayPtr createStruct(mwSize size, const FieldNames &fieldNames);
+    static ArrayPtr createStruct(const FieldNames &fieldNames, FieldValues &&fieldValues);
+    
+    template<typename... Args>
+    static ArrayPtr createStruct(const FieldNames &fieldNames, Args&&... args);
+    
+private:
+    template<typename... Args>
+    static ArrayPtr createStruct(const FieldNames &fieldNames,
+                                 FieldValues &&fieldValues,
+                                 ArrayPtr &&array,
+                                 Args&&... args);
     
 };
 
 
 template<typename T>
 inline ArrayPtr Array::createMatrix(mwSize rows, mwSize cols) {
-    BOOST_STATIC_ASSERT(TypeInfo<T>::is_numeric);
-    return ArrayPtr(throw_if_null, mxCreateNumericMatrix(rows, cols, TypeInfo<T>::class_id, mxREAL));
-}
-
-
-template<>
-inline ArrayPtr Array::createMatrix<double>(mwSize rows, mwSize cols) {
-    return ArrayPtr(throw_if_null, mxCreateDoubleMatrix(rows, cols, mxREAL));
+    static_assert(TypeInfo<T>::isNumeric);
+    return ArrayPtr(throw_if_null, mxCreateUninitNumericMatrix(rows, cols, TypeInfo<T>::classID, mxREAL));
 }
 
 
@@ -64,48 +74,29 @@ inline ArrayPtr Array::createMatrix<mxLogical>(mwSize rows, mwSize cols) {
 }
 
 
-template<>
-inline ArrayPtr Array::createMatrix<ArrayPtr>(mwSize rows, mwSize cols) {
-    return ArrayPtr(throw_if_null, mxCreateCellMatrix(rows, cols));
+template<typename T>
+inline ArrayPtr Array::createVector(mwSize size) {
+    return createMatrix<T>((size ? 1 : 0), size);
 }
 
 
 template<typename T>
-inline T* Array::getData(const ArrayPtr &matrix) {
-    BOOST_STATIC_ASSERT(TypeInfo<T>::is_numeric);
-    return static_cast<T*>(mxGetData(matrix.get()));
-}
-
-
-template<>
-inline double* Array::getData<double>(const ArrayPtr &matrix) {
-    return mxGetPr(matrix.get());
-}
-
-
-template<>
-inline mxLogical* Array::getData<mxLogical>(const ArrayPtr &matrix) {
-    return mxGetLogicals(matrix.get());
+inline T * Array::getData(const ArrayPtr &array) {
+    return TypeInfo<T>::getData(array.get());
 }
 
 
 template<typename T>
 inline ArrayPtr Array::createEmpty() {
-    return createMatrix<T>(0, 0);
+    return createVector<T>(0);
 }
 
 
 template<typename T>
 inline ArrayPtr Array::createScalar(T value) {
-    ArrayPtr result = createMatrix<T>(1, 1);
+    auto result = createVector<T>(1);
     *(getData<T>(result)) = value;
     return result;
-}
-
-
-template<>
-inline ArrayPtr Array::createScalar(double value) {
-    return ArrayPtr(throw_if_null, mxCreateDoubleScalar(value));
 }
 
 
@@ -115,13 +106,19 @@ inline ArrayPtr Array::createScalar(mxLogical value) {
 }
 
 
+template<>
+inline ArrayPtr Array::createScalar(mxDouble value) {
+    return ArrayPtr(throw_if_null, mxCreateDoubleScalar(value));
+}
+
+
 template<typename T>
 inline ArrayPtr Array::createVector(const T *values, std::size_t size) {
     if (!size) {
         return createEmpty<T>();
     }
     mxAssert(values, "values is NULL");
-    ArrayPtr result = createMatrix<T>(1, size);
+    auto result = createVector<T>(size);
     std::copy(values, values+size, getData<T>(result));
     return result;
 }
@@ -131,16 +128,18 @@ template<typename T>
 inline ArrayPtr Array::createVector(const std::vector<T> &values) {
     // std::vector<bool> is specialized and doesn't necessarily store its data as a contiguous
     // array of bool's, so we can't treat it like other types
-    BOOST_STATIC_ASSERT(!(std::is_same<T, bool>::value));
+    static_assert(!std::is_same_v<T, bool>);
     return createVector(values.data(), values.size());
 }
 
 
-inline ArrayPtr Array::createVector(std::vector<ArrayPtr> &&values) {
-    if (values.empty()) {
-        return createEmpty<ArrayPtr>();
-    }
-    ArrayPtr result = createMatrix<ArrayPtr>(1, values.size());
+inline ArrayPtr Array::createString(const std::string &str) {
+    return ArrayPtr(throw_if_null, mxCreateString(str.c_str()));
+}
+
+
+inline ArrayPtr Array::createCell(std::vector<ArrayPtr> &&values) {
+    auto result = ArrayPtr(throw_if_null, mxCreateCellMatrix((values.empty() ? 0 : 1), values.size()));
     for (std::size_t i = 0; i < values.size(); i++) {
         mxSetCell(result.get(), i, values[i].release());
     }
@@ -149,14 +148,46 @@ inline ArrayPtr Array::createVector(std::vector<ArrayPtr> &&values) {
 }
 
 
-inline ArrayPtr Array::createString(const char *str) {
-    mxAssert(str, "str is NULL");
-    return ArrayPtr(throw_if_null, mxCreateString(str));
+inline ArrayPtr Array::createStruct(mwSize size, const FieldNames &fieldNames) {
+    return ArrayPtr(throw_if_null, mxCreateStructMatrix((size ? 1 : 0),
+                                                        size,
+                                                        int(fieldNames.size()),
+                                                        const_cast<const char **>(fieldNames.data())));
 }
 
 
-inline ArrayPtr Array::createString(const std::string &str) {
-    return createString(str.c_str());
+inline ArrayPtr Array::createStruct(const FieldNames &fieldNames, FieldValues &&fieldValues) {
+    if (fieldValues.empty()) {
+        // If there are field names but not field values, create an empty (0x0) struct array.  If there are
+        // neither field names nor field values, create a scalar (1x1) struct with no fields.
+        return createStruct((fieldNames.empty() ? 1 : 0), fieldNames);
+    }
+    mxAssert(fieldNames.size() == fieldValues.size(), "fieldNames and fieldValues have different sizes");
+    auto result = createStruct(1, fieldNames);
+    for (std::size_t i = 0; i < fieldValues.size(); i++) {
+        mxSetFieldByNumber(result.get(), 0, int(i), fieldValues[i].release());
+    }
+    fieldValues.clear();
+    return result;
+}
+
+
+template<typename... Args>
+inline ArrayPtr Array::createStruct(const FieldNames &fieldNames, Args&&... args) {
+    return createStruct(fieldNames, FieldValues{}, std::forward<Args>(args)...);
+}
+
+
+template<typename... Args>
+inline ArrayPtr Array::createStruct(const FieldNames &fieldNames,
+                                    FieldValues &&fieldValues,
+                                    ArrayPtr &&array,
+                                    Args&&... args)
+{
+    if (array) {
+        fieldValues.emplace_back(std::move(array));
+    }
+    return createStruct(fieldNames, std::move(fieldValues), std::forward<Args>(args)...);
 }
 
 

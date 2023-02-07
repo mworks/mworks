@@ -97,7 +97,7 @@ The ``time_range`` argument takes a list containing a start time and stop time a
 
 You can specify both ``codes`` and ``time_range`` to filter on code and time simultaneously.
 
-When analyzing large event files, you may want to extract events one at a time, in order to avoid filling up system memory.  To do this, use the ``get_events_iter`` method.  This method takes the same arguments as ``get_events``.  However, instead of loading all matching events in to a single, list-like object, ``get_events_iter`` returns an `iterator <https://docs.python.org/3/glossary.html#term-iterator>`_, each iteration of which loads a single event from the data file.  For example, here is how you would use ``get_events_iter`` to process every event::
+When analyzing large event files, you may want to extract events one at a time, in order to avoid filling up system memory.  To do this, use the ``get_events_iter`` method.  This method takes the same arguments as ``get_events``.  However, instead of loading all matching events in to a list, ``get_events_iter`` returns an `iterator <https://docs.python.org/3/glossary.html#term-iterator>`_, each iteration of which loads a single event from the data file.  For example, here is how you would use ``get_events_iter`` to process every event::
 
     for event in f.get_events_iter():
         # Use data from event
@@ -113,15 +113,15 @@ Once you have extracted an event, you can access its event code, time stamp, and
     >>> evt.code
     36
     >>> evt.time
-    30343102
+    20510735
     >>> evt.data
     0
 
-The ``code`` and ``time`` properties always have integer values.  However, ``data`` can be a boolean, integer, float, string, list, or dictionary::
+The ``code`` and ``time`` properties always have integer values.  However, the value of ``data`` can be of type boolean, integer, float, string, bytes, list, or dictionary::
 
     >>> events = f.get_events(codes=['#announceMessage'])
-    >>> events[15].data
-    {'origin': 1, 'message': '4 of 10 trials were correct (68217117)', 'type': 0, 'domain': 0}
+    >>> events[17].data
+    {'message': '4 of 10 trials were correct (58293577)', 'origin': 1, 'type': 0, 'domain': 0}
 
 
 Using the Codec
@@ -150,30 +150,54 @@ To use MWorks' data analysis tools for MATLAB, you must first add the directory 
     addpath('/Library/Application Support/MWorks/Scripting/MATLAB')
 
 
+Opening and Closing
+*******************
+
+To open an event file, use the ``MWKFile`` class from the ``mworks`` package::
+
+    f = mworks.MWKFile('my_data.mwk2')
+
+When you are done using the file, you should close it::
+
+    f.close
+
+
 Selecting Events
 ****************
 
-To extract events from an event file, use the ``getEvents`` function.  If called with just the filename, this function returns *all* events in the file::
+Once the file is open, extract events using the ``getEvents`` method.  If called with no arguments, this method returns *all* events in the file::
 
-    all_events = getEvents('my_data.mwk2')
+    allEvents = f.getEvents
 
-To extract only events with specific event codes, provide an array containing the desired codes as the second argument::
+To extract only events with specific event codes, provide an array containing the desired codes as the first argument::
 
-    events = getEvents('my_data.mwk2', [36, 37, 38])
+    events = f.getEvents([36, 37, 38])
 
-To further restrict the retrieved events to a particular time range, specify a minimum and maximum time as the third and fourth arguments, respectively::
+To further restrict the retrieved events to a particular time range, specify a minimum and maximum time as the second and third arguments, respectively::
 
-    events = getEvents('my_data.mwk2', [36, 37, 38], t1, t2)
+    events = f.getEvents([36, 37, 38], t1, t2)
 
-To extract all events in a given time range, pass an empty array as the second argument::
+To extract all events in a given time range, pass an empty array as the first argument::
 
-    events = getEvents('my_data.mwk2', [], t1, t2)
+    events = f.getEvents([], t1, t2)
+
+When analyzing large event files, you may want to extract events one at a time, in order to avoid filling up system memory.  To do this, use ``selectEvents`` and ``nextEvent``.  The ``selectEvents`` method takes the same arguments as ``getEvents`` but does not return any events.  To load the selected events, you must call the ``nextEvent`` method repeatedly.  When all the events have been loaded, ``nextEvent`` returns an empty array.  For example, here is how you would use ``selectEvents`` and ``nextEvent`` to process every event::
+
+    f.selectEvents
+    while true
+        event = f.nextEvent;
+        if isempty(event)
+            break
+        end
+        % Use data from event
+        ...
+    end
 
 
 Accessing Event Data
 ********************
 
-The ``getEvents`` function returns a `structure array <https://www.mathworks.com/help/matlab/structures.html>`_ containing all selected events.  The event code, time stamp, and value of each event are accessible via the ``event_code``, ``time_us``, and ``data`` fields of each array element::
+The ``nextEvent`` and ``getEvents`` methods return `structure arrays <https://www.mathworks.com/help/matlab/structures.html>`_ containing the requested event or events.  The event code, time stamp, and value of each event are accessible via the ``event_code``, ``time_us``, and ``data`` fields of each array element::
 
     >> evt = events(1);
     >> evt.event_code
@@ -190,7 +214,7 @@ The ``getEvents`` function returns a `structure array <https://www.mathworks.com
     
       int64
     
-       30343102
+       20510735
     
     >> evt.data
     
@@ -202,14 +226,14 @@ The ``getEvents`` function returns a `structure array <https://www.mathworks.com
 
 The ``event_code`` and ``time_us`` fields always have integer values.  However, the type of ``data`` can be logical, integer, floating point, string, `cell <https://www.mathworks.com/help/matlab/cell-arrays.html>`_, `struct <https://www.mathworks.com/help/matlab/structures.html>`_, or `Map <https://www.mathworks.com/help/matlab/map-containers.html>`_::
 
-    >> events = getEvents('my_data.mwk2', [6]);
-    >> events(16).data
+    >> events = f.getEvents(6);
+    >> events(18).data
     
     ans =
     
       struct with fields:
     
-        message: '4 of 10 trials were correct (68217117)'
+        message: '4 of 10 trials were correct (58293577)'
          origin: 1
            type: 0
          domain: 0
@@ -218,22 +242,58 @@ The ``event_code`` and ``time_us`` fields always have integer values.  However, 
 Using the Codec
 ***************
 
-To convert an event code to a variable name, use the Map returned by the ``getCodec`` function::
+To convert an event code to a variable name, use the ``Codec`` property of the ``MWKFile`` object::
 
-    >> codec = getCodec('my_data.mwk2');
-    >> codec(36)
+    >> f.Codec(36)
     
     ans =
     
         'red_selected'
 
-To convert a variable name to an event code, use the Map returned by the ``getReverseCodec`` function::
+To convert a variable name to an event code, use the ``ReverseCodec`` property::
 
-    >> reverse_codec = getReverseCodec('my_data.mwk2');
-    >> reverse_codec('red_selected')
+    >> f.ReverseCodec('red_selected')
     
     ans =
     
       int64
     
        36
+
+
+Alternative, Function-based Interface
+*************************************
+
+The ``MWKFile`` class provides the most complete interface to MWorks event files.  However, MWorks also provides standalone functions that perform most of the same tasks.  These functions take the name of the event file as their first argument but otherwise accept the same inputs and return the same outputs as their method or property counterparts::
+
+    >> events = getEvents('my_data.mwk2', [36, 37, 38])
+    
+    events =
+    
+      1x52 struct array with fields:
+    
+        event_code
+        time_us
+        data
+    
+    >> getCodec('my_data.mwk2')
+    
+    ans =
+    
+      Map with properties:
+    
+            Count: 36
+          KeyType: int64
+        ValueType: char
+    
+    >> getReverseCodec('my_data.mwk2')
+    
+    ans =
+    
+      Map with properties:
+    
+            Count: 36
+          KeyType: char
+        ValueType: int64
+
+Note that there are no standalone functions equivalent to ``selectEvents`` and ``nextEvent``, as these methods depend on persistent state associated with an ``MWKFile`` object.

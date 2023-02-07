@@ -22,7 +22,7 @@ verifyInteger(testCase, getData(testCase, 'int_min'), intmin('int64'));
 function testFloat(testCase)
 verifyFloat(testCase, getData(testCase, 'float_zero'), 0.0);
 verifyFloat(testCase, getData(testCase, 'float_pos'), 1.0);
-verifyFloat(testCase, getData(testCase, 'float_neg'), -2.2);
+verifyFloat(testCase, getData(testCase, 'float_neg'), -2.5);
 
 function testFloatInf(testCase)
 f = getData(testCase, 'float_inf');

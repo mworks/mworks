@@ -6,7 +6,7 @@ function tooFewInputs
 e = getEvents();
 
 function tooManyInputs
-e = getEvents(1, 2, 3, 4, 5);
+e = getEvents(getFilename(), 2, 3, 4, 5);
 
 function testBadNumberOfInputs(testCase)
 verifyError(testCase, @tooFewInputs, 'MATLAB:minrhs');
@@ -14,13 +14,13 @@ verifyError(testCase, @tooManyInputs, 'MATLAB:TooManyInputs');
 
 
 function zeroOutputs
-getEvents('foo');
+getEvents(getFilename());
 
 function twoOutputs
-[a, b] = getEvents('foo');
+[a, b] = getEvents(getFilename());
 
 function fourOutputs
-[a, b, c, d] = getEvents('foo');
+[a, b, c, d] = getEvents(getFilename());
 
 function testBadNumberOfOutputs(testCase)
 verifyError(testCase, @zeroOutputs, 'MWorks:WrongNumberOfOutputs');
@@ -28,54 +28,47 @@ verifyError(testCase, @twoOutputs, 'MWorks:WrongNumberOfOutputs');
 verifyError(testCase, @fourOutputs, 'MWorks:WrongNumberOfOutputs');
 
 
-function filenameNotAString
-e = getEvents(3);
-
 function codesNotNumeric
-e = getEvents('foo', {1});
+e = getEvents(getFilename(), {1});
 
 function codesNotIntegral
-e = getEvents('foo', 1.2);
+e = getEvents(getFilename(), 1.2);
 
 function codesNotNonNegative
-e = getEvents('foo', -1);
+e = getEvents(getFilename(), -1);
 
 function minTimeNotNumeric
-e = getEvents('foo', 0, {1});
+e = getEvents(getFilename(), 0, {1});
 
 function minTimeNotIntegral
-e = getEvents('foo', 0, 1.2);
+e = getEvents(getFilename(), 0, 1.2);
 
 function minTimeNotScalar
-e = getEvents('foo', 0, [1,2]);
+e = getEvents(getFilename(), 0, [1,2]);
 
 function maxTimeNotNumeric
-e = getEvents('foo', 0, 0, {1});
+e = getEvents(getFilename(), 0, 0, {1});
 
 function maxTimeNotIntegral
-e = getEvents('foo', 0, 0, 1.2);
+e = getEvents(getFilename(), 0, 0, 1.2);
 
 function maxTimeNotScalar
-e = getEvents('foo', 0, 0, [1,2]);
+e = getEvents(getFilename(), 0, 0, [1,2]);
 
 function testInvalidInputs(testCase)
-verifyError(testCase, @filenameNotAString, 'MATLAB:validators:mustBeText');
-verifyError(testCase, @codesNotNumeric, 'MATLAB:validators:mustBeNumericOrLogical');
+verifyError(testCase, @codesNotNumeric, ...
+            'MATLAB:validators:mustBeNumericOrLogical');
 verifyError(testCase, @codesNotIntegral, 'MATLAB:validators:mustBeInteger');
-verifyError(testCase, @codesNotNonNegative, 'MATLAB:validators:mustBeNonnegative');
-verifyError(testCase, @minTimeNotNumeric, 'MATLAB:validators:mustBeNumericOrLogical');
+verifyError(testCase, @codesNotNonNegative, ...
+            'MATLAB:validators:mustBeNonnegative');
+verifyError(testCase, @minTimeNotNumeric, ...
+            'MATLAB:validators:mustBeNumericOrLogical');
 verifyError(testCase, @minTimeNotIntegral, 'MATLAB:validators:mustBeInteger');
 verifyError(testCase, @minTimeNotScalar, 'MATLAB:validation:IncompatibleSize');
-verifyError(testCase, @maxTimeNotNumeric, 'MATLAB:validators:mustBeNumericOrLogical');
+verifyError(testCase, @maxTimeNotNumeric, ...
+            'MATLAB:validators:mustBeNumericOrLogical');
 verifyError(testCase, @maxTimeNotIntegral, 'MATLAB:validators:mustBeInteger');
 verifyError(testCase, @maxTimeNotScalar, 'MATLAB:validation:IncompatibleSize');
-
-
-function notAFile
-e = getEvents('not_a_file.mwk');
-
-function testNonexistentFile(testCase)
-verifyError(testCase, @notAFile, 'MWorks:DataFileReaderError');
 
 
 function verifyEvents(testCase, evts, expected_codes)
@@ -107,7 +100,7 @@ verifyEvents(testCase, getEvents(getFilename(), [], 5), [5:max_time]);
 verifyEvents(testCase, getEvents(getFilename(), [], -1, 10), [0:10]);
 verifyEvents(testCase, getEvents(getFilename(), [], 7, 7), 7);
 verifyTrue(testCase, isempty(getEvents(getFilename(), [], 100, 200)));
-verifyError(testCase, @badTimeRange, 'MWorks:DataFileReaderError');
+verifyError(testCase, @badTimeRange, 'MWorks:MWKFileError');
 
 
 function testGetEventsByCodeAndTime(testCase)

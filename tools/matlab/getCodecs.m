@@ -1,25 +1,23 @@
 function codecs = getCodecs(filename)
-    all_times = {};
-    all_codecs = {};
+    file = mworks.MWKFile(filename);
 
-    for evt = getEvents(filename, 0)
-        all_times = [all_times, evt.time_us];
-        
-        raw_codec = evt.data;
+    allTimes = {};
+    allCodecs = {};
+
+    for evt = file.getEvents(mworks.ReservedEventCode.RESERVED_CODEC_CODE)
+        allTimes = [allTimes, evt.time_us];
+
+        rawCodec = evt.data;
         codec = struct([]);
-        
-        for code = keys(raw_codec)
+
+        for code = keys(rawCodec)
             code = code{1};
-            info = setfield(raw_codec(code), 'code', code);
-            if isempty(codec)
-                codec = orderfields(info);
-            else
-                codec = [codec, info];
-            end
+            info = setfield(rawCodec(code), 'code', code);
+            codec = [codec, orderfields(info)];
         end
-        
-        all_codecs = [all_codecs, codec];
+
+        allCodecs = [allCodecs, codec];
     end
 
-    codecs = struct('time_us', all_times, 'codec', all_codecs);
+    codecs = struct('time_us', allTimes, 'codec', allCodecs);
 end

@@ -24,97 +24,100 @@ struct TypeInfo {
 
 template<>
 struct TypeInfo<mxLogical> {
-    static const mxClassID class_id = mxLOGICAL_CLASS;
-    static const bool is_numeric = false;
-    static const char* getClassName() { return "logical"; }
+    static constexpr mxClassID classID = mxLOGICAL_CLASS;
+    static constexpr bool isNumeric = false;
+    static constexpr const char * getClassName() { return "logical"; }
+    static mxLogical * getData(const mxArray *array) { return mxGetLogicals(array); };
 };
 
 
 template<>
-struct TypeInfo<int8_T> {
-    static const mxClassID class_id = mxINT8_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "int8"; }
+struct TypeInfo<mxInt8> {
+    static constexpr mxClassID classID = mxINT8_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "int8"; }
+    static mxInt8 * getData(const mxArray *array) { return mxGetInt8s(array); };
 };
 
 
 template<>
-struct TypeInfo<uint8_T> {
-    static const mxClassID class_id = mxUINT8_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "uint8"; }
+struct TypeInfo<mxUint8> {
+    static constexpr mxClassID classID = mxUINT8_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "uint8"; }
+    static mxUint8 * getData(const mxArray *array) { return mxGetUint8s(array); };
 };
 
 
 template<>
-struct TypeInfo<int16_T> {
-    static const mxClassID class_id = mxINT16_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "int16"; }
+struct TypeInfo<mxInt16> {
+    static constexpr mxClassID classID = mxINT16_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "int16"; }
+    static mxInt16 * getData(const mxArray *array) { return mxGetInt16s(array); };
 };
 
 
 template<>
-struct TypeInfo<uint16_T> {
-    static const mxClassID class_id = mxUINT16_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "uint16"; }
+struct TypeInfo<mxUint16> {
+    static constexpr mxClassID classID = mxUINT16_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "uint16"; }
+    static mxUint16 * getData(const mxArray *array) { return mxGetUint16s(array); };
 };
 
 
 template<>
-struct TypeInfo<int32_T> {
-    static const mxClassID class_id = mxINT32_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "int32"; }
+struct TypeInfo<mxInt32> {
+    static constexpr mxClassID classID = mxINT32_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "int32"; }
+    static mxInt32 * getData(const mxArray *array) { return mxGetInt32s(array); };
 };
 
 
 template<>
-struct TypeInfo<uint32_T> {
-    static const mxClassID class_id = mxUINT32_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "uint32"; }
+struct TypeInfo<mxUint32> {
+    static constexpr mxClassID classID = mxUINT32_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "uint32"; }
+    static mxUint32 * getData(const mxArray *array) { return mxGetUint32s(array); };
 };
 
 
 template<>
-struct TypeInfo<int64_T> {
-    static const mxClassID class_id = mxINT64_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "int64"; }
+struct TypeInfo<mxInt64> {
+    static constexpr mxClassID classID = mxINT64_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "int64"; }
+    static mxInt64 * getData(const mxArray *array) { return mxGetInt64s(array); };
 };
 
 
 template<>
-struct TypeInfo<uint64_T> {
-    static const mxClassID class_id = mxUINT64_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "uint64"; }
+struct TypeInfo<mxUint64> {
+    static constexpr mxClassID classID = mxUINT64_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "uint64"; }
+    static mxUint64 * getData(const mxArray *array) { return mxGetUint64s(array); };
 };
 
 
 template<>
-struct TypeInfo<float> {
-    static const mxClassID class_id = mxSINGLE_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "single"; }
+struct TypeInfo<mxSingle> {
+    static constexpr mxClassID classID = mxSINGLE_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "single"; }
+    static mxSingle * getData(const mxArray *array) { return mxGetSingles(array); };
 };
 
 
 template<>
-struct TypeInfo<double> {
-    static const mxClassID class_id = mxDOUBLE_CLASS;
-    static const bool is_numeric = true;
-    static const char* getClassName() { return "double"; }
-};
-
-
-template<>
-struct TypeInfo<ArrayPtr> {
-    static const mxClassID class_id = mxCELL_CLASS;
-    static const bool is_numeric = false;
-    static const char* getClassName() { return "cell"; }
+struct TypeInfo<mxDouble> {
+    static constexpr mxClassID classID = mxDOUBLE_CLASS;
+    static constexpr bool isNumeric = true;
+    static constexpr const char * getClassName() { return "double"; }
+    static mxDouble * getData(const mxArray *array) { return mxGetDoubles(array); };
 };
 
 

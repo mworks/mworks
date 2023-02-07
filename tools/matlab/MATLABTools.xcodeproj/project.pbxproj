@@ -62,10 +62,12 @@
 		E121697220322271005E04E6 /* getCodec.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E12169702032225B005E04E6 /* getCodec.m */; };
 		E121697320322274005E04E6 /* getReverseCodec.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E12169712032225B005E04E6 /* getReverseCodec.m */; };
 		E150375E167F8B4200CF3AEC /* MEXInputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E150375C167F8B4200CF3AEC /* MEXInputs.cpp */; };
-		E1503762167F98F800CF3AEC /* getEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1503760167F98F700CF3AEC /* getEvents.cpp */; };
 		E1503766167FA84D00CF3AEC /* MEXOutputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1503764167FA84D00CF3AEC /* MEXOutputs.cpp */; };
 		E1523D9B167673A300069B10 /* mwfeval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1523D99167673A300069B10 /* mwfeval.cpp */; };
+		E18E740C299560FB00E6F210 /* ReservedEventCode.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18E740B299560D400E6F210 /* ReservedEventCode.m */; };
 		E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaci64 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */; };
+		E1BD58822992BDB50085A3DB /* MWKFile.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1BD58812992BD6D0085A3DB /* MWKFile.m */; };
+		E1BD58852992BED90085A3DB /* MWKFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BD58832992BED90085A3DB /* MWKFile.cpp */; };
 		E1D2C0FF167BADF00030EF33 /* Converters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D2C0FD167BADF00030EF33 /* Converters.cpp */; };
 		E1D2C105167BB3420030EF33 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D2C104167BB3420030EF33 /* MWorksCore.framework */; };
 /* End PBXBuildFile section */
@@ -102,6 +104,8 @@
 			dstSubfolderSpec = 0;
 			files = (
 				E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaci64 in CopyFiles */,
+				E18E740C299560FB00E6F210 /* ReservedEventCode.m in CopyFiles */,
+				E1BD58822992BDB50085A3DB /* MWKFile.m in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,8 +131,6 @@
 		E12169712032225B005E04E6 /* getReverseCodec.m */ = {isa = PBXFileReference; explicitFileType = text; path = getReverseCodec.m; sourceTree = "<group>"; };
 		E150375C167F8B4200CF3AEC /* MEXInputs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MEXInputs.cpp; sourceTree = "<group>"; };
 		E150375D167F8B4200CF3AEC /* MEXInputs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEXInputs.h; sourceTree = "<group>"; };
-		E1503760167F98F700CF3AEC /* getEvents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = getEvents.cpp; sourceTree = "<group>"; };
-		E1503761167F98F700CF3AEC /* getEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getEvents.h; sourceTree = "<group>"; };
 		E1503764167FA84D00CF3AEC /* MEXOutputs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MEXOutputs.cpp; sourceTree = "<group>"; };
 		E1503765167FA84D00CF3AEC /* MEXOutputs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEXOutputs.h; sourceTree = "<group>"; };
 		E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = mwfeval.mexmaci64; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,6 +138,10 @@
 		E1523D99167673A300069B10 /* mwfeval.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mwfeval.cpp; sourceTree = "<group>"; };
 		E1523DA316767CDE00069B10 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		E1523DA416767E4200069B10 /* TypeInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TypeInfo.h; sourceTree = "<group>"; };
+		E18E740B299560D400E6F210 /* ReservedEventCode.m */ = {isa = PBXFileReference; explicitFileType = text; path = ReservedEventCode.m; sourceTree = "<group>"; };
+		E1BD58812992BD6D0085A3DB /* MWKFile.m */ = {isa = PBXFileReference; explicitFileType = text; path = MWKFile.m; sourceTree = "<group>"; };
+		E1BD58832992BED90085A3DB /* MWKFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MWKFile.cpp; sourceTree = "<group>"; };
+		E1BD58842992BED90085A3DB /* MWKFile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MWKFile.hpp; sourceTree = "<group>"; };
 		E1D2C0E5167B6D290030EF33 /* Array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
 		E1D2C0FD167BADF00030EF33 /* Converters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Converters.cpp; sourceTree = "<group>"; };
 		E1D2C0FE167BADF00030EF33 /* Converters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Converters.h; sourceTree = "<group>"; };
@@ -158,6 +164,8 @@
 		E10E3C8A1681033B00C3B4DF /* MATLAB Functions */ = {
 			isa = PBXGroup;
 			children = (
+				E18E740B299560D400E6F210 /* ReservedEventCode.m */,
+				E1BD58812992BD6D0085A3DB /* MWKFile.m */,
 				E10E3C8B1681047A00C3B4DF /* getEvents.m */,
 				E10D38641695F7410043CB93 /* getCodecs.m */,
 				E12169702032225B005E04E6 /* getCodec.m */,
@@ -193,8 +201,8 @@
 				E150375C167F8B4200CF3AEC /* MEXInputs.cpp */,
 				E1503765167FA84D00CF3AEC /* MEXOutputs.h */,
 				E1503764167FA84D00CF3AEC /* MEXOutputs.cpp */,
-				E1503761167F98F700CF3AEC /* getEvents.h */,
-				E1503760167F98F700CF3AEC /* getEvents.cpp */,
+				E1BD58842992BED90085A3DB /* MWKFile.hpp */,
+				E1BD58832992BED90085A3DB /* MWKFile.cpp */,
 				E1523D99167673A300069B10 /* mwfeval.cpp */,
 				E1523D65167669BF00069B10 /* Supporting Files */,
 			);
@@ -356,9 +364,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1523D9B167673A300069B10 /* mwfeval.cpp in Sources */,
+				E1BD58852992BED90085A3DB /* MWKFile.cpp in Sources */,
 				E1D2C0FF167BADF00030EF33 /* Converters.cpp in Sources */,
 				E150375E167F8B4200CF3AEC /* MEXInputs.cpp in Sources */,
-				E1503762167F98F800CF3AEC /* getEvents.cpp in Sources */,
 				E1503766167FA84D00CF3AEC /* MEXOutputs.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

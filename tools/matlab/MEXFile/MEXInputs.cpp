@@ -24,7 +24,7 @@ void MEXInputs::invalidInput() const {
 
 template<>
 MEXInputs& MEXInputs::operator>>(std::string& value) {
-    const mxArray *arg = next();
+    auto arg = next();
     char *data = nullptr;
     
     if (!mxIsChar(arg) || !(data = mxArrayToString(arg))) {

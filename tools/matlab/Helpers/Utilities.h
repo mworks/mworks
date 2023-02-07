@@ -26,10 +26,10 @@ BEGIN_NAMESPACE_MW_MATLAB
 
 
 struct null_ok_t {};
-static const null_ok_t null_ok = null_ok_t();
+static constexpr null_ok_t null_ok = null_ok_t();
 
 struct throw_if_null_t {};
-static const throw_if_null_t throw_if_null = throw_if_null_t();
+static constexpr throw_if_null_t throw_if_null = throw_if_null_t();
 
 
 class ArrayPtr {
@@ -80,7 +80,7 @@ public:
     }
     
     mxArray* release() noexcept {
-        mxArray *_ptr = ptr;
+        auto _ptr = ptr;
         ptr = nullptr;
         return _ptr;
     }

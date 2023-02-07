@@ -34,12 +34,17 @@ public:
     }
     
     template<typename T>
+    MEXOutputs& operator<<(T value) {
+        return (*this << Array::createScalar(value));
+    }
+    
+    template<typename T>
     MEXOutputs& operator<<(const std::vector<T> &values) {
         return (*this << Array::createVector(values));
     }
     
     MEXOutputs& operator<<(std::vector<ArrayPtr> &&values) {
-        return (*this << Array::createVector(std::move(values)));
+        return (*this << Array::createCell(std::move(values)));
     }
     
 private:

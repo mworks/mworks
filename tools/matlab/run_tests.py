@@ -38,7 +38,7 @@ test_data = (
     ('int_min', int64_min),
     ('float_zero', 0.0),
     ('float_pos', 1.0),
-    ('float_neg', -2.2),
+    ('float_neg', -2.5),
     ('float_inf', math.inf),
     ('float_nan', math.nan),
     ('str_empty', ''),
@@ -126,10 +126,20 @@ def run_matlab(path, test_file_extension):
 
 
 def main():
+    if len(sys.argv) > 1:
+        matlab_paths = [sys.argv[1]]
+    else:
+        matlab_paths = sorted(glob.iglob('/Applications/MATLAB_R*.app'))
+
+    if len(sys.argv) > 2:
+        test_file_extensions = [sys.argv[2]]
+    else:
+        test_file_extensions = ['.mwk', '.mwk2']
+
     status = 0
-    for path in sorted(glob.iglob('/Applications/MATLAB_R*.app')):
-        for test_file_extension in ('.mwk', '.mwk2'):
-            status = run_matlab(path, test_file_extension) or status
+    for path in matlab_paths:
+        for extension in test_file_extensions:
+            status = run_matlab(path, extension) or status
     sys.exit(status)
 
 
