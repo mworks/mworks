@@ -27,7 +27,7 @@ MEXInputs& MEXInputs::operator>>(std::string& value) {
     auto arg = next();
     char *data = nullptr;
     
-    if (!mxIsChar(arg) || !(data = mxArrayToString(arg))) {
+    if (!mxIsChar(arg) || !(data = mxArrayToUTF8String(arg))) {
         invalidInput();
     }
     
