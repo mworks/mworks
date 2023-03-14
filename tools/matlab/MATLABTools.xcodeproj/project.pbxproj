@@ -433,13 +433,17 @@
 					"$(MATLAB_DIR)/extern/include",
 					"$(inherited)",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(MATLAB_DIR)/bin/$(MATLAB_ARCH_$(CURRENT_ARCH))",
+				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lboost_filesystem",
-					"-undefined",
-					dynamic_lookup,
+					"-lmx",
+					"-lmex",
 				);
 				PRODUCT_NAME = mwfeval;
 			};
