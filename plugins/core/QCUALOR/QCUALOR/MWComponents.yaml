@@ -1,0 +1,111 @@
+---
+
+
+name: QCUALOR Device
+signature: iodevice/qcualor
+isa: IODevice
+platform: macos
+description: |
+    Interface to a University of Washington Quad Channel Laser Modulator
+    (QCUALOR) device.
+
+    This component allows an MWorks experiment to configure the modulator and,
+    optionally, active/deactivate it.  See `meg_state`_ for more information.
+parameters: 
+  - 
+    name: serial_port
+    example: /dev/cu.usbmodem11201
+    description: |
+        Filesystem path that represents the serial port to which the QCUALOR
+        device is connected.
+
+        If omitted, MWorks looks for a single, connected serial device.  If it
+        finds one, it assumes it to be the desired QCUALOR device and attempts
+        to connect.
+  - 
+    name: mode_1
+    options: [continuous, sinusoidal, inverse_sinusoidal, square, 'off']
+    default: 'off'
+    description: Mode (i.e. waveform) for channel 1
+  - 
+    name: mode_2
+    default: 'off'
+    description: >
+        Mode (i.e. waveform) for channel 2.  Support the same options as
+        `mode_1`_.
+  - 
+    name: mode_3
+    default: 'off'
+    description: >
+        Mode (i.e. waveform) for channel 3.  Support the same options as
+        `mode_1`_.
+  - 
+    name: mode_4
+    default: 'off'
+    description: >
+        Mode (i.e. waveform) for channel 4.  Support the same options as
+        `mode_1`_.
+  - 
+    name: modulation_frequency
+    default: 0.5
+    description: |
+        Modulation frequency (in hertz).  Must be between 0.5 and 500.
+
+        The modulator supports a fixed set of modulation frequencies, indexed by
+        integers ranging from 0 to 255.  MWorks converts the requested
+        frequency to an index via the following equation, where ``log`` is the
+        natural logarithm::
+
+            index = round(255.0 * log(frequency / 0.5) / log(500.0 / 0.5))
+
+  - 
+    name: gain_1
+    default: 0.0
+    description: >
+        Gain (i.e. amplitude) for channel 1.  Must be between 0 and
+        `max_gain`_.
+  - 
+    name: gain_2
+    default: 0.0
+    description: >
+        Gain (i.e. amplitude) for channel 2.  Must be between 0 and
+        `max_gain`_.
+  - 
+    name: gain_3
+    default: 0.0
+    description: >
+        Gain (i.e. amplitude) for channel 3.  Must be between 0 and
+        `max_gain`_.
+  - 
+    name: gain_4
+    default: 0.0
+    description: >
+        Gain (i.e. amplitude) for channel 4.  Must be between 0 and
+        `max_gain`_.
+  - 
+    name: max_gain
+    default: 0.8
+    description: >
+        Maximum allowed gain for each channel.  Must be between 0 and 1.
+  - 
+    name: meg_state
+    description: |
+        Variable which is set to true by `Start IO Device` and false by `Stop IO
+        Device`.
+
+        If the same variable is used to set the state of a digital output line
+        (e.g. via a `DATAPixx Bit Output Channel`), and said output line is
+        connected to the QCUALOR device's Modulation Enable Gate (MEG), then
+        `Start IO Device` will configure and activate the modulator, and
+        `Stop IO Device` will deactivate it.
+
+        If this parameter is omitted, or if the assigned variable does *not*
+        control a digital output connected to the device's MEG input, then
+        `Start IO Device` will send the configuration commands to the
+        modulator, but the experiment must explicitly set the MEG state to high
+        to apply the configuration and activate the device.  Similarly, `Stop
+        IO Device` will send commmands to set all channel modes to "off" and
+        gains to zero, but the experiment must explicitly set the MEG state to
+        low to deactivate the modulator.
+
+

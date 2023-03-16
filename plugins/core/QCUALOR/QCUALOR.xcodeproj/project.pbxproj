@@ -33,6 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E138353329C21903005EB9A1 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E138353229C21903005EB9A1 /* MWComponents.yaml */; };
 		E1EB3B5E27EA1407008EDABF /* QCUALORPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EB3B5D27EA1407008EDABF /* QCUALORPlugin.cpp */; };
 		E1EB3B6927EA159B008EDABF /* QCUALOR.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1EB3B5627EA1320008EDABF /* QCUALOR.bundle */; };
 		E1EB3B7427EA1C49008EDABF /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1EB3B7327EA1C49008EDABF /* MWorksCore.framework */; };
@@ -70,6 +71,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E138353229C21903005EB9A1 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1EB3B5627EA1320008EDABF /* QCUALOR.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QCUALOR.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1EB3B5D27EA1407008EDABF /* QCUALORPlugin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QCUALORPlugin.cpp; sourceTree = "<group>"; };
 		E1EB3B6027EA147D008EDABF /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				E1EB3B7127EA1A37008EDABF /* QCUALOR-Prefix.pch */,
+				E138353229C21903005EB9A1 /* MWComponents.yaml */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E138353329C21903005EB9A1 /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
