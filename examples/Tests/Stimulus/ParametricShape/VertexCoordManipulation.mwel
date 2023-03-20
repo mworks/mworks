@@ -1,0 +1,126 @@
+%define size = 10
+%define x_offset = 12
+%define y_offset = 6
+
+
+rectangle box1 (
+    x_size = size
+    x_position = -x_offset
+    y_position = +y_offset
+    )
+
+rectangle box2 (
+    x_size = size
+    x_position = -x_offset
+    y_position = -y_offset
+    )
+
+rectangle box3 (
+    x_size = size
+    x_position = 0
+    y_position = +y_offset
+    )
+
+rectangle box4 (
+    x_size = size
+    x_position = 0
+    y_position = -y_offset
+    )
+
+rectangle box5 (
+    x_size = size
+    x_position = +x_offset
+    y_position = +y_offset
+    )
+
+rectangle box6 (
+    x_size = size
+    x_position = +x_offset
+    y_position = -y_offset
+    )
+
+
+var vertices = [[-2, -2], [0, 2], [0, 0], [2, -2], [0, -1], [-2, -2]]
+
+parametric_shape shape1 (
+    vertices = vertices
+    spline_resolution = 0
+    color = 0,0,0
+    x_size = size
+    x_position = -x_offset
+    y_position = +y_offset
+    )
+
+parametric_shape shape2 (
+    vertices = vertices
+    spline_resolution = 0
+    vertex_coord_range = 8
+    color = 0,0,0
+    x_size = size
+    x_position = -x_offset
+    y_position = -y_offset
+    )
+
+parametric_shape shape3 (
+    vertices = vertices
+    spline_resolution = 0
+    vertex_coord_center_x = -2
+    color = 0,0,0
+    x_size = size
+    x_position = 0
+    y_position = +y_offset
+    )
+
+parametric_shape shape4 (
+    vertices = vertices
+    spline_resolution = 0
+    vertex_coord_center_y = 2
+    color = 0,0,0
+    x_size = size
+    x_position = 0
+    y_position = -y_offset
+    )
+
+parametric_shape shape5 (
+    vertices = vertices
+    spline_resolution = 0
+    vertex_coord_center_x = -2
+    vertex_coord_center_y = 2
+    color = 0,0,0
+    x_size = size
+    x_position = +x_offset
+    y_position = +y_offset
+    )
+
+parametric_shape shape6 (
+    vertices = vertices
+    spline_resolution = 0
+    vertex_coord_center_x = -2
+    vertex_coord_center_y = 2
+    vertex_coord_range = 6
+    color = 0,0,0
+    x_size = size
+    x_position = +x_offset
+    y_position = -y_offset
+    )
+
+
+protocol {
+    queue_stimulus (box1)
+    queue_stimulus (box2)
+    queue_stimulus (box3)
+    queue_stimulus (box4)
+    queue_stimulus (box5)
+    queue_stimulus (box6)
+
+    queue_stimulus (shape1)
+    queue_stimulus (shape2)
+    queue_stimulus (shape3)
+    queue_stimulus (shape4)
+    queue_stimulus (shape5)
+    queue_stimulus (shape6)
+
+    update_display ()
+
+    wait (10s)
+}

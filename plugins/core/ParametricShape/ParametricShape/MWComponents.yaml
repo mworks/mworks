@@ -1,0 +1,103 @@
+---
+
+
+name: Parametric Shape Stimulus
+signature: stimulus/parametric_shape
+isa: Colored Transform Stimulus
+description: |
+    A user-defined, two-dimensional shape stimulus.
+
+    The shape is defined by a list of `vertices`_.  By default, the outline of
+    the shape is computed via a cubic B-spline approximation, for which the
+    vertices serve as control points, resulting in a smooth edge.  However, if
+    `spline_resolution`_ is set to zero, the provided vertices are used as-is
+    and connected with straight line segments, producing a polygon.  Once the
+    shape's outline has been established, the interior is filled with the
+    specified `color`_.
+
+    *Note*: The outline of the shape is determined when the stimulus is loaded.
+    To change the value of `vertices`_ or `spline_resolution`_ while the
+    experiment is running, you must `unload <Unload Stimulus>` the stimulus,
+    change the desired parameter, then `reload <Load Stimulus>` the stimulus.
+
+    .. rubric:: Vertex Coordinates
+
+    The coordinate grid on which the shape's vertices lie is a square with
+    center given by `vertex_coord_center_x`_ and `vertex_coord_center_y`_ and
+    edge length given by `vertex_coord_range`_.  If any of these parameters is
+    omitted, its value is inferred from the other parameters (if present) and
+    the bounding box of the shape, i.e. the smallest rectangle that encloses
+    the entire shape.  Note that if `spline_resolution`_ is non-zero, the
+    bounding box is determined from the spline approximation of the shape edge,
+    not the raw vertices.
+
+    *Note*: Since the coordinate grid is always square, setting `x_size`_ and
+    `y_size`_ to different values will stretch the shape along the larger
+    dimension.
+parameters: 
+  - 
+    name: vertices
+    required: yes
+    example: '[[-2, -2], [0, 2], [0, 0], [2, -2], [0, -1], [-2, -2]]'
+    description: |
+        Set of points that define the shape, in arbitrary coordinates
+        (see above).  Must be a list of two or more sub-lists, with each
+        sub-list containing two numbers.
+  - 
+    name: spline_resolution
+    default: 50
+    description: |
+        Number of points in the cubic B-spline approximation computed from
+        `vertices`_.  Higher values will produce a smoother edge.
+
+        Must be greater than or equal to zero.  If zero, no spline approximation
+        is computed, and the provided vertices are connected with straight
+        line segments.
+  - 
+    name: vertex_coord_center_x
+    description: >
+        x coordinate of the center of the vertex coordinate grid (see above for
+        details)
+  - 
+    name: vertex_coord_center_y
+    description: >
+        y coordinate of the center of the vertex coordinate grid (see above for
+        details)
+  - 
+    name: vertex_coord_range
+    description: >
+        Edge length of the vertex coordinate grid (see above for details)
+  - 
+    name: margin_pixels
+    default: 0
+    description: |
+        Number of pixels at the edge of the stimulus rectangle (i.e. the region
+        specified by `x_size`_, `y_size`_ `x_position`_, `y_position`_, and
+        `rotation`_) that are *not* drawn on.  Must be a floating-point number
+        greater than or equal to zero.
+
+        If parts of the shape at the edge of the vertex coordinate grid appear
+        rough or truncated, increasing the number of margin pixels may
+        eliminate the issue.
+  - 
+    name: use_antialiasing
+    default: 'YES'
+    description: >
+        If ``YES``, anti-aliasing will be used to smooth the rendered edges of
+        the shape
+  - 
+    name: max_size_x
+    description: |
+        Maximum horizontal size (degrees).
+
+        If omitted, the maximum horizontal size is set to the value of `x_size`_
+        when the stimulus is loaded.
+  - 
+    name: max_size_y
+    description: |
+        Maximum vertical size (degrees).
+
+        If omitted, the maximum vertical size is set to the value of `y_size`_
+        when the stimulus is loaded.
+
+

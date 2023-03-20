@@ -96,7 +96,7 @@ Datum ParametricShape::getCurrentAnnounceDrawData() {
 }
 
 
-bool ParametricShape::validateVertices(const Datum &value) {
+bool ParametricShape::validateVertices(Datum &value) {
     if (!value.isList()) {
         return false;
     }
@@ -121,6 +121,12 @@ bool ParametricShape::validateVertices(const Datum &value) {
                 return false;
             }
         }
+    }
+    
+    // Ensure that the first and last vertices are identical, because the curve approximation
+    // algorithm assumes that they are
+    if (list.back() != list.front()) {
+        value.addElement(list.front());
     }
     
     return true;
@@ -300,8 +306,7 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
     }
     
     //
-    // Determine viewport size and compute conversions from degrees to pixels
-    // and points to pixels
+    // Determine viewport size and compute conversion from degrees to pixels
     //
     {
         __block CGSize displaySizeInPixels;

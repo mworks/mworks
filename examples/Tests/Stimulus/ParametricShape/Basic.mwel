@@ -1,0 +1,143 @@
+var vertices = [
+    [-2.0000,  0.0000],
+    [-1.9754, -0.3129],
+    [-1.9021, -0.6180],
+    [-1.7820, -0.9080],
+    [-1.6180, -1.1756],
+    [-1.4142, -1.4142],
+    [-1.1756, -1.6180],
+    [-0.9080, -1.7820],
+    [-0.6180, -1.9021],
+    [-0.3129, -1.9754],
+    [ 0.0000, -2.0000],
+    [ 0.3129, -1.9754],
+    [ 0.6180, -1.9021],
+    [ 0.9080, -1.7820],
+    [ 1.1756, -1.6180],
+    [ 1.4142, -1.4142],
+    [ 1.6180, -1.1756],
+    [ 1.7820, -0.9080],
+    [ 1.9021, -0.6180],
+    [ 1.9754, -0.3129],
+    [ 2.0000,  0.0000],
+    [ 1.6871,  0.0246],
+    [ 1.3820,  0.0979],
+    [ 1.0920,  0.2180],
+    [ 0.8244,  0.3820],
+    [ 0.5858,  0.5858],
+    [ 0.3820,  0.8244],
+    [ 0.2180,  1.0920],
+    [ 0.1206,  1.3160],
+    [ 0.0766,  1.5620],
+    [ 0.0227,  1.9848],
+    [ 0.0174,  1.9928],
+    [ 0.0094,  1.9981],
+    [ 0.0000,  2.0000],
+    [-0.0094,  1.9981],
+    [-0.0174,  1.9928],
+    [-0.0227,  1.9848],
+    [-0.0766,  1.5620],
+    [-0.1206,  1.3160],
+    [-0.2180,  1.0920],
+    [-0.3820,  0.8244],
+    [-0.5858,  0.5858],
+    [-0.8244,  0.3820],
+    [-1.0920,  0.2180],
+    [-1.3820,  0.0979],
+    [-1.6871,  0.0246],
+    [-2.0000,  0.0000]
+]
+
+var margin_pixels = 0
+var use_antialiasing = false
+var red = 1
+var green = 1
+var blue = 1
+var x_size = 8
+var y_size = 8
+var x_pos = -5
+var y_pos = -5
+var rotation = 0
+var alpha = 1
+
+
+rectangle rect (
+    color = 0.25, 0.25, 0.25
+    x_size = x_size
+    y_size = y_size
+    x_position = x_pos
+    y_position = y_pos
+    rotation = rotation
+    )
+
+parametric_shape shape (
+    vertices = vertices
+    margin_pixels = margin_pixels
+    use_antialiasing = use_antialiasing
+    max_size_x = 12
+    max_size_y = 10
+    color = red, green, blue
+    x_size = x_size
+    y_size = y_size
+    x_position = x_pos
+    y_position = y_pos
+    rotation = rotation
+    alpha_multiplier = alpha
+    )
+
+
+%define update_and_wait ()
+    update_stimulus_display ()
+    wait (2s)
+%end
+
+
+protocol {
+    live_queue_stimulus (rect)
+    live_queue_stimulus (shape)
+    update_and_wait ()
+
+    // Change margin pixels
+    margin_pixels = 5
+    update_and_wait ()
+
+    // Enable antialiasing
+    use_antialiasing = true
+    update_and_wait ()
+
+    // Change red
+    red = 0
+    update_and_wait ()
+
+    // Change green
+    green = 0
+    update_and_wait ()
+
+    // Change blue
+    blue = 0
+    update_and_wait ()
+
+    // Change x size
+    x_size *= 1.5
+    update_and_wait ()
+
+    // Change y size
+    y_size *= 1.25
+    update_and_wait ()
+
+    // Change x position
+    x_pos = 5
+    update_and_wait ()
+
+    // Change y position
+    y_pos = 5
+    update_and_wait ()
+
+    // Change rotation
+    rotation = 45
+    update_and_wait ()
+
+    // Change alpha
+    alpha = 0.2
+    update_and_wait ()
+}

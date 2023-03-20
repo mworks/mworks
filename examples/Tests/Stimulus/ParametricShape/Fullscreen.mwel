@@ -1,0 +1,12 @@
+parametric_shape shape (
+    vertices = [[-2, -2], [0, 2], [0, 0], [2, -2], [0, -1], [-2, -2]]
+    spline_resolution = 0
+    fullscreen = true
+    )
+
+
+protocol {
+    queue_stimulus (shape)
+    update_display ()
+    wait (10s)
+}

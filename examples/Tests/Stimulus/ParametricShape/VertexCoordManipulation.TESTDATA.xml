@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">WARNING: Vertex coordinate grid for parametric shape stimulus "shape6" does not contain all points in the shape: coordinate grid covers (-5, -1) to (1, 5), but shape points range from (-2, -2) to (2, 2)</message>
+  </expected_messages>
+</marionette_info>

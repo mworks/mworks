@@ -1,0 +1,120 @@
+var box_size = 10
+%define left_pos = -1.5 * box_size
+%define center_pos = 0
+%define right_pos = 1.5 * box_size
+
+var rotation = 0
+
+
+var show_box = true
+
+rectangle box1 (
+    x_size = box_size
+    x_position = left_pos
+    alpha_multiplier = show_box
+    )
+
+rectangle box2 (
+    x_size = box_size
+    x_position = center_pos
+    alpha_multiplier = show_box
+    )
+
+rectangle box3 (
+    x_size = box_size
+    x_position = right_pos
+    alpha_multiplier = show_box
+    )
+
+
+var elapsed_time = 0
+
+render_actions update_rotation (elapsed_time = elapsed_time) {
+    rotation = fmod(elapsed_time / 1e6 * 360 / 4, 360)
+}
+
+
+var vertices = [
+    [ 1.7000,       0],
+    [ 1.6742,  0.2952],
+    [ 1.5975,  0.5814],
+    [ 1.4722,  0.8500],
+    [ 1.3023,  1.0927],
+    [ 1.0927,  1.3023],
+    [ 0.8500,  1.4722],
+    [ 0.5814,  1.5975],
+    [ 0.2952,  1.6742],
+    [      0,  1.7000],
+    [-0.2952,  1.6742],
+    [-0.5814,  1.5975],
+    [-0.8500,  1.4722],
+    [-1.0927,  1.3023],
+    [-1.3023,  1.0927],
+    [-1.4722,  0.8500],
+    [-1.5975,  0.5814],
+    [-1.6742,  0.2952],
+    [-1.7000,       0],
+    [-1.6742, -0.2952],
+    [-1.5975, -0.5814],
+    [-1.4722, -0.8500],
+    [-1.3023, -1.0927],
+    [-1.0927, -1.3023],
+    [-0.8500, -1.4722],
+    [-0.5814, -1.5975],
+    [-0.2952, -1.6742],
+    [      0, -1.7000],
+    [ 0.2952, -1.6742],
+    [ 0.5814, -1.5975],
+    [ 0.8500, -1.4722],
+    [ 1.0927, -1.3023],
+    [ 1.3023, -1.0927],
+    [ 1.4722, -0.8500],
+    [ 1.5975, -0.5814],
+    [ 1.6742, -0.2952],
+    [ 1.7000,       0]
+]
+
+var margin_pixels = 1
+
+parametric_shape shape1 (
+    vertices = vertices
+    use_antialiasing = false
+    color = 0,0,0
+    x_size = box_size
+    x_position = left_pos
+    rotation = rotation
+    )
+
+parametric_shape shape2 (
+    vertices = vertices
+    color = 0,0,0
+    x_size = box_size
+    x_position = center_pos
+    rotation = rotation
+    )
+
+parametric_shape shape3 (
+    vertices = vertices
+    margin_pixels = margin_pixels
+    color = 0,0,0
+    x_size = box_size
+    x_position = right_pos
+    rotation = rotation
+    )
+
+
+protocol {
+    live_queue_stimulus (box1)
+    live_queue_stimulus (box2)
+    live_queue_stimulus (box3)
+
+    queue_stimulus (update_rotation)
+
+    live_queue_stimulus (shape1)
+    live_queue_stimulus (shape2)
+    live_queue_stimulus (shape3)
+
+    update_display ()
+
+    wait (60s)
+}

@@ -1,0 +1,45 @@
+%define size = 10
+%define offset = 12
+
+parametric_shape shape1 (
+    vertices = [[-2, -2], [0, 2], [2, -2], [-2, -2]]
+    spline_resolution = 0
+    // vertex_coord_center_x = 0
+    // vertex_coord_center_y = 0
+    // vertex_coord_range = 4
+    x_size = size
+    x_position = -offset
+    )
+
+parametric_shape shape2 (
+    vertices = [[-11.5, -11.5], [-11, -10.5], [-10.5, -11.5], [-11.5, -11.5]]
+    spline_resolution = 0
+    // vertex_coord_center_x = -11
+    // vertex_coord_center_y = -11
+    // vertex_coord_range = 1
+    x_size = size
+    x_position = +offset
+    )
+
+parametric_shape shape3 (
+    vertices = [[7, 0], [12, 10], [17, 0], [7, 0]]
+    spline_resolution = 0
+    // vertex_coord_center_x = 12
+    // vertex_coord_center_y = 5
+    // vertex_coord_range = 10
+    x_size = size
+    x_position = 0
+    )
+
+
+protocol {
+    queue_stimulus (shape1)
+    queue_stimulus (shape2)
+    queue_stimulus (shape3)
+
+    update_display ()
+
+    report ('The three triangles should be identical')
+
+    wait (10s)
+}

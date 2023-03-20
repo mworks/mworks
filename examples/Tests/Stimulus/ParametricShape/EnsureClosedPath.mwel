@@ -1,0 +1,66 @@
+var closed_vertices = [
+    [-2,  0],
+    [ 0, -2],
+    [ 2,  0],
+    [ 0,  2],
+    [-2,  0]
+]
+
+var open_vertices = [
+    [-2,  0],
+    [ 0, -2],
+    [ 2,  0],
+    [ 0,  2]
+]
+
+var size = 10
+var offset = 0.6 * size
+
+parametric_shape closed_straight_path (
+    vertices = closed_vertices
+    spline_resolution = 0
+    color = 0,0,0
+    x_size = size
+    x_position = -offset
+    y_position = +offset
+    )
+
+parametric_shape open_straight_path (
+    vertices = open_vertices
+    spline_resolution = 0
+    color = 0,0,0
+    x_size = size
+    x_position = +offset
+    y_position = +offset
+    )
+
+parametric_shape closed_curved_path (
+    vertices = closed_vertices
+    color = 0,0,0
+    x_size = size
+    x_position = -offset
+    y_position = -offset
+    )
+
+parametric_shape open_curved_path (
+    vertices = open_vertices
+    color = 0,0,0
+    x_size = size
+    x_position = +offset
+    y_position = -offset
+    )
+
+
+protocol {
+    queue_stimulus (closed_straight_path)
+    queue_stimulus (open_straight_path)
+    queue_stimulus (closed_curved_path)
+    queue_stimulus (open_curved_path)
+
+    update_display ()
+
+    report ('The upper left and upper right shapes should be identical')
+    report ('The lower left and lower right shapes should be identical')
+
+    wait (10s)
+}

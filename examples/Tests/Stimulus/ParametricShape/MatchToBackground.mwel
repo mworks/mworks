@@ -1,0 +1,35 @@
+var red = 1
+var green = 1
+var blue = 1
+
+parametric_shape shape (
+    vertices = [[-2, -2], [0, 2], [0, 0], [2, -2], [0, -1], [-2, -2]]
+    color = red, green, blue
+    x_size = 20
+    )
+
+
+%define update_and_wait ()
+    update_stimulus_display ()
+    wait (2s)
+%end
+
+
+protocol {
+    live_queue_stimulus (shape)
+
+    report ('The shape should appear, completely disappear, then reappear')
+
+    block (nsamples = 2) {
+        update_and_wait ()
+
+        red = 0.5
+        green = 0.5
+        blue = 0.5
+        update_and_wait ()
+
+        red = 1
+        green = 1
+        blue = 1
+    }
+}

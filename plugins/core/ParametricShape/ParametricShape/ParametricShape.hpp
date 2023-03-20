@@ -33,7 +33,7 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    static bool validateVertices(const Datum &value);
+    static bool validateVertices(Datum &value);
     static std::vector<CGPoint> generatePoints(const Datum::list_value_type &vertexCoords, std::size_t numSamples);
     
     void loadMetal(MetalDisplay &display) override;

@@ -1,0 +1,48 @@
+var vertices = [[-2, -2], [0, 2], [0, 0], [2, -2], [0, -1], [-2, -2]]
+
+%define size = 10
+%define offset = 6
+
+parametric_shape shape1 (
+    vertices = vertices
+    spline_resolution = 0
+    x_size = size
+    x_position = -offset
+    y_position = +offset
+    )
+
+parametric_shape shape2 (
+    vertices = vertices
+    spline_resolution = 4
+    x_size = size
+    x_position = +offset
+    y_position = +offset
+    )
+
+parametric_shape shape3 (
+    vertices = vertices
+    spline_resolution = 10
+    x_size = size
+    x_position = -offset
+    y_position = -offset
+    )
+
+parametric_shape shape4 (
+    vertices = vertices
+    // spline_resolution = 50
+    x_size = size
+    x_position = +offset
+    y_position = -offset
+    )
+
+
+protocol {
+    queue_stimulus (shape1)
+    queue_stimulus (shape2)
+    queue_stimulus (shape3)
+    queue_stimulus (shape4)
+
+    update_display ()
+
+    wait (10s)
+}
