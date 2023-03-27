@@ -23,6 +23,7 @@ static bool isValidStructFieldName(const Datum::dict_value_type::value_type &ite
     auto &str = key.getString();
     
     return (!str.empty() &&
+            str.size() < mxMAXNAM &&  // mxMAXNAM includes one byte for the NUL terminator
             std::isalpha(str.front()) &&
             std::all_of(std::next(str.begin()),
                         str.end(),
