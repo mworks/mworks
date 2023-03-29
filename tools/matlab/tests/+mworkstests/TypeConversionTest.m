@@ -1,4 +1,4 @@
-classdef TypeConversionTest < TestBase
+classdef TypeConversionTest < mworkstests.TestBase
     methods (Test)
         function testUndefined(t)
             u = t.getData('undefined');

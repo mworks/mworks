@@ -1,4 +1,4 @@
-classdef GetCodecsTest < TestBase
+classdef GetCodecsTest < mworkstests.TestBase
     methods (Test)
         function testAll(t)
             codec = getCodecs(t.getFilename());

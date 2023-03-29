@@ -1,4 +1,4 @@
-classdef MWFevalTest < TestBase
+classdef MWFevalTest < mworkstests.TestBase
     properties
         Handle
     end

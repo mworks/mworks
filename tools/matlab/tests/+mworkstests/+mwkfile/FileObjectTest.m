@@ -1,4 +1,4 @@
-classdef MWKFileTest < TestBase
+classdef FileObjectTest < mworkstests.TestBase
     methods (Test)
         function testUnopenedFile(t)
             f = mworks.MWKFile;

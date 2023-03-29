@@ -1,4 +1,4 @@
-classdef NextEventTest < TestBase
+classdef NextEventTest < mworkstests.TestBase
     methods
         function verifyFields(t, actualCode, actualTime, actualData, ...
                               expectedCode, expectedTime, expectedData)

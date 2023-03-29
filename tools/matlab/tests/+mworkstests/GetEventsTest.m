@@ -1,4 +1,4 @@
-classdef GetEventsTest < TestBase
+classdef GetEventsTest < mworkstests.TestBase
     methods
         function verifyEvents(t, evts, expected_codes)
             t.verifyEvent(evts);

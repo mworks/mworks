@@ -1,4 +1,4 @@
-classdef GetReverseCodecTest < TestBase
+classdef GetReverseCodecTest < mworkstests.TestBase
     methods (Test)
         function testAll(t)
             reverseCodec = getReverseCodec(t.getFilename());

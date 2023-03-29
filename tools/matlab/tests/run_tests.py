@@ -67,7 +67,7 @@ def create_test_file(extension):
 
     fp = (_MWK2Writer if extension == '.mwk2' else _MWKWriter)(filename)
 
-    with open('tests/codec.dat', 'rb') as codec_fp:
+    with open('codec.dat', 'rb') as codec_fp:
         fp.write_event(0, 0, pickle.load(codec_fp))
 
     tagmap = dict((item[0], i+2) for i, item in enumerate(test_data))

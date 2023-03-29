@@ -1,7 +1,6 @@
 addpath(getenv('MW_MATLAB_DIR'))
 
-cd tests
-suite = testsuite;
+suite = testsuite('mworkstests', 'IncludeSubpackages', true);
 runner = matlab.unittest.TestRunner.withTextOutput('Verbosity', 1);
 results = runner.run(suite);
 
