@@ -1,7 +1,11 @@
-classdef GetReverseCodecTest < mworkstests.TestBase
+classdef ReverseCodecTestBase < mworkstests.TestBase
+    methods (Abstract)
+        reverseCodec = getReverseCodec(t)
+    end
+
     methods (Test)
         function testAll(t)
-            reverseCodec = getReverseCodec(t.getFilename());
+            reverseCodec = t.getReverseCodec;
 
             t.verifyClass(reverseCodec, 'containers.Map');
             t.verifyEqual(double(reverseCodec.Count), 20);

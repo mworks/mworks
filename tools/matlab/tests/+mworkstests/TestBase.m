@@ -4,21 +4,9 @@ classdef TestBase < matlab.unittest.TestCase
             filename = getenv('MW_MATLAB_TEST_FILENAME');
         end
 
-        function data = getData(t, code)
-            if ischar(code)
-                data = t.getData(double(getfield(t.getTagMap(), code)));
-            else
-                e = getEvents(t.getFilename(), [code]);
-                t.verifyEvent(e);
-                t.verifySize(e, [1 1]);
-                t.verifyEqual(e.event_code, int32(code));
-                t.verifyInteger(e.time_us, code);
-                data = e.data;
-            end
-        end
-
         function tagmap = getTagMap(t)
-            tagmap = t.getData(1);
+            e = getEvents(t.getFilename, 1);
+            tagmap = e.data;
         end
 
         function verifyInteger(t, actual, expected)

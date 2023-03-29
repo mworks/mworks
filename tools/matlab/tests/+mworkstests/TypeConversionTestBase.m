@@ -1,4 +1,23 @@
-classdef TypeConversionTest < mworkstests.TestBase
+classdef TypeConversionTestBase < mworkstests.TestBase
+    methods (Abstract)
+        evts = getEvents(t, codes)
+    end
+
+    methods
+        function data = getData(t, code)
+            if ischar(code)
+                data = t.getData(double(getfield(t.getTagMap, code)));
+            else
+                e = t.getEvents(code);
+                t.verifyEvent(e);
+                t.verifySize(e, [1 1]);
+                t.verifyEqual(e.event_code, int32(code));
+                t.verifyInteger(e.time_us, code);
+                data = e.data;
+            end
+        end
+    end
+
     methods (Test)
         function testUndefined(t)
             u = t.getData('undefined');

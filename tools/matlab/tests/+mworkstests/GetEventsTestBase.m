@@ -1,4 +1,8 @@
-classdef GetEventsTest < mworkstests.TestBase
+classdef GetEventsTestBase < mworkstests.TestBase
+    methods (Abstract)
+        varargout = getEvents(t, varargin)
+    end
+
     methods
         function verifyEvents(t, evts, expected_codes)
             t.verifyEvent(evts);
@@ -15,30 +19,25 @@ classdef GetEventsTest < mworkstests.TestBase
     end
 
     methods (Test)
-        function testBadNumberOfInputs(t)
-            function tooFewInputs
-                e = getEvents;
-            end
-
+        function testTooManyInputs(t)
             function tooManyInputs
-                e = getEvents(t.getFilename, 2, 3, 4, 5);
+                e = t.getEvents(1, 2, 3, 4);
             end
 
-            t.verifyError(@tooFewInputs, 'MATLAB:minrhs');
             t.verifyError(@tooManyInputs, 'MATLAB:TooManyInputs');
         end
 
         function testBadNumberOfOutputs(t)
             function zeroOutputs
-                getEvents(t.getFilename);
+                t.getEvents;
             end
 
             function twoOutputs
-                [a, b] = getEvents(t.getFilename);
+                [a, b] = t.getEvents;
             end
 
             function fourOutputs
-                [a, b, c, d] = getEvents(t.getFilename);
+                [a, b, c, d] = t.getEvents;
             end
 
             t.verifyError(@zeroOutputs, 'MWorks:WrongNumberOfOutputs');
@@ -48,39 +47,39 @@ classdef GetEventsTest < mworkstests.TestBase
 
         function testInvalidInputs(t)
             function codesNotNumeric
-                e = getEvents(t.getFilename, {1});
+                e = t.getEvents({1});
             end
 
             function codesNotIntegral
-                e = getEvents(t.getFilename, 1.2);
+                e = t.getEvents(1.2);
             end
 
             function codesNotNonNegative
-                e = getEvents(t.getFilename, -1);
+                e = t.getEvents(-1);
             end
 
             function minTimeNotNumeric
-                e = getEvents(t.getFilename, 0, {1});
+                e = t.getEvents(0, {1});
             end
 
             function minTimeNotIntegral
-                e = getEvents(t.getFilename, 0, 1.2);
+                e = t.getEvents(0, 1.2);
             end
 
             function minTimeNotScalar
-                e = getEvents(t.getFilename, 0, [1,2]);
+                e = t.getEvents(0, [1,2]);
             end
 
             function maxTimeNotNumeric
-                e = getEvents(t.getFilename, 0, 0, {1});
+                e = t.getEvents(0, 0, {1});
             end
 
             function maxTimeNotIntegral
-                e = getEvents(t.getFilename, 0, 0, 1.2);
+                e = t.getEvents(0, 0, 1.2);
             end
 
             function maxTimeNotScalar
-                e = getEvents(t.getFilename, 0, 0, [1,2]);
+                e = t.getEvents(0, 0, [1,2]);
             end
 
             t.verifyError(@codesNotNumeric, ...
@@ -100,47 +99,47 @@ classdef GetEventsTest < mworkstests.TestBase
 
         function testGetAllEvents(t)
             expected_codes = [0:length(fieldnames(t.getTagMap))+1];
-            t.verifyEvents(getEvents(t.getFilename), expected_codes);
-            t.verifyEvents(getEvents(t.getFilename, []), expected_codes);
+            t.verifyEvents(t.getEvents, expected_codes);
+            t.verifyEvents(t.getEvents([]), expected_codes);
         end
 
         function testGetEventsByCode(t)
-            t.verifyEvents(getEvents(t.getFilename, 7), 7);
-            t.verifyEvents(getEvents(t.getFilename, [15, 3, 9, 3]), [3, 9, 15]);
-            t.verifyEvents(getEvents(t.getFilename, [7, 10000, 8]), [7,8]);
-            t.verifyEmpty(getEvents(t.getFilename, 10000));
+            t.verifyEvents(t.getEvents(7), 7);
+            t.verifyEvents(t.getEvents([15, 3, 9, 3]), [3, 9, 15]);
+            t.verifyEvents(t.getEvents([7, 10000, 8]), [7,8]);
+            t.verifyEmpty(t.getEvents(10000));
         end
 
         function testGetEventsByTime(t)
             function badTimeRange
-                e = getEvents(t.getFilename, [], 10, 5);
+                e = t.getEvents([], 10, 5);
             end
 
             max_time = length(fieldnames(t.getTagMap)) + 1;
-            t.verifyEvents(getEvents(t.getFilename, [], 5), [5:max_time]);
-            t.verifyEvents(getEvents(t.getFilename, [], -1, 10), [0:10]);
-            t.verifyEvents(getEvents(t.getFilename, [], 7, 7), 7);
-            t.verifyEmpty(getEvents(t.getFilename, [], 100, 200));
+            t.verifyEvents(t.getEvents([], 5), [5:max_time]);
+            t.verifyEvents(t.getEvents([], -1, 10), [0:10]);
+            t.verifyEvents(t.getEvents([], 7, 7), 7);
+            t.verifyEmpty(t.getEvents([], 100, 200));
             t.verifyError(@badTimeRange, 'MWorks:MWKFileError');
         end
 
         function testGetEventsByCodeAndTime(t)
-            t.verifyEvents(getEvents(t.getFilename, 5:8, 7), 7:8);
-            t.verifyEvents(getEvents(t.getFilename, 5:8, 0, 6), 5:6);
-            t.verifyEvents(getEvents(t.getFilename, 5:8, 6, 7), 6:7);
-            t.verifyEvents(getEvents(t.getFilename, 5:8, 4, 9), 5:8);
+            t.verifyEvents(t.getEvents(5:8, 7), 7:8);
+            t.verifyEvents(t.getEvents(5:8, 0, 6), 5:6);
+            t.verifyEvents(t.getEvents(5:8, 6, 7), 6:7);
+            t.verifyEvents(t.getEvents(5:8, 4, 9), 5:8);
         end
 
         function testSeparateOutputArrays(t)
-            evts = getEvents(t.getFilename);
-            [codes, times, values] = getEvents(t.getFilename);
+            evts = t.getEvents;
+            [codes, times, values] = t.getEvents;
             t.verifySeparateArrays(codes, times, values, evts);
 
-            evts = getEvents(t.getFilename, [5:10], 4, 8);
-            [codes, times, values] = getEvents(t.getFilename, [5:10], 4, 8);
+            evts = t.getEvents([5:10], 4, 8);
+            [codes, times, values] = t.getEvents([5:10], 4, 8);
             t.verifySeparateArrays(codes, times, values, evts);
 
-            [codes, times, values] = getEvents(t.getFilename, 10000);
+            [codes, times, values] = t.getEvents(10000);
             t.verifyEqual(codes, int32([]));
             t.verifyEqual(times, int64([]));
             t.verifyEqual(values, {});

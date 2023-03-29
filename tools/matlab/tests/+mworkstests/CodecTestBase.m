@@ -1,7 +1,11 @@
-classdef GetCodecTest < mworkstests.TestBase
+classdef CodecTestBase < mworkstests.TestBase
+    methods (Abstract)
+        codec = getCodec(t)
+    end
+
     methods (Test)
         function testAll(t)
-            codec = getCodec(t.getFilename());
+            codec = t.getCodec;
 
             t.verifyClass(codec, 'containers.Map');
             t.verifyEqual(double(codec.Count), 20);
