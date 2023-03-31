@@ -9,7 +9,7 @@
 #include "MWorksPython.h"
 
 
-static CFBundleRef getBundle() {
+static CFBundleRef getBundle(void) {
     return CFBundleGetBundleWithIdentifier(CFSTR(PRODUCT_BUNDLE_IDENTIFIER));  // Not owned
 }
 
@@ -80,7 +80,7 @@ static PyModuleDef _mworkspythonModule = {
 };
 
 
-static PyObject * init__mworkspython() {
+static PyObject * init__mworkspython(void) {
     return PyModule_Create(&_mworkspythonModule);
 }
 

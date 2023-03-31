@@ -5,14 +5,14 @@
 
 
 ScarabDatum  *
-scarab_new_molecular() 
+scarab_new_molecular(void)
 {
 	return scarab_new_atomic();
 }
 
 
 ScarabDatum  *
-scarab_new_atomic() 
+scarab_new_atomic(void)
 {
 	ScarabDatum *datum;
 	datum=(ScarabDatum*)scarab_mem_malloc(sizeof(ScarabDatum));

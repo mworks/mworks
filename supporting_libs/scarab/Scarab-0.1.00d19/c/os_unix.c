@@ -3,7 +3,7 @@
 #include <string.h>
 
 void
-scarab_os_init()
+scarab_os_init(void)
 {
 }
 
@@ -14,7 +14,7 @@ scarab_os_strerror(int err)
 }
 
 int
-scarab_os_geterr()
+scarab_os_geterr(void)
 {
 	return errno;
 }
