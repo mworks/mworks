@@ -357,7 +357,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '3.0.7'
+    version = '3.1.0'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -584,7 +584,7 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '4.1.1'
+    version = '6.0.0'
     srcdir = 'msgpack-cxx-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -623,8 +623,8 @@ def libxslt(macos=False):
 
 @builder
 def sqlite():
-    release_year = 2022
-    version = '3400000'  # 3.40.0
+    release_year = 2023
+    version = '3410200'  # 3.41.2
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
