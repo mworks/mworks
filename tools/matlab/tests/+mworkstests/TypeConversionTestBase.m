@@ -74,7 +74,7 @@ classdef TypeConversionTestBase < mworkstests.TestBase
             t.verifyList(t.getData('list_empty'), {});
             t.verifyList(t.getData('list_simple'), {int64(1)});
             t.verifyList(t.getData('list_complex'), ...
-                         {int64(1), 2.5, 'three', struct('four', int64(4))});
+                         {int64(1), 2.0, 'three', struct('four', int64(4))});
             t.verifyList(t.getData('list_nested'), ...
                          {int64(1), ...
                           {int64(2), {int64(3), {int64(4), int64(5)}}}});
@@ -84,7 +84,7 @@ classdef TypeConversionTestBase < mworkstests.TestBase
             t.verifyDict(t.getData('dict_empty'), struct());
             t.verifyDict(t.getData('dict_simple'), struct('a', int64(1)));
             t.verifyDict(t.getData('dict_complex'), ...
-                         struct('one', int64(1), 'Two', 2.5, 'ThReE_3', '3.0'));
+                         struct('one', int64(1), 'Two', 2.0, 'ThReE_3', '3.0'));
         end
 
         function testDictionaryAsMap(t)

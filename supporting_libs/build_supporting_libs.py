@@ -592,6 +592,8 @@ def msgpack():
         if not os.path.isdir(srcdir):
             download_archive('https://github.com/msgpack/msgpack-c/releases/download/cpp-%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
+            with workdir(srcdir):
+                apply_patch('msgpack_no_float_as_int.patch')
 
         with workdir(srcdir):
             check_call([rsync, '-a', 'include/', includedir])

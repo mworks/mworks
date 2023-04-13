@@ -1,0 +1,35 @@
+diff -ur msgpack-cxx-6.0.0/include/msgpack/v1/pack.hpp msgpack-cxx/include/msgpack/v1/pack.hpp
+--- msgpack-cxx-6.0.0/include/msgpack/v1/pack.hpp	2023-03-04 07:41:38
++++ msgpack-cxx/include/msgpack/v1/pack.hpp	2023-04-13 08:53:36
+@@ -1138,6 +1138,7 @@
+ template <typename Stream>
+ inline packer<Stream>& packer<Stream>::pack_float(float d)
+ {
++    /*
+     if(d == d) { // check for nan 
+         // compare d to limits to avoid undefined behaviour
+         if(d >= 0 && d <= float(std::numeric_limits<uint64_t>::max()) && d == float(uint64_t(d))) {
+@@ -1148,6 +1149,7 @@
+             return *this;
+         }
+     }
++    */
+ 
+     union { float f; uint32_t i; } mem;
+     mem.f = d;
+@@ -1160,6 +1162,7 @@
+ template <typename Stream>
+ inline packer<Stream>& packer<Stream>::pack_double(double d)
+ {
++    /*
+     if(d == d) { // check for nan 
+         // compare d to limits to avoid undefined behaviour
+         if(d >= 0 && d <= double(std::numeric_limits<uint64_t>::max()) && d == double(uint64_t(d))) {
+@@ -1170,6 +1173,7 @@
+             return *this;
+         }
+     }
++    */
+ 
+     union { double f; uint64_t i; } mem;
+     mem.f = d;

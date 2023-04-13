@@ -2,8 +2,6 @@ from queue import Queue
 import random
 import unittest
 
-import numpy
-
 from mworks.conduit import IPCClientConduit, IPCServerConduit
 from mworks.data import ReservedEventCode
 
@@ -56,48 +54,6 @@ class TestConduitTypeConversion(ConduitTestMixin,
         except Exception as e:
             data = e
         cls.queue.put(data, block=False)
-
-    #
-    # As of msgpack-cxx 4.1.2, floats are packed as integers if the conversion
-    # from one to the other is exact (i.e. lossless):
-    # https://github.com/msgpack/msgpack-c/pull/1018
-    #
-
-    def test_float(self):
-        self.assertReceivedEqualsSent(0.0, 0)
-        self.assertReceivedEqualsSent(0.5)
-        self.assertReceivedEqualsSent(1.0, 1)
-        self.assertReceivedEqualsSent(1.5)
-        self.assertReceivedEqualsSent(-2.5)
-
-    def _test_numpy_floating(self, ftype):
-        self.assertReceivedEqualsSent(ftype(0.0), 0)
-        self.assertReceivedEqualsSent(ftype(0.5), 0.5)
-        self.assertReceivedEqualsSent(ftype(1.0), 1)
-        self.assertReceivedEqualsSent(ftype(1.5), 1.5)
-        self.assertReceivedEqualsSent(ftype(-2.5), -2.5)
-
-        type_info = numpy.finfo(ftype)
-        longlong_info = numpy.iinfo(numpy.longlong)
-        float_info = numpy.finfo(float)
-
-        if type_info.max <= longlong_info.max:
-            self.assertReceivedEqualsSent(ftype(type_info.max),
-                                          int(type_info.max))
-            self.assertReceivedEqualsSent(ftype(type_info.min),
-                                          int(type_info.min))
-        elif type_info.max <= float_info.max:
-            self.assertReceivedEqualsSent(ftype(type_info.max),
-                                          float(type_info.max))
-            self.assertReceivedEqualsSent(ftype(type_info.min),
-                                          float(type_info.min))
-        else:
-            self.assertReceivedEqualsSent(ftype(float_info.max),
-                                          float(float_info.max))
-            self.assertReceivedIsInf(ftype(float_info.max) * 2.0)
-            self.assertReceivedEqualsSent(ftype(float_info.min),
-                                          float(float_info.min))
-            self.assertReceivedIsInf(ftype(float_info.min) * 2.0)
 
 
 class TestConduits(ConduitTestMixin, unittest.TestCase):
