@@ -1,7 +1,7 @@
-diff -ur numpy-1.23.1/numpy/core/setup.py numpy/numpy/core/setup.py
---- numpy-1.23.1/numpy/core/setup.py	2022-07-08 19:01:04.000000000 -0400
-+++ numpy/numpy/core/setup.py	2022-07-25 14:09:41.000000000 -0400
-@@ -739,6 +739,7 @@
+diff -ur numpy-1.24.2/numpy/core/setup.py numpy/numpy/core/setup.py
+--- numpy-1.24.2/numpy/core/setup.py	2023-02-05 12:13:47
++++ numpy/numpy/core/setup.py	2023-04-13 11:34:00
+@@ -736,6 +736,7 @@
          ):
              is_cpp = lang == 'c++'
              if is_cpp:

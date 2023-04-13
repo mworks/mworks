@@ -455,7 +455,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.23.3'
+    version = '1.24.2'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -504,9 +504,9 @@ def numpy():
 
             add_object_files_to_libpythonall()
 
-        # The numpy test suite requires hypothesis, pytest, and setuptools, so
-        # install them and their dependencies (but outside of any standard
-        # location, because we don't want to distribute them)
+        # The numpy test suite requires hypothesis, pytest, setuptools, and
+        # typing_extensions, so install them and their dependencies (but outside
+        # of any standard location, because we don't want to distribute them)
         check_call([
             os.environ['MW_PYTHON_3'],
             '-m', 'pip',
@@ -515,6 +515,7 @@ def numpy():
             'hypothesis',
             'pytest',
             'setuptools',
+            'typing_extensions',
             ])
 
 
