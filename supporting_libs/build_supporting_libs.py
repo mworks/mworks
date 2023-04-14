@@ -391,7 +391,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.10.7'
+    version = '3.11.3'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -405,27 +405,26 @@ def python():
                 apply_patch('python_cross_build.patch')
                 apply_patch('python_ctypes.patch')
                 apply_patch('python_static_zlib.patch')
+                apply_patch('python_test_fixes.patch')
                 if building_for_ios:
                     apply_patch('python_ios_build.patch')
                     apply_patch('python_ios_disabled_modules.patch')
                     apply_patch('python_ios_fixes.patch')
-                    apply_patch('python_ios_private_api.patch')
                     apply_patch('python_ios_test_fixes.patch')
                 else:
                     apply_patch('python_macos_13_0_required.patch')
-                    apply_patch('python_macos_disabled_modules.patch')
                     apply_patch('python_macos_test_fixes.patch')
 
         with workdir(srcdir):
             extra_args = [
-                '--enable-optimizations',
+                '--without-pkg-config',
                 '--without-ensurepip',
                 '--with-openssl=' + prefix,
                 ]
             if cross_building:
                 extra_args += [
                     '--enable-ipv6',
-                    'PYTHON_FOR_BUILD=' + os.environ['MW_PYTHON_3'],
+                    '--with-build-python=' + os.environ['MW_PYTHON_3'],
                     'ac_cv_file__dev_ptmx=no',
                     'ac_cv_file__dev_ptc=no',
                     ]
@@ -443,7 +442,13 @@ def python():
                 )
 
             add_object_files_to_libpythonall(
-                exclude = ['_testembed.o', 'python.o']
+                exclude = [
+                    '_bootstrap_python.o',
+                    '_freeze_module.o',
+                    '_testembed.o',
+                    'getpath_noop.o',
+                    'python.o',
+                    ]
                 )
 
             # Generate list of trusted root certificates (for ssl module)

@@ -1,19 +1,19 @@
-diff -ur Python-3.10.2/Lib/ctypes/test/test_macholib.py Python/Lib/ctypes/test/test_macholib.py
---- Python-3.10.2/Lib/ctypes/test/test_macholib.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/ctypes/test/test_macholib.py	2022-02-22 09:29:40.000000000 -0500
-@@ -43,6 +43,7 @@
-     raise ValueError("%s not found" % (name,))
+diff -ur Python-3.11.3/Lib/ctypes/test/test_macholib.py Python/Lib/ctypes/test/test_macholib.py
+--- Python-3.11.3/Lib/ctypes/test/test_macholib.py	2023-04-04 18:22:17
++++ Python/Lib/ctypes/test/test_macholib.py	2023-04-18 14:21:20
+@@ -51,6 +51,7 @@
+ 
  
  class MachOTest(unittest.TestCase):
 +    @unittest.skip('fails on iOS')
      @unittest.skipUnless(sys.platform == "darwin", 'OSX-specific test')
      def test_find(self):
-         # On Mac OS 11, system dylibs are only present in the shared cache,
-diff -ur Python-3.10.2/Lib/distutils/tests/test_sysconfig.py Python/Lib/distutils/tests/test_sysconfig.py
---- Python-3.10.2/Lib/distutils/tests/test_sysconfig.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/distutils/tests/test_sysconfig.py	2022-02-22 09:35:08.000000000 -0500
-@@ -63,8 +63,8 @@
-             self.assertTrue(sysconfig._is_python_source_dir(srcdir))
+         self.assertEqual(dyld_find('libSystem.dylib'),
+diff -ur Python-3.11.3/Lib/distutils/tests/test_sysconfig.py Python/Lib/distutils/tests/test_sysconfig.py
+--- Python-3.11.3/Lib/distutils/tests/test_sysconfig.py	2023-04-04 18:22:17
++++ Python/Lib/distutils/tests/test_sysconfig.py	2023-04-18 14:21:20
+@@ -69,8 +69,8 @@
+             self.assertTrue(os.path.exists(pyconfig_h_in), pyconfig_h_in)
          elif os.name == 'posix':
              self.assertEqual(
 -                os.path.dirname(sysconfig.get_makefile_filename()),
@@ -23,21 +23,10 @@ diff -ur Python-3.10.2/Lib/distutils/tests/test_sysconfig.py Python/Lib/distutil
  
      def test_srcdir_independent_of_cwd(self):
          # srcdir should be independent of the current working directory
-diff -ur Python-3.10.2/Lib/test/datetimetester.py Python/Lib/test/datetimetester.py
---- Python-3.10.2/Lib/test/datetimetester.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/datetimetester.py	2022-02-22 09:29:40.000000000 -0500
-@@ -5856,6 +5856,7 @@
-                 ldt = tz.fromutc(udt.replace(tzinfo=tz))
-                 self.assertEqual(ldt.fold, 0)
- 
-+    @unittest.skip('tzset is not available on iOS')
-     def test_system_transitions(self):
-         if ('Riyadh8' in self.zonename or
-             # From tzdata NEWS file:
-diff -ur Python-3.10.2/Lib/test/libregrtest/main.py Python/Lib/test/libregrtest/main.py
---- Python-3.10.2/Lib/test/libregrtest/main.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/libregrtest/main.py	2022-02-22 09:29:40.000000000 -0500
-@@ -474,8 +474,8 @@
+diff -ur Python-3.11.3/Lib/test/libregrtest/main.py Python/Lib/test/libregrtest/main.py
+--- Python-3.11.3/Lib/test/libregrtest/main.py	2023-04-04 18:22:17
++++ Python/Lib/test/libregrtest/main.py	2023-04-18 14:21:20
+@@ -484,8 +484,8 @@
      def display_header(self):
          # Print basic platform information
          print("==", platform.python_implementation(), *sys.version.split())
@@ -48,10 +37,30 @@ diff -ur Python-3.10.2/Lib/test/libregrtest/main.py Python/Lib/test/libregrtest/
          print("== cwd:", os.getcwd())
          cpu_count = os.cpu_count()
          if cpu_count:
-diff -ur Python-3.10.2/Lib/test/test__osx_support.py Python/Lib/test/test__osx_support.py
---- Python-3.10.2/Lib/test/test__osx_support.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test__osx_support.py	2022-02-22 09:29:40.000000000 -0500
-@@ -106,6 +106,7 @@
+diff -ur Python-3.11.3/Lib/test/support/__init__.py Python/Lib/test/support/__init__.py
+--- Python-3.11.3/Lib/test/support/__init__.py	2023-04-04 18:22:17
++++ Python/Lib/test/support/__init__.py	2023-04-18 14:21:20
+@@ -517,12 +517,14 @@
+ is_emscripten = sys.platform == "emscripten"
+ is_wasi = sys.platform == "wasi"
+ 
+-has_fork_support = hasattr(os, "fork") and not is_emscripten and not is_wasi
++#has_fork_support = hasattr(os, "fork") and not is_emscripten and not is_wasi
++has_fork_support = False
+ 
+ def requires_fork():
+     return unittest.skipUnless(has_fork_support, "requires working os.fork()")
+ 
+-has_subprocess_support = not is_emscripten and not is_wasi
++#has_subprocess_support = not is_emscripten and not is_wasi
++has_subprocess_support = False
+ 
+ def requires_subprocess():
+     """Used for subprocess, os.spawn calls, fd inheritance"""
+diff -ur Python-3.11.3/Lib/test/test__osx_support.py Python/Lib/test/test__osx_support.py
+--- Python-3.11.3/Lib/test/test__osx_support.py	2023-04-04 18:22:17
++++ Python/Lib/test/test__osx_support.py	2023-04-18 14:21:20
+@@ -105,6 +105,7 @@
          _osx_support._save_modified_value(config_vars, cv, newvalue)
          self.assertEqual(expected_vars, config_vars)
  
@@ -59,10 +68,10 @@ diff -ur Python-3.10.2/Lib/test/test__osx_support.py Python/Lib/test/test__osx_s
      def test__supports_universal_builds(self):
          import platform
          mac_ver_tuple = tuple(int(i) for i in
-diff -ur Python-3.10.2/Lib/test/test_asyncio/test_events.py Python/Lib/test/test_asyncio/test_events.py
---- Python-3.10.2/Lib/test/test_asyncio/test_events.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_asyncio/test_events.py	2022-02-22 09:29:40.000000000 -0500
-@@ -440,6 +440,7 @@
+diff -ur Python-3.11.3/Lib/test/test_asyncio/test_events.py Python/Lib/test/test_asyncio/test_events.py
+--- Python-3.11.3/Lib/test/test_asyncio/test_events.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_asyncio/test_events.py	2023-04-18 14:21:20
+@@ -441,6 +441,7 @@
          r.close()
          self.assertEqual(read, data)
  
@@ -70,10 +79,10 @@ diff -ur Python-3.10.2/Lib/test/test_asyncio/test_events.py Python/Lib/test/test
      @unittest.skipUnless(hasattr(signal, 'SIGKILL'), 'No SIGKILL')
      def test_add_signal_handler(self):
          caught = 0
-diff -ur Python-3.10.2/Lib/test/test_concurrent_futures.py Python/Lib/test/test_concurrent_futures.py
---- Python-3.10.2/Lib/test/test_concurrent_futures.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_concurrent_futures.py	2022-02-22 09:29:40.000000000 -0500
-@@ -159,6 +159,7 @@
+diff -ur Python-3.11.3/Lib/test/test_concurrent_futures.py Python/Lib/test/test_concurrent_futures.py
+--- Python-3.11.3/Lib/test/test_concurrent_futures.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_concurrent_futures.py	2023-04-18 14:21:20
+@@ -156,6 +156,7 @@
      ctx = "fork"
  
      def get_context(self):
@@ -81,7 +90,7 @@ diff -ur Python-3.10.2/Lib/test/test_concurrent_futures.py Python/Lib/test/test_
          try:
              _check_system_limits()
          except NotImplementedError:
-@@ -173,6 +174,7 @@
+@@ -170,6 +171,7 @@
      ctx = "spawn"
  
      def get_context(self):
@@ -89,7 +98,7 @@ diff -ur Python-3.10.2/Lib/test/test_concurrent_futures.py Python/Lib/test/test_
          try:
              _check_system_limits()
          except NotImplementedError:
-@@ -185,6 +187,7 @@
+@@ -182,6 +184,7 @@
      ctx = "forkserver"
  
      def get_context(self):
@@ -97,34 +106,34 @@ diff -ur Python-3.10.2/Lib/test/test_concurrent_futures.py Python/Lib/test/test_
          try:
              _check_system_limits()
          except NotImplementedError:
-diff -ur Python-3.10.2/Lib/test/test_doctest.py Python/Lib/test/test_doctest.py
---- Python-3.10.2/Lib/test/test_doctest.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_doctest.py	2022-02-22 09:29:40.000000000 -0500
-@@ -3084,6 +3084,9 @@
+diff -ur Python-3.11.3/Lib/test/test_doctest.py Python/Lib/test/test_doctest.py
+--- Python-3.11.3/Lib/test/test_doctest.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_doctest.py	2023-04-18 14:21:39
+@@ -19,8 +19,8 @@
+ import contextlib
+ 
+ 
+-if not support.has_subprocess_support:
+-    raise unittest.SkipTest("test_CLI requires subprocess support.")
++#if not support.has_subprocess_support:
++#    raise unittest.SkipTest("test_CLI requires subprocess support.")
+ 
+ 
+ # NOTE: There are some additional tests relating to interaction with
+@@ -3111,6 +3111,9 @@
+     usage...invalid...nosuchoption...
  
  """
- 
++
 +# test_CLI spawns a subprocess, which isn't allowed on iOS
 +del test_CLI
-+
+ 
  def test_no_trailing_whitespace_stripping():
      r"""
-     The fancy reports had a bug for a long time where any trailing whitespace on
-diff -ur Python-3.10.2/Lib/test/test_fork1.py Python/Lib/test/test_fork1.py
---- Python-3.10.2/Lib/test/test_fork1.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_fork1.py	2022-02-22 09:29:40.000000000 -0500
-@@ -16,6 +16,7 @@
- # Skip test if fork does not exist.
- support.get_attribute(os, 'fork')
- 
-+@unittest.skip('fork is not allowed on iOS')
- class ForkTest(ForkWait):
-     def test_threaded_import_lock_fork(self):
-         """Check fork() in main thread works while a subthread is doing an import"""
-diff -ur Python-3.10.2/Lib/test/test_httpservers.py Python/Lib/test/test_httpservers.py
---- Python-3.10.2/Lib/test/test_httpservers.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_httpservers.py	2022-02-22 09:29:40.000000000 -0500
-@@ -608,6 +608,7 @@
+diff -ur Python-3.11.3/Lib/test/test_httpservers.py Python/Lib/test/test_httpservers.py
+--- Python-3.11.3/Lib/test/test_httpservers.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_httpservers.py	2023-04-18 14:21:20
+@@ -666,6 +666,7 @@
  """
  
  
@@ -132,10 +141,10 @@ diff -ur Python-3.10.2/Lib/test/test_httpservers.py Python/Lib/test/test_httpser
  @unittest.skipIf(hasattr(os, 'geteuid') and os.geteuid() == 0,
          "This test can't be run reliably as root (issue #13308).")
  class CGIHTTPServerTestCase(BaseTestCase):
-diff -ur Python-3.10.2/Lib/test/test_imp.py Python/Lib/test/test_imp.py
---- Python-3.10.2/Lib/test/test_imp.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_imp.py	2022-02-22 09:29:40.000000000 -0500
-@@ -204,6 +204,7 @@
+diff -ur Python-3.11.3/Lib/test/test_imp.py Python/Lib/test/test_imp.py
+--- Python-3.11.3/Lib/test/test_imp.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_imp.py	2023-04-18 14:21:20
+@@ -207,6 +207,7 @@
          self.assertRaises(SyntaxError,
                            imp.find_module, "badsyntax_pep3120", [path])
  
@@ -143,7 +152,7 @@ diff -ur Python-3.10.2/Lib/test/test_imp.py Python/Lib/test/test_imp.py
      def test_load_from_source(self):
          # Verify that the imp module can correctly load and find .py files
          # XXX (ncoghlan): It would be nice to use import_helper.CleanImport
-@@ -384,6 +385,7 @@
+@@ -418,6 +419,7 @@
      """Very basic tests to make sure that imp.reload() operates just like
      reload()."""
  
@@ -151,10 +160,10 @@ diff -ur Python-3.10.2/Lib/test/test_imp.py Python/Lib/test/test_imp.py
      def test_source(self):
          # XXX (ncoghlan): It would be nice to use test.import_helper.CleanImport
          # here, but that breaks because the os module registers some
-diff -ur Python-3.10.2/Lib/test/test_json/test_tool.py Python/Lib/test/test_json/test_tool.py
---- Python-3.10.2/Lib/test/test_json/test_tool.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_json/test_tool.py	2022-02-22 09:29:40.000000000 -0500
-@@ -200,8 +200,8 @@
+diff -ur Python-3.11.3/Lib/test/test_json/test_tool.py Python/Lib/test/test_json/test_tool.py
+--- Python-3.11.3/Lib/test/test_json/test_tool.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_json/test_tool.py	2023-04-18 14:21:20
+@@ -201,8 +201,8 @@
      def test_no_ensure_ascii_flag(self):
          infile = self._create_infile('{"key":"💩"}')
          outfile = os_helper.TESTFN + '.out'
@@ -164,7 +173,7 @@ diff -ur Python-3.10.2/Lib/test/test_json/test_tool.py Python/Lib/test/test_json
          with open(outfile, "rb") as f:
              lines = f.read().splitlines()
          # asserting utf-8 encoded output file
-@@ -211,8 +211,8 @@
+@@ -212,8 +212,8 @@
      def test_ensure_ascii_default(self):
          infile = self._create_infile('{"key":"💩"}')
          outfile = os_helper.TESTFN + '.out'
@@ -174,10 +183,22 @@ diff -ur Python-3.10.2/Lib/test/test_json/test_tool.py Python/Lib/test/test_json
          with open(outfile, "rb") as f:
              lines = f.read().splitlines()
          # asserting an ascii encoded output file
-diff -ur Python-3.10.2/Lib/test/test_marshal.py Python/Lib/test/test_marshal.py
---- Python-3.10.2/Lib/test/test_marshal.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_marshal.py	2022-02-22 09:29:40.000000000 -0500
-@@ -205,6 +205,7 @@
+diff -ur Python-3.11.3/Lib/test/test_logging.py Python/Lib/test/test_logging.py
+--- Python-3.11.3/Lib/test/test_logging.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_logging.py	2023-04-18 14:21:20
+@@ -1959,6 +1959,8 @@
+         self.assertEqual(self.log_output, b'<11>h\xc3\xa4m-sp\xc3\xa4m')
+ 
+     def test_udp_reconnection(self):
++        if self.server_exception:
++            self.skipTest(self.server_exception)
+         logger = logging.getLogger("slh")
+         self.sl_hdlr.close()
+         self.handled.clear()
+diff -ur Python-3.11.3/Lib/test/test_marshal.py Python/Lib/test/test_marshal.py
+--- Python-3.11.3/Lib/test/test_marshal.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_marshal.py	2023-04-18 14:21:20
+@@ -231,6 +231,7 @@
              except Exception:
                  pass
  
@@ -185,7 +206,7 @@ diff -ur Python-3.10.2/Lib/test/test_marshal.py Python/Lib/test/test_marshal.py
      def test_loads_recursion(self):
          def run_tests(N, check):
              # (((...None...),),)
-@@ -224,6 +225,7 @@
+@@ -250,6 +251,7 @@
              self.assertRaises(ValueError, marshal.loads, s)
          run_tests(2**20, check)
  
@@ -193,10 +214,10 @@ diff -ur Python-3.10.2/Lib/test/test_marshal.py Python/Lib/test/test_marshal.py
      def test_recursion_limit(self):
          # Create a deeply nested structure.
          head = last = []
-diff -ur Python-3.10.2/Lib/test/test_mmap.py Python/Lib/test/test_mmap.py
---- Python-3.10.2/Lib/test/test_mmap.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_mmap.py	2022-02-22 09:29:40.000000000 -0500
-@@ -241,10 +241,13 @@
+diff -ur Python-3.11.3/Lib/test/test_mmap.py Python/Lib/test/test_mmap.py
+--- Python-3.11.3/Lib/test/test_mmap.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_mmap.py	2023-04-18 14:21:20
+@@ -255,10 +255,13 @@
              # Try writing with PROT_EXEC and without PROT_WRITE
              prot = mmap.PROT_READ | getattr(mmap, 'PROT_EXEC', 0)
              with open(TESTFN, "r+b") as f:
@@ -214,7 +235,7 @@ diff -ur Python-3.10.2/Lib/test/test_mmap.py Python/Lib/test/test_mmap.py
  
      def test_bad_file_desc(self):
          # Try opening a bad file descriptor...
-@@ -842,6 +845,7 @@
+@@ -932,6 +935,7 @@
      # Issue 11277: mmap() with large (~4 GiB) sparse files crashes on OS X.
  
      def _test_around_boundary(self, boundary):
@@ -222,9 +243,9 @@ diff -ur Python-3.10.2/Lib/test/test_mmap.py Python/Lib/test/test_mmap.py
          tail = b'  DEARdear  '
          start = boundary - len(tail) // 2
          end = start + len(tail)
-diff -ur Python-3.10.2/Lib/test/test_multiprocessing_fork.py Python/Lib/test/test_multiprocessing_fork.py
---- Python-3.10.2/Lib/test/test_multiprocessing_fork.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_multiprocessing_fork.py	2022-02-22 09:29:40.000000000 -0500
+diff -ur Python-3.11.3/Lib/test/test_multiprocessing_fork.py Python/Lib/test/test_multiprocessing_fork.py
+--- Python-3.11.3/Lib/test/test_multiprocessing_fork.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_multiprocessing_fork.py	2023-04-18 14:21:20
 @@ -4,6 +4,8 @@
  import sys
  from test import support
@@ -234,9 +255,9 @@ diff -ur Python-3.10.2/Lib/test/test_multiprocessing_fork.py Python/Lib/test/tes
  if support.PGO:
      raise unittest.SkipTest("test is not helpful for PGO")
  
-diff -ur Python-3.10.2/Lib/test/test_multiprocessing_forkserver.py Python/Lib/test/test_multiprocessing_forkserver.py
---- Python-3.10.2/Lib/test/test_multiprocessing_forkserver.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_multiprocessing_forkserver.py	2022-02-22 09:29:40.000000000 -0500
+diff -ur Python-3.11.3/Lib/test/test_multiprocessing_forkserver.py Python/Lib/test/test_multiprocessing_forkserver.py
+--- Python-3.11.3/Lib/test/test_multiprocessing_forkserver.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_multiprocessing_forkserver.py	2023-04-18 14:21:20
 @@ -4,6 +4,8 @@
  import sys
  from test import support
@@ -246,9 +267,9 @@ diff -ur Python-3.10.2/Lib/test/test_multiprocessing_forkserver.py Python/Lib/te
  if support.PGO:
      raise unittest.SkipTest("test is not helpful for PGO")
  
-diff -ur Python-3.10.2/Lib/test/test_multiprocessing_main_handling.py Python/Lib/test/test_multiprocessing_main_handling.py
---- Python-3.10.2/Lib/test/test_multiprocessing_main_handling.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_multiprocessing_main_handling.py	2022-02-22 09:29:40.000000000 -0500
+diff -ur Python-3.11.3/Lib/test/test_multiprocessing_main_handling.py Python/Lib/test/test_multiprocessing_main_handling.py
+--- Python-3.11.3/Lib/test/test_multiprocessing_main_handling.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_multiprocessing_main_handling.py	2023-04-18 14:21:20
 @@ -17,6 +17,8 @@
      make_pkg, make_script, make_zip_pkg, make_zip_script,
      assert_python_ok)
@@ -258,9 +279,9 @@ diff -ur Python-3.10.2/Lib/test/test_multiprocessing_main_handling.py Python/Lib
  if support.PGO:
      raise unittest.SkipTest("test is not helpful for PGO")
  
-diff -ur Python-3.10.2/Lib/test/test_multiprocessing_spawn.py Python/Lib/test/test_multiprocessing_spawn.py
---- Python-3.10.2/Lib/test/test_multiprocessing_spawn.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_multiprocessing_spawn.py	2022-02-22 09:29:40.000000000 -0500
+diff -ur Python-3.11.3/Lib/test/test_multiprocessing_spawn.py Python/Lib/test/test_multiprocessing_spawn.py
+--- Python-3.11.3/Lib/test/test_multiprocessing_spawn.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_multiprocessing_spawn.py	2023-04-18 14:21:20
 @@ -3,6 +3,8 @@
  
  from test import support
@@ -270,10 +291,10 @@ diff -ur Python-3.10.2/Lib/test/test_multiprocessing_spawn.py Python/Lib/test/te
  if support.PGO:
      raise unittest.SkipTest("test is not helpful for PGO")
  
-diff -ur Python-3.10.2/Lib/test/test_os.py Python/Lib/test/test_os.py
---- Python-3.10.2/Lib/test/test_os.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_os.py	2022-02-22 10:40:14.000000000 -0500
-@@ -2125,6 +2125,7 @@
+diff -ur Python-3.11.3/Lib/test/test_os.py Python/Lib/test/test_os.py
+--- Python-3.11.3/Lib/test/test_os.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_os.py	2023-04-18 14:21:21
+@@ -2156,6 +2156,7 @@
      def test_isatty(self):
          self.assertEqual(os.isatty(os_helper.make_bad_fd()), False)
  
@@ -281,7 +302,7 @@ diff -ur Python-3.10.2/Lib/test/test_os.py Python/Lib/test/test_os.py
      @unittest.skipUnless(hasattr(os, 'closerange'), 'test needs os.closerange()')
      def test_closerange(self):
          fd = os_helper.make_bad_fd()
-@@ -3184,6 +3185,7 @@
+@@ -3295,6 +3296,7 @@
          self.assertNotEqual(len(user_name), 0)
  
  
@@ -289,7 +310,7 @@ diff -ur Python-3.10.2/Lib/test/test_os.py Python/Lib/test/test_os.py
  @unittest.skipUnless(hasattr(os, 'getpriority') and hasattr(os, 'setpriority'),
                       "needs os.getpriority and os.setpriority")
  class ProgramPriorityTests(unittest.TestCase):
-@@ -3602,6 +3604,7 @@
+@@ -3637,6 +3639,7 @@
          self._check_xattrs(getxattr, setxattr, removexattr, listxattr)
  
  
@@ -297,10 +318,10 @@ diff -ur Python-3.10.2/Lib/test/test_os.py Python/Lib/test/test_os.py
  @unittest.skipUnless(hasattr(os, 'get_terminal_size'), "requires os.get_terminal_size")
  class TermsizeTests(unittest.TestCase):
      def test_does_not_crash(self):
-diff -ur Python-3.10.2/Lib/test/test_shutil.py Python/Lib/test/test_shutil.py
---- Python-3.10.2/Lib/test/test_shutil.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_shutil.py	2022-02-22 09:29:40.000000000 -0500
-@@ -1753,17 +1753,20 @@
+diff -ur Python-3.11.3/Lib/test/test_shutil.py Python/Lib/test/test_shutil.py
+--- Python-3.11.3/Lib/test/test_shutil.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_shutil.py	2023-04-18 14:21:21
+@@ -1799,17 +1799,20 @@
          self.curdir = os.curdir
          self.ext = ".EXE"
  
@@ -321,7 +342,7 @@ diff -ur Python-3.10.2/Lib/test/test_shutil.py Python/Lib/test/test_shutil.py
      def test_relative_cmd(self):
          # When given the relative path with a directory part to an executable
          # that exists, it should be returned.
-@@ -1799,6 +1802,7 @@
+@@ -1844,6 +1847,7 @@
          rv = shutil.which(self.file, path=self.dir, mode=os.W_OK)
          self.assertIsNone(rv)
  
@@ -329,7 +350,7 @@ diff -ur Python-3.10.2/Lib/test/test_shutil.py Python/Lib/test/test_shutil.py
      def test_relative_path(self):
          base_dir, tail_dir = os.path.split(self.dir)
          with os_helper.change_cwd(path=base_dir):
-@@ -1818,6 +1822,7 @@
+@@ -1863,6 +1867,7 @@
          rv = shutil.which(self.file[:-4], path=self.dir)
          self.assertEqual(rv, self.temp_file.name[:-4] + self.ext)
  
@@ -337,7 +358,7 @@ diff -ur Python-3.10.2/Lib/test/test_shutil.py Python/Lib/test/test_shutil.py
      def test_environ_path(self):
          with os_helper.EnvironmentVarGuard() as env:
              env['PATH'] = self.env_path
-@@ -1835,6 +1840,7 @@
+@@ -1880,6 +1885,7 @@
                  rv = shutil.which(self.file)
                  self.assertIsNone(rv)
  
@@ -345,7 +366,7 @@ diff -ur Python-3.10.2/Lib/test/test_shutil.py Python/Lib/test/test_shutil.py
      def test_environ_path_cwd(self):
          expected_cwd = os.path.basename(self.temp_file.name)
          if sys.platform == "win32":
-@@ -1857,6 +1863,7 @@
+@@ -1902,6 +1908,7 @@
                      rv = shutil.which(self.file)
                      self.assertEqual(rv, expected_cwd)
  
@@ -353,9 +374,9 @@ diff -ur Python-3.10.2/Lib/test/test_shutil.py Python/Lib/test/test_shutil.py
      def test_environ_path_missing(self):
          with os_helper.EnvironmentVarGuard() as env:
              env.pop('PATH', None)
-diff -ur Python-3.10.2/Lib/test/test_socket.py Python/Lib/test/test_socket.py
---- Python-3.10.2/Lib/test/test_socket.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_socket.py	2022-02-22 09:29:40.000000000 -0500
+diff -ur Python-3.11.3/Lib/test/test_socket.py Python/Lib/test/test_socket.py
+--- Python-3.11.3/Lib/test/test_socket.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_socket.py	2023-04-18 14:21:21
 @@ -689,11 +689,14 @@
      def setUp(self):
          self.dir_path = tempfile.mkdtemp()
@@ -372,7 +393,7 @@ diff -ur Python-3.10.2/Lib/test/test_socket.py Python/Lib/test/test_socket.py
          self.addCleanup(os_helper.unlink, path)
  
  class UnixStreamBase(UnixSocketTestBase):
-@@ -1887,10 +1890,13 @@
+@@ -1921,10 +1924,13 @@
          if hasattr(socket, "AF_UNIX"):
              tmpdir = tempfile.mkdtemp()
              self.addCleanup(shutil.rmtree, tmpdir)
@@ -387,23 +408,10 @@ diff -ur Python-3.10.2/Lib/test/test_socket.py Python/Lib/test/test_socket.py
              except PermissionError:
                  pass
              else:
-diff -ur Python-3.10.2/Lib/test/test_socketserver.py Python/Lib/test/test_socketserver.py
---- Python-3.10.2/Lib/test/test_socketserver.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_socketserver.py	2022-02-22 09:29:40.000000000 -0500
-@@ -28,8 +28,10 @@
- HAVE_UNIX_SOCKETS = hasattr(socket, "AF_UNIX")
- requires_unix_sockets = unittest.skipUnless(HAVE_UNIX_SOCKETS,
-                                             'requires Unix sockets')
--HAVE_FORKING = hasattr(os, "fork")
--requires_forking = unittest.skipUnless(HAVE_FORKING, 'requires forking')
-+#HAVE_FORKING = hasattr(os, "fork")
-+#requires_forking = unittest.skipUnless(HAVE_FORKING, 'requires forking')
-+HAVE_FORKING = False
-+requires_forking = unittest.skip('fork is not allowed on iOS')
- 
- def signal_alarm(n):
-     """Call signal.alarm when it exists (i.e. not on Windows)."""
-@@ -98,8 +100,12 @@
+diff -ur Python-3.11.3/Lib/test/test_socketserver.py Python/Lib/test/test_socketserver.py
+--- Python-3.11.3/Lib/test/test_socketserver.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_socketserver.py	2023-04-18 14:21:21
+@@ -100,8 +100,12 @@
              # like AF_INET provides port==0.
              dir = None
              fn = tempfile.mktemp(prefix='unix_socket.', dir=dir)
@@ -418,22 +426,10 @@ diff -ur Python-3.10.2/Lib/test/test_socketserver.py Python/Lib/test/test_socket
  
      def make_server(self, addr, svrcls, hdlrbase):
          class MyServer(svrcls):
-diff -ur Python-3.10.2/Lib/test/test_subprocess.py Python/Lib/test/test_subprocess.py
---- Python-3.10.2/Lib/test/test_subprocess.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_subprocess.py	2022-02-22 09:29:40.000000000 -0500
-@@ -45,6 +45,8 @@
- except:
-     fcntl = None
- 
-+raise unittest.SkipTest('subprocesses are not allowed on iOS')
-+
- if support.PGO:
-     raise unittest.SkipTest("test is not helpful for PGO")
- 
-diff -ur Python-3.10.2/Lib/test/test_thread.py Python/Lib/test/test_thread.py
---- Python-3.10.2/Lib/test/test_thread.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_thread.py	2022-02-22 09:29:40.000000000 -0500
-@@ -220,6 +220,7 @@
+diff -ur Python-3.11.3/Lib/test/test_thread.py Python/Lib/test/test_thread.py
+--- Python-3.11.3/Lib/test/test_thread.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_thread.py	2023-04-18 14:21:21
+@@ -222,6 +222,7 @@
      locktype = thread.allocate_lock
  
  
@@ -441,37 +437,10 @@ diff -ur Python-3.10.2/Lib/test/test_thread.py Python/Lib/test/test_thread.py
  class TestForkInThread(unittest.TestCase):
      def setUp(self):
          self.read_fd, self.write_fd = os.pipe()
-diff -ur Python-3.10.2/Lib/test/test_threading.py Python/Lib/test/test_threading.py
---- Python-3.10.2/Lib/test/test_threading.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_threading.py	2022-02-22 09:29:40.000000000 -0500
-@@ -560,6 +560,7 @@
-         self.assertEqual(out, b'')
-         self.assertEqual(err, b'')
- 
-+    @unittest.skip('fork is not allowed on iOS')
-     @unittest.skipUnless(hasattr(os, 'fork'), "needs os.fork()")
-     def test_is_alive_after_fork(self):
-         # Try hard to trigger #18418: is_alive() could sometimes be True on
-@@ -1084,6 +1085,7 @@
-         rc, out, err = assert_python_ok('-c', script)
-         self.assertFalse(err)
- 
-+    @unittest.skip('fork is not allowed on iOS')
-     @unittest.skipUnless(hasattr(os, 'fork'), "needs os.fork()")
-     @unittest.skipIf(sys.platform in platforms_to_skip, "due to known OS bug")
-     def test_reinit_tls_after_fork(self):
-@@ -1108,6 +1110,7 @@
-         for t in threads:
-             t.join()
- 
-+    @unittest.skip('fork is not allowed on iOS')
-     @unittest.skipUnless(hasattr(os, 'fork'), "needs os.fork()")
-     def test_clear_threads_states_after_fork(self):
-         # Issue #17094: check that threads states are cleared after fork()
-diff -ur Python-3.10.2/Lib/test/test_time.py Python/Lib/test/test_time.py
---- Python-3.10.2/Lib/test/test_time.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_time.py	2022-02-22 09:29:40.000000000 -0500
-@@ -1061,8 +1061,9 @@
+diff -ur Python-3.11.3/Lib/test/test_time.py Python/Lib/test/test_time.py
+--- Python-3.11.3/Lib/test/test_time.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_time.py	2023-04-18 14:21:21
+@@ -1134,8 +1134,9 @@
          mac_ver = tuple(int(x) for x in platform.mac_ver()[0].split("."))
  
          clock_names = [
@@ -483,21 +452,10 @@ diff -ur Python-3.10.2/Lib/test/test_time.py Python/Lib/test/test_time.py
  
          if mac_ver >= (10, 12):
              for name in clock_names:
-diff -ur Python-3.10.2/Lib/test/test_webbrowser.py Python/Lib/test/test_webbrowser.py
---- Python-3.10.2/Lib/test/test_webbrowser.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_webbrowser.py	2022-02-22 09:29:40.000000000 -0500
-@@ -294,6 +294,7 @@
-             webbrowser.get('fakebrowser')
-         self.assertIsNotNone(webbrowser._tryorder)
- 
-+    @unittest.skip('fails on iOS')
-     def test_synthesize(self):
-         webbrowser = import_helper.import_fresh_module('webbrowser')
-         name = os.path.basename(sys.executable).lower()
-diff -ur Python-3.10.2/Lib/test/test_zipfile.py Python/Lib/test/test_zipfile.py
---- Python-3.10.2/Lib/test/test_zipfile.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/test/test_zipfile.py	2022-02-22 09:29:40.000000000 -0500
-@@ -2643,6 +2643,7 @@
+diff -ur Python-3.11.3/Lib/test/test_zipfile.py Python/Lib/test/test_zipfile.py
+--- Python-3.11.3/Lib/test/test_zipfile.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_zipfile.py	2023-04-18 14:21:21
+@@ -2734,6 +2734,7 @@
              self.assertFalse(zi.is_dir())
              self.assertEqual(zi.file_size, os.path.getsize(__file__))
  

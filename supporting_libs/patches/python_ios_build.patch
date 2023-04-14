@@ -1,20 +1,8 @@
-diff -ur Python-3.10.2/Modules/posixmodule.c Python/Modules/posixmodule.c
---- Python-3.10.2/Modules/posixmodule.c	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Modules/posixmodule.c	2022-02-18 11:42:46.000000000 -0500
-@@ -333,7 +333,7 @@
- #    define HAVE_KILL       1
- #    define HAVE_OPENDIR    1
- #    define HAVE_PIPE       1
--#    define HAVE_SYSTEM     1
-+/* #    define HAVE_SYSTEM     1 */ /* system is prohibited on iOS */
- #    define HAVE_WAIT       1
- #    define HAVE_TTYNAME    1
- #  endif  /* _MSC_VER */
-diff -ur Python-3.10.2/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.10.2/pyconfig.h.in	2022-01-13 13:52:14.000000000 -0500
-+++ Python/pyconfig.h.in	2022-02-18 11:42:46.000000000 -0500
-@@ -143,7 +143,7 @@
- #undef HAVE_CLOCK_GETTIME
+diff -ur Python-3.11.3/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.11.3/pyconfig.h.in	2023-04-04 18:22:17
++++ Python/pyconfig.h.in	2023-04-18 10:05:50
+@@ -152,7 +152,7 @@
+ #undef HAVE_CLOCK_NANOSLEEP
  
  /* Define to 1 if you have the `clock_settime' function. */
 -#undef HAVE_CLOCK_SETTIME
@@ -22,3 +10,21 @@ diff -ur Python-3.10.2/pyconfig.h.in Python/pyconfig.h.in
  
  /* Define to 1 if you have the `close_range' function. */
  #undef HAVE_CLOSE_RANGE
+@@ -454,7 +454,7 @@
+ #undef HAVE_GETEGID
+ 
+ /* Define to 1 if you have the `getentropy' function. */
+-#undef HAVE_GETENTROPY
++/* #undef HAVE_GETENTROPY */ /* getentropy is a private API on iOS */
+ 
+ /* Define to 1 if you have the `geteuid' function. */
+ #undef HAVE_GETEUID
+@@ -1243,7 +1243,7 @@
+ #undef HAVE_SYSLOG_H
+ 
+ /* Define to 1 if you have the `system' function. */
+-#undef HAVE_SYSTEM
++/* #undef HAVE_SYSTEM */ /* system is prohibited on iOS */
+ 
+ /* Define to 1 if you have the <sys/audioio.h> header file. */
+ #undef HAVE_SYS_AUDIOIO_H

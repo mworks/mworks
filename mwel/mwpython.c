@@ -9,6 +9,6 @@
 #include <MWorksPython/MWorksPython.h>
 
 
-int main(int argc, const char * argv[]) {
+int main(int argc, char * argv[]) {
     return MWorksPythonMain(argc, argv);
 }

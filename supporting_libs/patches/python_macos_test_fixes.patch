@@ -1,7 +1,7 @@
-diff -ur Python-3.10.2/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils/tests/test_build_ext.py
---- Python-3.10.2/Lib/distutils/tests/test_build_ext.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/distutils/tests/test_build_ext.py	2022-02-18 11:38:14.000000000 -0500
-@@ -444,6 +444,8 @@
+diff -ur Python-3.11.3/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils/tests/test_build_ext.py
+--- Python-3.11.3/Lib/distutils/tests/test_build_ext.py	2023-04-04 18:22:17
++++ Python/Lib/distutils/tests/test_build_ext.py	2023-04-15 10:12:10
+@@ -446,6 +446,8 @@
          #  the interpreter.
          self._try_compile_deployment_target('==', None)
  
@@ -10,7 +10,7 @@ diff -ur Python-3.10.2/Lib/distutils/tests/test_build_ext.py Python/Lib/distutil
      @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
      def test_deployment_target_too_low(self):
          # Issue 9516: Test that an extension module is not allowed to be
-@@ -451,6 +453,8 @@
+@@ -453,6 +455,8 @@
          self.assertRaises(DistutilsPlatformError,
              self._try_compile_deployment_target, '>', '10.1')
  
@@ -19,3 +19,14 @@ diff -ur Python-3.10.2/Lib/distutils/tests/test_build_ext.py Python/Lib/distutil
      @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
      def test_deployment_target_higher_ok(self):
          # Issue 9516: Test that an extension module can be compiled with a
+diff -ur Python-3.11.3/Lib/test/test_cppext.py Python/Lib/test/test_cppext.py
+--- Python-3.11.3/Lib/test/test_cppext.py	2023-04-04 18:22:17
++++ Python/Lib/test/test_cppext.py	2023-04-15 10:18:16
+@@ -15,6 +15,7 @@
+ SETUP_TESTCPPEXT = support.findfile('setup_testcppext.py')
+ 
+ 
++@unittest.skip('Not relevant')
+ @support.requires_subprocess()
+ class TestCPPExt(unittest.TestCase):
+     def test_build_cpp11(self):

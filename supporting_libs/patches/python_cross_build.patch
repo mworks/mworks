@@ -1,6 +1,6 @@
-diff -ur Python-3.10.2/Lib/_osx_support.py Python/Lib/_osx_support.py
---- Python-3.10.2/Lib/_osx_support.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Lib/_osx_support.py	2022-02-19 07:31:25.000000000 -0500
+diff -ur Python-3.11.3/Lib/_osx_support.py Python/Lib/_osx_support.py
+--- Python-3.11.3/Lib/_osx_support.py	2023-04-04 18:22:17
++++ Python/Lib/_osx_support.py	2023-04-14 10:44:10
 @@ -385,11 +385,11 @@
              except ValueError:
                  break
@@ -18,10 +18,10 @@ diff -ur Python-3.10.2/Lib/_osx_support.py Python/Lib/_osx_support.py
  
      if 'ARCHFLAGS' in os.environ and not stripArch:
          # User specified different -arch flags in the environ,
-diff -ur Python-3.10.2/Makefile.pre.in Python/Makefile.pre.in
---- Python-3.10.2/Makefile.pre.in	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Makefile.pre.in	2022-02-19 07:33:15.000000000 -0500
-@@ -1602,30 +1602,30 @@
+diff -ur Python-3.11.3/Makefile.pre.in Python/Makefile.pre.in
+--- Python-3.11.3/Makefile.pre.in	2023-04-04 18:22:17
++++ Python/Makefile.pre.in	2023-04-14 10:44:50
+@@ -2086,30 +2086,30 @@
  	fi
  	-PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
  		$(PYTHON_FOR_BUILD) -Wi $(DESTDIR)$(LIBDEST)/compileall.py \
@@ -58,54 +58,31 @@ diff -ur Python-3.10.2/Makefile.pre.in Python/Makefile.pre.in
  		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
  	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
  		$(PYTHON_FOR_BUILD) -m lib2to3.pgen2.driver $(DESTDIR)$(LIBDEST)/lib2to3/Grammar.txt
-diff -ur Python-3.10.2/Modules/Setup Python/Modules/Setup
---- Python-3.10.2/Modules/Setup	2022-01-13 13:52:14.000000000 -0500
-+++ Python/Modules/Setup	2022-02-19 07:31:25.000000000 -0500
-@@ -170,7 +170,7 @@
- #cmath cmathmodule.c _math.c -DPy_BUILD_CORE_MODULE # -lm # complex math library functions
- #math mathmodule.c _math.c -DPy_BUILD_CORE_MODULE # -lm # math library functions, e.g. sin()
- #_contextvars _contextvarsmodule.c  # Context Variables
--#_struct -DPy_BUILD_CORE_MODULE _struct.c	# binary structure packing/unpacking
-+_struct -DPy_BUILD_CORE_MODULE _struct.c	# binary structure packing/unpacking
- #_weakref _weakref.c	# basic weak reference support
- #_testcapi _testcapimodule.c    # Python C API test module
- #_testinternalcapi _testinternalcapi.c -I$(srcdir)/Include/internal -DPy_BUILD_CORE_MODULE  # Python internal C API test module
-@@ -185,7 +185,7 @@
- #_json -I$(srcdir)/Include/internal -DPy_BUILD_CORE_BUILTIN _json.c	# _json speedups
- #_statistics _statisticsmodule.c # statistics accelerator
+diff -ur Python-3.11.3/Modules/Setup Python/Modules/Setup
+--- Python-3.11.3/Modules/Setup	2023-04-04 18:22:17
++++ Python/Modules/Setup	2023-04-14 10:42:39
+@@ -146,7 +146,7 @@
+ #_random _randommodule.c
+ #_socket socketmodule.c
+ #_statistics _statisticsmodule.c
+-#_struct _struct.c
++_struct _struct.c
+ #_typing _typingmodule.c
+ #_zoneinfo _zoneinfo.c
+ #array arraymodule.c
+@@ -177,7 +177,7 @@
+ #_codecs_kr cjkcodecs/_codecs_kr.c
+ #_codecs_tw cjkcodecs/_codecs_tw.c
+ #_multibytecodec cjkcodecs/multibytecodec.c
+-#unicodedata unicodedata.c
++unicodedata unicodedata.c
  
--#unicodedata unicodedata.c -DPy_BUILD_CORE_BUILTIN   # static Unicode character database
-+unicodedata unicodedata.c -DPy_BUILD_CORE_BUILTIN   # static Unicode character database
+ # Modules with some UNIX dependencies
  
- 
- # Modules with some UNIX dependencies -- on by default:
-diff -ur Python-3.10.2/configure Python/configure
---- Python-3.10.2/configure	2022-01-13 13:52:14.000000000 -0500
-+++ Python/configure	2022-02-19 07:31:25.000000000 -0500
-@@ -3006,7 +3006,9 @@
- if test "$cross_compiling" = yes; then
-     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for python interpreter for cross build" >&5
- $as_echo_n "checking for python interpreter for cross build... " >&6; }
--    if test -z "$PYTHON_FOR_BUILD"; then
-+    if test -n "$PYTHON_FOR_BUILD"; then
-+        interp="$PYTHON_FOR_BUILD"
-+    else
-         for interp in python$PACKAGE_VERSION python3 python; do
- 	    which $interp >/dev/null 2>&1 || continue
- 	    if $interp -c "import sys;sys.exit(not '.'.join(str(n) for n in sys.version_info[:2]) == '$PACKAGE_VERSION')"; then
-@@ -3017,10 +3019,10 @@
-         if test x$interp = x; then
- 	    as_fn_error $? "python$PACKAGE_VERSION interpreter not found" "$LINENO" 5
- 	fi
-+    fi
-         { $as_echo "$as_me:${as_lineno-$LINENO}: result: $interp" >&5
- $as_echo "$interp" >&6; }
- 	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_$(ABIFLAGS)_$(MACHDEP)_$(MULTIARCH) '$interp
--    fi
- elif test "$cross_compiling" = maybe; then
-     as_fn_error $? "Cross compiling required --host=HOST-TUPLE and --build=ARCH" "$LINENO" 5
- else
-@@ -3077,7 +3079,7 @@
+diff -ur Python-3.11.3/configure Python/configure
+--- Python-3.11.3/configure	2023-04-04 18:22:17
++++ Python/configure	2023-04-14 10:37:54
+@@ -3408,7 +3408,7 @@
  
  
  
@@ -114,27 +91,27 @@ diff -ur Python-3.10.2/configure Python/configure
  
  # Arguments passed to configure.
  
-@@ -3344,6 +3346,9 @@
- 	*-*-cygwin*)
- 		ac_sys_system=Cygwin
- 		;;
-+	*-*-darwin*)
-+		ac_sys_system=Darwin
-+		;;
- 	*-*-vxworks*)
- 	    ac_sys_system=VxWorks
+@@ -3832,6 +3832,9 @@
+ 	*-*-wasi)
+ 	    ac_sys_system=WASI
  	    ;;
-@@ -3394,6 +3399,9 @@
- 	*-*-cygwin*)
- 		_host_cpu=
++	*-*-darwin)
++	    ac_sys_system=Darwin
++	    ;;
+ 	*)
+ 		# for now, limit cross builds to known configurations
+ 		MACHDEP="unknown"
+@@ -3885,6 +3888,9 @@
+ 	wasm32-*-* | wasm64-*-*)
+ 		_host_cpu=$host_cpu
  		;;
 +	*-*-darwin*)
 +		_host_cpu=$host_cpu
 +		;;
- 	*-*-vxworks*)
- 		_host_cpu=$host_cpu
- 		;;
-@@ -6248,13 +6256,13 @@
+ 	*)
+ 		# for now, limit cross builds to known configurations
+ 		MACHDEP="unknown"
+@@ -7209,13 +7215,13 @@
    fi
  fi
  
@@ -155,7 +132,7 @@ diff -ur Python-3.10.2/configure Python/configure
  
  
  
-@@ -9492,7 +9500,7 @@
+@@ -10607,7 +10613,7 @@
              LIBTOOL_CRUFT=""
      fi
      if test "$cross_compiling" = yes; then :
@@ -164,10 +141,10 @@ diff -ur Python-3.10.2/configure Python/configure
  else
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
  /* end confdefs.h.  */
-diff -ur Python-3.10.2/setup.py Python/setup.py
---- Python-3.10.2/setup.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/setup.py	2022-02-19 07:31:25.000000000 -0500
-@@ -71,6 +71,8 @@
+diff -ur Python-3.11.3/setup.py Python/setup.py
+--- Python-3.11.3/setup.py	2023-04-04 18:22:17
++++ Python/setup.py	2023-04-14 10:37:54
+@@ -69,6 +69,8 @@
  def get_platform():
      # Cross compiling
      if "_PYTHON_HOST_PLATFORM" in os.environ:
@@ -176,7 +153,7 @@ diff -ur Python-3.10.2/setup.py Python/setup.py
          return os.environ["_PYTHON_HOST_PLATFORM"]
  
      # Get value of sys.platform
-@@ -163,7 +165,10 @@
+@@ -166,7 +168,10 @@
      for var_name in make_vars:
          var = sysconfig.get_config_var(var_name)
          if var is not None:

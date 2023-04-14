@@ -85,7 +85,7 @@ static PyObject * init__mworkspython(void) {
 }
 
 
-bool MWorksPythonInit(bool initSignals) {
+static bool MWorksPythonInitFull(int argc, char **argv, bool initSignals) {
     PyPreConfig preConfig;
     PyStatus status;
     PyConfig config;
@@ -136,6 +136,14 @@ bool MWorksPythonInit(bool initSignals) {
     
     config.site_import = 0;  // Don't import the "site" module
     config.install_signal_handlers = initSignals;
+    
+    if (argv) {
+        status = PyConfig_SetBytesArgv(&config, argc, argv);
+        if (PyStatus_Exception(status)) {
+            goto error;
+        }
+    }
+    
     status = Py_InitializeFromConfig(&config);  // Creates and acquires the GIL
     if (PyStatus_Exception(status)) {
         goto error;
@@ -159,7 +167,12 @@ exit:
 }
 
 
-int MWorksPythonMain(int argc, const char **argv) {
+bool MWorksPythonInit(bool initSignals) {
+    return MWorksPythonInitFull(0, NULL, initSignals);
+}
+
+
+int MWorksPythonMain(int argc, char **argv) {
     if (argc < 2) {
         fprintf(stderr, "Usage: %s file [args...]\n", argv[0]);
         return 2;
@@ -171,33 +184,18 @@ int MWorksPythonMain(int argc, const char **argv) {
         return 1;
     }
     
-    int pyArgc = 0;
-    wchar_t *pyArgv[argc - 1];
     int result = 1;
     
-    for (int i = 1; i < argc; i++) {
-        if (!(pyArgv[i - 1] = Py_DecodeLocale(argv[i], NULL))) {
-            fprintf(stderr, "Argument decoding failed\n");
-            goto error;
-        }
-        pyArgc++;
-    }
-    
-    if (!MWorksPythonInit(true)) {
+    if (!MWorksPythonInitFull(argc - 1, argv + 1, true)) {
         fprintf(stderr, "Python initialization failed\n");
         goto error;
     }
-    
-    PySys_SetArgvEx(pyArgc, pyArgv, 1);  // Must call this after MWorksPythonInit
     
     result = PyRun_SimpleFile(fp, argv[1]);
     
     (void)Py_FinalizeEx();
     
 error:
-    for (int i = 0; i < pyArgc; i++) {
-        PyMem_RawFree(pyArgv[i]);
-    }
     (void)fclose(fp);
     
     return (result != 0);

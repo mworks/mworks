@@ -20,7 +20,7 @@ extern "C" {
 
 
 bool MWorksPythonInit(bool initSignals);
-int MWorksPythonMain(int argc, const char **argv);
+int MWorksPythonMain(int argc, char **argv);
 
 
 #ifdef __cplusplus

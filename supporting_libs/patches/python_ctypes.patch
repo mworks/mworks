@@ -1,9 +1,9 @@
-diff -ur Python-3.10.2/setup.py Python/setup.py
---- Python-3.10.2/setup.py	2022-01-13 13:52:14.000000000 -0500
-+++ Python/setup.py	2022-02-18 11:33:12.000000000 -0500
-@@ -2267,8 +2267,12 @@
-                                sources=['_ctypes/_ctypes_test.c'],
-                                libraries=['m']))
+diff -ur Python-3.11.3/setup.py Python/setup.py
+--- Python-3.11.3/setup.py	2023-04-04 18:22:17
++++ Python/setup.py	2023-04-14 09:44:21
+@@ -1420,8 +1420,12 @@
+         # function my_sqrt() needs libm for sqrt()
+         self.addext(Extension('_ctypes_test', ['_ctypes/_ctypes_test.c']))
  
 -        ffi_inc = sysconfig.get_config_var("LIBFFI_INCLUDEDIR")
 -        ffi_lib = None
