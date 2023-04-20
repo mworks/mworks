@@ -355,9 +355,7 @@ std::size_t Datum::getHash() const {
             break;
             
         case M_DICTIONARY:
-            // Because dictValue is inherently unordered, there's no way to compute a consistent
-            // hash value for it.  Hence, all dictionaries will have the same hash value -- and
-            // therefore they really shouldn't be used as dictionary keys!
+            boost::hash_unordered_range(seed, dictValue.begin(), dictValue.end());
             break;
             
         default:

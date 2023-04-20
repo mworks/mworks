@@ -449,18 +449,14 @@ void GenericDataTestFixture::testDictionaryKey() {
 
 
 void GenericDataTestFixture::testDictionaryWithDictionaryKeys() {
-    //
-    // NOTE: Although dictionaries really should *not* be used as dictionary keys, we nonetheless want
-    // to ensure that doing so works as expected (even if very inefficiently)
-    //
-    
     const Datum key1 { Datum::dict_value_type { { Datum("a"), Datum(1) } } };
     const Datum key2 { Datum::dict_value_type { { Datum("b"), Datum(2) } } };
     const Datum key3 { Datum::dict_value_type { { Datum("c"), Datum(3) } } };
     
-    // All dicts should have the same hash value
-    CPPUNIT_ASSERT_EQUAL( key1.getHash(), key2.getHash() );
-    CPPUNIT_ASSERT_EQUAL( key2.getHash(), key3.getHash() );
+    // Distinct dicts should have distinct hash values, just like all other types
+    CPPUNIT_ASSERT( key1.getHash() != key2.getHash() );
+    CPPUNIT_ASSERT( key2.getHash() != key3.getHash() );
+    CPPUNIT_ASSERT( key3.getHash() != key1.getHash() );
     
     const Datum d { Datum::dict_value_type { { key1, Datum(1.5) }, { key2, Datum(2.5) }, { key3, Datum(3.5) } } };
     
