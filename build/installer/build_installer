@@ -223,6 +223,22 @@ def main():
         '/usr/bin/hdiutil',
         'create',
         '-srcfolder', dmg_contents_dir,
+        #
+        # Create a read-only, uncompressed image.  Since the .pkg file is
+        # already compressed, there isn't much to gain by compressing the .dmg
+        # file, too.
+        #
+        # Also, using UDRO instead of the default UDZO (zlib-compressed) format
+        # seems to eliminate a weird error we started getting:
+        #
+        #   hdiutil: create failed - No space left on device
+        #
+        # It's not clear what the cause of this is or why switching to an
+        # uncompressed format eliminates it.  Maybe the compressed image
+        # sometimes ends up being slightly larger than the original data, and
+        # hdiutil can't handle that case?
+        #
+        '-format', 'UDRO',
         output_file,
         ])
     if signing_name:
