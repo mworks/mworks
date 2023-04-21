@@ -2,6 +2,7 @@
 <marionette_info>
   <expected_messages>
     <message type="contains"><![CDATA[z = x / y
+        ~~^~~
 ZeroDivisionError: division by zero]]></message>
     <message type="contains">Python file execution failed</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>

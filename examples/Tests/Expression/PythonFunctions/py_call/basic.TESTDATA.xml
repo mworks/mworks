@@ -5,6 +5,7 @@
 NameError: name 'one' is not defined]]></message>
     <message type="contains"><![CDATA[line 11, in add_x
     return y + x
+           ~~^~~
 TypeError: unsupported operand type(s) for +: 'int' and 'str']]></message>
     <message type="contains"><![CDATA[TypeError: Cannot convert object of type builtin_function_or_method]]></message>
   </expected_messages>

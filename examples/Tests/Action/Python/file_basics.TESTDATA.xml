@@ -3,6 +3,7 @@
   <expected_messages>
     <message type="contains"><![CDATA[file_basics_failure.py", line 2, in <module>
     setvar('x', 1/0)
+                ~^~
 ZeroDivisionError: division by zero]]></message>
   </expected_messages>
 </marionette_info>
