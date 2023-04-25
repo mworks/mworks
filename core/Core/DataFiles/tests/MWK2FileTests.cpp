@@ -960,4 +960,51 @@ void MWK2FileTests::testInvalidCompressedData() {
 }
 
 
+void MWK2FileTests::testReaderLock() {
+    NamedTempFile tempFile;
+    {
+        MWK2Writer writer(tempFile.getFilename());
+        writer.writeEvent(1, 2, 3);
+        writer.writeEvent(4, 5, 6);
+    }
+    
+    {
+        MWK2Reader reader1(tempFile.getFilename());
+        CPPUNIT_ASSERT_EQUAL( std::size_t(2), reader1.getNumEvents() );
+        
+        {
+            // Multiple concurrent readers is OK
+            MWK2Reader reader2(tempFile.getFilename());
+            CPPUNIT_ASSERT_EQUAL( std::size_t(2), reader2.getNumEvents() );
+            
+            // Attempting to write while there are readers causes the write to
+            // be delayed until all readers are closed
+            {
+                sqlite3 *conn = nullptr;
+                CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_open_v2(tempFile.getFilename(),
+                                                                 &conn,
+                                                                 SQLITE_OPEN_READWRITE,
+                                                                 nullptr) );
+                CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_exec(conn,
+                                                              "INSERT INTO events VALUES (7, 8, 9)",
+                                                              nullptr,
+                                                              nullptr,
+                                                              nullptr) );
+                CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_close(conn) );
+            }
+            
+            // Event count unchanged
+            CPPUNIT_ASSERT_EQUAL( std::size_t(2), reader2.getNumEvents() );
+        }
+        
+        // Event count unchanged
+        CPPUNIT_ASSERT_EQUAL( std::size_t(2), reader1.getNumEvents() );
+    }
+    
+    MWK2Reader reader(tempFile.getFilename());
+    // Event count changed
+    CPPUNIT_ASSERT_EQUAL( std::size_t(3), reader.getNumEvents() );
+}
+
+
 END_NAMESPACE_MW

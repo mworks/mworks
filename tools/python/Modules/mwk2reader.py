@@ -31,6 +31,7 @@ class MWK2Reader:
 
     def __init__(self, filename):
         self._conn = sqlite3.connect(filename)
+        self._conn.execute('PRAGMA locking_mode = EXCLUSIVE')
 
         self.codec = {}
         self.reverse_codec = {}

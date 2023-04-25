@@ -33,6 +33,7 @@ protected:
     MWK2File();
     ~MWK2File();
     
+    int executeStatements(const std::string &sql);
     int prepareStatement(const std::string &sql, StatementPtr &stmtPtr);
     std::tuple<int, std::size_t> unpack(const char *data,
                                         std::size_t size,

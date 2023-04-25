@@ -29,6 +29,12 @@ inline void logSQLError(int error, const std::string &description) {
 }
 
 
+const std::string lockingModeSQL
+(R"(
+ PRAGMA locking_mode = EXCLUSIVE
+ )");
+
+
 //
 // cstawarz (2020/01/06):
 //
@@ -56,7 +62,6 @@ inline void logSQLError(int error, const std::string &description) {
 //
 const std::string createTableSQL
 (R"(
- PRAGMA locking_mode = EXCLUSIVE;
  PRAGMA page_size = %1%;
  PRAGMA synchronous = OFF;
  CREATE TABLE events (
@@ -113,6 +118,15 @@ MWK2File::~MWK2File() {
     if (SQLITE_OK != result) {
         logSQLError(result, "Cannot close data file");
     }
+}
+
+
+int MWK2File::executeStatements(const std::string &sql) {
+    return sqlite3_exec(conn,
+                        sql.c_str(),
+                        nullptr,
+                        nullptr,
+                        nullptr);
 }
 
 
@@ -216,11 +230,8 @@ MWK2Writer::MWK2Writer(const std::string &filename, std::size_t pageSize) :
                                                        _concatEventData,
                                                        nullptr,
                                                        nullptr)) ||
-        SQLITE_OK != (result = sqlite3_exec(conn,
-                                            (boost::format(createTableSQL) % pageSize).str().c_str(),
-                                            nullptr,
-                                            nullptr,
-                                            nullptr)) ||
+        SQLITE_OK != (result = executeStatements(lockingModeSQL)) ||
+        SQLITE_OK != (result = executeStatements((boost::format(createTableSQL) % pageSize).str())) ||
         SQLITE_OK != (result = prepareStatement(insertSQL, insertStatement)) ||
         SQLITE_OK != (result = prepareStatement("BEGIN TRANSACTION", beginTransactionStatement)) ||
         SQLITE_OK != (result = prepareStatement("ROLLBACK TRANSACTION", rollbackTransactionStatement)) ||
@@ -484,6 +495,7 @@ MWK2Reader::MWK2Reader(const std::string &filename) :
                                                        _eventDataCount,
                                                        nullptr,
                                                        nullptr)) ||
+        SQLITE_OK != (result = executeStatements(lockingModeSQL)) ||
         SQLITE_OK != (result = prepareStatement("SELECT sum(event_data_count(data)) FROM events", selectEventCountStatement)) ||
         SQLITE_OK != (result = prepareStatement("SELECT min(time) FROM events", selectMinTimeStatement)) ||
         SQLITE_OK != (result = prepareStatement("SELECT max(time) FROM events", selectMaxTimeStatement)) ||
