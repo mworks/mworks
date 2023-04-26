@@ -1,0 +1,31 @@
+//
+// This test isn't interesting on its own.  However, if the following issue
+// is not fixed, then this test will break subsequent sound tests:
+// https://github.com/mworks/mworks-issues/issues/444
+//
+
+
+var ended = false
+
+audio_file sound (
+    path = 'reward.wav'
+    ended = ended
+    )
+
+
+var play = false {
+    if (play) {
+        play_sound (sound)
+    }
+}
+
+
+protocol {
+    ended = false
+    play = true
+    wait_for_condition (
+        condition = ended
+        timeout = 5s
+        )
+    play = false
+}
