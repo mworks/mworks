@@ -53,17 +53,17 @@ public:
 
 };
 
-class ActionVariableNotification : public VariableNotification{
-	
-protected:
-	
-	shared_ptr<Action> action;
-	
+
+class ActionVariableNotification : public VariableNotification {
+    
 public:
-	
-	ActionVariableNotification(shared_ptr<Action> _action);
-	virtual void notify(const Datum&, MWTime time);
-	
+    explicit ActionVariableNotification(const boost::shared_ptr<Action> &action);
+    
+    void notify(const Datum &data, MWTime time) override;
+    
+private:
+    const boost::weak_ptr<Action> weakAction;
+    
 };
 
 
