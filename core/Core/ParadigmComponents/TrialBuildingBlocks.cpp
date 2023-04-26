@@ -64,12 +64,17 @@ void Action::setName(const std::string &_name) {
 }
 
 
-ActionVariableNotification::ActionVariableNotification(shared_ptr<Action> _action){
-	action = _action;
-}
+ActionVariableNotification::ActionVariableNotification(const boost::shared_ptr<Action> &action) :
+    weakAction(action)
+{ }
 
-void ActionVariableNotification::notify(const Datum& data, MWTime time){
-	action->execute();
+
+void ActionVariableNotification::notify(const Datum &data, MWTime time) {
+    if (auto action = weakAction.lock()) {
+        action->execute();
+    } else {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Attached action is no longer available");
+    }
 }
 
 
