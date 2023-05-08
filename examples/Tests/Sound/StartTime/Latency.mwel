@@ -1,0 +1,35 @@
+%define duration = 500ms
+var ended = false
+
+tone tone (
+    frequency = 440.0  // A440
+    duration = duration
+    amplitude = 0.4
+    ended = ended
+    )
+
+
+%define play_tone (start_delay)
+    ended = false
+    play_sound (
+        sound = tone
+        start_time = now() + start_delay
+        )
+    wait_for_condition (
+        condition = ended
+        timeout = 2 * duration
+        )
+%end
+
+protocol (nsamples = 5) {
+    //
+    // MWorks configures the audio hardware to acquire samples in frames of
+    // duration 1ms or less.  Because the hardware acquires samples a few
+    // frames in advance of their output time, requesting that the tone start
+    // 1ms from now should always produce a "Sound tone is starting X ms later
+    // than requested" warning, whereas starting 5ms from now should produce no
+    // warning.
+    //
+    play_tone (1ms)
+    play_tone (5ms)
+}

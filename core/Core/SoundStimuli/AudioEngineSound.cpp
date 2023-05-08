@@ -8,6 +8,11 @@
 #include "AudioEngineSound.hpp"
 
 #include <AVFAudio/AVAudioPlayerNode.h>
+#if !TARGET_OS_OSX
+#  include <AVFAudio/AVAudioSession.h>
+#else
+#  include <AudioToolbox/AudioToolbox.h>
+#endif
 
 
 BEGIN_NAMESPACE_MW
@@ -338,6 +343,11 @@ AudioEngineSound::EngineManager::EngineManager() :
         [engine attachNode:dummyNode];
         [engine connect:dummyNode to:engine.mainMixerNode format:nil];
         
+        if (!setIOBufferDuration()) {
+            mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                     "Cannot set audio I/O buffer duration; sounds may start later than requested");
+        }
+        
         auto callback = [this](const Datum &data, MWorksTime time) { stateSystemModeCallback(data, time); };
         stateSystemModeNotification = boost::make_shared<VariableCallbackNotification>(callback);
         if (auto stateSystemMode = state_system_mode) {
@@ -361,6 +371,92 @@ AudioEngineSound::EngineManager::~EngineManager() {
         
         engine = nil;
     }
+}
+
+
+bool AudioEngineSound::EngineManager::setIOBufferDuration() {
+    constexpr auto targetBufferDuration = 0.001;  // 1ms
+    
+#if !TARGET_OS_OSX
+    
+    auto audioSession = [AVAudioSession sharedInstance];
+    
+    // We want the number of samples per buffer to be the smallest power of 2
+    // that produces a buffer duration less than or equal to the target duration
+    const auto samplesPerBuffer = std::pow(2.0, std::floor(std::log2(targetBufferDuration * audioSession.sampleRate)));
+    const auto bufferDuration = samplesPerBuffer / audioSession.sampleRate;
+    
+    if (![audioSession setPreferredIOBufferDuration:bufferDuration error:nil]) {
+        return false;
+    }
+    
+#else
+    
+    //
+    // The technique used here for adjusting the I/O buffer size is described at
+    // https://developer.apple.com/library/archive/technotes/tn2321/_index.html
+    //
+    // The fact that engine.outputNode.audioUnit is the AUHAL Audio Unit doesn't
+    // seem to be documented, but it's easy to confirm, as we do below.
+    //
+    
+    auto audioUnit = engine.outputNode.audioUnit;
+    if (!audioUnit) {
+        return false;
+    }
+    
+    auto audioComponent = AudioComponentInstanceGetComponent(audioUnit);
+    AudioComponentDescription audioComponentDescription;
+    if (!audioComponent ||
+        noErr != AudioComponentGetDescription(audioComponent, &audioComponentDescription) ||
+        kAudioUnitType_Output != audioComponentDescription.componentType ||
+        kAudioUnitSubType_HALOutput != audioComponentDescription.componentSubType)
+    {
+        return false;
+    }
+    
+    Float64 nominalSampleRate;
+    UInt32 nominalSampleRateSize = sizeof(nominalSampleRate);
+    if (noErr != AudioUnitGetProperty(audioUnit,
+                                      kAudioDevicePropertyNominalSampleRate,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &nominalSampleRate,
+                                      &nominalSampleRateSize))
+    {
+        return false;
+    }
+    
+    AudioValueRange bufferFrameSizeRange;
+    UInt32 bufferFrameSizeRangeSize = sizeof(bufferFrameSizeRange);
+    if (noErr != AudioUnitGetProperty(audioUnit,
+                                      kAudioDevicePropertyBufferFrameSizeRange,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &bufferFrameSizeRange,
+                                      &bufferFrameSizeRangeSize))
+    {
+        return false;
+    }
+    
+    // Set the buffer frame size to the smallest power of 2 that produces a
+    // buffer duration less than or equal to the target duration, subject to
+    // the minimum buffer frame size
+    const UInt32 bufferFrameSize = std::max(bufferFrameSizeRange.mMinimum,
+                                            std::pow(2.0, std::floor(std::log2(targetBufferDuration * nominalSampleRate))));
+    if (noErr != AudioUnitSetProperty(audioUnit,
+                                      kAudioDevicePropertyBufferFrameSize,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &bufferFrameSize,
+                                      sizeof(bufferFrameSize)))
+    {
+        return false;
+    }
+    
+#endif
+    
+    return true;
 }
 
 

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">WARNING: Sound tone is starting </message>
+    <message type="starts_with">WARNING: Sound tone is starting </message>
+    <message type="starts_with">WARNING: Sound tone is starting </message>
+    <message type="starts_with">WARNING: Sound tone is starting </message>
+    <message type="starts_with">WARNING: Sound tone is starting </message>
+   </expected_messages>
+</marionette_info>

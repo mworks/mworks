@@ -426,6 +426,7 @@
 		E16A21021E5772AE00C48E10 /* ZenStateSystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4688C00EB9061000B01560 /* ZenStateSystemFactory.cpp */; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
+		E16DFFA72A05B686000E2E4D /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16DFFA62A05B686000E2E4D /* AudioToolbox.framework */; };
 		E17088DC28A43C9A00262E77 /* ToneSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17088DA28A43C9A00262E77 /* ToneSound.cpp */; };
 		E17088DD28A43C9A00262E77 /* ToneSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17088DA28A43C9A00262E77 /* ToneSound.cpp */; };
 		E17088DE28A43C9A00262E77 /* ToneSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E17088DB28A43C9A00262E77 /* ToneSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1361,6 +1362,7 @@
 		E16A21141E5789B900C48E10 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachUtilities.cpp; sourceTree = "<group>"; };
+		E16DFFA62A05B686000E2E4D /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E17088DA28A43C9A00262E77 /* ToneSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ToneSound.cpp; sourceTree = "<group>"; };
 		E17088DB28A43C9A00262E77 /* ToneSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToneSound.hpp; sourceTree = "<group>"; };
 		E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSStimulusDisplay.cpp; sourceTree = "<group>"; };
@@ -1524,6 +1526,7 @@
 			files = (
 				E1ADE3B31BDE8F8B0055642F /* Accelerate.framework in Frameworks */,
 				E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */,
+				E16DFFA72A05B686000E2E4D /* AudioToolbox.framework in Frameworks */,
 				E1884FCF28E7480C00D41388 /* AVFAudio.framework in Frameworks */,
 				E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */,
 				E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */,
@@ -2602,6 +2605,7 @@
 			children = (
 				E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */,
 				E1DB974C16C16C30001481E9 /* AppKit.framework */,
+				E16DFFA62A05B686000E2E4D /* AudioToolbox.framework */,
 				E1884FCE28E7480C00D41388 /* AVFAudio.framework */,
 				E1DB974816C16BEE001481E9 /* CoreAudio.framework */,
 				E1DB977716C17068001481E9 /* CoreServices.framework */,

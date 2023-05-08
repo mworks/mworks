@@ -161,13 +161,17 @@ bool AudioSourceNodeSound::renderCallback(BOOL &isSilence,
             
             AVAudioFrameCount framesToFill = 0;
             auto framesUntilStartTime = extrapolatedStartTime.sampleTime - firstFrameTime.sampleTime;
-            if (framesUntilStartTime < 0) {
-                mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-                         "Sound %s is starting %g ms later than requested",
-                         getTag().c_str(),
-                         double(-framesUntilStartTime) / sampleRate * 1000.0);
-            } else {
+            if (framesUntilStartTime >= 0) {
                 framesToFill = std::min(framesRequested, AVAudioFrameCount(framesUntilStartTime));
+            } else {
+                // Sound is starting late.  Issue a warning if the delay is greater than 0.5ms.
+                auto delayMS = double(-framesUntilStartTime) / sampleRate * 1000.0;
+                if (delayMS > 0.5) {
+                    mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                             "Sound %s is starting %g ms later than requested",
+                             getTag().c_str(),
+                             delayMS);
+                }
             }
             
             if (framesToFill > 0) {
