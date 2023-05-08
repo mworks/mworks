@@ -79,6 +79,7 @@ private:
             return engine;
         }
     private:
+        bool setIOBufferDuration();
         void stateSystemModeCallback(const Datum &data, MWorksTime time);
         AVAudioEngine *engine;
         AVAudioNode *dummyNode;
