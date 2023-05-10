@@ -135,7 +135,8 @@ bool AudioPCMBufferSound::renderFrames(AVAudioTime *firstFrameTime,
                 continue;
             }
         }
-    } while (false);
+        break;
+    } while (true);
     
     return true;
 }
