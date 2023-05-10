@@ -123,6 +123,28 @@ bool AudioSourceNodeSound::renderCallback(BOOL &isSilence,
                                           AVAudioFrameCount framesRequested,
                                           AudioBufferList *outputData)
 {
+    //
+    // If we're not active, fill all buffers with silence and return.  We don't
+    // need to acquire the lock, because we aren't accessing any instance data
+    // (except for "active" itself, which is a std::atomic_bool).
+    //
+    // Note: Not acquiring the lock in this case is important, because it
+    // prevents a potential deadlock with unload().  The deadlock can happen if
+    // this method starts after unload() has acquired the lock, but before it has
+    // called disconnectNodeOutput.  In that situation, this method is blocked
+    // waiting on the lock, and disconnectNodeOutput is blocked waiting for the
+    // invocation of this method to complete.
+    //
+    static_assert(std::is_same_v<decltype(active), std::atomic_bool>);
+    if (!active) {
+        for (std::size_t i = 0; i < outputData->mNumberBuffers; i++) {
+            auto &buffer = outputData->mBuffers[i];
+            std::memset(buffer.mData, 0, buffer.mDataByteSize);
+        }
+        isSilence = YES;
+        return true;
+    }
+    
     auto lock = acquireLock();
     
     //
@@ -140,66 +162,64 @@ bool AudioSourceNodeSound::renderCallback(BOOL &isSilence,
         }
     }
     
+    auto firstFrameTime = [AVAudioTime timeWithAudioTimeStamp:timestamp sampleRate:sampleRate];
+    if (!(firstFrameTime.hostTimeValid && firstFrameTime.sampleTimeValid)) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot create valid audio time from output timestamp");
+        return false;
+    }
+    
     AVAudioFrameCount framesProvided = 0;
     
-    if (active) {
-        auto firstFrameTime = [AVAudioTime timeWithAudioTimeStamp:timestamp sampleRate:sampleRate];
-        if (!(firstFrameTime.hostTimeValid && firstFrameTime.sampleTimeValid)) {
-            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot create valid audio time from output timestamp");
+    //
+    // Fill any frames preceding the start time with silence
+    //
+    if (currentStartTime) {
+        auto extrapolatedStartTime = [currentStartTime extrapolateTimeFromAnchor:firstFrameTime];
+        if (!extrapolatedStartTime) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot extrapolate start time from first frame time");
             return false;
         }
         
-        //
-        // Fill any frames preceding the start time with silence
-        //
-        if (currentStartTime) {
-            auto extrapolatedStartTime = [currentStartTime extrapolateTimeFromAnchor:firstFrameTime];
-            if (!extrapolatedStartTime) {
-                merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot extrapolate start time from first frame time");
-                return false;
-            }
-            
-            AVAudioFrameCount framesToFill = 0;
-            auto framesUntilStartTime = extrapolatedStartTime.sampleTime - firstFrameTime.sampleTime;
-            if (framesUntilStartTime >= 0) {
-                framesToFill = std::min(framesRequested, AVAudioFrameCount(framesUntilStartTime));
-            } else {
-                // Sound is starting late.  Issue a warning if the delay is greater than 0.5ms.
-                auto delayMS = double(-framesUntilStartTime) / sampleRate * 1000.0;
-                if (delayMS > 0.5) {
-                    mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-                             "Sound %s is starting %g ms later than requested",
-                             getTag().c_str(),
-                             delayMS);
-                }
-            }
-            
-            if (framesToFill > 0) {
-                for (std::size_t i = 0; i < outputData->mNumberBuffers; i++) {
-                    std::memset(outputData->mBuffers[i].mData, 0, framesToFill * frameSize);
-                }
-                framesProvided += framesToFill;
-            }
-            
-            if (framesProvided < framesRequested) {
-                // The frame corresponding to the start time lies within the current request (or was part of
-                // a previous request, which we missed because we were paused).  Set currentStartTime to nil,
-                // so that we don't bother checking it again.
-                currentStartTime = nil;
-            } else {
-                // The frame corresponding to the start time has not yet been requested.  We've filled the
-                // full request with silence, so we're done.
-                isSilence = YES;
-                return true;
+        AVAudioFrameCount framesToFill = 0;
+        auto framesUntilStartTime = extrapolatedStartTime.sampleTime - firstFrameTime.sampleTime;
+        if (framesUntilStartTime >= 0) {
+            framesToFill = std::min(framesRequested, AVAudioFrameCount(framesUntilStartTime));
+        } else {
+            // Sound is starting late.  Issue a warning if the delay is greater than 0.5ms.
+            auto delayMS = double(-framesUntilStartTime) / sampleRate * 1000.0;
+            if (delayMS > 0.5) {
+                mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                         "Sound %s is starting %g ms later than requested",
+                         getTag().c_str(),
+                         delayMS);
             }
         }
         
-        //
-        // Attempt to fill the remainder of the request with actual data
-        //
-        if (!renderFrames(firstFrameTime, framesRequested, framesProvided, frameSize, outputData)) {
-            return false;
+        if (framesToFill > 0) {
+            for (std::size_t i = 0; i < outputData->mNumberBuffers; i++) {
+                std::memset(outputData->mBuffers[i].mData, 0, framesToFill * frameSize);
+            }
+            framesProvided += framesToFill;
         }
+        
+        if (framesProvided < framesRequested) {
+            // The frame corresponding to the start time lies within the current request (or was part of
+            // a previous request, which we missed because we were paused).  Set currentStartTime to nil,
+            // so that we don't bother checking it again.
+            currentStartTime = nil;
+        } else {
+            // The frame corresponding to the start time has not yet been requested.  We've filled the
+            // full request with silence, so we're done.
+            isSilence = YES;
+            return true;
+        }
+    }
+    
+    //
+    // Attempt to fill the remainder of the request with actual data
+    //
+    if (!renderFrames(firstFrameTime, framesRequested, framesProvided, frameSize, outputData)) {
+        return false;
     }
     
     //
@@ -214,17 +234,15 @@ bool AudioSourceNodeSound::renderCallback(BOOL &isSilence,
     }
     
     //
-    // Handle the case where all frames are silence
+    // Handle the case where all frames are silence, which means that the sound has ended
     //
     if (framesProvided == 0) {
         isSilence = YES;
-        if (active) {
-            didStopPlaying();
-            if (ended && !(ended->getValue().getBool())) {
-                ended->setValue(Datum(true));
-            }
-            active = false;
+        didStopPlaying();
+        if (ended && !(ended->getValue().getBool())) {
+            ended->setValue(Datum(true));
         }
+        active = false;
     }
     
     return true;

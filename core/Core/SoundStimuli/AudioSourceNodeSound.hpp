@@ -55,7 +55,7 @@ private:
     AVAudioSourceNode *sourceNode;
     
     AVAudioTime *currentStartTime;
-    bool active;
+    std::atomic_bool active;
     
 };
 
