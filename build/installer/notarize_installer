@@ -21,40 +21,18 @@ def fail(msg, *args):
     sys.exit(1)
 
 
-def run_altool(*args):
+def run_notarytool(image):
     cmd = [
         xcrun,
-        'altool',
-        '--username', username,
-        '--password', password,
-        '--output-format', 'xml',
-        ] + list(args)
-    result = subprocess.run(cmd,
-                            stdin = subprocess.DEVNULL,
-                            capture_output = True)
+        'notarytool',
+        'submit',
+        image,
+        '--keychain-profile', keychain_profile,
+        '--wait',
+        ]
+    result = subprocess.run(cmd, stdin=subprocess.DEVNULL)
     if result.returncode != 0:
-        fail('altool exited with status %d:\n%s',
-             result.returncode,
-             result.stderr.decode('utf-8'))
-    return plistlib.loads(result.stdout)
-
-
-def upload_image(image):
-    output = run_altool(
-        '--notarize-app',
-        '--primary-bundle-id', 'org.mworks-project.' + os.path.basename(image),
-        '--file', image,
-        )
-    return output['notarization-upload']['RequestUUID']
-
-
-def check_status(uuid):
-    output = run_altool('--notarization-info', uuid)
-    info = output['notarization-info']
-    logfileurl = info.get('LogFileURL')
-    if logfileurl:
-        announce('Notarization log file is available at %r', logfileurl)
-    return info['Status']
+        fail('notarytool exited with status %d', result.returncode)
 
 
 def run_stapler(image):
@@ -64,40 +42,22 @@ def run_stapler(image):
 
 
 def main():
-    global username, password
+    global keychain_profile
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--username',
+    parser.add_argument('--keychain-profile',
                         required = True,
-                        help = 'App Store Connect username')
-    parser.add_argument('--password',
-                        required = True,
-                        help = 'app-specific password')
+                        help = ('name of keychain item containing '
+                                'authentication credentials'))
     parser.add_argument('image', help='installer disk image to notarize')
 
     args = parser.parse_args()
-    username = args.username
-    password = args.password
+    keychain_profile = args.keychain_profile
     image = args.image
 
-    announce('Uploading %r for notarization...', image)
-    uuid = upload_image(image)
-    announce('Upload succeeded')
-
-    while True:
-        announce('Sleeping until next status check...')
-        time.sleep(300)  # 5 minutes
-
-        announce('Checking notarization status...')
-        status = check_status(uuid)
-
-        if status == 'in progress':
-            announce('Notarization is in progress')
-        elif status == 'success':
-            announce('Notarization succeeded')
-            break
-        else:
-            fail('Notarization failed with status %r', status)
+    announce('Notarizing %r...', image)
+    run_notarytool(image)
+    announce('Notarization succeeded')
 
     announce('Attaching notarization ticket to %r...', image)
     run_stapler(image)
