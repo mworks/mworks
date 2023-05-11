@@ -20,7 +20,7 @@ BEGIN_NAMESPACE_MW
 
 #define N_SCHEDULED_EXECUTIONS	100
 #define SLACK_MARGIN	5
-#define ACCEPTABLE_ERROR_US	1000 // 100 us
+#define ACCEPTABLE_ERROR_US	1000ll
 
 void *chaff_1(const MWTime interval);
 

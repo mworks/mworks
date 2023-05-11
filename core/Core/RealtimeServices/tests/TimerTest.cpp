@@ -218,8 +218,8 @@ void TimerTestFixture::testTimerUnderAttack(){
 		//cerr << "Timer fell at expiration-relative time of: " 
 		//	 << (now - then) - delay << endl;
 		
-		CPPUNIT_ASSERT( (now - then) >= delay );
-		CPPUNIT_ASSERT( std::abs( (now - then) - delay ) < 1000 );
+        CPPUNIT_ASSERT_GREATEREQUAL( delay, (now - then) );
+        CPPUNIT_ASSERT_LESS( 1000ll, std::abs( (now - then) - delay ) );
 		
 		
 	}

@@ -42,7 +42,7 @@ void SchedulerTestFixture::testPeriod10HzNoPayload(){
 	
 	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		CPPUNIT_ASSERT(std::abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
+        CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
 	}
 	
 	
@@ -56,7 +56,7 @@ void SchedulerTestFixture::testPeriod10HzSmallPayload(){
 	reportLatencies(diff(times), interval);
 	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		CPPUNIT_ASSERT(std::abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
+        CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
 	}
 	
 	
@@ -70,7 +70,7 @@ void SchedulerTestFixture::testPeriod100HzNoPayload(){
 	reportLatencies(diff(times), interval);
 	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		CPPUNIT_ASSERT(std::abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
+        CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
 	}
 	
 }
