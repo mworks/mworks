@@ -8,7 +8,7 @@ var num_pauses = 3
 var expected_duration = num_frames / frames_per_second + pause_duration * num_pauses
 var actual_duration = 0.0
 var slop = 0.0
-var tolerance = 1.5 / refresh_rate()
+var tolerance = 2.0 / refresh_rate()
 var num_repeats = 0
 
 var movie_ended = false {

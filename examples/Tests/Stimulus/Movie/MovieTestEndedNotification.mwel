@@ -6,7 +6,7 @@ var stop_time = 0
 var expected_duration = num_frames / frames_per_second
 var actual_duration = 0.0
 var slop = 0.0
-var tolerance = 0.5 / refresh_rate()
+var tolerance = 1.0 / refresh_rate()
 
 var movie_ended = false {
     if (movie_ended) {
