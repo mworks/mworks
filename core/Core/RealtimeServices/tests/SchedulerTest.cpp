@@ -38,14 +38,14 @@ void SchedulerTestFixture::testPeriod10HzNoPayload(){
 	
 	std::vector<MWTime> times = timeTrial(interval, 400, 0);
 	
-	reportLatencies(diff(times), interval);
-	
-	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-        CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+        try {
+            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+        } catch (...) {
+            reportLatencies(diff(times), interval);
+            throw;
+        }
 	}
-	
-	
 }
 
 void SchedulerTestFixture::testPeriod10HzSmallPayload(){
@@ -53,13 +53,14 @@ void SchedulerTestFixture::testPeriod10HzSmallPayload(){
 	
 	std::vector<MWTime> times = timeTrialSmallPayload(interval, 400, 0);
 	
-	reportLatencies(diff(times), interval);
-	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-        CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+        try {
+            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+        } catch (...) {
+            reportLatencies(diff(times), interval);
+            throw;
+        }
 	}
-	
-	
 }
 
 void SchedulerTestFixture::testPeriod100HzNoPayload(){
@@ -67,32 +68,29 @@ void SchedulerTestFixture::testPeriod100HzNoPayload(){
 	
 	std::vector<MWTime> times = timeTrial(interval, 400, 0);
 	
-	reportLatencies(diff(times), interval);
-	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-        CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+        try {
+            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+        } catch (...) {
+            reportLatencies(diff(times), interval);
+            throw;
+        }
 	}
-	
 }
 
 void SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4(){
-    // TODO: This test almost always fails.  It should be fixed or removed.
-    std::cout << " (DISABLED)";
-    return;
-
-    /*
 	MWTime interval = 100000; // 10Hz
 	
 	std::vector<MWTime> times = timeTrial(interval, 400, 4);
 	
-	reportLatencies(diff(times), interval);
-	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		CPPUNIT_ASSERT(std::abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
+        try {
+            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+        } catch (...) {
+            reportLatencies(diff(times), interval);
+            throw;
+        }
 	}
-     */
-	
-	
 }
 
 
@@ -136,7 +134,7 @@ void SchedulerTestFixture::testOneOffFiringSmallPayload(){
 		//fprintf(stderr, "diff = %lld\n", times_array->at(0) - now); fflush(stderr);
 	}
 	
-	reportLatencies(times, interval);
+	//reportLatencies(times, interval);
 	
 }
 
@@ -351,8 +349,7 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
         less_than_15000us += less_than_10000us;
     }
     
-    /*
-	fprintf(stderr, "Latency Statistics...\n"
+	fprintf(stderr, "\nLatency Statistics...\n"
 			"\t< 5us:  %.4g\n"
 			"\t< 10us:  %.4g\n"
 			"\t< 50us:  %.4g\n"
@@ -375,8 +372,7 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
 			100. * (double)less_than_15000us / (double)n,
 			100. * (double)more_than_15000us / (double)n);
 	fflush(stderr);
-    */
-}	
+}
 
 
 	void *counter_no_payload(const boost::shared_ptr<std::vector<MWTime> > &times_array){
