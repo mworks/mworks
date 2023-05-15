@@ -34,60 +34,76 @@ void SchedulerTestFixture::tearDown() {
 
 
 void SchedulerTestFixture::testPeriod10HzNoPayload(){
-	MWTime interval = 100000;
+	const MWTime interval = 100000;
+    const int n_executions = 400;
 	
-	std::vector<MWTime> times = timeTrial(interval, 400, 0);
+	std::vector<MWTime> times = timeTrial(interval, n_executions, 0);
+    CPPUNIT_ASSERT_EQUAL( n_executions + 1, int(times.size()) );
+    
+    auto diffs = diff(times, interval);
 	
-	for(unsigned int i = 1 ; i < times.size(); i++){
+	for (auto diff : diffs) {
         try {
-            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, diff );
         } catch (...) {
-            reportLatencies(diff(times), interval);
+            reportLatencies(diffs);
             throw;
         }
 	}
 }
 
 void SchedulerTestFixture::testPeriod10HzSmallPayload(){
-	MWTime interval = 100000;
+	const MWTime interval = 100000;
+    const int n_executions = 400;
 	
-	std::vector<MWTime> times = timeTrialSmallPayload(interval, 400, 0);
+	std::vector<MWTime> times = timeTrialSmallPayload(interval, n_executions, 0);
+    CPPUNIT_ASSERT_EQUAL( n_executions + 1, int(times.size()) );
+    
+    auto diffs = diff(times, interval);
 	
-	for(unsigned int i = 1 ; i < times.size(); i++){
+	for (auto diff : diffs) {
         try {
-            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, diff );
         } catch (...) {
-            reportLatencies(diff(times), interval);
+            reportLatencies(diffs);
             throw;
         }
 	}
 }
 
 void SchedulerTestFixture::testPeriod100HzNoPayload(){
-	MWTime interval = 10000; // 100Hz
+	const MWTime interval = 10000; // 100Hz
+    const int n_executions = 400;
 	
-	std::vector<MWTime> times = timeTrial(interval, 400, 0);
+	std::vector<MWTime> times = timeTrial(interval, n_executions, 0);
+    CPPUNIT_ASSERT_EQUAL( n_executions + 1, int(times.size()) );
+    
+    auto diffs = diff(times, interval);
 	
-	for(unsigned int i = 1 ; i < times.size(); i++){
+	for (auto diff : diffs) {
         try {
-            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, diff );
         } catch (...) {
-            reportLatencies(diff(times), interval);
+            reportLatencies(diffs);
             throw;
         }
 	}
 }
 
 void SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4(){
-	MWTime interval = 100000; // 10Hz
+	const MWTime interval = 100000; // 10Hz
+    const int n_executions = 400;
 	
-	std::vector<MWTime> times = timeTrial(interval, 400, 4);
+	std::vector<MWTime> times = timeTrial(interval, n_executions, 4);
+    CPPUNIT_ASSERT_EQUAL( n_executions + 1, int(times.size()) );
+    
+    auto diffs = diff(times, interval);
 	
-	for(unsigned int i = 1 ; i < times.size(); i++){
+	for (auto diff : diffs) {
         try {
-            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, std::abs(times[i] - times[i-1] - interval) );
+            CPPUNIT_ASSERT_LESS( ACCEPTABLE_ERROR_US, diff );
         } catch (...) {
-            reportLatencies(diff(times), interval);
+            reportLatencies(diffs);
             throw;
         }
 	}
@@ -182,7 +198,7 @@ std::vector<MWTime> SchedulerTestFixture::timeTrial(MWTime interval,
 	
 	for(int i = 0; i < n_chaff_threads; i++){
 		shared_ptr<ScheduleTask> chaff_node = scheduler->scheduleUS(FILELINE,
-																	 0,							// no delay
+                                                                     interval,					// one interval delay
 																	 interval,					// 10Hz
 																	 M_REPEAT_INDEFINITELY,		// how many
 																	 boost::bind(chaff_1, interval),
@@ -193,12 +209,13 @@ std::vector<MWTime> SchedulerTestFixture::timeTrial(MWTime interval,
 		chaff.push_back(chaff_node);
 	}
 	
-	
+    // first element in times_array is start time
+    times_array->push_back(clock->getCurrentTimeUS());
 	
 	// schedule n executions
 	shared_ptr<ScheduleTask> node = scheduler->scheduleUS(FILELINE,
 														   
-														   0,							// no delay
+                                                           interval,					// one interval delay
 														   interval,					// 10Hz
 														   n_executions,		// how many
 														   boost::bind(counter_no_payload,
@@ -243,7 +260,7 @@ std::vector<MWTime> SchedulerTestFixture::timeTrialSmallPayload(MWTime interval,
 	
 	for(int i = 0; i < n_chaff_threads; i++){
 		shared_ptr<ScheduleTask> chaff_node = scheduler->scheduleUS(FILELINE,
-																	 0,							// no delay
+                                                                     interval,					// one interval delay
 																	 interval,					// 10Hz
 																	 M_REPEAT_INDEFINITELY,		// how many
 																	 boost::bind(chaff_1, interval),
@@ -256,10 +273,13 @@ std::vector<MWTime> SchedulerTestFixture::timeTrialSmallPayload(MWTime interval,
 	
 	
 	shared_ptr<std::vector<MWTime> > times_array = shared_ptr<std::vector<MWTime> >(new std::vector<MWTime>());
+    
+    // first element in times_array is start time
+    times_array->push_back(clock->getCurrentTimeUS());
 	
 	// schedule n executions
 	shared_ptr<ScheduleTask> node = scheduler->scheduleUS(FILELINE,
-														   0,							// no delay
+                                                           interval,					// one interval delay
 														   interval,					// 10Hz
 														   n_executions,		// how many
 														   boost::bind(counter_small_payload, times_array),
@@ -286,18 +306,18 @@ std::vector<MWTime> SchedulerTestFixture::timeTrialSmallPayload(MWTime interval,
 }
 
 
-std::vector<MWTime> SchedulerTestFixture::diff(std::vector<MWTime> times){
+std::vector<MWTime> SchedulerTestFixture::diff(const std::vector<MWTime> &times, MWTime interval) {
 	std::vector<MWTime> returnval;
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		MWTime diff = std::abs(times[i] - times[i-1]);
+        // We want to know how close the actual time is to the intended time.
+        // times[0] is the start time.
+		MWTime diff = std::abs(times[i] - (times[0] + i * interval));
 		returnval.push_back(diff);
 	}
 	return returnval;
 }
 
-void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array, 
-											MWTime expected){
-	
+void SchedulerTestFixture::reportLatencies(const std::vector<MWTime> &diffs) {
 	int less_than_5us = 0;
 	int less_than_10us = 0;
 	int less_than_50us = 0;
@@ -310,9 +330,7 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
 	int more_than_15000us = 0;
 	int n = 0;
 	
-	for(unsigned int i = 0 ; i < times_array.size(); i++){
-		MWTime diff = times_array[i] - expected;
-		
+	for (auto diff : diffs) {
 		if(diff < 5){
 			less_than_5us++;
 		} else if(diff < 10){
@@ -349,7 +367,7 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
         less_than_15000us += less_than_10000us;
     }
     
-	fprintf(stderr, "\nLatency Statistics...\n"
+	fprintf(stdout, "\nLatency Statistics...\n"
 			"\t< 5us:  %.4g\n"
 			"\t< 10us:  %.4g\n"
 			"\t< 50us:  %.4g\n"
@@ -371,7 +389,7 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
 			100. * (double)less_than_10000us / (double)n,
 			100. * (double)less_than_15000us / (double)n,
 			100. * (double)more_than_15000us / (double)n);
-	fflush(stderr);
+	fflush(stdout);
 }
 
 

@@ -65,7 +65,7 @@ class SchedulerTestFixture : public FullCoreEnvironmentTestFixture {
 	
 	
 	
-protected:
+private:
 	
 	std::vector<MWTime> timeTrial(MWTime interval, 
 										   int n_executions,
@@ -73,9 +73,8 @@ protected:
 	std::vector<MWTime> timeTrialSmallPayload(MWTime interval, 
 										   int n_executions,
 													   int n_chaff_threads);
-	std::vector<MWTime> diff(std::vector<MWTime> times);
-	void reportLatencies(std::vector<MWTime> times_array, 
-						 MWTime expected);
+	std::vector<MWTime> diff(const std::vector<MWTime> &times, MWTime interval);
+	void reportLatencies(const std::vector<MWTime> &diffs);
 
 };
 
