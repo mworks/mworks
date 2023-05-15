@@ -47,8 +47,6 @@ void Timer::startMS(MWTime howlongms) {
 
 
 void Timer::startUS(MWTime howlongus) {
-	scoped_lock lock(mutex);
-	
 	if (howlongus <= 0) {
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Scheduling a timer to fire at a time in the past");
 	}
@@ -58,7 +56,6 @@ void Timer::startUS(MWTime howlongus) {
 
 
 bool Timer::hasExpired() const {
-	scoped_lock lock(mutex);
 	return (clock->getCurrentTimeUS() >= expirationTimeUS);
 }
 
@@ -69,30 +66,3 @@ Datum Timer::getValue() {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

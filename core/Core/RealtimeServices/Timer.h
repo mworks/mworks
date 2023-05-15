@@ -40,10 +40,8 @@ class Timer : public ReadOnlyVariable {
 
 private:
     const boost::shared_ptr<Clock> clock;
-    MWTime expirationTimeUS;
-    
-    mutable boost::mutex mutex;
-    using scoped_lock = boost::mutex::scoped_lock;
+    std::atomic<MWTime> expirationTimeUS;
+    static_assert(decltype(expirationTimeUS)::is_always_lock_free);
 
 public:
 	explicit Timer(const VariableProperties &props = VariableProperties());
@@ -61,29 +59,3 @@ END_NAMESPACE_MW
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
