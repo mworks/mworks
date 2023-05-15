@@ -105,93 +105,112 @@ void TimerTestFixture::testTimerResetting(){
 }
 
 void TimerTestFixture::testTimerOverride(){
+    auto clock = Clock::instance();
+    
+    MWTime startTime = 0;
+    auto waitUntilMS = [&clock, &startTime](MWTime offsetMS) {
+        clock->sleepUS((startTime + offsetMS * 1000) - clock->getCurrentTimeUS());
+    };
+    
+    auto t = boost::make_shared<Timer>();
+    
 	for(int i = 0; i < NUM_TIMER_RESETS; i++){
 		//if(i%10 == 0) {
 		//	fprintf(stderr, "%d timer resets\n", i); fflush(stderr);
 		//}
-		shared_ptr<Timer> t(new Timer());		
-		
+        
+        startTime = clock->getCurrentTimeUS();
 		t->startMS(100);
 		
-		shared_ptr <Clock> clock = Clock::instance();
-		clock->sleepMS(10);
+        waitUntilMS(10);
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(60);
+        waitUntilMS(70);
 		
 		// 30 ms left to go
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
 		// Bump that up to 100
+        startTime = clock->getCurrentTimeUS();
 		t->startMS(100);
 		
-		clock->sleepMS(70);
+        waitUntilMS(70);
 		
 		// Should be 30 ms left.
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(40);
+        waitUntilMS(110);
 		
 		// Should be done
 		CPPUNIT_ASSERT( t->hasExpired() == true );
-		
+        
+        startTime = clock->getCurrentTimeUS();
 		t->startMS(100);
 		t->startMS(200);
 		
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(150);
+        waitUntilMS(150);
 		
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(60);
+        waitUntilMS(210);
 		
 		CPPUNIT_ASSERT( t->hasExpired() == true );
 	}
 }
 
 void TimerTestFixture::testTimerOverrideMultipleTimes(){
-	shared_ptr<Timer> t(new Timer());		
+    auto clock = Clock::instance();
+    
+    MWTime startTime = 0;
+    auto waitUntilMS = [&clock, &startTime](MWTime offsetMS) {
+        clock->sleepUS((startTime + offsetMS * 1000) - clock->getCurrentTimeUS());
+    };
+    
+    auto t = boost::make_shared<Timer>();
 
 	for(int i = 0; i < NUM_TIMER_RESETS; i++){
 		//if(i%10 == 0) {
 		//	fprintf(stderr, "%d timer resets\n", i); fflush(stderr);
 		//}
-		
+        
+        startTime = clock->getCurrentTimeUS();
 		t->startMS(100);
 		
-		shared_ptr <Clock> clock = Clock::instance();
-		clock->sleepMS(10);
+        waitUntilMS(10);
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(60);
+        waitUntilMS(70);
 		
 		// 30 ms left to go
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
 		// Bump that up to 100
+        startTime = clock->getCurrentTimeUS();
 		t->startMS(100);
 		
-		clock->sleepMS(70);
+        waitUntilMS(70);
 		
 		// Should be 30 ms left.
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(40);
+        waitUntilMS(110);
 		
 		// Should be done
 		CPPUNIT_ASSERT( t->hasExpired() == true );
-		
+        
+        startTime = clock->getCurrentTimeUS();
 		t->startMS(100);
 		t->startMS(200);
 		
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(150);
+        waitUntilMS(150);
 		
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(60);
+        waitUntilMS(210);
 		
 		CPPUNIT_ASSERT( t->hasExpired() == true );
 	}
@@ -199,19 +218,18 @@ void TimerTestFixture::testTimerOverrideMultipleTimes(){
 
 
 void TimerTestFixture::testTimerUnderAttack(){
-
-	shared_ptr<Timer> t(new Timer());
+    auto clock = Clock::instance();
+    auto t = boost::make_shared<Timer>();
 	
 	//set_realtime(94);
 	
 	for(int i = 0; i < 1000; i++){
 		MWTime delay = 10000;
 		
-		shared_ptr <Clock> clock = Clock::instance();
 		MWTime then = clock->getCurrentTimeUS();
 		t->startUS(delay);
 		
-		while(!t->hasExpired()) clock->sleepUS(50);
+		while(!t->hasExpired()) clock->yield();
 		
 		MWTime now = clock->getCurrentTimeUS();
 		
@@ -220,15 +238,19 @@ void TimerTestFixture::testTimerUnderAttack(){
 		
         CPPUNIT_ASSERT_GREATEREQUAL( delay, (now - then) );
         CPPUNIT_ASSERT_LESS( 1000ll, std::abs( (now - then) - delay ) );
-		
-		
 	}
-
 }
 
 
 void TimerTestFixture::testTimerOverrideMultipleTimesFast(){
-	shared_ptr<Timer> t(new Timer());		
+    auto clock = Clock::instance();
+    
+    MWTime startTime = 0;
+    auto waitUntilMS = [&clock, &startTime](MWTime offsetMS) {
+        clock->sleepUS((startTime + offsetMS * 1000) - clock->getCurrentTimeUS());
+    };
+    
+    auto t = boost::make_shared<Timer>();
 
 	//set_realtime(94);
 
@@ -237,40 +259,42 @@ void TimerTestFixture::testTimerOverrideMultipleTimesFast(){
 		//	fprintf(stderr, "%d timer resets (fast)\n", i); fflush(stderr);
 		//}
 		
+        startTime = clock->getCurrentTimeUS();
 		t->startMS(10);
 		
-		shared_ptr <Clock> clock = Clock::instance();
-		clock->sleepMS(1);
+        waitUntilMS(1);
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(6);
+        waitUntilMS(7);
 		
 		// 3 ms left to go
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
 		// Bump that up to 10
+        startTime = clock->getCurrentTimeUS();
 		t->startMS(10);
 		
-		clock->sleepMS(7);
+        waitUntilMS(7);
 		
 		// Should be 3 ms left.
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(4);
+        waitUntilMS(11);
 		
 		// Should be done
 		CPPUNIT_ASSERT( t->hasExpired() == true );
-		
+        
+        startTime = clock->getCurrentTimeUS();
 		t->startMS(10);
 		t->startMS(20);
 		
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(15);
+        waitUntilMS(15);
 		
 		CPPUNIT_ASSERT( t->hasExpired() == false );
 		
-		clock->sleepMS(6);
+        waitUntilMS(21);
 		
 		CPPUNIT_ASSERT( t->hasExpired() == true );
 	}
