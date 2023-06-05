@@ -192,7 +192,7 @@ matrix_float4x4 AAPL_SIMD_OVERLOAD matrix_look_at_right_hand(vector_float3 eye,
 matrix_float4x4 AAPL_SIMD_OVERLOAD matrix_ortho_left_hand(float left, float right, float bottom, float top, float nearZ, float farZ);
 
 /// Constructs a symmetric orthographic projection matrix, from right-hand eye
-/// coordinates to right-hand clip coordinates.
+/// coordinates to left-hand clip coordinates.
 /// That maps (left, top) to (-1, 1), (right, bottom) to (1, -1), and (nearZ, farZ) to (0, 1).
 /// The first four arguments are signed eye coordinates.
 /// nearZ and farZ are absolute distances from the eye to the near and far clip planes.
@@ -205,7 +205,7 @@ matrix_float4x4 AAPL_SIMD_OVERLOAD matrix_ortho_right_hand(float left, float rig
 matrix_float4x4 AAPL_SIMD_OVERLOAD matrix_perspective_left_hand(float fovyRadians, float aspect, float nearZ, float farZ);
 
 /// Constructs a symmetric perspective projection matrix, from right-hand eye
-/// coordinates to right-hand clip coordinates, with a vertical viewing angle of
+/// coordinates to left-hand clip coordinates, with a vertical viewing angle of
 /// fovyRadians, the given aspect ratio, and the given absolute near and far
 /// z distances from the eye.
 matrix_float4x4  AAPL_SIMD_OVERLOAD matrix_perspective_right_hand(float fovyRadians, float aspect, float nearZ, float farZ);
