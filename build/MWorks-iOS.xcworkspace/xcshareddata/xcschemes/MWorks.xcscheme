@@ -196,6 +196,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E1BA06B22A41F1DD00DE7D1A"
+               BuildableName = "OpticFlowField.framework"
+               BlueprintName = "OpticFlowField-iOS"
+               ReferencedContainer = "container:../plugins/core/OpticFlowField/OpticFlowField.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1DB1091273181DD005DE8B3"
                BuildableName = "ParametricShape.framework"
                BlueprintName = "ParametricShape-iOS"

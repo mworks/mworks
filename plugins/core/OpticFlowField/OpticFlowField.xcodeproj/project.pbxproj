@@ -1,0 +1,398 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1F0A7302A279DA2003A328D /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1F0A7312A279DA3003A328D /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1F0A7462A27A3A9003A328D /* CopyFiles */,
+			);
+			dependencies = (
+				E1F0A7492A27A3CE003A328D /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E1F0A7342A279DAD003A328D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1F0A7352A279DAD003A328D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1F0A74B2A27A3EC003A328D /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E1BA06B92A41F35900DE7D1A /* OpticFlowField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F0A74C2A27A621003A328D /* OpticFlowField.cpp */; };
+		E1BA06BA2A41F35D00DE7D1A /* OpticFlowField.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1F0A74F2A2A379A003A328D /* OpticFlowField.metal */; };
+		E1BA06BB2A41F36000DE7D1A /* OpticFlowFieldPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F0A73C2A27A1D1003A328D /* OpticFlowFieldPlugin.cpp */; };
+		E1F0A73D2A27A1D1003A328D /* OpticFlowFieldPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F0A73C2A27A1D1003A328D /* OpticFlowFieldPlugin.cpp */; };
+		E1F0A7412A27A2D7003A328D /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F0A7402A27A2D7003A328D /* Metal.framework */; };
+		E1F0A7452A27A320003A328D /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F0A7442A27A320003A328D /* MWorksCore.framework */; };
+		E1F0A7472A27A3B3003A328D /* OpticFlowField.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1F0A7292A279C8C003A328D /* OpticFlowField.bundle */; };
+		E1F0A74E2A27A621003A328D /* OpticFlowField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F0A74C2A27A621003A328D /* OpticFlowField.cpp */; };
+		E1F0A7502A2A379A003A328D /* OpticFlowField.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1F0A74F2A2A379A003A328D /* OpticFlowField.metal */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1F0A7482A27A3CE003A328D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1F0A7212A279C8C003A328D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1F0A7282A279C8C003A328D;
+			remoteInfo = OpticFlowField;
+		};
+		E1F0A74A2A27A3EC003A328D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1F0A7212A279C8C003A328D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1F0A7302A279DA2003A328D;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1F0A7462A27A3A9003A328D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1F0A7472A27A3B3003A328D /* OpticFlowField.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E1BA06B32A41F1DD00DE7D1A /* OpticFlowField.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpticFlowField.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1F0A7292A279C8C003A328D /* OpticFlowField.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpticFlowField.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1F0A7392A279EF6003A328D /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1F0A73A2A279EF6003A328D /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1F0A73B2A279EF6003A328D /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1F0A73C2A27A1D1003A328D /* OpticFlowFieldPlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = OpticFlowFieldPlugin.cpp; sourceTree = "<group>"; };
+		E1F0A73E2A27A22E003A328D /* OpticFlowField-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpticFlowField-Prefix.pch"; sourceTree = "<group>"; };
+		E1F0A7402A27A2D7003A328D /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		E1F0A7442A27A320003A328D /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = "/Library/Application Support/MWorks/Frameworks/MWorksCore.framework"; sourceTree = "<absolute>"; };
+		E1F0A74C2A27A621003A328D /* OpticFlowField.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = OpticFlowField.cpp; sourceTree = "<group>"; };
+		E1F0A74D2A27A621003A328D /* OpticFlowField.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OpticFlowField.hpp; sourceTree = "<group>"; };
+		E1F0A74F2A2A379A003A328D /* OpticFlowField.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OpticFlowField.metal; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1BA06B02A41F1DD00DE7D1A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1F0A7262A279C8C003A328D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1F0A7452A27A320003A328D /* MWorksCore.framework in Frameworks */,
+				E1F0A7412A27A2D7003A328D /* Metal.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1F0A7202A279C8C003A328D = {
+			isa = PBXGroup;
+			children = (
+				E1F0A7382A279E8B003A328D /* External Config */,
+				E1F0A74D2A27A621003A328D /* OpticFlowField.hpp */,
+				E1F0A74C2A27A621003A328D /* OpticFlowField.cpp */,
+				E1F0A74F2A2A379A003A328D /* OpticFlowField.metal */,
+				E1F0A73C2A27A1D1003A328D /* OpticFlowFieldPlugin.cpp */,
+				E1F0A73E2A27A22E003A328D /* OpticFlowField-Prefix.pch */,
+				E1F0A72A2A279C8C003A328D /* Products */,
+				E1F0A73F2A27A2D7003A328D /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E1F0A72A2A279C8C003A328D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1F0A7292A279C8C003A328D /* OpticFlowField.bundle */,
+				E1BA06B32A41F1DD00DE7D1A /* OpticFlowField.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1F0A7382A279E8B003A328D /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1F0A7392A279EF6003A328D /* macOS.xcconfig */,
+				E1F0A73A2A279EF6003A328D /* macOS_Plugin.xcconfig */,
+				E1F0A73B2A279EF6003A328D /* iOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E1F0A73F2A27A2D7003A328D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1F0A7442A27A320003A328D /* MWorksCore.framework */,
+				E1F0A7402A27A2D7003A328D /* Metal.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E1BA06AE2A41F1DD00DE7D1A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E1BA06B22A41F1DD00DE7D1A /* OpticFlowField-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1BA06B82A41F1DD00DE7D1A /* Build configuration list for PBXNativeTarget "OpticFlowField-iOS" */;
+			buildPhases = (
+				E1BA06AE2A41F1DD00DE7D1A /* Headers */,
+				E1BA06AF2A41F1DD00DE7D1A /* Sources */,
+				E1BA06B02A41F1DD00DE7D1A /* Frameworks */,
+				E1BA06B12A41F1DD00DE7D1A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "OpticFlowField-iOS";
+			productName = "OpticFlowField-iOS";
+			productReference = E1BA06B32A41F1DD00DE7D1A /* OpticFlowField.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		E1F0A7282A279C8C003A328D /* OpticFlowField */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1F0A72D2A279C8C003A328D /* Build configuration list for PBXNativeTarget "OpticFlowField" */;
+			buildPhases = (
+				E1F0A7252A279C8C003A328D /* Sources */,
+				E1F0A7262A279C8C003A328D /* Frameworks */,
+				E1F0A7272A279C8C003A328D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpticFlowField;
+			productName = OpticFlowField;
+			productReference = E1F0A7292A279C8C003A328D /* OpticFlowField.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1F0A7212A279C8C003A328D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					E1BA06B22A41F1DD00DE7D1A = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					E1F0A7282A279C8C003A328D = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					E1F0A7302A279DA2003A328D = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					E1F0A7342A279DAD003A328D = {
+						CreatedOnToolsVersion = 14.3;
+					};
+				};
+			};
+			buildConfigurationList = E1F0A7242A279C8C003A328D /* Build configuration list for PBXProject "OpticFlowField" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E1F0A7202A279C8C003A328D;
+			productRefGroup = E1F0A72A2A279C8C003A328D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1F0A7282A279C8C003A328D /* OpticFlowField */,
+				E1F0A7302A279DA2003A328D /* Install */,
+				E1F0A7342A279DAD003A328D /* Everything */,
+				E1BA06B22A41F1DD00DE7D1A /* OpticFlowField-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1BA06B12A41F1DD00DE7D1A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1F0A7272A279C8C003A328D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1BA06AF2A41F1DD00DE7D1A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1BA06BB2A41F36000DE7D1A /* OpticFlowFieldPlugin.cpp in Sources */,
+				E1BA06BA2A41F35D00DE7D1A /* OpticFlowField.metal in Sources */,
+				E1BA06B92A41F35900DE7D1A /* OpticFlowField.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1F0A7252A279C8C003A328D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1F0A74E2A27A621003A328D /* OpticFlowField.cpp in Sources */,
+				E1F0A7502A2A379A003A328D /* OpticFlowField.metal in Sources */,
+				E1F0A73D2A27A1D1003A328D /* OpticFlowFieldPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1F0A7492A27A3CE003A328D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1F0A7282A279C8C003A328D /* OpticFlowField */;
+			targetProxy = E1F0A7482A27A3CE003A328D /* PBXContainerItemProxy */;
+		};
+		E1F0A74B2A27A3EC003A328D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1F0A7302A279DA2003A328D /* Install */;
+			targetProxy = E1F0A74A2A27A3EC003A328D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E1BA06B72A41F1DD00DE7D1A /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F0A73B2A279EF6003A328D /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpticFlowField-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Metal,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.OpticFlowField-iOS";
+				PRODUCT_NAME = OpticFlowField;
+			};
+			name = Development;
+		};
+		E1F0A72B2A279C8C003A328D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1F0A72E2A279C8C003A328D /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F0A73A2A279EF6003A328D /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpticFlowField-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.OpticFlowField";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1F0A7322A279DA3003A328D /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F0A7392A279EF6003A328D /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1F0A7362A279DAD003A328D /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F0A7392A279EF6003A328D /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1BA06B82A41F1DD00DE7D1A /* Build configuration list for PBXNativeTarget "OpticFlowField-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1BA06B72A41F1DD00DE7D1A /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1F0A7242A279C8C003A328D /* Build configuration list for PBXProject "OpticFlowField" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1F0A72B2A279C8C003A328D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1F0A72D2A279C8C003A328D /* Build configuration list for PBXNativeTarget "OpticFlowField" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1F0A72E2A279C8C003A328D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1F0A7312A279DA3003A328D /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1F0A7322A279DA3003A328D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1F0A7352A279DAD003A328D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1F0A7362A279DAD003A328D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1F0A7212A279C8C003A328D /* Project object */;
+}

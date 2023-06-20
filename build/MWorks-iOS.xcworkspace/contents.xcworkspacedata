@@ -32,6 +32,9 @@
          location = "group:../plugins/core/MovingDots/MovingDots.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:../plugins/core/OpticFlowField/OpticFlowField.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:../plugins/core/ParametricShape/ParametricShape.xcodeproj">
       </FileRef>
       <FileRef

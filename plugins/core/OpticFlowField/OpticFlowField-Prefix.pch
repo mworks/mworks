@@ -1,0 +1,30 @@
+//
+//  OpticFlowField-Prefix.pch
+//  OpticFlowField
+//
+//  Created by Christopher Stawarz on 5/31/23.
+//
+
+#ifndef OpticFlowField_Prefix_pch
+#define OpticFlowField_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <numbers>
+#include <random>
+
+#include <MWorksCore/AAPLMathUtilities.h>
+#ifdef __OBJC__
+#  include <MWorksCore/ColoredTransformStimulus.hpp>
+#endif
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardDynamicStimulus.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#ifdef __OBJC__
+#  include <MWorksCore/MWKTripleBufferedMTLResource.h>
+#endif
+
+#endif /* OpticFlowField_Prefix_pch */
