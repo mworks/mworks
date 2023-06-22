@@ -1,0 +1,31 @@
+%define delay = 10ms
+var before = 0
+var after = 0
+
+
+protocol 'Test Timer Under Attack' {
+    trial (nsamples = 1000) {
+        task {
+            state 'Begin' {
+                before = now()
+                start_timer (
+                    timer = test_timer
+                    duration = delay
+                    )
+
+                goto (
+                    target = 'End'
+                    when = timer_expired(test_timer)
+                    )
+            }
+
+            state 'End' {
+                after = now()
+                assert (after - before >= delay)
+                assert ((after - before) - delay < 1ms)
+
+                yield ()
+            }
+        }
+    }
+}
