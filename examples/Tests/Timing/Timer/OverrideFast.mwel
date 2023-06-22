@@ -1,0 +1,50 @@
+%define reset (duration)
+    start_timer (
+        timer = test_timer
+        duration = duration
+        )
+%end
+
+
+%define expired = timer_expired(test_timer)
+
+
+%define wait_until (offset)
+    wait ((start_time + offset) - now())
+%end
+
+
+var start_time = 0
+
+protocol 'Test Timer Override Fast' {
+    trial (nsamples = 50) {
+        start_time = now()
+        reset (10ms)
+
+        wait_until (1ms)
+        assert (not expired)  // 9ms remaining
+
+        wait_until (7ms)
+        assert (not expired)  // 3ms remaining
+
+        start_time = now()
+        reset (10ms)          // Now 10ms remaining
+
+        wait_until (7ms)
+        assert (not expired)  // 3ms remaining
+
+        wait_until (11ms)
+        assert (expired)      // Should be done
+
+        start_time = now()
+        reset (10ms)
+        reset (20ms)
+        assert (not expired)
+
+        wait_until (15ms)
+        assert (not expired)  // 5ms remaining
+
+        wait_until (21ms)
+        assert (expired)      // Should be done
+    }
+}
