@@ -13,6 +13,7 @@ using namespace metal;
 struct RasterizerData {
     float4 position [[position]];
     float pointSize [[point_size]];
+    bool isHidden;
 };
 
 
@@ -32,14 +33,17 @@ vertexShader(uint vertexID [[vertex_id]],
     // Output the projected x/y position transformed by the MVP matrix
     out.position = mvpMatrix * float4(projectedPosition.xy, 0.0, 1.0);
     
-    // Set the size of points that lie outside the viewing frustum to
-    // zero, so that they don't generate any fragments
-    out.pointSize = pointSize * ((projectedPosition.x >= -1.0) *
-                                 (projectedPosition.x <=  1.0) *
-                                 (projectedPosition.y >= -1.0) *
-                                 (projectedPosition.y <=  1.0) *
-                                 (projectedPosition.z >=  0.0) *
-                                 (projectedPosition.z <=  1.0));
+    // Copy the point size unchanged
+    out.pointSize = pointSize;
+    
+    // Points that lie outside the viewing frustum aren't visible.  Set
+    // a flag so we know not to generate fragments for them.
+    out.isHidden = !((projectedPosition.x >= -1.0) *
+                     (projectedPosition.x <=  1.0) *
+                     (projectedPosition.y >= -1.0) *
+                     (projectedPosition.y <=  1.0) *
+                     (projectedPosition.z >=  0.0) *
+                     (projectedPosition.z <=  1.0));
     
     return out;
 }
@@ -50,6 +54,10 @@ fragmentShader(RasterizerData in [[stage_in]],
                float2 pointCoord [[point_coord]],
                constant float4 &color [[buffer(0)]])
 {
+    if (in.isHidden) {
+        discard_fragment();
+    }
+    
     //
     // Make the dots round, not square
     //
