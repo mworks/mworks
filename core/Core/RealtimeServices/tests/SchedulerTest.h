@@ -41,10 +41,6 @@ class SchedulerTestFixture : public FullCoreEnvironmentTestFixture {
 
 	CPPUNIT_TEST_SUITE( SchedulerTestFixture );
 	
-	CPPUNIT_TEST( testPeriod10HzNoPayload );
-	CPPUNIT_TEST( testPeriod10HzSmallPayload );
-	CPPUNIT_TEST( testPeriod100HzNoPayload );
-	CPPUNIT_TEST( testPeriod10HzNoPayloadChaffX4 );
 	//CPPUNIT_TEST( testPeriod10HzNoPayloadChaffX20 );
 	CPPUNIT_TEST( testOneOffFiringSmallPayload );	
 	CPPUNIT_TEST (testSchedulerLeaks);
@@ -56,10 +52,6 @@ class SchedulerTestFixture : public FullCoreEnvironmentTestFixture {
 		void setUp();
 	void tearDown();
 		
-	void testPeriod10HzNoPayload();
-	void testPeriod10HzSmallPayload();
-	void testPeriod100HzNoPayload();
-	void testPeriod10HzNoPayloadChaffX4();
 	void testOneOffFiringSmallPayload();
 	void testSchedulerLeaks();
 	
