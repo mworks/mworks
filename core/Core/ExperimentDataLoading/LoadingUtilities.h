@@ -16,7 +16,6 @@ BEGIN_NAMESPACE_MW
 
 	bool loadSetupVariables();
 	bool loadExperimentFromXMLParser(const boost::filesystem::path filepath);
-	void parseMediaTagsFromExperiment(const boost::filesystem::path filepath);
 	
 	void unloadExperiment(bool announce = true);
 	
@@ -25,12 +24,8 @@ BEGIN_NAMESPACE_MW
                                        bool expandAbsolutePath = false);
 	
 	
-	void expandRangeReplicatorItems(const boost::filesystem::path filepath);
-	void modifyExperimentMediaPaths(const boost::filesystem::path filepath);
 	void createExperimentInstallDirectoryStructure(const std::string expName);
 	
-	std::string removeSpacesFromString(std::string s);
-    
     void getFilePaths(const std::string &workingPath,
                       const std::string &directoryPath,
                       std::vector<std::string> &filePaths,

@@ -102,11 +102,6 @@ BEGIN_NAMESPACE_MW
 		return true;
 	}
 	
-	void parseIncludedFilesFromExperiment(const boost::filesystem::path filepath) {
-		// DEPRECATED
-	}
-	
-	
 	void unloadExperiment(bool announce) {
 		
 		GlobalCurrentExperiment = shared_ptr<Experiment>();
@@ -175,17 +170,6 @@ BEGIN_NAMESPACE_MW
 	}
 	
 	
-	void modifyExperimentMediaPaths(const boost::filesystem::path filepath) {
-		const std::string substitutionDescriptor("%s");
-		
-	}
-	
-	void expandRangeReplicatorItems(const boost::filesystem::path filepath) {
-		
-		// TODO: deprecated
-		
-	}
-	
 	void createExperimentInstallDirectoryStructure(const std::string expFileName) {
 		namespace bf = boost::filesystem;
 		
@@ -207,17 +191,6 @@ BEGIN_NAMESPACE_MW
 	}
 	
 	
-	std::string removeSpacesFromString(std::string s) {
-		const std::string us("_");
-		const std::string space(" ");
-		
-		while(s.find_first_of(space) != std::string::npos) {
-			s.replace(s.find_first_of(space), us.length(), us);
-		}
-		return s;
-	}
-    
-    
     void getFilePaths(const std::string &workingPath,
                       const std::string &directoryPath,
                       std::vector<std::string> &filePaths,

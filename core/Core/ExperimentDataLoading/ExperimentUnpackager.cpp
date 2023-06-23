@@ -130,9 +130,6 @@ bool ExperimentUnpackager::unpackageExperiment(Datum payload) {
 		}
 	}
 	
-	expandRangeReplicatorItems(loadedExperimentFilename);
-	modifyExperimentMediaPaths(loadedExperimentFilename);
-	
     return true;
 }
 
