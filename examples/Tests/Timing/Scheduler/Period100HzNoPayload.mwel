@@ -1,0 +1,29 @@
+%define interval = 10ms
+%define num_executions = 400
+
+var num_completed = 0
+var start_time = 0
+var current_time = 0
+var diff = 0
+
+
+protocol 'Test Period 100Hz No Payload' {
+    num_completed = 0
+    start_time = now()
+
+    schedule (
+        delay = interval
+        duration = interval
+        repeats = num_executions
+        ) {
+        current_time = now()
+        diff = current_time - (start_time + interval * (num_completed + 1))
+        assert (diff < 1ms)
+        num_completed += 1
+    }
+
+    wait_for_condition (
+        condition = num_completed == num_executions
+        timeout = (num_executions + 5) * interval
+        )
+}
