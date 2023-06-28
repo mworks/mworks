@@ -10,35 +10,33 @@
 #ifndef _EXPERIMENT_UNPACKAGER_H__
 #define _EXPERIMENT_UNPACKAGER_H__
 
+#include <string>
+
+#include <boost/filesystem/path.hpp>
 
 #include "GenericData.h"
-#include <string>
-#include "boost/filesystem/path.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
 class ExperimentUnpackager {
+    
 public:
-	bool unpackageExperiment(Datum payload);
-	boost::filesystem::path getUnpackagedExperimentPath();
-	
+    bool unpackageExperiment(const Datum &payload);
+    const boost::filesystem::path & getUnpackagedExperimentPath() const { return loadedExperimentFilename; }
+    
 private:
-	boost::filesystem::path loadedExperimentFilename;
- Datum payload;
-	
-	boost::filesystem::path 
-		prependExperimentInstallPath(const std::string expname, 
-									 const std::string experimentFilename);
-	
-	bool createFile(Datum filename, Datum buffer);
+    static boost::filesystem::path prependExperimentInstallPath(const std::string &expname,
+                                                                const std::string &experimentFilename);
+    static bool createFile(const std::string &filename, const std::string &buffer);
+    
+    boost::filesystem::path loadedExperimentFilename;
+    
 };
 
 
 END_NAMESPACE_MW
 
 
-#endif
-
-
+#endif /* _EXPERIMENT_UNPACKAGER_H__ */
