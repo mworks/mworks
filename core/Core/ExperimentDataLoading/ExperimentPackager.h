@@ -15,12 +15,12 @@
 #ifndef _EXPERIMENT_PACKAGER_H__
 #define _EXPERIMENT_PACKAGER_H__
 
+#include <string>
+
+#include <boost/filesystem/path.hpp>
 
 #include "GenericData.h"
-#include <string>
 #include "XMLParser.h"
-#include "boost/filesystem/path.hpp"
-
 
 #define M_PACKAGER_FILENAME_STRING "Filename"
 #define M_PACKAGER_CONTENTS_STRING "Contents"
@@ -38,46 +38,44 @@ BEGIN_NAMESPACE_MW
 
 
 class ExperimentPackager {
+    
 public:
- Datum packageExperiment(const boost::filesystem::path 
-							fileWithFullPath);
-	
+    Datum packageExperiment(const boost::filesystem::path &fileWithFullPath);
+    
 private:
- Datum packageSingleFile(const boost::filesystem::path filepath,
-                         const std::string filename);
- Datum packageSingleFile(const Datum &contents,
-                         const std::string &filename);
+    Datum packageSingleFile(const std::string &filename, const boost::filesystem::path &filepath);
+    Datum packageSingleFile(const std::string &filename, const Datum &contents);
+    
 };
 
+
 class IncludedFilesParser : public XMLParser {
-
-	private:
-	
-        Datum manifest;
     
-        void addDirectory(const std::string &directoryPath, bool recursive);
-
-		// instead of building experiment, just look for path arguments and save
-		// the results
-        void _processCreateDirective(xmlNode *node) override;
-        void _processAnonymousCreateDirective(xmlNode *node) override;
-		
-		// don't do anything for these
-        void _processConnectDirective(xmlNode *node) override { }
-        void _processInstanceDirective(xmlNode *node) override { }
-        void _processFinalizeDirective(xmlNode *node) override { }
-		
-	public:
-	
-        explicit IncludedFilesParser(const std::string &_path);
-	
-        void parse(bool announce_progress) override;
-		const Datum& getIncludedFilesManifest() const { return manifest; }
-		
+public:
+    explicit IncludedFilesParser(const std::string &path);
+    
+    void parse(bool announceProgress) override;
+    const Datum & getIncludedFilesManifest() const { return manifest; }
+    
+private:
+    // instead of building experiment, just look for path arguments and save
+    // the results
+    void _processCreateDirective(xmlNode *node) override;
+    void _processAnonymousCreateDirective(xmlNode *node) override { _processCreateDirective(node); }
+    
+    // don't do anything for these
+    void _processConnectDirective(xmlNode *node) override { }
+    void _processInstanceDirective(xmlNode *node) override { }
+    void _processFinalizeDirective(xmlNode *node) override { }
+    
+    void addDirectory(const std::string &directoryPath, bool recursive);
+    
+    Datum manifest;
+    
 };
 
 
 END_NAMESPACE_MW
 
 
-#endif
+#endif /* _EXPERIMENT_PACKAGER_H__ */
