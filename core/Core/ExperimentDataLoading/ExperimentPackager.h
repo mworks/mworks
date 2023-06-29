@@ -16,6 +16,7 @@
 #define _EXPERIMENT_PACKAGER_H__
 
 #include <string>
+#include <unordered_set>
 
 #include <boost/filesystem/path.hpp>
 
@@ -55,7 +56,7 @@ public:
     explicit IncludedFilesParser(const std::string &path);
     
     void parse(bool announceProgress) override;
-    const Datum & getIncludedFilesManifest() const { return manifest; }
+    const std::unordered_set<std::string> & getIncludedFiles() const { return includedFiles; }
     
 private:
     // instead of building experiment, just look for path arguments and save
@@ -70,7 +71,7 @@ private:
     
     void addDirectory(const std::string &directoryPath, bool recursive);
     
-    Datum manifest;
+    std::unordered_set<std::string> includedFiles;
     
 };
 

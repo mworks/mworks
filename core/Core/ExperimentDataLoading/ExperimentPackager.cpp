@@ -25,13 +25,8 @@ BEGIN_NAMESPACE_MW
 
 Datum ExperimentPackager::packageExperiment(const boost::filesystem::path &filename) {
     IncludedFilesParser parser(filename.string());
-    std::string working_path_string;
-    Datum include_files;
-    
     try {
         parser.parse(false);
-        working_path_string = parser.getWorkingPathString();
-        include_files = parser.getIncludedFilesManifest();
     } catch (const std::exception &e) {
         merror(M_PARSER_MESSAGE_DOMAIN, "Experiment packaging failed: %s", e.what());
         return Datum();
@@ -51,10 +46,12 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path &filen
     }
     
     {
-        Datum mediaFilesPayload(M_LIST, include_files.getNElements());
+        auto working_path_string = parser.getWorkingPathString();
+        auto &include_files = parser.getIncludedFiles();
         
-        for (const auto &item : include_files.getList()) {
-            auto &mediaName = item.getString();
+        Datum mediaFilesPayload(M_LIST, int(include_files.size()));
+        
+        for (const auto &mediaName : include_files) {
             auto mediaPath = expandPath(working_path_string, mediaName);
             auto mediaElement = packageSingleFile(mediaName, mediaPath);
             if (mediaElement.isUndefined()) {
@@ -101,8 +98,7 @@ Datum ExperimentPackager::packageSingleFile(const std::string &filename, const D
 
 
 IncludedFilesParser::IncludedFilesParser(const std::string &path) :
-    XMLParser(path, "MWMediaPackagerTransformation.xsl"),
-    manifest(Datum::list_value_type{})
+    XMLParser(path, "MWMediaPackagerTransformation.xsl")
 { }
 
 
@@ -125,7 +121,7 @@ void IncludedFilesParser::parse(bool announceProgress) {
                 if (boost::filesystem::is_directory(expandPath(getWorkingPathString(), path))) {
                     addDirectory(path, true);  // Recursive
                 } else {
-                    manifest.addElement(path);
+                    includedFiles.insert(path);
                 }
             }
             // Return without parsing the file.  This allows experiments that declare resources to use
@@ -146,7 +142,7 @@ void IncludedFilesParser::_processCreateDirective(xmlNode *node) {
     while (child) {
         const std::string name(reinterpret_cast<const char *>(child->name));
         if (name == "path") {
-            manifest.addElement(_getContent(child));
+            includedFiles.emplace(_getContent(child));
         } else if (name == "directory_path") {
             addDirectory(_getContent(child), false);  // Not recursive
         }
@@ -158,9 +154,7 @@ void IncludedFilesParser::_processCreateDirective(xmlNode *node) {
 void IncludedFilesParser::addDirectory(const std::string &directoryPath, bool recursive) {
     std::vector<std::string> filePaths;
     getFilePaths(getWorkingPathString(), directoryPath, filePaths, recursive);
-    for (const auto &path : filePaths) {
-        manifest.addElement(path);
-    }
+    includedFiles.insert(filePaths.begin(), filePaths.end());
 }
 
 
