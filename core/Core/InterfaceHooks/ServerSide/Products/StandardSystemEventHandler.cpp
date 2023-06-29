@@ -7,182 +7,143 @@
  * Copyright 2006 MIT. All rights reserved.
  */
 
-#include "Experiment.h"
 #include "StandardSystemEventHandler.h"
-#include "SystemEventFactory.h"
-#include "VariableSave.h"
-#include "VariableLoad.h"
-#include "Utilities.h"
+
+#include <boost/filesystem/convenience.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/path.hpp>
+
+#include "DataFileManager.h"
+#include "EventBuffer.h"
+#include "Experiment.h"
 #include "ExperimentUnpackager.h"
+#include "GenericData.h"
 #include "LoadingUtilities.h"
 #include "PlatformDependentServices.h"
-#include "EventBuffer.h"
-#include "DataFileManager.h"
-#include "GenericData.h"
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/convenience.hpp>
 #include "StateSystem.h"
+#include "SystemEventFactory.h"
+#include "Utilities.h"
+#include "VariableLoad.h"
+#include "VariableSave.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
-StandardSystemEventHandler::StandardSystemEventHandler() : EventStreamInterface(M_SERVER_MESSAGE_DOMAIN) { }
+StandardSystemEventHandler::StandardSystemEventHandler() :
+    EventStreamInterface(M_SERVER_MESSAGE_DOMAIN)
+{ }
 
-void StandardSystemEventHandler::handleEvent(shared_ptr <Event> evt) {
+
+void StandardSystemEventHandler::handleEvent(boost::shared_ptr<Event> evt) {
+    const auto event_code = evt->getEventCode();
     
-    int event_code = evt->getEventCode();
-    
-    
-    if(event_code == RESERVED_SYSTEM_EVENT_CODE){
+    if (event_code == RESERVED_SYSTEM_EVENT_CODE) {
         handleSystemEvent(evt->getData());
         return;
     }
     
-    if(event_code < N_RESERVED_CODEC_CODES){
+    if (event_code < N_RESERVED_CODEC_CODES) {
         // a kind of event to which we won't respond
         return;
     }
     
-    if(event_code > N_RESERVED_CODEC_CODES + global_variable_registry->getNVariables()){
-        // an invalid event
-        mwarning(M_NETWORK_MESSAGE_DOMAIN, "Server received illegal event code: %d", evt->getEventCode());
+    auto var = global_variable_registry->getVariable(event_code);
+    if (var) {
+        var->setValue(evt->getData());
+    } else {
+        merror(M_NETWORK_MESSAGE_DOMAIN, "Server received illegal event code: %d", event_code);
+    }
+}
+
+
+void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
+    auto payloadType = sysEvent.getElement(M_SYSTEM_PAYLOAD_TYPE);
+    if (!payloadType.isInteger()) {
+        merror(M_NETWORK_MESSAGE_DOMAIN, "badly formed system event");
         return;
     }
     
-    try {
-        shared_ptr<Variable> var(global_variable_registry->getVariable(evt->getEventCode()));
-    
-        var->setValue(evt->getData());		 
-        
-    } catch (void *e) {
-        merror(M_NETWORK_MESSAGE_DOMAIN, "Server received illegal event code: %d", evt->getEventCode());
-    }
-	
-}
-
-void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
- Datum payloadType = sysEvent.getElement(M_SYSTEM_PAYLOAD_TYPE);
-	if(!payloadType.isInteger()) {
-		merror(M_NETWORK_MESSAGE_DOMAIN, 
-			   "badly formed system event");
-		return;
-	}
-	
-    switch((SystemPayloadType)payloadType.getInteger()) {
-        case M_EXPERIMENT_PACKAGE:
-		{
-			namespace bf = boost::filesystem;
-		 Datum payload(sysEvent.getElement(M_SYSTEM_PAYLOAD));
-			
-			
-            ExperimentUnpackager unpackage;
-            if(!unpackage.unpackageExperiment(payload)) {
-                merror(M_NETWORK_MESSAGE_DOMAIN, 
-					   "Unable to unpackage experiment");
-                // TODO: throw, or at least, issue an event indicating that the
-				// load failed
-				break;
-            }
+    switch (payloadType.getInteger()) {
             
-			bf::path expXMLFile(unpackage.getUnpackagedExperimentPath());
-			
-			
-			if(!loadExperimentFromXMLParser(expXMLFile)) {
-                merror(M_PARSER_MESSAGE_DOMAIN, 
-					   "Failed to parse experiment %s", 
-					   expXMLFile.string().c_str());
-				
+        case M_EXPERIMENT_PACKAGE: {
+            ExperimentUnpackager unpackager;
+            if (!unpackager.unpackageExperiment(sysEvent.getElement(M_SYSTEM_PAYLOAD))) {
+                merror(M_NETWORK_MESSAGE_DOMAIN, "Unable to unpackage experiment");
                 break;
             }
-			
-			//cerr << expXMLFile.string() << endl;
             
-			bf::path expPath(expXMLFile.parent_path().parent_path());
-			
-            //cerr << expPath.string() << endl;
+            auto expXMLFile = unpackager.getUnpackagedExperimentPath();
+            if (!loadExperimentFromXMLParser(expXMLFile)) {
+                merror(M_PARSER_MESSAGE_DOMAIN, "Failed to parse experiment %s", expXMLFile.string().c_str());
+                break;
+            }
             
-			GlobalCurrentExperiment->setExperimentPath(expPath.string().c_str());
-			shared_ptr<Event> experimentStateEvent = SystemEventFactory::currentExperimentState();
-			global_outgoing_event_buffer->putEvent(experimentStateEvent);
-			mprintf("%s successfully loaded, using protocol: %s", 
-					GlobalCurrentExperiment->getExperimentName().c_str(),
-					GlobalCurrentExperiment->getCurrentProtocol()->getName().c_str());
-			
+            if (auto experiment = GlobalCurrentExperiment) {
+                experiment->setExperimentPath(expXMLFile.parent_path().parent_path().string());
+                global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+                mprintf("%s successfully loaded, using protocol: %s",
+                        experiment->getExperimentName().c_str(),
+                        experiment->getCurrentProtocol()->getName().c_str());
+            }
+            
             break;
-		}  
-        case M_PROTOCOL_SELECTION:
-		{
-		 Datum payload(sysEvent.getElement(M_SYSTEM_PAYLOAD));
-			
-			std::string newProtocol(payload.getString());
-            if(newProtocol.size() == 0) {
-                merror(M_PARADIGM_MESSAGE_DOMAIN, 
-					   "Selected protocol is NULL");
+        }
+            
+        case M_PROTOCOL_SELECTION: {
+            auto &newProtocol = sysEvent.getElement(M_SYSTEM_PAYLOAD).getString();
+            if (newProtocol.empty()) {
+                merror(M_PARADIGM_MESSAGE_DOMAIN, "Selected protocol is NULL");
                 break;
             }
-			
-            GlobalCurrentExperiment->setCurrentProtocol(newProtocol);
-			break;
-		}
-        case M_REQUEST_CODEC:
-        {
+            if (auto experiment = GlobalCurrentExperiment) {
+                experiment->setCurrentProtocol(newProtocol);
+            }
+            break;
+        }
+            
+        case M_REQUEST_CODEC: {
             global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
             break;
         }
-        case M_REQUEST_COMPONENT_CODEC:
-        {
+            
+        case M_REQUEST_COMPONENT_CODEC: {
             global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
             break;
         }
-        case M_REQUEST_EXPERIMENT_STATE:
-        {
+            
+        case M_REQUEST_EXPERIMENT_STATE: {
             global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
             break;
         }
-        case M_REQUEST_PROTOCOLS:
-        {
+            
+        case M_REQUEST_PROTOCOLS: {
             global_outgoing_event_buffer->putEvent(SystemEventFactory::protocolPackage());
             break;
         }
-        case M_REQUEST_VARIABLES:
-        {
-            if(global_variable_registry == NULL){
-                throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Request received to announce all variables, "
-                                                               "without a global variable registry in place");
+            
+        case M_REQUEST_VARIABLES: {
+            if (global_variable_registry) {
+                global_variable_registry->announceAll();
+            } else {
+                throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN,
+                                      "Request received to announce all variables, "
+                                      "without a global variable registry in place");
             }
-            global_variable_registry->announceAll();
             break;
         }
-        case M_CLOSE_EXPERIMENT:
-		{
-		 Datum payload(sysEvent.getElement(M_SYSTEM_PAYLOAD));
-			
-			std::string tmp(GlobalCurrentExperiment->getExperimentName());
-			std::string expName(payload.getString());
-            if(expName.size() == 0) {
-                merror(M_SYSTEM_MESSAGE_DOMAIN, 
-					   "Tried to close NULL experiment");
+            
+        case M_CLOSE_EXPERIMENT: {
+            auto &expName = sysEvent.getElement(M_SYSTEM_PAYLOAD).getString();
+            if (expName.empty()) {
+                merror(M_SYSTEM_MESSAGE_DOMAIN, "Tried to close NULL experiment");
                 break;
             }
-            // make sure the experiment we are trying to close is the one
-            // currently loaded.
-           /* if(tmp != expName){
-                mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-						 "Attempted to close an experiment not in context\n"
-						 "(name: %s) (current: %s)", 
-						 expName.c_str(), tmp.c_str());
-                break;
-            }*/
-			
-            // release all the memory
             unloadExperiment();
-            // we no longer need this
-			break;
-		}
-		case M_START_EXPERIMENT:
-		{
+            break;
+        }
+            
+        case M_START_EXPERIMENT: {
             if (!DataFileManager::instance()->autoOpenFile()) {
                 // Data file auto-open is configured, but opening the file failed.  Abort.
                 merror(M_SYSTEM_MESSAGE_DOMAIN, "Failed to open data file.  Experiment will not start.");
@@ -208,37 +169,29 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
                             experiment->getCurrentProtocol()->getName().c_str());
                 }
                 
-                shared_ptr <StateSystem> state_system = StateSystem::instance();
-                state_system->start();
+                StateSystem::instance()->start();
             }
-		}
-			break;
-			
-		case M_STOP_EXPERIMENT:
-		{
-			shared_ptr <StateSystem> state_system = StateSystem::instance();
-			state_system->stop();
-		}
-			break;
-			
-		case M_PAUSE_EXPERIMENT:
-		{
-			shared_ptr <StateSystem> state_system = StateSystem::instance();
-			state_system->pause();
-		}
-			break;
-			
-		case M_RESUME_EXPERIMENT:
-		{
-			shared_ptr <StateSystem> state_system = StateSystem::instance();
-			state_system->resume();
-		}
-			break;
-			
-		case M_OPEN_DATA_FILE:
-		{
+            break;
+        }
+            
+        case M_STOP_EXPERIMENT: {
+            StateSystem::instance()->stop();
+            break;
+        }
+            
+        case M_PAUSE_EXPERIMENT: {
+            StateSystem::instance()->pause();
+            break;
+        }
+            
+        case M_RESUME_EXPERIMENT: {
+            StateSystem::instance()->resume();
+            break;
+        }
+            
+        case M_OPEN_DATA_FILE: {
             auto payload = sysEvent.getElement(M_SYSTEM_PAYLOAD);
-            auto filename = payload.getElement(M_DATA_FILE_FILENAME).getString();
+            auto &filename = payload.getElement(M_DATA_FILE_FILENAME).getString();
             auto overwrite = payload.getElement(M_DATA_FILE_OVERWRITE).getBool();
             if (filename.empty()) {
                 merror(M_FILE_MESSAGE_DOMAIN, "Attempt to open data file with an empty name");
@@ -247,95 +200,100 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
                 DataFileManager::instance()->openFile(filename, overwrite);
             }
             break;
-		}
-		case M_CLOSE_DATA_FILE:
-			DataFileManager::instance()->closeFile();
-			break;
-		case M_SAVE_VARIABLES:
-		{
-			namespace bf= boost::filesystem;
-			
-		 Datum payload(sysEvent.getElement(M_SYSTEM_PAYLOAD));
-			
-		 Datum fullPath(payload.getElement(SAVE_VARIABLES_FULL_PATH));
-		 Datum file(payload.getElement(SAVE_VARIABLES_FILE));
-		 Datum overwrite(payload.getElement(SAVE_VARIABLES_OVERWRITE));
-			
-			if(!fullPath.isInteger() || !file.isString() || !overwrite.isInteger()) {
-				merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-						 "illegal property in save variables event");				
-			} else {
-				try {
-                
-                    bf::path variablesDirectory = getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory());
+        }
+            
+        case M_CLOSE_DATA_FILE: {
+            DataFileManager::instance()->closeFile();
+            break;
+        }
+            
+        case M_SAVE_VARIABLES: {
+            namespace bf = boost::filesystem;
+            
+            auto payload = sysEvent.getElement(M_SYSTEM_PAYLOAD);
+            auto fullPath = payload.getElement(SAVE_VARIABLES_FULL_PATH);
+            auto file = payload.getElement(SAVE_VARIABLES_FILE);
+            auto overwrite = payload.getElement(SAVE_VARIABLES_OVERWRITE);
+            
+            if (!(fullPath.isInteger() && file.isString() && overwrite.isInteger())) {
+                merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "illegal property in save variables event");
+                break;
+            }
+            
+            if (auto experiment = GlobalCurrentExperiment) {
+                try {
+                    auto variablesDirectory = getExperimentSavedVariablesPath(experiment->getExperimentDirectory());
                     
                     // make sure the proper directory structure exists
-                    if(bf::create_directories(variablesDirectory)) {
+                    if (bf::create_directories(variablesDirectory)) {
                         mprintf("Creating saved variables directory");
                     }
                     
                     bf::path filename;
-                    if(fullPath.getBool()) {
-                        filename = bf::path(file.getString());				
+                    if (fullPath.getBool()) {
+                        filename = bf::path(file.getString());
                     } else {
                         filename = variablesDirectory / bf::path(appendFileExtension(file.getString(), ".xml"));
                     }
                     
-                    if (!bf::exists(filename) || overwrite.getBool()) {
-                        if (VariableSave::saveExperimentwideVariables(filename)) {
-                            GlobalCurrentExperiment->setCurrentSavedVariablesFile(filename.string());
-                            global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
-                        }
-                    } else {
-                        mwarning(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-                                 "NOT overwriting current variables");
+                    if (bf::exists(filename) && !overwrite.getBool()) {
+                        mwarning(M_STATE_SYSTEM_MESSAGE_DOMAIN, "NOT overwriting current variables");
+                    } else if (VariableSave::saveExperimentwideVariables(filename)) {
+                        experiment->setCurrentSavedVariablesFile(filename.string());
+                        global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
                     }
-
-                } catch (std::exception& e){
-                    merror(M_SYSTEM_MESSAGE_DOMAIN, "Error interacting with file system to save variables: %s", e.what());
+                } catch (std::exception &e) {
+                    merror(M_SYSTEM_MESSAGE_DOMAIN,
+                           "Error interacting with file system to save variables: %s",
+                           e.what());
                 }
-			}
-
-			break;
-		}	
-		case M_LOAD_VARIABLES:
-		{
-			namespace bf= boost::filesystem;
-            Datum payload(sysEvent.getElement(M_SYSTEM_PAYLOAD));
-			
-            Datum fullPath(payload.getElement(LOAD_VARIABLES_FULL_PATH));
-            Datum file(payload.getElement(LOAD_VARIABLES_FILE));
-			
-			if(!fullPath.isInteger() || !file.isString()) {
-				merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-					   "illegal property in load variables event");				
-            } else {
+            }
+            
+            break;
+        }
+            
+        case M_LOAD_VARIABLES: {
+            namespace bf = boost::filesystem;
+            
+            auto payload = sysEvent.getElement(M_SYSTEM_PAYLOAD);
+            auto fullPath = payload.getElement(LOAD_VARIABLES_FULL_PATH);
+            auto file = payload.getElement(LOAD_VARIABLES_FILE);
+            
+            if (!(fullPath.isInteger() && file.isString())) {
+                merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "illegal property in load variables event");
+                break;
+            }
+            
+            if (auto experiment = GlobalCurrentExperiment) {
                 bf::path filename;
-                if(fullPath.getBool()) {
+                if (fullPath.getBool()) {
                     filename = bf::path(file.getString());
                 } else {
-                    filename = (getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory()) /
+                    filename = (getExperimentSavedVariablesPath(experiment->getExperimentDirectory()) /
                                 bf::path(appendFileExtension(file.getString(), ".xml")));
                 }
                 
                 if (VariableLoad::loadExperimentwideVariables(filename)) {
-                    GlobalCurrentExperiment->setCurrentSavedVariablesFile(filename.string());
+                    experiment->setCurrentSavedVariablesFile(filename.string());
                     global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
                 }
             }
-			
-			break;
-		}
-        case M_CLIENT_CONNECTED_TO_SERVER:
-        {
+            
+            break;
+        }
+            
+        case M_CLIENT_CONNECTED_TO_SERVER: {
             // Client requested connection acknowledgement.  Respond with received client ID.
-            long clientID = sysEvent.getElement(M_SYSTEM_PAYLOAD).getInteger();
+            auto clientID = sysEvent.getElement(M_SYSTEM_PAYLOAD).getInteger();
             global_outgoing_event_buffer->putEvent(SystemEventFactory::serverConnectedClientResponse(clientID));
             break;
         }
-		default:
-			break;
-	}
+            
+        default: {
+            break;
+        }
+            
+    }
 }
 
 

@@ -6,7 +6,6 @@
  *
  */
 
-
 #ifndef _DEFAULT_EVENT_HANDLER_H__
 #define _DEFAULT_EVENT_HANDLER_H__
 
@@ -16,22 +15,21 @@
 BEGIN_NAMESPACE_MW
 
 
-    class StandardSystemEventHandler : public EventStreamInterface {
-        
-    public:
-        StandardSystemEventHandler();
-        virtual ~StandardSystemEventHandler() {};
-        virtual void handleEvent(shared_ptr<Event> event);
-        virtual void putEvent(shared_ptr<Event> event){ }
-    protected:
-        virtual void handleSystemEvent(const Datum &sysEvent);
-        
-
-    };
+class StandardSystemEventHandler : public EventStreamInterface {
+    
+public:
+    StandardSystemEventHandler();
+    
+    void handleEvent(boost::shared_ptr<Event> event) override;
+    void putEvent(boost::shared_ptr<Event> event) override { }
+    
+private:
+    void handleSystemEvent(const Datum &sysEvent);
+    
+};
 
 
 END_NAMESPACE_MW
 
 
-#endif
-
+#endif /* _DEFAULT_EVENT_HANDLER_H__ */
