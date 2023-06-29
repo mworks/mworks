@@ -79,6 +79,7 @@ BEGIN_NAMESPACE_MW
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
 		}
+        experiment->setExperimentPath(filepath.parent_path().parent_path().string());
         
         // At this point, all displays are already cleared.  However, by clearing them again now, *after* all the
         // stimuli have been created and (probably) loaded, we can "commit" any OpenGL and/or Metal actions

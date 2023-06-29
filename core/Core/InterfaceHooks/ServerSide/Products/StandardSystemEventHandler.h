@@ -10,6 +10,7 @@
 #define _DEFAULT_EVENT_HANDLER_H__
 
 #include "EventStreamInterface.h"
+#include "ExperimentUnpackager.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -25,6 +26,11 @@ public:
     
 private:
     void handleSystemEvent(const Datum &sysEvent);
+    
+    void terminateExperimentUnpackaging();
+    void requestNextMediaFile();
+    
+    std::unique_ptr<ExperimentUnpackager> experimentUnpackager;
     
 };
 

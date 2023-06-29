@@ -15,9 +15,9 @@
 #ifndef __CLIENT_H__
 #define __CLIENT_H__
 
-
-#include "VariableRegistryInterface.h"
 #include "EventListener.h"
+#include "ExperimentPackager.h"
+#include "VariableRegistryInterface.h"
 #include "ZeroMQClient.hpp"
 
 
@@ -36,6 +36,10 @@ class Client : public RegistryAwareEventStreamInterface {
     bool connectedEventReceived;
     std::mutex connectedEventReceivedMutex;
     std::condition_variable connectedEventReceivedCondition;
+    
+    std::unique_ptr<ExperimentPackager> experimentPackager;
+    
+    void handleSystemEvent(const Datum &sysEvent);
     
     public:
         /*!

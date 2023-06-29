@@ -7,12 +7,13 @@
  * Copyright 2006 MIT. All rights reserved.
  */
 
+#include "Client.h"
+
 #include <boost/filesystem/path.hpp>
 
-#include "ExperimentPackager.h"
-#include "Client.h"
-#include "SystemEventFactory.h"
 #include "LoadingUtilities.h"
+#include "StandardVariables.h"
+#include "SystemEventFactory.h"
 #include "ZeroMQUtilities.hpp"
 
 
@@ -52,22 +53,9 @@ void Client::handleEvent(shared_ptr<Event> evt) {
             putEvent(SystemEventFactory::requestVariablesUpdateControl());
             break;
             
-        case RESERVED_SYSTEM_EVENT_CODE: {
-            auto &sysEvent = evt->getData();
-            if (sysEvent.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == M_SERVER_CONNECTED_CLIENT) {
-                long clientID = sysEvent.getElement(M_SYSTEM_PAYLOAD).getInteger();
-                std::lock_guard<std::mutex> lock(connectedEventReceivedMutex);
-                if (remoteConnection &&
-                    clientID == reinterpret_cast<long>(remoteConnection.get()))
-                {
-                    // Received connection acknowledgement from server.  Notify any thread waiting
-                    // in connectToServer.
-                    connectedEventReceived = true;
-                    connectedEventReceivedCondition.notify_all();
-                }
-            }
+        case RESERVED_SYSTEM_EVENT_CODE:
+            handleSystemEvent(evt->getData());
             break;
-        }
             
         case RESERVED_TERMINATION_CODE:
             mwarning(M_CLIENT_MESSAGE_DOMAIN, "Received termination notification from server; disconnecting");
@@ -89,6 +77,40 @@ void Client::handleEvent(shared_ptr<Event> evt) {
 		}
 	}
 }
+
+
+void Client::handleSystemEvent(const Datum &sysEvent) {
+    switch (sysEvent.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger()) {
+        case M_SERVER_CONNECTED_CLIENT: {
+            long clientID = sysEvent.getElement(M_SYSTEM_PAYLOAD).getInteger();
+            std::lock_guard<std::mutex> lock(connectedEventReceivedMutex);
+            if (remoteConnection &&
+                clientID == reinterpret_cast<long>(remoteConnection.get()))
+            {
+                // Received connection acknowledgement from server.  Notify any thread waiting
+                // in connectToServer.
+                connectedEventReceived = true;
+                connectedEventReceivedCondition.notify_all();
+            }
+            break;
+        }
+            
+        case M_REQUEST_MEDIA_FILE: {
+            if (experimentPackager) {
+                auto mediaFileRequestPayload = sysEvent.getElement(M_SYSTEM_PAYLOAD);
+                auto packagedMediaFile = experimentPackager->createMediaFilePackage(mediaFileRequestPayload);
+                if (!packagedMediaFile.isUndefined()) {
+                    putEvent(boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE, packagedMediaFile));
+                }
+            }
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
 
 void Client::startEventListener() {
     incoming_listener = boost::make_shared<EventListener>(incoming_event_buffer, shared_from_this());
@@ -150,25 +172,19 @@ void Client::putEvent(shared_ptr<Event> event) {
 }
 
 bool Client::sendExperiment(const std::string &expPath) {
-	namespace bf = boost::filesystem;
-    if(!remoteConnection->isConnected()) { return false; }
-    ExperimentPackager packer;
-	
-    Datum packaged_experiment(packer.packageExperiment(bf::path(expPath)));
-	if(packaged_experiment.isUndefined()) {
-		merror(M_CLIENT_MESSAGE_DOMAIN, 
-			   "Failed to create a valid packaged experiment.");
-		
-		// send an update that the experiment load failed
-		shared_ptr<Event> experimentStateEvent = SystemEventFactory::currentExperimentState();
-		putEvent(experimentStateEvent);
-			
-		return false; 		
-	}
+    if (!remoteConnection->isConnected()) {
+        return false;
+    }
     
-    shared_ptr<Event> experiment_event(new Event(RESERVED_SYSTEM_EVENT_CODE, packaged_experiment));
-    putEvent(experiment_event);
-	
+    experimentPackager = std::make_unique<ExperimentPackager>();
+    auto packaged_experiment = experimentPackager->packageExperiment(boost::filesystem::path(expPath));
+    if (packaged_experiment.isUndefined()) {
+        merror(M_CLIENT_MESSAGE_DOMAIN, "Failed to create a valid packaged experiment.");
+        experimentPackager.reset();
+        return false;
+    }
+    
+    putEvent(boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE, packaged_experiment));
     return true;
 }
 

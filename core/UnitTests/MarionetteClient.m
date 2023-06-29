@@ -450,7 +450,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 						break;
 					case M_EXPERIMENT_PACKAGE:
 					case M_PROTOCOL_PACKAGE:
-					case M_DATAFILE_PACKAGE:
+                    case M_MEDIA_FILE_PACKAGE:
 					case M_PROTOCOL_SELECTION:
 					case M_START_EXPERIMENT:
 					case M_STOP_EXPERIMENT:
@@ -460,9 +460,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 					case M_LOAD_VARIABLES:
 					case M_OPEN_DATA_FILE:
 					case M_CLOSE_DATA_FILE:
+                    case M_REQUEST_MEDIA_FILE:
 					case M_CLIENT_CONNECTED_TO_SERVER:
 					case M_SERVER_CONNECTED_CLIENT:
-					case M_USER_DEFINED:
 						break;
 					default:
 						[self marionetteAssert:[NSString stringWithFormat:@"illeagal #system type: %lld", sys_event_type.getInteger()]];

@@ -20,6 +20,7 @@
 #include "ZeroMQServer.hpp"
 #include "VariableRegistryInterface.h"
 #include "RegisteredSingleton.h"
+#include "ExperimentPackager.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -34,6 +35,7 @@ class Server : public RegistryAwareEventStreamInterface {
         boost::shared_ptr<EventListener> incomingListener;
         boost::shared_ptr<EventListener> outgoingListener;
         std::unique_ptr<ZeroMQServer> server;
+        std::unique_ptr<ExperimentPackager> experimentPackager;
     
 	public:
         Server();

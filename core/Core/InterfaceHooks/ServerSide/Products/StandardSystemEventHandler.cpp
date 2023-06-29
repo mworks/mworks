@@ -16,7 +16,6 @@
 #include "DataFileManager.h"
 #include "EventBuffer.h"
 #include "Experiment.h"
-#include "ExperimentUnpackager.h"
 #include "GenericData.h"
 #include "LoadingUtilities.h"
 #include "PlatformDependentServices.h"
@@ -67,31 +66,28 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
     switch (payloadType.getInteger()) {
             
         case M_EXPERIMENT_PACKAGE: {
-            ExperimentUnpackager unpackager;
-            if (!unpackager.unpackageExperiment(sysEvent.getElement(M_SYSTEM_PAYLOAD))) {
-                merror(M_NETWORK_MESSAGE_DOMAIN, "Unable to unpackage experiment");
-                break;
+            experimentUnpackager = std::make_unique<ExperimentUnpackager>();
+            if (experimentUnpackager->unpackageExperiment(sysEvent.getElement(M_SYSTEM_PAYLOAD))) {
+                requestNextMediaFile();
+            } else {
+                terminateExperimentUnpackaging();
             }
+            break;
+        }
             
-            auto expXMLFile = unpackager.getUnpackagedExperimentPath();
-            if (!loadExperimentFromXMLParser(expXMLFile)) {
-                merror(M_PARSER_MESSAGE_DOMAIN, "Failed to parse experiment %s", expXMLFile.string().c_str());
-                break;
+        case M_MEDIA_FILE_PACKAGE: {
+            if (experimentUnpackager) {
+                if (experimentUnpackager->unpackageMediaFile(sysEvent.getElement(M_SYSTEM_PAYLOAD))) {
+                    requestNextMediaFile();
+                } else {
+                    terminateExperimentUnpackaging();
+                }
             }
-            
-            if (auto experiment = GlobalCurrentExperiment) {
-                experiment->setExperimentPath(expXMLFile.parent_path().parent_path().string());
-                global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
-                mprintf("%s successfully loaded, using protocol: %s",
-                        experiment->getExperimentName().c_str(),
-                        experiment->getCurrentProtocol()->getName().c_str());
-            }
-            
             break;
         }
             
         case M_PROTOCOL_SELECTION: {
-            auto &newProtocol = sysEvent.getElement(M_SYSTEM_PAYLOAD).getString();
+            auto newProtocol = sysEvent.getElement(M_SYSTEM_PAYLOAD).getString();
             if (newProtocol.empty()) {
                 merror(M_PARADIGM_MESSAGE_DOMAIN, "Selected protocol is NULL");
                 break;
@@ -134,7 +130,7 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
         }
             
         case M_CLOSE_EXPERIMENT: {
-            auto &expName = sysEvent.getElement(M_SYSTEM_PAYLOAD).getString();
+            auto expName = sysEvent.getElement(M_SYSTEM_PAYLOAD).getString();
             if (expName.empty()) {
                 merror(M_SYSTEM_MESSAGE_DOMAIN, "Tried to close NULL experiment");
                 break;
@@ -191,7 +187,7 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
             
         case M_OPEN_DATA_FILE: {
             auto payload = sysEvent.getElement(M_SYSTEM_PAYLOAD);
-            auto &filename = payload.getElement(M_DATA_FILE_FILENAME).getString();
+            auto filename = payload.getElement(M_DATA_FILE_FILENAME).getString();
             auto overwrite = payload.getElement(M_DATA_FILE_OVERWRITE).getBool();
             if (filename.empty()) {
                 merror(M_FILE_MESSAGE_DOMAIN, "Attempt to open data file with an empty name");
@@ -293,6 +289,34 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
             break;
         }
             
+    }
+}
+
+
+void StandardSystemEventHandler::terminateExperimentUnpackaging() {
+    merror(M_NETWORK_MESSAGE_DOMAIN, "Unable to unpackage experiment");
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+    experimentUnpackager.reset();
+}
+
+
+void StandardSystemEventHandler::requestNextMediaFile() {
+    auto mediaFileRequestPayload = experimentUnpackager->createMediaFileRequest();
+    if (!mediaFileRequestPayload.isUndefined()) {
+        // Request the next media file
+        global_outgoing_event_buffer->putEvent(boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE,
+                                                                         mediaFileRequestPayload));
+    } else {
+        // No more media files required.  Load the experiment.
+        auto expXMLFile = experimentUnpackager->getExperimentFilePath();
+        if (!loadExperimentFromXMLParser(expXMLFile)) {
+            merror(M_PARSER_MESSAGE_DOMAIN, "Failed to parse experiment %s", expXMLFile.string().c_str());
+        } else if (auto experiment = GlobalCurrentExperiment) {
+            mprintf("%s successfully loaded, using protocol: %s",
+                    experiment->getExperimentName().c_str(),
+                    experiment->getCurrentProtocol()->getName().c_str());
+        }
+        experimentUnpackager.reset();
     }
 }
 

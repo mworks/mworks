@@ -17,6 +17,7 @@
 #include "VariableSave.h"
 #include "VariableLoad.h"
 #include "ZeroMQUtilities.hpp"
+#include "StateSystem.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -98,21 +99,15 @@ void Server::loadVariables(const boost::filesystem::path &file) {
 }
 
 bool Server::openExperiment(const std::string &expPath) {
-	namespace bf = boost::filesystem;
-	
-    ExperimentPackager packer;
-	
-    Datum experiment(packer.packageExperiment(bf::path(expPath)));
-	if(experiment.isUndefined()) {
-		merror(M_SERVER_MESSAGE_DOMAIN, 
-			   "Failed to create a valid packaged experiment.");
-		return false; 		
-	}
-	shared_ptr<Event> new_experiment(new Event(RESERVED_SYSTEM_EVENT_CODE, 
-												 experiment));
-	putEvent(new_experiment);
-	
-	return true;
+    experimentPackager = std::make_unique<ExperimentPackager>();
+    auto experiment = experimentPackager->packageExperiment(boost::filesystem::path(expPath));
+    if (experiment.isUndefined()) {
+        merror(M_SERVER_MESSAGE_DOMAIN, "Failed to create a valid packaged experiment.");
+        experimentPackager.reset();
+        return false;
+    }
+    putEvent(boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE, experiment));
+    return true;
 }
 
 bool Server::closeExperiment(){
@@ -153,7 +148,22 @@ MWTime Server::getReferenceTime() {
 
 
 void Server::handleEvent(shared_ptr<Event> evt) {
-	handleCallbacks(evt);
+    if (evt->getEventCode() == RESERVED_SYSTEM_EVENT_CODE) {
+        auto sysEvent = evt->getData();
+        if (sysEvent.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == M_REQUEST_MEDIA_FILE) {
+            // Respond to media file requests only if the experiment package was sent by this
+            // Server instance itself (not by a Client instance) via Server::openExperiment
+            if (experimentPackager) {
+                auto mediaFileRequestPayload = sysEvent.getElement(M_SYSTEM_PAYLOAD);
+                auto packagedMediaFile = experimentPackager->createMediaFilePackage(mediaFileRequestPayload);
+                if (!packagedMediaFile.isUndefined()) {
+                    putEvent(boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE, packagedMediaFile));
+                }
+            }
+        }
+    }
+    
+    handleCallbacks(evt);
 }
 
 

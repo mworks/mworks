@@ -1,0 +1,4 @@
+video video_${rr_index} (
+    path = 'videos/video_1001.mp4'  // Does not exist
+    x_size = 20
+    )

@@ -1,0 +1,37 @@
+//
+// Packaging, transferring, and unpackaging 1000 video files may take a little
+// time, but it shouldn't cause client or server to crash or use a huge amount
+// of RAM
+//
+
+
+%define num_videos = 1000
+
+stimulus_group videos {
+    range_replicator (
+        variable = rr_index
+        from = 1
+        to = num_videos
+        step = 1
+        ) {
+        video video_${rr_index} (
+            path = 'videos/video_${rr_index}.mp4'
+            x_size = 20
+            deferred = explicit
+            autoplay = true
+            )
+    }
+}
+
+
+var index = 0
+
+protocol {
+    // Confirm that a random video stimulus loads and plays
+    index = disc_rand(0, num_videos - 1)
+    load_stimulus (videos[index])
+    queue_stimulus (videos[index])
+    update_display ()
+    wait (5s)
+    clear_display ()
+}

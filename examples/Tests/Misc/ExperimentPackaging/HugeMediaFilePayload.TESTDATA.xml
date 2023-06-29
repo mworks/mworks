@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <requirements>
+    <!-- This test would be excruciatingly slow if it had to transfer all
+         the video files to an iPad over WiFi -->
+    <feature name="macos"/>
+  </requirements>
+</marionette_info>

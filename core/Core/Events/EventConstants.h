@@ -41,10 +41,11 @@ typedef enum {
 	// data package types whose payloads are data
     M_EXPERIMENT_PACKAGE                = 2000,
     M_PROTOCOL_PACKAGE                  = 2001,
-    M_DATAFILE_PACKAGE                  = 2004, //the actual file
-												// control events that tell the server or client to perform a task
-												// they usually have no payload (mw::Protocol Selection contains the name
-												// of the protocol selected)
+    M_MEDIA_FILE_PACKAGE                = 2002,
+    //M_DATAFILE_PACKAGE                = 2004, //the actual file
+    
+    // control events that tell the server or client to perform a task
+    // or ask them to send some data
     M_PROTOCOL_SELECTION                = 3001,
     M_START_EXPERIMENT                  = 3002,
     M_STOP_EXPERIMENT                   = 3003,
@@ -63,6 +64,7 @@ typedef enum {
     M_REQUEST_COMPONENT_CODEC           = 3016,
     M_REQUEST_EXPERIMENT_STATE          = 3017,
     M_REQUEST_PROTOCOLS                 = 3018,
+    M_REQUEST_MEDIA_FILE                = 3019,
     
 	// response messages
     M_DATA_FILE_OPENED                  = 4007,
@@ -72,8 +74,9 @@ typedef enum {
     M_SERVER_CONNECTED_CLIENT           = 4011,
     //M_SERVER_DISCONNECTED_CLIENT      = 4012,
 	M_EXPERIMENT_STATE					= 4013,
+    
 	// this payload can contain whatever
-    M_USER_DEFINED                      = 6000,
+    //M_USER_DEFINED                    = 6000,
 } SystemPayloadType;
 
 // used in the event factory
@@ -157,6 +160,4 @@ enum MessageOrigin {
 END_NAMESPACE_MW
 
 
-#endif
-
-
+#endif /* _EVENT_CONSTANTS_H */

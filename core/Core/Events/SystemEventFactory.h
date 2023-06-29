@@ -40,15 +40,6 @@ class SystemEventFactory {
     /*********************************************************
 		*          Control Package Events
 		********************************************************/        
-	//NOTES
-	/**
-		* Creates an event that tells the server to open up filename.
-	 * data file open is a control event not to be confused with
-	 * M_DATAFILE_PACKAGE which is used to send the data file back to the
-	 * client. opt is just an enum  for now but could become a logical 
-	 * ORing of options if we think of anything else.
-	 */
-	
 	static shared_ptr<Event> protocolSelectionControl(std::string);
 	static shared_ptr<Event> startExperimentControl();
 	static shared_ptr<Event> stopExperimentControl();
