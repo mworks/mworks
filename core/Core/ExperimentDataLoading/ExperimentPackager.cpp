@@ -11,7 +11,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <unordered_set>
 
 #include <boost/scope_exit.hpp>
 
@@ -29,10 +28,9 @@ BEGIN_NAMESPACE_MW
 class ExperimentPackager::IncludedFilesParser : public XMLParser {
     
 public:
-    explicit IncludedFilesParser(const std::string &path);
+    IncludedFilesParser(const std::string &path, IncludedFilesSet &includedFiles);
     
     void parse(bool announceProgress) override;
-    const std::unordered_set<std::string> & getIncludedFiles() const { return includedFiles; }
     
 private:
     // instead of building experiment, just look for path arguments and save
@@ -47,13 +45,14 @@ private:
     
     void addDirectory(const std::string &directoryPath, bool recursive);
     
-    std::unordered_set<std::string> includedFiles;
+    IncludedFilesSet &includedFiles;
     
 };
 
 
 Datum ExperimentPackager::packageExperiment(const boost::filesystem::path &filename) {
-    IncludedFilesParser parser(filename.string());
+    includedFiles.clear();
+    IncludedFilesParser parser(filename.string(), includedFiles);
     try {
         parser.parse(false);
     } catch (const std::exception &e) {
@@ -79,7 +78,6 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path &filen
     
     // Package the list of included (aka media) files
     {
-        auto &includedFiles = parser.getIncludedFiles();
         Datum mediaFilenames(M_LIST, int(includedFiles.size()));
         for (const auto &mediaFileName : includedFiles) {
             mediaFilenames.addElement(mediaFileName);
@@ -93,7 +91,7 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path &filen
 }
 
 
-Datum ExperimentPackager::createMediaFilePackage(const Datum &mediaFileRequestPayload) const {
+Datum ExperimentPackager::createMediaFilePackage(const Datum &mediaFileRequestPayload) {
     if (!(mediaFileRequestPayload.isDictionary() &&
           mediaFileRequestPayload.getNElements() == M_MEDIA_FILE_REQUEST_NUMBER_ELEMENTS &&
           mediaFileRequestPayload.getElement(M_UNPACKAGER_EXPERIMENT_FILENAME).getString() == experimentFilename))
@@ -103,6 +101,16 @@ Datum ExperimentPackager::createMediaFilePackage(const Datum &mediaFileRequestPa
     
     auto mediaFilename = mediaFileRequestPayload.getElement(M_UNPACKAGER_MEDIA_FILENAME).getString();
     if (mediaFilename.empty()) {
+        return Datum();
+    }
+    
+    auto iter = includedFiles.find(mediaFilename);
+    if (iter != includedFiles.end()) {
+        // Remove the filename, so that it can't be requested again
+        includedFiles.erase(iter);
+    } else {
+        // The requested file is not associated with the packaged experiment or
+        // has already been requested
         return Datum();
     }
     
@@ -144,8 +152,9 @@ Datum ExperimentPackager::packageSingleFile(const std::string &filename, const D
 }
 
 
-ExperimentPackager::IncludedFilesParser::IncludedFilesParser(const std::string &path) :
-    XMLParser(path, "MWMediaPackagerTransformation.xsl")
+ExperimentPackager::IncludedFilesParser::IncludedFilesParser(const std::string &path, IncludedFilesSet &includedFiles) :
+    XMLParser(path, "MWMediaPackagerTransformation.xsl"),
+    includedFiles(includedFiles)
 { }
 
 

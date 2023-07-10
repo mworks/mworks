@@ -10,8 +10,8 @@
 #ifndef _EXPERIMENT_UNPACKAGER_H__
 #define _EXPERIMENT_UNPACKAGER_H__
 
-#include <deque>
 #include <string>
+#include <unordered_set>
 
 #include <boost/filesystem/path.hpp>
 
@@ -32,7 +32,7 @@ public:
     bool unpackageExperiment(const Datum &payload);
     const boost::filesystem::path & getExperimentFilePath() const { return experimentFilePath; }
     
-    Datum createMediaFileRequest() const;
+    Datum createMediaFileRequest();
     bool unpackageMediaFile(const Datum &mediaFilePackagePayload);
     
 private:
@@ -43,7 +43,9 @@ private:
     std::string experimentFilename;
     boost::filesystem::path experimentFilePath;
     boost::filesystem::path experimentInstallDirectoryPath;
-    std::deque<std::string> requiredMediaFilenames;
+    
+    std::unordered_set<std::string> requiredMediaFilenames;
+    std::string requestedMediaFilename;
     
 };
 

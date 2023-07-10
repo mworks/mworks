@@ -16,6 +16,7 @@
 #define _EXPERIMENT_PACKAGER_H__
 
 #include <string>
+#include <unordered_set>
 
 #include <boost/filesystem/path.hpp>
 
@@ -39,7 +40,7 @@ class ExperimentPackager {
     
 public:
     Datum packageExperiment(const boost::filesystem::path &fileWithFullPath);
-    Datum createMediaFilePackage(const Datum &mediaFileRequestPayload) const;
+    Datum createMediaFilePackage(const Datum &mediaFileRequestPayload);
     
 private:
     static Datum packageSingleFile(const std::string &filename, const boost::filesystem::path &filePath);
@@ -47,6 +48,9 @@ private:
     
     std::string experimentFilename;
     std::string experimentWorkingPath;
+    
+    using IncludedFilesSet = std::unordered_set<std::string>;
+    IncludedFilesSet includedFiles;
     
 };
 

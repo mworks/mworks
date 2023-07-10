@@ -59,10 +59,11 @@ bool ExperimentUnpackager::unpackageExperiment(const Datum &payload) {
     }
     
     // get the list of media filenames to be requested
+    requiredMediaFilenames.clear();
     auto mediaFilenames = payload.getElement(M_PACKAGER_MEDIA_FILENAMES);
     if (mediaFilenames.isList()) {
         for (auto &mediaFilename : mediaFilenames.getList()) {
-            requiredMediaFilenames.emplace_back(mediaFilename);
+            requiredMediaFilenames.emplace(mediaFilename);
         }
     }
     
@@ -70,16 +71,20 @@ bool ExperimentUnpackager::unpackageExperiment(const Datum &payload) {
 }
 
 
-Datum ExperimentUnpackager::createMediaFileRequest() const {
-    if (requiredMediaFilenames.empty()) {
-        // We've already have all required media files
+Datum ExperimentUnpackager::createMediaFileRequest() {
+    auto iter = requiredMediaFilenames.begin();
+    if (iter == requiredMediaFilenames.end()) {
+        // We already have all required media files
         return Datum();
     }
     
-    // Generate a request for the next media file
+    // Save the filename, then remove it from the list so we don't request it again
+    requestedMediaFilename = *iter;
+    requiredMediaFilenames.erase(iter);
+    
     Datum mediaFileRequestPayload(M_DICTIONARY, M_MEDIA_FILE_REQUEST_NUMBER_ELEMENTS);
     mediaFileRequestPayload.addElement(M_UNPACKAGER_EXPERIMENT_FILENAME, experimentFilename);
-    mediaFileRequestPayload.addElement(M_UNPACKAGER_MEDIA_FILENAME, requiredMediaFilenames.front());
+    mediaFileRequestPayload.addElement(M_UNPACKAGER_MEDIA_FILENAME, requestedMediaFilename);
     
     return SystemEventFactory::systemEventPackage(M_SYSTEM_CONTROL_PACKAGE,
                                                   M_REQUEST_MEDIA_FILE,
@@ -97,15 +102,14 @@ bool ExperimentUnpackager::unpackageMediaFile(const Datum &mediaFilePackagePaylo
     
     auto mediaFilename = mediaFilePackagePayload.getElement(M_PACKAGER_FILENAME);
     auto mediaFileContents = mediaFilePackagePayload.getElement(M_PACKAGER_CONTENTS);
-    if (!(requiredMediaFilenames.size() > 0 &&
-          mediaFilename.getString() == requiredMediaFilenames.front() &&
+    if (!(requestedMediaFilename.size() > 0 &&
+          mediaFilename.getString() == requestedMediaFilename &&
           mediaFileContents.isString()))
     {
         return false;
     }
     
-    // We've received the next media file, so remove it from the list
-    requiredMediaFilenames.pop_front();
+    requestedMediaFilename.clear();
     
     auto mediaFilePath = (experimentInstallDirectoryPath /
                           boost::filesystem::path(mediaFilename.getString()).relative_path());
