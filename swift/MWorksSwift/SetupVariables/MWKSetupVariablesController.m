@@ -21,7 +21,7 @@
 - (instancetype)init {
     if ((self = [super init])) {
         writeQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
-        dispatch_set_target_queue(writeQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
+        dispatch_set_target_queue(writeQueue, dispatch_get_global_queue(QOS_CLASS_UTILITY, 0));
         
         _serverName = @(mw::serverName->getValue().toString().c_str());
         

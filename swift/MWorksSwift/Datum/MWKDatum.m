@@ -20,12 +20,12 @@
 
 
 + (instancetype)datumWithInt:(NSInteger)value {
-    return [(MWKDatum *)[self alloc] initWithInt:value];
+    return [[self alloc] initWithInt:value];
 }
 
 
 + (instancetype)datumWithFloat:(double)value {
-    return [(MWKDatum *)[self alloc] initWithFloat:value];
+    return [[self alloc] initWithFloat:value];
 }
 
 
