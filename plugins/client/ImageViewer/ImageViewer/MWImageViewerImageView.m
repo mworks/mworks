@@ -10,6 +10,7 @@
 
 
 @implementation MWImageViewerImageView {
+    NSData *imageData;
     NSPoint selectionStartPoint;
 }
 
@@ -27,6 +28,27 @@
         _selectedRegion = selectedRegion;
         self.needsDisplay = YES;
     }
+}
+
+
+- (void)receivedImageData:(NSData *)newImageData {
+    if (!(newImageData && newImageData.length > 0)) {
+        imageData = nil;
+        self.image = nil;
+    } else if (!(imageData && [imageData isEqualToData:newImageData])) {
+        imageData = newImageData;
+        self.needsDisplay = YES;
+    }
+}
+
+
+- (void)viewWillDraw {
+    if (imageData) {
+        self.image = [[NSImage alloc] initWithData:imageData];
+        imageData = nil;  // Don't re-decode the image data on the next drawing pass
+    }
+    
+    [super viewWillDraw];
 }
 
 

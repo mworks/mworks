@@ -33,10 +33,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E11E56ED2B30D33C0074D2CB /* ImageViewerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A07BC2B222C6100B0EC23 /* ImageViewerCoordinator.swift */; };
+		E11E56EF2B30D4E90074D2CB /* ImageViewerViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E56EE2B30D4E90074D2CB /* ImageViewerViewControllerFactory.swift */; };
+		E13DF16E2A61A05D009EF207 /* ImageViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DF16D2A61A05D009EF207 /* ImageViewerView.swift */; };
+		E13DF17D2A659A6E009EF207 /* ImageViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DF16D2A61A05D009EF207 /* ImageViewerView.swift */; };
+		E14A1DBC2A6AE3B900E283E8 /* MWImageViewerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1660D2B22A95C7C00F15035 /* MWImageViewerImageView.m */; };
 		E14B0DF022A8087900F3F077 /* ImageViewer.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E14B0DDB22A8068300F3F077 /* ImageViewer.bundle */; };
-		E14B0DFC22A80AA200F3F077 /* MWImageViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14B0DFA22A80AA200F3F077 /* MWImageViewerController.m */; };
-		E14B0E0122A80F9B00F3F077 /* MWImageViewerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E14B0E0022A80F9B00F3F077 /* MWImageViewerController.xib */; };
 		E1660D2C22A95C7C00F15035 /* MWImageViewerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1660D2B22A95C7C00F15035 /* MWImageViewerImageView.m */; };
+		E16A07BD2B222C6100B0EC23 /* ImageViewerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A07BC2B222C6100B0EC23 /* ImageViewerCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,18 +74,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E11E56EE2B30D4E90074D2CB /* ImageViewerViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerViewControllerFactory.swift; sourceTree = "<group>"; };
+		E13DF16C2A61A05C009EF207 /* ImageViewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageViewer-Bridging-Header.h"; sourceTree = "<group>"; };
+		E13DF16D2A61A05D009EF207 /* ImageViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerView.swift; sourceTree = "<group>"; };
+		E13DF1732A659A4E009EF207 /* libImageViewerPreviewHost.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libImageViewerPreviewHost.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E14B0DDB22A8068300F3F077 /* ImageViewer.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageViewer.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		E14B0DDE22A8068300F3F077 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E14B0DE522A806D900F3F077 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		E14B0DF922A80AA200F3F077 /* MWImageViewerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWImageViewerController.h; sourceTree = "<group>"; };
-		E14B0DFA22A80AA200F3F077 /* MWImageViewerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWImageViewerController.m; sourceTree = "<group>"; };
-		E14B0E0022A80F9B00F3F077 /* MWImageViewerController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MWImageViewerController.xib; sourceTree = "<group>"; };
 		E1660D2A22A95C7C00F15035 /* MWImageViewerImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWImageViewerImageView.h; sourceTree = "<group>"; };
 		E1660D2B22A95C7C00F15035 /* MWImageViewerImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWImageViewerImageView.m; sourceTree = "<group>"; };
+		E16A07BC2B222C6100B0EC23 /* ImageViewerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerCoordinator.swift; sourceTree = "<group>"; };
 		E19998FD22C138A3009E53EE /* macOS_ClientPlugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_ClientPlugin.xcconfig; sourceTree = "<group>"; };
+		E1F7F4212A715C2B00FB5EF3 /* macOS_SwiftUIPreviewHost.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_SwiftUIPreviewHost.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E13DF1712A659A4E009EF207 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E14B0DD822A8068300F3F077 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -105,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				E14B0DDB22A8068300F3F077 /* ImageViewer.bundle */,
+				E13DF1732A659A4E009EF207 /* libImageViewerPreviewHost.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,9 +128,9 @@
 			children = (
 				E1660D2A22A95C7C00F15035 /* MWImageViewerImageView.h */,
 				E1660D2B22A95C7C00F15035 /* MWImageViewerImageView.m */,
-				E14B0DF922A80AA200F3F077 /* MWImageViewerController.h */,
-				E14B0DFA22A80AA200F3F077 /* MWImageViewerController.m */,
-				E14B0E0022A80F9B00F3F077 /* MWImageViewerController.xib */,
+				E16A07BC2B222C6100B0EC23 /* ImageViewerCoordinator.swift */,
+				E13DF16D2A61A05D009EF207 /* ImageViewerView.swift */,
+				E11E56EE2B30D4E90074D2CB /* ImageViewerViewControllerFactory.swift */,
 				E14B0DFE22A80B3000F3F077 /* Supporting Files */,
 			);
 			path = ImageViewer;
@@ -127,6 +141,7 @@
 			children = (
 				E14B0DE522A806D900F3F077 /* macOS.xcconfig */,
 				E19998FD22C138A3009E53EE /* macOS_ClientPlugin.xcconfig */,
+				E1F7F4212A715C2B00FB5EF3 /* macOS_SwiftUIPreviewHost.xcconfig */,
 			);
 			name = "External Config";
 			path = ../../../build/xcode;
@@ -135,14 +150,41 @@
 		E14B0DFE22A80B3000F3F077 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E14B0DDE22A8068300F3F077 /* Info.plist */,
+				E13DF16C2A61A05C009EF207 /* ImageViewer-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		E13DF16F2A659A4E009EF207 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		E13DF1722A659A4E009EF207 /* ImageViewerPreviewHost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E13DF17A2A659A4E009EF207 /* Build configuration list for PBXNativeTarget "ImageViewerPreviewHost" */;
+			buildPhases = (
+				E13DF16F2A659A4E009EF207 /* Headers */,
+				E13DF1702A659A4E009EF207 /* Sources */,
+				E13DF1712A659A4E009EF207 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ImageViewerPreviewHost;
+			productName = ImageViewerPreviewHost;
+			productReference = E13DF1732A659A4E009EF207 /* libImageViewerPreviewHost.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		E14B0DDA22A8068300F3F077 /* ImageViewer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E14B0DE122A8068300F3F077 /* Build configuration list for PBXNativeTarget "ImageViewer" */;
@@ -166,11 +208,15 @@
 		E14B0DD322A8068300F3F077 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "The MWorks Project";
 				TargetAttributes = {
+					E13DF1722A659A4E009EF207 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
 					E14B0DDA22A8068300F3F077 = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1430;
 					};
 					E14B0DE722A8084800F3F077 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -186,12 +232,14 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = E14B0DD222A8068300F3F077;
 			productRefGroup = E14B0DDC22A8068300F3F077 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E13DF1722A659A4E009EF207 /* ImageViewerPreviewHost */,
 				E14B0DDA22A8068300F3F077 /* ImageViewer */,
 				E14B0DE722A8084800F3F077 /* Install */,
 				E14B0DEA22A8085600F3F077 /* Everything */,
@@ -204,19 +252,30 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E14B0E0122A80F9B00F3F077 /* MWImageViewerController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E13DF1702A659A4E009EF207 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E11E56ED2B30D33C0074D2CB /* ImageViewerCoordinator.swift in Sources */,
+				E14A1DBC2A6AE3B900E283E8 /* MWImageViewerImageView.m in Sources */,
+				E13DF17D2A659A6E009EF207 /* ImageViewerView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E14B0DD722A8068300F3F077 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E16A07BD2B222C6100B0EC23 /* ImageViewerCoordinator.swift in Sources */,
+				E13DF16E2A61A05D009EF207 /* ImageViewerView.swift in Sources */,
 				E1660D2C22A95C7C00F15035 /* MWImageViewerImageView.m in Sources */,
-				E14B0DFC22A80AA200F3F077 /* MWImageViewerController.m in Sources */,
+				E11E56EF2B30D4E90074D2CB /* ImageViewerViewControllerFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +295,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		E13DF1792A659A4E009EF207 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F7F4212A715C2B00FB5EF3 /* macOS_SwiftUIPreviewHost.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ImageViewer/ImageViewer-Bridging-Header.h";
+			};
+			name = Development;
+		};
 		E14B0DDF22A8068300F3F077 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -247,9 +315,11 @@
 			baseConfigurationReference = E19998FD22C138A3009E53EE /* macOS_ClientPlugin.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				INFOPLIST_FILE = ImageViewer/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPrincipalClass = ImageViewer.ImageViewerViewControllerFactory;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ImageViewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ImageViewer/ImageViewer-Bridging-Header.h";
 			};
 			name = Development;
 		};
@@ -272,6 +342,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E13DF17A2A659A4E009EF207 /* Build configuration list for PBXNativeTarget "ImageViewerPreviewHost" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E13DF1792A659A4E009EF207 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
 		E14B0DD622A8068300F3F077 /* Build configuration list for PBXProject "ImageViewer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

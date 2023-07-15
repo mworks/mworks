@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSRect regionOfInterest;
 @property(nonatomic) NSRect selectedRegion;
 
+- (void)receivedImageData:(nullable NSData *)imageData;
+
 @end
 
 

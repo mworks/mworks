@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1510"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E14B0DDA22A8068300F3F077"
-               BuildableName = "ImageViewer.bundle"
-               BlueprintName = "ImageViewer"
+               BlueprintIdentifier = "E13DF1722A659A4E009EF207"
+               BuildableName = "libImageViewerPreviewHost.dylib"
+               BlueprintName = "ImageViewerPreviewHost"
                ReferencedContainer = "container:ImageViewer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,9 +26,8 @@
       buildConfiguration = "Development"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-      </Testables>
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldAutocreateTestPlan = "YES">
    </TestAction>
    <LaunchAction
       buildConfiguration = "Development"
@@ -40,15 +39,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E14B0DDA22A8068300F3F077"
-            BuildableName = "ImageViewer.bundle"
-            BlueprintName = "ImageViewer"
-            ReferencedContainer = "container:ImageViewer.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Development"
@@ -59,9 +49,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E14B0DDA22A8068300F3F077"
-            BuildableName = "ImageViewer.bundle"
-            BlueprintName = "ImageViewer"
+            BlueprintIdentifier = "E13DF1722A659A4E009EF207"
+            BuildableName = "libImageViewerPreviewHost.dylib"
+            BlueprintName = "ImageViewerPreviewHost"
             ReferencedContainer = "container:ImageViewer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
