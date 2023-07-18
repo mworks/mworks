@@ -53,7 +53,9 @@ NS_ASSUME_NONNULL_END
 
 
 + (NSViewController *)viewControllerWithClient:(id<MWKClient>)client {
-    return [[self alloc] initWithClient:client];
+    MWClientPluginViewController *controller = [[self alloc] initWithClient:client];
+    [controller prepareStoredProperties];
+    return controller;
 }
 
 
@@ -188,9 +190,7 @@ NS_ASSUME_NONNULL_END
 static void * const storedPropertyContext = (void *)(&storedPropertyContext);
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
+- (void)prepareStoredProperties {
     NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
     for (NSString *name in storedProperties) {
         id defaultValue = [defaults objectForKey:storedProperties[name].defaultsKey];
