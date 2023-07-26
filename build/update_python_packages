@@ -50,7 +50,7 @@ for python3 in /Library/Frameworks/Python.framework/Versions/3.*/bin/python3; do
     # The remaining packages are needed only by MWorks' "official" Python 3
     # version
     if [[ "$python3" == "$mw_python_3" ]]; then
-        $pip3_install --user Cython pyaml Sphinx || exit
+        $pip3_install --user 'Cython<3.0.0' pyaml Sphinx || exit
     fi
     echo
 done
