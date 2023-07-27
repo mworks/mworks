@@ -35,7 +35,6 @@
 /* Begin PBXBuildFile section */
 		5C8E4A69098FA2A600EB44CA /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C8E4A68098FA2A600EB44CA /* Main.xib */; };
 		5C8E4A7B098FB02400EB44CA /* MWRewardWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8E4A7A098FB02400EB44CA /* MWRewardWindowController.m */; };
-		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		E12D994F16BC37F4004FEF79 /* MWorksRewardWindow.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */; };
 		E15D0B3C16C2CAA800F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B3B16C2CAA800F331B1 /* AppKit.framework */; };
 		E186EFCE207D255C00B32CA3 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E186EFCD207D255C00B32CA3 /* MWorksCore.framework */; };
@@ -72,13 +71,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		32DBCF630370AF2F00C91783 /* MWorksRewardWindow_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksRewardWindow_Prefix.pch; sourceTree = "<group>"; };
 		5C8E4A68098FA2A600EB44CA /* Main.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
 		5C8E4A79098FB02400EB44CA /* MWRewardWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWRewardWindowController.h; sourceTree = "<group>"; };
 		5C8E4A7A098FB02400EB44CA /* MWRewardWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWRewardWindowController.m; sourceTree = "<group>"; };
 		686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWorksRewardWindow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E15D0B3B16C2CAA800F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E186EFCD207D255C00B32CA3 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1C3651422BD6E7D00D1DBF6 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -102,9 +98,9 @@
 			isa = PBXGroup;
 			children = (
 				E1895B45116FD7A500D8CBE0 /* External Configs */,
-				08FB77AFFE84173DC02AAC07 /* Classes */,
-				32C88E010371C26100C91783 /* Other Sources */,
-				089C167CFE841241C02AAC07 /* Resources */,
+				5C8E4A79098FB02400EB44CA /* MWRewardWindowController.h */,
+				5C8E4A7A098FB02400EB44CA /* MWRewardWindowController.m */,
+				5C8E4A68098FA2A600EB44CA /* Main.xib */,
 				089C1671FE841209C02AAC07 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
@@ -120,39 +116,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		089C167CFE841241C02AAC07 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				5C8E4A68098FA2A600EB44CA /* Main.xib */,
-				8D5B49B7048680CD000E48DA /* Info.plist */,
-				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		08FB77AFFE84173DC02AAC07 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				5C8E4A79098FB02400EB44CA /* MWRewardWindowController.h */,
-				5C8E4A7A098FB02400EB44CA /* MWRewardWindowController.m */,
-			);
-			name = Classes;
-			sourceTree = "<group>";
-		};
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		32C88E010371C26100C91783 /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-				32DBCF630370AF2F00C91783 /* MWorksRewardWindow_Prefix.pch */,
-			);
-			name = "Other Sources";
 			sourceTree = "<group>";
 		};
 		E1895B45116FD7A500D8CBE0 /* External Configs */ = {
@@ -192,7 +161,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					8D5B49AC048680CD000E48DA = {
 						ProvisioningStyle = Automatic;
@@ -207,13 +176,11 @@
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksRewardWindow" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				Base,
+				en,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* MonkeyWorksRewardWindow */;
 			projectDirPath = "";
@@ -231,7 +198,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				5C8E4A69098FA2A600EB44CA /* Main.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,17 +228,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				089C167EFE841241C02AAC07 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		E12D994916BC37E5004FEF79 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -301,10 +256,9 @@
 			baseConfigurationReference = E1C3651522BD6E7D00D1DBF6 /* macOS_ClientPlugin.xcconfig */;
 			buildSettings = {
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PREFIX_HEADER = MWorksRewardWindow_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = edu.mit.dicarlolab.MWorksRewardWindow;
-				PRODUCT_NAME = MWorksRewardWindow;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksRewardWindow";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
