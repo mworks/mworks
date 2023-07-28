@@ -138,7 +138,7 @@ NS_ASSUME_NONNULL_END
 }
 
 
-- (BOOL)validateWorkspaceValue:(id)value forStoredProperty:(id)property {
+- (BOOL)validateWorkspaceValue:(id)value forStoredProperty:(id<NSObject>)property {
     // Default implementation accepts all values
     return YES;
 }
@@ -182,7 +182,7 @@ NS_ASSUME_NONNULL_END
 }
 
 
-- (void)handleEvent:(MWKEvent *)event forStoredProperty:(id)property {
+- (void)handleEvent:(MWKEvent *)event forStoredProperty:(id<NSObject>)property {
     // Default implementation does nothing
 }
 
