@@ -19,6 +19,7 @@ typedef NSInteger MWKTime;
 
 
 MWORKSSWIFT_PUBLIC_CLASS
+NS_SWIFT_NAME(Event)
 @interface MWKEvent : NSObject
 
 @property(nonatomic, readonly) NSInteger code;

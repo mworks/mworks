@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class MWKDatum;
 
 
+NS_SWIFT_NAME(ClientProtocol)
 @protocol MWKClient <MWKCore>
 
 - (nullable MWKDatum *)valueForCode:(NSInteger)code;
@@ -33,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 MWORKSSWIFT_PUBLIC_CLASS
+NS_SWIFT_NAME(Client)
 @interface MWKClient : MWKCore <MWKClient>
 
 + (nullable instancetype)clientWithError:(NSError * _Nullable *)error;
