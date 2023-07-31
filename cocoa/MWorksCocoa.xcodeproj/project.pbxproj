@@ -70,6 +70,7 @@
 		E11378FD232BD71F0022EF26 /* MWClientBase.h in Headers */ = {isa = PBXBuildFile; fileRef = E11378FB232BD71F0022EF26 /* MWClientBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11378FE232BD71F0022EF26 /* MWClientBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E11378FC232BD71F0022EF26 /* MWClientBase.m */; };
 		E1137903232BE3630022EF26 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E1137901232BE3630022EF26 /* OrderedDictionary.m */; };
+		E12107CE2A783523009F056C /* ClientPluginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12107CD2A783523009F056C /* ClientPluginCoordinator.swift */; };
 		E12D98F816BC2964004FEF79 /* MWorksCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 68DAF1B40AC959FA00928168 /* MWorksCocoa.framework */; };
 		E13359FF247DB9FE006B6434 /* MWClientPluginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E13359FD247DB9FE006B6434 /* MWClientPluginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1335A00247DB9FE006B6434 /* MWClientPluginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E13359FE247DB9FE006B6434 /* MWClientPluginViewController.m */; };
@@ -77,6 +78,7 @@
 		E1615726222445B6009C37F3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1615725222445B6009C37F3 /* Media.xcassets */; };
 		E1AC63302329305700DFED1A /* MWClientServerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AC632F2329305700DFED1A /* MWClientServerBase.m */; };
 		E1C1F25B232C052B003EBE5A /* MWClientPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C1F25A232C052B003EBE5A /* MWClientPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C2FD762A83F5C9005301E6 /* ClientPluginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C2FD752A83F5C9005301E6 /* ClientPluginViewController.swift */; };
 		E1D2949F23293A1400DA7473 /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D2949E23293A1400DA7473 /* MWorksSwift.framework */; };
 		E1F131162AD5DAC6001069DC /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F131152AD5DAC6001069DC /* UniformTypeIdentifiers.framework */; };
 /* End PBXBuildFile section */
@@ -154,12 +156,14 @@
 		E1137900232BE3630022EF26 /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
 		E1137901232BE3630022EF26 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		E11457EB247EBDC70078FA5B /* MWorksCocoa.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = MWorksCocoa.modulemap; sourceTree = "<group>"; };
+		E12107CD2A783523009F056C /* ClientPluginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientPluginCoordinator.swift; sourceTree = "<group>"; };
 		E13359FD247DB9FE006B6434 /* MWClientPluginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWClientPluginViewController.h; sourceTree = "<group>"; };
 		E13359FE247DB9FE006B6434 /* MWClientPluginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWClientPluginViewController.m; sourceTree = "<group>"; };
 		E15D0AEB16C2AB9000F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1615725222445B6009C37F3 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		E1AC632F2329305700DFED1A /* MWClientServerBase.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWClientServerBase.m; sourceTree = "<group>"; };
 		E1C1F25A232C052B003EBE5A /* MWClientPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWClientPlugin.h; sourceTree = "<group>"; };
+		E1C2FD752A83F5C9005301E6 /* ClientPluginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientPluginViewController.swift; sourceTree = "<group>"; };
 		E1D2949E23293A1400DA7473 /* MWorksSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksSwift.framework; path = /Library/Frameworks/MWorksSwift.framework; sourceTree = "<absolute>"; };
 		E1F131152AD5DAC6001069DC /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		E1F7696F22BD5F8200024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -287,6 +291,8 @@
 				E1C1F25A232C052B003EBE5A /* MWClientPlugin.h */,
 				E13359FD247DB9FE006B6434 /* MWClientPluginViewController.h */,
 				E13359FE247DB9FE006B6434 /* MWClientPluginViewController.m */,
+				E12107CD2A783523009F056C /* ClientPluginCoordinator.swift */,
+				E1C2FD752A83F5C9005301E6 /* ClientPluginViewController.swift */,
 				5C8B85001100225400E6D6CD /* MWClientProtocol.h */,
 				E10743601642C58200518F25 /* MWCodec.h */,
 				E10743611642C58200518F25 /* MWCodec.m */,
@@ -382,6 +388,7 @@
 						ProvisioningStyle = Automatic;
 					};
 					8DC2EF4F0486A6940098B216 = {
+						LastSwiftMigration = 1430;
 						ProvisioningStyle = Automatic;
 					};
 					E12D98F016BC2928004FEF79 = {
@@ -439,6 +446,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1C2FD762A83F5C9005301E6 /* ClientPluginViewController.swift in Sources */,
 				0E1F31A00C5B1EB700EB89EA /* MWConsoleController.m in Sources */,
 				0E1F31A20C5B1EB700EB89EA /* MWMessageContainer.m in Sources */,
 				E1AC63302329305700DFED1A /* MWClientServerBase.m in Sources */,
@@ -451,6 +459,7 @@
 				5C77F7FD10EBADEF00919719 /* CocoaBindingsSetter.m in Sources */,
 				E1137903232BE3630022EF26 /* OrderedDictionary.m in Sources */,
 				5CC88AD3111769DF007914F8 /* MWNotebook.m in Sources */,
+				E12107CE2A783523009F056C /* ClientPluginCoordinator.swift in Sources */,
 				E10743631642C58200518F25 /* MWCodec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,6 +511,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1F7697022BD5F8200024441 /* macOS_Framework.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MWorksCocoa_Prefix.pch;
