@@ -33,9 +33,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		5C8E4A69098FA2A600EB44CA /* RewardWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C8E4A68098FA2A600EB44CA /* RewardWindowController.xib */; };
-		E12107C82A72B1B6009F056C /* RewardWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12107C72A72B1B6009F056C /* RewardWindowController.swift */; };
+		E12107C82A72B1B6009F056C /* RewardWindowViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12107C72A72B1B6009F056C /* RewardWindowViewControllerFactory.swift */; };
 		E12D994F16BC37F4004FEF79 /* MWorksRewardWindow.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */; };
+		E1C17AD42AA0E3C000CE526D /* RewardWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C17AD32AA0E3C000CE526D /* RewardWindowView.swift */; };
+		E1C17ADD2AA0E68000CE526D /* RewardWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C17AD32AA0E3C000CE526D /* RewardWindowView.swift */; };
+		E1C17AE02AA0E70500CE526D /* RewardWindowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB1B5D2A7E8E0800C40FD8 /* RewardWindowCoordinator.swift */; };
+		E1CB1B5E2A7E8E0800C40FD8 /* RewardWindowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB1B5D2A7E8E0800C40FD8 /* RewardWindowCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,13 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = MWorksRewardWindow;
 		};
+		E1C17ADE2AA0E6D900CE526D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1C17AD92AA0E5A900CE526D;
+			remoteInfo = RewardWindowPreviewHost;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -69,15 +79,25 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5C8E4A68098FA2A600EB44CA /* RewardWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RewardWindowController.xib; sourceTree = "<group>"; };
 		686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWorksRewardWindow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		E12107C72A72B1B6009F056C /* RewardWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardWindowController.swift; sourceTree = "<group>"; };
+		E12107C72A72B1B6009F056C /* RewardWindowViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardWindowViewControllerFactory.swift; sourceTree = "<group>"; };
+		E1C17AD32AA0E3C000CE526D /* RewardWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardWindowView.swift; sourceTree = "<group>"; };
+		E1C17AD52AA0E55C00CE526D /* macOS_SwiftUIPreviewHost.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_SwiftUIPreviewHost.xcconfig; sourceTree = "<group>"; };
+		E1C17ADA2AA0E5A900CE526D /* libRewardWindowPreviewHost.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRewardWindowPreviewHost.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1C3651422BD6E7D00D1DBF6 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1C3651522BD6E7D00D1DBF6 /* macOS_ClientPlugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_ClientPlugin.xcconfig; sourceTree = "<group>"; };
+		E1CB1B5D2A7E8E0800C40FD8 /* RewardWindowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardWindowCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1C17AD82AA0E5A900CE526D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -91,8 +111,9 @@
 			isa = PBXGroup;
 			children = (
 				E1895B45116FD7A500D8CBE0 /* External Configs */,
-				E12107C72A72B1B6009F056C /* RewardWindowController.swift */,
-				5C8E4A68098FA2A600EB44CA /* RewardWindowController.xib */,
+				E1CB1B5D2A7E8E0800C40FD8 /* RewardWindowCoordinator.swift */,
+				E1C17AD32AA0E3C000CE526D /* RewardWindowView.swift */,
+				E12107C72A72B1B6009F056C /* RewardWindowViewControllerFactory.swift */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
 			name = MonkeyWorksRewardWindow;
@@ -102,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */,
+				E1C17ADA2AA0E5A900CE526D /* libRewardWindowPreviewHost.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,12 +133,23 @@
 			children = (
 				E1C3651422BD6E7D00D1DBF6 /* macOS.xcconfig */,
 				E1C3651522BD6E7D00D1DBF6 /* macOS_ClientPlugin.xcconfig */,
+				E1C17AD52AA0E55C00CE526D /* macOS_SwiftUIPreviewHost.xcconfig */,
 			);
 			name = "External Configs";
 			path = ../../../build/xcode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E1C17AD62AA0E5A900CE526D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		8D5B49AC048680CD000E48DA /* MWorksRewardWindow */ = {
@@ -130,12 +163,30 @@
 			buildRules = (
 			);
 			dependencies = (
+				E1C17ADF2AA0E6D900CE526D /* PBXTargetDependency */,
 			);
 			name = MWorksRewardWindow;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = MonkeyWorksRewardWindow;
 			productReference = 686E22920AC84A89003EFDDA /* MWorksRewardWindow.bundle */;
 			productType = "com.apple.product-type.bundle";
+		};
+		E1C17AD92AA0E5A900CE526D /* RewardWindowPreviewHost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1C17ADB2AA0E5A900CE526D /* Build configuration list for PBXNativeTarget "RewardWindowPreviewHost" */;
+			buildPhases = (
+				E1C17AD62AA0E5A900CE526D /* Headers */,
+				E1C17AD72AA0E5A900CE526D /* Sources */,
+				E1C17AD82AA0E5A900CE526D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RewardWindowPreviewHost;
+			productName = RewardWindowPreviewHost;
+			productReference = E1C17ADA2AA0E5A900CE526D /* libRewardWindowPreviewHost.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
 
@@ -155,6 +206,9 @@
 					E17B9ED0119CA80500EEBF5D = {
 						ProvisioningStyle = Automatic;
 					};
+					E1C17AD92AA0E5A900CE526D = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
 				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksRewardWindow" */;
@@ -169,6 +223,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E1C17AD92AA0E5A900CE526D /* RewardWindowPreviewHost */,
 				8D5B49AC048680CD000E48DA /* MWorksRewardWindow */,
 				E12D994716BC37E5004FEF79 /* Install */,
 				E17B9ED0119CA80500EEBF5D /* Everything */,
@@ -181,7 +236,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C8E4A69098FA2A600EB44CA /* RewardWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +246,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E12107C82A72B1B6009F056C /* RewardWindowController.swift in Sources */,
+				E12107C82A72B1B6009F056C /* RewardWindowViewControllerFactory.swift in Sources */,
+				E1CB1B5E2A7E8E0800C40FD8 /* RewardWindowCoordinator.swift in Sources */,
+				E1C17AD42AA0E3C000CE526D /* RewardWindowView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1C17AD72AA0E5A900CE526D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1C17ADD2AA0E68000CE526D /* RewardWindowView.swift in Sources */,
+				E1C17AE02AA0E70500CE526D /* RewardWindowCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +273,11 @@
 			isa = PBXTargetDependency;
 			target = 8D5B49AC048680CD000E48DA /* MWorksRewardWindow */;
 			targetProxy = E12D994C16BC37ED004FEF79 /* PBXContainerItemProxy */;
+		};
+		E1C17ADF2AA0E6D900CE526D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1C17AD92AA0E5A900CE526D /* RewardWindowPreviewHost */;
+			targetProxy = E1C17ADE2AA0E6D900CE526D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -240,8 +310,16 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSPrincipalClass = RewardWindowController;
+				INFOPLIST_KEY_NSPrincipalClass = MWorksRewardWindow.RewardWindowViewControllerFactory;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksRewardWindow";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1C17ADC2AA0E5A900CE526D /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C17AD52AA0E55C00CE526D /* macOS_SwiftUIPreviewHost.xcconfig */;
+			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
@@ -277,6 +355,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E17B9ED1119CA80500EEBF5D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1C17ADB2AA0E5A900CE526D /* Build configuration list for PBXNativeTarget "RewardWindowPreviewHost" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1C17ADC2AA0E5A900CE526D /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
