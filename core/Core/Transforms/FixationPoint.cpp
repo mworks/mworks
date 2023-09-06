@@ -15,6 +15,7 @@ const std::string FixationPoint::TRIGGER_WIDTH("trigger_width");
 const std::string FixationPoint::TRIGGER_WATCH_X("trigger_watch_x");
 const std::string FixationPoint::TRIGGER_WATCH_Y("trigger_watch_y");
 const std::string FixationPoint::TRIGGER_FLAG("trigger_flag");
+const std::string FixationPoint::ACTIVE_WHEN_HIDDEN("active_when_hidden");
 
 
 void FixationPoint::describeComponent(ComponentInfo &info) {
@@ -26,6 +27,7 @@ void FixationPoint::describeComponent(ComponentInfo &info) {
     info.addParameter(TRIGGER_WATCH_X);
     info.addParameter(TRIGGER_WATCH_Y);
     info.addParameter(TRIGGER_FLAG);
+    info.addParameter(ACTIVE_WHEN_HIDDEN, "NO");
 }
 
 
@@ -36,15 +38,18 @@ FixationPoint::FixationPoint(const ParameterValueMap &parameters):
                         registerVariable(parameters[TRIGGER_WIDTH]),
                         VariablePtr(parameters[TRIGGER_WATCH_X]),
                         VariablePtr(parameters[TRIGGER_WATCH_Y]),
-                        VariablePtr(parameters[TRIGGER_FLAG]))
+                        VariablePtr(parameters[TRIGGER_FLAG])),
+    activeWhenHidden(parameters[ACTIVE_WHEN_HIDDEN])
 {
-    active = false;
+    active = activeWhenHidden;
 }
 
 
 void FixationPoint::setVisible(bool newvis) {
     RectangleStimulus::setVisible(newvis);
-    setActive(newvis);  // Trigger is active only when stimulus is visible
+    if (!activeWhenHidden) {
+        setActive(newvis);  // Trigger is active only when stimulus is visible
+    }
 }
 
 
@@ -57,6 +62,8 @@ Datum FixationPoint::getCurrentAnnounceDrawData() {
     announceData.addElement("center_x", centerx->getValue().getFloat());
     announceData.addElement("center_y", centery->getValue().getFloat());
     announceData.addElement("width", width->getValue().getFloat());
+    
+    announceData.addElement(ACTIVE_WHEN_HIDDEN, activeWhenHidden);
     
     return announceData;
 }
@@ -80,6 +87,7 @@ void CircularFixationPoint::describeComponent(ComponentInfo &info) {
     info.addParameter(FixationPoint::TRIGGER_WATCH_X);
     info.addParameter(FixationPoint::TRIGGER_WATCH_Y);
     info.addParameter(FixationPoint::TRIGGER_FLAG);
+    info.addParameter(FixationPoint::ACTIVE_WHEN_HIDDEN, "NO");
 }
 
 
@@ -90,15 +98,18 @@ CircularFixationPoint::CircularFixationPoint(const ParameterValueMap &parameters
                           registerVariable(parameters[FixationPoint::TRIGGER_WIDTH]),
                           VariablePtr(parameters[FixationPoint::TRIGGER_WATCH_X]),
                           VariablePtr(parameters[FixationPoint::TRIGGER_WATCH_Y]),
-                          VariablePtr(parameters[FixationPoint::TRIGGER_FLAG]))
+                          VariablePtr(parameters[FixationPoint::TRIGGER_FLAG])),
+    activeWhenHidden(parameters[FixationPoint::ACTIVE_WHEN_HIDDEN])
 {
-    active = false;
+    active = activeWhenHidden;
 }
 
 
 void CircularFixationPoint::setVisible(bool newvis) {
     EllipseStimulus::setVisible(newvis);
-    setActive(newvis);  // Trigger is active only when stimulus is visible
+    if (!activeWhenHidden) {
+        setActive(newvis);  // Trigger is active only when stimulus is visible
+    }
 }
 
 
@@ -111,6 +122,8 @@ Datum CircularFixationPoint::getCurrentAnnounceDrawData() {
     announceData.addElement("center_x", centerx->getValue().getFloat());
     announceData.addElement("center_y", centery->getValue().getFloat());
     announceData.addElement("width", width->getValue().getFloat());
+    
+    announceData.addElement(FixationPoint::ACTIVE_WHEN_HIDDEN, activeWhenHidden);
     
     return announceData;
 }
