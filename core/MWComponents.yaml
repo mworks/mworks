@@ -670,10 +670,17 @@ parameters:
         true.  When the subject's gaze leaves the fixation window, the variable
         is set to false.
 
-        *Note*: Fixation is reported only when the fixation point is on screen
-        (i.e. after it has been `queued <Queue Stimulus>` and the display has
-        been `updated <Update Stimulus Display>`).  If you need a hidden
-        fixation point, set `alpha_multiplier`_ to zero.
+        *Note*: By default, fixation is reported only when the fixation point is
+        on screen (i.e. after it has been `queued <Queue Stimulus>` and the
+        display has been `updated <Update Stimulus Display>`).  If you need a
+        hidden fixation point, set `alpha_multiplier`_ to zero or
+        `active_when_hidden`_ to true.
+  - 
+    name: active_when_hidden
+    default: 'NO'
+    description: >
+        If ``YES``, fixation is reported even if the fixation point is not on
+        screen
 
 
 ---
@@ -713,10 +720,17 @@ parameters:
         true.  When the subject's gaze leaves the fixation window, the variable
         is set to false.
 
-        *Note*: Fixation is reported only when the fixation point is on screen
-        (i.e. after it has been `queued <Queue Stimulus>` and the display has
-        been `updated <Update Stimulus Display>`).  If you need a hidden
-        fixation point, set `alpha_multiplier`_ to zero.
+        *Note*: By default, fixation is reported only when the fixation point is
+        on screen (i.e. after it has been `queued <Queue Stimulus>` and the
+        display has been `updated <Update Stimulus Display>`).  If you need a
+        hidden fixation point, set `alpha_multiplier`_ to zero or
+        `active_when_hidden`_ to true.
+  - 
+    name: active_when_hidden
+    default: 'NO'
+    description: >
+        If ``YES``, fixation is reported even if the fixation point is not on
+        screen
 
 
 ---

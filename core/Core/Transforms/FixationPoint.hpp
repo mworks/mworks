@@ -24,6 +24,7 @@ public:
     static const std::string TRIGGER_WATCH_X;
     static const std::string TRIGGER_WATCH_Y;
     static const std::string TRIGGER_FLAG;
+    static const std::string ACTIVE_WHEN_HIDDEN;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -32,6 +33,9 @@ public:
     void setVisible(bool newvis) override;
     Datum getCurrentAnnounceDrawData() override;
     ExpandableList<Datum> * getGoldStandardValues() override;
+    
+private:
+    const bool activeWhenHidden;
     
 };
 
@@ -46,6 +50,9 @@ public:
     void setVisible(bool newvis) override;
     Datum getCurrentAnnounceDrawData() override;
     ExpandableList<Datum> * getGoldStandardValues() override;
+    
+private:
+    const bool activeWhenHidden;
     
 };
 
