@@ -89,6 +89,10 @@
                                 <key>width</key>
                                 <value type="float">1</value>
                             </dictionary_element>
+              <dictionary_element>
+                <key>active_when_hidden</key>
+                <value type="boolean">0</value>
+              </dictionary_element>
 						</dictionary>					
 				</list_element>
 			</list>
