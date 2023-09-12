@@ -12,45 +12,38 @@
 
 #include <thread>
 
-#include <boost/thread/mutex.hpp>
-
 #include <MWorksCore/StateSystem.h>
 
 
 BEGIN_NAMESPACE_MW
 
 
-class StandardStateSystem : public mw::Component, public StateSystem {
+class StandardStateSystem : public Component, public StateSystem {
     
 public:
-    StandardStateSystem(const shared_ptr <Clock> &a_clock);
+    explicit StandardStateSystem(const boost::shared_ptr<Clock> &clock);
     ~StandardStateSystem();
     
-    virtual void start();
-    virtual void stop();
-    virtual void pause();
-    virtual void resume();
+    void start() override;
+    void stop() override;
+    void pause() override;
+    void resume() override;
     
-    virtual bool isRunning();
-    virtual bool isPaused();
+    bool isRunning() override { return is_running; }
+    bool isPaused() override { return is_paused; }
     
-    virtual bool isInAction();
-    virtual bool isInTransition();
-    
-    //virtual void setInAction(bool);
-    //virtual void setInTransition(bool);
-    
-    virtual weak_ptr<State> getCurrentState();
-    //virtual void setCurrentState(weak_ptr<State> new_current);
+    boost::shared_ptr<State> getCurrentState() override;
     
 private:
     void run();
     
-    boost::mutex state_system_mutex;
+    using lock_guard = std::lock_guard<std::mutex>;
+    lock_guard::mutex_type state_system_mutex;
     std::thread state_system_thread;
     
-    bool in_action, in_transition, is_running, is_paused;
-    weak_ptr<State> current_state;
+    std::atomic_bool is_running, is_paused;
+    static_assert(decltype(is_running)::is_always_lock_free);
+    boost::weak_ptr<State> current_state;
     
 };
 
@@ -58,31 +51,4 @@ private:
 END_NAMESPACE_MW
 
 
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif /* STANDARD_STATE_SYSTEM_H */

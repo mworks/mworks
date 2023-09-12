@@ -7,29 +7,23 @@
  *
  */
 
-
-#include "MWorksCore/Experiment.h"
 #include "ZenStateSystem.h"
-#include "StateSystem.h"
-#include "MWorksCore/Utilities.h"
-#include "MWorksCore/Scheduler.h"
-#include "MWorksCore/StateSystem.h"
-#include "MWorksCore/StandardVariables.h"
 
-#include "MachUtilities.h"
+#include <MWorksCore/Experiment.h>
+#include <MWorksCore/MachUtilities.h>
+#include <MWorksCore/Scheduler.h>
+#include <MWorksCore/StandardVariables.h>
+#include <MWorksCore/Utilities.h>
 
 
 BEGIN_NAMESPACE_MW
 
     
-StandardStateSystem::StandardStateSystem(const shared_ptr <Clock> &a_clock) :
-    StateSystem(a_clock)
-{
-    in_action = false;
-    in_transition = false;
-    is_running = false;
-    is_paused = false;
-}
+StandardStateSystem::StandardStateSystem(const boost::shared_ptr<Clock> &clock) :
+    StateSystem(clock),
+    is_running(false),
+    is_paused(false)
+{ }
 
 
 StandardStateSystem::~StandardStateSystem() {
@@ -39,116 +33,87 @@ StandardStateSystem::~StandardStateSystem() {
 }
 
 
-void StandardStateSystem::start(){
-    boost::mutex::scoped_lock lock(state_system_mutex);
+void StandardStateSystem::start() {
+    lock_guard lock(state_system_mutex);
     
     if (is_running) {
         return;
     }
     
-    //E->setInt(taskMode_edit, RUNNING);
-
-//	(*state_system_mode) = RUNNING;
-  
-	mprintf("Called start on state system");
+    mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Called start on state system");
     
     // Make a copy of the experiment to ensure that it isn't destroyed before we're done with it
-    shared_ptr<Experiment> current_experiment = GlobalCurrentExperiment;
-	if (!current_experiment) {
-		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-			  "Cannot start state system without a valid experiment defined");
-		return;
-	}
+    auto current_experiment = GlobalCurrentExperiment;
+    if (!current_experiment) {
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
+               "Cannot start state system without a valid experiment defined");
+        return;
+    }
     
     // Clean up the previous thread, if any
     if (state_system_thread.joinable()) {
         state_system_thread.join();
     }
-	
-	weak_ptr<State> exp_ref(current_experiment);
-	current_experiment->setCurrentState(exp_ref);
+    
+    current_experiment->setCurrentState(current_experiment);
     
     state_system_thread = std::thread([this]() { run(); });
     
     is_running = true;
-	sendSystemStateEvent();
-	
+    sendSystemStateEvent();
 }
-    
-    
-void StandardStateSystem::stop(){
-    boost::mutex::scoped_lock lock(state_system_mutex);
+
+
+void StandardStateSystem::stop() {
+    lock_guard lock(state_system_mutex);
     
     if (!is_running) {
         return;
     }
     
-    mprintf("Called stop on state system");
+    mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Called stop on state system");
     (*state_system_mode) = STOPPING;
-	
-	// TODO: need to stop ongoing schedules...
-	// esp. IO devices
+    
     sendSystemStateEvent();
 }
 
-void StandardStateSystem::pause(){
-    boost::mutex::scoped_lock lock(state_system_mutex);
+
+void StandardStateSystem::pause() {
+    lock_guard lock(state_system_mutex);
     
     if (!is_running || is_paused) {
         return;
     }
     
-    mprintf("Pausing state system");
+    mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Pausing state system");
     is_paused = true;
     (*state_system_mode) = PAUSED;
     
     sendSystemStateEvent();
 }
 
-void StandardStateSystem::resume(){
-    boost::mutex::scoped_lock lock(state_system_mutex);
+
+void StandardStateSystem::resume() {
+    lock_guard lock(state_system_mutex);
     
     if (!is_running || !is_paused) {
         return;
     }
     
-    mprintf("Resuming paused state system");
+    mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Resuming paused state system");
     is_paused = false;
     (*state_system_mode) = RUNNING;
     
     sendSystemStateEvent();
 }
 
-bool StandardStateSystem::isRunning(){
-    return is_running;
-}
 
-bool StandardStateSystem::isPaused(){
-    return is_paused;
-}
-
-bool StandardStateSystem::isInAction(){
-    return in_action;
-}
-
-bool StandardStateSystem::isInTransition(){
-    return in_transition;
-}
-
-//void StandardStateSystem::setInAction(bool isit){
-//    in_action = isit;
-//}
-
-//void StandardStateSystem::setInTransition(bool isit){
-//    in_transition = isit;
-//}
-
-weak_ptr<State> StandardStateSystem::getCurrentState(){
+boost::shared_ptr<State> StandardStateSystem::getCurrentState() {
     // Allow access to the current state only on the state system thread
     if (std::this_thread::get_id() == state_system_thread.get_id()) {
-        return current_state;
+        return current_state.lock();
     }
-    return weak_ptr<State>();
+    return boost::shared_ptr<State>();
 }
 
 
@@ -156,38 +121,30 @@ void StandardStateSystem::run() {
     if (!(MachThreadSelf("MWorks State System").setPriority(TaskPriority::Default))) {
         merror(M_SCHEDULER_MESSAGE_DOMAIN, "Failed to set priority of state system thread");
     }
-
+    
     // Make a copy of the experiment to ensure that it isn't destroyed before we're done with it
-    shared_ptr<Experiment> current_experiment = GlobalCurrentExperiment;
+    auto current_experiment = GlobalCurrentExperiment;
     if (!current_experiment) {
-        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-               "Cannot start state system without a valid experiment defined");
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Cannot start state system without a valid experiment defined");
         return;
     }
-
-	mprintf("Starting state system....");
-
-
-    //mprintf("----------setting task  mode to running------------");
-	(*state_system_mode) = (long) RUNNING;
-	current_state = current_experiment->getCurrentState();
-	
-	if(current_state.expired()){
-		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-				"current state is NULL. Shutting down state system...");
-				
-		(*state_system_mode) = (long)IDLE;
-	}
-		
-	if(current_state.expired() == true){
-		// TODO: better throw
-		throw SimpleException("Invalid current state within state system");
-	}
-	
-	shared_ptr<State> current_state_shared(current_state);
-    weak_ptr<State> next_state;
-	
-	while (current_state_shared) {
+    
+    current_state = current_experiment->getCurrentState();
+    auto current_state_shared = current_state.lock();
+    if (!current_state_shared) {
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Cannot start state system: current state is invalid");
+        return;
+    }
+    
+    mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Starting state system....");
+    (*state_system_mode) = RUNNING;
+    
+    boost::weak_ptr<State> next_state;
+    boost::shared_ptr<State> next_state_shared;
+    bool in_action = false;
+    bool in_transition = false;
+    
+    while (current_state_shared) {
         const bool canInterrupt = current_state_shared->isInterruptible();  // might not be an okay place to stop
         
         if (canInterrupt &&
@@ -204,103 +161,65 @@ void StandardStateSystem::run() {
                 continue;
             }
         }
-		
-		//mprintf("State system main loop, current state = %d", current_state);
-		if (!in_transition) {
-			in_action = true;
-			
-			//mState *test_state = current_state;
-			
-			try {
-				current_state_shared->action();
-			} catch(std::exception& e){
-				merror(M_PARADIGM_MESSAGE_DOMAIN,
-					   "Stopping state system: %s", e.what());
-				state_system_mode->setValue((long)STOPPING);
-				break;
-			}
-		
-			// finished performing action
-			in_action = false;
-		}
-		
-		if (!in_action) {
-			in_transition = true;
-
-		
-			try {
-				next_state = current_state_shared->next();
-			} catch (std::exception& e){
-				merror(M_PARADIGM_MESSAGE_DOMAIN,
-					  "Stopping state system: %s", e.what());
-				state_system_mode->setValue((long)STOPPING);
-				break;
-			}
+        
+        if (!in_transition) {
+            in_action = true;
             
-            if (next_state.expired()) {
+            try {
+                current_state_shared->action();
+            } catch (const std::exception &e) {
+                merror(M_PARADIGM_MESSAGE_DOMAIN, "Stopping state system: %s", e.what());
+                (*state_system_mode) = STOPPING;
+                break;
+            }
+            
+            // finished performing action
+            in_action = false;
+        }
+        
+        if (!in_action) {
+            in_transition = true;
+            
+            try {
+                next_state = current_state_shared->next();
+            } catch (const std::exception &e) {
+                merror(M_PARADIGM_MESSAGE_DOMAIN, "Stopping state system: %s", e.what());
+                (*state_system_mode) = STOPPING;
+                break;
+            }
+            
+            next_state_shared = next_state.lock();
+            if (!next_state_shared) {
                 // no next state yet, sleep until the next tick
                 continue;
             }
-			
-            shared_ptr<State> next_state_shared;
             
-            try{
-                shared_ptr<State> attempt(next_state); // cast weak_ptr into shared_ptr
-                next_state_shared = attempt; // machination required because of weak to shared conversion semantics
-			} catch (std::exception& e){
-                mwarning(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Failed to acquire shared_ptr from next_state; coming to an abrupt halt");
-                (*state_system_mode) = IDLE;
-                continue;
-            }
-			
-			//mprintf("State system moving on... %d", next_state);
-			
-			current_experiment->setCurrentState(next_state);
-			
-			
-			
-			// If we've finished
-			if(current_state_shared.get() == current_experiment.get() &&
-					next_state_shared.get() == current_experiment.get()){
-					mprintf("Returned to Experiment node, halting state system...");
-					(*state_system_mode) = IDLE;
-					current_state = weak_ptr<State>();
-					next_state = weak_ptr<State>();
-					continue;
-			}
-			
-			
-			current_state = next_state;
-			current_state_shared = shared_ptr<State>(current_state);
-			
-			next_state = weak_ptr<State>();
-			next_state_shared = shared_ptr<State>();
-			
-			// finished transition
-			in_transition = false;
-		}
-	}
-	
-	
+            current_experiment->setCurrentState(next_state);
+            
+            current_state = next_state;
+            current_state_shared = next_state_shared;
+            
+            next_state.reset();
+            next_state_shared.reset();
+            
+            // finished transition
+            in_transition = false;
+        }
+    }
+    
     {
-        boost::mutex::scoped_lock lock(state_system_mutex);
+        lock_guard lock(state_system_mutex);
         
-        in_action = false;
-        in_transition = false;
         is_running = false;
         is_paused = false;
         
-        (*state_system_mode) = IDLE;    
-        mprintf("State system ending");
+        (*state_system_mode) = IDLE;
+        mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "State system ending");
         
-        // DDC: graceful stop?
-        mprintf("Resetting experiment");
+        mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Resetting experiment");
         current_experiment->reset();
     }
 }
 
 
 END_NAMESPACE_MW
-
-
-

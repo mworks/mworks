@@ -375,7 +375,7 @@ Wait::Wait(const ParameterValueMap &parameters) :
 bool Wait::execute() {
     expirationTime = getExpirationTime();
     
-    if (StateSystem::instance()->getCurrentState().lock().get() != this) {
+    if (StateSystem::instance()->getCurrentState().get() != this) {
         // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
         // then we need to do the wait ourselves, right here
         auto clock = Clock::instance();
@@ -440,7 +440,7 @@ WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
 bool WaitForCondition::execute() {
     deadline = clock->getCurrentTimeUS() + MWTime(*timeout);
     
-    if (StateSystem::instance()->getCurrentState().lock().get() != this) {
+    if (StateSystem::instance()->getCurrentState().get() != this) {
         // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
         // then we need to do the wait ourselves, right here
         while (stillWaiting()) {
@@ -737,7 +737,7 @@ bool StimulusDisplayAction::execute() {
     startTime = clock->getCurrentTimeUS();
     updateInfo = performAction();
     
-    if (StateSystem::instance()->getCurrentState().lock().get() != this) {
+    if (StateSystem::instance()->getCurrentState().get() != this) {
         // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
         // then we need to do the wait ourselves, right here
         while (stillWaiting()) {
@@ -1329,7 +1329,7 @@ void While::addChild(std::map<std::string, std::string> parameters,
 
 
 bool While::execute() {
-    if (StateSystem::instance()->getCurrentState().lock().get() == this) {
+    if (StateSystem::instance()->getCurrentState().get() == this) {
         shouldRepeat = performIteration();
     } else {
         // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),

@@ -57,7 +57,7 @@ BEGIN_NAMESPACE_MW
         if (type >= M_WARNING_MESSAGE) {
             boost::shared_ptr<StateSystem> stateSystem = StateSystem::instance(false);
             boost::shared_ptr<State> currentState;
-            if (stateSystem && (currentState = stateSystem->getCurrentState().lock())) {
+            if (stateSystem && (currentState = stateSystem->getCurrentState())) {
                 auto &currentLocation = currentState->getLocation();
                 if (!currentLocation.empty()) {
                     char *oldBuffer = buffer;

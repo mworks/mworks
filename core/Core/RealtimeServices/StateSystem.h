@@ -1,62 +1,44 @@
-// * Paul Jankunas on 1/24/06 - Adding virtual destructor.
-// Paul Jankunas on 1/31/06 - Added methods to send events when the system
-// starts, stops pauses and unpauses use these in your plugins.
 #ifndef STATE_SYSTEM_H
 #define STATE_SYSTEM_H
 
-#include "MWorksTypes.h"
-#include "States.h"
 #include "Clock.h"
-#include "boost/enable_shared_from_this.hpp"
-//#include "States.h"
+#include "States.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
 class StateSystem {
+    
+private:
+    const boost::shared_ptr<Clock> clock;
+    
 protected:
-	shared_ptr <Clock> the_clock;
-	
+    static void sendSystemStateEvent();
+    
+    const boost::shared_ptr<Clock> & getClock() const { return clock; }
+    
 public:
+    explicit StateSystem(const boost::shared_ptr<Clock> &clock) : clock(clock) { }
     
-	StateSystem(const shared_ptr <Clock> &a_clock);
-	
     virtual ~StateSystem() { }
-	
-	
-	/*StateSystem(Experiment *exp);
-	 
-	 virtual void setExperiment(Experiment *exp);
-	 virtual Experiment *getExperiment();*/
     
-	virtual void start();
-	virtual void stop();
-	virtual void pause();
-	virtual void resume();
-	
-	virtual bool isRunning();
-	virtual bool isPaused();
-	
-	virtual bool isInAction();
-	virtual bool isInTransition();
-	
-	//virtual void setInAction(bool);
-	//virtual void setInTransition(bool);
+    virtual void start() = 0;
+    virtual void stop() = 0;
+    virtual void pause() = 0;
+    virtual void resume() = 0;
     
-	virtual weak_ptr<State> getCurrentState();
-	//virtual void setCurrentState(weak_ptr<State> current);
-	
-	// use these to send the proper events at the proper times
-	void sendSystemStateEvent();
-	shared_ptr<Clock> getClock() const;
-  
-  REGISTERED_SINGLETON_CODE_INJECTION(StateSystem)
+    virtual bool isRunning() = 0;
+    virtual bool isPaused() = 0;
+    
+    virtual boost::shared_ptr<State> getCurrentState() = 0;
+    
+    REGISTERED_SINGLETON_CODE_INJECTION(StateSystem)
+    
 };
 
 
 END_NAMESPACE_MW
 
 
-#endif
-
+#endif /* STATE_SYSTEM_H */
