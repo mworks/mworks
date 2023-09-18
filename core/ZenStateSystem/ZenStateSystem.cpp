@@ -42,20 +42,10 @@ void StandardStateSystem::start() {
     
     mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Called start on state system");
     
-    // Make a copy of the experiment to ensure that it isn't destroyed before we're done with it
-    auto current_experiment = GlobalCurrentExperiment;
-    if (!current_experiment) {
-        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-               "Cannot start state system without a valid experiment defined");
-        return;
-    }
-    
     // Clean up the previous thread, if any
     if (state_system_thread.joinable()) {
         state_system_thread.join();
     }
-    
-    current_experiment->setCurrentState(current_experiment);
     
     state_system_thread = std::thread([this]() { run(); });
     
@@ -129,12 +119,8 @@ void StandardStateSystem::run() {
         return;
     }
     
-    current_state = current_experiment->getCurrentState();
+    current_state = current_experiment;
     auto current_state_shared = current_state.lock();
-    if (!current_state_shared) {
-        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Cannot start state system: current state is invalid");
-        return;
-    }
     
     mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Starting state system....");
     (*state_system_mode) = RUNNING;
@@ -193,8 +179,6 @@ void StandardStateSystem::run() {
                 // no next state yet, sleep until the next tick
                 continue;
             }
-            
-            current_experiment->setCurrentState(next_state);
             
             current_state = next_state;
             current_state_shared = next_state_shared;

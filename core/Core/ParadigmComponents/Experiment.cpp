@@ -22,11 +22,6 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 	//current_protocol = NULL;
 	n_protocols = 0;
 	
-    //defaultStimulusDisplay = NULL;
-	
-	// This fields will eventually be self-referential (set during "finalize")
-	current_state = weak_ptr<State>();
-	
     experimentName = "";
 	setName(experimentName);
     
@@ -94,8 +89,6 @@ void Experiment::setCurrentProtocol(unsigned int protocol_number) {
 	
     current_protocol = boost::dynamic_pointer_cast<mw::Protocol, State>(getList()[protocol_number]);
 	
-	// TODO: is this implicit cast kosher?
-	current_state = weak_ptr<State>(current_protocol);
 	if(current_protocol != 0) {
 		global_outgoing_event_buffer->putEvent(SystemEventFactory::protocolPackage());
 	}
@@ -138,20 +131,6 @@ shared_ptr<mw::Protocol> Experiment::getCurrentProtocol() {
 }
 
 
-weak_ptr<State> Experiment::getCurrentState() {
-	if(current_state.expired()) {
-		return getCurrentProtocol();
-	} else {
-        return current_state;
-	}
-}
-
-void Experiment::setCurrentState(weak_ptr<State> newstate) {
-    current_state = newstate;
-	shared_ptr<State> current_state_shared(current_state);
-	current_context = current_state_shared->getLocalScopedVariableContext();
-}
-
 void Experiment::action(){
 	variable_registry->announceAll();
 	
@@ -170,19 +149,14 @@ weak_ptr<State> Experiment::next() {
         current_protocol->updateCurrentScopedVariableContext();
         return current_protocol;
     } else {
-        current_state = weak_ptr<State>();
         *state_system_mode = STOPPING;
-        return current_state;
+        return weak_ptr<State>();
     }
 }
 
 
 void Experiment::reset(){
     ContainerState::reset();
-	
-	// TODO: is implicit cast kosher?
-	weak_ptr<State> state_ptr(current_protocol);
-	setCurrentState(state_ptr);
 	
     clearStimulusDisplays();
 	

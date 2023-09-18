@@ -22,7 +22,7 @@ class ScopedVariable;
 
 class ScopedVariableEnvironment {
 
-	protected:
+	private:
 	
 		ExpandableList<ScopedVariable> variables;
 		shared_ptr<ScopedVariableContext> current_context;

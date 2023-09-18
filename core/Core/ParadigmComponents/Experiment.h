@@ -150,10 +150,6 @@ enum{M_INFO, M_STATUS};
 
 class Experiment : public ScopedVariableEnvironment, public ContainerState {
     protected:
-
-        // A pointer to the current active state within this experiment
-    	weak_ptr<State> current_state;
-	    
 		// A pointer to the current active protocol
 		shared_ptr<mw::Protocol> current_protocol;	
     	
@@ -186,16 +182,6 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		
 		// Generate variable contexts from the variable registry
 	    void createVariableContexts();
-		
-		//void addProtocol(shared_ptr<mw::Protocol> newprot);
-	    //void addProtocol(int index, shared_ptr<mw::Protocol> newprot);
-
-		
-		// Accessors for current state system state
-		// Are these used right now?
-        weak_ptr<State> getCurrentState();
-        void setCurrentState(weak_ptr<State> newstate);
-
 
 		// State inherited methods
         void action() override;
@@ -263,7 +249,6 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
         void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg) override
         {
             shared_ptr<Experiment> self_ptr(component_shared_from_this<Experiment>());
-			current_state = self_ptr;
 			setExperiment(self_ptr);
 			createVariableContexts();
 		}
@@ -278,7 +263,6 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 			if(current_protocol == NULL) {
 				shared_ptr<State> first_protocol = getList()[0];
 				current_protocol = boost::dynamic_pointer_cast<mw::Protocol, State>(first_protocol); // TODO: remove up-cast
-				current_state = weak_ptr<State>(first_protocol);
 			}
 			n_protocols++;
 		}
