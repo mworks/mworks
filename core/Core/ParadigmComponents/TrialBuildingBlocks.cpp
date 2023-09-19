@@ -36,12 +36,9 @@ void Action::describeComponent(ComponentInfo &info) {
 
 Action::Action(const ParameterValueMap &parameters) :
     State(parameters)
-{
-    setParent(GlobalCurrentExperiment);   // a bit of kludge for now
-}
+{ }
 
 Action::Action() {
-    setParent(GlobalCurrentExperiment);   // a bit of kludge for now
 	setName("Action");
 }	
 

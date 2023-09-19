@@ -63,6 +63,10 @@ protected:
     }
     
 public:
+    // The end state is a singleton instance that, if returned by next(), indicates
+    // that there are no additional states to execute
+    static const boost::shared_ptr<State> & getEndState();
+    
     static void describeComponent(ComponentInfo &info);
     
     State();

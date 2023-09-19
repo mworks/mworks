@@ -9,6 +9,8 @@
 
 #include "ZenStateSystem.h"
 
+#include <boost/scope_exit.hpp>
+
 #include <MWorksCore/Experiment.h>
 #include <MWorksCore/MachUtilities.h>
 #include <MWorksCore/Scheduler.h>
@@ -21,6 +23,7 @@ BEGIN_NAMESPACE_MW
     
 StandardStateSystem::StandardStateSystem(const boost::shared_ptr<Clock> &clock) :
     StateSystem(clock),
+    endState(State::getEndState()),
     is_running(false),
     is_paused(false)
 { }
@@ -98,12 +101,103 @@ void StandardStateSystem::resume() {
 }
 
 
-boost::shared_ptr<State> StandardStateSystem::getCurrentState() {
-    // Allow access to the current state only on the state system thread
-    if (std::this_thread::get_id() == state_system_thread.get_id()) {
-        return current_state.lock();
+bool StandardStateSystem::runState(const boost::shared_ptr<State> &state) {
+    return runState(state, false);  // Only the main state system thread should pause
+}
+
+
+boost::weak_ptr<State> & StandardStateSystem::getCurrentStateWeakRef() {
+    thread_local boost::weak_ptr<State> currentState;
+    return currentState;
+}
+
+
+void StandardStateSystem::failWithException(const std::exception &e, const char *fileline) {
+    merror(M_PARADIGM_MESSAGE_DOMAIN, "Execution ended due to an exception: %s (%s)", e.what(), fileline);
+}
+
+
+bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool canPause) {
+    auto &current_state = getCurrentStateWeakRef();
+    BOOST_SCOPE_EXIT(&current_state) {
+        // Clear the current state on exit
+        current_state.reset();
+    } BOOST_SCOPE_EXIT_END
+    
+    current_state = state;
+    auto current_state_shared = state;
+    
+    boost::weak_ptr<State> next_state;
+    boost::shared_ptr<State> next_state_shared;
+    
+    bool in_action = false;
+    bool in_transition = false;
+    
+    while (current_state_shared) {
+        const bool canInterrupt = current_state_shared->isInterruptible();  // might not be an okay place to stop
+        const bool shouldPause = canInterrupt && canPause && is_paused;
+        
+        if (canInterrupt &&
+            (long(*state_system_mode) == IDLE ||      // hard stop
+             long(*state_system_mode) == STOPPING))   // stop requested
+        {
+            break;
+        }
+        else if (in_transition ||  // waiting for the next state
+                 shouldPause)      // paused
+        {
+            getClock()->yield();
+            if (shouldPause) {
+                continue;
+            }
+        }
+        
+        if (!in_transition) {
+            in_action = true;
+            
+            try {
+                current_state_shared->action();
+            } catch (const std::exception &e) {
+                failWithException(e, FILELINE);
+                return false;
+            }
+            
+            // finished performing action
+            in_action = false;
+        }
+        
+        if (!in_action) {
+            in_transition = true;
+            
+            try {
+                next_state = current_state_shared->next();
+            } catch (const std::exception &e) {
+                failWithException(e, FILELINE);
+                return false;
+            }
+            
+            next_state_shared = next_state.lock();
+            if (!next_state_shared) {
+                // no next state yet, sleep until the next tick
+                continue;
+            }
+            
+            if (next_state_shared == endState) {
+                break;
+            }
+            
+            current_state = next_state;
+            current_state_shared = next_state_shared;
+            
+            next_state.reset();
+            next_state_shared.reset();
+            
+            // finished transition
+            in_transition = false;
+        }
     }
-    return boost::shared_ptr<State>();
+    
+    return true;
 }
 
 
@@ -119,77 +213,15 @@ void StandardStateSystem::run() {
         return;
     }
     
-    current_state = current_experiment;
-    auto current_state_shared = current_state.lock();
-    
     mprintf(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Starting state system....");
     (*state_system_mode) = RUNNING;
     
-    boost::weak_ptr<State> next_state;
-    boost::shared_ptr<State> next_state_shared;
-    bool in_action = false;
-    bool in_transition = false;
-    
-    while (current_state_shared) {
-        const bool canInterrupt = current_state_shared->isInterruptible();  // might not be an okay place to stop
-        
-        if (canInterrupt &&
-            (long(*state_system_mode) == IDLE ||      // hard stop
-             long(*state_system_mode) == STOPPING))   // stop requested
-        {
-            break;
-        }
-        else if (in_transition ||              // waiting for the next state
-                 (canInterrupt && is_paused))  // paused
-        {
-            getClock()->yield();
-            if (canInterrupt && is_paused) {
-                continue;
-            }
-        }
-        
-        if (!in_transition) {
-            in_action = true;
-            
-            try {
-                current_state_shared->action();
-            } catch (const std::exception &e) {
-                merror(M_PARADIGM_MESSAGE_DOMAIN, "Stopping state system: %s", e.what());
-                (*state_system_mode) = STOPPING;
-                break;
-            }
-            
-            // finished performing action
-            in_action = false;
-        }
-        
-        if (!in_action) {
-            in_transition = true;
-            
-            try {
-                next_state = current_state_shared->next();
-            } catch (const std::exception &e) {
-                merror(M_PARADIGM_MESSAGE_DOMAIN, "Stopping state system: %s", e.what());
-                (*state_system_mode) = STOPPING;
-                break;
-            }
-            
-            next_state_shared = next_state.lock();
-            if (!next_state_shared) {
-                // no next state yet, sleep until the next tick
-                continue;
-            }
-            
-            current_state = next_state;
-            current_state_shared = next_state_shared;
-            
-            next_state.reset();
-            next_state_shared.reset();
-            
-            // finished transition
-            in_transition = false;
-        }
+    if (!runState(current_experiment, true)) {
+        // Execution failed.  Report that we're stopping the state system early.
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Stopping state system");
     }
+    
+    (*state_system_mode) = STOPPING;
     
     {
         lock_guard lock(state_system_mutex);

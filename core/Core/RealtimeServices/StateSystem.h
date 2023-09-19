@@ -32,6 +32,7 @@ public:
     virtual bool isPaused() = 0;
     
     virtual boost::shared_ptr<State> getCurrentState() = 0;
+    virtual bool runState(const boost::shared_ptr<State> &state) = 0;
     
     REGISTERED_SINGLETON_CODE_INJECTION(StateSystem)
     

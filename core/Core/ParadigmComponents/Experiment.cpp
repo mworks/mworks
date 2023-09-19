@@ -148,10 +148,8 @@ weak_ptr<State> Experiment::next() {
         accessed = true;
         current_protocol->updateCurrentScopedVariableContext();
         return current_protocol;
-    } else {
-        *state_system_mode = STOPPING;
-        return weak_ptr<State>();
     }
+    return getEndState();
 }
 
 

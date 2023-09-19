@@ -27,6 +27,12 @@
 BEGIN_NAMESPACE_MW
 
 
+const boost::shared_ptr<State> & State::getEndState() {
+    static const auto endState = boost::make_shared<State>();
+    return endState;
+}
+
+
 void State::describeComponent(ComponentInfo &info) {
     Component::describeComponent(info);
     
@@ -59,15 +65,14 @@ void State::action() {
 
 
 weak_ptr<State> State::next() {
-    shared_ptr<State> sharedParent = getParent();
-    if (!sharedParent) {
-        throw SimpleException("Internal error: state has no parent");
+    auto sharedParent = getParent();
+    if (sharedParent) {
+        sharedParent->updateCurrentScopedVariableContext();
     }
     
-    sharedParent->updateCurrentScopedVariableContext();
     reset();
     
-    return sharedParent;
+    return (sharedParent ? sharedParent : getEndState());
 }
 
 

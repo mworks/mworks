@@ -32,10 +32,17 @@ public:
     bool isRunning() override { return is_running; }
     bool isPaused() override { return is_paused; }
     
-    boost::shared_ptr<State> getCurrentState() override;
+    boost::shared_ptr<State> getCurrentState() override { return getCurrentStateWeakRef().lock(); }
+    bool runState(const boost::shared_ptr<State> &state) override;
     
 private:
+    static boost::weak_ptr<State> & getCurrentStateWeakRef();  // Returns a thread-local reference
+    static void failWithException(const std::exception &e, const char *fileline);
+    
+    bool runState(const boost::shared_ptr<State> &state, bool canPause);
     void run();
+    
+    const boost::shared_ptr<State> endState;
     
     using lock_guard = std::lock_guard<std::mutex>;
     lock_guard::mutex_type state_system_mutex;
@@ -43,7 +50,6 @@ private:
     
     std::atomic_bool is_running, is_paused;
     static_assert(decltype(is_running)::is_always_lock_free);
-    boost::weak_ptr<State> current_state;
     
 };
 
