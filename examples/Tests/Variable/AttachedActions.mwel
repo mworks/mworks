@@ -1,0 +1,16 @@
+var other_var = 0
+
+var target_var = 1 {
+    report ('target_var = $target_var')
+    other_var = 12 / target_var
+    report ('other_var = $other_var')
+}
+
+
+protocol {
+    other_var = 2
+    target_var = 3
+    assert (other_var == 4)
+    target_var = 0
+    assert (other_var == 0)
+}
