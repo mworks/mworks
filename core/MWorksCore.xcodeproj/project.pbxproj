@@ -3278,7 +3278,7 @@
 		DA2CE0C907E9070200C68AEF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					0E8014110E422E2A00D6DE20 = {
 						ProvisioningStyle = Automatic;
@@ -3337,13 +3337,11 @@
 			};
 			buildConfigurationList = 5C0E850E086D85D400B3EE7C /* Build configuration list for PBXProject "MWorksCore" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				Base,
+				en,
 			);
 			mainGroup = DA2CE0C507E9070200C68AEF;
 			productRefGroup = DA2CE0D507E9F68100C68AEF /* Products */;
