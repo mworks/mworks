@@ -206,7 +206,6 @@
 		5CCA2DF50E90676A007BDA56 /* SerializationTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA2DF30E90676A007BDA56 /* SerializationTest.cpp */; };
 		5CCDF6AD09F5C5C3008B1D65 /* TriggerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CCDF6AB09F5C5C3008B1D65 /* TriggerTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CCDF6AE09F5C5C3008B1D65 /* TriggerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CCDF6AC09F5C5C3008B1D65 /* TriggerTest.cpp */; };
-		5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */; };
 		5CD621591174FF3D007339B7 /* FreezableVariableContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CD6215A1174FF3D007339B7 /* FreezableVariableContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */; };
 		5CDCC8830D2B0E10008E2F19 /* ExpressionParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -424,6 +423,14 @@
 		E16A21001E5772A600C48E10 /* ZenStateSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF73C870862616800F453C3 /* ZenStateSystem.cpp */; };
 		E16A21011E5772AA00C48E10 /* ZenStateSystemPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4688940EB9048D00B01560 /* ZenStateSystemPlugin.cpp */; };
 		E16A21021E5772AE00C48E10 /* ZenStateSystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4688C00EB9061000B01560 /* ZenStateSystemFactory.cpp */; };
+		E16AAF502ABB31B20031B8C3 /* Actions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16AAF4E2ABB31B20031B8C3 /* Actions.cpp */; };
+		E16AAF512ABB31B20031B8C3 /* Actions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16AAF4E2ABB31B20031B8C3 /* Actions.cpp */; };
+		E16AAF522ABB31B20031B8C3 /* Actions.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E16AAF4F2ABB31B20031B8C3 /* Actions.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E16AAF532ABB31B20031B8C3 /* Actions.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E16AAF4F2ABB31B20031B8C3 /* Actions.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E16AAF562ABB33950031B8C3 /* TaskSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16AAF542ABB33950031B8C3 /* TaskSystem.cpp */; };
+		E16AAF572ABB33950031B8C3 /* TaskSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16AAF542ABB33950031B8C3 /* TaskSystem.cpp */; };
+		E16AAF582ABB33950031B8C3 /* TaskSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E16AAF552ABB33950031B8C3 /* TaskSystem.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E16AAF592ABB33950031B8C3 /* TaskSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E16AAF552ABB33950031B8C3 /* TaskSystem.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
 		E16DFFA72A05B686000E2E4D /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E16DFFA62A05B686000E2E4D /* AudioToolbox.framework */; };
@@ -542,7 +549,6 @@
 		E179171A1E4E53A300528B91 /* ExperimentUnpackager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E1DB69A0B4EB878000C0D68 /* ExperimentUnpackager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E179171B1E4E53A800528B91 /* ExperimentUnpackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DB69B0B4EB878000C0D68 /* ExperimentUnpackager.cpp */; };
 		E179171C1E4E53C200528B91 /* TrialBuildingBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE17D07E9F93900C68AEF /* TrialBuildingBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E179171D1E4E53C700528B91 /* TrialBuildingBlocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */; };
 		E179171E1E4E53CA00528B91 /* ScheduledActions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC713E0EDBAF6800FFABA8 /* ScheduledActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E179171F1E4E53CE00528B91 /* ScheduledActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC713F0EDBAF6800FFABA8 /* ScheduledActions.cpp */; };
 		E17917201E4E53D100528B91 /* PulseAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC71610EDBB14000FFABA8 /* PulseAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1152,7 +1158,6 @@
 		5CCA2DF30E90676A007BDA56 /* SerializationTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerializationTest.cpp; sourceTree = "<group>"; };
 		5CCDF6AB09F5C5C3008B1D65 /* TriggerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TriggerTest.h; path = Core/Triggers/tests/TriggerTest.h; sourceTree = SOURCE_ROOT; };
 		5CCDF6AC09F5C5C3008B1D65 /* TriggerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TriggerTest.cpp; path = Core/Triggers/tests/TriggerTest.cpp; sourceTree = SOURCE_ROOT; };
-		5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrialBuildingBlocks.cpp; path = Core/ParadigmComponents/TrialBuildingBlocks.cpp; sourceTree = "<group>"; };
 		5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FreezableVariableContainer.h; path = Core/Variables/FreezableVariableContainer.h; sourceTree = "<group>"; };
 		5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FreezableVariableContainer.cpp; path = Core/Variables/FreezableVariableContainer.cpp; sourceTree = "<group>"; };
 		5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressionParser.h; sourceTree = "<group>"; };
@@ -1361,6 +1366,10 @@
 		E16A20FE1E57727600C48E10 /* ZenSchedulerPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenSchedulerPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
 		E16A20FF1E57728300C48E10 /* ZenStateSystemPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
 		E16A21141E5789B900C48E10 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		E16AAF4E2ABB31B20031B8C3 /* Actions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Actions.cpp; path = Core/ParadigmComponents/Actions.cpp; sourceTree = "<group>"; };
+		E16AAF4F2ABB31B20031B8C3 /* Actions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Actions.hpp; path = Core/ParadigmComponents/Actions.hpp; sourceTree = "<group>"; };
+		E16AAF542ABB33950031B8C3 /* TaskSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TaskSystem.cpp; path = Core/ParadigmComponents/TaskSystem.cpp; sourceTree = "<group>"; };
+		E16AAF552ABB33950031B8C3 /* TaskSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TaskSystem.hpp; path = Core/ParadigmComponents/TaskSystem.hpp; sourceTree = "<group>"; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachUtilities.cpp; sourceTree = "<group>"; };
 		E16DFFA62A05B686000E2E4D /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -1690,8 +1699,8 @@
 		0EFC713D0EDBAF4200FFABA8 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
-				DA2CE17D07E9F93900C68AEF /* TrialBuildingBlocks.h */,
-				5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */,
+				E16AAF4F2ABB31B20031B8C3 /* Actions.hpp */,
+				E16AAF4E2ABB31B20031B8C3 /* Actions.cpp */,
 				0EFC713E0EDBAF6800FFABA8 /* ScheduledActions.h */,
 				0EFC713F0EDBAF6800FFABA8 /* ScheduledActions.cpp */,
 				0EFC71610EDBB14000FFABA8 /* PulseAction.h */,
@@ -2378,6 +2387,9 @@
 			children = (
 				5C4D254B09DCBB560082BF9F /* tests */,
 				0EFC713D0EDBAF4200FFABA8 /* Actions */,
+				E16AAF552ABB33950031B8C3 /* TaskSystem.hpp */,
+				E16AAF542ABB33950031B8C3 /* TaskSystem.cpp */,
+				DA2CE17D07E9F93900C68AEF /* TrialBuildingBlocks.h */,
 				DA2CE16D07E9F93900C68AEF /* BlockAndProtocol.h */,
 				DA2CE16C07E9F93900C68AEF /* BlockAndProtocol.cpp */,
 				DA2CE17107E9F93900C68AEF /* Experiment.h */,
@@ -2703,6 +2715,7 @@
 				E1EC364B25BA32C2005AEEEE /* FixationPoint.hpp in Headers */,
 				DA2CE12507E9F88900C68AEF /* Buffers.h in Headers */,
 				DA2CE12707E9F88900C68AEF /* Event.h in Headers */,
+				E16AAF582ABB33950031B8C3 /* TaskSystem.hpp in Headers */,
 				E15E5DDF28E49E410087DA1F /* AudioSourceNodeSound.hpp in Headers */,
 				DA2CE12B07E9F8B200C68AEF /* LoadingUtilities.h in Headers */,
 				E1FE64132142BEB700209279 /* MWK2File.hpp in Headers */,
@@ -2745,6 +2758,7 @@
 				8ED451E408BF5B90003880D5 /* EyeMonitors.h in Headers */,
 				E1F7CBB921F22B8A003F48A1 /* dfindex.h in Headers */,
 				E1E585BB266FB4A40058186F /* ZeroMQIPCEventTransport.hpp in Headers */,
+				E16AAF522ABB31B20031B8C3 /* Actions.hpp in Headers */,
 				8ED451E808BF5BA1003880D5 /* FilterTransforms.h in Headers */,
 				8ED452C908BF9870003880D5 /* Transforms.h in Headers */,
 				E18FF25F1C80EE7B007820D4 /* CFObjectPtr.h in Headers */,
@@ -2865,6 +2879,7 @@
 				E17917401E4E54A000528B91 /* Timer.h in Headers */,
 				E17916F01E4E523900528B91 /* StandardSystemEventHandler.h in Headers */,
 				E17916B31E4E50C300528B91 /* ZeroMQConnection.hpp in Headers */,
+				E16AAF592ABB33950031B8C3 /* TaskSystem.hpp in Headers */,
 				E1BE8C1A289BFE350025B0F4 /* AudioPCMBufferSound.hpp in Headers */,
 				E181600725811EB0004D8156 /* LegacyStandardStimuli.hpp in Headers */,
 				E17916B51E4E50CB00528B91 /* ZeroMQClient.hpp in Headers */,
@@ -2961,6 +2976,7 @@
 				E1EE384D2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */,
 				E17917261E4E53ED00528B91 /* Filters.h in Headers */,
 				E17916A61E4E506000528B91 /* Serialization.h in Headers */,
+				E16AAF532ABB31B20031B8C3 /* Actions.hpp in Headers */,
 				E17917271E4E53F200528B91 /* States.h in Headers */,
 				E17917121E4E535100528B91 /* Plugin.h in Headers */,
 				E18161612582A62D004D8156 /* AlphaBlendedTransformStimulus.hpp in Headers */,
@@ -3628,6 +3644,7 @@
 				DA2CE1B007E9F95600C68AEF /* Clock.cpp in Sources */,
 				DA2CE1B207E9F95600C68AEF /* Lockable.cpp in Sources */,
 				DA2CE1B607E9F95600C68AEF /* Scheduler.cpp in Sources */,
+				E16AAF502ABB31B20031B8C3 /* Actions.cpp in Sources */,
 				DA2CE1B807E9F95600C68AEF /* StandardVariables.cpp in Sources */,
 				E1B43C581FA3858B00CB6A97 /* VariableAssignment.cpp in Sources */,
 				DA2CE1BA07E9F95600C68AEF /* StateSystem.cpp in Sources */,
@@ -3662,6 +3679,7 @@
 				8E1A4CB208DFBF94002E47BD /* FitableFunctions.cpp in Sources */,
 				8E58149C0920220F0058D767 /* EyeCalibrators.cpp in Sources */,
 				DA96B8B50981901F0007610D /* AbstractCoreBuilder.cpp in Sources */,
+				E16AAF562ABB33950031B8C3 /* TaskSystem.cpp in Sources */,
 				DA96B8D70981951E0007610D /* StandardServerCoreBuilder.cpp in Sources */,
 				DA96B90909819B4E0007610D /* CoreBuilderForeman.cpp in Sources */,
 				E19CE0D51E897068005586E5 /* AppleOpenGLContextManager.cpp in Sources */,
@@ -3706,7 +3724,6 @@
 				E1DC75081D259C1700D9BC19 /* SerialPort.cpp in Sources */,
 				5CEFD82D0D4D1D6200EA9950 /* Exceptions.cpp in Sources */,
 				E148071222EA41BD0094DB1C /* DataFileDevice.cpp in Sources */,
-				5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */,
 				E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */,
 				5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */,
 				5C38FBC50DF045F600FA6A18 /* XMLVariableWriter.cpp in Sources */,
@@ -3776,8 +3793,10 @@
 				E179172E1E4E541200528B91 /* SequentialSelection.cpp in Sources */,
 				E17916F31E4E524600528B91 /* VariableRegistryInterface.cpp in Sources */,
 				E1BD1C452620AEAF0094FACB /* FairMutex.cpp in Sources */,
+				E16AAF512ABB31B20031B8C3 /* Actions.cpp in Sources */,
 				E17916A71E4E506600528B91 /* Serialization.cpp in Sources */,
 				E179170D1E4E533900528B91 /* ParameterValue.cpp in Sources */,
+				E16AAF572ABB33950031B8C3 /* TaskSystem.cpp in Sources */,
 				E18162262582C635004D8156 /* RectangleStimulus.metal in Sources */,
 				E18161952582ABD4004D8156 /* ColoredTransformStimulus.cpp in Sources */,
 				E17917301E4E541C00528B91 /* RandomWORSelection.cpp in Sources */,
@@ -3880,7 +3899,6 @@
 				E17917321E4E542500528B91 /* RandomWithReplacementSelection.cpp in Sources */,
 				E1815FAF25810ED5004D8156 /* BlankScreenStimulus.cpp in Sources */,
 				E17917131E4E535700528B91 /* Plugin.cpp in Sources */,
-				E179171D1E4E53C700528B91 /* TrialBuildingBlocks.cpp in Sources */,
 				E17917281E4E53F800528B91 /* States.cpp in Sources */,
 				E17917251E4E53EA00528B91 /* Experiment.cpp in Sources */,
 				E17916C81E4E513300528B91 /* VariableProperties.cpp in Sources */,
