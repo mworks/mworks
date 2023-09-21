@@ -240,11 +240,11 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
     addVariable(new_variable);
     
     local_variable_list.push_back(new_variable);
-	new_variable->setContextIndex(local_variable_list.size() - 1);
 	new_variable->setLogging(M_WHEN_CHANGED);
 	
     shared_ptr<ScopedVariableEnvironment> env_shared = env.lock();
 	if(env_shared){
+        new_variable->setEnvironment(env_shared);
 		env_shared->addVariable(new_variable);
 	}
 	

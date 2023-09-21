@@ -23,8 +23,6 @@ ScopedVariableEnvironment::ScopedVariableEnvironment() : variables(){
 int ScopedVariableEnvironment::addVariable(shared_ptr<ScopedVariable> var){
 	int index = variables.addReference(var);
 	var->setContextIndex(index);
-	var->setEnvironment(this);
-	
 	return index;
 }
 
