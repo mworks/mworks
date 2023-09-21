@@ -33,15 +33,12 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 Experiment::~Experiment() { }
 
 
-void Experiment::createVariableContexts(){
-	
-	if(variable_registry == NULL){
-		// TODO: warn
-		return;
-	}
-	
-    setLocalScopedVariableContext(createNewDefaultContext(component_shared_from_this<Experiment>()));
-	
+void Experiment::createVariableContexts() {
+    auto defaultContext = boost::make_shared<ScopedVariableContext>(component_shared_from_this<Experiment>());
+    for (auto &var : getVariables()) {
+        defaultContext->set(var->getContextIndex(), var->getProperties().getDefaultValue());
+    }
+    setLocalScopedVariableContext(defaultContext);
 }
 
 

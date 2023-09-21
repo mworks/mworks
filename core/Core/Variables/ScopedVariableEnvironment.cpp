@@ -15,16 +15,6 @@
 BEGIN_NAMESPACE_MW
 
 
-boost::shared_ptr<ScopedVariableContext>
-ScopedVariableEnvironment::createNewDefaultContext(const boost::shared_ptr<ScopedVariableEnvironment> &env) {
-    auto new_context = boost::make_shared<ScopedVariableContext>(env);
-    for (auto &var : env->variables) {
-        new_context->set(var->getContextIndex(), var->getProperties().getDefaultValue());
-    }
-    return new_context;
-}
-
-
 int ScopedVariableEnvironment::addVariable(const boost::shared_ptr<ScopedVariable> &var) {
     auto index = variables.size();
     var->setContextIndex(index);

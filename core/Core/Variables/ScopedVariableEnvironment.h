@@ -25,10 +25,10 @@ private:
     std::vector<boost::shared_ptr<ScopedVariable>> variables;
     boost::shared_ptr<ScopedVariableContext> current_context;
     
-public:
-    // Contexts should be created *after* all variables are added to the environment
-    static boost::shared_ptr<ScopedVariableContext> createNewDefaultContext(const boost::shared_ptr<ScopedVariableEnvironment> &env);
+protected:
+    const std::vector<boost::shared_ptr<ScopedVariable>> & getVariables() const { return variables; }
     
+public:
     virtual ~ScopedVariableEnvironment() { }
     
     // Add a new scoped variable to this environment
