@@ -8,85 +8,57 @@
  */
 
 #include "ScopedVariableEnvironment.h"
-#include "ScopedVariable.h"
-#include "VariableProperties.h"
+
+#include "ScopedVariableContext.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
-ScopedVariableEnvironment::ScopedVariableEnvironment() : variables(){
-	//current_context = NULL;
-}
-
-// Add a new scoped variable to this environment
-int ScopedVariableEnvironment::addVariable(shared_ptr<ScopedVariable> var){
-	int index = variables.addReference(var);
-	var->setContextIndex(index);
-	return index;
-}
-
-// Generate a new context that is valid in this environment
-// Should be called *after* all variables are added to the environment
-shared_ptr<ScopedVariableContext> ScopedVariableEnvironment::createNewContext(){
-	shared_ptr<ScopedVariableContext> new_context( 
-						new ScopedVariableContext(this));
-	
-	return new_context;
-}
-
-shared_ptr<ScopedVariableContext> ScopedVariableEnvironment::createNewDefaultContext(){
-
-	shared_ptr<ScopedVariableContext> new_context = createNewContext();
-	
-	for(int i = 0; i < variables.getNElements(); i++){
-		shared_ptr<ScopedVariable> var = variables[i];
-		auto props = var->getProperties();
-		new_context->set(var->getContextIndex(), props.getDefaultValue());
-	}
-	
-	return new_context;
+int ScopedVariableEnvironment::addVariable(const boost::shared_ptr<ScopedVariable> &var) {
+    auto index = variables.size();
+    var->setContextIndex(index);
+    variables.emplace_back(var);
+    return index;
 }
 
 
-// Set the current variable context
-// Should have been created by the createNewContext method
-void ScopedVariableEnvironment::setCurrentContext(shared_ptr<ScopedVariableContext> new_context){
-	current_context = new_context;
-}
-
-// ScopedVariable delegate methods
-Datum ScopedVariableEnvironment::getValue(int index){
-	if(current_context != NULL){
-		return current_context->get(index);
-	}
-	
-	// TODO: warn
-	return Datum();
+boost::shared_ptr<ScopedVariableContext> ScopedVariableEnvironment::createNewContext() {
+    return boost::make_shared<ScopedVariableContext>(this);
 }
 
 
-void ScopedVariableEnvironment::setValue(int index, Datum value){
-	if(current_context != NULL){
-		current_context->set(index, value);
-	} else {
-		// TODO: warn
-		merror(M_PARADIGM_MESSAGE_DOMAIN, "Attempt to set a value on a missing context");
-		
-	}
+boost::shared_ptr<ScopedVariableContext> ScopedVariableEnvironment::createNewDefaultContext() {
+    auto new_context = createNewContext();
+    for (auto &var : variables) {
+        new_context->set(var->getContextIndex(), var->getProperties().getDefaultValue());
+    }
+    return new_context;
 }
 
 
-void ScopedVariableEnvironment::announceAll(){
-	for(int i = 0; i < variables.getNElements(); i++){
-		shared_ptr<ScopedVariable> var = variables[i];
-		if(var != shared_ptr<ScopedVariable>()){
-			var->announce();
-			//TODO Maybe this needs to be here?
-			//var->performNotifications();
+Datum ScopedVariableEnvironment::getValue(int index) {
+    if (current_context) {
+        return current_context->get(index);
+    }
+    merror(M_PARADIGM_MESSAGE_DOMAIN, "Scoped variable environment has no current context");
+    return Datum();
+}
 
-		}
-	}
+
+void ScopedVariableEnvironment::setValue(int index, Datum value) {
+    if (current_context) {
+        current_context->set(index, value);
+    } else {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Scoped variable environment has no current context");
+    }
+}
+
+
+void ScopedVariableEnvironment::announceAll() {
+    for (auto &var : variables) {
+        var->announce();
+    }
 }
 
 
