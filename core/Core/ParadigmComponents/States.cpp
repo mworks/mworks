@@ -186,25 +186,17 @@ shared_ptr<ScopedVariableContext> ContainerState::getLocalScopedVariableContext(
 
 
 void ContainerState::updateCurrentScopedVariableContext() {
-    shared_ptr<ScopedVariableEnvironment> environment_shared = getExperiment();
-    if (environment_shared) {
-        environment_shared->setCurrentContext(local_variable_context);
-        
-        shared_ptr<State> parent_shared(getParent());
-        if (parent_shared) {
-            shared_ptr<ScopedVariableContext> parentContext = parent_shared->getLocalScopedVariableContext();
-            if (parentContext) {
-                int numScopedVars = local_variable_context->getNFields();
-                for (int i=0; i<numScopedVars; ++i) {
-                    if (local_variable_context->getTransparency(i) == M_TRANSPARENT) {
-                        local_variable_context->setWithTransparency(i, parentContext->get(i));
-                    }
-                }
-            }
-        }
-    } else {
+    auto environment_shared = getExperiment();
+    if (!environment_shared) {
         // TODO: better throw
         throw SimpleException("Cannot update scoped variable context without a valid environment");
+    }
+    environment_shared->setCurrentContext(local_variable_context);
+    
+    if (auto parent_shared = getParent()) {
+        if (auto parentContext = parent_shared->getLocalScopedVariableContext()) {
+            local_variable_context->inheritFrom(parentContext);
+        }
     }
 }
 

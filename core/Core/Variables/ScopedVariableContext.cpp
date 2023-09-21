@@ -32,21 +32,6 @@ void ScopedVariableContext::inheritFrom(const boost::shared_ptr<ScopedVariableCo
 }
 
 
-Transparency ScopedVariableContext::getTransparency(const boost::shared_ptr<ScopedVariable> &var) const {
-    return getTransparency(var->getContextIndex());
-}
-
-
-Transparency ScopedVariableContext::getTransparency(int i) const {
-    auto iter = transparency.find(i);
-    if (iter == transparency.end()) {
-        merror(M_SYSTEM_MESSAGE_DOMAIN, "Attempt to access invalid index in variable context");
-        return M_TRANSPARENT;
-    }
-    return iter->second;
-}
-
-
 Datum ScopedVariableContext::get(int index) const {
     auto iter = data.find(index);
     if (iter == data.end()) {
@@ -60,12 +45,6 @@ Datum ScopedVariableContext::get(int index) const {
 void ScopedVariableContext::set(int index, const Datum &newdata) {
     data[index] = newdata;
     transparency[index] = M_OPAQUE;
-}
-
-
-void ScopedVariableContext::setWithTransparency(int index, const Datum &newdata) {
-    data[index] = newdata;
-    transparency[index] = M_TRANSPARENT;
 }
 
 

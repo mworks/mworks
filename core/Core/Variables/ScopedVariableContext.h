@@ -60,15 +60,8 @@ public:
     void inheritFrom(const boost::shared_ptr<ScopedVariableContext> &parent);  // inherit from a parent, unless already
                                                                                // defined opaque
     
-    int getNFields() const { return data.size(); };
-    
-    Transparency getTransparency(const boost::shared_ptr<ScopedVariable> &var) const;
-    Transparency getTransparency(int i) const;
-    
     Datum get(int index) const;
-    
     void set(int index, const Datum &newdata);
-    void setWithTransparency(int index, const Datum &newdata);
     
 };
 
