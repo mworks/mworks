@@ -137,7 +137,7 @@ ContainerState::ContainerState(const ParameterValueMap &parameters) :
 
 void ContainerState::requestVariableContext() {
     if (auto sharedExperiment = getExperiment()) {
-        local_variable_context = sharedExperiment->createNewContext();
+        local_variable_context = boost::make_shared<ScopedVariableContext>(sharedExperiment);
     }
 }
 

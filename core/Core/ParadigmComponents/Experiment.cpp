@@ -40,7 +40,7 @@ void Experiment::createVariableContexts(){
 		return;
 	}
 	
-    setLocalScopedVariableContext(createNewDefaultContext());
+    setLocalScopedVariableContext(createNewDefaultContext(component_shared_from_this<Experiment>()));
 	
 }
 

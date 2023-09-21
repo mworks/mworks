@@ -1,14 +1,3 @@
-#ifndef _VARIABLE_CONTEXT_HEADER
-#define _VARIABLE_CONTEXT_HEADER
-
-#include "GenericData.h"
-#include "GenericVariable.h"
-#include "ScopedVariable.h"
-#include "ScopedVariableEnvironment.h"
-#include "Selection.h"
-//#include "ExpandableList.h"
-#include <vector>
-
 /**
  * ScopedVariableContext.h
  *
@@ -45,49 +34,42 @@
  * Paul Jankunas on 1/24/06 - Adding virtual destructor.
  */	
  
-#include <map>
+#ifndef _VARIABLE_CONTEXT_HEADER
+#define _VARIABLE_CONTEXT_HEADER
+
+#include "ScopedVariableEnvironment.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
-enum  Transparency{ M_TRANSPARENT, M_OPAQUE };
+enum Transparency { M_TRANSPARENT, M_OPAQUE };
 
-// The base trial info object, containing user defined variables which are needed to run trials
 
-class ScopedVariableContext : public Lockable{
-
-	protected:
-
-		ScopedVariableEnvironment *environment;
-		std::map< int, shared_ptr<Datum> > data; // a list of pointers to data
-		std::map<int, Transparency> transparency; // a list of flags whether the object
-                                                              // is actually defined here or is inherited
-                                                              
-	public:
-	
-		ScopedVariableContext(ScopedVariableEnvironment *env);
-		ScopedVariableContext(shared_ptr<ScopedVariableContext> ownersinfo);  // point through to a parent
-
-		void inheritFrom(shared_ptr<ScopedVariableContext> info_to_inherit);  // inherit from a parent, unless already 
-                                                                // defined opaque
-		virtual ~ScopedVariableContext();
-        
-		virtual Transparency getTransparency(ScopedVariable *param);
-		virtual Transparency getTransparency(int i);
-                                		
-		int getNFields(); // how many fields?
-		
-		ScopedVariableEnvironment *getEnvironment(){ return environment; }
-		
-		
-	 Datum get(int index);
-                
-		void set(int index, shared_ptr<Datum> newdata);
-		void set(int index, const Datum& newdata);
-		void setWithTransparency(int index, shared_ptr<Datum> newdata);
-		void setWithTransparency(int index, const Datum& newdata);
-                
+class ScopedVariableContext {
+    
+private:
+    std::map<int, Datum> data;  // a list of data
+    std::map<int, Transparency> transparency;  // a list of flags whether the object
+                                               // is actually defined here or is inherited
+    
+public:
+    // Contexts should be created *after* all variables are added to the environment
+    explicit ScopedVariableContext(const boost::shared_ptr<ScopedVariableEnvironment> &environment);
+    
+    void inheritFrom(const boost::shared_ptr<ScopedVariableContext> &parent);  // inherit from a parent, unless already
+                                                                               // defined opaque
+    
+    int getNFields() const { return data.size(); };
+    
+    Transparency getTransparency(const boost::shared_ptr<ScopedVariable> &var) const;
+    Transparency getTransparency(int i) const;
+    
+    Datum get(int index) const;
+    
+    void set(int index, const Datum &newdata);
+    void setWithTransparency(int index, const Datum &newdata);
+    
 };
 
 
@@ -95,4 +77,3 @@ END_NAMESPACE_MW
 
 
 #endif
-

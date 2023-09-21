@@ -26,18 +26,15 @@ private:
     boost::shared_ptr<ScopedVariableContext> current_context;
     
 public:
+    // Contexts should be created *after* all variables are added to the environment
+    static boost::shared_ptr<ScopedVariableContext> createNewDefaultContext(const boost::shared_ptr<ScopedVariableEnvironment> &env);
+    
     virtual ~ScopedVariableEnvironment() { }
     
     // Add a new scoped variable to this environment
     int addVariable(const boost::shared_ptr<ScopedVariable> &var);
     
-    // Generate a new context that is valid in this environment
-    // Should be called *after* all variables are added to the environment
-    boost::shared_ptr<ScopedVariableContext> createNewContext();
-    boost::shared_ptr<ScopedVariableContext> createNewDefaultContext();
-    
     // Set the current variable context
-    // Should have been created by the createNewContext method
     void setCurrentContext(const boost::shared_ptr<ScopedVariableContext> &new_context) {
         current_context = new_context;
     }

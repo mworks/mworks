@@ -346,7 +346,7 @@ shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
 	
     shared_ptr<ScopedVariableEnvironment> env_shared = getExperiment();
 	if(env_shared){
-		shared_ptr<ScopedVariableContext> con = env_shared->createNewContext();
+		shared_ptr<ScopedVariableContext> con = boost::make_shared<ScopedVariableContext>(env_shared);
 		
 		new_state->setLocalScopedVariableContext(con);
 	} else {
