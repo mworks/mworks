@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
+    <message type="starts_with">x = 1 </message>
     <message type="starts_with">x = 2 </message>
     <message type="starts_with">x = 3 </message>
     <message type="starts_with">x = 4 </message>
@@ -10,7 +11,11 @@
     <message type="starts_with">x = 8 </message>
     <message type="starts_with">x = 9 </message>
     <message type="starts_with">x = 10 </message>
+    <message type="starts_with">x = 11 </message>
+    <message type="starts_with">x = 1 </message>
     <message type="starts_with">x = 1.5 </message>
+    <message type="starts_with">x = 11 </message>
+    <message type="starts_with">x = 1 </message>
     <message type="starts_with">x = 2.5 </message>
   </expected_messages>
   <expected_events>

@@ -1,0 +1,160 @@
+var x = 0 (scope = local) {
+    report ('x = $x')
+}
+
+var index = 0 (scope = local)
+var first_run = true
+
+
+protocol (nsamples = 2) {
+    if (first_run) {
+        assert (x == 0)
+        x = 1
+    }
+
+    assert (x == 1)
+
+    block 'Sequential 1' {
+        if (first_run) {
+            x = 2
+        }
+
+        assert (x == 2)
+
+        trial 'Nested A' {
+            assert (x == 2)
+        }
+    }
+
+    assert (x == 1)
+
+    block 'Sequential 2' {
+        if (first_run) {
+            x = 3
+        }
+
+        assert (x == 3)
+
+        trial 'Nested B' {
+            assert (x == 3)
+        }
+    }
+
+    assert (x == 1)
+
+    range_replicator (
+        from = 4
+        to = 6
+        step = 1
+        variable = index
+        ) {
+        block 'Sequential Replicated' {
+            if (first_run) {
+                x = index
+            }
+
+            assert (x == index)
+
+            trial 'Nested C' {
+                assert (x == index)
+            }
+        }
+
+        trial After {
+            assert (x == 1)
+        }
+    }
+
+    block 'Nested 1' {
+        if (first_run) {
+            x = 7
+        }
+
+        assert (x == 7)
+
+        list 'Nested 2' {
+            if (first_run) {
+                x = 8
+            }
+
+            assert (x == 8)
+
+            trial 'Nested 3' {
+                if (first_run) {
+                    x = 9
+                }
+
+                assert (x == 9)
+
+                task {
+                    state Before {
+                        assert (x == 9)
+                        goto ('Nested 4')
+                    }
+
+                    state 'Nested 4' {
+                        if (first_run) {
+                            x = 10
+                        }
+                        assert (x == 10)
+                        goto (After)
+                    }
+
+                    state After {
+                        assert (x == 9)
+                        yield ()
+                    }
+                }
+
+                assert (x == 9)
+            }
+
+            assert (x == 8)
+        }
+
+        assert (x == 7)
+    }
+
+    assert (x == 1)
+
+    schedule (
+        delay = 100ms
+        duration = 0
+        repeats = 1
+        ) {
+        // NOTE: This isn't really right.  Scheduled actions execute
+        // independently of the main state system.  Therefore, the only local
+        // variable scope they see should be the default one (i.e. the one
+        // associated with the experiment).  This means that the initial value
+        // we see here should be zero, and the assignment of 11 shouldn't be
+        // visible anywhere inside the protocol.
+        assert (x == 1)
+        x = 11
+        assert (x == 11)
+    }
+    wait (500ms)
+    assert (x == 11)
+
+    x = 1
+    assert (x == 1)
+
+    block Reassign {
+        if (first_run) {
+            assert (x == 1)
+            x = 1.5
+            assert (x == 1.5)
+        }
+        if (!first_run) {
+            assert (
+                condition = x == 1.5
+                message = 'This should fail if the experiment is re-run without reloading'
+                )
+            x = 2.5
+            assert (x == 2.5)
+        }
+    }
+
+    assert (x == 1)
+
+    first_run = false
+}
