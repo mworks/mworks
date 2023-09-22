@@ -18,100 +18,97 @@
 BEGIN_NAMESPACE_MW
 
 
-class Transition : public mw::Component { };
+class Transition : public Component { };
+
 
 class TransitionFactory : public ComponentFactory {
 public:
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+    virtual boost::shared_ptr<Component> createObject(std::map<std::string, std::string> parameters,
+                                                      ComponentRegistry *reg);
 };
+
 
 class TransitionCondition : public Transition {
 protected:
-	shared_ptr<Variable> condition;
-	weak_ptr<State> transition;
-	bool always_go;
-	
-	weak_ptr<State> owner;
-	std::string name;
-	
+    boost::shared_ptr<Variable> condition;
+    boost::weak_ptr<State> transition;
+    bool always_go;
+    
+    boost::weak_ptr<State> owner;
+    std::string name;
+    
 public:
-	// if v1
-	TransitionCondition(shared_ptr<Variable> v1, 
-						 weak_ptr<State> trans);
-	// always go
-	TransitionCondition(weak_ptr<State> trans);
-	virtual ~TransitionCondition();
-	virtual weak_ptr<State> execute();
-	void setOwner(weak_ptr<State> _owner);
-	weak_ptr<State> getOwner();
-	weak_ptr<State> getTransition();
+    // if v1
+    TransitionCondition(boost::shared_ptr<Variable> v1,
+                        boost::weak_ptr<State> trans);
+    // always go
+    TransitionCondition(boost::weak_ptr<State> trans);
+    virtual ~TransitionCondition();
+    virtual boost::weak_ptr<State> execute();
+    void setOwner(boost::weak_ptr<State> _owner);
+    boost::weak_ptr<State> getOwner();
+    boost::weak_ptr<State> getTransition();
 };
+
 
 class TransitionIfTimerExpired : public TransitionCondition {
 protected:
-	shared_ptr<Timer> timer;
+    boost::shared_ptr<Timer> timer;
 public:
-	TransitionIfTimerExpired(shared_ptr<Timer> _timer, 
-							  weak_ptr<State> trans);
-	virtual weak_ptr<State> execute();
+    TransitionIfTimerExpired(boost::shared_ptr<Timer> _timer,
+                             boost::weak_ptr<State> trans);
+    virtual boost::weak_ptr<State> execute();
 };
 
-//class TransitionIfEggTimerExpired : public TransitionCondition {
-//public:
-//	TransitionIfEggTimerExpired(shared_ptr<State> trans);
-//	virtual State *execute();
-//};
 
 class YieldToParent : public TransitionCondition {
 public:
-	YieldToParent();
-	virtual ~YieldToParent();
-	virtual weak_ptr<State> execute();
+    YieldToParent();
+    virtual ~YieldToParent();
+    virtual boost::weak_ptr<State> execute();
 };
+
 
 class TaskSystemState : public ContainerState {
     
 private:
-    shared_ptr< vector< shared_ptr<TransitionCondition> > > transition_list { new vector< shared_ptr<TransitionCondition> > };
+    boost::shared_ptr<std::vector<boost::shared_ptr<TransitionCondition>>> transition_list { new std::vector<boost::shared_ptr<TransitionCondition>> };
     int currentActionIndex { 0 };
-    
-	void addTransition(shared_ptr<TransitionCondition> trans);
     
 public:
     static void describeComponent(ComponentInfo &info);
     
-	TaskSystemState();
+    TaskSystemState();
     explicit TaskSystemState(const ParameterValueMap &parameters);
-	
-    shared_ptr<mw::Component> createInstanceObject() override;
-    weak_ptr<State> next() override;
+    
+    boost::shared_ptr<Component> createInstanceObject() override;
+    
+    boost::weak_ptr<State> next() override;
     void reset() override;
-	
+    
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg,
-                  shared_ptr<mw::Component> comp) override;
+                  boost::shared_ptr<Component> comp) override;
     
 };
 
 
 class TaskSystem : public ContainerState {
-	
+    
 public:
     static void describeComponent(ComponentInfo &info);
     
-	TaskSystem();
+    TaskSystem();
     explicit TaskSystem(const ParameterValueMap &parameters);
-	
-    shared_ptr<mw::Component> createInstanceObject() override;
-	void action() override;
-    weak_ptr<State> next() override;
-	
-	void addTaskSystemState(shared_ptr<TaskSystemState> state);
-	
+    
+    boost::shared_ptr<Component> createInstanceObject() override;
+    
+    void action() override;
+    boost::weak_ptr<State> next() override;
+    
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg,
-                  shared_ptr<mw::Component> comp) override;
+                  boost::shared_ptr<Component> comp) override;
     
 };
 

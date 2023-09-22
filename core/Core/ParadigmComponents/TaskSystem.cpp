@@ -7,8 +7,6 @@
 
 #include "TaskSystem.hpp"
 
-#include <boost/foreach.hpp>
-
 #include "Actions.hpp"
 
 
@@ -18,8 +16,8 @@ BEGIN_NAMESPACE_MW
 /****************************************************************
  *                 TransitionCondition Methods
  ****************************************************************/	
-TransitionCondition::TransitionCondition(shared_ptr<Variable> v1, 
-										   weak_ptr<State> trans) {
+TransitionCondition::TransitionCondition(boost::shared_ptr<Variable> v1,
+										   boost::weak_ptr<State> trans) {
 	//    mprintf("Instantiating conditional transitions");
 	condition = v1;
 	always_go = false;
@@ -31,7 +29,7 @@ TransitionCondition::TransitionCondition(shared_ptr<Variable> v1,
 	name = "Transition: TransitionCondition";
 }		
 
-TransitionCondition::TransitionCondition(weak_ptr<State> trans) { 
+TransitionCondition::TransitionCondition(boost::weak_ptr<State> trans) {
 	//condition = NULL;
 	always_go = true;
 	if(trans.expired()) {
@@ -46,7 +44,7 @@ TransitionCondition::~TransitionCondition() {
     //owner = NULL;
 }
 
-weak_ptr<State> TransitionCondition::execute() {
+boost::weak_ptr<State> TransitionCondition::execute() {
     
 	
 	if(always_go){
@@ -70,64 +68,64 @@ weak_ptr<State> TransitionCondition::execute() {
 			throw SimpleException("Attempt to advance to an invalid transition state");
 		}
     } else {
-		return weak_ptr<State>();
+		return boost::weak_ptr<State>();
 	}
 }
 
-void TransitionCondition::setOwner(weak_ptr<State> _owner) {
+void TransitionCondition::setOwner(boost::weak_ptr<State> _owner) {
 	owner = _owner;
 }
 
-weak_ptr<State> TransitionCondition::getOwner() {
+boost::weak_ptr<State> TransitionCondition::getOwner() {
 	return owner;
 }
 
-weak_ptr<State>  TransitionCondition::getTransition() {
+boost::weak_ptr<State>  TransitionCondition::getTransition() {
     return transition;
 }
 
-shared_ptr<mw::Component> TransitionFactory::createObject(std::map<std::string, std::string> parameters,
+boost::shared_ptr<Component> TransitionFactory::createObject(std::map<std::string, std::string> parameters,
 														ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "type");
 	
-	shared_ptr<mw::Component> newTransition;
+	boost::shared_ptr<Component> newTransition;
 	    
 	if(boost::algorithm::to_lower_copy(parameters.find("type")->second) == "yield") {
-		newTransition = shared_ptr<mw::Component>(new YieldToParent());	 
+		newTransition = boost::shared_ptr<Component>(new YieldToParent());
 	} else {
 		// if it doesn't yield it needs a target
 		REQUIRE_ATTRIBUTES(parameters, "type", "target");
-		shared_ptr<State> target = reg->getObject<State>(parameters.find("target")->second, parameters["parent_scope"]);
+		boost::shared_ptr<State> target = reg->getObject<State>(parameters.find("target")->second, parameters["parent_scope"]);
 		
 		checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 		
 		string type = boost::algorithm::to_lower_copy(parameters.find("type")->second);
 		if(type == "conditional") {
 			REQUIRE_ATTRIBUTES(parameters, "type", "target", "condition");
-			shared_ptr<Variable> condition = reg->getVariable(parameters.find("condition")->second);			
+			boost::shared_ptr<Variable> condition = reg->getVariable(parameters.find("condition")->second);
 			
 			checkAttribute(condition, parameters["reference_id"], "condition", parameters.find("condition")->second);		
 			
 			checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 			
 			
-			newTransition = shared_ptr<mw::Component>(new TransitionCondition(condition, target));
+			newTransition = boost::shared_ptr<Component>(new TransitionCondition(condition, target));
 		} else if(type == "timer_expired") {
 			REQUIRE_ATTRIBUTES(parameters, "type", "target", "timer");
-			shared_ptr<Timer> timer = reg->getObject<Timer>(parameters.find("timer")->second);
+			boost::shared_ptr<Timer> timer = reg->getObject<Timer>(parameters.find("timer")->second);
 			
 			checkAttribute(timer, parameters["reference_id"], "timer", parameters.find("timer")->second);		
 			
 			checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 			
 			
-			newTransition = shared_ptr<mw::Component>(new TransitionIfTimerExpired(timer, target));
+			newTransition = boost::shared_ptr<Component>(new TransitionIfTimerExpired(timer, target));
 		} else if(type == "direct" || type == "") {
 			REQUIRE_ATTRIBUTES(parameters, "type", "target");
 			checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 			
-			newTransition = shared_ptr<mw::Component>(new TransitionCondition(target));
+			newTransition = boost::shared_ptr<Component>(new TransitionCondition(target));
         } else if (type == "goto") {
             if (parameters.find("when") == parameters.end()) {
                 newTransition = boost::make_shared<TransitionCondition>(target);
@@ -146,8 +144,8 @@ shared_ptr<mw::Component> TransitionFactory::createObject(std::map<std::string, 
 /****************************************************************
  *                 TransitionIfTimerExpired Methods
  ****************************************************************/	
-TransitionIfTimerExpired::TransitionIfTimerExpired(shared_ptr<Timer> _timer, 
-													 weak_ptr<State> trans)
+TransitionIfTimerExpired::TransitionIfTimerExpired(boost::shared_ptr<Timer> _timer,
+													 boost::weak_ptr<State> trans)
 : TransitionCondition(trans) {
 	timer = _timer;
     always_go = false;
@@ -155,7 +153,7 @@ TransitionIfTimerExpired::TransitionIfTimerExpired(shared_ptr<Timer> _timer,
 }
 
 
-weak_ptr<State> TransitionIfTimerExpired::execute() {
+boost::weak_ptr<State> TransitionIfTimerExpired::execute() {
     
 	if(timer->hasExpired()) {
 		//fprintf(stderr, "===> Going because timer expired\n");
@@ -168,7 +166,7 @@ weak_ptr<State> TransitionIfTimerExpired::execute() {
 			throw SimpleException("Attempt to advance to an invalid transition state");
 		}
     } else {
-        return weak_ptr<State>();
+        return boost::weak_ptr<State>();
     }
 }
 
@@ -177,7 +175,7 @@ weak_ptr<State> TransitionIfTimerExpired::execute() {
  *                 YieldToParent Methods
  ****************************************************************/
 YieldToParent::YieldToParent() 
-: TransitionCondition(shared_ptr<State>(GlobalCurrentExperiment)) {
+: TransitionCondition(boost::shared_ptr<State>(GlobalCurrentExperiment)) {
 	// surely not the right place to go, but might avoid a crash    
     // mprintf("YieldToParent Constructor called");
 	name = "Transition: YieldToParent";
@@ -187,24 +185,24 @@ YieldToParent::~YieldToParent() {
 	
 }
 
-weak_ptr<State> YieldToParent::execute() {
+boost::weak_ptr<State> YieldToParent::execute() {
 	
 	currentState->setValue(getCompactID());
 	//currentState->setValue(name);
 	//	fprintf(stderr, "===> Yielding to parent\n");
 	//	fflush(stderr);
 	
-	shared_ptr<State> owner_shared(owner);
+	boost::shared_ptr<State> owner_shared(owner);
 	
   	if(owner_shared == NULL) {
 		merror(M_PARADIGM_MESSAGE_DOMAIN, 
 			   "Attempting to yield in an owner-less transition");
 		
 		// TODO: is this implicit cast kosher?
-		return weak_ptr<State>(GlobalCurrentExperiment);
+		return boost::weak_ptr<State>(GlobalCurrentExperiment);
 	}
 	
-	shared_ptr<State> parent = owner_shared->getParent();
+	boost::shared_ptr<State> parent = owner_shared->getParent();
 	if (!parent) {
 		merror(M_PARADIGM_MESSAGE_DOMAIN, 
 			   "Attempting to yield in an owner-less transition");
@@ -225,7 +223,7 @@ void TaskSystemState::describeComponent(ComponentInfo &info) {
 
 
 TaskSystemState::TaskSystemState() {
-	setTag("TaskSystemState");
+    setTag("TaskSystemState");
 }
 
 
@@ -234,18 +232,18 @@ TaskSystemState::TaskSystemState(const ParameterValueMap &parameters) :
 { }
 
 
-shared_ptr<mw::Component> TaskSystemState::createInstanceObject(){
-    shared_ptr<TaskSystemState> new_state = clone<TaskSystemState>();
+boost::shared_ptr<Component> TaskSystemState::createInstanceObject() {
+    auto new_state = clone<TaskSystemState>();
     new_state->transition_list = transition_list;
-	return new_state;
+    return new_state;
 }
 
 
-weak_ptr<State> TaskSystemState::next() {
+boost::weak_ptr<State> TaskSystemState::next() {
     if (currentActionIndex < getList().size()) {
-        shared_ptr<State> action = getList()[currentActionIndex++];
+        auto action = getList()[currentActionIndex++];
         
-        shared_ptr<State> actionParent(action->getParent());
+        auto actionParent = action->getParent();
         if (actionParent.get() != this) {
             action->setParent(component_shared_from_this<State>());
             action->updateHierarchy();
@@ -256,67 +254,62 @@ weak_ptr<State> TaskSystemState::next() {
         return action;
     }
     
-    weak_ptr<State> trans;
-	if(transition_list->size() == 0) {
-		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "No valid transitions.  Ending experiment.");
-		trans = weak_ptr<State>(GlobalCurrentExperiment);
-		return trans;
-	}			
-	
-    BOOST_FOREACH( shared_ptr<TransitionCondition> condition, *transition_list ) {
-		trans = condition->execute();
-        shared_ptr<State> trans_shared = trans.lock();
-		if(trans_shared) {
-			shared_ptr<State> parent_shared(getParent());
-			if(trans_shared.get() != parent_shared.get()){
-				trans_shared->setParent(parent_shared); // TODO: this gets set WAY too many times
-                trans_shared->updateHierarchy();
-			}
-			
-			trans_shared->updateCurrentScopedVariableContext();
+    if (transition_list->empty()) {
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "No valid transitions.  Ending experiment.");
+        return boost::weak_ptr<State>(GlobalCurrentExperiment);
+    }
+    
+    for (auto &condition : *transition_list) {
+        auto trans = condition->execute();
+        if (auto trans_shared = trans.lock()) {
+            auto parent_shared = getParent();
+            if (trans_shared != parent_shared) {
+                auto trans_parent_shared = trans_shared->getParent();
+                if (trans_parent_shared != parent_shared) {
+                    trans_shared->setParent(parent_shared);
+                    trans_shared->updateHierarchy();
+                }
+            }
+            
+            trans_shared->updateCurrentScopedVariableContext();
             reset();
-			return trans;
-		}
-	}	
-	return weak_ptr<State>();
+            return trans;
+        }
+    }
+    
+    return boost::weak_ptr<State>();
 }
 
 
 void TaskSystemState::reset() {
-    ContainerState::reset();
     currentActionIndex = 0;
+    ContainerState::reset();
 }
 
 
 void TaskSystemState::addChild(std::map<std::string, std::string> parameters,
-								ComponentRegistry *reg,
-								shared_ptr<mw::Component> comp){
-	
-	shared_ptr<Action> as_action = boost::dynamic_pointer_cast<Action, mw::Component>(comp);
-	if(as_action != NULL){
+                               ComponentRegistry *reg,
+                               boost::shared_ptr<Component> comp)
+{
+    auto as_action = boost::dynamic_pointer_cast<Action>(comp);
+    if (as_action) {
         if (!transition_list->empty()) {
             throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN,
                                   "Actions must be placed before transitions in task system state");
         }
-        return ContainerState::addChild(parameters, reg, comp);
-	}
-	
-	shared_ptr<TransitionCondition> as_transition = boost::dynamic_pointer_cast<TransitionCondition, mw::Component>(comp);
-	if(as_transition != NULL){
-		return addTransition(as_transition);
-	}
-	
-	throw SimpleException("Attempting to add something (" + comp->getTag() + ") to task state (" + this->getTag() + ") that is not a transition or action");
-}
-
-
-void TaskSystemState::addTransition(shared_ptr<TransitionCondition> trans) {
-	if(!trans) {
-		mprintf("Attempt to add NULL transition");
-		return;
-	}
-	trans->setOwner(component_shared_from_this<State>());
-	transition_list->push_back(trans);
+        ContainerState::addChild(parameters, reg, comp);
+        return;
+    }
+    
+    auto as_transition = boost::dynamic_pointer_cast<TransitionCondition>(comp);
+    if (as_transition) {
+        as_transition->setOwner(component_shared_from_this<State>());
+        transition_list->push_back(as_transition);
+        return;
+    }
+    
+    throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN,
+                          "Attempting to add something (" + comp->getTag() + ") to task state (" + getTag() + ") that is not a transition or action");
 }
 
 
@@ -332,7 +325,7 @@ void TaskSystem::describeComponent(ComponentInfo &info) {
 
 
 TaskSystem::TaskSystem() {
-	setTag("TaskSystem");
+    setTag("TaskSystem");
 }
 
 
@@ -341,55 +334,49 @@ TaskSystem::TaskSystem(const ParameterValueMap &parameters) :
 { }
 
 
-shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
-    shared_ptr<TaskSystem> new_state(clone<TaskSystem>());
-	
-    shared_ptr<ScopedVariableEnvironment> env_shared = getExperiment();
-	if(env_shared){
-		shared_ptr<ScopedVariableContext> con = boost::make_shared<ScopedVariableContext>(env_shared);
-		
-		new_state->setLocalScopedVariableContext(con);
-	} else {
-		merror(M_PARADIGM_MESSAGE_DOMAIN,
-			   "Attempt to clone a state without an associated scoped environment");
-	}
+boost::shared_ptr<Component> TaskSystem::createInstanceObject() {
+    auto new_state = clone<TaskSystem>();
+    
+    if (auto env_shared = getExperiment()) {
+        new_state->setLocalScopedVariableContext(boost::make_shared<ScopedVariableContext>(env_shared));
+    } else {
+        merror(M_PARADIGM_MESSAGE_DOMAIN,
+               "Attempt to clone a state without an associated scoped environment");
+    }
     
     return new_state;
-	
 }
 
 
 void TaskSystem::action() {
     ContainerState::action();
-	updateHierarchy();  // TODO: need to rethink how all of this is working...
+    updateHierarchy();  // TODO: need to rethink how all of this is working...
 }
 
 
-weak_ptr<State> TaskSystem::next() {
-	if (accessed) {
-        return State::next();
-	} else {
-		if(getList().size() > 0) {
-			accessed = true;
-			//mprintf("Trial execution triggered");
-			return getList()[0];
-		} else {
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-					 "Task system contains no states");
-            return State::next();
-		}
-	}
+boost::weak_ptr<State> TaskSystem::next() {
+    if (!accessed) {
+        if (getList().empty()) {
+            mwarning(M_PARADIGM_MESSAGE_DOMAIN, "Task system contains no states");
+        } else {
+            accessed = true;
+            return getList()[0];
+        }
+    }
+    return State::next();
 }
 
 
 void TaskSystem::addChild(std::map<std::string, std::string> parameters,
                           ComponentRegistry *reg,
-                          shared_ptr<mw::Component> comp)
+                          boost::shared_ptr<Component> comp)
 {
-    ContainerState::addChild(parameters, reg, comp);
-    string full_tag = parameters["parent_tag"];
-    full_tag += "/";
-    full_tag += parameters["child_tag"];
+    if (auto tss = boost::dynamic_pointer_cast<TaskSystemState>(comp)) {
+        ContainerState::addChild(parameters, reg, comp);
+        return;
+    }
+    throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN,
+                          "Attempting to add something (" + comp->getTag() + ") to task (" + getTag() + ") that is not a task state");
 }
 
 
