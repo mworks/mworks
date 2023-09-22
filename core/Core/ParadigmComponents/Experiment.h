@@ -12,6 +12,8 @@
 #include <string>
 #include "LoadingUtilities.h"
 
+using boost::weak_ptr;
+
 /**
  * Experiment.h
  *

@@ -30,8 +30,6 @@
 #include "ScopedVariableEnvironment.h"
 #include "Announcers.h"
 
-using boost::weak_ptr;
-
 
 BEGIN_NAMESPACE_MW
 

@@ -1,6 +1,3 @@
-#ifndef BLOCK_AND_PROTOCOL_H
-#define BLOCK_AND_PROTOCOL_H
-
 /*
  *  BlockAndProtocol.h
  *  ExperimentControlCocoa
@@ -10,7 +7,11 @@
  *
  */
 
+#ifndef BLOCK_AND_PROTOCOL_H
+#define BLOCK_AND_PROTOCOL_H
+
 #include "States.h"
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #include <boost/lexical_cast.hpp>
@@ -21,46 +22,47 @@ BEGIN_NAMESPACE_MW
 
 
 class Block : public ListState {
-	
+    
 public:
     static void describeComponent(ComponentInfo &info);
-	
-	Block();
+    
+    Block();
     explicit Block(const Map<ParameterValue> &parameters);
-	
-    shared_ptr<mw::Component> createInstanceObject() override;
-	
+    
+    boost::shared_ptr<Component> createInstanceObject() override;
+    
     void action() override;
-    weak_ptr<State> next() override;
+    boost::weak_ptr<State> next() override;
     
 };
 
 
 class Protocol : public ListState {
-	
+    
 public:
     static void describeComponent(ComponentInfo &info);
-	
-	Protocol();
+    
+    Protocol();
     explicit Protocol(const Map<ParameterValue> &parameters);
-	
-    shared_ptr<mw::Component> createInstanceObject() override;
+    
+    boost::shared_ptr<Component> createInstanceObject() override;
     
 };
 
 
 class Trial : public ListState {
-	
+    
 public:
     static void describeComponent(ComponentInfo &info);
-	
-	Trial();
+    
+    Trial();
     explicit Trial(const Map<ParameterValue> &parameters);
-	
+    
+    boost::shared_ptr<Component> createInstanceObject() override;
+    
     void action() override;
-    weak_ptr<State> next() override;
-    shared_ptr<mw::Component> createInstanceObject() override;
-	
+    boost::weak_ptr<State> next() override;
+    
 };
 
 
@@ -72,7 +74,7 @@ public:
     GenericListState();
     explicit GenericListState(const Map<ParameterValue> &parameters);
     
-    shared_ptr<mw::Component> createInstanceObject() override;
+    boost::shared_ptr<Component> createInstanceObject() override;
     
 };
 
