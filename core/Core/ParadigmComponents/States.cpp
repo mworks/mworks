@@ -21,8 +21,6 @@
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
 
-#include <boost/foreach.hpp>
-
 
 BEGIN_NAMESPACE_MW
 
@@ -54,17 +52,16 @@ State::State(const ParameterValueMap &parameters) :
 
 void State::action() {
     currentState->setValue(getCompactID());
-	
-    shared_ptr<Experiment> experiment_shared(getExperiment());
-	if (experiment_shared) {
-		experiment_shared->announceLocalVariables();
-	}
-	
-	updateCurrentScopedVariableContext();
+    
+    if (auto experiment_shared = getExperiment()) {
+        experiment_shared->announceLocalVariables();
+    }
+    
+    updateCurrentScopedVariableContext();
 }
 
 
-weak_ptr<State> State::next() {
+boost::weak_ptr<State> State::next() {
     auto sharedParent = getParent();
     if (sharedParent) {
         sharedParent->updateCurrentScopedVariableContext();
@@ -83,7 +80,7 @@ void State::updateHierarchy() {
 }
 
 
-shared_ptr<ScopedVariableContext> State::getLocalScopedVariableContext() const {
+boost::shared_ptr<ScopedVariableContext> State::getLocalScopedVariableContext() const {
     if (auto sharedParent = getParent()) {
         return sharedParent->getLocalScopedVariableContext();
     }
@@ -103,8 +100,7 @@ bool State::isInterruptible() const {
         return false;
     }
     
-    shared_ptr<State> sharedParent(getParent());
-    if (sharedParent) {
+    if (auto sharedParent = getParent()) {
         return sharedParent->isInterruptible();
     }
     
@@ -146,26 +142,20 @@ void ContainerState::updateHierarchy() {
     State::updateHierarchy();
     
     if (!local_variable_context) {
-        merror(M_SYSTEM_MESSAGE_DOMAIN, "Invalid variable context in state object");
-        local_variable_context = shared_ptr<ScopedVariableContext>(new ScopedVariableContext(NULL));
+        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "Invalid variable context in state object");
     }
     
     if (auto sharedParent = getParent()) {
         if (auto parentContext = sharedParent->getLocalScopedVariableContext()) {
             local_variable_context->inheritFrom(parentContext);
-        } else {
-            merror(M_SYSTEM_MESSAGE_DOMAIN, "Invalid parent variable context");
-            //throw("I don't know what will happen here yet...");
-            //local_variable_context = new ScopedVariableContext();// DEAL WITH THIS EVENTUALLY
         }
     }
     
-    shared_ptr<State> self_ptr = component_shared_from_this<State>();
-	
-    BOOST_FOREACH( shared_ptr<State> child, *list ) {
+    auto self_ptr = component_shared_from_this<State>();
+    for (auto &child : *list) {
         // recurse down the hierarchy
         child->setParent(self_ptr);
-        child->updateHierarchy(); 
+        child->updateHierarchy();
     }
 }
 
@@ -173,14 +163,16 @@ void ContainerState::updateHierarchy() {
 void ContainerState::reset() {
     accessed = false;
     
-    BOOST_FOREACH( shared_ptr<State> child, *list ) {
+    for (auto &child : *list) {
         // call recursively down the experiment hierarchy
         child->reset();
     }
+    
+    State::reset();
 }
 
 
-shared_ptr<ScopedVariableContext> ContainerState::getLocalScopedVariableContext() const {
+boost::shared_ptr<ScopedVariableContext> ContainerState::getLocalScopedVariableContext() const {
     return local_variable_context;
 }
 
@@ -188,8 +180,8 @@ shared_ptr<ScopedVariableContext> ContainerState::getLocalScopedVariableContext(
 void ContainerState::updateCurrentScopedVariableContext() {
     auto environment_shared = getExperiment();
     if (!environment_shared) {
-        // TODO: better throw
-        throw SimpleException("Cannot update scoped variable context without a valid environment");
+        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN,
+                              "Cannot update scoped variable context without a valid environment");
     }
     environment_shared->setCurrentContext(local_variable_context);
     
@@ -203,12 +195,13 @@ void ContainerState::updateCurrentScopedVariableContext() {
 
 void ContainerState::addChild(std::map<std::string, std::string> parameters,
                               ComponentRegistry *reg,
-                              shared_ptr<mw::Component> child)
+                              boost::shared_ptr<mw::Component> child)
 {
     auto state = boost::dynamic_pointer_cast<State>(child);
     
     if (!state) {
-        throw SimpleException("Attempt to add non-paradigm component object as child of a paradigm component");
+        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN,
+                              "Attempt to add non-paradigm component object as child of a paradigm component");
     }
     
     list->push_back(state);
@@ -249,114 +242,80 @@ ListState::ListState(const ParameterValueMap &parameters) :
 }
 
 
-weak_ptr<State> ListState::next() {
+boost::weak_ptr<State> ListState::next() {
+    if (!selection) {
+        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "Attempt to draw from an invalid selection object");
+    }
     
-	if(!selection){
-		throw SimpleException("Attempt to draw from an invalid selection object");
-	}
-    
-	if (hasMoreChildrenToRun()) {
-		//mprintf("I am %s, and I have more children to run!", name);
-		int index;
-		
-		try{
-			index = selection->draw();
-		} catch(std::exception& e){
-			index = -1; // just a bandaid for now
-		}
-		
-		shared_ptr<State> thestate;
+    if (hasMoreChildrenToRun()) {
+        int index;
+        try {
+            index = selection->draw();
+        } catch (const std::exception &e) {
+            index = -1; // just a bandaid for now
+        }
         
-		if ((index < 0) || !(thestate = getList()[index])) {
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
+        boost::shared_ptr<State> thestate;
+        if ((index < 0) || !(thestate = getList()[index])) {
+            mwarning(M_PARADIGM_MESSAGE_DOMAIN,
                      "List state returned invalid state at index %d",
                      index);
             return State::next();
-		}
-		
-		shared_ptr<State> thestate_parent(thestate->getParent()); 
+        }
         
-		if (thestate_parent.get() != this) {
-			// this ensures that we find our way back, 
-			// even if something is screwed up
-			thestate->setParent(component_shared_from_this<State>());
-			thestate->updateHierarchy(); // TODO: might want to do this differently
-		}
-		
-		thestate->updateCurrentScopedVariableContext();
-		return thestate;		
-	} else {
-        return State::next();
-	}
+        auto thestate_parent = thestate->getParent();
+        if (thestate_parent.get() != this) {
+            // this ensures that we find our way back,
+            // even if something is screwed up
+            thestate->setParent(component_shared_from_this<State>());
+            thestate->updateHierarchy(); // TODO: might want to do this differently
+        }
+        
+        thestate->updateCurrentScopedVariableContext();
+        return thestate;
+    }
+    
+    return State::next();
 }
 
 
 void ListState::reset() {
+    if (selection) {
+        selection->reset();
+    }
     ContainerState::reset();
-	if(selection != NULL) {
-		selection->reset();
-	} else {
-		mwarning(M_PARSER_MESSAGE_DOMAIN,"attempt to reset NULL selection object");
-	}
 }
-	
-	
+
+
 void ListState::finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg) {
     long N = nsamples;
-	
-	if (sampling_method == M_CYCLES) {
-		N *= getNItems();
-	}
-	
-	Selection *selection = NULL;	
-	switch(selection_type){
+    if (sampling_method == M_CYCLES) {
+        N *= getNItems();
+    }
+    
+    boost::shared_ptr<Selection> newSelection;
+    
+    switch (selection_type) {
         case M_SEQUENTIAL:
         case M_SEQUENTIAL_ASCENDING:
-            selection = new SequentialSelection(N);
+            newSelection = boost::make_shared<SequentialSelection>(N);
             break;
-	
-		case M_SEQUENTIAL_DESCENDING:
-			selection = new SequentialSelection(N, false);
-			break;
-			
-		case M_RANDOM_WITH_REPLACEMENT:
-			selection = new RandomWithReplacementSelection(N);
-			break;
+            
+        case M_SEQUENTIAL_DESCENDING:
+            newSelection = boost::make_shared<SequentialSelection>(N, false);
+            break;
+            
+        case M_RANDOM_WITH_REPLACEMENT:
+            newSelection = boost::make_shared<RandomWithReplacementSelection>(N);
+            break;
             
         case M_RANDOM_WOR:
-            selection = new RandomWORSelection(N);
+            newSelection = boost::make_shared<RandomWORSelection>(N);
             break;
-	}
-	
-	shared_ptr<Selection> sel_ptr(selection);
-	attachSelection(sel_ptr);
+    }
+    
+    attachSelection(newSelection);
 }
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

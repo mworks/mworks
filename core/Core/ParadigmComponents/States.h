@@ -43,17 +43,17 @@ class State : public Component {
     
 private:
     // who immediately owns this state? (e.g. a block)
-    weak_ptr<State> parent;	
+    boost::weak_ptr<State> parent;
     
     // what experiment does this state belong to
-    weak_ptr<Experiment> experiment;	
+    boost::weak_ptr<Experiment> experiment;
     
     bool interruptible { true };
     
 protected:
     template <typename T>
-    shared_ptr<T> clone() {
-        shared_ptr<T> new_state(Component::clone<T>());
+    boost::shared_ptr<T> clone() {
+        auto new_state = Component::clone<T>();
         
         new_state->setParent(getParent());
         new_state->setExperiment(getExperiment());
@@ -77,30 +77,30 @@ public:
     /**
      * Returns the next state.
      */
-    virtual weak_ptr<State> next();
+    virtual boost::weak_ptr<State> next();
     
-    shared_ptr<State> getParent() const { return parent.lock(); }
-    void setParent(shared_ptr<State> newparent) { parent = newparent; }
+    boost::shared_ptr<State> getParent() const { return parent.lock(); }
+    void setParent(const boost::shared_ptr<State> &newparent) { parent = newparent; }
     
     virtual void updateHierarchy();
     
     virtual void reset() { }
-	
-    shared_ptr<Experiment> getExperiment() const { return experiment.lock(); }
-    void setExperiment(shared_ptr<Experiment> _experiment) { experiment = _experiment; }
     
-    virtual shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const;
+    boost::shared_ptr<Experiment> getExperiment() const { return experiment.lock(); }
+    void setExperiment(const boost::shared_ptr<Experiment> &_experiment) { experiment = _experiment; }
+    
+    virtual boost::shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const;
     
     virtual void updateCurrentScopedVariableContext();
     
-    void setInterruptible(bool _interruptible){ interruptible = _interruptible; }
+    void setInterruptible(bool _interruptible) { interruptible = _interruptible; }
     bool isInterruptible() const;
     
     /**
      * Aliases for setTag/getTag (for backwards compatibility)
      */
     void setName(const std::string &n) { setTag(n); }
-    const std::string& getName() const { return getTag(); }
+    const std::string & getName() const { return getTag(); }
     
 };
 
@@ -108,26 +108,26 @@ public:
 class ContainerState : public State {
     
 private:
-    shared_ptr<ScopedVariableContext> local_variable_context;
+    boost::shared_ptr<ScopedVariableContext> local_variable_context;
     
     // Shared pointer to a vector of pointers to states
-    // (we need a pointer, rather than a bare object so that multiple 
+    // (we need a pointer, rather than a bare object so that multiple
     //  aliases to the same underlying state can share the same list)
-    shared_ptr< vector< shared_ptr<State> > > list { new vector< shared_ptr<State> > }; // the list of states
+    boost::shared_ptr<std::vector<boost::shared_ptr<State>>> list { new std::vector<boost::shared_ptr<State>> }; // the list of states
     
     void requestVariableContext();
     
 protected:
     bool accessed { false };
-	
+    
     template <typename T>
-    shared_ptr<T> clone() {
-        shared_ptr<T> new_state(State::clone<T>());
+    boost::shared_ptr<T> clone() {
+        auto new_state = State::clone<T>();
         new_state->list = list;
         return new_state;
     }
     
-    void setLocalScopedVariableContext(shared_ptr<ScopedVariableContext> c) {
+    void setLocalScopedVariableContext(const boost::shared_ptr<ScopedVariableContext> &c) {
         local_variable_context = c;
     }
     
@@ -138,24 +138,24 @@ public:
     
     ContainerState();
     explicit ContainerState(const Map<ParameterValue> &parameters);
-	
-    const vector< shared_ptr<State> >& getList() const { return *list; }
+    
+    const std::vector<boost::shared_ptr<State>> & getList() const { return *list; }
     
     // Subclasses must decide for themselves how child states are traversed
-    virtual weak_ptr<State> next() = 0;
+    virtual boost::weak_ptr<State> next() = 0;
     
     void updateHierarchy() override;
     
     void reset() override;
     
-    shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const override;
+    boost::shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const override;
     
     void updateCurrentScopedVariableContext() override;
     
     // mw::Component methods
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg,
-                  shared_ptr<mw::Component> child) override;
+                  boost::shared_ptr<mw::Component> child) override;
     
 };
 
@@ -168,18 +168,17 @@ private:
     SampleType sampling_method;
     
 protected:
-    bool hasMoreChildrenToRun() { return selection && !(selection->isFinished()); }
+    bool hasMoreChildrenToRun() const { return selection && !(selection->isFinished()); }
     
     template <typename T>
-    shared_ptr<T> clone() {
-        shared_ptr<T> new_state(ContainerState::clone<T>());
+    boost::shared_ptr<T> clone() {
+        auto new_state = ContainerState::clone<T>();
         
         new_state->selection_type = selection_type;
         new_state->nsamples = nsamples;
         new_state->sampling_method = sampling_method;
         
-        shared_ptr<Selection> sel = getSelectionClone();
-        if (sel) {
+        if (auto sel = getSelectionClone()) {
             new_state->attachSelection(sel);
         }
         
@@ -192,19 +191,19 @@ public:
     static const std::string SAMPLING_METHOD;
     
     static void describeComponent(ComponentInfo &info);
-	
+    
     ListState();
     explicit ListState(const Map<ParameterValue> &parameters);
     
     // State methods
-    weak_ptr<State> next() override;
+    boost::weak_ptr<State> next() override;
     void reset() override;
     
     // Selectable methods
     int getNItems() override { return int(getList().size()); }
     
     void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg) override;
-	
+    
 };
 
 
