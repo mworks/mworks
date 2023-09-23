@@ -13,20 +13,11 @@
 BEGIN_NAMESPACE_MW
 
 
-ScopedVariableContext::ScopedVariableContext(const boost::shared_ptr<ScopedVariableEnvironment> &environment) {
-    const auto nfields = environment->getNVariables();
-    for (int i = 0; i < nfields; i++) {
-        data.emplace(i, Datum());
-        transparency.emplace(i, M_TRANSPARENT);
-    }
-}
-
-
 void ScopedVariableContext::inheritFrom(const boost::shared_ptr<ScopedVariableContext> &info_to_inherit) {
-    const int nfields = data.size();
-    for (int i = 0; i < nfields; i++) {
-        if (M_TRANSPARENT == transparency[i]) {
-            data[i] = info_to_inherit->get(i);
+    for (const auto &item : info_to_inherit->data) {
+        auto iter = transparency.emplace(item.first, M_TRANSPARENT).first;  // Does not replace existing value, if any
+        if (iter->second == M_TRANSPARENT) {
+            data[item.first] = item.second;
         }
     }
 }

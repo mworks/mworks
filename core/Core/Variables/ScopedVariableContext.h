@@ -54,9 +54,6 @@ private:
                                                // is actually defined here or is inherited
     
 public:
-    // Contexts should be created *after* all variables are added to the environment
-    explicit ScopedVariableContext(const boost::shared_ptr<ScopedVariableEnvironment> &environment);
-    
     void inheritFrom(const boost::shared_ptr<ScopedVariableContext> &parent);  // inherit from a parent, unless already
                                                                                // defined opaque
     

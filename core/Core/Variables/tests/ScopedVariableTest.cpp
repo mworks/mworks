@@ -61,8 +61,8 @@ void ScopedVariableTestFixture::tearDown(){
 
 void ScopedVariableTestFixture::test1(){
 
-	context1 = boost::make_shared<ScopedVariableContext>(env);
-	context2 = boost::make_shared<ScopedVariableContext>(env);
+	context1 = boost::make_shared<ScopedVariableContext>();
+	context2 = boost::make_shared<ScopedVariableContext>();
 	
 	context1->set(v1->getContextIndex(), 10L);
 	context2->set(v1->getContextIndex(), 20L);
@@ -83,8 +83,8 @@ void ScopedVariableTestFixture::test1(){
 
 void ScopedVariableTestFixture::inheritedContextTest(){
 	
-	context1 = boost::make_shared<ScopedVariableContext>(env);
-	context2 = boost::make_shared<ScopedVariableContext>(env);
+	context1 = boost::make_shared<ScopedVariableContext>();
+	context2 = boost::make_shared<ScopedVariableContext>();
 	
 	context1->set(v1->getContextIndex(), 10L);
 	context2->set(v1->getContextIndex(), 20L);

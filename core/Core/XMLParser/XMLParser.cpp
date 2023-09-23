@@ -819,12 +819,9 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 											  "Cannot assign a non-local variable", variable_name);
 				} 
 				
-                shared_ptr<ScopedVariableEnvironment> env = state->getExperiment();
-                if (env) {
+                if (auto env = svar->getEnvironment()) {
                     state->updateCurrentScopedVariableContext();
                     env->setValue(svar->getContextIndex(), value);
-                    //mprintf(M_PARSER_MESSAGE_DOMAIN, "Assigned variable %s to value %s in the context of %s",
-                    //						variable_name.c_str(), content.c_str(), instance_tag.c_str());
                 }
 			}
 			

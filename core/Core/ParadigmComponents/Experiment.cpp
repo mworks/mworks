@@ -34,11 +34,10 @@ Experiment::~Experiment() { }
 
 
 void Experiment::createVariableContexts() {
-    auto defaultContext = boost::make_shared<ScopedVariableContext>(component_shared_from_this<Experiment>());
+    auto defaultContext = getLocalScopedVariableContext();
     for (auto &var : getVariables()) {
         defaultContext->set(var->getContextIndex(), var->getProperties().getDefaultValue());
     }
-    setLocalScopedVariableContext(defaultContext);
 }
 
 

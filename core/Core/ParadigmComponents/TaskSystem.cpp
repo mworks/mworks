@@ -335,16 +335,7 @@ TaskSystem::TaskSystem(const ParameterValueMap &parameters) :
 
 
 boost::shared_ptr<Component> TaskSystem::createInstanceObject() {
-    auto new_state = clone<TaskSystem>();
-    
-    if (auto env_shared = getExperiment()) {
-        new_state->setLocalScopedVariableContext(boost::make_shared<ScopedVariableContext>(env_shared));
-    } else {
-        merror(M_PARADIGM_MESSAGE_DOMAIN,
-               "Attempt to clone a state without an associated scoped environment");
-    }
-    
-    return new_state;
+    return clone<TaskSystem>();
 }
 
 

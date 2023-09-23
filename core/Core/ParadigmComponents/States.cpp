@@ -25,6 +25,15 @@
 BEGIN_NAMESPACE_MW
 
 
+boost::shared_ptr<Experiment> State::getExperiment() {
+    auto experiment = GlobalCurrentExperiment;
+    if (!experiment) {
+        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "No experiment currently defined");
+    }
+    return experiment;
+}
+
+
 const boost::shared_ptr<State> & State::getEndState() {
     static const auto endState = boost::make_shared<State>();
     return endState;
@@ -39,24 +48,9 @@ void State::describeComponent(ComponentInfo &info) {
 }
 
 
-State::State() :
-    experiment(GlobalCurrentExperiment)
-{ }
-
-
-State::State(const ParameterValueMap &parameters) :
-    Component(parameters),
-    experiment(GlobalCurrentExperiment)
-{ }
-
-
 void State::action() {
     currentState->setValue(getCompactID());
-    
-    if (auto experiment_shared = getExperiment()) {
-        experiment_shared->announceLocalVariables();
-    }
-    
+    getExperiment()->announceLocalVariables();
     updateCurrentScopedVariableContext();
 }
 
@@ -70,13 +64,6 @@ boost::weak_ptr<State> State::next() {
     reset();
     
     return (sharedParent ? sharedParent : getEndState());
-}
-
-
-void State::updateHierarchy() {
-    if (auto sharedParent = getParent()) {
-        setExperiment(sharedParent->getExperiment());
-    }
 }
 
 
@@ -118,8 +105,7 @@ void ContainerState::describeComponent(ComponentInfo &info) {
 
 
 ContainerState::ContainerState() {
-	setName("ContainerState");
-    requestVariableContext();
+    setName("ContainerState");
 }
 
 
@@ -127,23 +113,11 @@ ContainerState::ContainerState(const ParameterValueMap &parameters) :
     State(parameters)
 {
     setInterruptible(bool(parameters[INTERRUPTIBLE]));
-    requestVariableContext();
-}
-
-
-void ContainerState::requestVariableContext() {
-    if (auto sharedExperiment = getExperiment()) {
-        local_variable_context = boost::make_shared<ScopedVariableContext>(sharedExperiment);
-    }
 }
 
 
 void ContainerState::updateHierarchy() {
     State::updateHierarchy();
-    
-    if (!local_variable_context) {
-        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "Invalid variable context in state object");
-    }
     
     if (auto sharedParent = getParent()) {
         if (auto parentContext = sharedParent->getLocalScopedVariableContext()) {
@@ -172,19 +146,8 @@ void ContainerState::reset() {
 }
 
 
-boost::shared_ptr<ScopedVariableContext> ContainerState::getLocalScopedVariableContext() const {
-    return local_variable_context;
-}
-
-
 void ContainerState::updateCurrentScopedVariableContext() {
-    auto environment_shared = getExperiment();
-    if (!environment_shared) {
-        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN,
-                              "Cannot update scoped variable context without a valid environment");
-    }
-    environment_shared->setCurrentContext(local_variable_context);
-    
+    getExperiment()->setCurrentContext(local_variable_context);
     if (auto parent_shared = getParent()) {
         if (auto parentContext = parent_shared->getLocalScopedVariableContext()) {
             local_variable_context->inheritFrom(parentContext);

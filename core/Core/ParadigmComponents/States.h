@@ -43,9 +43,6 @@ private:
     // who immediately owns this state? (e.g. a block)
     boost::weak_ptr<State> parent;
     
-    // what experiment does this state belong to
-    boost::weak_ptr<Experiment> experiment;
-    
     bool interruptible { true };
     
 protected:
@@ -54,21 +51,22 @@ protected:
         auto new_state = Component::clone<T>();
         
         new_state->setParent(getParent());
-        new_state->setExperiment(getExperiment());
         new_state->setInterruptible(interruptible);
         
         return new_state;
     }
     
 public:
+    static boost::shared_ptr<Experiment> getExperiment();
+    
     // The end state is a singleton instance that, if returned by next(), indicates
     // that there are no additional states to execute
     static const boost::shared_ptr<State> & getEndState();
     
     static void describeComponent(ComponentInfo &info);
     
-    State();
-    explicit State(const Map<ParameterValue> &parameters);
+    State() { }
+    explicit State(const Map<ParameterValue> &parameters) : Component(parameters) { }
     
     virtual void action();
     
@@ -80,12 +78,9 @@ public:
     boost::shared_ptr<State> getParent() const { return parent.lock(); }
     void setParent(const boost::shared_ptr<State> &newparent) { parent = newparent; }
     
-    virtual void updateHierarchy();
+    virtual void updateHierarchy() { }
     
     virtual void reset() { }
-    
-    boost::shared_ptr<Experiment> getExperiment() const { return experiment.lock(); }
-    void setExperiment(const boost::shared_ptr<Experiment> &_experiment) { experiment = _experiment; }
     
     virtual boost::shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const;
     
@@ -106,14 +101,13 @@ public:
 class ContainerState : public State {
     
 private:
-    boost::shared_ptr<ScopedVariableContext> local_variable_context;
+    const boost::shared_ptr<ScopedVariableContext> local_variable_context { boost::make_shared<ScopedVariableContext>() };
     
     // Shared pointer to a vector of pointers to states
     // (we need a pointer, rather than a bare object so that multiple
     //  aliases to the same underlying state can share the same list)
-    boost::shared_ptr<std::vector<boost::shared_ptr<State>>> list { new std::vector<boost::shared_ptr<State>> }; // the list of states
-    
-    void requestVariableContext();
+    using StateList = std::vector<boost::shared_ptr<State>>;
+    boost::shared_ptr<StateList> list { boost::make_shared<StateList>() };
     
 protected:
     bool accessed { false };
@@ -123,10 +117,6 @@ protected:
         auto new_state = State::clone<T>();
         new_state->list = list;
         return new_state;
-    }
-    
-    void setLocalScopedVariableContext(const boost::shared_ptr<ScopedVariableContext> &c) {
-        local_variable_context = c;
     }
     
 public:
@@ -146,7 +136,9 @@ public:
     
     void reset() override;
     
-    boost::shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const override;
+    boost::shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const override {
+        return local_variable_context;
+    };
     
     void updateCurrentScopedVariableContext() override;
     

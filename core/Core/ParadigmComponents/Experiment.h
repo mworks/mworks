@@ -250,8 +250,6 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 
         void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg) override
         {
-            shared_ptr<Experiment> self_ptr(component_shared_from_this<Experiment>());
-			setExperiment(self_ptr);
 			createVariableContexts();
 		}
 		
