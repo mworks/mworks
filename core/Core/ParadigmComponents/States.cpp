@@ -56,7 +56,7 @@ void State::action() {
 boost::weak_ptr<State> State::next() {
     reset();
     if (auto sharedParent = getParent()) {
-        return sharedParent;
+        return sharedParent->next();
     }
     return getEndState();
 }
@@ -121,6 +121,7 @@ void ContainerState::action() {
 boost::weak_ptr<State> ContainerState::next() {
     if (auto sharedParent = getParent()) {
         getExperiment()->setCurrentContext(sharedParent->getLocalScopedVariableContext());
+        getExperiment()->announceLocalVariables();
     }
     return State::next();
 }
@@ -155,10 +156,10 @@ void ContainerState::reset() {
 
 
 void ContainerState::updateCurrentScopedVariableContext() {
-    getExperiment()->setCurrentContext(local_variable_context);
     if (auto sharedParent = getParent()) {
         local_variable_context->inheritFrom(sharedParent->getLocalScopedVariableContext());
     }
+    getExperiment()->setCurrentContext(local_variable_context);
 }
 
 

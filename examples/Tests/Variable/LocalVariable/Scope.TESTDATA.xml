@@ -19,9 +19,32 @@
     <message type="starts_with">x = 2.5 </message>
   </expected_messages>
   <expected_events>
-    <!-- First run -->
+    <!-- Experiment announces all variables -->
+    <event variable="x">
+      <value type="integer">0</value>
+    </event>
+    <event variable="first_run">
+      <value type="boolean">1</value>
+    </event>
+    <!-- Experiment announces local variables -->
+    <event variable="x">
+      <value type="integer">0</value>
+    </event>
+    <!-- First run of protocol -->
+    <event variable="x">
+      <value type="integer">0</value>
+    </event>
     <event variable="x">
       <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">2</value>
+    </event>
+    <event variable="x">
+      <value type="integer">2</value>
     </event>
     <event variable="x">
       <value type="integer">2</value>
@@ -30,7 +53,19 @@
       <value type="integer">1</value>
     </event>
     <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
       <value type="integer">3</value>
+    </event>
+    <event variable="x">
+      <value type="integer">3</value>
+    </event>
+    <event variable="x">
+      <value type="integer">3</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
     </event>
     <event variable="x">
       <value type="integer">1</value>
@@ -39,7 +74,28 @@
       <value type="integer">4</value>
     </event>
     <event variable="x">
+      <value type="integer">4</value>
+    </event>
+    <event variable="x">
+      <value type="integer">4</value>
+    </event>
+    <event variable="x">
       <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">5</value>
+    </event>
+    <event variable="x">
+      <value type="integer">5</value>
     </event>
     <event variable="x">
       <value type="integer">5</value>
@@ -48,7 +104,31 @@
       <value type="integer">1</value>
     </event>
     <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
       <value type="integer">6</value>
+    </event>
+    <event variable="x">
+      <value type="integer">6</value>
+    </event>
+    <event variable="x">
+      <value type="integer">6</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
     </event>
     <event variable="x">
       <value type="integer">1</value>
@@ -57,7 +137,22 @@
       <value type="integer">7</value>
     </event>
     <event variable="x">
+      <value type="integer">7</value>
+    </event>
+    <event variable="x">
       <value type="integer">8</value>
+    </event>
+    <event variable="x">
+      <value type="integer">8</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
     </event>
     <event variable="x">
       <value type="integer">9</value>
@@ -69,6 +164,12 @@
       <value type="integer">9</value>
     </event>
     <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
       <value type="integer">8</value>
     </event>
     <event variable="x">
@@ -78,13 +179,10 @@
       <value type="integer">1</value>
     </event>
     <event variable="x">
+      <value type="integer">11</value>
+    </event>
+    <event variable="x">
       <value type="integer">1</value>
-    </event>
-    <event variable="x">
-      <value type="integer">11</value>
-    </event>
-    <event variable="x">
-      <value type="integer">11</value>
     </event>
     <event variable="x">
       <value type="integer">1</value>
@@ -96,11 +194,14 @@
       <value type="integer">1</value>
     </event>
     <event variable="first_run">
-      <value type="integer">0</value>
+      <value type="boolean">0</value>
     </event>
-    <!-- Second run -->
+    <!-- Second run of protocol -->
     <event variable="x">
-      <value type="integer">1</value>
+      <value type="integer">2</value>
+    </event>
+    <event variable="x">
+      <value type="integer">2</value>
     </event>
     <event variable="x">
       <value type="integer">2</value>
@@ -112,7 +213,19 @@
       <value type="integer">3</value>
     </event>
     <event variable="x">
+      <value type="integer">3</value>
+    </event>
+    <event variable="x">
+      <value type="integer">3</value>
+    </event>
+    <event variable="x">
       <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">4</value>
+    </event>
+    <event variable="x">
+      <value type="integer">4</value>
     </event>
     <event variable="x">
       <value type="integer">4</value>
@@ -121,13 +234,43 @@
       <value type="integer">1</value>
     </event>
     <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">5</value>
+    </event>
+    <event variable="x">
+      <value type="integer">5</value>
+    </event>
+    <event variable="x">
       <value type="integer">5</value>
     </event>
     <event variable="x">
       <value type="integer">1</value>
     </event>
     <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
       <value type="integer">6</value>
+    </event>
+    <event variable="x">
+      <value type="integer">6</value>
+    </event>
+    <event variable="x">
+      <value type="integer">6</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
     </event>
     <event variable="x">
       <value type="integer">1</value>
@@ -137,6 +280,12 @@
     </event>
     <event variable="x">
       <value type="integer">8</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
     </event>
     <event variable="x">
       <value type="integer">9</value>
@@ -148,6 +297,12 @@
       <value type="integer">9</value>
     </event>
     <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
       <value type="integer">8</value>
     </event>
     <event variable="x">
@@ -157,16 +312,13 @@
       <value type="integer">1</value>
     </event>
     <event variable="x">
-      <value type="integer">1</value>
-    </event>
-    <event variable="x">
-      <value type="integer">11</value>
-    </event>
-    <event variable="x">
       <value type="integer">11</value>
     </event>
     <event variable="x">
       <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="float">1.5</value>
     </event>
     <event variable="x">
       <value type="float">2.5</value>
@@ -175,6 +327,10 @@
       <value type="integer">1</value>
     </event>
     <event variable="first_run">
+      <value type="boolean">0</value>
+    </event>
+    <!-- Return to experiment -->
+    <event variable="x">
       <value type="integer">0</value>
     </event>
   </expected_events>
