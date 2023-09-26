@@ -242,21 +242,18 @@ boost::shared_ptr<Component> TaskSystemState::createInstanceObject() {
 boost::weak_ptr<State> TaskSystemState::next() {
     if (currentActionIndex < getList().size()) {
         auto action = getList()[currentActionIndex++];
-        
         auto actionParent = action->getParent();
         if (actionParent.get() != this) {
             action->setParent(component_shared_from_this<State>());
             action->updateHierarchy();
         }
-        
-        action->updateCurrentScopedVariableContext();
-        
         return action;
     }
     
     if (transition_list->empty()) {
         merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "No valid transitions.  Ending experiment.");
-        return boost::weak_ptr<State>(GlobalCurrentExperiment);
+        StateSystem::instance()->stop();
+        return ContainerState::next();
     }
     
     for (auto &condition : *transition_list) {
@@ -270,8 +267,6 @@ boost::weak_ptr<State> TaskSystemState::next() {
                     trans_shared->updateHierarchy();
                 }
             }
-            
-            trans_shared->updateCurrentScopedVariableContext();
             reset();
             return trans;
         }
@@ -341,7 +336,14 @@ boost::shared_ptr<Component> TaskSystem::createInstanceObject() {
 
 void TaskSystem::action() {
     ContainerState::action();
-    updateHierarchy();  // TODO: need to rethink how all of this is working...
+    
+    auto sharedThis = component_shared_from_this<State>();
+    for (auto &child : getList()) {
+        if (child->getParent().get() != this) {
+            child->setParent(sharedThis);
+            child->updateHierarchy();
+        }
+    }
 }
 
 
@@ -354,7 +356,7 @@ boost::weak_ptr<State> TaskSystem::next() {
             return getList()[0];
         }
     }
-    return State::next();
+    return ContainerState::next();
 }
 
 

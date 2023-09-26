@@ -36,8 +36,6 @@ public:
     
     void setName(const std::string &_name);
     
-    virtual void announceEntry();
-    
     // State methods
     virtual void action();
 

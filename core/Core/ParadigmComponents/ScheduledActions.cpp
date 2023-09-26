@@ -153,7 +153,6 @@ void ScheduledActions::executeOnce() {
     }
     
     for (auto &action : action_list) {
-        action->announceEntry();
         action->execute();
     }
     

@@ -43,13 +43,9 @@ bool Action::execute() {
     return false;
 }
 
-void Action::action(){ 
-	announceEntry();
-	execute(); 
-}
-
-void Action::announceEntry() {
-	currentState->setValue(getCompactID());
+void Action::action() {
+    State::action();
+    execute();
 }
 
 

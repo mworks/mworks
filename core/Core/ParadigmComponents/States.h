@@ -101,8 +101,6 @@ public:
 class ContainerState : public State {
     
 private:
-    const boost::shared_ptr<ScopedVariableContext> local_variable_context { boost::make_shared<ScopedVariableContext>() };
-    
     // Shared pointer to a vector of pointers to states
     // (we need a pointer, rather than a bare object so that multiple
     //  aliases to the same underlying state can share the same list)
@@ -110,6 +108,7 @@ private:
     boost::shared_ptr<StateList> list { boost::make_shared<StateList>() };
     
 protected:
+    const boost::shared_ptr<ScopedVariableContext> local_variable_context { boost::make_shared<ScopedVariableContext>() };
     bool accessed { false };
     
     template <typename T>
@@ -129,8 +128,8 @@ public:
     
     const std::vector<boost::shared_ptr<State>> & getList() const { return *list; }
     
-    // Subclasses must decide for themselves how child states are traversed
-    virtual boost::weak_ptr<State> next() = 0;
+    void action() override;
+    boost::weak_ptr<State> next() override;
     
     void updateHierarchy() override;
     

@@ -34,9 +34,8 @@ Experiment::~Experiment() { }
 
 
 void Experiment::createVariableContexts() {
-    auto defaultContext = getLocalScopedVariableContext();
     for (auto &var : getVariables()) {
-        defaultContext->set(var->getContextIndex(), var->getProperties().getDefaultValue());
+        local_variable_context->set(var->getContextIndex(), var->getProperties().getDefaultValue());
     }
 }
 
@@ -142,7 +141,6 @@ void Experiment::action(){
 weak_ptr<State> Experiment::next() {
     if (!accessed) {
         accessed = true;
-        current_protocol->updateCurrentScopedVariableContext();
         return current_protocol;
     }
     return getEndState();

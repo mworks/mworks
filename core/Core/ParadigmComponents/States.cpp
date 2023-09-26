@@ -50,20 +50,15 @@ void State::describeComponent(ComponentInfo &info) {
 
 void State::action() {
     currentState->setValue(getCompactID());
-    getExperiment()->announceLocalVariables();
-    updateCurrentScopedVariableContext();
 }
 
 
 boost::weak_ptr<State> State::next() {
-    auto sharedParent = getParent();
-    if (sharedParent) {
-        sharedParent->updateCurrentScopedVariableContext();
-    }
-    
     reset();
-    
-    return (sharedParent ? sharedParent : getEndState());
+    if (auto sharedParent = getParent()) {
+        return sharedParent;
+    }
+    return getEndState();
 }
 
 
@@ -71,7 +66,7 @@ boost::shared_ptr<ScopedVariableContext> State::getLocalScopedVariableContext() 
     if (auto sharedParent = getParent()) {
         return sharedParent->getLocalScopedVariableContext();
     }
-    return nullptr;
+    throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "No local scoped variable context is available");
 }
 
 
@@ -116,13 +111,26 @@ ContainerState::ContainerState(const ParameterValueMap &parameters) :
 }
 
 
+void ContainerState::action() {
+    State::action();
+    updateCurrentScopedVariableContext();
+    getExperiment()->announceLocalVariables();
+}
+
+
+boost::weak_ptr<State> ContainerState::next() {
+    if (auto sharedParent = getParent()) {
+        getExperiment()->setCurrentContext(sharedParent->getLocalScopedVariableContext());
+    }
+    return State::next();
+}
+
+
 void ContainerState::updateHierarchy() {
     State::updateHierarchy();
     
     if (auto sharedParent = getParent()) {
-        if (auto parentContext = sharedParent->getLocalScopedVariableContext()) {
-            local_variable_context->inheritFrom(parentContext);
-        }
+        local_variable_context->inheritFrom(sharedParent->getLocalScopedVariableContext());
     }
     
     auto self_ptr = component_shared_from_this<State>();
@@ -148,10 +156,8 @@ void ContainerState::reset() {
 
 void ContainerState::updateCurrentScopedVariableContext() {
     getExperiment()->setCurrentContext(local_variable_context);
-    if (auto parent_shared = getParent()) {
-        if (auto parentContext = parent_shared->getLocalScopedVariableContext()) {
-            local_variable_context->inheritFrom(parentContext);
-        }
+    if (auto sharedParent = getParent()) {
+        local_variable_context->inheritFrom(sharedParent->getLocalScopedVariableContext());
     }
 }
 
@@ -223,7 +229,7 @@ boost::weak_ptr<State> ListState::next() {
             mwarning(M_PARADIGM_MESSAGE_DOMAIN,
                      "List state returned invalid state at index %d",
                      index);
-            return State::next();
+            return ContainerState::next();
         }
         
         auto thestate_parent = thestate->getParent();
@@ -234,11 +240,10 @@ boost::weak_ptr<State> ListState::next() {
             thestate->updateHierarchy(); // TODO: might want to do this differently
         }
         
-        thestate->updateCurrentScopedVariableContext();
         return thestate;
     }
     
-    return State::next();
+    return ContainerState::next();
 }
 
 

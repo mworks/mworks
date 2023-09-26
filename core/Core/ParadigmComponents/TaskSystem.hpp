@@ -72,7 +72,8 @@ public:
 class TaskSystemState : public ContainerState {
     
 private:
-    boost::shared_ptr<std::vector<boost::shared_ptr<TransitionCondition>>> transition_list { new std::vector<boost::shared_ptr<TransitionCondition>> };
+    using TransitionList = std::vector<boost::shared_ptr<TransitionCondition>>;
+    boost::shared_ptr<TransitionList> transition_list { boost::make_shared<TransitionList>() };
     int currentActionIndex { 0 };
     
 public:
