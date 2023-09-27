@@ -135,6 +135,16 @@ inline StimulusDisplayPtr ParameterValue::convert(const std::string &s, Componen
 
 
 template<>
+inline boost::shared_ptr<Timer> ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    auto timer = reg->getObject<Timer>(s);
+    if (!timer) {
+        throw SimpleException("Unknown timer", s);
+    }
+    return timer;
+}
+
+
+template<>
 boost::shared_ptr<Sound> ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 

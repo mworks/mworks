@@ -13,7 +13,8 @@
 #include "GlobalVariable.h"
 #include "BlockAndProtocol.h"
 #include "States.h"
-#include "TrialBuildingBlocks.h"
+#include "Actions.hpp"
+#include "TaskSystem.hpp"
 #include "DynamicStimulusActions.h"
 #include "ScheduledActions.h"
 #include "PulseAction.h"
@@ -113,9 +114,13 @@ ComponentRegistry::ComponentRegistry() {
     registerFactory<StandardComponentFactory, UnpauseDynamicStimulus>();
             
             
-	// transitions
-	registerFactory("transition", new TransitionFactory());
-	
+    // transitions
+    registerFactory<StandardTransitionFactory, DirectTransition>();
+    registerFactory<StandardTransitionFactory, ConditionalTransition>();
+    registerFactory<StandardTransitionFactory, TimerExpiredTransition>();
+    registerFactory<StandardTransitionFactory, GotoTransition>();
+    registerFactory<StandardComponentFactory, YieldTransition>();
+    
 	// var transform adapters
 	registerFactory("averager", new AveragerUserFactory());
 	registerFactory("calibrator/standard_eye_calibrator", new EyeCalibratorFactory());

@@ -1418,58 +1418,6 @@ bool ResumeExperiment::execute() {
 }
 
 
-/*ExpandableList<State> * TaskSystem::getTaskSystemStates() {
- return list;
- }*/
-
-/****************************************************************
- *                 BasicFixationElement Methods
- ****************************************************************/
-/*
- BasicFixationElement::BasicFixationElement(State *parent,
- State *_aborttrial, State *_fixated,
- Variable_ITI_time, Variable _ITI_delta,
- Variable_acquire_time, Variable _eot_code,
- Variable_fix_x, Variable _fix_y, Variable _fix_frame,
- Variable_block_pause = M_PARAM_ZERO, 
- Variable_break_pause = M_PARAM_ZERO)
- : TaskSystemBox(parent) {
- aborttrial = _aborttrial;
- fixating = _fixating;
- ITI_time = _ITI_time;
- ITI_delta = _ITI_delta;
- acquire_time = _acquire_time;
- eot_code = _eot_code;
- fix_x = _fix_x;
- fix_y = _fix_y;
- fix_frame = _fix_frame;
- block_pause = _block_pause;
- break_pause = _break_pause;
- initSubElements();
- }
- 
- BasicFixationElement::initSubElement() {
- intertrial = new VariableWaitTrial(this, ITI_time, ITI_delta);
- fixation = new TaskSystemState(this);
- fixation->addAction(new Display(fix_frame));
- fixation->addAction(new Wait(acquire_time));
- fixation->addTransition(new TransitionCondition(in_fix_window, 
- true, fixating);
- fixation->addTransition(new TransitionCondition(expired, true, ignored); 
- 
- }		
- */
-/****************************************************************
- *                 ITIAndFixationWithBlocking Methods
- ****************************************************************/
-/*
- ITIAndFixationWithBlocking::ITIAndFixationWithBlock() { }
- ITIAndFixationWithBlocking::~ITIAndFixationWithBlocking() { }
- */
-
-
-//#ifdef  JIM_DEVELOPMENT
-
 /****************************************************************
  *                 eye calibration Methods
  ****************************************************************/

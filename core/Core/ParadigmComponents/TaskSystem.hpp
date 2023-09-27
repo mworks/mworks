@@ -8,73 +8,47 @@
 #ifndef TaskSystem_hpp
 #define TaskSystem_hpp
 
-#include "States.h"
-#include "Timer.h"
-#include "ComponentRegistry.h"
 #include "ComponentInfo.h"
 #include "ParameterValue.h"
+#include "StandardComponentFactory.h"
+#include "States.h"
+#include "Timer.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class Transition : public Component { };
+class TaskSystemState;
+class Transition;
 
 
-class TransitionFactory : public ComponentFactory {
-public:
-    virtual boost::shared_ptr<Component> createObject(std::map<std::string, std::string> parameters,
-                                                      ComponentRegistry *reg);
-};
-
-
-class TransitionCondition : public Transition {
-protected:
-    boost::shared_ptr<Variable> condition;
-    boost::weak_ptr<State> transition;
-    bool always_go;
-    
-    boost::weak_ptr<State> owner;
-    std::string name;
+class TaskSystem : public ContainerState {
     
 public:
-    // if v1
-    TransitionCondition(boost::shared_ptr<Variable> v1,
-                        boost::weak_ptr<State> trans);
-    // always go
-    TransitionCondition(boost::weak_ptr<State> trans);
-    virtual ~TransitionCondition();
-    virtual boost::weak_ptr<State> execute();
-    void setOwner(boost::weak_ptr<State> _owner);
-    boost::weak_ptr<State> getOwner();
-    boost::weak_ptr<State> getTransition();
-};
-
-
-class TransitionIfTimerExpired : public TransitionCondition {
-protected:
-    boost::shared_ptr<Timer> timer;
-public:
-    TransitionIfTimerExpired(boost::shared_ptr<Timer> _timer,
-                             boost::weak_ptr<State> trans);
-    virtual boost::weak_ptr<State> execute();
-};
-
-
-class YieldToParent : public TransitionCondition {
-public:
-    YieldToParent();
-    virtual ~YieldToParent();
-    virtual boost::weak_ptr<State> execute();
+    static void describeComponent(ComponentInfo &info);
+    
+    TaskSystem();
+    explicit TaskSystem(const ParameterValueMap &parameters);
+    
+    boost::shared_ptr<Component> createInstanceObject() override;
+    
+    void action() override;
+    boost::weak_ptr<State> next() override;
+    void reset() override;
+    
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  boost::shared_ptr<Component> comp) override;
+    
+    void setNextState(const boost::shared_ptr<TaskSystemState> &state) { nextState = state; }
+    
+private:
+    boost::shared_ptr<TaskSystemState> nextState;
+    
 };
 
 
 class TaskSystemState : public ContainerState {
-    
-private:
-    using TransitionList = std::vector<boost::shared_ptr<TransitionCondition>>;
-    boost::shared_ptr<TransitionList> transition_list { boost::make_shared<TransitionList>() };
-    int currentActionIndex { 0 };
     
 public:
     static void describeComponent(ComponentInfo &info);
@@ -91,25 +65,124 @@ public:
                   ComponentRegistry *reg,
                   boost::shared_ptr<Component> comp) override;
     
+private:
+    using TransitionList = std::vector<boost::shared_ptr<Transition>>;
+    boost::shared_ptr<TransitionList> transition_list { boost::make_shared<TransitionList>() };
+    
+    int currentActionIndex { 0 };
+    
 };
 
 
-class TaskSystem : public ContainerState {
+class Transition : public Component {
+    
+public:
+    static const std::string TARGET;
+    
+    explicit Transition(const ParameterValueMap &parameters);
+    
+    boost::shared_ptr<TaskSystemState> getTarget() const { return weakTarget.lock(); }
+    void setTarget(const boost::shared_ptr<TaskSystemState> &target) { weakTarget = target; }
+    
+    virtual bool evaluate() = 0;
+    
+private:
+    boost::weak_ptr<TaskSystemState> weakTarget;
+    
+};
+
+
+class DirectTransition : public Transition {
     
 public:
     static void describeComponent(ComponentInfo &info);
     
-    TaskSystem();
-    explicit TaskSystem(const ParameterValueMap &parameters);
+    using Transition::Transition;
     
-    boost::shared_ptr<Component> createInstanceObject() override;
+    bool evaluate() override;
     
-    void action() override;
-    boost::weak_ptr<State> next() override;
+};
+
+
+class ConditionalTransition : public Transition {
     
-    void addChild(std::map<std::string, std::string> parameters,
-                  ComponentRegistry *reg,
-                  boost::shared_ptr<Component> comp) override;
+public:
+    static const std::string CONDITION;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit ConditionalTransition(const ParameterValueMap &parameters);
+    
+    bool evaluate() override;
+    
+private:
+    const VariablePtr condition;
+    
+};
+
+
+class TimerExpiredTransition : public Transition {
+    
+public:
+    static const std::string TIMER;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit TimerExpiredTransition(const ParameterValueMap &parameters);
+    
+    bool evaluate() override;
+    
+private:
+    const boost::shared_ptr<Timer> timer;
+    
+};
+
+
+class GotoTransition : public Transition {
+    
+public:
+    static const std::string WHEN;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit GotoTransition(const ParameterValueMap &parameters);
+    
+    bool evaluate() override;
+    
+private:
+    const VariablePtr when;
+    
+};
+
+
+class YieldTransition : public Transition {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    using Transition::Transition;
+    
+    bool evaluate() override;
+    
+};
+
+
+template<typename TransitionType>
+class StandardTransitionFactory : public StandardComponentFactory<TransitionType> {
+    
+public:
+    ComponentPtr createObject(ComponentFactory::StdStringMap parameters, ComponentRegistryPtr reg) override {
+        auto obj = StandardComponentFactory<TransitionType>::createObject(parameters, reg);
+        if (auto trans = boost::dynamic_pointer_cast<Transition>(obj)) {
+            auto &targetName = parameters[Transition::TARGET];
+            auto target = reg->getObject<TaskSystemState>(targetName, parameters["parent_scope"]);
+            if (!target) {
+                throw MissingReferenceException(Transition::TARGET, targetName);
+            }
+            trans->setTarget(target);
+        }
+        return obj;
+    }
     
 };
 
