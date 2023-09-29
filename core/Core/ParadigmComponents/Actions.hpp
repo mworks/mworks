@@ -24,19 +24,17 @@
 BEGIN_NAMESPACE_MW
 
 
-// base class for all actions
 class Action : public State {
-
+    
 public:
-    static void describeComponent(ComponentInfo &info);
-
-    explicit Action(const ParameterValueMap &parameters);
     Action();
+    explicit Action(const ParameterValueMap &parameters);
+    
     virtual bool execute();
     
     // State methods
-    virtual void action();
-
+    void action() override;
+    
 };
 
 

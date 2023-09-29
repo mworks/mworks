@@ -27,25 +27,30 @@ BEGIN_NAMESPACE_MW
 /****************************************************************
  *                       Action Methods
  ****************************************************************/
-void Action::describeComponent(ComponentInfo &info) {
-    State::describeComponent(info);
-}
+
+
+Action::Action() { }
+
 
 Action::Action(const ParameterValueMap &parameters) :
     State(parameters)
 { }
 
-Action::Action() {
-}
 
 bool Action::execute() {
     return false;
 }
 
+
 void Action::action() {
     State::action();
     execute();
 }
+
+
+/****************************************************************
+ *              ActionVariableNotification Methods
+ ****************************************************************/
 
 
 ActionVariableNotification::ActionVariableNotification(const boost::shared_ptr<Action> &action) :
