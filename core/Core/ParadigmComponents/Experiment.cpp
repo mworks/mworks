@@ -23,7 +23,6 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 	n_protocols = 0;
 	
     experimentName = "";
-	setName(experimentName);
     
     shouldCreateDefaultStimulusDisplay = false;
 	
@@ -172,7 +171,6 @@ shared_ptr<VariableRegistry> Experiment::getVariableRegistry() {
 
 void Experiment::setExperimentName(std::string n){
 	experimentName = n;
-	setName(experimentName);
 }
 
 std::string  Experiment::getExperimentName() {

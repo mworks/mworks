@@ -29,9 +29,7 @@ Pulse::Pulse(const ParameterValueMap &parameters) :
     Action(parameters),
     var(parameters[VARIABLE]),
     duration(parameters[DURATION])
-{
-    setName("Pulse");
-}
+{ }
 
 
 bool Pulse::execute() {

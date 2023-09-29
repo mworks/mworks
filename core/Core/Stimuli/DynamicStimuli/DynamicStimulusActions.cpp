@@ -37,9 +37,7 @@ void PlayDynamicStimulus::describeComponent(ComponentInfo &info) {
 
 PlayDynamicStimulus::PlayDynamicStimulus(const ParameterValueMap &parameters) :
     DynamicStimulusAction(parameters)
-{
-    setName("PlayDynamicStimulus");
-}
+{ }
 
 
 bool PlayDynamicStimulus::execute() {
@@ -63,9 +61,7 @@ void StopDynamicStimulus::describeComponent(ComponentInfo &info) {
 
 StopDynamicStimulus::StopDynamicStimulus(const ParameterValueMap &parameters) :
     DynamicStimulusAction(parameters)
-{
-    setName("StopDynamicStimulus");
-}
+{ }
 
 
 bool StopDynamicStimulus::execute() {
@@ -89,9 +85,7 @@ void PauseDynamicStimulus::describeComponent(ComponentInfo &info) {
 
 PauseDynamicStimulus::PauseDynamicStimulus(const ParameterValueMap &parameters) :
     DynamicStimulusAction(parameters)
-{
-    setName("PauseDynamicStimulus");
-}
+{ }
 
 
 bool PauseDynamicStimulus::execute() {
@@ -115,9 +109,7 @@ void UnpauseDynamicStimulus::describeComponent(ComponentInfo &info) {
 
 UnpauseDynamicStimulus::UnpauseDynamicStimulus(const ParameterValueMap &parameters) :
     DynamicStimulusAction(parameters)
-{
-    setName("UnpauseDynamicStimulus");
-}
+{ }
 
 
 bool UnpauseDynamicStimulus::execute() {

@@ -16,7 +16,6 @@ mFakeMonkeyFixate::mFakeMonkeyFixate(const shared_ptr<mFakeMonkey> &_monkey,
 									 const shared_ptr<Variable> &_duration){
 	monkey = _monkey;
 	duration = _duration;
-	setName("FakeMonkeyFixate");
 }
 
 mFakeMonkeyFixate::~mFakeMonkeyFixate(){}

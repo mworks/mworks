@@ -17,7 +17,6 @@ mFakeMonkeySaccadeAndFixate::mFakeMonkeySaccadeAndFixate(const shared_ptr<mFakeM
 	h_loc = _h_loc;
 	v_loc = _v_loc;
 	duration=_duration;
-	setName("FakeMonkeySaccadeAndFixate");
 }
 
 mFakeMonkeySaccadeAndFixate::~mFakeMonkeySaccadeAndFixate(){ /* do nothing */}

@@ -36,8 +36,7 @@ Action::Action(const ParameterValueMap &parameters) :
 { }
 
 Action::Action() {
-	setName("Action");
-}	
+}
 
 bool Action::execute() {
     return false;
@@ -46,11 +45,6 @@ bool Action::execute() {
 void Action::action() {
     State::action();
     execute();
-}
-
-
-void Action::setName(const std::string &_name) {
-	State::setName("Action: " + _name);
 }
 
 
@@ -89,17 +83,13 @@ Assignment::Assignment(const ParameterValueMap &parameters) :
     Action(parameters),
     assignment(parameters[VARIABLE]),
     value(parameters[VALUE])
-{
-    setName("Assignment");
-}
+{ }
 
 
 Assignment::Assignment(const VariablePtr &var, const VariablePtr &value) :
     assignment(var),
     value(value)
-{
-    setName("Assignment");
-}
+{ }
 
 
 bool Assignment::execute() {
@@ -150,9 +140,7 @@ ReportString::ReportString(const ParameterValueMap &parameters) :
     Action(parameters),
     message(parsedText(parameters[MESSAGE])),
     clock(Clock::instance())
-{
-    setName("Report");
-}
+{ }
 
 
 bool ReportString::execute() {
@@ -186,8 +174,6 @@ AssertionAction::AssertionAction(const ParameterValueMap &parameters) :
     condition(parameters[CONDITION]),
     stopOnFailure(parameters[STOP_ON_FAILURE])
 {
-    setName("Assertion");
-    
     if (!(parameters[ReportString::MESSAGE].empty())) {
         message = parsedText(parameters[ReportString::MESSAGE]);
     } else {
@@ -217,7 +203,6 @@ bool AssertionAction::execute() {
  ****************************************************************/
 
 SetTimeBase::SetTimeBase(shared_ptr<TimeBase> _timebase){
-	setName("SetTimeBase");
 	timebase = _timebase;
 }
 
@@ -320,8 +305,6 @@ void StartTimer::describeComponent(ComponentInfo &info) {
 StartTimer::StartTimer(const ParameterValueMap &parameters) :
     TimerAction(parameters)
 {
-    setName("StartTimer");
-    
     auto &t = parameters[TIMER];
     timer = t.getRegistry()->getObject<Timer>(t.str());
     if (!timer) {
@@ -357,9 +340,7 @@ void Wait::describeComponent(ComponentInfo &info) {
 Wait::Wait(const ParameterValueMap &parameters) :
     TimerAction(parameters),
     expirationTime(0)
-{
-    setName("Wait");
-}
+{ }
 
 
 bool Wait::execute() {
@@ -417,8 +398,6 @@ WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
     stopOnTimeout(parameters[STOP_ON_TIMEOUT]),
     clock(Clock::instance())
 {
-    setName("WaitForCondition");
-    
     if (!(parameters[TIMEOUT_MESSAGE].empty())) {
         timeoutMessage = parsedText(parameters[TIMEOUT_MESSAGE]);
     } else {
@@ -511,9 +490,7 @@ void LoadStimulus::describeComponent(ComponentInfo &info) {
 
 LoadStimulus::LoadStimulus(const ParameterValueMap &parameters) :
     StimulusAction(parameters)
-{
-    setName("LoadStimulus");
-}
+{ }
 
 
 void LoadStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
@@ -546,9 +523,7 @@ void UnloadStimulus::describeComponent(ComponentInfo &info) {
 
 UnloadStimulus::UnloadStimulus(const ParameterValueMap &parameters) :
     StimulusAction(parameters)
-{
-    setName("UnloadStimulus");
-}
+{ }
 
 
 void UnloadStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
@@ -569,9 +544,7 @@ void QueueStimulus::describeComponent(ComponentInfo &info) {
 
 QueueStimulus::QueueStimulus(const ParameterValueMap &parameters) :
     StimulusAction(parameters)
-{
-    setName("QueueStimulus");
-}
+{ }
 
 
 void QueueStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
@@ -604,9 +577,7 @@ void LiveQueueStimulus::describeComponent(ComponentInfo &info) {
 
 LiveQueueStimulus::LiveQueueStimulus(const ParameterValueMap &parameters) :
     StimulusAction(parameters)
-{
-    setName("LiveQueueStimulus");
-}
+{ }
 
 
 void LiveQueueStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
@@ -639,9 +610,7 @@ void DequeueStimulus::describeComponent(ComponentInfo &info) {
 
 DequeueStimulus::DequeueStimulus(const ParameterValueMap &parameters) :
     StimulusAction(parameters)
-{
-    setName("DequeueStimulus");
-}
+{ }
 
 
 void DequeueStimulus::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
@@ -666,9 +635,7 @@ void BringStimulusToFront::describeComponent(ComponentInfo &info) {
 
 BringStimulusToFront::BringStimulusToFront(const ParameterValueMap &parameters) :
     StimulusAction(parameters)
-{
-    setName("BringStimulusToFront");
-}
+{ }
 
 
 void BringStimulusToFront::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
@@ -689,9 +656,7 @@ void SendStimulusToBack::describeComponent(ComponentInfo &info) {
 
 SendStimulusToBack::SendStimulusToBack(const ParameterValueMap &parameters) :
     StimulusAction(parameters)
-{
-    setName("SendStimulusToBack");
-}
+{ }
 
 
 void SendStimulusToBack::performAction(const StimulusNodePtr &stimNode, const StimulusDisplayPtr &display) {
@@ -783,9 +748,7 @@ void UpdateStimulusDisplay::describeComponent(ComponentInfo &info) {
 
 UpdateStimulusDisplay::UpdateStimulusDisplay(const ParameterValueMap &parameters) :
     StimulusDisplayAction(parameters)
-{
-    setName("UpdateStimulusDisplay");
-}
+{ }
 
 
 boost::shared_ptr<StimulusDisplay::UpdateInfo> UpdateStimulusDisplay::performAction() {
@@ -811,9 +774,7 @@ void ClearStimulusDisplay::describeComponent(ComponentInfo &info) {
 
 ClearStimulusDisplay::ClearStimulusDisplay(const ParameterValueMap &parameters) :
     StimulusDisplayAction(parameters)
-{
-    setName("ClearStimulusDisplay");
-}
+{ }
 
 
 boost::shared_ptr<StimulusDisplay::UpdateInfo> ClearStimulusDisplay::performAction() {
@@ -859,9 +820,7 @@ void LoadSound::describeComponent(ComponentInfo &info) {
 
 LoadSound::LoadSound(const ParameterValueMap &parameters) :
     SoundAction(parameters)
-{
-    setName("LoadSound");
-}
+{ }
 
 
 bool LoadSound::execute() {
@@ -896,9 +855,7 @@ void UnloadSound::describeComponent(ComponentInfo &info) {
 
 UnloadSound::UnloadSound(const ParameterValueMap &parameters) :
     SoundAction(parameters)
-{
-    setName("UnloadSound");
-}
+{ }
 
 
 bool UnloadSound::execute() {
@@ -925,9 +882,7 @@ void PlaySound::describeComponent(ComponentInfo &info) {
 PlaySound::PlaySound(const ParameterValueMap &parameters) :
     SoundAction(parameters),
     startTime(optionalVariable(parameters[START_TIME]))
-{
-    setName("PlaySound");
-}
+{ }
 
 
 bool PlaySound::execute() {
@@ -960,9 +915,7 @@ void PauseSound::describeComponent(ComponentInfo &info) {
 
 PauseSound::PauseSound(const ParameterValueMap &parameters) :
     SoundAction(parameters)
-{
-    setName("PauseSound");
-}
+{ }
 
 
 bool PauseSound::execute() {
@@ -984,9 +937,7 @@ void StopSound::describeComponent(ComponentInfo &info) {
 
 StopSound::StopSound(const ParameterValueMap &parameters) :
     SoundAction(parameters)
-{
-    setName("StopSound");
-}
+{ }
 
 
 bool StopSound::execute() {
@@ -1000,7 +951,6 @@ bool StopSound::execute() {
  ****************************************************************/
 StartDeviceIO::StartDeviceIO(shared_ptr<IODevice> _device){ 
 	device = weak_ptr<IODevice>(_device); 
-	setName("StartDeviceIO");
 }
 
 StartDeviceIO::~StartDeviceIO(){/* do nothing */ };
@@ -1431,7 +1381,6 @@ TakeCalibrationSampleNow::TakeCalibrationSampleNow(shared_ptr<Calibrator> _calib
     if (VERBOSE_ACTION_METHODS) mprintf("mTakeCalibrationSampleNow constructor has been called.");
     calibrator = _calibrator;
     goldStandard = _goldStandard;
-	setName("TakeCalibrationSampleNow");
 }
 
 TakeCalibrationSampleNow::~TakeCalibrationSampleNow() {};
@@ -1472,7 +1421,6 @@ shared_ptr<mw::Component> TakeCalibrationSampleNowFactory::createObject(std::map
 StartAverageCalibrationSample::StartAverageCalibrationSample(shared_ptr<Calibrator> _calibrator)  : Action() {
     if (VERBOSE_ACTION_METHODS) mprintf("mStartAverageCalibrationSample constructor has been called.");
     calibrator = _calibrator;
-	setName("StartAverageCalibrationSample");
 }
 
 StartAverageCalibrationSample::~StartAverageCalibrationSample() {};
@@ -1501,7 +1449,6 @@ EndAverageAndTakeCalibrationSample::EndAverageAndTakeCalibrationSample(shared_pt
     if (VERBOSE_ACTION_METHODS) mprintf("mTakeCalibrationSampleNow constructor has been called.");
     calibrator = _calibrator;
     goldStandard = _goldStandard;
-	setName("EndAverageAndTakeCalibrationSample");
 }
 
 EndAverageAndTakeCalibrationSample::~EndAverageAndTakeCalibrationSample() {};
@@ -1535,7 +1482,6 @@ shared_ptr<mw::Component> EndAverageAndTakeCalibrationSampleFactory::createObjec
 EndAverageAndIgnore::EndAverageAndIgnore(shared_ptr<Calibrator> _calibrator)  : Action() {
     if (VERBOSE_ACTION_METHODS) mprintf("mTakeCalibrationSampleNow constructor has been called.");
     calibrator = _calibrator;
-	setName("EndAverageAndIgnore");
 }
 
 EndAverageAndIgnore::~EndAverageAndIgnore() {};
@@ -1563,7 +1509,6 @@ shared_ptr<mw::Component> EndAverageAndIgnoreFactory::createObject(std::map<std:
 CalibrateNow::CalibrateNow(shared_ptr<Calibrator> _calibrator) : Action() {
     if (VERBOSE_ACTION_METHODS) mprintf("mCalibrateNow constructor has been called.");
     calibrator = _calibrator;
-	setName("CalibrateNow");
 }
 
 CalibrateNow::~CalibrateNow() {};
@@ -1591,7 +1536,6 @@ shared_ptr<mw::Component> CalibrateNowFactory::createObject(std::map<std::string
 ClearCalibration::ClearCalibration(shared_ptr<Calibrator> _calibrator) : Action() {
     if (VERBOSE_ACTION_METHODS) mprintf("mClearCalibration constructor has been called.");
     calibrator = _calibrator;
-	setName("ClearCalibration");
 }
 
 ClearCalibration::~ClearCalibration() {};
@@ -1625,7 +1569,6 @@ shared_ptr<mw::Component> ClearCalibrationFactory::createObject(std::map<std::st
 StartAverager::StartAverager(shared_ptr<AveragerUser> _averager) : Action() {
     if (VERBOSE_ACTION_METHODS) mprintf("mStartAverager constructor has been called.");
     averager = _averager;
-	setName("StartAverager");
 }
 
 StartAverager::~StartAverager() {};
@@ -1651,7 +1594,6 @@ shared_ptr<mw::Component> StartAveragerFactory::createObject(std::map<std::strin
 StopAverager::StopAverager(shared_ptr<AveragerUser> _averager) : Action()  {
     if (VERBOSE_ACTION_METHODS) mprintf("StopAverager constructor has been called.");
     averager = _averager;
-	setName("StopAverager");
 }
 
 StopAverager::~StopAverager() {};
@@ -1678,7 +1620,6 @@ shared_ptr<mw::Component> StopAveragerFactory::createObject(std::map<std::string
 ClearAverager::ClearAverager(shared_ptr<AveragerUser> _averager) : Action() {
     if (VERBOSE_ACTION_METHODS) mprintf("mClearAverager constructor has been called.");
     averager = _averager;
-	setName("ClearAverager");
 }
 
 ClearAverager::~ClearAverager() {};

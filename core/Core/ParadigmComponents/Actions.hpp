@@ -34,8 +34,6 @@ public:
     Action();
     virtual bool execute();
     
-    void setName(const std::string &_name);
-    
     // State methods
     virtual void action();
 
@@ -123,7 +121,6 @@ public:
 	
 	NextVariableSelection(shared_ptr<SelectionVariable> _var){
 		variable = _var;
-		setName("NextVariableSelection");
 	}
 	
 	virtual bool execute(){
@@ -530,7 +527,6 @@ protected:
 public:
 	
 	ResetSelection(shared_ptr<Selectable> sel){
-        setName("ResetSelections");
 		weakSelectable = sel;
 	}
 	
@@ -556,7 +552,6 @@ protected:
 public:
 	
 	AcceptSelections(shared_ptr<Selectable> sel){
-		setName("AcceptSelections");
 		weakSelectable = sel;
 	}
 	
@@ -583,7 +578,6 @@ protected:
 public:
 	
 	RejectSelections(shared_ptr<Selectable> sel){
-		setName("RejectSelections");
 		weakSelectable = sel;
 	}
 	

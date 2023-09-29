@@ -61,8 +61,6 @@ ScheduledActions::ScheduledActions(const boost::shared_ptr<Variable> &n_repeats,
 
 
 void ScheduledActions::init() {
-    setName("ScheduledActions");
-    
     // Add state_system_mode callback
     {
         auto callback = [this](const Datum &data, MWTime time) {

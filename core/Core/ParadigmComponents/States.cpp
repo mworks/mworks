@@ -99,9 +99,7 @@ void ContainerState::describeComponent(ComponentInfo &info) {
 }
 
 
-ContainerState::ContainerState() {
-    setName("ContainerState");
-}
+ContainerState::ContainerState() { }
 
 
 ContainerState::ContainerState(const ParameterValueMap &parameters) :

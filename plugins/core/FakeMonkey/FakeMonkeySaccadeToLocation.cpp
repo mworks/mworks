@@ -16,7 +16,6 @@ mFakeMonkeySaccadeToLocation::mFakeMonkeySaccadeToLocation(const shared_ptr<mFak
 	monkey = _monkey;
 	h_loc = _h_loc;
 	v_loc = _v_loc;
-	setName("FakeMonkeySaccadeToLocation");
 }
 
 mFakeMonkeySaccadeToLocation::~mFakeMonkeySaccadeToLocation(){ /* do nothing */}

@@ -22,9 +22,7 @@ void Block::describeComponent(ComponentInfo &info) {
 }
 
 
-Block::Block() {
-    setName("Block");
-}
+Block::Block() { }
 
 
 Block::Block(const ParameterValueMap &parameters) :
@@ -60,9 +58,7 @@ void Protocol::describeComponent(ComponentInfo &info) {
 }
 
 
-Protocol::Protocol() {
-    setName("Protocol");
-}
+Protocol::Protocol() { }
 
 
 Protocol::Protocol(const ParameterValueMap &parameters) :
@@ -81,9 +77,7 @@ void Trial::describeComponent(ComponentInfo &info) {
 }
 
 
-Trial::Trial() {
-    setName("Trial");
-}
+Trial::Trial() { }
 
 
 Trial::Trial(const ParameterValueMap &parameters) :
@@ -119,9 +113,7 @@ void GenericListState::describeComponent(ComponentInfo &info) {
 }
 
 
-GenericListState::GenericListState() {
-    setName("List");
-}
+GenericListState::GenericListState() { }
 
 
 GenericListState::GenericListState(const ParameterValueMap &parameters) :

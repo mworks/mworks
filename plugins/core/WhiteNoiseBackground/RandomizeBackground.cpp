@@ -28,9 +28,7 @@ void RandomizeBackground::describeComponent(ComponentInfo &info) {
 RandomizeBackground::RandomizeBackground(const ParameterValueMap &parameters) :
     Action(parameters),
     backgroundNode(parameters[STIMULUS])
-{
-    setName("RandomizeBackground");
-}
+{ }
 
 
 bool RandomizeBackground::execute() {
