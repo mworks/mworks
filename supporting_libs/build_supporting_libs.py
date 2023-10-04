@@ -49,11 +49,6 @@ common_flags %= os.environ
 compile_flags = ('-g -O%(GCC_OPTIMIZATION_LEVEL)s -fexceptions ' +
                  '-fvisibility=hidden -Werror=unguarded-availability ' +
                  common_flags) % os.environ
-if os.environ['ENABLE_BITCODE'] == 'YES':
-    compile_flags += {
-        'bitcode': ' -fembed-bitcode',
-        'marker': ' -fembed-bitcode-marker',
-        }.get(os.environ['BITCODE_GENERATION_MODE'], '')
 
 cflags = '-std=%(GCC_C_LANGUAGE_STANDARD)s' % os.environ
 cxxflags = ('-std=%(CLANG_CXX_LANGUAGE_STANDARD)s '
