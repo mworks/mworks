@@ -327,6 +327,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E15B7BB0236B2A5700FA7CD6 /* Build configuration list for PBXNativeTarget "MWorksPython" */;
 			buildPhases = (
+				E191DFC62ACDC3DB000BC6AF /* ShellScript */,
 				E15B7BA5236B2A5700FA7CD6 /* Headers */,
 				E15B7BA6236B2A5700FA7CD6 /* Sources */,
 				E15B7BA7236B2A5700FA7CD6 /* Frameworks */,
@@ -347,6 +348,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1DBCC53236C7D670033B55E /* Build configuration list for PBXNativeTarget "MWorksPython-iOS" */;
 			buildPhases = (
+				E1D723A92ACDA6CD008D9176 /* ShellScript */,
 				E1DBCC48236C7D670033B55E /* Headers */,
 				E1DBCC49236C7D670033B55E /* Sources */,
 				E1DBCC4A236C7D670033B55E /* Frameworks */,
@@ -388,7 +390,7 @@
 		E1DF4BAD1C57E0D20081491C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "The MWorks Project";
 				TargetAttributes = {
 					E14CC2BA230484DF00554FC6 = {
@@ -424,10 +426,9 @@
 			};
 			buildConfigurationList = E1DF4BB01C57E0D20081491C /* Build configuration list for PBXProject "SupportingLibs" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -476,6 +477,27 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		E191DFC62ACDC3DB000BC6AF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/arm64/lib/libpython$(MW_PYTHON_3_VERSION)_all.a",
+				"$(BUILT_PRODUCTS_DIR)/x86_64/lib/libpython$(MW_PYTHON_3_VERSION)_all.a",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# As of Xcode 15, this step is required to convince the build system that\n# libpythonX.XX_all.a exists\ntrue\n";
+			showEnvVarsInLog = 0;
+		};
 		E19593EE236B4D3B005285AF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -493,6 +515,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${MW_PYTHON_3} MWorksPython/package_python_files.py\n";
+			showEnvVarsInLog = 0;
+		};
+		E1D723A92ACDA6CD008D9176 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/arm64/lib/libpython$(MW_PYTHON_3_VERSION)_all.a",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# As of Xcode 15, this step is required to convince the build system that\n# libpythonX.XX_all.a exists\ntrue\n";
 			showEnvVarsInLog = 0;
 		};
 		E1DBCC57236C80D60033B55E /* ShellScript */ = {
