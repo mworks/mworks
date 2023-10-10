@@ -369,6 +369,11 @@ bool LinearFitableFunction::fitTheFunction() {
         // We call SGELSD two times: once to determine appropriate sizes for work and iwork, and once to
         // perform the actual fit
         for (int numReps = 0; numReps < 2; numReps++) {
+#if TARGET_OS_IPHONE
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+            // TODO: Define ACCELERATE_NEW_LAPACK and switch to the new sgelsd_ when we can do so on macOS, too
             sgelsd_(&m,
                     &n,
                     &nrhs,
@@ -383,6 +388,9 @@ bool LinearFitableFunction::fitTheFunction() {
                     &lwork,
                     iwork.data(),
                     &info);
+#if TARGET_OS_IPHONE
+#  pragma clang diagnostic pop
+#endif
             
             if (info != 0) {
                 merror(M_GENERIC_MESSAGE_DOMAIN, "Fitable function: SGELSD returned %d", int(info));

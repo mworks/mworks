@@ -38,6 +38,9 @@ BEGIN_NAMESPACE_MW
 
 CameraManager::CameraManager() :
     camera(nil),
+#if TARGET_OS_IPHONE
+    rotationCoordinator(nil),
+#endif
     captureSession(nil),
     captureSessionRuntimeErrorObserver(nil)
 { }
@@ -47,6 +50,9 @@ CameraManager::~CameraManager() {
     @autoreleasepool {
         captureSessionRuntimeErrorObserver = nil;
         captureSession = nil;
+#if TARGET_OS_IPHONE
+        rotationCoordinator = nil;
+#endif
         camera = nil;
     }
 }
@@ -67,6 +73,10 @@ bool CameraManager::initialize(const std::string &cameraUniqueID) {
                 "Using camera \"%s\" (unique ID: \"%s\")",
                 camera.localizedName.UTF8String,
                 camera.uniqueID.UTF8String);
+        
+#if TARGET_OS_IPHONE
+        rotationCoordinator = [[AVCaptureDeviceRotationCoordinator alloc] initWithDevice:camera previewLayer:nil];
+#endif
         
         return true;
     }
@@ -95,10 +105,6 @@ bool CameraManager::startCaptureSession() {
                                                                                                  usingBlock:callback];
             }
             
-#if TARGET_OS_IPHONE
-            [UIDevice.currentDevice beginGeneratingDeviceOrientationNotifications];
-#endif
-            
             [captureSession startRunning];
         }
         return true;
@@ -110,10 +116,6 @@ void CameraManager::stopCaptureSession() {
     @autoreleasepool {
         if (captureSession) {
             [captureSession stopRunning];
-            
-#if TARGET_OS_IPHONE
-            [UIDevice.currentDevice endGeneratingDeviceOrientationNotifications];
-#endif
             
             [NSNotificationCenter.defaultCenter removeObserver:captureSessionRuntimeErrorObserver];
             captureSessionRuntimeErrorObserver = nil;
@@ -128,7 +130,11 @@ cf::DataPtr CameraManager::captureImage() {
     @autoreleasepool {
         cf::DataPtr image;
         if (captureSession) {
-            captureImage(captureSession, image);
+            CGFloat videoRotationAngle = 0.0;
+#if TARGET_OS_IPHONE
+            videoRotationAngle = rotationCoordinator.videoRotationAngleForHorizonLevelCapture;
+#endif
+            captureImage(captureSession, videoRotationAngle, image);
         }
         return image;
     }
@@ -262,7 +268,7 @@ AVCaptureSession * CameraManager::createCaptureSession(AVCaptureDevice *camera) 
 }
 
 
-void CameraManager::captureImage(AVCaptureSession *captureSession, cf::DataPtr &image) {
+void CameraManager::captureImage(AVCaptureSession *captureSession, CGFloat videoRotationAngle, cf::DataPtr &image) {
     std::promise<void> p;
     auto f = p.get_future();
     
@@ -280,26 +286,8 @@ void CameraManager::captureImage(AVCaptureSession *captureSession, cf::DataPtr &
     };
 #if TARGET_OS_IPHONE
     auto connection = captureOutput.connections[0];
-    if (connection.supportsVideoOrientation) {
-        switch (UIDevice.currentDevice.orientation) {
-            case UIDeviceOrientationPortrait:
-                connection.videoOrientation = AVCaptureVideoOrientationPortrait;
-                break;
-            case UIDeviceOrientationPortraitUpsideDown:
-                connection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
-                break;
-            case UIDeviceOrientationLandscapeLeft:
-                // UIDeviceOrientation's landscape left is AVCaptureVideoOrientation's landscape right
-                connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
-                break;
-            case UIDeviceOrientationLandscapeRight:
-                // UIDeviceOrientation's landscape right is AVCaptureVideoOrientation's landscape left
-                connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
-                break;
-            default:
-                // Use current video orientation
-                break;
-        }
+    if ([connection isVideoRotationAngleSupported:videoRotationAngle]) {
+        connection.videoRotationAngle = videoRotationAngle;
     }
 #endif
     [captureOutput capturePhotoWithSettings:settings delegate:delegate];

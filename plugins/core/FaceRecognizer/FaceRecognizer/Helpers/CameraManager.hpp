@@ -29,9 +29,12 @@ private:
     static bool acquireCameraAccess();
     static AVCaptureDevice * discoverCamera(const std::string &cameraUniqueID);
     static AVCaptureSession * createCaptureSession(AVCaptureDevice *camera);
-    static void captureImage(AVCaptureSession *captureSession, cf::DataPtr &image);
+    static void captureImage(AVCaptureSession *captureSession, CGFloat videoRotationAngle, cf::DataPtr &image);
     
     AVCaptureDevice *camera;
+#if TARGET_OS_IPHONE
+    AVCaptureDeviceRotationCoordinator *rotationCoordinator;
+#endif
     AVCaptureSession *captureSession;
     id<NSObject> captureSessionRuntimeErrorObserver;
     
