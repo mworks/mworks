@@ -6,6 +6,8 @@
 //  Copyright 2008 Harvard University. All rights reserved.
 //
 
+@import UniformTypeIdentifiers;
+
 #import "AppController.h"
 #import "MWClientInstance.h"
 #import "NSMenuExtensions.h"
@@ -588,7 +590,7 @@
 - (IBAction)saveWorkspace:(id)sender {
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     [savePanel setTitle:@"Save Workspace"];
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"json"]];
+    savePanel.allowedContentTypes = @[ UTTypeJSON ];
     [savePanel setAllowsOtherFileTypes:YES];
     
     if ([savePanel runModal] != NSModalResponseOK) {

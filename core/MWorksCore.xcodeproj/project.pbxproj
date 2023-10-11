@@ -776,6 +776,7 @@
 		E1EE384B2671054F00774BF5 /* ZeroMQSocketPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EE38482671054F00774BF5 /* ZeroMQSocketPair.cpp */; };
 		E1EE384C2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1EE38492671054F00774BF5 /* ZeroMQSocketPair.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1EE384D2671054F00774BF5 /* ZeroMQSocketPair.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1EE38492671054F00774BF5 /* ZeroMQSocketPair.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1F131142AD5D196001069DC /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F131132AD5D196001069DC /* UniformTypeIdentifiers.framework */; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 		E1F7CBB821F22B8A003F48A1 /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F7CBB121F22B8A003F48A1 /* dfindex.cpp */; };
 		E1F7CBB921F22B8A003F48A1 /* dfindex.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F7CBB221F22B8A003F48A1 /* dfindex.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1450,6 +1451,7 @@
 		E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1EE38482671054F00774BF5 /* ZeroMQSocketPair.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQSocketPair.cpp; sourceTree = "<group>"; };
 		E1EE38492671054F00774BF5 /* ZeroMQSocketPair.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQSocketPair.hpp; sourceTree = "<group>"; };
+		E1F131132AD5D196001069DC /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 		E1F7CBB121F22B8A003F48A1 /* dfindex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dfindex.cpp; sourceTree = "<group>"; };
 		E1F7CBB221F22B8A003F48A1 /* dfindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dfindex.h; sourceTree = "<group>"; };
@@ -1536,6 +1538,7 @@
 				E10C1D1222306273007094E5 /* MetalKit.framework in Frameworks */,
 				E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */,
 				E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */,
+				E1F131142AD5D196001069DC /* UniformTypeIdentifiers.framework in Frameworks */,
 				E18B90422630AB8100A9D552 /* VideoToolbox.framework in Frameworks */,
 				E1D9BAD62200C81400D63D59 /* libcompression.tbd in Frameworks */,
 				E13B07EE1E2929590071347C /* libxml2.tbd in Frameworks */,
@@ -2616,6 +2619,7 @@
 				E10C1D1022306258007094E5 /* MetalKit.framework */,
 				E1DB975C16C16CA1001481E9 /* OpenAL.framework */,
 				E1DB975D16C16CA1001481E9 /* OpenGL.framework */,
+				E1F131132AD5D196001069DC /* UniformTypeIdentifiers.framework */,
 				E18B90412630AB8000A9D552 /* VideoToolbox.framework */,
 				E1D9BAD42200C80100D63D59 /* libcompression.tbd */,
 				E13B07ED1E2929590071347C /* libxml2.tbd */,
@@ -4192,6 +4196,8 @@
 					QuartzCore,
 					"-framework",
 					UIKit,
+					"-framework",
+					UniformTypeIdentifiers,
 					"-framework",
 					VideoToolbox,
 					"-lboost_filesystem",

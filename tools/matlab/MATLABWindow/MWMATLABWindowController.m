@@ -149,7 +149,10 @@
 	[op setCanChooseDirectories:NO];
 	[op setCanChooseFiles:YES];
 	[op setAllowsMultipleSelection:NO];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [op setAllowedFileTypes:[NSArray arrayWithObject:@"m"]];
+#pragma clang diagnostic pop
 	
 	int bp = [op runModal];
 	

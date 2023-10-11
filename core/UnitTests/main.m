@@ -17,7 +17,7 @@
 
 int main(int argc, const char *argv[]) {
     // Ensure that the display is awake
-    io_registry_entry_t entry = IORegistryEntryFromPath(kIOMasterPortDefault,
+    io_registry_entry_t entry = IORegistryEntryFromPath(kIOMainPortDefault,
                                                         "IOService:/IOResources/IODisplayWrangler");
     if (entry) {
         (void)IORegistryEntrySetCFProperty(entry, CFSTR("IORequestIdle"), kCFBooleanFalse);

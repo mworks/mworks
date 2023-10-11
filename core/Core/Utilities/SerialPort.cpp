@@ -165,7 +165,7 @@ bool SerialPort::validatePath(std::string &path) {
     }
     
     io_iterator_t matchingServices = IO_OBJECT_NULL;
-    if (KERN_SUCCESS != IOServiceGetMatchingServices(kIOMasterPortDefault,
+    if (KERN_SUCCESS != IOServiceGetMatchingServices(kIOMainPortDefault,
                                                      classesToMatch.release(),  // Reference is consumed by callee
                                                      &matchingServices))
     {

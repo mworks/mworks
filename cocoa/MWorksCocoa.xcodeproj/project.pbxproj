@@ -78,6 +78,7 @@
 		E1AC63302329305700DFED1A /* MWClientServerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AC632F2329305700DFED1A /* MWClientServerBase.m */; };
 		E1C1F25B232C052B003EBE5A /* MWClientPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C1F25A232C052B003EBE5A /* MWClientPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D2949F23293A1400DA7473 /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D2949E23293A1400DA7473 /* MWorksSwift.framework */; };
+		E1F131162AD5DAC6001069DC /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F131152AD5DAC6001069DC /* UniformTypeIdentifiers.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +161,7 @@
 		E1AC632F2329305700DFED1A /* MWClientServerBase.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MWClientServerBase.m; sourceTree = "<group>"; };
 		E1C1F25A232C052B003EBE5A /* MWClientPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWClientPlugin.h; sourceTree = "<group>"; };
 		E1D2949E23293A1400DA7473 /* MWorksSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksSwift.framework; path = /Library/Frameworks/MWorksSwift.framework; sourceTree = "<absolute>"; };
+		E1F131152AD5DAC6001069DC /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		E1F7696F22BD5F8200024441 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1F7697022BD5F8200024441 /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -172,6 +174,7 @@
 				DADADB7A07FAFC9000F8D324 /* MWorksCore.framework in Frameworks */,
 				E1D2949F23293A1400DA7473 /* MWorksSwift.framework in Frameworks */,
 				E15D0AEC16C2AB9000F331B1 /* AppKit.framework in Frameworks */,
+				E1F131162AD5DAC6001069DC /* UniformTypeIdentifiers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +209,7 @@
 				DADADB7907FAFC9000F8D324 /* MWorksCore.framework */,
 				E1D2949E23293A1400DA7473 /* MWorksSwift.framework */,
 				E15D0AEB16C2AB9000F331B1 /* AppKit.framework */,
+				E1F131152AD5DAC6001069DC /* UniformTypeIdentifiers.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

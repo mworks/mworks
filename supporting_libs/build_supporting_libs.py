@@ -56,10 +56,6 @@ cxxflags = ('-std=%(CLANG_CXX_LANGUAGE_STANDARD)s '
             % os.environ)
 
 link_flags = common_flags
-if not building_for_ios:
-    # NOTE: We can remove -Wl,-ld_classic once MACOSX_DEPLOYMENT_TARGET is 12.0
-    # or later
-    link_flags += ' -Wl,-ld_classic'
 
 downloaddir = os.path.abspath('download')
 patchdir = os.path.abspath('patches')

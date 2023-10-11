@@ -11,6 +11,8 @@
 #import "MWCocoaEvent.h"
 #import "MWClientServerBase.h"
 
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
+
 #define MW_CONSOLE_CONTROLLER_CALLBACK_KEY "MWorksCocoa console controller callback key"
 #define MW_CONSOLE_MAX_CHAR_LENGTH_DEFAULT 100000
 
@@ -177,7 +179,7 @@
 	}	
 	
 	NSSavePanel * save = [NSSavePanel savePanel];
-    [save setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+    save.allowedContentTypes = @[ UTTypePlainText ];
     [save setCanCreateDirectories:YES];
     if([save runModal] == NSModalResponseOK)  {
 		[log writeToURL:[save URL]

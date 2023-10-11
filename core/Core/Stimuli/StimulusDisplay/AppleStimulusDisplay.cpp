@@ -8,6 +8,7 @@
 #include "AppleStimulusDisplay.hpp"
 
 #include <CoreServices/CoreServices.h>
+#include <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 #include <VideoToolbox/VideoToolbox.h>
 
 #include "AAPLMathUtilities.h"
@@ -594,18 +595,10 @@ void AppleStimulusDisplay::configureCapture(const std::string &format, int heigh
     }
     
     cf::StringPtr imageFileType;
-#if TARGET_OS_IPHONE
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#endif
-    // TODO: Switch to UTTypeJPEG and UTTypePNG when we can do so on macOS, too
     if (format == "JPEG") {
-        imageFileType = cf::StringPtr::borrowed(kUTTypeJPEG);
+        imageFileType = cf::StringPtr::borrowed((__bridge CFStringRef)(UTTypeJPEG.identifier));
     } else if (format == "PNG") {
-        imageFileType = cf::StringPtr::borrowed(kUTTypePNG);
-#if TARGET_OS_IPHONE
-#  pragma clang diagnostic pop
-#endif
+        imageFileType = cf::StringPtr::borrowed((__bridge CFStringRef)(UTTypePNG.identifier));
     } else {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                               boost::format("Invalid stimulus display capture format: \"%1%\"") % format);
