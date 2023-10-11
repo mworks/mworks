@@ -392,7 +392,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(MATLAB_DIR)/bin/$(MATLAB_ARCH_$(CURRENT_ARCH))",
+					"/Applications/MATLAB/bin/$(MATLAB_ARCH_$(CURRENT_ARCH))",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -400,7 +400,8 @@
 				);
 				MATLAB_ARCH_i386 = maci;
 				MATLAB_ARCH_x86_64 = maci64;
-				MATLAB_DIR = /Applications/MATLAB;
+				MATLAB_DIR = "/Applications/MATLAB_$(MW_MATLAB_VERSION).app";
+				MW_MATLAB_VERSION = R2022a;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-leng",
