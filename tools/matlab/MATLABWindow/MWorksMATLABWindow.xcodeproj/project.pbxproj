@@ -38,7 +38,6 @@
 		0E01072F0CA5DA2000A28CAC /* MWVarEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E01072E0CA5DA2000A28CAC /* MWVarEntry.m */; };
 		0E5505030AADB81800987B47 /* MWMATLABWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5505020AADB81800987B47 /* MWMATLABWindowController.m */; };
 		0ECE67F10BDD1DCA00E16CCF /* MATLABInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E60D49D0BDD0CDD00B5386E /* MATLABInterface.m */; };
-		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		E12D993A16BC356D004FEF79 /* MWorksMATLABWindow.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 686092F80AC8950400978FC3 /* MWorksMATLABWindow.bundle */; };
 		E12D994216BC3633004FEF79 /* codec_code2idx.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E12D993C16BC35F4004FEF79 /* codec_code2idx.m */; };
 		E12D994316BC3633004FEF79 /* codec_tag2code.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E12D993D16BC35F4004FEF79 /* codec_tag2code.m */; };
@@ -96,7 +95,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0E0107280CA5D9EC00A28CAC /* MWVariableList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWVariableList.h; sourceTree = "<group>"; };
 		0E0107290CA5D9EC00A28CAC /* MWVariableList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWVariableList.m; sourceTree = "<group>"; };
 		0E01072D0CA5DA2000A28CAC /* MWVarEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWVarEntry.h; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 				0EFA42800DC16AE700F557A6 /* MATLAB_test_files */,
 				E16D96131157E06B00B28A8F /* Main.xib */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
-				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -269,7 +266,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					8D5B49AC048680CD000E48DA = {
 						ProvisioningStyle = Automatic;
@@ -284,13 +281,11 @@
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksMATLABWindow" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				Base,
+				en,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* MonkeyWorksRewardWindow */;
 			projectDirPath = "";
@@ -308,7 +303,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				E16D96141157E06B00B28A8F /* Main.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,17 +337,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				089C167EFE841241C02AAC07 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		E12D993416BC355C004FEF79 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -381,7 +364,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C3651222BD6B8600D1DBF6 /* macOS_ClientPlugin.xcconfig */;
 			buildSettings = {
-				ARCHS = x86_64;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MWorksMATLABWindow_Prefix.pch;
@@ -398,9 +380,9 @@
 					"$(inherited)",
 					"$(MATLAB_DIR)/bin/$(MATLAB_ARCH_$(CURRENT_ARCH))",
 				);
-				MATLAB_ARCH_i386 = maci;
+				MATLAB_ARCH_arm64 = maca64;
 				MATLAB_ARCH_x86_64 = maci64;
-				MATLAB_DIR = "/Applications/MATLAB_$(MW_MATLAB_VERSION).app";
+				MATLAB_DIR = "/Applications/MathWorks/$(CURRENT_ARCH)/MATLAB_$(MW_MATLAB_VERSION).app";
 				MW_MATLAB_VERSION = R2022a;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

@@ -46,6 +46,7 @@
 			buildConfigurationList = E1D2C0F1167B9A710030EF33 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E18FDB9116CC0B6900A1EDFD /* CopyFiles */,
+				E1F131172AD747A5001069DC /* ShellScript */,
 				E1D2C0F7167B9ADD0030EF33 /* CopyFiles */,
 			);
 			dependencies = (
@@ -65,7 +66,7 @@
 		E1503766167FA84D00CF3AEC /* MEXOutputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1503764167FA84D00CF3AEC /* MEXOutputs.cpp */; };
 		E1523D9B167673A300069B10 /* mwfeval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1523D99167673A300069B10 /* mwfeval.cpp */; };
 		E18E740C299560FB00E6F210 /* ReservedEventCode.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18E740B299560D400E6F210 /* ReservedEventCode.m */; };
-		E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaci64 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */; };
+		E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaca64 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1523D62167669BF00069B10 /* mwfeval.mexmaca64 */; };
 		E1BD58822992BDB50085A3DB /* MWKFile.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1BD58812992BD6D0085A3DB /* MWKFile.m */; };
 		E1BD58852992BED90085A3DB /* MWKFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BD58832992BED90085A3DB /* MWKFile.cpp */; };
 		E1D2C0FF167BADF00030EF33 /* Converters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D2C0FD167BADF00030EF33 /* Converters.cpp */; };
@@ -103,7 +104,7 @@
 			dstPath = "$(MW_MATLAB_DIR)/+mworks";
 			dstSubfolderSpec = 0;
 			files = (
-				E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaci64 in CopyFiles */,
+				E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaca64 in CopyFiles */,
 				E18E740C299560FB00E6F210 /* ReservedEventCode.m in CopyFiles */,
 				E1BD58822992BDB50085A3DB /* MWKFile.m in CopyFiles */,
 			);
@@ -133,7 +134,7 @@
 		E150375D167F8B4200CF3AEC /* MEXInputs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEXInputs.h; sourceTree = "<group>"; };
 		E1503764167FA84D00CF3AEC /* MEXOutputs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MEXOutputs.cpp; sourceTree = "<group>"; };
 		E1503765167FA84D00CF3AEC /* MEXOutputs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEXOutputs.h; sourceTree = "<group>"; };
-		E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = mwfeval.mexmaci64; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1523D62167669BF00069B10 /* mwfeval.mexmaca64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = mwfeval.mexmaca64; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1523D66167669BF00069B10 /* MATLABTools-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MATLABTools-Prefix.pch"; sourceTree = "<group>"; };
 		E1523D99167673A300069B10 /* mwfeval.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mwfeval.cpp; sourceTree = "<group>"; };
 		E1523DA316767CDE00069B10 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
@@ -189,7 +190,7 @@
 		E1523D63167669BF00069B10 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */,
+				E1523D62167669BF00069B10 /* mwfeval.mexmaca64 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -274,7 +275,7 @@
 			);
 			name = "MEX File";
 			productName = MATLABTools;
-			productReference = E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */;
+			productReference = E1523D62167669BF00069B10 /* mwfeval.mexmaca64 */;
 			productType = "com.apple.product-type.objfile";
 		};
 /* End PBXNativeTarget section */
@@ -283,7 +284,7 @@
 		E1523D59167669BF00069B10 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "MWorks Project";
 				TargetAttributes = {
 					E12F1A631678E19F007F0ECE = {
@@ -305,11 +306,11 @@
 			};
 			buildConfigurationList = E1523D5C167669BF00069B10 /* Build configuration list for PBXProject "MATLABTools" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = E1523D57167669BF00069B10;
 			productRefGroup = E1523D63167669BF00069B10 /* Products */;
@@ -353,7 +354,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "if ! [[ -d $MATLAB_DIR ]]; then\n  echo \"MATLAB installation not found\" 1>&2\n  exit 1\nfi\n";
+			shellScript = "for arch in $(echo $ARCHS); do\n    matlab_dir=\"/Applications/MathWorks/${arch}/MATLAB_${MW_MATLAB_VERSION}.app\"\n    if ! [[ -d \"$matlab_dir\" ]]; then\n        echo \"MATLAB installation not found: ${matlab_dir}\" 1>&2\n        exit 1\n    fi\ndone\n";
+			showEnvVarsInLog = 0;
+		};
+		E1F131172AD747A5001069DC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/ln -fs mwfeval.mexmaca64 \"${MW_MATLAB_DIR}/+mworks/mwfeval.mexmaci64\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -411,9 +431,9 @@
 		E1523D6D167669BF00069B10 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MATLAB_ARCH_i386 = maci;
+				MATLAB_ARCH_arm64 = maca64;
 				MATLAB_ARCH_x86_64 = maci64;
-				MATLAB_DIR = "/Applications/MATLAB_$(MW_MATLAB_VERSION).app";
+				MATLAB_DIR = "/Applications/MathWorks/$(CURRENT_ARCH)/MATLAB_$(MW_MATLAB_VERSION).app";
 				MW_MATLAB_DIR = "$(MW_SCRIPTING_DIR)/MATLAB";
 				MW_MATLAB_VERSION = R2022a;
 			};
@@ -423,9 +443,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1F7696E22BD5CC400024441 /* macOS.xcconfig */;
 			buildSettings = {
-				ARCHS = x86_64;
 				CODE_SIGNING_ALLOWED = YES;
-				EXECUTABLE_EXTENSION = mexmaci64;
+				EXECUTABLE_EXTENSION = mexmaca64;
 				EXPORTED_SYMBOLS_FILE = "$(MATLAB_DIR)/extern/lib/$(MATLAB_ARCH_$(CURRENT_ARCH))/mexFunction.map";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MATLABTools-Prefix.pch";

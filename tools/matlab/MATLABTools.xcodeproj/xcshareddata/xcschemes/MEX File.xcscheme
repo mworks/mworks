@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "1500"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1523D61167669BF00069B10"
-               BuildableName = "mwfeval.mexmaci64"
+               BuildableName = "mwfeval.mexmaca64"
                BlueprintName = "MEX File"
                ReferencedContainer = "container:MATLABTools.xcodeproj">
             </BuildableReference>
