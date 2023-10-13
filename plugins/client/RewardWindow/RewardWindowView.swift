@@ -27,8 +27,6 @@ struct RewardWindowView: View {
 }
 
 
-struct RewardWindowView_Previews: PreviewProvider {
-    static var previews: some View {
-        RewardWindowView(coordinator: RewardWindowCoordinator(client: nil))
-    }
+#Preview("Reward Window Preview") {
+    RewardWindowView(coordinator: RewardWindowCoordinator(client: nil))
 }
