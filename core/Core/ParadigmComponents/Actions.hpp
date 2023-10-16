@@ -38,6 +38,26 @@ public:
 };
 
 
+class ContainerAction : public Action {
+    
+public:
+    explicit ContainerAction(const ParameterValueMap &parameters);
+    
+    void action() override;
+    
+protected:
+    void addAction(const boost::shared_ptr<Action> &action);
+    boost::shared_ptr<Action> getNextAction();
+    
+private:
+    bool execute() final;
+    
+    std::vector<boost::shared_ptr<Action>> actions;
+    std::size_t currentActionIndex;
+    
+};
+
+
 class ActionVariableNotification : public VariableNotification {
     
 public:
@@ -593,7 +613,7 @@ class RejectSelectionsFactory : public ComponentFactory{
 };
 
 
-class If : public Action {
+class If : public ContainerAction {
     
 public:
     static const std::string CONDITION;
@@ -601,23 +621,25 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit If(const ParameterValueMap &parameters);
-    explicit If(const VariablePtr &condition);
     
-    void addAction(const boost::shared_ptr<Action> &action);
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg,
                   boost::shared_ptr<Component> child) override;
     
-    bool execute() override;
+    void action() override;
+    boost::weak_ptr<State> next() override;
+    
+    bool getDidExecute() const { return didExecute; }
     
 private:
     const VariablePtr condition;
-    std::vector<boost::shared_ptr<Action>> actions;
+    bool shouldExecute;
+    bool didExecute;
     
 };
 
 
-class Else : public Action {
+class Else : public ContainerAction {
     
 public:
     static void describeComponent(ComponentInfo &info);
@@ -628,15 +650,12 @@ public:
                   ComponentRegistry *reg,
                   boost::shared_ptr<Component> child) override;
     
-    bool execute() override;
-    
-private:
-    std::vector<boost::shared_ptr<Action>> actions;
+    boost::weak_ptr<State> next() override;
     
 };
 
 
-class IfElse : public Action {
+class IfElse : public ContainerAction {
     
 public:
     static void describeComponent(ComponentInfo &info);
@@ -647,16 +666,17 @@ public:
                   ComponentRegistry *reg,
                   boost::shared_ptr<Component> child) override;
     
-    bool execute() override;
+    void action() override;
+    boost::weak_ptr<State> next() override;
     
 private:
-    std::vector<boost::shared_ptr<If>> conditionals;
-    boost::shared_ptr<Else> unconditional;
+    bool haveElse;
+    boost::shared_ptr<If> currentIf;
     
 };
 
 
-class While : public Action {
+class While : public ContainerAction {
     
 public:
     static const std::string CONDITION;
@@ -669,15 +689,12 @@ public:
                   ComponentRegistry *reg,
                   boost::shared_ptr<Component> child) override;
     
-    bool execute() override;
+    void action() override;
     boost::weak_ptr<State> next() override;
     
 private:
-    bool performIteration();
-    
     const VariablePtr condition;
-    std::vector< boost::shared_ptr<Action> > actions;
-    bool shouldRepeat;
+    bool shouldExecute;
     
 };
 

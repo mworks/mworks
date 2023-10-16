@@ -49,6 +49,45 @@ void Action::action() {
 
 
 /****************************************************************
+ *                  ContainerAction Methods
+ ****************************************************************/
+
+
+ContainerAction::ContainerAction(const ParameterValueMap &parameters) :
+    Action(parameters),
+    currentActionIndex(0)
+{ }
+
+
+void ContainerAction::action() {
+    State::action();
+    // Do *not* call execute()
+    currentActionIndex = 0;
+}
+
+
+void ContainerAction::addAction(const boost::shared_ptr<Action> &action) {
+    action->setParent(component_shared_from_this<State>());
+    actions.emplace_back(action);
+}
+
+
+boost::shared_ptr<Action> ContainerAction::getNextAction() {
+    boost::shared_ptr<Action> nextAction;
+    if (currentActionIndex < actions.size()) {
+        nextAction = actions.at(currentActionIndex);
+        currentActionIndex++;
+    }
+    return nextAction;
+}
+
+
+bool ContainerAction::execute() {
+    throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "Internal error", "execute() called on ContainerAction");
+}
+
+
+/****************************************************************
  *              ActionVariableNotification Methods
  ****************************************************************/
 
@@ -1101,27 +1140,18 @@ const std::string If::CONDITION("condition");
 
 
 void If::describeComponent(ComponentInfo &info) {
-    Action::describeComponent(info);
+    ContainerAction::describeComponent(info);
     info.setSignature("action/if");
     info.addParameter(CONDITION);
 }
 
 
 If::If(const ParameterValueMap &parameters) :
-    Action(parameters),
-    condition(parameters[CONDITION])
+    ContainerAction(parameters),
+    condition(parameters[CONDITION]),
+    shouldExecute(false),
+    didExecute(false)
 { }
-
-
-If::If(const VariablePtr &condition) :
-    condition(condition)
-{ }
-
-
-void If::addAction(const boost::shared_ptr<Action> &action) {
-    action->setParent(getParent());
-    actions.push_back(action);
-}
 
 
 void If::addChild(std::map<std::string, std::string> parameters,
@@ -1136,16 +1166,22 @@ void If::addChild(std::map<std::string, std::string> parameters,
 }
 
 
-bool If::execute() {
-    bool shouldExecute = condition->getValue().getBool();
+void If::action() {
+    ContainerAction::action();
+    shouldExecute = condition->getValue().getBool();
+    didExecute = false;
+}
 
+
+boost::weak_ptr<State> If::next() {
     if (shouldExecute) {
-        for (auto &action : actions) {
-            action->execute();
+        if (auto nextAction = getNextAction()) {
+            return nextAction;
         }
+        didExecute = true;
     }
     
-    return shouldExecute;
+    return ContainerAction::next();
 }
 
 
@@ -1155,13 +1191,13 @@ bool If::execute() {
 
 
 void Else::describeComponent(ComponentInfo &info) {
-    Action::describeComponent(info);
+    ContainerAction::describeComponent(info);
     info.setSignature("action/else");
 }
 
 
 Else::Else(const ParameterValueMap &parameters) :
-    Action(parameters)
+    ContainerAction(parameters)
 { }
 
 
@@ -1173,16 +1209,15 @@ void Else::addChild(std::map<std::string, std::string> parameters,
     if (!action) {
         throw SimpleException("else can only contain actions");
     }
-    action->setParent(getParent());
-    actions.push_back(action);
+    addAction(action);
 }
 
 
-bool Else::execute() {
-    for (auto &action : actions) {
-        action->execute();
+boost::weak_ptr<State> Else::next() {
+    if (auto nextAction = getNextAction()) {
+        return nextAction;
     }
-    return true;
+    return ContainerAction::next();
 }
 
 
@@ -1192,13 +1227,14 @@ bool Else::execute() {
 
 
 void IfElse::describeComponent(ComponentInfo &info) {
-    Action::describeComponent(info);
+    ContainerAction::describeComponent(info);
     info.setSignature("action/if_else");
 }
 
 
 IfElse::IfElse(const ParameterValueMap &parameters) :
-    Action(parameters)
+    ContainerAction(parameters),
+    haveElse(false)
 { }
 
 
@@ -1207,34 +1243,37 @@ void IfElse::addChild(std::map<std::string, std::string> parameters,
                       boost::shared_ptr<Component> child)
 {
     if (auto cond = boost::dynamic_pointer_cast<If>(child)) {
-        conditionals.push_back(cond);
+        if (haveElse) {
+            throw SimpleException("Conditional (if) actions must be placed before "
+                                  "unconditional (else) actions in if/else");
+        }
+        addAction(cond);
     } else if (auto uncond = boost::dynamic_pointer_cast<Else>(child)) {
-        if (unconditional) {
+        if (haveElse) {
             throw SimpleException("if/else can contain only one unconditional (else) action");
         }
-        unconditional = uncond;
+        addAction(uncond);
+        haveElse = true;
     } else {
         throw SimpleException("if/else can contain only conditional (if) and unconditional (else) actions");
     }
 }
 
 
-bool IfElse::execute() {
-    if (conditionals.empty()) {
-        mwarning(M_PARADIGM_MESSAGE_DOMAIN, "if/else contains no conditional (if) actions");
-    }
-    
-    for (auto &cond : conditionals) {
-        if (cond->execute()) {
-            return true;
+void IfElse::action() {
+    ContainerAction::action();
+    currentIf.reset();
+}
+
+
+boost::weak_ptr<State> IfElse::next() {
+    if (!(currentIf && currentIf->getDidExecute())) {
+        if (auto nextAction = getNextAction()) {
+            currentIf = boost::dynamic_pointer_cast<If>(nextAction);
+            return nextAction;
         }
     }
-    
-    if (unconditional) {
-        unconditional->execute();
-    }
-    
-    return false;
+    return ContainerAction::next();
 }
 
 
@@ -1247,16 +1286,16 @@ const std::string While::CONDITION("condition");
 
 
 void While::describeComponent(ComponentInfo &info) {
-    Action::describeComponent(info);
+    ContainerAction::describeComponent(info);
     info.setSignature("action/while");
     info.addParameter(CONDITION);
 }
 
 
 While::While(const ParameterValueMap &parameters) :
-    Action(parameters),
+    ContainerAction(parameters),
     condition(parameters[CONDITION]),
-    shouldRepeat(false)
+    shouldExecute(false)
 { }
 
 
@@ -1268,42 +1307,27 @@ void While::addChild(std::map<std::string, std::string> parameters,
     if (!action) {
         throw SimpleException("while can only contain actions");
     }
-    action->setParent(getParent());
-    actions.push_back(action);
+    addAction(action);
 }
 
 
-bool While::execute() {
-    if (StateSystem::instance()->getCurrentState().get() == this) {
-        shouldRepeat = performIteration();
-    } else {
-        // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
-        // we need to perform all our iterations right here
-        while (performIteration()) /*repeat*/ ;
-    }
-    return true;
+void While::action() {
+    ContainerAction::action();
+    shouldExecute = condition->getValue().getBool();
 }
 
 
 boost::weak_ptr<State> While::next() {
-    if (shouldRepeat) {
-        // We need to perform another iteration, so return ourselves as the next state
+    if (shouldExecute) {
+        if (auto nextAction = getNextAction()) {
+            return nextAction;
+        }
+        // We need to re-evaluate the condition (and potentially perform another iteration),
+        // so return ourselves as the next state
         return component_shared_from_this<While>();
     }
-    return Action::next();
-}
-
-
-bool While::performIteration() {
-    bool shouldExecute = condition->getValue().getBool();
     
-    if (shouldExecute) {
-        for (auto &action : actions) {
-            action->execute();
-        }
-    }
-    
-    return shouldExecute;
+    return ContainerAction::next();
 }
 
 
