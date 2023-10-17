@@ -28,7 +28,7 @@ BEGIN_NAMESPACE_MW
     shared_ptr<Variable> warnOnSkippedRefresh;
     shared_ptr<Variable> stopOnError;
     shared_ptr<Variable> realtimeComponents;
-	shared_ptr<Variable> currentState;
+	shared_ptr<Variable> announceCurrentState;
 	
 	shared_ptr<Variable> trialAnnounce;
 	shared_ptr<Variable> blockAnnounce;
@@ -157,7 +157,7 @@ BEGIN_NAMESPACE_MW
 		
 		
 		
-		currentState = registry->createGlobalVariable(VariableProperties(Datum(std::string("<empty>")),
+		announceCurrentState = registry->createGlobalVariable(VariableProperties(Datum(std::string("<empty>")),
 																			  ANNOUNCE_CURRENT_STATE_TAGNAME,
 																			  "Current State",
 																			  "Reports the numeric identifier of the component that is currently executing",
@@ -167,13 +167,6 @@ BEGIN_NAMESPACE_MW
 																			  false, 
 																			  M_DISCRETE,
 																			  PRIVATE_SYSTEM_VARIABLES));                           
-		// Hooks to report state progression conveniently to the console
-		// #define ANNOUNCE_CURRENT_STATE
-#ifdef	ANNOUNCE_CURRENT_STATE
-		shared_ptr<ReportString> r(new ReportString("currentState = $#announceCurrentState"));
-		shared_ptr<ActionVariableNotification> note(new ActionVariableNotification(r));
-		currentState->addNotification(note);
-#endif
 		
 		trialAnnounce = registry->createGlobalVariable(
 													   VariableProperties(

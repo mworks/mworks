@@ -68,7 +68,7 @@ public:
     State() { }
     explicit State(const Map<ParameterValue> &parameters) : Component(parameters) { }
     
-    virtual void action();
+    virtual void action() { }
     
     /**
      * Returns the next state.

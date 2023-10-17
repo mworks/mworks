@@ -102,7 +102,7 @@ void StandardStateSystem::resume() {
 
 
 bool StandardStateSystem::runState(const boost::shared_ptr<State> &state) {
-    return runState(state, false);  // Only the main state system thread should pause
+    return runState(state, false);
 }
 
 
@@ -117,7 +117,7 @@ void StandardStateSystem::failWithException(const std::exception &e, const char 
 }
 
 
-bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool canPause) {
+bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool isMain) {
     auto &current_state = getCurrentStateWeakRef();
     BOOST_SCOPE_EXIT(&current_state) {
         // Clear the current state on exit
@@ -134,8 +134,10 @@ bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool c
     bool in_transition = false;
     
     while (current_state_shared) {
-        const bool canInterrupt = current_state_shared->isInterruptible();  // might not be an okay place to stop
-        const bool shouldPause = canInterrupt && canPause && is_paused;
+        // Allow interruption only in the top-level call to runState on the main
+        // state system thread
+        const bool canInterrupt = isMain && current_state_shared->isInterruptible();  // might not be an okay place to stop
+        const bool shouldPause = canInterrupt && is_paused;
         
         if (canInterrupt &&
             (long(*state_system_mode) == IDLE ||      // hard stop
@@ -154,6 +156,12 @@ bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool c
         
         if (!in_transition) {
             in_action = true;
+            
+            // Announce current state only in the top-level call to runState on
+            // the main state system thread
+            if (isMain) {
+                announceCurrentState->setValue(current_state_shared->getCompactID());
+            }
             
             try {
                 current_state_shared->action();

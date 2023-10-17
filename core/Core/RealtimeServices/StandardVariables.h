@@ -127,7 +127,7 @@ extern shared_ptr<Variable> GlobalMessageVariable;
 
 
 #define ANNOUNCE_CURRENT_STATE_TAGNAME	"#announceCurrentState"
-extern shared_ptr<Variable> currentState;
+extern shared_ptr<Variable> announceCurrentState;
 
 #define ANNOUNCE_TRIAL_TAGNAME	"#announceTrial"
 #define ANNOUNCE_BLOCK_TAGNAME	"#announceBlock"

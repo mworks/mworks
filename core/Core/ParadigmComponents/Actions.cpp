@@ -29,9 +29,6 @@ BEGIN_NAMESPACE_MW
  ****************************************************************/
 
 
-Action::Action() { }
-
-
 Action::Action(const ParameterValueMap &parameters) :
     State(parameters)
 { }

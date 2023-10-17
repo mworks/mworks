@@ -27,7 +27,7 @@ BEGIN_NAMESPACE_MW
 class Action : public State {
     
 public:
-    Action();
+    Action() { }
     explicit Action(const ParameterValueMap &parameters);
     
     virtual bool execute();

@@ -129,7 +129,7 @@ boost::weak_ptr<State> TaskSystemState::next() {
     
     for (auto &transition : *transition_list) {
         if (transition->evaluate()) {
-            currentState->setValue(transition->getCompactID());
+            announceCurrentState->setValue(transition->getCompactID());
             if (auto parentTask = boost::dynamic_pointer_cast<TaskSystem>(getParent())) {
                 parentTask->setNextState(transition->getTarget());
                 return ContainerState::next();

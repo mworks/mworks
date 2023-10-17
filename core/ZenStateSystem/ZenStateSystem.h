@@ -39,7 +39,7 @@ private:
     static boost::weak_ptr<State> & getCurrentStateWeakRef();  // Returns a thread-local reference
     static void failWithException(const std::exception &e, const char *fileline);
     
-    bool runState(const boost::shared_ptr<State> &state, bool canPause);
+    bool runState(const boost::shared_ptr<State> &state, bool isMain);
     void run();
     
     const boost::shared_ptr<State> endState;

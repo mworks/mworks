@@ -48,11 +48,6 @@ void State::describeComponent(ComponentInfo &info) {
 }
 
 
-void State::action() {
-    currentState->setValue(getCompactID());
-}
-
-
 boost::weak_ptr<State> State::next() {
     reset();
     if (auto sharedParent = getParent()) {
