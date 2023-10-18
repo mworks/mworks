@@ -11,6 +11,7 @@
 
 #include <boost/scope_exit.hpp>
 
+#include <MWorksCore/Actions.hpp>
 #include <MWorksCore/Experiment.h>
 #include <MWorksCore/MachUtilities.h>
 #include <MWorksCore/Scheduler.h>
@@ -20,7 +21,7 @@
 
 BEGIN_NAMESPACE_MW
 
-    
+
 StandardStateSystem::StandardStateSystem(const boost::shared_ptr<Clock> &clock) :
     StateSystem(clock),
     endState(State::getEndState()),
@@ -101,8 +102,8 @@ void StandardStateSystem::resume() {
 }
 
 
-bool StandardStateSystem::runState(const boost::shared_ptr<State> &state) {
-    return runState(state, false);
+void StandardStateSystem::executeAction(const boost::shared_ptr<Action> &action) {
+    runState(action, false);
 }
 
 
@@ -127,10 +128,6 @@ bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool i
     current_state = state;
     auto current_state_shared = state;
     
-    boost::weak_ptr<State> next_state;
-    boost::shared_ptr<State> next_state_shared;
-    
-    bool in_action = false;
     bool in_transition = false;
     
     while (current_state_shared) {
@@ -155,8 +152,6 @@ bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool i
         }
         
         if (!in_transition) {
-            in_action = true;
-            
             // Announce current state only in the top-level call to runState on
             // the main state system thread
             if (isMain) {
@@ -171,38 +166,32 @@ bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool i
             }
             
             // finished performing action
-            in_action = false;
+            in_transition = true;
         }
         
-        if (!in_action) {
-            in_transition = true;
-            
-            try {
-                next_state = current_state_shared->next();
-            } catch (const std::exception &e) {
-                failWithException(e, FILELINE);
-                return false;
-            }
-            
-            next_state_shared = next_state.lock();
-            if (!next_state_shared) {
-                // no next state yet, sleep until the next tick
-                continue;
-            }
-            
-            if (next_state_shared == endState) {
-                break;
-            }
-            
-            current_state = next_state;
-            current_state_shared = next_state_shared;
-            
-            next_state.reset();
-            next_state_shared.reset();
-            
-            // finished transition
-            in_transition = false;
+        boost::weak_ptr<State> next_state;
+        try {
+            next_state = current_state_shared->next();
+        } catch (const std::exception &e) {
+            failWithException(e, FILELINE);
+            return false;
         }
+        
+        auto next_state_shared = next_state.lock();
+        if (!next_state_shared) {
+            // no next state yet, sleep until the next tick
+            continue;
+        }
+        
+        if (next_state_shared == endState) {
+            break;
+        }
+        
+        current_state = next_state;
+        current_state_shared = next_state_shared;
+        
+        // finished transition
+        in_transition = false;
     }
     
     return true;

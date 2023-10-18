@@ -30,10 +30,10 @@ public:
     Action() { }
     explicit Action(const ParameterValueMap &parameters);
     
-    virtual bool execute();
-    
-    // State methods
     void action() override;
+    
+private:
+    virtual bool execute() = 0;
     
 };
 
@@ -50,7 +50,9 @@ protected:
     boost::shared_ptr<Action> getNextAction();
     
 private:
-    bool execute() final;
+    // execute() is a no-op and can't be overridden.
+    // Subclasses must override action() and/or next().
+    bool execute() final { return false; }
     
     std::vector<boost::shared_ptr<Action>> actions;
     std::size_t currentActionIndex;
@@ -248,8 +250,6 @@ public:
     boost::weak_ptr<State> next() override;
     
 private:
-    bool stillWaiting() const;
-    
     const VariablePtr condition;
     const VariablePtr timeout;
     VariablePtr timeoutMessage;
@@ -385,8 +385,6 @@ public:
     boost::weak_ptr<State> next() override;
     
 protected:
-    bool stillWaiting() const;
-    
     virtual boost::shared_ptr<StimulusDisplay::UpdateInfo> performAction() = 0;
     virtual const char * getActionName() const = 0;
     

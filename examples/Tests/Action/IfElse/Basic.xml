@@ -23,12 +23,12 @@
                         <action type="report" tag="Report" message="x &gt;= 2"></action>
                         <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
                     </action>
-                    <action type="else" tag="Else (always last)">
-                        <action type="report" tag="Report" message="x == $x"></action>
-                        <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
-                    </action>
                     <action type="if" tag="If x &gt;= 1" condition="x &gt;= 1">
                         <action type="report" tag="Report" message="x &gt;= 1"></action>
+                        <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
+                    </action>
+                    <action type="else" tag="Else">
+                        <action type="report" tag="Report" message="x == $x"></action>
                         <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
                     </action>
                 </action>

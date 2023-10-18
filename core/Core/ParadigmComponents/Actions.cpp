@@ -34,11 +34,6 @@ Action::Action(const ParameterValueMap &parameters) :
 { }
 
 
-bool Action::execute() {
-    return false;
-}
-
-
 void Action::action() {
     State::action();
     execute();
@@ -57,8 +52,7 @@ ContainerAction::ContainerAction(const ParameterValueMap &parameters) :
 
 
 void ContainerAction::action() {
-    State::action();
-    // Do *not* call execute()
+    Action::action();
     currentActionIndex = 0;
 }
 
@@ -79,11 +73,6 @@ boost::shared_ptr<Action> ContainerAction::getNextAction() {
 }
 
 
-bool ContainerAction::execute() {
-    throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "Internal error", "execute() called on ContainerAction");
-}
-
-
 /****************************************************************
  *              ActionVariableNotification Methods
  ****************************************************************/
@@ -96,7 +85,7 @@ ActionVariableNotification::ActionVariableNotification(const boost::shared_ptr<A
 
 void ActionVariableNotification::notify(const Datum &data, MWTime time) {
     if (auto action = weakAction.lock()) {
-        action->execute();
+        StateSystem::instance()->executeAction(action);
     } else {
         merror(M_PARADIGM_MESSAGE_DOMAIN, "Attached action is no longer available");
     }
@@ -386,17 +375,6 @@ Wait::Wait(const ParameterValueMap &parameters) :
 
 bool Wait::execute() {
     expirationTime = getExpirationTime();
-    
-    if (StateSystem::instance()->getCurrentState().get() != this) {
-        // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
-        // then we need to do the wait ourselves, right here
-        auto clock = Clock::instance();
-        MWTime timeToWait = expirationTime - clock->getCurrentTimeUS();
-        if (timeToWait > 0) {
-            clock->sleepUS(timeToWait);
-        }
-    }
-    
     return true;
 }
 
@@ -449,42 +427,25 @@ WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
 
 bool WaitForCondition::execute() {
     deadline = clock->getCurrentTimeUS() + MWTime(*timeout);
-    
-    if (StateSystem::instance()->getCurrentState().get() != this) {
-        // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
-        // then we need to do the wait ourselves, right here
-        while (stillWaiting()) {
-            clock->yield();
-        }
-    }
-    
     return true;
 }
 
 
 weak_ptr<State> WaitForCondition::next() {
-    if (stillWaiting()) {
-        return weak_ptr<State>();
-    }
-    return Action::next();
-}
-
-
-bool WaitForCondition::stillWaiting() const {
     if (clock->getCurrentTimeUS() >= deadline) {
         merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "%s", timeoutMessage->getValue().getString().c_str());
         if (stopOnTimeout) {
             merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to wait for condition timeout");
             StateSystem::instance()->stop();
         }
-        return false;
+        return Action::next();
     }
     
     if (condition->getValue().getBool()) {
-        return false;
+        return Action::next();
     }
     
-    return true;
+    return weak_ptr<State>();
 }
 
 
@@ -732,30 +693,13 @@ StimulusDisplayAction::StimulusDisplayAction(const ParameterValueMap &parameters
 bool StimulusDisplayAction::execute() {
     startTime = clock->getCurrentTimeUS();
     updateInfo = performAction();
-    
-    if (StateSystem::instance()->getCurrentState().get() != this) {
-        // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
-        // then we need to do the wait ourselves, right here
-        while (stillWaiting()) {
-            clock->yield();
-        }
-    }
-    
     return true;
 }
 
 
 weak_ptr<State> StimulusDisplayAction::next() {
-    if (stillWaiting()) {
-        return weak_ptr<State>();
-    }
-    return Action::next();
-}
-
-
-bool StimulusDisplayAction::stillWaiting() const {
     if (updateInfo->isPending()) {
-        return true;
+        return weak_ptr<State>();
     }
     
     if (predictedOutputTime) {
@@ -772,7 +716,7 @@ bool StimulusDisplayAction::stillWaiting() const {
                  elapsedMS);
     }
     
-    return false;
+    return Action::next();
 }
 
 

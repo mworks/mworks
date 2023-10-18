@@ -33,7 +33,8 @@ public:
     bool isPaused() override { return is_paused; }
     
     boost::shared_ptr<State> getCurrentState() override { return getCurrentStateWeakRef().lock(); }
-    bool runState(const boost::shared_ptr<State> &state) override;
+    
+    void executeAction(const boost::shared_ptr<Action> &action) override;
     
 private:
     static boost::weak_ptr<State> & getCurrentStateWeakRef();  // Returns a thread-local reference

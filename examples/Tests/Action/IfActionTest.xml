@@ -4,9 +4,6 @@
         <variable tag="some_Var" full_name="some Var" default_value="0" scope="global" type="float" editable="ALWAYS" logging="WHEN_CHANGED"></variable>
         <variable tag="another_Var" full_name="another_Var" default_value="0" scope="global" type="integer" editable="ALWAYS" logging="WHEN_CHANGED"></variable>
     </variables>
-    <stimuli tag="Stimuli">
-        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"></stimulus>
-    </stimuli>
     <experiment tag="theExperiment" full_name="the Experiment">
         <protocol tag="theProtocol" full_name="the Protocol" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
             <block tag="theBlock" full_name="the Block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">

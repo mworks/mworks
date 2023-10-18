@@ -56,8 +56,9 @@ void RenderActions::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
     if (elapsedTime) {
         elapsedTime->setValue(Datum(getElapsedTime()));
     }
+    auto stateSystem = StateSystem::instance();
     for (auto &action : actions) {
-        action->execute();
+        stateSystem->executeAction(action);
     }
 }
 

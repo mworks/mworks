@@ -4,6 +4,6 @@ protocol {
     if_else {
         if (x > 1) {}
         else {}
-        else {}
+        if (x > 2) {}
     }
 }

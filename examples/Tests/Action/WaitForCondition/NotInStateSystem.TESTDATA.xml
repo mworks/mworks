@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="whole_message">ERROR: Timeout while waiting for condition: now() > start_time + 50 ms</message>
-    <message type="whole_message">ERROR: The wait timed out; value = 123</message>
-    <message type="whole_message">ERROR: Timeout while waiting for condition: now() > start_time + 50 ms</message>
-    <message type="whole_message">ERROR: Stopping experiment due to wait for condition timeout</message>
+    <message type="whole_message">ERROR: Timeout while waiting for condition: now() > start_time + 50 ms [Basic.inc: line 15, column 5; via line 10, column 9]</message>
+    <message type="whole_message">ERROR: The wait timed out; value = 123 [Basic.inc: line 23, column 5; via line 10, column 9]</message>
+    <message type="whole_message">ERROR: Timeout while waiting for condition: now() > start_time + 50 ms [Basic.inc: line 32, column 5; via line 10, column 9]</message>
+    <message type="whole_message">ERROR: Stopping experiment due to wait for condition timeout [Basic.inc: line 32, column 5; via line 10, column 9]</message>
   </expected_messages>
 </marionette_info>

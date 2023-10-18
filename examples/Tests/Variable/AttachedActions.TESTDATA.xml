@@ -4,7 +4,7 @@
     <message type="starts_with">target_var = 3 </message>
     <message type="starts_with">other_var = 4 </message>
     <message type="starts_with">target_var = 0 </message>
-    <message type="whole_message">ERROR: Division by zero [line 14, column 16]</message>
+    <message type="whole_message">ERROR: Division by zero [line 5, column 15]</message>
     <message type="starts_with">other_var = 0 </message>
   </expected_messages>
 </marionette_info>
