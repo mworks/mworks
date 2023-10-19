@@ -1,0 +1,47 @@
+rectangle rect (
+    color = 1,0,0
+    x_size = 5
+    )
+
+
+protocol {
+    task {
+        state Update {
+            start_timer (
+                timer = timer
+                duration = 5e6 / refresh_rate()
+                )
+
+            queue_stimulus (rect)
+
+            // This should produce no "action took more than two display refresh
+            // cycles" warnings
+            update_display ()
+
+            goto (
+                target = Clear
+                when = timer_expired(timer)
+                )
+        }
+
+        state Clear {
+            start_timer (
+                timer = timer
+                duration = 5e6 / refresh_rate()
+                )
+
+            // This should produce no "action took more than two display refresh
+            // cycles" warnings
+            clear_display ()
+
+            goto (
+                target = End
+                when = timer_expired(timer)
+                )
+        }
+
+        state End {
+            yield ()
+        }
+    }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: The wait timed out [line 18, column 13]</message>
+  </expected_messages>
+</marionette_info>

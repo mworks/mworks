@@ -257,6 +257,7 @@ private:
     
     const boost::shared_ptr<Clock> clock;
     MWTime deadline;
+    bool doneWaiting;
     
 };
 
@@ -394,6 +395,7 @@ protected:
     
     MWTime startTime;
     boost::shared_ptr<StimulusDisplay::UpdateInfo> updateInfo;
+    bool doneWaiting;
     
 };
 

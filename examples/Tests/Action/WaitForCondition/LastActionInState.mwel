@@ -1,0 +1,54 @@
+var x = 1
+
+var start = 0
+%define elapsed_between(lower, upper) (
+    (now() >= start + lower) and (now() <= start + upper)
+    )
+
+
+protocol {
+    task {
+        state Timeout {
+            start_timer (
+                timer = timer
+                duration = 10ms
+                )
+
+            // This should fail with a single timeout message
+            wait_for_condition (
+                condition = x != 1
+                timeout = 5ms
+                timeout_message = 'The wait timed out'
+                stop_on_timeout = false
+                )
+
+            goto (
+                target = Condition
+                when = timer_expired(timer)
+                )
+        }
+
+        state Condition {
+            start = now()
+
+            // This should finish with elapsed between 5ms and 15ms and not
+            // be forced to keep running due to the wait in the transition
+            wait_for_condition (
+                condition = (elapsed_between(5ms, 15ms) or
+                             elapsed_between(30ms, 35ms))
+                timeout = 100ms
+                )
+
+            goto (
+                target = End
+                when = now() >= start + 20ms
+                )
+        }
+
+        state End {
+            assert (elapsed_between(20ms, 25ms))
+
+            yield ()
+        }
+    }
+}

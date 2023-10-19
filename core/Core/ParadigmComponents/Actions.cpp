@@ -415,7 +415,9 @@ WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
     condition(parameters[CONDITION]),
     timeout(parameters[TIMEOUT]),
     stopOnTimeout(parameters[STOP_ON_TIMEOUT]),
-    clock(Clock::instance())
+    clock(Clock::instance()),
+    deadline(-1),
+    doneWaiting(false)
 {
     if (!(parameters[TIMEOUT_MESSAGE].empty())) {
         timeoutMessage = parsedText(parameters[TIMEOUT_MESSAGE]);
@@ -427,12 +429,30 @@ WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
 
 bool WaitForCondition::execute() {
     deadline = clock->getCurrentTimeUS() + MWTime(*timeout);
+    doneWaiting = false;
     return true;
 }
 
 
 weak_ptr<State> WaitForCondition::next() {
+    //
+    // If we're the last action in a TaskSystemState, and none of the TaskSystemState's transitions
+    // succeed immediately, then Action::next() will return an empty weak_ptr from
+    // TaskSystemState::next().  This means that the current method will be called again by the state
+    // system after the next clock tick and will continue to be called repeatedly until one of the
+    // TaskSystemState's transitions does succeed.
+    //
+    // Since we don't want to issue more than one timeout error message or allow the condition to
+    // become true and then go back to false before a transition succeeds, we need to set doneWaiting
+    // to true when our wait first completes and then return Action::next() immediately on all
+    // subsequent calls to this method.
+    //
+    if (doneWaiting) {
+        return Action::next();
+    }
+    
     if (clock->getCurrentTimeUS() >= deadline) {
+        doneWaiting = true;
         merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "%s", timeoutMessage->getValue().getString().c_str());
         if (stopOnTimeout) {
             merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to wait for condition timeout");
@@ -442,6 +462,7 @@ weak_ptr<State> WaitForCondition::next() {
     }
     
     if (condition->getValue().getBool()) {
+        doneWaiting = true;
         return Action::next();
     }
     
@@ -686,21 +707,41 @@ StimulusDisplayAction::StimulusDisplayAction(const ParameterValueMap &parameters
     Action(parameters),
     display(parameters[DISPLAY]),
     predictedOutputTime(optionalVariable(parameters[PREDICTED_OUTPUT_TIME])),
-    clock(Clock::instance())
+    clock(Clock::instance()),
+    startTime(-1),
+    doneWaiting(false)
 { }
 
 
 bool StimulusDisplayAction::execute() {
     startTime = clock->getCurrentTimeUS();
     updateInfo = performAction();
+    doneWaiting = false;
     return true;
 }
 
 
 weak_ptr<State> StimulusDisplayAction::next() {
+    //
+    // If we're the last action in a TaskSystemState, and none of the TaskSystemState's transitions
+    // succeed immediately, then Action::next() will return an empty weak_ptr from
+    // TaskSystemState::next().  This means that the current method will be called again by the state
+    // system after the next clock tick and will continue to be called repeatedly until one of the
+    // TaskSystemState's transitions does succeed.
+    //
+    // Since we don't want to set predictedOutputTime more than once or issue more than one warning
+    // about taking too long to complete, we need to set doneWaiting to true when our wait first
+    // completes and then return Action::next() immediately on all subsequent calls to this method.
+    //
+    if (doneWaiting) {
+        return Action::next();
+    }
+    
     if (updateInfo->isPending()) {
         return weak_ptr<State>();
     }
+    
+    doneWaiting = true;
     
     if (predictedOutputTime) {
         predictedOutputTime->setValue(updateInfo->getPredictedOutputTime());
