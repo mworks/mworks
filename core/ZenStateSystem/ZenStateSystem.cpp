@@ -127,6 +127,19 @@ bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool i
     
     current_state = state;
     auto current_state_shared = state;
+    BOOST_SCOPE_EXIT(&current_state_shared, &endState) {
+        if (current_state_shared && current_state_shared != endState) {
+            // We're exiting because the experiment has been stopped or an exception
+            // occurred in the current state's action() or next() method. The current
+            // state and the states above it in the hierarchy won't have a chance to
+            // finish executing and run their exit actions themselves, so we must run
+            // them here.
+            do {
+                current_state_shared->executeExitActions();
+                current_state_shared = current_state_shared->getParent();
+            } while (current_state_shared);
+        }
+    } BOOST_SCOPE_EXIT_END
     
     bool in_transition = false;
     
@@ -183,15 +196,15 @@ bool StandardStateSystem::runState(const boost::shared_ptr<State> &state, bool i
             continue;
         }
         
-        if (next_state_shared == endState) {
-            break;
-        }
-        
         current_state = next_state;
         current_state_shared = next_state_shared;
         
         // finished transition
         in_transition = false;
+        
+        if (current_state_shared == endState) {
+            break;
+        }
     }
     
     return true;

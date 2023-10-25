@@ -34,6 +34,7 @@
 BEGIN_NAMESPACE_MW
 
 
+class Action;
 class Experiment;
 
 
@@ -75,6 +76,9 @@ public:
      */
     virtual boost::weak_ptr<State> next();
     
+    virtual void addExitActions(const std::vector<boost::shared_ptr<Action>> &actions);
+    virtual void executeExitActions() { }
+    
     boost::shared_ptr<State> getParent() const { return parent.lock(); }
     void setParent(const boost::shared_ptr<State> &newparent) { parent = newparent; }
     
@@ -107,6 +111,8 @@ private:
     using StateList = std::vector<boost::shared_ptr<State>>;
     boost::shared_ptr<StateList> list { boost::make_shared<StateList>() };
     
+    std::vector<boost::shared_ptr<Action>> exitActions;
+    
 protected:
     const boost::shared_ptr<ScopedVariableContext> local_variable_context { boost::make_shared<ScopedVariableContext>() };
     bool accessed { false };
@@ -130,6 +136,9 @@ public:
     
     void action() override;
     boost::weak_ptr<State> next() override;
+    
+    void addExitActions(const std::vector<boost::shared_ptr<Action>> &actions) override;
+    void executeExitActions() override;
     
     void updateHierarchy() override;
     

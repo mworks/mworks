@@ -1659,4 +1659,40 @@ shared_ptr<mw::Component> ClearAveragerFactory::createObject(std::map<std::strin
 // action to load params into calibration??  (where should this happen?)
 
 
+/****************************************************************
+ *                       OnExit Methods
+ ****************************************************************/
+
+
+void OnExit::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/on_exit");
+}
+
+
+OnExit::OnExit(const ParameterValueMap &parameters) :
+    Action(parameters)
+{ }
+
+
+void OnExit::addChild(std::map<std::string, std::string> parameters,
+                      ComponentRegistry *reg,
+                      boost::shared_ptr<mw::Component> child)
+{
+    auto action = boost::dynamic_pointer_cast<Action>(child);
+    if (!action) {
+        throw SimpleException("on_exit can only contain actions");
+    }
+    // Do *not* set the action's parent, because exit actions execute
+    // outside of the normal state hierarchy
+    actions.emplace_back(std::move(action));
+}
+
+
+bool OnExit::execute() {
+    addExitActions(actions);
+    return true;
+}
+
+
 END_NAMESPACE_MW

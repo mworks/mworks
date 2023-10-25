@@ -107,7 +107,8 @@ ComponentRegistry::ComponentRegistry() {
 	registerFactory("action/end_calibration_average_and_take_sample", new EndAverageAndTakeCalibrationSampleFactory());
 	registerFactory("action/update_calibration", new CalibrateNowFactory());
 	registerFactory("action/clear_calibration", new ClearCalibrationFactory());
-
+    registerFactory<StandardComponentFactory, OnExit>();
+    
     registerFactory<StandardComponentFactory, PlayDynamicStimulus>();
     registerFactory<StandardComponentFactory, StopDynamicStimulus>();
     registerFactory<StandardComponentFactory, PauseDynamicStimulus>();

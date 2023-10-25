@@ -57,6 +57,15 @@ boost::weak_ptr<State> State::next() {
 }
 
 
+void State::addExitActions(const std::vector<boost::shared_ptr<Action>> &actions) {
+    if (auto sharedParent = getParent()) {
+        sharedParent->addExitActions(actions);
+    } else {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Exit actions are not allowed in the current context");
+    }
+}
+
+
 boost::shared_ptr<ScopedVariableContext> State::getLocalScopedVariableContext() const {
     if (auto sharedParent = getParent()) {
         return sharedParent->getLocalScopedVariableContext();
@@ -112,11 +121,31 @@ void ContainerState::action() {
 
 
 boost::weak_ptr<State> ContainerState::next() {
+    executeExitActions();
     if (auto sharedParent = getParent()) {
         getExperiment()->setCurrentContext(sharedParent->getLocalScopedVariableContext());
         getExperiment()->announceLocalVariables();
     }
     return State::next();
+}
+
+
+void ContainerState::addExitActions(const std::vector<boost::shared_ptr<Action>> &actions) {
+    // The contents of exitActions will be executed in reverse order.  To preserve the
+    // execution order of the current set of actions, add them to exitActions in
+    // reverse order.
+    for (auto iter = actions.rbegin(); iter != actions.rend(); iter++) {
+        exitActions.emplace_back(*iter);
+    }
+}
+
+
+void ContainerState::executeExitActions() {
+    // Execute actions in reverse order
+    auto stateSystem = StateSystem::instance();
+    for (auto iter = exitActions.rbegin(); iter != exitActions.rend(); iter++) {
+        stateSystem->executeAction(*iter);
+    }
 }
 
 
@@ -138,6 +167,7 @@ void ContainerState::updateHierarchy() {
 
 void ContainerState::reset() {
     accessed = false;
+    exitActions.clear();
     
     for (auto &child : *list) {
         // call recursively down the experiment hierarchy

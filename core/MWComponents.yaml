@@ -1945,6 +1945,81 @@ parameters:
 ---
 
 
+name: On Exit
+signature: action/on_exit
+isa: Action
+allowed_child: Action
+description: |
+    Register exit actions.
+
+    Exit actions do not execute immediately.  Instead, they execute after the
+    `paradigm component <Paradigm Components>` in which they are registered
+    finishes execution, immediately before it returns control to its parent
+    component (or, if registered at the top level of a `protocol <Protocol>`,
+    immediately before the experiment stops).  For example, exit actions
+    registered in a `Task System State` will execute after a `transition
+    <Transitions>` succeeds, right before the `Task System` enters the next
+    state or yields to its parent.
+
+    Exit actions also run if the experiment is stopped, either manually via
+    MWClient or by `Stop Experiment`.  This makes them ideal for handling
+    cleanup or shutdown tasks that must execute regardless of how an experiment
+    ends.  For example, you might use an exit action to send a termination code
+    to a recording system.
+
+    .. rubric:: Execution Order
+
+    The actions registered by a single On Exit instance execute in the order in
+    which they are specified.  However, if a paradigm component contains
+    multiple On Exit instances, their associated sets of actions will execute
+    in reverse order.  That is, the actions registered by the last On Exit in
+    the paradigm component will execute *first*, and those registered by the
+    first On Exit will execute *last*.
+
+    For example, the exit actions in the following protocol::
+
+        protocol {
+            on_exit {
+                report ('Message #1')
+            }
+
+            on_exit {
+                report ('Message #2')
+                report ('Message #3')
+            }
+
+            on_exit {
+                report ('Message #4')
+            }
+        }
+
+    will output their messages in this order::
+
+        Message #4
+        Message #2
+        Message #3
+        Message #1
+
+    .. rubric:: Unsupported Contexts
+
+    As noted above, exit actions are associated with the `paradigm component
+    <Paradigm Components>` in which they are registered.  This means that On
+    Exit cannot successfully register exit actions when run *outside* of any
+    paradigm component.  Specifically, the following contexts do not support
+    exit actions:
+
+    * `Variable Attached Actions`
+    * `Schedule Actions`
+    * `Render Actions`
+    * Inside the action list of another `On Exit` instance
+
+    If On Exit is placed in one of these contexts, it will issue an error
+    message when it runs, and none of its attached actions will execute.
+
+
+---
+
+
 name: Play Dynamic Stimulus
 signature: action/play_dynamic_stimulus
 isa: Action

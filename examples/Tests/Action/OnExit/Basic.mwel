@@ -1,0 +1,137 @@
+var x = []
+var first_run = true
+
+
+protocol {
+    //
+    // Test ordering
+    //
+
+    report ('Normal #1')
+
+    on_exit {
+        report ('Exit #1')
+    }
+
+    report ('Normal #2')
+
+    on_exit {
+        report ('Exit #2')
+        report ('Exit #3')
+    }
+
+    on_exit {
+        report ('Exit #4')
+    }
+
+    // Pointless but legal
+    on_exit {
+    }
+
+    report ('Normal #3')
+
+    //
+    // Test nested scopes
+    //
+
+    x = []
+
+    block {
+        on_exit {
+            x += [1]
+        }
+        assert (x == [])
+
+        x += [2]
+        assert (x == [2])
+
+        trial {
+            on_exit {
+                x += [3]
+            }
+            assert (x == [2])
+
+            x += [4]
+            assert (x == [2, 4])
+        }
+
+        assert (x == [2, 4, 3])
+    }
+
+    assert (x == [2, 4, 3, 1])
+
+    //
+    // Test task system
+    //
+
+    x = []
+
+    task {
+        state 'State 1' {
+            assert (x == [])
+            on_exit {
+                x += [1]
+            }
+            x += [2]
+            assert (x == [2])
+
+            goto ('State 2')
+        }
+
+        state 'State 2' {
+            assert (x == [2, 1])
+            on_exit {
+                x += [3]
+                x += [4]
+            }
+            x += [5]
+            assert (x == [2, 1, 5])
+
+            goto ('State 3')
+        }
+
+        state 'State 3' {
+            assert (x == [2, 1, 5, 3, 4])
+            on_exit {
+                x += [6]
+            }
+            x += [7]
+            on_exit {
+                x += [8]
+            }
+            assert (x == [2, 1, 5, 3, 4, 7])
+
+            yield ()
+        }
+    }
+
+    assert (x == [2, 1, 5, 3, 4, 7, 8, 6])
+
+    //
+    // Test that exit actions are cleared after execution completes
+    //
+
+    x = []
+    first_run = true
+
+    trial (nsamples = 2) {
+        list {
+            choose {
+                when (first_run) {
+                    on_exit {
+                        x += [1]
+                    }
+                    x += [2]
+                    assert (x == [2])
+                    first_run = false
+                }
+
+                otherwise {
+                    assert (x == [2, 1])
+                }
+            }
+        }
+    }
+
+    assert (x == [2, 1])
+}

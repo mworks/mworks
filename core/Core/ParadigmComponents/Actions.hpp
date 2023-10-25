@@ -881,6 +881,25 @@ class ClearAveragerFactory : public ComponentFactory{
 };
 
 
+class OnExit : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit OnExit(const ParameterValueMap &parameters);
+    
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  boost::shared_ptr<Component> child) override;
+    
+    bool execute() override;
+    
+private:
+    std::vector<boost::shared_ptr<Action>> actions;
+    
+};
+
+
 END_NAMESPACE_MW
 
 

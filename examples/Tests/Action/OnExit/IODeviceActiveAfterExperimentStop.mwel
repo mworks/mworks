@@ -1,0 +1,49 @@
+//
+// This test confirms that I/O devices remain active while exit actions
+// execute, even if the experiment was stopped explicitly
+//
+
+
+var output = false
+var input = false
+
+firmata firmata (
+    autostart = true
+    ) {
+    firmata_digital_output (
+        pin_number = 12
+        value = output
+        )
+    firmata_digital_input (
+        pin_number = 13
+        value = input
+        )
+}
+
+
+%define wait_and_assert ()
+    wait (1s)
+    assert (input == output)
+%end
+
+%define toggle_output ()
+    output = not output
+%end
+
+protocol {
+    on_exit {
+        wait_and_assert ()
+        toggle_output ()
+        wait_and_assert ()
+    }
+
+    wait_and_assert ()
+    toggle_output ()
+    wait_and_assert ()
+
+    stop_experiment ()
+    assert (
+        condition = false
+        message = "We shouldn't be here!"
+        )
+}

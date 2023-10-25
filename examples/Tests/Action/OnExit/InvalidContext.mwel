@@ -1,0 +1,79 @@
+/*
+   Exit actions are not allowed in the following contexts:
+
+   * Variable-attached actions
+   * Render actions
+   * Scheduled actions
+   * Attached to another on_exit
+*/
+
+
+var x = []
+var done = false
+
+
+var y = 0 {
+    x += [1]
+    on_exit {
+        x += [2]
+    }
+    x += [3]
+}
+
+
+frame_list frame (
+    ended = done
+    autoplay = true
+    ) {
+    render_actions {
+        x += [4]
+        on_exit {
+            x += [5]
+        }
+        x += [6]
+    }
+}
+
+
+protocol {
+    x = []
+    on_exit {
+        report ('x = $x')
+    }
+
+    y += 1
+
+    done = false
+    queue_stimulus (frame)
+    update_display ()
+    wait_for_condition (
+        condition = done
+        timeout = 1s
+        )
+
+    done = false
+    schedule (
+        delay = 100ms
+        duration = 100ms
+        repeats = 1
+        ) {
+        x += [7]
+        on_exit {
+            x += [8]
+        }
+        x += [9]
+        done = true
+    }
+    wait_for_condition (
+        condition = done
+        timeout = 1s
+        )
+
+    on_exit {
+        x += [10]
+        on_exit {
+            x += [11]
+        }
+        x += [12]
+    }
+}
