@@ -36,6 +36,8 @@ void Experiment::createVariableContexts() {
     for (auto &var : getVariables()) {
         local_variable_context->set(var->getContextIndex(), var->getProperties().getDefaultValue());
     }
+    // Set the initial scoped variable context to the experiment's context
+    setCurrentContext(local_variable_context);
 }
 
 
