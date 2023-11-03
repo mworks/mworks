@@ -205,7 +205,7 @@ Used to announce the execution state of the current experiment.  The value of th
      - Experiment is not executing
    * - ``1``
      - Stopping
-     - Experiment execution is ending.  `I/O devices <Input/Output>` and other components should perform shutdown and cleanup tasks as needed.
+     - Experiment execution is ending
    * - ``2``
      - Running
      - Experiment is currently executing
