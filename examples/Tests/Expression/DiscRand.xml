@@ -57,7 +57,7 @@
                         <action tag="Assert" full_name="" type="assert" condition="settee==-4" message="21. settee != -4 ... ( settee == $settee ) :: ( setter == $setter )"/>
                         <action tag="Assignment" full_name="" type="assignment" variable="settee" value="disc_rand(-4.3,-4.5)"/>
                         <action tag="Assert" full_name="" type="assert" condition="settee==-4" message="22. settee != -4 ... ( settee == $settee ) :: ( setter == $setter )"/>
-                        <transition tag="Yield" full_name="" target="~STATE_REF~" type="yield"/>
+                        <transition tag="Yield" full_name="" type="yield"/>
                     </task_system_state>
                 </task_system>
             </block>

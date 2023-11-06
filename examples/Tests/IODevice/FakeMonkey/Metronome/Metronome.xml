@@ -71,7 +71,7 @@
                             <task_system_state tag="tick">
                                 <action type="assignment" variable="reward" value="1"/>
                                 <action type="report" message="TICK"/>
-                                <transition target="falling"/>
+                                <transition type="direct" target="falling"/>
                             </task_system_state>
                             
                             <task_system_state tag="falling">
