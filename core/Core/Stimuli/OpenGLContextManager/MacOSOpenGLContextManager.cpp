@@ -90,7 +90,7 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
                     window.contentView = view;
                     view.layer.opaque = opaque;
                     
-                    [window makeKeyAndOrderFront:nil];
+                    [window orderFront:nil];
                     
                     [contexts addObject:context];
                     [views addObject:view];
@@ -149,7 +149,7 @@ int MacOSOpenGLContextManager::newMirrorContext(double width, double height, int
                     [window setFrameAutosaveName:[NSString stringWithFormat:@"OpenGLContextManager Window %lu",
                                                   windows.count]];
                     
-                    [window makeKeyAndOrderFront:nil];
+                    [window orderFront:nil];
                     
                     [contexts addObject:context];
                     [views addObject:view];
