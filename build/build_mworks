@@ -38,17 +38,17 @@ class BuilderSkipped(Exception):
     pass
 
 
-def announce(msg, *args):
-    sys.stderr.write((msg + '\n') % args)
+def announce(fmt, *args):
+    msg = fmt % args
+    sys.stderr.write(msg + '\n')
     sys.stderr.flush()
+    return msg
 
 
-did_warn = False
+warnings = []
 
-def warn(msg, *args):
-    global did_warn
-    announce('WARNING: ' + msg, *args)
-    did_warn = True
+def warn(fmt, *args):
+    warnings.append(announce('WARNING: ' + fmt, *args))
 
 
 def check_call(args, **kwargs):
@@ -120,7 +120,7 @@ def subdir_builder(func, *, base_dir=None, name=None):
             # An empty subdirectory is most likely a git submodule that hasn't
             # been initialized and/or updated.  Warn the user, in case this
             # isn't intentional.
-            warn('Directory %r is empty; skipping current builder', os.getcwd())
+            warn('Directory %r is empty', os.getcwd())
             raise BuilderSkipped
 
     base_dir_path = os.path.join(srcroot, base_dir)
@@ -134,7 +134,8 @@ def subdir_builder(func, *, base_dir=None, name=None):
 
 def xcodebuild(scheme = 'Everything',
                destination = 'generic/platform=macOS,name=Any Mac',
-               actions = ['clean', 'build']):
+               actions = ['clean', 'build'],
+               timeout = None):
     cmd = [xcrun,
            'xcodebuild',
            '-scheme', scheme,
@@ -150,7 +151,7 @@ def xcodebuild(scheme = 'Everything',
         # will exclude fake versions like "NIGHTLY" and "CUSTOM".
         cmd.append('MW_VERSION=' + mw_version)
 
-    check_call(cmd)
+    check_call(cmd, timeout=timeout)
 
 
 def make(args=[]):
@@ -231,10 +232,21 @@ def matlab_tools():
     try:
         xcodebuild('MATLAB Install Check')
     except subprocess.CalledProcessError:
-        warn('MATLAB install check failed; skipping matlab_tools')
+        warn('MATLAB install check failed')
         raise BuilderSkipped
 
-    xcodebuild()
+    # As of Xcode 15 and MATLAB R2023b, xcodebuild sometimes fails to exit when
+    # running the MATLAB tools tests.  In order to prevent this from breaking
+    # the build process, build the Install and Test targets separately, and
+    # time out the tests after 5 minutes.
+    xcodebuild('Install')
+    try:
+        xcodebuild(scheme = 'Test',
+                   actions = ['build'],
+                   timeout = 300)
+    except subprocess.TimeoutExpired:
+        warn('MATLAB tools tests timed out')
+
     with workdir('MATLABWindow'):
         xcodebuild()
 
@@ -313,7 +325,11 @@ def main():
             msg += '    %s\n' % name
         announce(msg)
 
-    if did_warn:
+    if warnings:
+        # Re-announce warnings, so that we don't have to hunt for them in the
+        # output
+        announce('\n'.join(warnings))
+
         # The Python interpreter will exit with status 1 if there's an exception
         # and 2 if there's an argument-parsing error.  Exit with status 3 to
         # indicate that we omitted warnings but didn't otherwise fail.
