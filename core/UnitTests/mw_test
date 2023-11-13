@@ -6,6 +6,8 @@ import random
 from subprocess import call, check_call, check_output, Popen, PIPE
 import sys
 from tempfile import NamedTemporaryFile
+import threading
+import time
 from xml.dom import minidom
 import xml.etree.ElementTree as etree
 
@@ -61,8 +63,16 @@ end repeat
 """
 
 
+def message(msg, *args):
+    sys.stderr.write((msg % args) + '\n')
+
+
+def warning(msg, *args):
+    message('WARNING: ' + msg, *args)
+
+
 def error(status, msg, *args):
-    sys.stderr.write('ERROR: ' + (msg % args) + '\n')
+    message('ERROR: ' + msg, *args)
     sys.exit(status)
 
 
@@ -75,6 +85,41 @@ def run_applescript(script):
     cmd.communicate(script.encode('utf-8'))
     if cmd.returncode != 0:
         error(cmd.returncode, 'osascript command failed')
+
+
+class MWServerMemoryUsageMonitor(threading.Thread):
+
+    ps_args = ('/bin/ps', 'x', '-c', '-o', 'pid,rss,comm')
+    check_interval_seconds = 10
+    rss_limit_gib = 2.0
+
+    @classmethod
+    def get_info(cls):
+        for line in check_output(cls.ps_args, encoding='utf-8').split('\n'):
+            if 'MWServer' in line:
+                line = line.split()
+                return {'pid': line[0], 'rss': int(line[1])}
+
+    def run(self):
+        last_rss_gib = 0.0
+        while True:
+            time.sleep(self.check_interval_seconds)
+            info = self.get_info()
+            if info:
+                # ps returns rss in units of 1024 bytes.  Convert this value to
+                # GiB.
+                rss_gib = info['rss'] / (1024 * 1024)
+                if rss_gib > self.rss_limit_gib:
+                    signame = ('KILL' if last_rss_gib > self.rss_limit_gib
+                               else 'TERM')
+                    warning('MWServer real memory size (%g GiB) '
+                            'exceeded limit (%g GiB); '
+                            'killing process with signal %s',
+                            rss_gib,
+                            self.rss_limit_gib,
+                            signame)
+                    check_call(['/bin/kill', '-s', signame, info['pid']])
+                last_rss_gib = rss_gib
 
 
 def run_unit_tests(test_names=None):
@@ -129,6 +174,12 @@ def run_marionette_tests(test_names=None):
     if not server_address:
         # Ensure that server starts fresh
         run_applescript(quit_server_applescript)
+
+        # Install a monitor to prevent runaway memory usage in MWServer, which
+        # started happening internal to NSTextView (used by the server console
+        # window) in macOS 14.1.
+        monitor = MWServerMemoryUsageMonitor(daemon=True)
+        monitor.start()
 
     for test_num, test_file in enumerate(all_test_names):
         if not os.path.isfile(test_file):
