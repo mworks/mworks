@@ -30,6 +30,8 @@ test_data_suffix = 'TESTDATA.xml'
 error_tests = []
 warning_tests = []
 
+server_lock = threading.Lock()
+
 
 marionette_prep_applescript = """
 
@@ -81,10 +83,11 @@ def is_unit_test(name):
 
 
 def run_applescript(script):
-    cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
-    cmd.communicate(script.encode('utf-8'))
-    if cmd.returncode != 0:
-        error(cmd.returncode, 'osascript command failed')
+    with server_lock:
+        cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
+        cmd.communicate(script.encode('utf-8'))
+        if cmd.returncode != 0:
+            error(cmd.returncode, 'osascript command failed')
 
 
 class MWServerMemoryUsageMonitor(threading.Thread):
@@ -118,7 +121,8 @@ class MWServerMemoryUsageMonitor(threading.Thread):
                             rss_gib,
                             self.rss_limit_gib,
                             signame)
-                    check_call(['/bin/kill', '-s', signame, info['pid']])
+                    with server_lock:
+                        check_call(['/bin/kill', '-s', signame, info['pid']])
                 last_rss_gib = rss_gib
 
 
