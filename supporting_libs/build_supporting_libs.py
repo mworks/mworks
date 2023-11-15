@@ -352,7 +352,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '3.1.0'
+    version = '3.1.4'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -521,7 +521,7 @@ def numpy():
 
 @builder
 def boost():
-    version = '1.82.0'
+    version = '1.83.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -561,7 +561,7 @@ def boost():
 
 @builder
 def zeromq():
-    version = '4.3.4'
+    version = '4.3.5'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -574,6 +574,7 @@ def zeromq():
             run_configure_and_make(
                 extra_args = [
                     '--disable-silent-rules',
+                    '--disable-Werror',
                     '--disable-perf',
                     '--disable-curve-keygen',
                     '--disable-curve',
@@ -585,7 +586,7 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '6.0.0'
+    version = '6.1.0'
     srcdir = 'msgpack-cxx-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -627,7 +628,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2023
-    version = '3410200'  # 3.41.2
+    version = '3440000'  # 3.44.0
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
