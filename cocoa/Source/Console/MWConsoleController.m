@@ -57,6 +57,28 @@
         fullText = nil;
 		maxConsoleLength = MW_CONSOLE_MAX_CHAR_LENGTH_DEFAULT;
         [self window];
+        
+        //
+        // As of macOS 14.1, NSTextView's layout method will eventually go in to some
+        // sort of death loop, where it starts trying to allocate an unlimited amount
+        // of memory.  The only way to stop it is to quit the application.
+        //
+        // The following code seems to mitigate (and possibly eliminate) this issue.
+        // Per the NSTextView docs: "In macOS 12 and later, if you explicitly call the
+        // layoutManager property on a text view or text container, the framework reverts
+        // to a compatibility mode that uses NSLayoutManager" (instead of the newer
+        // NSTextLayoutManager, which seems to be involved in the death loop).  Since
+        // we don't care which layout manager class NSTextView uses, this is a perfectly
+        // acceptable workaround.
+        //
+        NSLayoutManager *layoutManager = msgTextView.layoutManager;
+        if (!layoutManager) {
+            NSLog(@"MWConsoleController: msgTextView.layoutManager is null (%p)", layoutManager);
+        }
+        NSTextLayoutManager *textLayoutManager = msgTextView.textLayoutManager;
+        if (textLayoutManager) {
+            NSLog(@"MWConsoleController: msgTextView.textLayoutManager is non-null (%p)", textLayoutManager);
+        }
     }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
