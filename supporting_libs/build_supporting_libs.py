@@ -199,10 +199,14 @@ def apply_patch(patchfile, strip=1):
             )
 
 
-def get_platform(arch):
-    return '%s-apple-darwin' % {
+def get_arch_name(arch):
+    return {
         'arm64': 'aarch64',
         }.get(arch, arch)
+
+
+def get_platform(arch):
+    return '%s-apple-darwin' % get_arch_name(arch)
 
 
 def get_clean_env():
@@ -431,9 +435,6 @@ def python():
 
             run_configure_and_make(
                 extra_args = extra_args,
-                # This is required to keep numpy's extension module init funcs
-                # public
-                extra_compile_flags = '-fvisibility=default',
                 )
 
             add_object_files_to_libpythonall(
@@ -455,63 +456,92 @@ def python():
 
 @builder
 def numpy():
-    version = '1.24.2'
+    version = '1.26.2'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
+
+    # Settings for cross builds
+    cross_file = 'cross_build.txt'
+    longdouble_format = {
+        'arm64': 'IEEE_DOUBLE_LE',
+        'x86_64': 'INTEL_EXTENDED_16_BYTES_LE',
+        }.get(os.environ['CURRENT_ARCH'], 'UNKNOWN')
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
             download_archive('https://github.com/numpy/numpy/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
-                apply_patch('numpy_build.patch')
                 apply_patch('numpy_test_fixes.patch')
                 if building_for_ios:
                     apply_patch('numpy_ios_fixes.patch')
                     apply_patch('numpy_ios_test_fixes.patch')
+                if cross_building:
+                    with open(cross_file, 'w') as fp:
+                        fp.write(f'''\
+[build_machine]
+system = 'darwin'
+subsystem = 'macos'
+cpu_family = '{get_arch_name(build_arch)}'
+cpu = cpu_family
+endian = 'little'
+
+[host_machine]
+system = 'darwin'
+subsystem = '{'ios' if building_for_ios else 'macos'}'
+cpu_family = '{get_arch_name(os.environ['CURRENT_ARCH'])}'
+cpu = cpu_family
+endian = 'little'
+
+[properties]
+longdouble_format = '{longdouble_format}'
+''')
 
         with workdir(srcdir):
-            env = get_clean_env()
+            env = get_updated_env()
             env['PYTHONPATH'] = python_stdlib_dir
-
-            # Don't use Accelerate, as it seems to make things worse rather
-            # than better
-            env['NPY_BLAS_ORDER'] = ''
-            env['NPY_LAPACK_ORDER'] = ''
-
             if cross_building:
                 env.update({
                     '_PYTHON_HOST_PLATFORM': 'darwin-%s' % os.environ['CURRENT_ARCH'],
                     '_PYTHON_SYSCONFIGDATA_NAME': '_sysconfigdata__darwin_darwin',
-                    # numpy's configuration tests link test executuables using
-                    # bare cc (without cflags).  Add common_flags to ensure that
-                    # linking uses the correct architecture and SDK.
-                    'CC': join_flags(cc, common_flags)
                     })
 
-            check_call([
+            args = [
                 os.environ['MW_PYTHON_3'],
-                'setup.py',
-                'build',
-                '-j', num_cores,
+                '-m', 'pip',
                 'install',
-                '--prefix=' + prefix,
-                # Force egg info in to a separate directory.  (Not sure why
-                # including --root has this affect, but whatever.)
-                '--root=/',
-                ],
-                env = env)
+                '-v',
+                '--target', os.path.join(python_stdlib_dir, 'site-packages'),
+                '-C', 'builddir=build',
+                ]
+            if cross_building:
+                args += [
+                    '-C', 'setup-args=--cross-file=' + os.path.join(os.getcwd(), cross_file),
+                    ]
+            # Don't use Accelerate, as it seems to make things worse rather than
+            # better.  (TODO: Try Accelerate again once we require macOS 13.3
+            # or later, because that release introduced an updated BLAS/LAPACK
+            # library.)
+            args += [
+                '-C', 'setup-args=-Dblas=',
+                '-C', 'setup-args=-Dlapack=',
+                ]
+            args += [
+                '-C', 'compile-args=-v',
+                '-C', 'compile-args=-j ' + num_cores,
+                '.',
+                ]
+            check_call(args, env=env)
 
             add_object_files_to_libpythonall()
 
-        # The numpy test suite requires hypothesis, pytest, setuptools, and
-        # typing_extensions, so install them and their dependencies (but outside
-        # of any standard location, because we don't want to distribute them)
+        # Install the requirements of numpy's test suite (but outside of any
+        # standard location, because we don't want to distribute them)
         check_call([
             os.environ['MW_PYTHON_3'],
             '-m', 'pip',
             'install',
-            '--target', os.path.join(prefix, 'pytest'),
+            '--target', os.path.join(prefix, 'numpy_test'),
             'hypothesis',
             'pytest',
             'setuptools',

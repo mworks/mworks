@@ -44,12 +44,12 @@ def run_tests():
 
     # Run NumPy test suite
     import numpy
-    sys.path.append(os.path.join(sys.prefix, 'pytest'))
+    sys.path.append(os.path.join(sys.prefix, 'numpy_test'))
     with tempfile.TemporaryDirectory() as tmpdir:
         origdir = os.getcwd()
         os.chdir(tmpdir)
         try:
-            numpy.test('full')
+            numpy.test('full', extra_argv=['--color=no'])
         finally:
             os.chdir(origdir)
 

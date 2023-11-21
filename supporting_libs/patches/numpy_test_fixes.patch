@@ -1,6 +1,17 @@
-diff -ur numpy-1.24.2/numpy/core/tests/test_limited_api.py numpy/numpy/core/tests/test_limited_api.py
---- numpy-1.24.2/numpy/core/tests/test_limited_api.py	2023-02-05 12:13:47
-+++ numpy/numpy/core/tests/test_limited_api.py	2023-04-13 11:35:38
+diff -ur numpy-1.26.2/numpy/core/src/multiarray/_multiarray_tests.c.src numpy/numpy/core/src/multiarray/_multiarray_tests.c.src
+--- numpy-1.26.2/numpy/core/src/multiarray/_multiarray_tests.c.src	1969-12-31 19:00:00
++++ numpy/numpy/core/src/multiarray/_multiarray_tests.c.src	2023-11-20 17:34:44
+@@ -63,6 +63,7 @@
+ 
+ 
+ /** Function to test calling via ctypes */
++Py_EXPORTED_SYMBOL
+ EXPORT(void*) forward_pointer(void *x)
+ {
+     return x;
+diff -ur numpy-1.26.2/numpy/core/tests/test_limited_api.py numpy/numpy/core/tests/test_limited_api.py
+--- numpy-1.26.2/numpy/core/tests/test_limited_api.py	1969-12-31 19:00:00
++++ numpy/numpy/core/tests/test_limited_api.py	2023-11-20 17:34:59
 @@ -8,6 +8,7 @@
  from numpy.testing import IS_WASM
  
@@ -9,11 +20,11 @@ diff -ur numpy-1.24.2/numpy/core/tests/test_limited_api.py numpy/numpy/core/test
  @pytest.mark.skipif(IS_WASM, reason="Can't start subprocess")
  @pytest.mark.xfail(
      sysconfig.get_config_var("Py_DEBUG"),
-diff -ur numpy-1.24.2/numpy/core/tests/test_mem_policy.py numpy/numpy/core/tests/test_mem_policy.py
---- numpy-1.24.2/numpy/core/tests/test_mem_policy.py	2023-02-05 12:13:47
-+++ numpy/numpy/core/tests/test_mem_policy.py	2023-04-13 11:37:15
-@@ -9,6 +9,9 @@
- import sys
+diff -ur numpy-1.26.2/numpy/core/tests/test_mem_policy.py numpy/numpy/core/tests/test_mem_policy.py
+--- numpy-1.26.2/numpy/core/tests/test_mem_policy.py	1969-12-31 19:00:00
++++ numpy/numpy/core/tests/test_mem_policy.py	2023-11-20 17:34:59
+@@ -14,6 +14,9 @@
+ # these tests.
  
  
 +pytestmark = pytest.mark.skip('Not relevant')
@@ -22,9 +33,9 @@ diff -ur numpy-1.24.2/numpy/core/tests/test_mem_policy.py numpy/numpy/core/tests
  @pytest.fixture
  def get_module(tmp_path):
      """ Add a memory policy that returns a false pointer 64 bytes into the
-diff -ur numpy-1.24.2/numpy/tests/test_reloading.py numpy/numpy/tests/test_reloading.py
---- numpy-1.24.2/numpy/tests/test_reloading.py	2023-02-05 12:13:47
-+++ numpy/numpy/tests/test_reloading.py	2023-04-13 11:37:56
+diff -ur numpy-1.26.2/numpy/tests/test_reloading.py numpy/numpy/tests/test_reloading.py
+--- numpy-1.26.2/numpy/tests/test_reloading.py	1969-12-31 19:00:00
++++ numpy/numpy/tests/test_reloading.py	2023-11-20 17:34:59
 @@ -44,6 +44,7 @@
                                            protocol=proto)) is np._NoValue)
  

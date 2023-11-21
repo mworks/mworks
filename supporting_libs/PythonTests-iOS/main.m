@@ -21,7 +21,10 @@ int main(int argc, char * argv[]) {
         NSLog(@"Decoding failed");
         return 1;
     }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     Py_SetPythonHome(decodedHome);
+#pragma clang diagnostic pop
     (void)Py_BytesMain(argc, argv);
     PyMem_RawFree(decodedHome);
     
