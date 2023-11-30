@@ -1,0 +1,14 @@
+diff -ur Python-3.11.3/configure Python/configure
+--- Python-3.11.3/configure	2023-04-04 18:22:17
++++ Python/configure	2023-11-28 19:13:49
+@@ -10897,8 +10897,8 @@
+ 			as_fn_error $? "MACOSX_DEPLOYMENT_TARGET too old ($MACOSX_DEPLOYMENT_TARGET), only 10.3 or later is supported" "$LINENO" 5
+ 		else
+ 			# building for OS X 10.3 and later
+-			LDSHARED='$(CC) -bundle -undefined dynamic_lookup'
+-			LDCXXSHARED='$(CXX) -bundle -undefined dynamic_lookup'
++			LDSHARED='$(CC) -Wl,-dylib -Wl,-make_mergeable -Wl,-undefined,dynamic_lookup'
++			LDCXXSHARED='$(CXX) -Wl,-dylib -Wl,-make_mergeable -Wl,-undefined,dynamic_lookup'
+ 			BLDSHARED="$LDSHARED"
+ 		fi
+ 		;;

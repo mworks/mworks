@@ -316,19 +316,6 @@ def run_configure_and_make(
     run_make(['install'])
 
 
-def add_object_files_to_libpythonall(exclude=()):
-    object_files = []
-    for dirpath, dirnames, filenames in os.walk('.'):
-        for name in filenames:
-            if name.endswith('.o') and name not in exclude:
-                object_files.append(os.path.join(dirpath, name))
-    check_call([
-        ar,
-        'rcs',
-        libdir + ('/libpython%s_all.a' % os.environ['MW_PYTHON_3_VERSION']),
-        ] + object_files)
-
-
 ################################################################################
 #
 # Library builders
@@ -403,6 +390,7 @@ def python():
             with workdir(srcdir):
                 apply_patch('python_cross_build.patch')
                 apply_patch('python_ctypes.patch')
+                apply_patch('python_mergeable_modules.patch')
                 apply_patch('python_static_zlib.patch')
                 apply_patch('python_test_fixes.patch')
                 if building_for_ios:
@@ -437,16 +425,6 @@ def python():
                 extra_args = extra_args,
                 )
 
-            add_object_files_to_libpythonall(
-                exclude = [
-                    '_bootstrap_python.o',
-                    '_freeze_module.o',
-                    '_testembed.o',
-                    'getpath_noop.o',
-                    'python.o',
-                    ]
-                )
-
             # Generate list of trusted root certificates (for ssl module)
             always_download_file(
                 url = 'https://mkcert.org/generate/',
@@ -472,6 +450,7 @@ def numpy():
             download_archive('https://github.com/numpy/numpy/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
+                apply_patch('numpy_mergeable_modules.patch')
                 apply_patch('numpy_test_fixes.patch')
                 if building_for_ios:
                     apply_patch('numpy_ios_fixes.patch')
@@ -498,7 +477,11 @@ longdouble_format = '{longdouble_format}'
 ''')
 
         with workdir(srcdir):
-            env = get_updated_env()
+            env = get_updated_env(
+                # numpy adds -ld_classic to the linker flags.  We need to
+                # override this to build mergeable libraries.
+                extra_ldflags = '-ld_new',
+                )
             env['PYTHONPATH'] = python_stdlib_dir
             if cross_building:
                 env.update({
@@ -512,6 +495,7 @@ longdouble_format = '{longdouble_format}'
                 'install',
                 '-v',
                 '--target', os.path.join(python_stdlib_dir, 'site-packages'),
+                # Prevent Meson from removing intermediate build files
                 '-C', 'builddir=build',
                 ]
             if cross_building:
@@ -533,8 +517,6 @@ longdouble_format = '{longdouble_format}'
                 ]
             check_call(args, env=env)
 
-            add_object_files_to_libpythonall()
-
         # Install the requirements of numpy's test suite (but outside of any
         # standard location, because we don't want to distribute them)
         check_call([
@@ -547,6 +529,32 @@ longdouble_format = '{longdouble_format}'
             'setuptools',
             'typing_extensions',
             ])
+
+
+@builder
+def libpython_all():
+    with done_file('libpython_all'):
+        with workdir(python_stdlib_dir):
+            so_files = []
+            for dirpath, dirnames, filenames in os.walk('.'):
+                for name in filenames:
+                    if (name.endswith('.so') and
+                        'test' not in name and
+                        not name.startswith(('_xx', 'xx'))):
+                        so_files.append(os.path.join(dirpath, name))
+
+            args = [cc]
+            args.extend(link_flags.split())
+            args.extend([
+                '-Wl,-dylib',
+                '-Wl,-make_mergeable',
+                '-lz',
+                '-Wl,-force_load,' + os.path.join(libdir, 'libpython%s.a' % os.environ['MW_PYTHON_3_VERSION']),
+            ])
+            for path in so_files:
+                args.append('-Wl,-merge_library,' + path)
+            args.extend(['-o', os.path.join(libdir, 'libpython_all.dylib')])
+            check_call(args)
 
 
 @builder
@@ -803,7 +811,7 @@ def main():
             '--exclude=lib*.la',
             '--exclude=libcrypto.a',
             '--exclude=libffi.a',
-            '--exclude=libpython*.a',
+            '--exclude=libpython*',
             '--exclude=libssl.a',
             '--exclude=pkgconfig/',
             '--exclude=python*/',

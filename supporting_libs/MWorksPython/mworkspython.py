@@ -9,10 +9,10 @@ __all__ = ()
 
 
 #
-# Add finder for statically-linked extension modules
+# Add finder for merged extension modules
 #
 
-class StaticExtensionModuleFinder:
+class MergedExtensionModuleFinder:
 
     def __init__(self):
         self.path = _mworkspython.get_executable_path()
@@ -23,7 +23,7 @@ class StaticExtensionModuleFinder:
                               ExtensionFileLoader(fullname, self.path),
                               origin = self.path)
 
-sys.meta_path.append(StaticExtensionModuleFinder())
+sys.meta_path.append(MergedExtensionModuleFinder())
 
 
 #
