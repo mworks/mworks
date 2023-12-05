@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
+import argparse
 import collections
 from contextlib import contextmanager
 from functools import partial, wraps
-from optparse import OptionParser
 import os
 import os.path
 import platform
@@ -93,8 +93,11 @@ def builder(func, *, build_dir=None, name=None, required=False):
     @wraps(func)
     def func_wrapper():
         announce('Building %s', name)
-        with workdir(build_dir):
-            func()
+        try:
+            with workdir(build_dir):
+                func()
+        finally:
+            announce('Finished %s', name)
 
     all_builders[name] = func_wrapper
     if required:
@@ -276,29 +279,49 @@ def mwel():
 def main():
     global mw_version
 
-    parser = OptionParser(usage='Usage: %prog [options] [builder_name ...]')
-    parser.add_option('--mw-version',
-                      dest = 'mw_version',
-                      default = mw_version,
-                      help = 'MWorks version number [default: %default]')
-    parser.add_option('--start-with',
-                      dest = 'first_builder',
-                      metavar = 'BUILDER_NAME',
-                      help = 'Start build from given builder')
-
-    (options, requested_builders) = parser.parse_args()
-    mw_version = options.mw_version
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--show-builders',
+                        action = 'store_true',
+                        help = 'show available builders and exit')
+    parser.add_argument('--mw-version',
+                        default = mw_version,
+                        help = 'MWorks version number [default: %(default)s]')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--start-with',
+                       metavar = 'BUILDER_NAME',
+                       help = 'start build from given builder')
+    group.add_argument('--start-after',
+                       metavar = 'BUILDER_NAME',
+                       help = 'start build after given builder')
+    parser.add_argument('requested_builders',
+                        metavar = 'builder_name',
+                        nargs = '*',
+                        help = 'run only the requested builder(s)')
+    args = parser.parse_args()
 
     all_builder_names = list(all_builders.keys())
+    if args.show_builders:
+        announce('\n'.join(all_builder_names))
+        return
 
-    if options.first_builder:
+    mw_version = args.mw_version
+    start_with = args.start_with
+    start_after = args.start_after
+    requested_builders = args.requested_builders
+
+    if start_with or start_after:
         if requested_builders:
-            parser.error('cannot specify builder names when using --start-with')
-        first_builder = options.first_builder
+            parser.error('cannot specify both a starting builder and requested '
+                         'builder names')
+        first_builder = (start_with or start_after)
         if first_builder not in all_builder_names:
-            parser.error('unknown builder: ' + first_builder)
-        requested_builders = \
-            all_builder_names[all_builder_names.index(first_builder):]
+            parser.error('unknown builder: ' + repr(first_builder))
+        first_builder_index = all_builder_names.index(first_builder)
+        if start_after:
+            first_builder_index += 1
+            if first_builder_index == len(all_builder_names):
+                parser.error('no builders after ' + first_builder)
+        requested_builders = all_builder_names[first_builder_index:]
     else:
         unknown_builders = [name for name in requested_builders
                             if (name not in all_builder_names)]
