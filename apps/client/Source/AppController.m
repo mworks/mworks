@@ -557,7 +557,9 @@
     NSError *error = nil;
     
     if (!(workspaceData = [NSData dataWithContentsOfURL:workspaceURL options:0 error:&error]) ||
-        !(workspaceInfo = [NSJSONSerialization JSONObjectWithData:workspaceData options:0 error:nil]) ||
+        !(workspaceInfo = [NSJSONSerialization JSONObjectWithData:workspaceData
+                                                          options:NSJSONReadingJSON5Allowed
+                                                            error:nil]) ||
         ![workspaceInfo isKindOfClass:[NSDictionary class]])
     {
         if (!error) {
@@ -600,8 +602,10 @@
     NSData *workspaceData;
     NSError *error;
     if (!(workspaceData = [NSJSONSerialization dataWithJSONObject:[[self modalClientInstanceInCharge] workspaceInfo]
-                                                     options:NSJSONWritingPrettyPrinted
-                                                       error:&error]) ||
+                                                          options:(NSJSONWritingPrettyPrinted |
+                                                                   NSJSONWritingSortedKeys |
+                                                                   NSJSONWritingWithoutEscapingSlashes)
+                                                            error:&error]) ||
         ![workspaceData writeToURL:[savePanel URL] options:0 error:&error])
     {
         [self.window performSelectorOnMainThread:@selector(presentError:) withObject:error waitUntilDone:NO];
