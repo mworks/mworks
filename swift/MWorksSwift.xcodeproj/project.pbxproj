@@ -36,6 +36,8 @@
 		E116F7862320216400405FDC /* MWKSetupVariablesController.m in Sources */ = {isa = PBXBuildFile; fileRef = E116F7842320216400405FDC /* MWKSetupVariablesController.m */; };
 		E116F7872320216400405FDC /* MWKSetupVariablesController.h in Headers */ = {isa = PBXBuildFile; fileRef = E116F7852320216400405FDC /* MWKSetupVariablesController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E116F7892320244600405FDC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E116F7882320244500405FDC /* AppKit.framework */; };
+		E11E56EB2B2A16210074D2CB /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E56EA2B2A16210074D2CB /* Core.swift */; };
+		E11E56EC2B2A16210074D2CB /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E56EA2B2A16210074D2CB /* Core.swift */; };
 		E1446F3122B7D56E0002B9A9 /* Datum.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1446F3022B7D56E0002B9A9 /* Datum.swift */; };
 		E1658D2422B3E243002F22E1 /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */; };
 		E1658D2B22B3E243002F22E1 /* MWorksSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = E1658D1D22B3E243002F22E1 /* MWorksSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -125,6 +127,7 @@
 		E116F7842320216400405FDC /* MWKSetupVariablesController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MWKSetupVariablesController.m; sourceTree = "<group>"; };
 		E116F7852320216400405FDC /* MWKSetupVariablesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWKSetupVariablesController.h; sourceTree = "<group>"; };
 		E116F7882320244500405FDC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E11E56EA2B2A16210074D2CB /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		E1446F3022B7D56E0002B9A9 /* Datum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datum.swift; sourceTree = "<group>"; };
 		E1658D1A22B3E243002F22E1 /* MWorksSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1658D1D22B3E243002F22E1 /* MWorksSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWorksSwift.h; sourceTree = "<group>"; };
@@ -295,6 +298,7 @@
 				E1B63FE523282981000AA7EB /* MWKCore.h */,
 				E1B63FEB23282A34000AA7EB /* MWKCore_Private.h */,
 				E1B63FE623282981000AA7EB /* MWKCore.m */,
+				E11E56EA2B2A16210074D2CB /* Core.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -435,7 +439,7 @@
 		E1658D1122B3E242002F22E1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "The MWorks Project";
 				TargetAttributes = {
 					E1658D1922B3E243002F22E1 = {
@@ -463,6 +467,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = E1658D1022B3E242002F22E1;
 			productRefGroup = E1658D1B22B3E243002F22E1 /* Products */;
@@ -515,6 +520,7 @@
 				E1B63FE923282981000AA7EB /* MWKCore.m in Sources */,
 				E1696F422326EE150003DF7A /* MWKEventConstants.m in Sources */,
 				E116F7862320216400405FDC /* MWKSetupVariablesController.m in Sources */,
+				E11E56EB2B2A16210074D2CB /* Core.swift in Sources */,
 				E1446F3122B7D56E0002B9A9 /* Datum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +545,7 @@
 				E1B63FEA23282981000AA7EB /* MWKCore.m in Sources */,
 				E1696F432326EE150003DF7A /* MWKEventConstants.m in Sources */,
 				E1719E7323203DF80083EAF8 /* MWKSetupVariablesController.m in Sources */,
+				E11E56EC2B2A16210074D2CB /* Core.swift in Sources */,
 				E1719E7123203DEF0083EAF8 /* Datum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

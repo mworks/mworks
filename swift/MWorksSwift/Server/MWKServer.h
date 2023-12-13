@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 MWORKSSWIFT_PUBLIC_CLASS
+NS_SWIFT_NAME(Server)
 @interface MWKServer : MWKCore
 
 @property(class, nonatomic, readonly) NSString *hostName;
