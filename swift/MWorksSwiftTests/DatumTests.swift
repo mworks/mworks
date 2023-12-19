@@ -280,4 +280,63 @@ class DatumTests: XCTestCase {
         }
     }
     
+    func testDatumConvertible() {
+        // Bool
+        do {
+            let datum = true.datumValue
+            XCTAssertEqual(.boolean, datum.dataType)
+            XCTAssertEqual(true, datum.boolValue)
+        }
+        
+        // Int
+        do {
+            let datum = 1.datumValue
+            XCTAssertEqual(.integer, datum.dataType)
+            XCTAssertEqual(1, datum.intValue)
+        }
+        
+        // Double
+        do {
+            let datum = 1.5.datumValue
+            XCTAssertEqual(.float, datum.dataType)
+            XCTAssertEqual(1.5, datum.floatValue)
+        }
+        
+        // CGFloat
+        do {
+            let datum = CGFloat(1.5).datumValue
+            XCTAssertEqual(.float, datum.dataType)
+            XCTAssertEqual(1.5, datum.floatValue)
+        }
+        
+        // Data
+        do {
+            let value = Data([97, 98, 99, 32, 195, 40, 32, 49, 50, 51])  // "abc \xc3\x28 123"
+            let datum = value.datumValue
+            XCTAssertEqual(.byteString, datum.dataType)
+            XCTAssertEqual(value, datum.bytesValue)
+        }
+        
+        // String
+        do {
+            let datum = "abc 123".datumValue
+            XCTAssertEqual(.byteString, datum.dataType)
+            XCTAssertEqual("abc 123", datum.stringValue)
+        }
+        
+        // Datum from Array of DatumConvertible
+        do {
+            let datum = Datum([1, 2, 3])
+            XCTAssertEqual(.list, datum.dataType)
+            XCTAssertEqual([Datum(1), Datum(2), Datum(3)], datum.listValue)
+        }
+        
+        // Datum from Dictionary of DatumConvertible
+        do {
+            let datum = Datum(["a": 1, "b": 2, "c": 3])
+            XCTAssertEqual(.dictionary, datum.dataType)
+            XCTAssertEqual([Datum("a"): Datum(1), Datum("b"): Datum(2), Datum("c"): Datum(3)], datum.dictValue)
+        }
+    }
+    
 }

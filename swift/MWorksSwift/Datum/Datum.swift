@@ -7,6 +7,11 @@
 //
 
 
+public protocol DatumConvertible {
+    var datumValue: Datum { get }
+}
+
+
 extension Datum {
     
     public convenience init(_ bool: Bool) {
@@ -33,8 +38,24 @@ extension Datum {
         self.init(__list: list)
     }
     
+    public convenience init<Value: DatumConvertible>(_ values: [Value]) {
+        var list: [Datum] = []
+        for value in values {
+            list.append(value.datumValue)
+        }
+        self.init(list)
+    }
+    
     public convenience init(_ dict: [Datum: Datum]) {
         self.init(__dict: dict)
+    }
+    
+    public convenience init<Key: DatumConvertible, Value: DatumConvertible>(_ items: [Key: Value]) {
+        var dict: [Datum: Datum] = [:]
+        for (key, value) in items {
+            dict[key.datumValue] = value.datumValue
+        }
+        self.init(dict)
     }
     
     public var boolValue: Bool? {
@@ -49,4 +70,35 @@ extension Datum {
         __numberValue?.doubleValue
     }
     
+}
+
+
+extension Bool: DatumConvertible {
+    public var datumValue: Datum { Datum(self) }
+}
+
+
+extension Int: DatumConvertible {
+    public var datumValue: Datum { Datum(self) }
+}
+
+
+extension Double: DatumConvertible {
+    public var datumValue: Datum { Datum(self) }
+}
+
+
+// Not sure why this is necessary, since CGFloat is just a typealias for Double
+extension CGFloat: DatumConvertible {
+    public var datumValue: Datum { Datum(self) }
+}
+
+
+extension Data: DatumConvertible {
+    public var datumValue: Datum { Datum(self) }
+}
+
+
+extension String: DatumConvertible {
+    public var datumValue: Datum { Datum(self) }
 }
