@@ -16,8 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 MWORKSSWIFT_PUBLIC_EXTERN NSErrorDomain const MWorksSwiftErrorDomain;
 
-
-typedef NS_ENUM(NSInteger, MWorksSwiftError) {
+typedef NS_ERROR_ENUM(MWorksSwiftErrorDomain, MWorksSwiftError) {
     MWorksSwiftErrorUnspecified = 1,
     MWorksSwiftErrorComponentFactoryConflict = 2
 };
