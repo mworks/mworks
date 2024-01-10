@@ -11,12 +11,12 @@ import MWorksCocoa
 class RewardWindowCoordinator: ClientPluginCoordinator {
     override var title: String { "Reward Window" }
     
-    @Stored(defaultsKey: "Reward Window - var name",
-            workspaceKey: "rewardVarName")
+    @Saved(defaultsKey: "Reward Window - var name",
+           workspaceKey: "rewardVarName")
     var rewardVarName = ""
     
-    @Stored(defaultsKey: "Reward Window - duration (ms)",
-            workspaceKey: "rewardDurationMS")
+    @Saved(defaultsKey: "Reward Window - duration (ms)",
+           workspaceKey: "rewardDurationMS")
     var duration = 0.0
     
     func sendReward() {

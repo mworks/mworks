@@ -10,7 +10,7 @@ import Combine
 import MWorksSwift
 
 
-private protocol StoredPropertyPrivate: AnyObject {
+private protocol SavedPropertyPrivate: AnyObject {
     var name: String? { get set }
     var objectWillChange: ObservableObjectPublisher? { get set }
     var workspaceKey: String { get }
@@ -19,14 +19,14 @@ private protocol StoredPropertyPrivate: AnyObject {
 
 
 open class ClientPluginCoordinator: ObservableObject {
-    public class StoredProperty {
-        public static func ~= (lhs: StoredProperty, rhs: StoredProperty) -> Bool {
+    public class SavedProperty {
+        public static func ~= (lhs: SavedProperty, rhs: SavedProperty) -> Bool {
             return lhs === rhs
         }
     }
     
     @propertyWrapper
-    public class Stored<Value>: StoredProperty, StoredPropertyPrivate where Value: Codable & Equatable {
+    public class Saved<Value>: SavedProperty, SavedPropertyPrivate where Value: Codable & Equatable {
         public typealias Validator = (Value) -> Bool
         
         private let subject: CurrentValueSubject<Value, Never>
@@ -57,33 +57,21 @@ open class ClientPluginCoordinator: ObservableObject {
                 }
             }
         }
-        public var projectedValue: Stored<Value> { self }
+        public var projectedValue: Saved<Value> { self }
         public var publisher: some Publisher<Value, Never> { subject }
         
         public init(wrappedValue: Value,
-                    _ validator: Validator?,
                     defaultsKey: String,
                     workspaceKey: String,
-                    receiveEvents: Bool = false)
+                    receiveEvents: Bool = false,
+                    validator: Validator? = nil)
         {
             let initialValue = (UserDefaults.standard.object(forKey: defaultsKey) as? Value) ?? wrappedValue
             self.subject = CurrentValueSubject(initialValue)
-            self.validator = validator
             self.defaultsKey = defaultsKey
             self.workspaceKey = workspaceKey
             self.receiveEvents = receiveEvents
-        }
-        
-        public convenience init(wrappedValue: Value,
-                                defaultsKey: String,
-                                workspaceKey: String,
-                                receiveEvents: Bool = false)
-        {
-            self.init(wrappedValue: wrappedValue,
-                      nil,
-                      defaultsKey: defaultsKey,
-                      workspaceKey: workspaceKey,
-                      receiveEvents: receiveEvents)
+            self.validator = validator
         }
     }
     
@@ -91,8 +79,8 @@ open class ClientPluginCoordinator: ObservableObject {
     open var title: String { "" }
     
     private let uuid = UUID()
-    private var storedProperties: [StoredPropertyPrivate] = []
-    private var eventReceivers: [Stored<String>] = []
+    private var savedProperties: [SavedPropertyPrivate] = []
+    private var eventReceivers: [Saved<String>] = []
     private var haveEventReceivers: Bool { !eventReceivers.isEmpty }
     private var cancellables: [AnyCancellable] = []
     
@@ -100,7 +88,7 @@ open class ClientPluginCoordinator: ObservableObject {
         "\(type(of:self)) \(uuid.uuidString) \(label) callback key"
     }
     
-    private func eventCallbackKey(property: StoredPropertyPrivate) -> String {
+    private func eventCallbackKey(property: SavedPropertyPrivate) -> String {
         eventCallbackKey(label: "\(property.name ?? property.workspaceKey) property")
     }
     
@@ -108,7 +96,7 @@ open class ClientPluginCoordinator: ObservableObject {
         eventCallbackKey(label: "codec")
     }
     
-    private func registerEventCallback(forTag tag: String, property: Stored<String>) {
+    private func registerEventCallback(forTag tag: String, property: Saved<String>) {
         guard let client else {
             return
         }
@@ -121,7 +109,7 @@ open class ClientPluginCoordinator: ObservableObject {
             } else {
                 client.registerCallback(withKey: key, forCode: code) {
                     [weak self, unowned property /*self owns property*/] event in
-                    self?.receive(event: event, forStoredProperty: property)
+                    self?.receive(event: event, forSavedProperty: property)
                 }
             }
         }
@@ -139,11 +127,11 @@ open class ClientPluginCoordinator: ObservableObject {
         var reflection: Mirror? = Mirror(reflecting: self)
         while let currentClass = reflection {
             for (name, property) in currentClass.children {
-                if let property = property as? StoredPropertyPrivate {
+                if let property = property as? SavedPropertyPrivate {
                     property.name = name
                     property.objectWillChange = objectWillChange
-                    storedProperties.append(property)
-                    if let property = property as? Stored<String>, property.receiveEvents {
+                    savedProperties.append(property)
+                    if let property = property as? Saved<String>, property.receiveEvents {
                         eventReceivers.append(property)
                         cancellables.append(property.publisher.sink {
                             [unowned self, unowned property] value in
@@ -175,13 +163,13 @@ open class ClientPluginCoordinator: ObservableObject {
     public var workspaceState: [String: Any] {
         get {
             var state: [String: Any] = [:]
-            for property in storedProperties {
+            for property in savedProperties {
                 state[property.workspaceKey] = property.workspaceValue
             }
             return state
         }
         set(newState) {
-            for property in storedProperties {
+            for property in savedProperties {
                 if let newValue = newState[property.workspaceKey] {
                     property.workspaceValue = newValue
                 }
@@ -189,7 +177,7 @@ open class ClientPluginCoordinator: ObservableObject {
         }
     }
     
-    open func receive(event: Event, forStoredProperty property: StoredProperty) {
+    open func receive(event: Event, forSavedProperty property: SavedProperty) {
         // Default implementation does nothing
     }
     
