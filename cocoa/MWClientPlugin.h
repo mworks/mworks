@@ -23,8 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(ClientPluginWorkspaceState)
 @protocol MWClientPluginWorkspaceState <NSObject>
 
-- (NSDictionary *)workspaceState;
-- (void)setWorkspaceState:(NSDictionary *)workspaceState;
+- (NSDictionary *)workspaceState NS_SWIFT_UI_ACTOR;
+- (void)setWorkspaceState:(NSDictionary *)workspaceState NS_SWIFT_UI_ACTOR;
 
 @end
 
@@ -32,7 +32,7 @@ NS_SWIFT_NAME(ClientPluginWorkspaceState)
 NS_SWIFT_NAME(ClientPluginViewControllerFactory)
 @protocol MWClientPluginViewControllerFactory <NSObject>
 
-+ (NSViewController *)viewControllerWithClient:(id<MWKClient>)client NS_SWIFT_NAME(viewController(client:));
++ (NSViewController *)viewControllerWithClient:(id<MWKClient>)client NS_SWIFT_NAME(viewController(client:)) NS_SWIFT_UI_ACTOR;
 
 @end
 

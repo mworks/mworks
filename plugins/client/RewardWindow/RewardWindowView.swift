@@ -18,8 +18,7 @@ struct RewardWindowView: View {
                       formatter: NumberFormatter())
             TextField("Variable name:",
                       text: $coordinator.rewardVarName)
-            Button("Send Reward",
-                   action: coordinator.sendReward)
+            Button("Send Reward") { coordinator.sendReward() }
         }
         .frame(minWidth: 300)
         .padding()
