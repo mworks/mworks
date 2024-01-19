@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, MWKDatumDataType) {
 
 MWORKSSWIFT_PUBLIC_CLASS
 NS_SWIFT_NAME(Datum)
+NS_SWIFT_SENDABLE
 @interface MWKDatum : NSObject <NSCopying>
 
 + (instancetype)datumWithBool:(BOOL)value NS_REFINED_FOR_SWIFT;

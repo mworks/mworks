@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, MWKCoreType) {
 
 
 @class MWKEvent;
-typedef void (^MWKEventCallback)(MWKEvent *event) NS_SWIFT_NAME(EventCallback);
+typedef void (^MWKEventCallback)(MWKEvent *event) NS_SWIFT_NAME(EventCallback) NS_SWIFT_SENDABLE;
 
 
 NS_SWIFT_NAME(CoreProtocol)
