@@ -72,6 +72,7 @@
 		E1137903232BE3630022EF26 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E1137901232BE3630022EF26 /* OrderedDictionary.m */; };
 		E12107CE2A783523009F056C /* ClientPluginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12107CD2A783523009F056C /* ClientPluginCoordinator.swift */; };
 		E12D98F816BC2964004FEF79 /* MWorksCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 68DAF1B40AC959FA00928168 /* MWorksCocoa.framework */; };
+		E13151AE2B69CA9C00D18F11 /* VariableNameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13151AD2B69CA9C00D18F11 /* VariableNameField.swift */; };
 		E13359FF247DB9FE006B6434 /* MWClientPluginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E13359FD247DB9FE006B6434 /* MWClientPluginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1335A00247DB9FE006B6434 /* MWClientPluginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E13359FE247DB9FE006B6434 /* MWClientPluginViewController.m */; };
 		E15D0AEC16C2AB9000F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AEB16C2AB9000F331B1 /* AppKit.framework */; };
@@ -157,6 +158,7 @@
 		E1137901232BE3630022EF26 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		E11457EB247EBDC70078FA5B /* MWorksCocoa.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = MWorksCocoa.modulemap; sourceTree = "<group>"; };
 		E12107CD2A783523009F056C /* ClientPluginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientPluginCoordinator.swift; sourceTree = "<group>"; };
+		E13151AD2B69CA9C00D18F11 /* VariableNameField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableNameField.swift; sourceTree = "<group>"; };
 		E13359FD247DB9FE006B6434 /* MWClientPluginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWClientPluginViewController.h; sourceTree = "<group>"; };
 		E13359FE247DB9FE006B6434 /* MWClientPluginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWClientPluginViewController.m; sourceTree = "<group>"; };
 		E15D0AEB16C2AB9000F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -293,6 +295,7 @@
 				E13359FE247DB9FE006B6434 /* MWClientPluginViewController.m */,
 				E12107CD2A783523009F056C /* ClientPluginCoordinator.swift */,
 				E1C2FD752A83F5C9005301E6 /* ClientPluginViewController.swift */,
+				E13151AD2B69CA9C00D18F11 /* VariableNameField.swift */,
 				5C8B85001100225400E6D6CD /* MWClientProtocol.h */,
 				E10743601642C58200518F25 /* MWCodec.h */,
 				E10743611642C58200518F25 /* MWCodec.m */,
@@ -459,6 +462,7 @@
 				5C77F7FD10EBADEF00919719 /* CocoaBindingsSetter.m in Sources */,
 				E1137903232BE3630022EF26 /* OrderedDictionary.m in Sources */,
 				5CC88AD3111769DF007914F8 /* MWNotebook.m in Sources */,
+				E13151AE2B69CA9C00D18F11 /* VariableNameField.swift in Sources */,
 				E12107CE2A783523009F056C /* ClientPluginCoordinator.swift in Sources */,
 				E10743631642C58200518F25 /* MWCodec.m in Sources */,
 			);

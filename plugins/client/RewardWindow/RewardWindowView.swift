@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import MWorksCocoa
+
 
 struct RewardWindowView: View {
     @ObservedObject var coordinator: RewardWindowCoordinator
@@ -16,8 +18,8 @@ struct RewardWindowView: View {
             TextField("Reward duration (ms):",
                       value: $coordinator.duration,
                       formatter: NumberFormatter())
-            TextField("Variable name:",
-                      text: $coordinator.rewardVarName)
+            VariableNameField("Variable name:",
+                              property: coordinator.$rewardVarName)
             Button("Send Reward") { coordinator.sendReward() }
         }
         .frame(minWidth: 300)
