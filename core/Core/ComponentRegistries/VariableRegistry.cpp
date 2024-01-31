@@ -27,7 +27,7 @@ void VariableRegistry::reset(){
     master_variable_list.clear();
 	
     // for faster lookups by tag name
-    master_variable_dictionary = map< string, shared_ptr<Variable> >();
+    master_variable_dictionary.clear();
     
 	// just the local variables
 	local_variable_list.clear();
@@ -56,7 +56,8 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 	boost::mutex::scoped_lock s_lock(lock);
 	
 	master_variable_list.clear();
-	
+    master_variable_dictionary.clear();
+    
 	// add the placeholders
 	//addPlaceholders();
 	
