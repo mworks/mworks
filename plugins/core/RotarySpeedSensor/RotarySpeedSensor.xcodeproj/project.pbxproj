@@ -1,0 +1,306 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E13151C22B6BF01C00D18F11 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E13151C32B6BF01C00D18F11 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E13151CE2B6BF51F00D18F11 /* CopyFiles */,
+			);
+			dependencies = (
+				E13151C92B6BF04900D18F11 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E13151C52B6BF02600D18F11 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E13151C62B6BF02600D18F11 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E13151CB2B6BF05100D18F11 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E1138D892B71512E000C2380 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1138D882B71512E000C2380 /* MWComponents.yaml */; };
+		E13151CD2B6BF4E300D18F11 /* RotarySpeedSensorPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13151CC2B6BF4E300D18F11 /* RotarySpeedSensorPlugin.cpp */; };
+		E13151CF2B6BF52E00D18F11 /* RotarySpeedSensor.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E13151B82B6BED3700D18F11 /* RotarySpeedSensor.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E13151D32B6BF73000D18F11 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E13151D22B6BF73000D18F11 /* MWorksCore.framework */; };
+		E13151D62B6C223200D18F11 /* RotarySpeedSensorDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13151D42B6C223200D18F11 /* RotarySpeedSensorDevice.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E13151C82B6BF04900D18F11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E13151B02B6BED3700D18F11 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E13151B72B6BED3700D18F11;
+			remoteInfo = RotarySpeedSensor;
+		};
+		E13151CA2B6BF05100D18F11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E13151B02B6BED3700D18F11 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E13151C22B6BF01C00D18F11;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E13151CE2B6BF51F00D18F11 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E13151CF2B6BF52E00D18F11 /* RotarySpeedSensor.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E1138D882B71512E000C2380 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E13151B82B6BED3700D18F11 /* RotarySpeedSensor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RotarySpeedSensor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E13151C02B6BEFD500D18F11 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E13151C12B6BEFD500D18F11 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E13151CC2B6BF4E300D18F11 /* RotarySpeedSensorPlugin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RotarySpeedSensorPlugin.cpp; sourceTree = "<group>"; };
+		E13151D02B6BF61700D18F11 /* RotarySpeedSensor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RotarySpeedSensor-Prefix.pch"; sourceTree = "<group>"; };
+		E13151D22B6BF73000D18F11 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = "/Library/Application Support/MWorks/Frameworks/MWorksCore.framework"; sourceTree = "<absolute>"; };
+		E13151D42B6C223200D18F11 /* RotarySpeedSensorDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RotarySpeedSensorDevice.cpp; sourceTree = "<group>"; };
+		E13151D52B6C223200D18F11 /* RotarySpeedSensorDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RotarySpeedSensorDevice.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E13151B52B6BED3700D18F11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E13151D32B6BF73000D18F11 /* MWorksCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E13151AF2B6BED3700D18F11 = {
+			isa = PBXGroup;
+			children = (
+				E13151BF2B6BEFA600D18F11 /* External Config */,
+				E13151D52B6C223200D18F11 /* RotarySpeedSensorDevice.hpp */,
+				E13151D42B6C223200D18F11 /* RotarySpeedSensorDevice.cpp */,
+				E13151CC2B6BF4E300D18F11 /* RotarySpeedSensorPlugin.cpp */,
+				E13151D02B6BF61700D18F11 /* RotarySpeedSensor-Prefix.pch */,
+				E1138D882B71512E000C2380 /* MWComponents.yaml */,
+				E13151B92B6BED3700D18F11 /* Products */,
+				E13151D12B6BF73000D18F11 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E13151B92B6BED3700D18F11 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E13151B82B6BED3700D18F11 /* RotarySpeedSensor.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E13151BF2B6BEFA600D18F11 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E13151C02B6BEFD500D18F11 /* macOS.xcconfig */,
+				E13151C12B6BEFD500D18F11 /* macOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E13151D12B6BF73000D18F11 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E13151D22B6BF73000D18F11 /* MWorksCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E13151B72B6BED3700D18F11 /* RotarySpeedSensor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E13151BC2B6BED3700D18F11 /* Build configuration list for PBXNativeTarget "RotarySpeedSensor" */;
+			buildPhases = (
+				E13151B42B6BED3700D18F11 /* Sources */,
+				E13151B52B6BED3700D18F11 /* Frameworks */,
+				E13151B62B6BED3700D18F11 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RotarySpeedSensor;
+			productName = RotarySpeedSensor;
+			productReference = E13151B82B6BED3700D18F11 /* RotarySpeedSensor.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E13151B02B6BED3700D18F11 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					E13151B72B6BED3700D18F11 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					E13151C22B6BF01C00D18F11 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					E13151C52B6BF02600D18F11 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = E13151B32B6BED3700D18F11 /* Build configuration list for PBXProject "RotarySpeedSensor" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E13151AF2B6BED3700D18F11;
+			productRefGroup = E13151B92B6BED3700D18F11 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E13151B72B6BED3700D18F11 /* RotarySpeedSensor */,
+				E13151C22B6BF01C00D18F11 /* Install */,
+				E13151C52B6BF02600D18F11 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E13151B62B6BED3700D18F11 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1138D892B71512E000C2380 /* MWComponents.yaml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E13151B42B6BED3700D18F11 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E13151D62B6C223200D18F11 /* RotarySpeedSensorDevice.cpp in Sources */,
+				E13151CD2B6BF4E300D18F11 /* RotarySpeedSensorPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E13151C92B6BF04900D18F11 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E13151B72B6BED3700D18F11 /* RotarySpeedSensor */;
+			targetProxy = E13151C82B6BF04900D18F11 /* PBXContainerItemProxy */;
+		};
+		E13151CB2B6BF05100D18F11 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E13151C22B6BF01C00D18F11 /* Install */;
+			targetProxy = E13151CA2B6BF05100D18F11 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E13151BA2B6BED3700D18F11 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E13151BD2B6BED3700D18F11 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E13151C12B6BEFD500D18F11 /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RotarySpeedSensor-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.RotarySpeedSensor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E13151C42B6BF01C00D18F11 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E13151C02B6BEFD500D18F11 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E13151C72B6BF02600D18F11 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E13151C02B6BEFD500D18F11 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E13151B32B6BED3700D18F11 /* Build configuration list for PBXProject "RotarySpeedSensor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E13151BA2B6BED3700D18F11 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E13151BC2B6BED3700D18F11 /* Build configuration list for PBXNativeTarget "RotarySpeedSensor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E13151BD2B6BED3700D18F11 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E13151C32B6BF01C00D18F11 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E13151C42B6BF01C00D18F11 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E13151C62B6BF02600D18F11 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E13151C72B6BF02600D18F11 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E13151B02B6BED3700D18F11 /* Project object */;
+}

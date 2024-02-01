@@ -36,8 +36,11 @@ package_contents = {
 
     'MWorksStandardPlugins':
         (
+        '/Library/Application Support/MWorks/Plugins/Client/CalibratorWindow.bundle',
         '/Library/Application Support/MWorks/Plugins/Client/ImageViewer.bundle',
         '/Library/Application Support/MWorks/Plugins/Client/MWorksBehavioralWindow.bundle',
+        '/Library/Application Support/MWorks/Plugins/Client/MWorksEyeWindow.bundle',
+        '/Library/Application Support/MWorks/Plugins/Client/MWorksRewardWindow.bundle',
         '/Library/Application Support/MWorks/Plugins/Client/MWorksVariablesWindow.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/DriftingGratingStimulusPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/EasyEye.bundle',
@@ -56,6 +59,7 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/QCUALOR.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/RCBLVDS.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/RenderActions.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/RotarySpeedSensor.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ServersideConduit.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/TextStimulus.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/TouchInput.bundle',
@@ -78,6 +82,7 @@ package_contents = {
 
     'MWorksMATLABTools':
         (
+        '/Library/Application Support/MWorks/Plugins/Client/MWorksMATLABWindow.bundle',
         '/Library/Application Support/MWorks/Scripting/MATLAB',
         ),
 

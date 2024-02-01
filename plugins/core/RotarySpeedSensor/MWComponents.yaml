@@ -1,0 +1,50 @@
+---
+
+
+name: Rotary Speed Sensor
+signature: iodevice/rotary_speed_sensor
+isa: IODevice
+platform: macos
+description: Interface to a rotary speed sensor
+parameters: 
+  - 
+    name: serial_port
+    example: /dev/cu.usbmodem23301
+    description: |
+        Filesystem path that represents the serial port to which the rotary
+        speed sensor is connected.
+
+        If omitted, MWorks looks for a single, connected serial device.  If it
+        finds one, it assumes it to be the desired rotary speed sensor and
+        attempts to connect.
+  - 
+    name: direction
+    required: yes
+    description: >
+        Variable in which to store the direction reported by the sensor.  The
+        direction value is always 0 or 1.
+  - 
+    name: rpm
+    required: yes
+    description: >
+        Variable in which to store the rotational speed reported by the sensor.
+        The rotational speed value is an integer ranging from 0 to 254
+        (inclusive) in units of revolutions per minute (RPM).
+  - 
+    name: reconnect_interval
+    default: 0
+    example: 10s
+    description: |
+        If the rotary speed sensor disconnects unexpectedly (e.g. due to power
+        failure), and the value of this parameter is greater than zero, then
+        MWorks will attempt to reconnect at this interval.
+
+        For example, if this parameter is set to ``10s``, then, upon
+        disconnection, MWorks will wait for 10 seconds and then try to
+        reconnect.  If the reconnection attempt fails, MWorks will wait for
+        another 10 seconds, then try again, and so on.
+
+        If the value of this parameter is zero, MWorks will never attempt to
+        reconnect.
+
+
