@@ -45,7 +45,7 @@ public:
     
     // ScopedVariable delegate methods
     Datum getValue(int index);
-    void setValue(int index, Datum value);
+    void setValue(int index, const Datum &value);
     
     // Announcing
     void announceAll();

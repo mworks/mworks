@@ -59,10 +59,8 @@ public:
     Datum getValue() override;
     
     // Pass-through methods
-    void setValue(Datum value, MWTime time) override;
-    void setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) override;
-    void setSilentValue(Datum value, MWTime time) override;
-    void setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) override;
+    void setValue(const Datum &value, MWTime when, bool silent) override;
+    void setValue(const std::vector<Datum> &indexOrKeyPath, const Datum &value, MWTime when, bool silent) override;
     bool isWritable() const override;
 
 };

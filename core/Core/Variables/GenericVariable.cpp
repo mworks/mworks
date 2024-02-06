@@ -55,43 +55,26 @@ void Variable::addNotification(const boost::shared_ptr<VariableNotification> &no
 }
 
 
-void Variable::announce(MWTime timeUS) {
+void Variable::performNotifications(const Datum &value, MWTime when, bool silent) {
+    {
+        Locker locker(notifications);
+        auto node = notifications.getFrontmost();
+        while (node) {
+            node->notify(value, when);
+            node = node->getNext();
+        }
+    }
+    
+    if (!silent) {
+        announce(value, when);
+    }
+}
+
+
+void Variable::announce(const Datum &value, MWTime when) const {
     if (properties.getLogging() == M_WHEN_CHANGED && event_target) {
-        event_target->putEvent(boost::make_shared<Event>(codec_code, timeUS, getValue()));
+        event_target->putEvent(boost::make_shared<Event>(codec_code, when, value));
     }
-}
-
-
-void Variable::setValue(Datum value, MWTime time) {
-    setSilentValue(value, time);
-    announce(time);
-}
-
-
-void Variable::setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime time) {
-    setSilentValue(indexOrKeyPath, value, time);
-    announce(time);
-}
-
-
-void Variable::performNotifications(Datum data, MWTime timeUS) {
-    Locker locker(notifications);
-    
-    auto node = notifications.getFrontmost();
-    
-    while (node) {
-        node->notify(data, timeUS);
-        node = node->getNext();
-    }
-}
-
-
-MWTime Variable::getCurrentTimeUS() {
-    auto clock = Clock::instance(false);
-    if (clock) {
-        return clock->getCurrentTimeUS();
-    }
-    return 0;
 }
 
 

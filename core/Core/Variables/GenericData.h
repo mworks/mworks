@@ -196,8 +196,8 @@ public:
     
     void addElement(const Datum &value);
     void addElement(const Datum &key, const Datum &value);
-    void setElement(const Datum &indexOrKey, const Datum &value);
-    void setElement(const std::vector<Datum> &indexOrKeyPath, const Datum &value);
+    bool setElement(const Datum &indexOrKey, const Datum &value);
+    bool setElement(const std::vector<Datum> &indexOrKeyPath, const Datum &value);
     
     /**
      * Operators

@@ -19,11 +19,7 @@ BEGIN_NAMESPACE_MW
 class ScopedVariableEnvironment;
 
 
-class ScopedVariable : public Variable {
-    
-private:
-    boost::weak_ptr<ScopedVariableEnvironment> weakEnvironment;  // delegate for get and set methods
-    int context_index;
+class ScopedVariable : public ReadWriteVariable {
     
 public:
     explicit ScopedVariable(const VariableProperties &properties);
@@ -34,12 +30,13 @@ public:
     int getContextIndex() const { return context_index; }
     void setContextIndex(int i) { context_index = i; }
     
-    // The scoped variable delegates its get and set methods
     Datum getValue() override;
-    void setSilentValue(Datum _value, MWTime _when) override;
-    void setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) override;
+    void setValue(const Datum &value, MWTime when, bool silent) override;
+    void setValue(const std::vector<Datum> &indexOrKeyPath, const Datum &value, MWTime when, bool silent) override;
     
-    bool isWritable() const override { return true; }
+private:
+    boost::weak_ptr<ScopedVariableEnvironment> weakEnvironment;
+    int context_index;
     
 };
 

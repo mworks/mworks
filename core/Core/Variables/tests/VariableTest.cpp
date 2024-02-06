@@ -27,7 +27,7 @@ void VariableTestFixture::testSimpleConstant() {
 
 
 void VariableTestFixture::testSimpleGlobal() {
-	shared_ptr<GlobalVariable>v =  global_variable_registry->createGlobalVariable( VariableProperties(
+	shared_ptr<Variable>v =  global_variable_registry->createGlobalVariable( VariableProperties(
 																										   Datum(42L), "test1",
 																										   "Test",
 																										   "Test",

@@ -56,27 +56,19 @@ Datum FreezableVariableContainer::getValue(){
 }
 
 
-void FreezableVariableContainer::setValue(Datum value, MWTime time){
+void FreezableVariableContainer::setValue(const Datum &value, MWTime time, bool silent) {
     // this can rely on the contained object's locking
     // for thread safety
-    variable->setValue(value, time);
+    variable->setValue(value, time, silent);
 }
 
 
-void FreezableVariableContainer::setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) {
-    variable->setValue(indexOrKeyPath, value, when);
-}
-
-
-void FreezableVariableContainer::setSilentValue(Datum value, MWTime time) {
-    // this can rely on the contained object's locking
-    // for thread safety
-    variable->setSilentValue(value, time);
-}
-
-
-void FreezableVariableContainer::setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) {
-    variable->setSilentValue(indexOrKeyPath, value, when);
+void FreezableVariableContainer::setValue(const std::vector<Datum> &indexOrKeyPath,
+                                          const Datum &value,
+                                          MWTime when,
+                                          bool silent)
+{
+    variable->setValue(indexOrKeyPath, value, when, silent);
 }
 
 

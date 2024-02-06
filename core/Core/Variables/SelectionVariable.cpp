@@ -77,8 +77,7 @@ void SelectionVariable::nextValue() {
     
     // Announce the new value so that the event stream contains
     // all information about what happened in the experiment
-    announce();
-    performNotifications(values.at(selected_index));
+    performNotifications(values.at(selected_index), getCurrentTimeUS(), false);
 }
 
 

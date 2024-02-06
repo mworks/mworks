@@ -16,41 +16,55 @@ BEGIN_NAMESPACE_MW
 
 
 ScopedVariable::ScopedVariable(const VariableProperties &props) :
-    Variable(props),
+    ReadWriteVariable(props),
     context_index(-1)
 { }
 
 
 Datum ScopedVariable::getValue() {
+    lock_guard lock(valueMutex);
+    
     if (auto environment = getEnvironment()) {
         return environment->getValue(context_index);
     }
+    
     merror(M_SYSTEM_MESSAGE_DOMAIN, "Scoped variable belongs to invalid (NULL) environment");
-    return Datum(0L);
+    return Datum(0);
 }
 
 
-void ScopedVariable::setSilentValue(Datum data, MWTime timeUS) {
+void ScopedVariable::setValue(const Datum &value, MWTime when, bool silent) {
+    lock_guard lock(valueMutex);
+    
     auto environment = getEnvironment();
     if (!environment) {
         merror(M_SYSTEM_MESSAGE_DOMAIN, "Scoped variable belongs to invalid (NULL) environment");
         return;
     }
-    environment->setValue(context_index, data);
-    performNotifications(std::move(data), timeUS);
+    
+    environment->setValue(context_index, value);
+    performNotifications(value, when, silent);
 }
 
 
-void ScopedVariable::setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime timeUS) {
+void ScopedVariable::setValue(const std::vector<Datum> &indexOrKeyPath,
+                              const Datum &elementValue,
+                              MWTime when,
+                              bool silent)
+{
+    lock_guard lock(valueMutex);
+    
     auto environment = getEnvironment();
     if (!environment) {
         merror(M_SYSTEM_MESSAGE_DOMAIN, "Scoped variable belongs to invalid (NULL) environment");
         return;
     }
-    auto data = environment->getValue(context_index);
-    data.setElement(indexOrKeyPath, value);
-    environment->setValue(context_index, data);
-    performNotifications(std::move(data), timeUS);
+    
+    auto value = environment->getValue(context_index);
+    if (value.setElement(indexOrKeyPath, elementValue)) {
+        environment->setValue(context_index, value);
+        performNotifications(value, when, silent);
+    }
 }
 
 

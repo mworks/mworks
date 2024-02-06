@@ -1,0 +1,2 @@
+%define scope = 'local'
+%include 'Dictionary.inc'

@@ -1,0 +1,9 @@
+var x = [1,2,3]
+
+
+protocol {
+    assignment (
+        variable = 'x[1'
+        value = 4
+        )
+}

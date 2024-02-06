@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <permitted_error_messages>
+    <message type="starts_with" max_matches="1">WARNING: Scheduled action is starting </message>
+  </permitted_error_messages>
+</marionette_info>

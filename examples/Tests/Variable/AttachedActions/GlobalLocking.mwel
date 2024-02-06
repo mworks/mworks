@@ -1,0 +1,2 @@
+%define scope = 'global'
+%include 'Locking.inc'

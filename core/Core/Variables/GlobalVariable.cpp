@@ -15,14 +15,14 @@
 BEGIN_NAMESPACE_MW
 
 
-GlobalVariable::GlobalVariable(Datum value, const VariableProperties &props) :
-    Variable(props),
+GlobalVariable::GlobalVariable(const Datum &value, const VariableProperties &props) :
+    ReadWriteVariable(props),
     value(value)
 { }
 
 
 GlobalVariable::GlobalVariable(const VariableProperties &props) :
-    Variable(props),
+    ReadWriteVariable(props),
     value(props.getDefaultValue())
 { }
 
@@ -33,50 +33,23 @@ Datum GlobalVariable::getValue() {
 }
 
 
-void GlobalVariable::setSilentValue(Datum newval, MWTime timeUS) {
-    {
-        lock_guard lock(valueMutex);
-        value = newval;
-    }
-    performNotifications(std::move(newval), timeUS);
+void GlobalVariable::setValue(const Datum &newValue, MWTime when, bool silent) {
+    lock_guard lock(valueMutex);
+    value = newValue;
+    performNotifications(value, when, silent);
 }
 
 
-void GlobalVariable::setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum elementValue, MWTime timeUS) {
-    Datum newval;
-    {
-        lock_guard lock(valueMutex);
-        value.setElement(indexOrKeyPath, elementValue);
-        newval = value;
+void GlobalVariable::setValue(const std::vector<Datum> &indexOrKeyPath,
+                              const Datum &elementValue,
+                              MWTime when,
+                              bool silent)
+{
+    lock_guard lock(valueMutex);
+    if (value.setElement(indexOrKeyPath, elementValue)) {
+        performNotifications(value, when, silent);
     }
-    performNotifications(std::move(newval), timeUS);
 }
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

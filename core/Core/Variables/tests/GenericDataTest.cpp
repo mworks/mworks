@@ -963,24 +963,24 @@ void GenericDataTestFixture::testSetElement() {
         Datum d { Datum::list_value_type { Datum(1.5), Datum("foo") } };
         
         CPPUNIT_ASSERT( Datum(1.5) == d.getList().at(0) );
-        d.setElement(Datum(0), Datum(2.5));
+        CPPUNIT_ASSERT( d.setElement(Datum(0), Datum(2.5)) );
         CPPUNIT_ASSERT( Datum(2.5) == d.getList().at(0) );
         
         CPPUNIT_ASSERT( Datum("foo") == d.getList().at(1) );
-        d.setElement(Datum(1), Datum("bar"));
+        CPPUNIT_ASSERT( d.setElement(Datum(1), Datum("bar")) );
         CPPUNIT_ASSERT( Datum("bar") == d.getList().at(1) );
         
         // Non-integer index
-        d.setElement(Datum("foo"), Datum(3));
+        CPPUNIT_ASSERT( !d.setElement(Datum("foo"), Datum(3)) );
         assertError("ERROR: Cannot index list with string");
         
         // Negative index
-        d.setElement(Datum(-1), Datum("foo"));
+        CPPUNIT_ASSERT( !d.setElement(Datum(-1), Datum("foo")) );
         assertError("ERROR: List index cannot be negative");
         
         // Automatic expansion
         CPPUNIT_ASSERT( 2 == d.getList().size() );
-        d.setElement(Datum(3), Datum("bar"));
+        CPPUNIT_ASSERT( d.setElement(Datum(3), Datum("bar")) );
         CPPUNIT_ASSERT( 4 == d.getList().size() );
         CPPUNIT_ASSERT( d.getList().at(2).isUndefined() );
         CPPUNIT_ASSERT( Datum("bar") == d.getList().at(3) );
@@ -991,17 +991,17 @@ void GenericDataTestFixture::testSetElement() {
         Datum d { Datum::dict_value_type { { Datum("foo"), Datum(1.5) }, { Datum(2), Datum("bar") } } };
         
         CPPUNIT_ASSERT( Datum(1.5) == d.getDict().at(Datum("foo")) );
-        d.setElement(Datum("foo"), Datum(2.5));
+        CPPUNIT_ASSERT( d.setElement(Datum("foo"), Datum(2.5)) );
         CPPUNIT_ASSERT( Datum(2.5) == d.getDict().at(Datum("foo")) );
         
         CPPUNIT_ASSERT( Datum("bar") == d.getDict().at(Datum(2)) );
-        d.setElement(Datum(2), Datum("blah"));
+        CPPUNIT_ASSERT( d.setElement(Datum(2), Datum("blah")) );
         CPPUNIT_ASSERT( Datum("blah") == d.getDict().at(Datum(2)) );
         
         // New key
         CPPUNIT_ASSERT( 2 == d.getDict().size() );
         CPPUNIT_ASSERT( d.getDict().find(Datum("abc")) == d.getDict().end() );
-        d.setElement(Datum("abc"), Datum(123));
+        CPPUNIT_ASSERT( d.setElement(Datum("abc"), Datum(123)) );
         CPPUNIT_ASSERT( 3 == d.getDict().size() );
         CPPUNIT_ASSERT( d.getDict().find(Datum("abc")) != d.getDict().end() );
         CPPUNIT_ASSERT( Datum(123) == d.getDict().at(Datum("abc")) );
@@ -1010,7 +1010,7 @@ void GenericDataTestFixture::testSetElement() {
     // Other
     {
         Datum d("abc");
-        d.setElement(Datum(0), Datum("A"));
+        CPPUNIT_ASSERT( !d.setElement(Datum(0), Datum("A")) );
         assertError("ERROR: Cannot set element in string");
     }
     
@@ -1029,45 +1029,45 @@ void GenericDataTestFixture::testSetElement() {
         
         auto &d_foo = d.getDict().at(Datum("foo"));
         CPPUNIT_ASSERT( Datum(1.5) == d_foo );
-        d.setElement({ Datum("foo") }, Datum(2.5) );
+        CPPUNIT_ASSERT( d.setElement({ Datum("foo") }, Datum(2.5)) );
         CPPUNIT_ASSERT( Datum(2.5) == d_foo );
         
         auto &d_bar = d.getDict().at(Datum("bar"));
         
         CPPUNIT_ASSERT( Datum(123) == d_bar.getList().at(0) );
-        d.setElement({ Datum("bar"), Datum(0) }, Datum(456) );
+        CPPUNIT_ASSERT( d.setElement({ Datum("bar"), Datum(0) }, Datum(456)) );
         CPPUNIT_ASSERT( Datum(456) == d_bar.getList().at(0) );
         
         CPPUNIT_ASSERT( 2 == d_bar.getList().size() );
-        d.setElement({ Datum("bar"), Datum(3) }, Datum(3.5) );
+        CPPUNIT_ASSERT( d.setElement({ Datum("bar"), Datum(3) }, Datum(3.5)) );
         CPPUNIT_ASSERT( 4 == d_bar.getList().size() );
         CPPUNIT_ASSERT( d_bar.getList().at(2).isUndefined() );
         CPPUNIT_ASSERT( Datum(3.5) == d_bar.getList().at(3) );
         
-        d.setElement({ Datum("bar"), Datum(-1) }, Datum(0) );
+        CPPUNIT_ASSERT( !d.setElement({ Datum("bar"), Datum(-1) }, Datum(0)) );
         assertError("ERROR: List index cannot be negative");
-        d.setElement({ Datum("bar"), Datum(-1), Datum(0) }, Datum(0) );
+        CPPUNIT_ASSERT( !d.setElement({ Datum("bar"), Datum(-1), Datum(0) }, Datum(0)) );
         assertError("ERROR: List index cannot be negative");
         
         auto &d_bar_1 = d_bar.getList().at(1);
         
         CPPUNIT_ASSERT( Datum(5678) == d_bar_1.getDict().at(Datum("def")) );
-        d.setElement({ Datum("bar"), Datum(1), Datum("def") }, Datum(8765) );
+        CPPUNIT_ASSERT( d.setElement({ Datum("bar"), Datum(1), Datum("def") }, Datum(8765)) );
         CPPUNIT_ASSERT( Datum(8765) == d_bar_1.getDict().at(Datum("def")) );
         
         CPPUNIT_ASSERT( 2 == d_bar_1.getDict().size() );
         CPPUNIT_ASSERT( d_bar_1.getDict().find(Datum("ghi")) == d_bar_1.getDict().end() );
-        d.setElement({ Datum("bar"), Datum(1), Datum("ghi") }, Datum(4321) );
+        CPPUNIT_ASSERT( d.setElement({ Datum("bar"), Datum(1), Datum("ghi") }, Datum(4321)) );
         CPPUNIT_ASSERT( 3 == d_bar_1.getDict().size() );
         CPPUNIT_ASSERT( d_bar_1.getDict().find(Datum("ghi")) != d_bar_1.getDict().end() );
         CPPUNIT_ASSERT( Datum(4321) == d_bar_1.getDict().at(Datum("ghi")) );
         
-        d.setElement({ Datum("bar"), Datum(1), Datum("abc"), Datum(0) }, Datum(1) );
+        CPPUNIT_ASSERT( !d.setElement({ Datum("bar"), Datum(1), Datum("abc"), Datum(0) }, Datum(1)) );
         assertError("ERROR: Cannot set element in integer");
-        d.setElement({ Datum("bar"), Datum(1), Datum("abc"), Datum(0), Datum("foo") }, Datum(1) );
+        CPPUNIT_ASSERT( !d.setElement({ Datum("bar"), Datum(1), Datum("abc"), Datum(0), Datum("foo") }, Datum(1)) );
         assertError("ERROR: Cannot set element in integer");
         
-        d.setElement(std::vector<Datum>{}, Datum(3));
+        CPPUNIT_ASSERT( d.setElement(std::vector<Datum>{}, Datum(3)) );
         CPPUNIT_ASSERT( Datum(3) == d );
     }
 }

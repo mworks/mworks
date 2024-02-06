@@ -788,22 +788,25 @@ Datum * Datum::getWritableElementPtr(const Datum &indexOrKey) {
 }
 
 
-void Datum::setElement(const Datum &indexOrKey, const Datum &value) {
+bool Datum::setElement(const Datum &indexOrKey, const Datum &value) {
     if (auto elementPtr = getWritableElementPtr(indexOrKey)) {
         *elementPtr = value;
+        return true;
     }
+    return false;
 }
 
 
-void Datum::setElement(const std::vector<Datum> &indexOrKeyPath, const Datum &value) {
+bool Datum::setElement(const std::vector<Datum> &indexOrKeyPath, const Datum &value) {
     Datum *elementPtr = this;
     for (auto &indexOrKey : indexOrKeyPath) {
         elementPtr = elementPtr->getWritableElementPtr(indexOrKey);
         if (!elementPtr) {
-            return;
+            return false;
         }
     }
     *elementPtr = value;
+    return true;
 }
 
 

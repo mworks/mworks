@@ -107,7 +107,7 @@ BEGIN_NAMESPACE_MW
 		
 	private:
 		boost::filesystem::path temp_xml_file_path;
-		boost::shared_ptr<mw::GlobalVariable> testVar;
+		boost::shared_ptr<mw::Variable> testVar;
 		
 		void writeToFile(const std::string &text);
 	};

@@ -32,7 +32,7 @@ Datum ScopedVariableEnvironment::getValue(int index) {
 }
 
 
-void ScopedVariableEnvironment::setValue(int index, Datum value) {
+void ScopedVariableEnvironment::setValue(int index, const Datum &value) {
     if (current_context) {
         current_context->set(index, value);
     } else {
