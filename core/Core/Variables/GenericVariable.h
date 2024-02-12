@@ -18,8 +18,10 @@
 #include "Clock.h"
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/thread/locks.hpp>
+#include <boost/thread/lock_types.hpp>
+#include <boost/thread/shared_mutex.hpp>
 #include <list>
-#include <mutex>
 
 
 BEGIN_NAMESPACE_MW
@@ -135,10 +137,14 @@ public:
     bool isWritable() const override { return true; }
     
 protected:
-    // Use a recursive mutex, so that attached actions can read the variable's
-    // value without causing a deadlock
-    using lock_guard = std::lock_guard<std::recursive_mutex>;
-    lock_guard::mutex_type valueMutex;
+    // To prevent deadlock when a notification tries to read the variable's value,
+    // use a shared_lock in getValue, and an upgrade_lock in setValue (with
+    // upgrade_to_unique_lock protecting the actual value update)
+    using Mutex = boost::upgrade_mutex;
+    Mutex valueMutex;
+    using shared_lock = boost::shared_lock<Mutex>;
+    using upgrade_lock = boost::upgrade_lock<Mutex>;
+    using upgrade_to_unique_lock = boost::upgrade_to_unique_lock<Mutex>;
     
 };
 

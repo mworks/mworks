@@ -28,14 +28,17 @@ GlobalVariable::GlobalVariable(const VariableProperties &props) :
 
 
 Datum GlobalVariable::getValue() {
-    lock_guard lock(valueMutex);
+    shared_lock lock(valueMutex);
     return value;
 }
 
 
 void GlobalVariable::setValue(const Datum &newValue, MWTime when, bool silent) {
-    lock_guard lock(valueMutex);
-    value = newValue;
+    upgrade_lock readLock(valueMutex);
+    {
+        upgrade_to_unique_lock writeLock(readLock);
+        value = newValue;
+    }
     performNotifications(value, when, silent);
 }
 
@@ -45,8 +48,13 @@ void GlobalVariable::setValue(const std::vector<Datum> &indexOrKeyPath,
                               MWTime when,
                               bool silent)
 {
-    lock_guard lock(valueMutex);
-    if (value.setElement(indexOrKeyPath, elementValue)) {
+    upgrade_lock readLock(valueMutex);
+    bool success = false;
+    {
+        upgrade_to_unique_lock writeLock(readLock);
+        success = value.setElement(indexOrKeyPath, elementValue);
+    }
+    if (success) {
         performNotifications(value, when, silent);
     }
 }

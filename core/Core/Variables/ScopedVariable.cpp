@@ -22,27 +22,29 @@ ScopedVariable::ScopedVariable(const VariableProperties &props) :
 
 
 Datum ScopedVariable::getValue() {
-    lock_guard lock(valueMutex);
-    
-    if (auto environment = getEnvironment()) {
-        return environment->getValue(context_index);
+    auto environment = getEnvironment();
+    if (!environment) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Scoped variable belongs to invalid (NULL) environment");
+        return Datum(0);
     }
     
-    merror(M_SYSTEM_MESSAGE_DOMAIN, "Scoped variable belongs to invalid (NULL) environment");
-    return Datum(0);
+    shared_lock lock(valueMutex);
+    return environment->getValue(context_index);
 }
 
 
 void ScopedVariable::setValue(const Datum &value, MWTime when, bool silent) {
-    lock_guard lock(valueMutex);
-    
     auto environment = getEnvironment();
     if (!environment) {
         merror(M_SYSTEM_MESSAGE_DOMAIN, "Scoped variable belongs to invalid (NULL) environment");
         return;
     }
     
-    environment->setValue(context_index, value);
+    upgrade_lock readLock(valueMutex);
+    {
+        upgrade_to_unique_lock writeLock(readLock);
+        environment->setValue(context_index, value);
+    }
     performNotifications(value, when, silent);
 }
 
@@ -52,17 +54,19 @@ void ScopedVariable::setValue(const std::vector<Datum> &indexOrKeyPath,
                               MWTime when,
                               bool silent)
 {
-    lock_guard lock(valueMutex);
-    
     auto environment = getEnvironment();
     if (!environment) {
         merror(M_SYSTEM_MESSAGE_DOMAIN, "Scoped variable belongs to invalid (NULL) environment");
         return;
     }
     
+    upgrade_lock readLock(valueMutex);
     auto value = environment->getValue(context_index);
     if (value.setElement(indexOrKeyPath, elementValue)) {
-        environment->setValue(context_index, value);
+        {
+            upgrade_to_unique_lock writeLock(readLock);
+            environment->setValue(context_index, value);
+        }
         performNotifications(value, when, silent);
     }
 }
