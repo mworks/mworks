@@ -1,0 +1,13 @@
+firmata firmata (
+    serial_port = 'not_a_serial_port'
+    alt = dummy
+    )
+
+
+iodevice/dummy dummy ()
+
+
+protocol {
+    start_io_device (firmata)
+    wait (2s)
+}

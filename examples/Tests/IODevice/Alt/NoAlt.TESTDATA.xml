@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Requested path (not_a_serial_port) does not exist or is not a serial device</message>
+    <message type="starts_with">ERROR: Can't start iodevice (firmata) and no alt tag specified</message>
+    <message type="starts_with">ERROR: Failed to parse experiment </message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't load, so we expect no events -->
+  </expected_events>
+</marionette_info>

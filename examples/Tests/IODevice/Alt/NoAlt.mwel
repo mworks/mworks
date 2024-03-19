@@ -1,0 +1,11 @@
+firmata firmata (
+    serial_port = 'not_a_serial_port'
+    )
+
+
+protocol {
+    assert (
+        condition = false
+        message = "The experiment shouldn't be running!"
+        )
+}
