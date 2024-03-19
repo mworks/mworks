@@ -39,14 +39,30 @@ void IODevice::finalize(std::map<std::string, std::string> parameters, Component
         stateSystemCallbackNotification = boost::make_shared<VariableCallbackNotification>(callback);
         state_system_mode->addNotification(stateSystemCallbackNotification);
     } else {
-		// Initialization failed, so try to map the tag to the alt device
-		if(parameters.find(ALT) == parameters.end()) {
-			throw SimpleException("Can't start iodevice (" + getTag() + ") and no alt tag specified");
-		} else {
-			shared_ptr <IODevice> alt_io_device = reg->getObject<IODevice>(parameters[ALT]);
-			reg->registerAltObject(getTag(), alt_io_device);
-		}
-	}
+        //
+        // Initialization failed, so try to map the tag to the alt device
+        //
+        
+        const auto altIter = parameters.find(ALT);
+        if (altIter == parameters.end()) {
+            throw SimpleException("Can't start iodevice (" + getTag() + ") and no alt tag specified");
+        }
+        
+        if (!alt_failover->getValue().getBool()) {
+            throw SimpleException("Can't start iodevice (" + getTag() + ");" +
+                                  " an 'alt' object is specified, but the " + ALT_FAILOVER_TAGNAME +
+                                  " system variable is set to disallow failover");
+        }
+        
+        const auto &altTag = altIter->second;
+        auto alt_io_device = reg->getObject<IODevice>(altTag);
+        if (!alt_io_device) {
+            throw SimpleException("Can't start iodevice (" + getTag() + "), and the specified" +
+                                  " 'alt' object (" + altTag + ") does not exist or is not an iodevice");
+        }
+        
+        reg->registerAltObject(getTag(), alt_io_device);
+    }
 }
 
 

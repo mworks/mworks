@@ -633,14 +633,6 @@ void XMLParser::_processFinalizeDirective(xmlNode *node){
 		used_tag = reference_id;
 	}
 	
-	
-	if(object == NULL && properties.find("alt") != properties.end()){
-		object = registry->getObject<mw::Component>(properties["alt"]);
-        if(object != NULL){
-			registry->registerObject(tag, object);
-		}
-	}
-	
 	if(object != NULL){
 		object->finalize(properties, registry.get());
 	} else {
@@ -715,39 +707,26 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
         
         // other exceptions may be recoverable
         bool is_fatal = (dynamic_cast<FatalParserException *>(&e) != NULL);
-        bool allow_failover = (bool)(alt_failover->getValue());
-        bool have_alt = (properties.find("alt") != properties.end());
         
-		if (!is_fatal && have_alt && allow_failover) {
-			// Still in the game
-            mwarning(M_PARSER_MESSAGE_DOMAIN,
-					 "Failed to create object \"%s\" of type %s (but alt object is specified)",
-					 tag.c_str(), object_type.c_str());
-		} else {
-            FatalParserException f;
-            
-            if (is_fatal) {
-                // Copy existing exception's data to f
-                f = dynamic_cast<FatalParserException &>(e);
-            } else {
-                std::stringstream error_msg;
-                error_msg << "Failed to create object. ";
-                if (have_alt) {
-                    error_msg << 
-                    "An 'alt' object is specified, but the #allowAltFailover setup variable is set to disallow failover";
-                }
-                f.setMessage(error_msg.str());
-                f << reason_error_info(e.what());
-            }
-            
-            f << object_type_error_info(object_type);
-            f << parent_scope_error_info(parent_scope);
-            f << ref_id_error_info(reference_id);
-            f << (component ? component_error_info(component) : component_error_info(tag));
-            f << location_error_info(properties["_location"]);
-            
-            throw f;
-		}
+        FatalParserException f;
+        
+        if (is_fatal) {
+            // Copy existing exception's data to f
+            f = dynamic_cast<FatalParserException &>(e);
+        } else {
+            std::stringstream error_msg;
+            error_msg << "Failed to create object. ";
+            f.setMessage(error_msg.str());
+            f << reason_error_info(e.what());
+        }
+        
+        f << object_type_error_info(object_type);
+        f << parent_scope_error_info(parent_scope);
+        f << ref_id_error_info(reference_id);
+        f << (component ? component_error_info(component) : component_error_info(tag));
+        f << location_error_info(properties["_location"]);
+        
+        throw f;
 	}
 	
 	if(component != NULL){
@@ -1040,12 +1019,9 @@ void XMLParser::_processConnectDirective(xmlNode *node){
 	}
 	
 	if(parent_component == NULL){
-		// error (should eventually throw)
-        // For now, this doesn't interact well with alt objects (e.g.
-        // iodevices, when the device itself is not present)
-		// throw SimpleException("Unknown object during connection phase",
-		//														parent_tag);
-		return;
+        throw InvalidXMLException(reference_id,
+                                  "Unknown object during connection phase",
+                                  parent_tag);
 	}
 	
 	while(child != NULL){

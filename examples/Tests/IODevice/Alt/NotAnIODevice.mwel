@@ -1,0 +1,15 @@
+firmata firmata (
+    serial_port = 'not_a_serial_port'
+    alt = dummy
+    )
+
+
+tone dummy (frequency = 440.0)
+
+
+protocol {
+    assert (
+        condition = false
+        message = "The experiment shouldn't be running!"
+        )
+}

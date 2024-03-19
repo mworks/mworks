@@ -1,0 +1,18 @@
+usbhid_generic gamepad (
+    usage_page = 0
+    usage = 5
+    alt = dummy
+    )
+
+
+iodevice/dummy dummy ()
+
+
+protocol {
+    assert (
+        condition = false
+        message = "The experiment shouldn't be running!"
+        )
+    start_io_device (gamepad)
+    wait (2s)
+}

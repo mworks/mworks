@@ -1,0 +1,24 @@
+variable_assignment (
+    variable = '#allowAltFailover'
+    type = any
+    value = false
+    )
+
+
+firmata firmata (
+    serial_port = 'not_a_serial_port'
+    alt = dummy
+    )
+
+
+iodevice/dummy dummy ()
+
+
+protocol {
+    assert (
+        condition = false
+        message = "The experiment shouldn't be running!"
+        )
+    start_io_device (firmata)
+    wait (2s)
+}
