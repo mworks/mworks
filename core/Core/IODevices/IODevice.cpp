@@ -61,6 +61,11 @@ void IODevice::finalize(std::map<std::string, std::string> parameters, Component
                                   " 'alt' object (" + altTag + ") does not exist or is not an iodevice");
         }
         
+        if (alt_io_device.get() == this) {
+            throw SimpleException("Can't start iodevice (" + getTag() + "), and the specified" +
+                                  " 'alt' object is the iodevice itself");
+        }
+        
         reg->registerAltObject(getTag(), alt_io_device);
     }
 }
