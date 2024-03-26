@@ -1,0 +1,71 @@
+stimulus_display (
+    background_color = 0,0,0
+    )
+
+
+%define off (rand_seed)
+    optic_flow_field (
+        z_near = 10
+        z_far = 30
+        dot_density = 3
+        dot_size = 0.1
+        speed = 0
+        rand_seed = rand_seed
+        x_size = 15
+        autoplay = true
+        )
+%end
+
+%define seed = 12345678
+
+off off1 (rand_seed = seed)
+
+off off2 (rand_seed = seed)
+
+off off3 (rand_seed = seed + 1)
+
+
+%define cue_size = 1
+
+circle cue1 (
+    x_size = cue_size
+    x_position = -1.5 * cue_size
+    color = 0,1,0
+    )
+
+circle cue2 (
+    x_size = cue_size
+    x_position = 0
+    color = 0,1,0
+    )
+
+circle cue3 (
+    x_size = cue_size
+    x_position = 1.5 * cue_size
+    color = 1,0,0
+    )
+
+
+protocol {
+    queue_stimulus (off1)
+    queue_stimulus (cue1)
+    update_display ()
+    report ('New dot field')
+    wait (2s)
+
+    dequeue_stimulus (off1)
+    queue_stimulus (off2)
+    send_stimulus_to_back (off2)
+    queue_stimulus (cue2)
+    update_display ()
+    report ('Same dot field')
+    wait (2s)
+
+    dequeue_stimulus (off2)
+    queue_stimulus (off3)
+    send_stimulus_to_back (off3)
+    queue_stimulus (cue3)
+    update_display ()
+    report ('New dot field')
+    wait (2s)
+}

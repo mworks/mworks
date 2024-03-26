@@ -1,0 +1,59 @@
+var direction_altitude = 0
+var direction_azimuth = 0
+
+rectangle bg (
+    color = 0,0,0
+    fullscreen = true
+    )
+
+optic_flow_field off (
+    z_near = 10
+    z_far = 30
+    dot_density = 1
+    dot_size = 0.1
+    direction_altitude = direction_altitude
+    direction_azimuth = direction_azimuth
+    speed = 10
+    fullscreen = true
+    autoplay = true
+    )
+
+
+%define do_wait ()
+    wait (3s)
+%end
+
+
+protocol {
+    live_queue_stimulus (bg)
+    live_queue_stimulus (off)
+    update_display ()
+    do_wait ()
+
+    direction_altitude = 90
+    do_wait ()
+
+    direction_altitude = -90
+    do_wait ()
+
+    direction_altitude = 0
+    do_wait ()
+
+    direction_azimuth = 90
+    do_wait ()
+
+    direction_azimuth = -90
+    do_wait ()
+
+    direction_azimuth = 0
+    do_wait ()
+
+    direction_altitude = 25
+    do_wait ()
+
+    direction_azimuth = -30
+    do_wait ()
+
+    direction_azimuth = -160
+    do_wait ()
+}

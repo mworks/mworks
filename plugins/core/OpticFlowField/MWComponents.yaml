@@ -1,0 +1,103 @@
+---
+
+
+name: Optic Flow Field Stimulus
+signature: stimulus/optic_flow_field
+isa: [Colored Transform Stimulus, Dynamic Stimulus Base]
+description: |
+    A stimulus that simulates the view of an observer moving through a
+    three-dimensional field of dots (or, equivalently, the view of a stationary
+    observer in a field of moving dots).
+
+    The dot field is implemented as a sphere with the observer at the center.
+    `Perspective projection
+    <https://en.wikipedia.org/wiki/3D_projection#Perspective_projection>`_ is
+    used to map the dots on to the two-dimensional screen. The observer's field
+    of view is the `viewing frustum
+    <https://en.wikipedia.org/wiki/Viewing_frustum>`_ defined by `x_size`_,
+    `y_size`_, `z_near`_, and `z_far`_; the vertices of the far base of the
+    frustum lie on the sphere.  The apparent direction of motion is specified
+    in `horizontal coordinates
+    <https://en.wikipedia.org/wiki/Horizontal_coordinate_system>`_ by
+    `direction_altitude`_ and `direction_azimuth`_.
+parameters: 
+  - 
+    name: z_near
+    required: yes
+    example: 10
+    description: |
+        Distance to the near plane of the `viewing frustum
+        <https://en.wikipedia.org/wiki/Viewing_frustum>`_ (degrees, i.e. same
+        units as `x_size`_ and `y_size`_)
+  - 
+    name: z_far
+    required: yes
+    example: 30
+    description: |
+        Distance to the far plane of the `viewing frustum
+        <https://en.wikipedia.org/wiki/Viewing_frustum>`_ (degrees, i.e. same
+        units as `x_size`_ and `y_size`_)
+  - 
+    name: dot_density
+    required: yes
+    description: Average number of dots per square degree on screen
+  - 
+    name: dot_size
+    required: yes
+    description: Dot diameter (degrees)
+  - 
+    name: direction_altitude
+    default: 0.0
+    description: |
+        Altitude angle of direction of motion, in degrees between -90 and 90
+        (inclusive).
+
+        Along with `direction_azimuth`_, this parameter specifies the direction
+        of motion (or, more precisely, the direction from which coherent dots
+        come) in `horizontal coordinates
+        <https://en.wikipedia.org/wiki/Horizontal_coordinate_system>`_.  If the
+        alititude and azimuth are both zero, the motion is directly in to the
+        screen (or, equivalently, the dots come directly *out* of the screen).
+  - 
+    name: direction_azimuth
+    default: 0.0
+    description: |
+        Azimuth angle of direction of motion, in degrees between -180 and 180
+        (inclusive).
+
+        For more information, see `direction_altitude`_.
+  - 
+    name: speed
+    required: yes
+    description: Dot speed (degrees per second)
+  - 
+    name: coherence
+    default: 1.0
+    description: >
+        Fraction of dots that appear to come from the direction specified by
+        `direction_altitude`_ and `direction_azimuth`_.  Non-coherent dots
+        receive random directions.
+  - 
+    name: lifetime
+    default: 0.0
+    description: |
+        Dot lifetime (seconds).  When a dot reaches the end of its lifetime, it
+        is removed and replaced by a new dot in a random location.
+
+        If set to zero, dots have an infinite lifetime.
+  - 
+    name: max_num_dots
+    description: |
+        Maximum number of dots.
+
+        If omitted, the maximum number of dots is computed from the other
+        parameters when the stimulus is loaded.  Setting it explicitly to a
+        larger value makes it possible to increase dot density or stimulus size
+        while the experiment is running.
+  - 
+    name: rand_seed
+    description: >
+        Seed value for the random number generator.  If omitted, the current
+        system time in nanoseconds is used.
+
+

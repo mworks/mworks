@@ -33,6 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E187B2D92BB313AC0084810E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E187B2D82BB313AC0084810E /* MWComponents.yaml */; };
 		E1BA06B92A41F35900DE7D1A /* OpticFlowField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F0A74C2A27A621003A328D /* OpticFlowField.cpp */; };
 		E1BA06BA2A41F35D00DE7D1A /* OpticFlowField.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1F0A74F2A2A379A003A328D /* OpticFlowField.metal */; };
 		E1BA06BB2A41F36000DE7D1A /* OpticFlowFieldPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F0A73C2A27A1D1003A328D /* OpticFlowFieldPlugin.cpp */; };
@@ -75,6 +76,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E187B2D82BB313AC0084810E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1BA06B32A41F1DD00DE7D1A /* OpticFlowField.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpticFlowField.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1F0A7292A279C8C003A328D /* OpticFlowField.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpticFlowField.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1F0A7392A279EF6003A328D /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				E1F0A74F2A2A379A003A328D /* OpticFlowField.metal */,
 				E1F0A73C2A27A1D1003A328D /* OpticFlowFieldPlugin.cpp */,
 				E1F0A73E2A27A22E003A328D /* OpticFlowField-Prefix.pch */,
+				E187B2D82BB313AC0084810E /* MWComponents.yaml */,
 				E1F0A72A2A279C8C003A328D /* Products */,
 				E1F0A73F2A27A2D7003A328D /* Frameworks */,
 			);
@@ -207,7 +210,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					E1BA06B22A41F1DD00DE7D1A = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -256,6 +259,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E187B2D92BB313AC0084810E /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,88 @@
+%define size = 10
+%define offset = 6
+
+%define bg (x_position, y_position)
+    rectangle (
+        color = 0,0,0
+        x_size = size
+        x_position = x_position
+        y_position = y_position
+        )
+%end
+
+%define off (coherence, x_position, y_position)
+    optic_flow_field (
+        z_near = 10
+        z_far = 30
+        dot_density = 2
+        dot_size = 0.1
+        speed = 10
+        coherence = coherence
+        x_size = size
+        x_position = x_position
+        y_position = y_position
+        autoplay = true
+        )
+%end
+
+
+bg bg1 (
+    x_position = -offset
+    y_position = +offset
+    )
+
+bg bg2 (
+    x_position = +offset
+    y_position = +offset
+    )
+
+bg bg3 (
+    x_position = -offset
+    y_position = -offset
+    )
+
+bg bg4 (
+    x_position = +offset
+    y_position = -offset
+    )
+
+
+off off1 (
+    coherence = 1
+    x_position = -offset
+    y_position = +offset
+    )
+
+off off2 (
+    coherence = 0.9
+    x_position = +offset
+    y_position = +offset
+    )
+
+off off3 (
+    coherence = 0.5
+    x_position = -offset
+    y_position = -offset
+    )
+
+off off4 (
+    coherence = 0
+    x_position = +offset
+    y_position = -offset
+    )
+
+
+protocol {
+    queue_stimulus (bg1)
+    queue_stimulus (bg2)
+    queue_stimulus (bg3)
+    queue_stimulus (bg4)
+
+    queue_stimulus (off1)
+    queue_stimulus (off2)
+    queue_stimulus (off3)
+    queue_stimulus (off4)
+
+    update_display ()
+    wait (30s)
+}

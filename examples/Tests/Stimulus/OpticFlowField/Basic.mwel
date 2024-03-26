@@ -1,0 +1,118 @@
+stimulus_display (background_color = 0,0,0)
+
+
+var z_near = 10
+var z_far = 30
+var dot_density = 1
+var dot_size = 0.1
+var direction_altitude = 0
+var direction_azimuth = 0
+var speed = 10
+var coherence = 1
+var lifetime = 0
+var color_red = 1
+var color_green = 1
+var color_blue = 1
+var alpha_multiplier = 1
+var x_size = 15
+var y_size = 12
+var x_position = -5
+var y_position = -5
+var rotation = 0
+
+rectangle bg (
+    color = 0.25, 0.25, 0.25
+    x_size = x_size
+    y_size = y_size
+    x_position = x_position
+    y_position = y_position
+    rotation = rotation
+    )
+
+optic_flow_field off (
+    z_near = z_near
+    z_far = z_far
+    dot_density = dot_density
+    dot_size = dot_size
+    direction_altitude = direction_altitude
+    direction_azimuth = direction_azimuth
+    speed = speed
+    coherence = coherence
+    lifetime = lifetime
+    max_num_dots = 11894
+    color = color_red, color_green, color_blue
+    alpha_multiplier = alpha_multiplier
+    x_size = x_size
+    y_size = y_size
+    x_position = x_position
+    y_position = y_position
+    rotation = rotation
+    autoplay = true
+    )
+
+
+%define do_wait ()
+    wait (2s)
+%end
+
+
+protocol {
+    live_queue_stimulus (bg)
+    live_queue_stimulus (off)
+    update_display ()
+    do_wait ()
+
+    z_near = 2
+    do_wait ()
+
+    z_far = 15
+    do_wait ()
+
+    dot_density = 2
+    do_wait ()
+
+    dot_size = 0.15
+    do_wait ()
+
+    direction_altitude = 35
+    do_wait ()
+
+    direction_azimuth = 50
+    do_wait ()
+
+    speed = 20
+    do_wait ()
+
+    coherence = 0.8
+    do_wait ()
+
+    lifetime = 0.2
+    do_wait ()
+
+    color_red = 0
+    do_wait ()
+
+    color_green = 0
+    do_wait ()
+
+    color_blue = 0
+    do_wait ()
+
+    x_size *= 0.8
+    do_wait ()
+
+    y_size *= 1.2
+    do_wait ()
+
+    x_position = 5
+    do_wait ()
+
+    y_position = 5
+    do_wait ()
+
+    rotation = 45
+    do_wait ()
+
+    alpha_multiplier = 0.25
+    do_wait ()
+}

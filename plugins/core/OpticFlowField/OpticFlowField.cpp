@@ -360,7 +360,7 @@ bool OpticFlowField::computeNumDots(double newWidth,
                                                                  +newHalfHeight,
                                                                  newZNear,
                                                                  newZFar);
-
+    
     newDotDensity = dotDensity->getValue().getFloat();
     if (newDotDensity <= 0.0) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Dot density must be greater than 0");
