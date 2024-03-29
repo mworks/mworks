@@ -181,16 +181,12 @@
 		5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07BE710D1187200000A95 /* CodecAwareConduit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CA07C5610D13A4B00000A95 /* CodecAwareConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07BE810D1187200000A95 /* CodecAwareConduit.cpp */; };
 		5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
-		5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CAE8BF50AE4049E0013DB19 /* alut.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5CAE8BF80AE4049E0013DB19 /* alut.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CAE8BF60AE4049E0013DB19 /* alut.c */; };
 		5CB6C47D0E9A92CA006923EC /* SimpleConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C4770E9A92CA006923EC /* SimpleConduit.cpp */; };
 		5CB6C47E0E9A92CA006923EC /* SimpleConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CB6C4780E9A92CA006923EC /* SimpleConduit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CBA76D40AE069A300D6F4A6 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76D20AE069A300D6F4A6 /* Sound.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CBA76D50AE069A300D6F4A6 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76D30AE069A300D6F4A6 /* Sound.cpp */; };
 		5CBA76DC0AE06F6500D6F4A6 /* StandardSounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CBA76DD0AE06F6500D6F4A6 /* StandardSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */; };
-		5CBA76E20AE0706300D6F4A6 /* OpenALContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5CBA76E30AE0706300D6F4A6 /* OpenALContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76E10AE0706300D6F4A6 /* OpenALContextManager.cpp */; };
 		5CBFD7600AC04587007AB1A9 /* FullCoreEnvironmentTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBFD75E0AC04587007AB1A9 /* FullCoreEnvironmentTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CBFD7610AC04587007AB1A9 /* FullCoreEnvironmentTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBFD75F0AC04587007AB1A9 /* FullCoreEnvironmentTest.cpp */; };
 		5CCA2B590E8F1F99007BDA56 /* Conduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C2386B40E8D18FA00CDC4FC /* Conduit.cpp */; };
@@ -380,10 +376,6 @@
 		E11F2FD826B9893D0092D10B /* AudioFileSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */; };
 		E11F2FD926B9893D0092D10B /* AudioFileSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11F2FDA26B9893D0092D10B /* AudioFileSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		E11F2FDD26B9D7600092D10B /* LegacySounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */; };
-		E11F2FDE26B9D7600092D10B /* LegacySounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */; };
-		E11F2FDF26B9D7600092D10B /* LegacySounds.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		E11F2FE026B9D7600092D10B /* LegacySounds.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1257D9521F793FE00E1CF58 /* DataFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */; };
 		E1257D9621F793FE00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1257D9721F7964A00E1CF58 /* DataFileReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -641,14 +633,10 @@
 		E17917801E4E56D500528B91 /* StimulusNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C76674D0C1BB28C00B1203C /* StimulusNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917811E4E56DB00528B91 /* StimulusNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */; };
 		E17917821E4E56DF00528B91 /* StandardStimulusFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E17917831E4E570800528B91 /* alut.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CAE8BF50AE4049E0013DB19 /* alut.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E17917841E4E570D00528B91 /* alut.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CAE8BF60AE4049E0013DB19 /* alut.c */; };
 		E17917851E4E572C00528B91 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76D20AE069A300D6F4A6 /* Sound.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917861E4E573100528B91 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76D30AE069A300D6F4A6 /* Sound.cpp */; };
 		E17917871E4E573400528B91 /* StandardSounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917881E4E573900528B91 /* StandardSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */; };
-		E17917891E4E573C00528B91 /* OpenALContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E179178A1E4E574200528B91 /* OpenALContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76E10AE0706300D6F4A6 /* OpenALContextManager.cpp */; };
 		E1815FAE25810ED5004D8156 /* BlankScreenStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */; };
 		E1815FAF25810ED5004D8156 /* BlankScreenStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1815FAC25810ED5004D8156 /* BlankScreenStimulus.cpp */; };
 		E1815FB025810ED5004D8156 /* BlankScreenStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1815FAD25810ED5004D8156 /* BlankScreenStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -760,7 +748,6 @@
 		E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974A16C16C1F001481E9 /* CoreVideo.framework */; };
 		E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
 		E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974E16C16C3F001481E9 /* IOKit.framework */; };
-		E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975C16C16CA1001481E9 /* OpenAL.framework */; };
 		E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975D16C16CA1001481E9 /* OpenGL.framework */; };
 		E1DB977B16C18DA6001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB977D16C18E01001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
@@ -1140,16 +1127,12 @@
 		5CA07BE810D1187200000A95 /* CodecAwareConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CodecAwareConduit.cpp; sourceTree = "<group>"; };
 		5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableRegistryInterface.h; path = Core/InterfaceHooks/VariableRegistryInterface.h; sourceTree = "<group>"; };
 		5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableRegistryInterface.cpp; path = Core/InterfaceHooks/VariableRegistryInterface.cpp; sourceTree = "<group>"; };
-		5CAE8BF50AE4049E0013DB19 /* alut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alut.h; sourceTree = "<group>"; };
-		5CAE8BF60AE4049E0013DB19 /* alut.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alut.c; sourceTree = "<group>"; };
 		5CB6C4770E9A92CA006923EC /* SimpleConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleConduit.cpp; sourceTree = "<group>"; };
 		5CB6C4780E9A92CA006923EC /* SimpleConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleConduit.h; sourceTree = "<group>"; };
 		5CBA76D20AE069A300D6F4A6 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		5CBA76D30AE069A300D6F4A6 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
 		5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardSounds.h; sourceTree = "<group>"; };
 		5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = StandardSounds.cpp; sourceTree = "<group>"; };
-		5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenALContextManager.h; sourceTree = "<group>"; };
-		5CBA76E10AE0706300D6F4A6 /* OpenALContextManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenALContextManager.cpp; sourceTree = "<group>"; };
 		5CBFD75E0AC04587007AB1A9 /* FullCoreEnvironmentTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullCoreEnvironmentTest.h; sourceTree = "<group>"; };
 		5CBFD75F0AC04587007AB1A9 /* FullCoreEnvironmentTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FullCoreEnvironmentTest.cpp; sourceTree = "<group>"; };
 		5CCA2CAD0E903B33007BDA56 /* IPCEventTransportTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCEventTransportTest.h; sourceTree = "<group>"; };
@@ -1336,8 +1319,6 @@
 		E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioEngineSound.hpp; sourceTree = "<group>"; };
 		E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioFileSound.cpp; sourceTree = "<group>"; };
 		E11F2FD626B9893D0092D10B /* AudioFileSound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioFileSound.hpp; sourceTree = "<group>"; };
-		E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LegacySounds.cpp; sourceTree = "<group>"; };
-		E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LegacySounds.hpp; sourceTree = "<group>"; };
 		E1257D9321F793FE00E1CF58 /* DataFileReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileReader.cpp; sourceTree = "<group>"; };
 		E1257D9421F793FE00E1CF58 /* DataFileReader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataFileReader.hpp; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -1443,7 +1424,6 @@
 		E1DB974A16C16C1F001481E9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E1DB974C16C16C30001481E9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1DB974E16C16C3F001481E9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		E1DB975C16C16CA1001481E9 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		E1DB975D16C16CA1001481E9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E1DB977716C17068001481E9 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		E1DC75061D259C1700D9BC19 /* SerialPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerialPort.cpp; sourceTree = "<group>"; };
@@ -1545,7 +1525,6 @@
 				E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */,
 				E10C1D112230626F007094E5 /* Metal.framework in Frameworks */,
 				E10C1D1222306273007094E5 /* MetalKit.framework in Frameworks */,
-				E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */,
 				E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */,
 				E1F131142AD5D196001069DC /* UniformTypeIdentifiers.framework in Frameworks */,
 				E18B90422630AB8100A9D552 /* VideoToolbox.framework in Frameworks */,
@@ -1978,19 +1957,9 @@
 			name = Triggers;
 			sourceTree = SOURCE_ROOT;
 		};
-		5CAE8BE20AE402250013DB19 /* alut */ = {
-			isa = PBXGroup;
-			children = (
-				5CAE8BF50AE4049E0013DB19 /* alut.h */,
-				5CAE8BF60AE4049E0013DB19 /* alut.c */,
-			);
-			path = alut;
-			sourceTree = "<group>";
-		};
 		5CBA76D00AE0697500D6F4A6 /* SoundStimuli */ = {
 			isa = PBXGroup;
 			children = (
-				5CAE8BE20AE402250013DB19 /* alut */,
 				5CBA76D10AE0697500D6F4A6 /* tests */,
 				5CBA76D20AE069A300D6F4A6 /* Sound.h */,
 				5CBA76D30AE069A300D6F4A6 /* Sound.cpp */,
@@ -2004,15 +1973,11 @@
 				E11F2FD526B9893D0092D10B /* AudioFileSound.cpp */,
 				E17088DB28A43C9A00262E77 /* ToneSound.hpp */,
 				E17088DA28A43C9A00262E77 /* ToneSound.cpp */,
-				E11F2FDC26B9D7600092D10B /* LegacySounds.hpp */,
-				E11F2FDB26B9D7600092D10B /* LegacySounds.cpp */,
 				5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */,
 				5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */,
 				E1BE8C10289AF6C90025B0F4 /* StandardSoundFactory.hpp */,
 				E1AF742128EC832900F26CEC /* SoundGroup.hpp */,
 				E1AF742028EC832900F26CEC /* SoundGroup.cpp */,
-				5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */,
-				5CBA76E10AE0706300D6F4A6 /* OpenALContextManager.cpp */,
 			);
 			name = SoundStimuli;
 			path = Core/SoundStimuli;
@@ -2629,7 +2594,6 @@
 				E1DB974E16C16C3F001481E9 /* IOKit.framework */,
 				E10C1D0F22306253007094E5 /* Metal.framework */,
 				E10C1D1022306258007094E5 /* MetalKit.framework */,
-				E1DB975C16C16CA1001481E9 /* OpenAL.framework */,
 				E1DB975D16C16CA1001481E9 /* OpenGL.framework */,
 				E1F131132AD5D196001069DC /* UniformTypeIdentifiers.framework */,
 				E18B90412630AB8000A9D552 /* VideoToolbox.framework */,
@@ -2799,8 +2763,6 @@
 				5CBA76DC0AE06F6500D6F4A6 /* StandardSounds.h in Headers */,
 				E1BD1C422620AEAF0094FACB /* FairMutex.hpp in Headers */,
 				E1DC75091D259C1700D9BC19 /* SerialPort.hpp in Headers */,
-				5CBA76E20AE0706300D6F4A6 /* OpenALContextManager.h in Headers */,
-				5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */,
 				0EAA0DE70B98FC1500331AA5 /* SimpleStaircase.h in Headers */,
 				5C2B51210BB6838200928E03 /* ScopedVariable.h in Headers */,
 				E18161DC2582AE56004D8156 /* RectangleStimulus.hpp in Headers */,
@@ -2833,7 +2795,6 @@
 				5C9186130E3548FA00B64213 /* BiasMonitor.h in Headers */,
 				5CCA2B5A0E8F1F9A007BDA56 /* Conduit.h in Headers */,
 				5CCA2B5B0E8F1F9B007BDA56 /* EventTransport.h in Headers */,
-				E11F2FDF26B9D7600092D10B /* LegacySounds.hpp in Headers */,
 				E17916A31E4E416C00528B91 /* MacOSStimulusDisplay.h in Headers */,
 				E181612A25827E7D004D8156 /* TransformStimulus.hpp in Headers */,
 				5CCA2B5D0E8F1F9D007BDA56 /* IPCEventTransport.h in Headers */,
@@ -2900,7 +2861,6 @@
 				E17917161E4E539000528B91 /* LoadingUtilities.h in Headers */,
 				E11E9E2325AFA0790062D144 /* AAPLMathUtilities.h in Headers */,
 				E1257D9721F7964A00E1CF58 /* DataFileReader.hpp in Headers */,
-				E17917831E4E570800528B91 /* alut.h in Headers */,
 				E179171A1E4E53A300528B91 /* ExperimentUnpackager.h in Headers */,
 				E17917591E4E557300528B91 /* FitableFunctions.h in Headers */,
 				E17917781E4E567D00528B91 /* OpenGLUtilities.hpp in Headers */,
@@ -2915,9 +2875,7 @@
 				E17917111E4E534B00528B91 /* StandardComponentFactory.h in Headers */,
 				E17916BD1E4E510800528B91 /* VariableLoad.h in Headers */,
 				E17917151E4E535D00528B91 /* PluginServices.h in Headers */,
-				E17917891E4E573C00528B91 /* OpenALContextManager.h in Headers */,
 				E18160A125817757004D8156 /* MetalStimulus.hpp in Headers */,
-				E11F2FE026B9D7600092D10B /* LegacySounds.hpp in Headers */,
 				E17916F81E4E529900528B91 /* StandardClientCoreBuilder.h in Headers */,
 				E17916DF1E4E51C300528B91 /* Buffers.h in Headers */,
 				E17917721E4E564400528B91 /* StandardDynamicStimulus.h in Headers */,
@@ -3702,8 +3660,6 @@
 				0E9AD3160AD94214009C0B0B /* ExpandableList.cpp in Sources */,
 				5CBA76D50AE069A300D6F4A6 /* Sound.cpp in Sources */,
 				5CBA76DD0AE06F6500D6F4A6 /* StandardSounds.cpp in Sources */,
-				5CBA76E30AE0706300D6F4A6 /* OpenALContextManager.cpp in Sources */,
-				5CAE8BF80AE4049E0013DB19 /* alut.c in Sources */,
 				E1EE384A2671054F00774BF5 /* ZeroMQSocketPair.cpp in Sources */,
 				0EAA0DE60B98FC1500331AA5 /* SimpleStaircase.cpp in Sources */,
 				E18162252582C635004D8156 /* RectangleStimulus.metal in Sources */,
@@ -3752,7 +3708,6 @@
 				E188BE941D47F23B0001483A /* ZeroMQSocket.cpp in Sources */,
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
 				E1CA751425B0EAC5003B22C5 /* EllipseStimulus.cpp in Sources */,
-				E11F2FDD26B9D7600092D10B /* LegacySounds.cpp in Sources */,
 				E11E9E2425AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */,
 				E18163142588020D004D8156 /* AppleStimulusDisplay.cpp in Sources */,
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
@@ -3817,7 +3772,6 @@
 				E179176F1E4E563700528B91 /* DynamicStimulusDriver.cpp in Sources */,
 				E17917051E4E52F900528B91 /* XMLVariableWriter.cpp in Sources */,
 				E17917521E4E555000528B91 /* Transforms.cpp in Sources */,
-				E17917841E4E570D00528B91 /* alut.c in Sources */,
 				E17916E61E4E51E300528B91 /* LegacyBuffers.cpp in Sources */,
 				E17916EF1E4E523300528B91 /* Server.cpp in Sources */,
 				E17917371E4E547900528B91 /* Clock.cpp in Sources */,
@@ -3834,7 +3788,6 @@
 				E17916BC1E4E510500528B91 /* VariableRegistry.cpp in Sources */,
 				E179172C1E4E540A00528B91 /* Selection.cpp in Sources */,
 				E17917631E4E55C800528B91 /* Trigger.cpp in Sources */,
-				E179178A1E4E574200528B91 /* OpenALContextManager.cpp in Sources */,
 				E17916D01E4E515400528B91 /* ScopedVariableEnvironment.cpp in Sources */,
 				E1EC364A25BA32C2005AEEEE /* FixationPoint.cpp in Sources */,
 				E17916B61E4E50D000528B91 /* ZeroMQClient.cpp in Sources */,
@@ -3865,7 +3818,6 @@
 				E17916FB1E4E52A600528B91 /* StandardServerCoreBuilder.cpp in Sources */,
 				E17916A51E4E505300528B91 /* ExpandableList.cpp in Sources */,
 				E1AF742328EC832900F26CEC /* SoundGroup.cpp in Sources */,
-				E11F2FDE26B9D7600092D10B /* LegacySounds.cpp in Sources */,
 				E181609F25817757004D8156 /* MetalStimulus.cpp in Sources */,
 				E18162792583B481004D8156 /* AppleStimulusDisplay.metal in Sources */,
 				E181615F2582A62D004D8156 /* AlphaBlendedTransformStimulus.cpp in Sources */,
@@ -4206,8 +4158,6 @@
 					Metal,
 					"-framework",
 					MetalKit,
-					"-framework",
-					OpenAL,
 					"-framework",
 					QuartzCore,
 					"-framework",

@@ -14,7 +14,6 @@
 #include "EventBuffer.h"
 #include "StandardVariables.h"
 #include "StandardStimuli.h"
-#include "OpenALContextManager.h"
 #include <string>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -124,10 +123,6 @@ BEGIN_NAMESPACE_MW
             //opengl_context_manager->destroy();
         }
 		
-        OpenALContextManager::destroy();
-        shared_ptr<Component> openal_context_manager(new OpenALContextManager());
-        OpenALContextManager::registerInstance(openal_context_manager);
-        
         if (auto dataFileManager = DataFileManager::instance(false)) {
             dataFileManager->closeFile();
             dataFileManager->clearAutoOpenFilename();

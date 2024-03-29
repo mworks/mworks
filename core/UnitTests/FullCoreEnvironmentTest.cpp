@@ -16,7 +16,6 @@
 #include "MWorksCore/PluginServices.h"
 #include "MWorksCore/StandardVariables.h"
 #include "MWorksCore/DataFileManager.h"
-#include "MWorksCore/OpenALContextManager.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -44,8 +43,6 @@ void FullCoreEnvironmentTestFixture::tearDown(){
 
 	DataFileManager::destroy();
 
-	OpenALContextManager::destroy();
-	
 	if(registries_are_initialized) {
 		registries_are_initialized = false;
 	}

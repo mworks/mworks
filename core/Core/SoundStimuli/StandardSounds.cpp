@@ -7,7 +7,6 @@
  *
  */
 
-#define MWORKS_EXCLUDE_LEGACY_SOUNDS
 #include "StandardSounds.h"
 
 #include "AudioFileSound.hpp"

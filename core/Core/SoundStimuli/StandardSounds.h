@@ -12,10 +12,6 @@
 
 #include "ComponentRegistry.h"
 
-#ifndef MWORKS_EXCLUDE_LEGACY_SOUNDS
-#include "LegacySounds.hpp"
-#endif
-
 
 BEGIN_NAMESPACE_MW
 
