@@ -460,6 +460,87 @@ bool AudioEngineSound::EngineManager::setIOBufferDuration() {
 }
 
 
+static void getDebugInfo(AVAudioEngine *engine, std::ostringstream &info) {
+    info << "engine:" << std::endl << engine.description.UTF8String;
+    
+#if TARGET_OS_OSX
+    auto audioUnit = engine.outputNode.audioUnit;
+    if (!audioUnit) {
+        return;
+    }
+    
+    AudioObjectID currentDevice;
+    UInt32 currentDeviceSize = sizeof(currentDevice);
+    if (noErr != AudioUnitGetProperty(audioUnit,
+                                      kAudioOutputUnitProperty_CurrentDevice,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &currentDevice,
+                                      &currentDeviceSize))
+    {
+        return;
+    }
+    info << "currentDevice: " << currentDevice << std::endl;
+    
+    const AudioObjectPropertyAddress streamsAddress {
+        kAudioDevicePropertyStreams,
+        kAudioObjectPropertyScopeOutput,
+        kAudioObjectPropertyElementMain
+    };
+    UInt32 streamsDataSize = 0;
+    if (noErr != AudioObjectGetPropertyDataSize(currentDevice,
+                                                &streamsAddress,
+                                                0,
+                                                nullptr,
+                                                &streamsDataSize))
+    {
+        return;
+    }
+    
+    std::vector<AudioStreamID> streamsData(streamsDataSize / sizeof(AudioStreamID));
+    if (noErr != AudioObjectGetPropertyData(currentDevice,
+                                            &streamsAddress,
+                                            0,
+                                            nullptr,
+                                            &streamsDataSize,
+                                            streamsData.data()))
+    {
+        return;
+    }
+    
+    const auto numStreams = streamsDataSize / sizeof(decltype(streamsData)::value_type);
+    for (std::size_t streamIndex = 0; streamIndex < numStreams; streamIndex++) {
+        auto stream = streamsData.at(streamIndex);
+        info << "stream " << streamIndex << ": " << stream << std::endl;
+        
+        const AudioObjectPropertyAddress physicalFormatAddress {
+            kAudioStreamPropertyPhysicalFormat,
+            kAudioObjectPropertyScopeGlobal,
+            kAudioObjectPropertyElementMain
+        };
+        UInt32 physicalFormatSize = 0;
+        AudioStreamBasicDescription physicalFormat;
+        if (noErr == AudioObjectGetPropertyDataSize(stream,
+                                                    &physicalFormatAddress,
+                                                    0,
+                                                    nullptr,
+                                                    &physicalFormatSize) &&
+            noErr == AudioObjectGetPropertyData(stream,
+                                                &physicalFormatAddress,
+                                                0,
+                                                nullptr,
+                                                &physicalFormatSize,
+                                                &physicalFormat) &&
+            physicalFormatSize == sizeof(AudioStreamBasicDescription))
+        {
+            auto format = [[AVAudioFormat alloc] initWithStreamDescription:&physicalFormat];
+            info << "    " << format.description.UTF8String << std::endl;
+        }
+    }
+#endif
+}
+
+
 void AudioEngineSound::EngineManager::stateSystemModeCallback(const Datum &data, MWorksTime time) {
     lock_guard lock(mutex);
     
@@ -472,6 +553,13 @@ void AudioEngineSound::EngineManager::stateSystemModeCallback(const Datum &data,
                         merror(M_SYSTEM_MESSAGE_DOMAIN,
                                "Cannot start audio engine: %s",
                                error.localizedDescription.UTF8String);
+                    } else {
+                        std::ostringstream debugInfo;
+                        getDebugInfo(engine, debugInfo);
+                        mprintf("\n%s\n\n%s\n%s",
+                                "************ BEGIN AUDIO DEBUG INFO ************",
+                                debugInfo.str().c_str(),
+                                "************  END AUDIO DEBUG INFO  ************");
                     }
                 }
                 break;
