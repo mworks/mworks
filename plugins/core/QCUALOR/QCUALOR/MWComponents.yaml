@@ -107,5 +107,11 @@ parameters:
         IO Device` will send commmands to set all channel modes to "off" and
         gains to zero, but the experiment must explicitly set the MEG state to
         low to deactivate the modulator.
+  - 
+    name: log_commands
+    default: 'NO'
+    description: >
+        If ``YES``, log all commands sent to and responses received from the
+        device to the MWorks event stream and server console
 
 

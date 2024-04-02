@@ -7,8 +7,6 @@
 
 #include "QCUALORDevice.hpp"
 
-//#define MW_QCUALOR_DEBUG
-
 
 BEGIN_NAMESPACE_MW
 
@@ -25,6 +23,7 @@ const std::string QCUALORDevice::GAIN_3("gain_3");
 const std::string QCUALORDevice::GAIN_4("gain_4");
 const std::string QCUALORDevice::MAX_GAIN("max_gain");
 const std::string QCUALORDevice::MEG_STATE("meg_state");
+const std::string QCUALORDevice::LOG_COMMANDS("log_commands");
 
 
 void QCUALORDevice::describeComponent(ComponentInfo &info) {
@@ -44,6 +43,7 @@ void QCUALORDevice::describeComponent(ComponentInfo &info) {
     info.addParameter(GAIN_4, "0.0");
     info.addParameter(MAX_GAIN, "0.8");
     info.addParameter(MEG_STATE, false);
+    info.addParameter(LOG_COMMANDS, "NO");
 }
 
 
@@ -60,7 +60,8 @@ QCUALORDevice::QCUALORDevice(const ParameterValueMap &parameters) :
     gain3(parameters[GAIN_3]),
     gain4(parameters[GAIN_4]),
     gainMax(parameters[MAX_GAIN]),
-    megState(optionalVariable(parameters[MEG_STATE]))
+    megState(optionalVariable(parameters[MEG_STATE])),
+    logCommands(parameters[LOG_COMMANDS])
 {
     if (gainMax < 0.0 || gainMax > 1.0) {
         throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, boost::format("%1% must be between 0 and 1") % MAX_GAIN);
@@ -215,9 +216,10 @@ bool QCUALORDevice::sendCommand(const Message &command) {
             }
             bytesSent += result;
         } while (bytesSent < command.size());
-#ifdef MW_QCUALOR_DEBUG
-        mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SEND: %s", messageToHex(command).c_str());
-#endif
+        
+        if (logCommands->getValue().getBool()) {
+            mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SEND: %s", messageToHex(command).c_str());
+        }
     }
     
     Message response;
@@ -237,9 +239,10 @@ bool QCUALORDevice::sendCommand(const Message &command) {
             }
             bytesReceived += result;
         } while (bytesReceived < response.size());
-#ifdef MW_QCUALOR_DEBUG
-        mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RECV: %s", messageToHex(response).c_str());
-#endif
+        
+        if (logCommands->getValue().getBool()) {
+            mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RECV: %s", messageToHex(response).c_str());
+        }
     }
     
     // Check that response is equivalent to command

@@ -27,6 +27,7 @@ public:
     static const std::string GAIN_4;
     static const std::string MAX_GAIN;
     static const std::string MEG_STATE;
+    static const std::string LOG_COMMANDS;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -79,6 +80,7 @@ private:
     const VariablePtr gain4;
     const double gainMax;
     const VariablePtr megState;
+    const VariablePtr logCommands;
     
     SerialPort serialPort;
     
