@@ -39,11 +39,13 @@ public:
     
 private:
     enum {
-        CHANNEL_1 = 0b00000000,
-        CHANNEL_2 = 0b01000000,
-        CHANNEL_3 = 0b10000000,
-        CHANNEL_4 = 0b11000000,
+        CHANNEL_MASK = 0b11000000,
+        CHANNEL_1    = 0b00000000,
+        CHANNEL_2    = 0b01000000,
+        CHANNEL_3    = 0b10000000,
+        CHANNEL_4    = 0b11000000,
         
+        MODE_MASK = 0b111,
         MODE_OFF  = 0b000,
         MODE_CW   = 0b001,
         MODE_SW   = 0b010,
@@ -51,14 +53,26 @@ private:
         MODE_SQW  = 0b100
     };
     
-    using Message = std::array<std::uint8_t, 4>;
-    
-    static std::string messageToHex(const Message &message);
-    
-    static Message prepareCommand(std::uint8_t channel,
-                                  std::uint8_t mode = MODE_OFF,
-                                  std::uint8_t frequencyIndex = 0,
-                                  std::uint16_t gain = 0);
+    struct Message {
+        constexpr Message() : bytes{ 0, 0, 0, 0 } { }
+        
+        explicit Message(std::uint8_t channel,
+                         std::uint8_t mode = MODE_OFF,
+                         std::uint8_t frequencyIndex = 0,
+                         std::uint16_t gain = 0);
+        
+        std::uint8_t getChannel() const { return (bytes[0] & CHANNEL_MASK); }
+        std::uint8_t getMode() const { return (bytes[0] & MODE_MASK); }
+        
+        bool send(SerialPort &serialPort) const;
+        bool receive(SerialPort &serialPort);
+        
+        bool isEqual(const Message &other) const { return (bytes == other.bytes); }
+        std::string toString() const;
+        
+    private:
+        std::array<std::uint8_t, 4> bytes;
+    };
     
     bool prepareCommand(std::uint8_t channel,
                         const VariablePtr &modeVar,
@@ -67,6 +81,7 @@ private:
                         Message &command) const;
     
     bool sendCommand(const Message &command);
+    bool deactivateAllChannels();
     
     const VariablePtr serialPortPath;
     const VariablePtr mode1;
@@ -83,6 +98,8 @@ private:
     const VariablePtr logCommands;
     
     SerialPort serialPort;
+    
+    std::map<std::uint8_t, bool> active;
     
     using lock_guard = std::lock_guard<std::mutex>;
     lock_guard::mutex_type mutex;

@@ -74,7 +74,16 @@ bool QCUALORDevice::initialize() {
     if (serialPortPath) {
         path = serialPortPath->getValue().getString();
     }
-    return serialPort.connect(path, B115200);
+    if (!serialPort.connect(path, B115200)) {
+        return false;
+    }
+    
+    // Configure all channels to "OFF"
+    if (!deactivateAllChannels()) {
+        return false;
+    }
+    
+    return true;
 }
 
 
@@ -102,10 +111,10 @@ bool QCUALORDevice::startDeviceIO() {
                                              / std::log(frequencyMax / frequencyMin));
     
     std::array<Message, 4> commands;
-    if (!prepareCommand(CHANNEL_1, mode1, frequencyIndex, gain1, commands.at(0)) ||
-        !prepareCommand(CHANNEL_2, mode2, frequencyIndex, gain2, commands.at(1)) ||
-        !prepareCommand(CHANNEL_3, mode3, frequencyIndex, gain3, commands.at(2)) ||
-        !prepareCommand(CHANNEL_4, mode4, frequencyIndex, gain4, commands.at(3)))
+    if (!prepareCommand(CHANNEL_1, mode1, frequencyIndex, gain1, commands[0]) ||
+        !prepareCommand(CHANNEL_2, mode2, frequencyIndex, gain2, commands[1]) ||
+        !prepareCommand(CHANNEL_3, mode3, frequencyIndex, gain3, commands[2]) ||
+        !prepareCommand(CHANNEL_4, mode4, frequencyIndex, gain4, commands[3]))
     {
         return false;
     }
@@ -131,11 +140,8 @@ bool QCUALORDevice::stopDeviceIO() {
         megState->setValue(Datum(false));
     }
     
-    if (!sendCommand(prepareCommand(CHANNEL_1)) ||
-        !sendCommand(prepareCommand(CHANNEL_2)) ||
-        !sendCommand(prepareCommand(CHANNEL_3)) ||
-        !sendCommand(prepareCommand(CHANNEL_4)))
-    {
+    // Configure all active channels to "OFF"
+    if (!deactivateAllChannels()) {
         return false;
     }
     
@@ -143,26 +149,58 @@ bool QCUALORDevice::stopDeviceIO() {
 }
 
 
-std::string QCUALORDevice::messageToHex(const Message &message) {
-    std::ostringstream os;
-    os << "\t0b" << std::bitset<8>(message.at(0));
-    os << '\t' << int(message.at(1));
-    os << "\t0x" << std::hex << std::setfill('0') << std::setw(2) << int(message.at(2));
-    os << "\t0x" << std::hex << std::setfill('0') << std::setw(2) << int(message.at(3));
-    return os.str();
+QCUALORDevice::Message::Message(std::uint8_t channel,
+                                std::uint8_t mode,
+                                std::uint8_t frequencyIndex,
+                                std::uint16_t gain)
+{
+    bytes[0] = channel | mode;
+    bytes[1] = frequencyIndex;
+    boost::endian::store_little_u16(&(bytes[2]), gain);
 }
 
 
-auto QCUALORDevice::prepareCommand(std::uint8_t channel,
-                                   std::uint8_t mode,
-                                   std::uint8_t frequencyIndex,
-                                   std::uint16_t gain) -> Message
-{
-    Message command;
-    command.at(0) = channel | mode;
-    command.at(1) = frequencyIndex;
-    boost::endian::store_little_u16(&(command.at(2)), gain);
-    return command;
+bool QCUALORDevice::Message::send(SerialPort &serialPort) const {
+    std::size_t bytesSent = 0;
+    do {
+        auto result = serialPort.write(bytes.data() + bytesSent, bytes.size() - bytesSent);
+        if (-1 == result) {
+            merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot send configuration command to QCUALOR device");
+            return false;
+        }
+        bytesSent += result;
+    } while (bytesSent < bytes.size());
+    
+    return true;
+}
+
+
+bool QCUALORDevice::Message::receive(SerialPort &serialPort) {
+    std::size_t bytesReceived = 0;
+    do {
+        auto result = serialPort.read(bytes.data() + bytesReceived, bytes.size() - bytesReceived);
+        if (-1 == result) {
+            merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot receive configuration response from QCUALOR device");
+            return false;
+        }
+        if (0 == result) {
+            merror(M_IODEVICE_MESSAGE_DOMAIN, "QCUALOR device did not respond to configuration command");
+            return false;
+        }
+        bytesReceived += result;
+    } while (bytesReceived < bytes.size());
+    
+    return true;
+}
+
+
+std::string QCUALORDevice::Message::toString() const {
+    std::ostringstream os;
+    os << "0b" << std::bitset<8>(bytes[0]);
+    os << ' ' << std::setw(3) << int(bytes[1]);
+    os << " 0x" << std::hex << std::setfill('0') << std::setw(2) << int(bytes[2]);
+    os << " 0x" << std::hex << std::setfill('0') << std::setw(2) << int(bytes[3]);
+    return os.str();
 }
 
 
@@ -195,63 +233,63 @@ bool QCUALORDevice::prepareCommand(std::uint8_t channel,
         return false;
     }
     
-    command = prepareCommand(channel,
-                             mode,
-                             frequencyIndex,
-                             std::round(gain * double(std::numeric_limits<std::uint16_t>::max())));
+    command = Message(channel,
+                      mode,
+                      frequencyIndex,
+                      std::round(gain * double(std::numeric_limits<std::uint16_t>::max())));
     
     return true;
 }
 
 
 bool QCUALORDevice::sendCommand(const Message &command) {
+    // Assume as-yet-unconfigured channels are active, so that the first
+    // configuration command for the channel always executes
+    auto &isActive = active.emplace(command.getChannel(), true).first->second;
+    const auto shouldActivate = (command.getMode() != MODE_OFF);
+    
+    if (!(isActive || shouldActivate)) {
+        // Channel is being set to "OFF", but it's already inactive, so there's
+        // nothing to do
+        return true;
+    }
+    
     // Send command
-    {
-        std::size_t bytesSent = 0;
-        do {
-            auto result = serialPort.write(command.data() + bytesSent, command.size() - bytesSent);
-            if (-1 == result) {
-                merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot send configuration command to QCUALOR device");
-                return false;
-            }
-            bytesSent += result;
-        } while (bytesSent < command.size());
-        
-        if (logCommands->getValue().getBool()) {
-            mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SEND: %s", messageToHex(command).c_str());
-        }
+    if (!command.send(serialPort)) {
+        return false;
+    }
+    if (logCommands->getValue().getBool()) {
+        mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SEND: %s", command.toString().c_str());
     }
     
     Message response;
     
     // Receive response
-    {
-        std::size_t bytesReceived = 0;
-        do {
-            auto result = serialPort.read(response.data() + bytesReceived, response.size() - bytesReceived);
-            if (-1 == result) {
-                merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot receive configuration response from QCUALOR device");
-                return false;
-            }
-            if (0 == result) {
-                merror(M_IODEVICE_MESSAGE_DOMAIN, "QCUALOR device did not respond to configuration command");
-                return false;
-            }
-            bytesReceived += result;
-        } while (bytesReceived < response.size());
-        
-        if (logCommands->getValue().getBool()) {
-            mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RECV: %s", messageToHex(response).c_str());
-        }
+    if (!response.receive(serialPort)) {
+        return false;
+    }
+    if (logCommands->getValue().getBool()) {
+        mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RECV: %s", response.toString().c_str());
     }
     
     // Check that response is equivalent to command
-    if (response != command) {
+    if (!response.isEqual(command)) {
         merror(M_IODEVICE_MESSAGE_DOMAIN, "Received invalid configuration response from QCUALOR device");
         return false;
     }
     
+    // Update "active" flag for configured channel
+    isActive = shouldActivate;
+    
     return true;
+}
+
+
+bool QCUALORDevice::deactivateAllChannels() {
+    return (sendCommand(Message(CHANNEL_1)) &&
+            sendCommand(Message(CHANNEL_2)) &&
+            sendCommand(Message(CHANNEL_3)) &&
+            sendCommand(Message(CHANNEL_4)));
 }
 
 

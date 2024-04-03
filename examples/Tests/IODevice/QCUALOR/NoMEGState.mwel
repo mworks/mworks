@@ -1,0 +1,11 @@
+qcualor laser (
+    mode_3 = 'continuous'
+    modulation_frequency = 5.0
+    gain_3 = 0.5
+    log_commands = true
+    )
+
+
+protocol {
+    start_io_device (laser)
+}
