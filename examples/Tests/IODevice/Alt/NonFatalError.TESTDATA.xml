@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <requirements>
+    <feature name="macos"/>
+  </requirements>
   <expected_messages>
     <message type="whole_message">ERROR: Requested path (not_a_serial_port) does not exist or is not a serial device</message>
     <message type="whole_message">Started I/O on dummy device</message>

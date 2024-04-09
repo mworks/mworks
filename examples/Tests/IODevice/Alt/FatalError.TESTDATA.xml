@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <requirements>
+    <feature name="macos"/>
+  </requirements>
   <expected_messages>
     <message type="starts_with">ERROR: USBHID device must have at least one channel or have value logging enabled</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>
