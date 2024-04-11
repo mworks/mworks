@@ -22,6 +22,8 @@ BEGIN_NAMESPACE_MW
 class AudioEngineSound : public Sound, boost::noncopyable {
     
 public:
+    class EngineManager;
+    
     static const std::string VOLUME;
     static const std::string PAN;
     
@@ -58,6 +60,8 @@ private:
     using mutex_type = lock_guard::mutex_type;
     using unique_lock = std::unique_lock<mutex_type>;
     
+    static boost::shared_ptr<EngineManager> getEngineManager();
+    
     void volumeCallback(const Datum &data, MWorksTime time);
     void panCallback(const Datum &data, MWorksTime time);
     void stateSystemModeCallback(const Datum &data, MWorksTime time);
@@ -70,24 +74,6 @@ private:
     enum class Action { Play, Pause, Resume, Stop };
     static const char * getActionName(Action action);
     void announceAction(Action action, MWTime startTime = 0) const;
-    
-    struct EngineManager : boost::noncopyable {
-        EngineManager();
-        ~EngineManager();
-        AVAudioEngine * getEngine(unique_lock &lock) const {
-            lock = unique_lock(mutex);
-            return engine;
-        }
-    private:
-        bool setIOBufferDuration();
-        void stateSystemModeCallback(const Datum &data, MWorksTime time);
-        AVAudioEngine *engine;
-        AVAudioNode *dummyNode;
-        boost::shared_ptr<VariableNotification> stateSystemModeNotification;
-        mutable mutex_type mutex;
-    };
-    
-    static boost::shared_ptr<EngineManager> getEngineManager();
     
     const VariablePtr volume;
     const VariablePtr pan;

@@ -7,11 +7,10 @@
 
 #include "AudioEngineSound.hpp"
 
-#include <AVFAudio/AVAudioPlayerNode.h>
 #if !TARGET_OS_OSX
-#  include <AVFAudio/AVAudioSession.h>
+#  include "IOSAudioEngineManager.hpp"
 #else
-#  include <AudioToolbox/AudioToolbox.h>
+#  include "MacOSAudioEngineManager.hpp"
 #endif
 
 
@@ -204,6 +203,25 @@ void AudioEngineSound::stop() {
 }
 
 
+auto AudioEngineSound::getEngineManager() -> boost::shared_ptr<EngineManager> {
+    static boost::weak_ptr<EngineManager> weakManager;
+    static mutex_type mutex;
+    
+    lock_guard lock(mutex);
+    
+    auto manager = weakManager.lock();
+    if (!manager) {
+#if !TARGET_OS_OSX
+        manager = boost::make_shared<IOSAudioEngineManager>();
+#else
+        manager = boost::make_shared<MacOSAudioEngineManager>();
+#endif
+        weakManager = manager;
+    }
+    return manager;
+}
+
+
 void AudioEngineSound::volumeCallback(const Datum &data, MWorksTime time) {
     lock_guard lock(mutex);
     
@@ -325,179 +343,6 @@ void AudioEngineSound::announceAction(Action action, MWTime startTime) const {
     }
     
     announce(Datum(announceData));
-}
-
-
-AudioEngineSound::EngineManager::EngineManager() :
-    engine(nil),
-    dummyNode(nil)
-{
-    @autoreleasepool {
-        engine = [[AVAudioEngine alloc] init];
-        
-        // Attempting to start the engine with no nodes attached crashes the application.
-        // (This can happen if all the sounds in an experiment have autoload disabled.)
-        // Therefore, we attach and connect a dummy node, which is never played, to prevent
-        // this.
-        dummyNode = [[AVAudioPlayerNode alloc] init];
-        [engine attachNode:dummyNode];
-        [engine connect:dummyNode to:engine.mainMixerNode format:nil];
-        
-        if (!setIOBufferDuration()) {
-            mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-                     "Cannot set audio I/O buffer duration; sounds may start later than requested");
-        }
-        
-        auto callback = [this](const Datum &data, MWorksTime time) { stateSystemModeCallback(data, time); };
-        stateSystemModeNotification = boost::make_shared<VariableCallbackNotification>(callback);
-        if (auto stateSystemMode = state_system_mode) {
-            stateSystemMode->addNotification(stateSystemModeNotification);
-        }
-    }
-}
-
-
-AudioEngineSound::EngineManager::~EngineManager() {
-    @autoreleasepool {
-        stateSystemModeNotification->remove();
-        
-        if (engine.running) {
-            [engine stop];
-        }
-        
-        [engine disconnectNodeOutput:dummyNode];
-        [engine detachNode:dummyNode];
-        dummyNode = nil;
-        
-        engine = nil;
-    }
-}
-
-
-bool AudioEngineSound::EngineManager::setIOBufferDuration() {
-    constexpr auto targetBufferDuration = 0.001;  // 1ms
-    
-#if !TARGET_OS_OSX
-    
-    auto audioSession = [AVAudioSession sharedInstance];
-    
-    // We want the number of samples per buffer to be the smallest power of 2
-    // that produces a buffer duration less than or equal to the target duration
-    const auto samplesPerBuffer = std::pow(2.0, std::floor(std::log2(targetBufferDuration * audioSession.sampleRate)));
-    const auto bufferDuration = samplesPerBuffer / audioSession.sampleRate;
-    
-    if (![audioSession setPreferredIOBufferDuration:bufferDuration error:nil]) {
-        return false;
-    }
-    
-#else
-    
-    //
-    // The technique used here for adjusting the I/O buffer size is described at
-    // https://developer.apple.com/library/archive/technotes/tn2321/_index.html
-    //
-    // The fact that engine.outputNode.audioUnit is the AUHAL Audio Unit doesn't
-    // seem to be documented, but it's easy to confirm, as we do below.
-    //
-    
-    auto audioUnit = engine.outputNode.audioUnit;
-    if (!audioUnit) {
-        return false;
-    }
-    
-    auto audioComponent = AudioComponentInstanceGetComponent(audioUnit);
-    AudioComponentDescription audioComponentDescription;
-    if (!audioComponent ||
-        noErr != AudioComponentGetDescription(audioComponent, &audioComponentDescription) ||
-        kAudioUnitType_Output != audioComponentDescription.componentType ||
-        kAudioUnitSubType_HALOutput != audioComponentDescription.componentSubType)
-    {
-        return false;
-    }
-    
-    Float64 nominalSampleRate;
-    UInt32 nominalSampleRateSize = sizeof(nominalSampleRate);
-    if (noErr != AudioUnitGetProperty(audioUnit,
-                                      kAudioDevicePropertyNominalSampleRate,
-                                      kAudioUnitScope_Global,
-                                      0,
-                                      &nominalSampleRate,
-                                      &nominalSampleRateSize))
-    {
-        return false;
-    }
-    
-    AudioValueRange bufferFrameSizeRange;
-    UInt32 bufferFrameSizeRangeSize = sizeof(bufferFrameSizeRange);
-    if (noErr != AudioUnitGetProperty(audioUnit,
-                                      kAudioDevicePropertyBufferFrameSizeRange,
-                                      kAudioUnitScope_Global,
-                                      0,
-                                      &bufferFrameSizeRange,
-                                      &bufferFrameSizeRangeSize))
-    {
-        return false;
-    }
-    
-    // Set the buffer frame size to the smallest power of 2 that produces a
-    // buffer duration less than or equal to the target duration, subject to
-    // the minimum buffer frame size
-    const UInt32 bufferFrameSize = std::max(bufferFrameSizeRange.mMinimum,
-                                            std::pow(2.0, std::floor(std::log2(targetBufferDuration * nominalSampleRate))));
-    if (noErr != AudioUnitSetProperty(audioUnit,
-                                      kAudioDevicePropertyBufferFrameSize,
-                                      kAudioUnitScope_Global,
-                                      0,
-                                      &bufferFrameSize,
-                                      sizeof(bufferFrameSize)))
-    {
-        return false;
-    }
-    
-#endif
-    
-    return true;
-}
-
-
-void AudioEngineSound::EngineManager::stateSystemModeCallback(const Datum &data, MWorksTime time) {
-    lock_guard lock(mutex);
-    
-    @autoreleasepool {
-        switch (data.getInteger()) {
-            case RUNNING:
-                if (!engine.running) {
-                    NSError *error = nil;
-                    if (![engine startAndReturnError:&error]) {
-                        merror(M_SYSTEM_MESSAGE_DOMAIN,
-                               "Cannot start audio engine: %s",
-                               error.localizedDescription.UTF8String);
-                    }
-                }
-                break;
-                
-            case IDLE:
-                if (engine.running) {
-                    [engine pause];
-                }
-                break;
-        }
-    }
-}
-
-
-auto AudioEngineSound::getEngineManager() -> boost::shared_ptr<EngineManager> {
-    static boost::weak_ptr<EngineManager> weakManager;
-    static mutex_type mutex;
-    
-    lock_guard lock(mutex);
-    
-    auto manager = weakManager.lock();
-    if (!manager) {
-        manager = boost::make_shared<EngineManager>();
-        weakManager = manager;
-    }
-    return manager;
 }
 
 

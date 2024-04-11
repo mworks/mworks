@@ -392,6 +392,14 @@
 		E13B07F11E292A040071347C /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07ED1E2929590071347C /* libxml2.tbd */; };
 		E13B07F21E292A0A0071347C /* libxslt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07EF1E2929620071347C /* libxslt.tbd */; };
 		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E142A4812BC833B20021CD18 /* AudioEngineManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E142A47F2BC833B20021CD18 /* AudioEngineManager.cpp */; };
+		E142A4822BC833B20021CD18 /* AudioEngineManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E142A4802BC833B20021CD18 /* AudioEngineManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E142A4832BC833B20021CD18 /* AudioEngineManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E142A47F2BC833B20021CD18 /* AudioEngineManager.cpp */; };
+		E142A4842BC833B20021CD18 /* AudioEngineManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E142A4802BC833B20021CD18 /* AudioEngineManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E142A4872BC838820021CD18 /* MacOSAudioEngineManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E142A4852BC838820021CD18 /* MacOSAudioEngineManager.cpp */; };
+		E142A4882BC838820021CD18 /* MacOSAudioEngineManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E142A4862BC838820021CD18 /* MacOSAudioEngineManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E142A48B2BC838BA0021CD18 /* IOSAudioEngineManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E142A4892BC838BA0021CD18 /* IOSAudioEngineManager.cpp */; };
+		E142A48C2BC838BA0021CD18 /* IOSAudioEngineManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E142A48A2BC838BA0021CD18 /* IOSAudioEngineManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1457B4E14D08F7E004D3AD5 /* MWorksCoreTestMain.h in Headers */ = {isa = PBXBuildFile; fileRef = E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */; };
 		E1457B5014D08F95004D3AD5 /* MWorksCoreTestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */; };
 		E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */; };
@@ -1330,6 +1338,12 @@
 		E13B07ED1E2929590071347C /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		E13B07EF1E2929620071347C /* libxslt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxslt.tbd; path = usr/lib/libxslt.tbd; sourceTree = SDKROOT; };
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
+		E142A47F2BC833B20021CD18 /* AudioEngineManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioEngineManager.cpp; sourceTree = "<group>"; };
+		E142A4802BC833B20021CD18 /* AudioEngineManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioEngineManager.hpp; sourceTree = "<group>"; };
+		E142A4852BC838820021CD18 /* MacOSAudioEngineManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MacOSAudioEngineManager.cpp; sourceTree = "<group>"; };
+		E142A4862BC838820021CD18 /* MacOSAudioEngineManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MacOSAudioEngineManager.hpp; sourceTree = "<group>"; };
+		E142A4892BC838BA0021CD18 /* IOSAudioEngineManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = IOSAudioEngineManager.cpp; sourceTree = "<group>"; };
+		E142A48A2BC838BA0021CD18 /* IOSAudioEngineManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IOSAudioEngineManager.hpp; sourceTree = "<group>"; };
 		E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCoreTestMain.h; sourceTree = "<group>"; };
 		E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksCoreTestMain.cpp; sourceTree = "<group>"; };
 		E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLUtilities.cpp; sourceTree = "<group>"; };
@@ -1960,11 +1974,11 @@
 		5CBA76D00AE0697500D6F4A6 /* SoundStimuli */ = {
 			isa = PBXGroup;
 			children = (
-				5CBA76D10AE0697500D6F4A6 /* tests */,
 				5CBA76D20AE069A300D6F4A6 /* Sound.h */,
 				5CBA76D30AE069A300D6F4A6 /* Sound.cpp */,
 				E11F2FCE26B84B4E0092D10B /* AudioEngineSound.hpp */,
 				E11F2FCD26B84B4E0092D10B /* AudioEngineSound.cpp */,
+				E142A47E2BC8335A0021CD18 /* AudioEngineManager */,
 				E15E5DDC28E49E410087DA1F /* AudioSourceNodeSound.hpp */,
 				E15E5DDB28E49E410087DA1F /* AudioSourceNodeSound.cpp */,
 				E1BE8C16289BFE350025B0F4 /* AudioPCMBufferSound.hpp */,
@@ -1981,13 +1995,6 @@
 			);
 			name = SoundStimuli;
 			path = Core/SoundStimuli;
-			sourceTree = "<group>";
-		};
-		5CBA76D10AE0697500D6F4A6 /* tests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = tests;
 			sourceTree = "<group>";
 		};
 		5CCA2CAA0E903B04007BDA56 /* tests */ = {
@@ -2489,6 +2496,19 @@
 			path = tests;
 			sourceTree = "<group>";
 		};
+		E142A47E2BC8335A0021CD18 /* AudioEngineManager */ = {
+			isa = PBXGroup;
+			children = (
+				E142A4802BC833B20021CD18 /* AudioEngineManager.hpp */,
+				E142A47F2BC833B20021CD18 /* AudioEngineManager.cpp */,
+				E142A4862BC838820021CD18 /* MacOSAudioEngineManager.hpp */,
+				E142A4852BC838820021CD18 /* MacOSAudioEngineManager.cpp */,
+				E142A48A2BC838BA0021CD18 /* IOSAudioEngineManager.hpp */,
+				E142A4892BC838BA0021CD18 /* IOSAudioEngineManager.cpp */,
+			);
+			path = AudioEngineManager;
+			sourceTree = "<group>";
+		};
 		E148A4581E4BA280002DFB1C /* OpenGLContextManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -2681,6 +2701,7 @@
 				DA2CE12707E9F88900C68AEF /* Event.h in Headers */,
 				E16AAF582ABB33950031B8C3 /* TaskSystem.hpp in Headers */,
 				E15E5DDF28E49E410087DA1F /* AudioSourceNodeSound.hpp in Headers */,
+				E142A4822BC833B20021CD18 /* AudioEngineManager.hpp in Headers */,
 				DA2CE12B07E9F8B200C68AEF /* LoadingUtilities.h in Headers */,
 				E1FE64132142BEB700209279 /* MWK2File.hpp in Headers */,
 				DA2CE17F07E9F93900C68AEF /* BlockAndProtocol.h in Headers */,
@@ -2721,6 +2742,7 @@
 				DA2E379F08B0FE5800BD22C4 /* EventBuffer.h in Headers */,
 				8ED451E408BF5B90003880D5 /* EyeMonitors.h in Headers */,
 				E1F7CBB921F22B8A003F48A1 /* dfindex.h in Headers */,
+				E142A4882BC838820021CD18 /* MacOSAudioEngineManager.hpp in Headers */,
 				E1E585BB266FB4A40058186F /* ZeroMQIPCEventTransport.hpp in Headers */,
 				E16AAF522ABB31B20031B8C3 /* Actions.hpp in Headers */,
 				8ED451E808BF5BA1003880D5 /* FilterTransforms.h in Headers */,
@@ -2854,11 +2876,13 @@
 				E17916E51E4E51DE00528B91 /* LegacyBuffers.h in Headers */,
 				E1CA751725B0EAC5003B22C5 /* EllipseStimulus.hpp in Headers */,
 				E17917471E4E54F000528B91 /* Utilities.h in Headers */,
+				E142A48C2BC838BA0021CD18 /* IOSAudioEngineManager.hpp in Headers */,
 				E17916D31E4E515F00528B91 /* SelectionVariable.h in Headers */,
 				E1B43C5B1FA3858B00CB6A97 /* VariableAssignment.hpp in Headers */,
 				E17917491E4E54FA00528B91 /* RegisteredSingleton.h in Headers */,
 				E17916DB1E4E51B500528B91 /* EventBuffer.h in Headers */,
 				E17917161E4E539000528B91 /* LoadingUtilities.h in Headers */,
+				E142A4842BC833B20021CD18 /* AudioEngineManager.hpp in Headers */,
 				E11E9E2325AFA0790062D144 /* AAPLMathUtilities.h in Headers */,
 				E1257D9721F7964A00E1CF58 /* DataFileReader.hpp in Headers */,
 				E179171A1E4E53A300528B91 /* ExperimentUnpackager.h in Headers */,
@@ -3610,6 +3634,7 @@
 				E1EC364925BA32C2005AEEEE /* FixationPoint.cpp in Sources */,
 				DA2CE1BE07E9F95600C68AEF /* Utilities.cpp in Sources */,
 				E181612825827E7D004D8156 /* TransformStimulus.cpp in Sources */,
+				E142A4872BC838820021CD18 /* MacOSAudioEngineManager.cpp in Sources */,
 				E1F7CBBA21F22B8A003F48A1 /* DataFileIndexer.cpp in Sources */,
 				DA2CE1C207E9F96500C68AEF /* ScarabServices.cpp in Sources */,
 				E18161DA2582AE56004D8156 /* RectangleStimulus.cpp in Sources */,
@@ -3713,6 +3738,7 @@
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
 				E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */,
 				E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */,
+				E142A4812BC833B20021CD18 /* AudioEngineManager.cpp in Sources */,
 				E1BE8C17289BFE350025B0F4 /* AudioPCMBufferSound.cpp in Sources */,
 				E19B79261D525CCC00110665 /* ZeroMQUtilities.cpp in Sources */,
 				E194BF6E1590DB5300D4A62D /* StimulusDisplayDevice.cpp in Sources */,
@@ -3733,6 +3759,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E142A48B2BC838BA0021CD18 /* IOSAudioEngineManager.cpp in Sources */,
 				E179173D1E4E549400528B91 /* Scheduler.cpp in Sources */,
 				E17917771E4E566D00528B91 /* StimulusDisplay.cpp in Sources */,
 				E17916B21E4E50C100528B91 /* ZeroMQSocket.cpp in Sources */,
@@ -3777,6 +3804,7 @@
 				E17917371E4E547900528B91 /* Clock.cpp in Sources */,
 				E17917101E4E534700528B91 /* ComponentFactory.cpp in Sources */,
 				E17917191E4E539E00528B91 /* ExperimentPackager.cpp in Sources */,
+				E142A4832BC833B20021CD18 /* AudioEngineManager.cpp in Sources */,
 				E17917171E4E539400528B91 /* LoadingUtilities.cpp in Sources */,
 				E17917811E4E56DB00528B91 /* StimulusNode.cpp in Sources */,
 				E17917231E4E53E100528B91 /* BlockAndProtocol.cpp in Sources */,
