@@ -89,6 +89,28 @@ bool MacOSAudioEngineManager::setIOBufferDuration(AudioUnit outputAudioUnit) {
         return false;
     }
     
+    UInt32 transportType;
+    UInt32 transportTypeSize = sizeof(transportType);
+    if (noErr != AudioUnitGetProperty(outputAudioUnit,
+                                      kAudioDevicePropertyTransportType,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &transportType,
+                                      &transportTypeSize))
+    {
+        return false;
+    }
+    
+    //
+    // Adjusting the buffer duration seems to break things when audio is being output
+    // over HDMI: https://mworks.discourse.group/t/audio-problems-on-nightly-upgrade/959
+    //
+    if (kAudioDeviceTransportTypeHDMI == transportType) {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                 "Audio I/O buffer duration configuration is disabled for HDMI audio output devices");
+        return false;
+    }
+    
     Float64 nominalSampleRate;
     UInt32 nominalSampleRateSize = sizeof(nominalSampleRate);
     if (noErr != AudioUnitGetProperty(outputAudioUnit,
