@@ -19,6 +19,7 @@
 #include "PlatformDependentServices.h"
 #include "EventBuffer.h"
 #include "LoadingUtilities.h"
+#include <boost/filesystem/directory.hpp>
 #include <boost/filesystem/operations.hpp>
 
 #include <dlfcn.h>

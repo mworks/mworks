@@ -10,6 +10,7 @@
 #include "DataFileManager.h"
 #include "VariableLoad.h"
 #include "VariableSave.h"
+#include <boost/filesystem/directory.hpp>
 #include <boost/filesystem/operations.hpp>
 #include "PlatformDependentServices.h"
 #include "ComponentRegistry.h"

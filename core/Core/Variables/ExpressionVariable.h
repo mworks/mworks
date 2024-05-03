@@ -24,6 +24,8 @@
 #ifndef	EXPRESSION_VARIABLE_H_
 #define	EXPRESSION_VARIABLE_H_
 
+#include <cstdint>
+
 #include <boost/algorithm/string/trim.hpp>
  
 #include "GenericVariable.h"

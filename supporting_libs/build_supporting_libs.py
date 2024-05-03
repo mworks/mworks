@@ -325,7 +325,7 @@ def run_configure_and_make(
 
 @builder
 def libffi():
-    version = '3.4.4'
+    version = '3.4.6'
     srcdir = 'libffi-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -343,13 +343,13 @@ def libffi():
 
 @builder
 def openssl():
-    version = '3.1.4'
+    version = '3.3.0'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
-            download_archive('https://www.openssl.org/source/', tarfile)
+            download_archive('https://github.com/openssl/openssl/releases/download/openssl-%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
 
         with workdir(srcdir):
@@ -559,7 +559,7 @@ def libpython_all():
 
 @builder
 def boost():
-    version = '1.83.0'
+    version = '1.85.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -624,7 +624,7 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '6.1.0'
+    version = '6.1.1'
     srcdir = 'msgpack-cxx-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -665,8 +665,8 @@ def libxslt(macos=False):
 
 @builder
 def sqlite():
-    release_year = 2023
-    version = '3440000'  # 3.44.0
+    release_year = 2024
+    version = '3450300'  # 3.45.3
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -676,18 +676,20 @@ def sqlite():
             unpack_tarfile(tarfile, srcdir)
 
         with workdir(srcdir):
-            extra_compile_flags = '-DSQLITE_DQS=0'  # Recommended as of 3.29.0
+            extra_compile_flags = [
+                '-DSQLITE_DQS=0',             # Recommended as of 3.29.0
+                '-DSQLITE_STRICT_SUBTYPE=1',  # Recommended as of 3.45.0
+                ]
             if building_for_ios:
-                extra_compile_flags = join_flags(extra_compile_flags,
-                                                 '-DSQLITE_NOHAVE_SYSTEM')
+                extra_compile_flags.append('-DSQLITE_NOHAVE_SYSTEM')
             run_configure_and_make(
-                extra_compile_flags = extra_compile_flags,
+                extra_compile_flags = join_flags(*extra_compile_flags),
                 )
 
 
 @builder
 def libusb(ios=False):
-    version = '1.0.26'
+    version = '1.0.27'
     srcdir = 'libusb-' + version
     tarfile = srcdir + '.tar.bz2'
 

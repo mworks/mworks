@@ -15,9 +15,9 @@
 #include "StandardVariables.h"
 #include "StandardStimuli.h"
 #include <string>
+#include <boost/filesystem/directory.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/convenience.hpp>
 #include <boost/pointer_cast.hpp>
 #include "ComponentRegistry.h"
 #include "XMLParser.h"

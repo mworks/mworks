@@ -11,7 +11,7 @@
 
 #include "DataFileManager.h"
 
-#include <boost/filesystem/convenience.hpp>
+#include <boost/filesystem/operations.hpp>
 
 #include "PlatformDependentServices.h"
 

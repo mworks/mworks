@@ -63,8 +63,13 @@ public:
             callback = other.callback;
         }
         
-        // No move construction, copy assignment, or move assignment
-        Callback(Callback &&other) = delete;
+        // Move constructor
+        Callback(Callback &&other) :
+            // No need to acquire the GIL, since no reference counts will change
+            callback(std::move(other.callback))
+        { }
+        
+        // No copy assignment or move assignment
         Callback& operator=(const Callback &other) = delete;
         Callback& operator=(Callback &&other) = delete;
         
