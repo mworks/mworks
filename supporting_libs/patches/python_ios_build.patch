@@ -1,7 +1,7 @@
-diff -ur Python-3.11.3/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.11.3/pyconfig.h.in	2023-04-04 18:22:17
-+++ Python/pyconfig.h.in	2023-04-18 10:05:50
-@@ -152,7 +152,7 @@
+diff -ur Python-3.12.3/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.12.3/pyconfig.h.in	2024-04-09 04:09:14
++++ Python/pyconfig.h.in	2024-05-06 11:00:07
+@@ -155,7 +155,7 @@
  #undef HAVE_CLOCK_NANOSLEEP
  
  /* Define to 1 if you have the `clock_settime' function. */
@@ -10,7 +10,7 @@ diff -ur Python-3.11.3/pyconfig.h.in Python/pyconfig.h.in
  
  /* Define to 1 if you have the `close_range' function. */
  #undef HAVE_CLOSE_RANGE
-@@ -454,7 +454,7 @@
+@@ -469,7 +469,7 @@
  #undef HAVE_GETEGID
  
  /* Define to 1 if you have the `getentropy' function. */
@@ -19,7 +19,7 @@ diff -ur Python-3.11.3/pyconfig.h.in Python/pyconfig.h.in
  
  /* Define to 1 if you have the `geteuid' function. */
  #undef HAVE_GETEUID
-@@ -1243,7 +1243,7 @@
+@@ -1272,7 +1272,7 @@
  #undef HAVE_SYSLOG_H
  
  /* Define to 1 if you have the `system' function. */

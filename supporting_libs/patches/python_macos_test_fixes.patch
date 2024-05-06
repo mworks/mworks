@@ -1,32 +1,11 @@
-diff -ur Python-3.11.3/Lib/distutils/tests/test_build_ext.py Python/Lib/distutils/tests/test_build_ext.py
---- Python-3.11.3/Lib/distutils/tests/test_build_ext.py	2023-04-04 18:22:17
-+++ Python/Lib/distutils/tests/test_build_ext.py	2023-04-15 10:12:10
-@@ -446,6 +446,8 @@
-         #  the interpreter.
-         self._try_compile_deployment_target('==', None)
- 
-+    @unittest.skip('-mmacosx-version-min in CFLAGS overrides '
-+                   'MACOSX_DEPLOYMENT_TARGET in environment')
-     @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
-     def test_deployment_target_too_low(self):
-         # Issue 9516: Test that an extension module is not allowed to be
-@@ -453,6 +455,8 @@
-         self.assertRaises(DistutilsPlatformError,
-             self._try_compile_deployment_target, '>', '10.1')
- 
-+    @unittest.skip('-mmacosx-version-min in CFLAGS overrides '
-+                   'MACOSX_DEPLOYMENT_TARGET in environment')
-     @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
-     def test_deployment_target_higher_ok(self):
-         # Issue 9516: Test that an extension module can be compiled with a
-diff -ur Python-3.11.3/Lib/test/test_cppext.py Python/Lib/test/test_cppext.py
---- Python-3.11.3/Lib/test/test_cppext.py	2023-04-04 18:22:17
-+++ Python/Lib/test/test_cppext.py	2023-04-15 10:18:16
-@@ -15,6 +15,7 @@
- SETUP_TESTCPPEXT = support.findfile('setup_testcppext.py')
+diff -ur Python-3.12.3/Lib/test/test_cppext/__init__.py Python/Lib/test/test_cppext/__init__.py
+--- Python-3.12.3/Lib/test/test_cppext/__init__.py	2024-04-09 04:09:14
++++ Python/Lib/test/test_cppext/__init__.py	2024-05-06 15:24:46
+@@ -14,6 +14,7 @@
+ SETUP = os.path.join(os.path.dirname(__file__), 'setup.py')
  
  
 +@unittest.skip('Not relevant')
  @support.requires_subprocess()
  class TestCPPExt(unittest.TestCase):
-     def test_build_cpp11(self):
+     @support.requires_resource('cpu')

@@ -280,6 +280,7 @@ def run_configure_and_make(
     extra_cxxflags = '',
     extra_ldflags = '',
     extra_cppflags = '',
+    targets = ['install'],
     ):
 
     opts = [
@@ -313,7 +314,7 @@ def run_configure_and_make(
                               extra_cppflags),
         )
     
-    run_make(['install'])
+    run_make(targets)
 
 
 ################################################################################
@@ -377,7 +378,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.11.3'
+    version = '3.12.3'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -389,18 +390,31 @@ def python():
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 apply_patch('python_cross_build.patch')
-                apply_patch('python_ctypes.patch')
                 apply_patch('python_mergeable_modules.patch')
-                apply_patch('python_static_zlib.patch')
+                apply_patch('python_no_apple_ffi.patch')
+                apply_patch('python_strict_extension_build.patch')
                 apply_patch('python_test_fixes.patch')
                 if building_for_ios:
                     apply_patch('python_ios_build.patch')
-                    apply_patch('python_ios_disabled_modules.patch')
                     apply_patch('python_ios_fixes.patch')
                     apply_patch('python_ios_test_fixes.patch')
                 else:
                     apply_patch('python_macos_13_0_required.patch')
                     apply_patch('python_macos_test_fixes.patch')
+                with open('Modules/Setup.local', 'w') as fp:
+                    fp.write('''\
+*static*
+_struct _struct.c
+math mathmodule.c
+unicodedata unicodedata.c
+zlib zlibmodule.c -lz
+*disabled*
+_gdbm _lzma _tkinter
+''')
+                    if building_for_ios:
+                        fp.write('''\
+_curses _curses_panel _scproxy nis readline
+''')
 
         with workdir(srcdir):
             extra_args = [
@@ -414,7 +428,12 @@ def python():
                     '--with-build-python=' + os.environ['MW_PYTHON_3'],
                     'ac_cv_file__dev_ptmx=no',
                     'ac_cv_file__dev_ptc=no',
+                    'COMPILEALL_OPTS=-j1',
                     ]
+            extra_args += [
+                'LIBFFI_CFLAGS=-I' + includedir,
+                'LIBFFI_LIBS=-L%s -lffi' % libdir,
+                ]
             if not building_for_ios:
                 # Set MACOSX_DEPLOYMENT_TARGET, so that the correct value is
                 # recorded in the installed sysconfig data
@@ -423,7 +442,11 @@ def python():
 
             run_configure_and_make(
                 extra_args = extra_args,
+                targets = ['all'],
                 )
+            # make install using a single job, in order to work around this
+            # issue: https://github.com/python/cpython/issues/109796
+            check_call([make, 'install'])
 
             # Generate list of trusted root certificates (for ssl module)
             always_download_file(
@@ -434,7 +457,7 @@ def python():
 
 @builder
 def numpy():
-    version = '1.26.2'
+    version = '1.26.4'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 

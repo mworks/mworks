@@ -36,8 +36,11 @@ def run_tests():
         replace_forbidden_funcs()
 
     # Run Python test suite
-    from test.libregrtest import main
+    from test.libregrtest.main import main
     try:
+        # To print the names of individual tests as they run, uncomment the
+        # following line
+        #sys.argv = ['test', '-v']
         main()
     except SystemExit:
         pass

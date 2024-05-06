@@ -1,0 +1,12 @@
+diff -ur Python-3.12.3/Makefile.pre.in Python/Makefile.pre.in
+--- Python-3.12.3/Makefile.pre.in	2024-04-09 04:09:14
++++ Python/Makefile.pre.in	2024-05-07 11:14:34
+@@ -993,7 +993,7 @@
+ # dependency on BUILDPYTHON ensures that the target is run last
+ .PHONY: checksharedmods
+ checksharedmods: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)
+-	@$(RUNSHARED) $(PYTHON_FOR_BUILD) $(srcdir)/Tools/build/check_extension_modules.py
++	@$(RUNSHARED) $(PYTHON_FOR_BUILD) $(srcdir)/Tools/build/check_extension_modules.py --strict
+ 
+ .PHONY: rundsymutil
+ rundsymutil: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)

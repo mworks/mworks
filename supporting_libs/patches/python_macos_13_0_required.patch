@@ -1,7 +1,7 @@
-diff -ur Python-3.11.3/pyconfig.h.in Python/pyconfig.h.in
---- Python-3.11.3/pyconfig.h.in	2023-04-04 18:22:17
-+++ Python/pyconfig.h.in	2023-04-14 09:47:36
-@@ -794,13 +794,13 @@
+diff -ur Python-3.12.3/pyconfig.h.in Python/pyconfig.h.in
+--- Python-3.12.3/pyconfig.h.in	2024-04-09 04:09:14
++++ Python/pyconfig.h.in	2024-05-06 15:21:36
+@@ -806,13 +806,13 @@
  #undef HAVE_MKFIFO
  
  /* Define to 1 if you have the `mkfifoat' function. */
