@@ -120,10 +120,17 @@ void Client::startEventListener() {
 bool Client::connectToServer(const std::string &host, const int port) {
     std::unique_lock<std::mutex> lock(connectedEventReceivedMutex);
     
+    // ZeroMQ doesn't seem to resolve mDNS (aka Bonjour) hostnames correctly, so we resolve
+    // the host to a numeric address ourselves
+    std::string address;
+    if (!zeromq::resolveHostname(host, address)) {
+        return false;
+    }
+    
     remoteConnection.reset(new ZeroMQClient(incoming_event_buffer,
                                             outgoing_event_buffer,
-                                            zeromq::formatTCPEndpoint(host, port),
-                                            zeromq::formatTCPEndpoint(host, port + 1)));
+                                            zeromq::formatTCPEndpoint(address, port),
+                                            zeromq::formatTCPEndpoint(address, port + 1)));
     if (!remoteConnection->connect()) {
         //TODO log the error somewhere.
         return false; 
