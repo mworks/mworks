@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
+from enum import IntEnum
+import json
 import os
 import random
 from subprocess import call, check_call, check_output, Popen, PIPE
@@ -13,6 +15,7 @@ import xml.etree.ElementTree as etree
 
 
 available_features = set()
+device_id = None
 server_address = None
 skip_unit_tests = False
 show_marionette_output = False
@@ -29,6 +32,16 @@ test_data_suffix = 'TESTDATA.xml'
 
 error_tests = []
 warning_tests = []
+
+# The Python interpreter will exit with status 1 if there's an exception and
+# 2 if there's an argument-parsing error.  Use status 3 to indicate that
+# some tests failed with errors and status 4 to denote warnings without
+# errors.
+class ExitStatus(IntEnum):
+    ERROR = 1
+    USAGE_ERROR = 2
+    TEST_FAILURE = 3
+    TEST_WARNING = 4
 
 server_lock = threading.Lock()
 
@@ -82,12 +95,34 @@ def is_unit_test(name):
     return (b'::' in check_output(['/usr/bin/c++filt', name]))
 
 
+def run_devicectl(args):
+    with NamedTemporaryFile() as output:
+        cmd = ['/usr/bin/xcrun',
+               'devicectl',
+               '--quiet',
+               '--timeout', '60',
+               '--json-output', output.name,
+               ]
+        cmd.extend(args)
+        if call(cmd) != 0:
+            error(ExitStatus.ERROR, 'devicectl command failed')
+        return json.load(output)
+
+
 def run_applescript(script):
     with server_lock:
         cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
         cmd.communicate(script.encode('utf-8'))
         if cmd.returncode != 0:
-            error(cmd.returncode, 'osascript command failed')
+            error(ExitStatus.ERROR, 'osascript command failed')
+
+
+def launch_mworks_app(terminate_existing=False):
+    args = ['device', 'process', 'launch', '--device', device_id]
+    if terminate_existing:
+        args.append('--terminate-existing')
+    args.append('org.mworks-project.MWServer-iOS')
+    return run_devicectl(args)['result']['process']['processIdentifier']
 
 
 class MWServerMemoryUsageMonitor(threading.Thread):
@@ -134,7 +169,8 @@ def run_unit_tests(test_names=None):
 
         status = call(args)
         if status not in (0, 1):
-            error(status, '%s quit unexpectedly',
+            error(ExitStatus.ERROR,
+                  '%s quit unexpectedly',
                   os.path.basename(mworks_core_test_runner))
 
         results = minidom.parse(output)
@@ -167,15 +203,16 @@ def run_marionette_tests(test_names=None):
                 if not os.path.isdir(test):
                     yield test
                 else:
-                    for t in iter_marionette_tests(test):
-                        yield t
+                    yield from iter_marionette_tests(test)
 
     # Randomize test order to increase our chances of catching bad
     # interactions between different core components
     all_test_names = list(test_file_iter())
     random.shuffle(all_test_names)
 
-    if not server_address:
+    if device_id:
+        mworks_app_pid = launch_mworks_app(terminate_existing=True)
+    elif not server_address:
         # Ensure that server starts fresh
         run_applescript(quit_server_applescript)
 
@@ -187,7 +224,7 @@ def run_marionette_tests(test_names=None):
 
     for test_num, test_file in enumerate(all_test_names):
         if not os.path.isfile(test_file):
-            error(3, 'no such file: "%s"', test_file)
+            error(ExitStatus.ERROR, 'no such file: "%s"', test_file)
 
         args = [marionette_test, test_file]
 
@@ -232,7 +269,9 @@ def run_marionette_tests(test_names=None):
         if os.path.isdir(saved_state_dir):
             check_call(['/bin/rm', '-Rf', saved_state_dir])
 
-        if not server_address:
+        if device_id:
+            mworks_app_pid = launch_mworks_app()
+        elif not server_address:
             run_applescript(marionette_prep_applescript)
 
         env = os.environ.copy()
@@ -255,7 +294,15 @@ def run_marionette_tests(test_names=None):
             for line in (output or b'').strip().split(b'\n'):
                 print('    >', line.decode('utf-8'))
 
-    if not server_address:
+    if device_id:
+        # Tell MWorks app to terminate
+        run_devicectl(['device',
+                       'process',
+                       'signal',
+                       '--device', device_id,
+                       '--pid', str(mworks_app_pid),
+                       '--signal', 'SIGTERM'])
+    elif not server_address:
         # Quit server
         run_applescript(quit_server_applescript)
 
@@ -298,15 +345,22 @@ def run_tests(unit_test_names, marionette_test_names):
 
 
 def main():
-    global server_address, skip_unit_tests, show_marionette_output
+    global device_id, server_address, skip_unit_tests, show_marionette_output
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--features',
                         default = '',
                         help = 'available features (as a comma-separated list)')
-    parser.add_argument('--server-address',
-                        default = '',
-                        help = 'address of running MWServer instance')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--device-name',
+                       help = ('name of connected device on which to launch '
+                               'and test MWorks app'))
+    group.add_argument('--server-address',
+                       help = ('address of running MWServer or MWorks app '
+                               'instance'))
+    parser.add_argument('--app-bundle-path',
+                        help = ('path to MWorks app bundle to install and test '
+                                '(requires --device-name)'))
     parser.add_argument('--skip-unit-tests',
                         action = 'store_true',
                         help = 'do not run unit tests')
@@ -322,7 +376,9 @@ def main():
 
     available_features.update(name.strip() for name in
                               args.features.split(',') if name.strip())
+    device_name = args.device_name
     server_address = args.server_address
+    app_bundle_path = args.app_bundle_path
     skip_unit_tests = args.skip_unit_tests
     show_marionette_output = args.show_marionette_output
 
@@ -335,16 +391,35 @@ def main():
         else:
             marionette_test_names.append(name)
 
+    if device_name:
+        for device in run_devicectl(['list', 'devices'])['result']['devices']:
+            connection_props = device['connectionProperties']
+            if (device['deviceProperties']['name'] == device_name and
+                connection_props['tunnelState'] == 'connected'):
+                device_id = device['identifier']
+                server_address = connection_props['localHostnames'][0]
+                break
+        else:
+            error(ExitStatus.ERROR,
+                  'requested device not found or not connected')
+
+    if app_bundle_path:
+        if not device_id:
+            error(ExitStatus.USAGE_ERROR,
+                  'cannot install app bundle: no device specified')
+        else:
+            run_devicectl(['device',
+                           'install',
+                           'app',
+                           '--device', device_id,
+                           app_bundle_path])
+
     run_tests(unit_test_names, marionette_test_names)
 
-    # The Python interpreter will exit with status 1 if there's an exception and
-    # 2 if there's an argument-parsing error.  Use status 3 to indicate that
-    # some tests failed with errors and status 4 to denote warnings without
-    # errors.
     if error_tests:
-        sys.exit(3)
+        sys.exit(ExitStatus.TEST_FAILURE)
     if warning_tests:
-        sys.exit(4)
+        sys.exit(ExitStatus.TEST_WARNING)
 
 
 if __name__ == '__main__':
