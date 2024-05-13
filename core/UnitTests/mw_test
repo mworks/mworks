@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from optparse import OptionParser
+import argparse
 import os
 import random
 from subprocess import call, check_call, check_output, Popen, PIPE
@@ -300,32 +300,36 @@ def run_tests(unit_test_names, marionette_test_names):
 def main():
     global server_address, skip_unit_tests, show_marionette_output
 
-    op = OptionParser(usage='Usage: %prog [options] [test_name ...]')
-    op.add_option('--features',
-                  default = '',
-                  help = 'available features (as a comma-separated list)')
-    op.add_option('--server-address',
-                  default = '',
-                  help = 'address of running MWServer instance')
-    op.add_option('--skip-unit-tests',
-                  action = 'store_true',
-                  help = 'do not run unit tests')
-    op.add_option('--show-marionette-output',
-                  action = 'store_true',
-                  help = 'display output from all marionette tests')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--features',
+                        default = '',
+                        help = 'available features (as a comma-separated list)')
+    parser.add_argument('--server-address',
+                        default = '',
+                        help = 'address of running MWServer instance')
+    parser.add_argument('--skip-unit-tests',
+                        action = 'store_true',
+                        help = 'do not run unit tests')
+    parser.add_argument('--show-marionette-output',
+                        action = 'store_true',
+                        help = 'display output from all marionette tests')
+    parser.add_argument('test_names',
+                        metavar = 'test_name',
+                        nargs = '*',
+                        help = 'run only the requested test(s)')
 
-    (opts, args) = op.parse_args()
+    args = parser.parse_args()
 
     available_features.update(name.strip() for name in
-                              opts.features.split(',') if name.strip())
-    server_address = opts.server_address
-    skip_unit_tests = opts.skip_unit_tests
-    show_marionette_output = opts.show_marionette_output
+                              args.features.split(',') if name.strip())
+    server_address = args.server_address
+    skip_unit_tests = args.skip_unit_tests
+    show_marionette_output = args.show_marionette_output
 
     unit_test_names = []
     marionette_test_names = []
 
-    for name in args:
+    for name in args.test_names:
         if is_unit_test(name):
             unit_test_names.append(name)
         else:
