@@ -1,25 +1,24 @@
 #!/usr/bin/env python3
 
 import argparse
-from subprocess import check_call
+import os
+from subprocess import check_call, check_output
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--archive', action='store_true',
-                        help='create an archive for distribution')
-    parser.add_argument('version', nargs='?', help='version number')
-    args = parser.parse_args()
+xcrun = '/usr/bin/xcrun'
+workspace = 'MWorks-iOS.xcworkspace'
 
+
+def build(archive, version):
     cmd = [
-        '/usr/bin/xcrun',
+        xcrun,
         'xcodebuild',
-        '-workspace', 'MWorks-iOS.xcworkspace',
+        '-workspace', workspace,
         '-scheme', 'MWorks',
         '-destination', 'generic/platform=iOS',
         ]
 
-    if args.archive:
+    if archive:
         cmd.append('archive')
     else:
         cmd.extend(['clean', 'build'])
@@ -28,10 +27,62 @@ def main():
                 'MTL_TREAT_WARNINGS_AS_ERRORS=YES',
                 'SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'])
 
-    if args.version:
-        cmd.append('MW_VERSION=' + args.version)
+    if version:
+        cmd.append('MW_VERSION=' + version)
 
     check_call(cmd)
+
+
+def iter_build_settings():
+    cmd = [
+        xcrun,
+        'xcodebuild',
+        '-showBuildSettings',
+        '-workspace', workspace,
+        '-scheme', 'MWServer-iOS',
+        ]
+
+    for line in check_output(cmd, encoding='utf-8').split('\n'):
+        line = line.split(' = ')
+        if len(line) == 2:
+            yield tuple(item.strip() for item in line)
+
+
+def create_app_archive(app_archive_path):
+    if app_archive_path:
+        build_settings = dict(iter_build_settings())
+        app_path = os.path.join(build_settings['BUILT_PRODUCTS_DIR'],
+                                build_settings['WRAPPER_NAME'])
+        check_call(['/usr/bin/ditto',
+                    '-cz',
+                    '--keepParent',
+                    app_path,
+                    app_archive_path])
+
+
+def main():
+    parser = argparse.ArgumentParser()
+
+    #
+    # --archive and --app-archive-path need to be mutually exclusive, because
+    # distribution archives aren't built in the normal BUILT_PRODUCTS_DIR,
+    # meaning create_app_archive won't find the correct app bundle
+    #
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--archive',
+                       action = 'store_true',
+                       help = 'create an archive for distribution')
+    group.add_argument('--app-archive-path',
+                       help = ('create a compressed CPIO archive containing '
+                               'the built app bundle at the specified path'))
+
+    parser.add_argument('version',
+                        nargs = '?',
+                        help = 'version number')
+    args = parser.parse_args()
+
+    build(args.archive, args.version)
+    create_app_archive(args.app_archive_path)
 
 
 if __name__ == '__main__':
