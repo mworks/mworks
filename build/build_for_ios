@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import string
 from subprocess import check_call, check_output
 
 
@@ -27,7 +28,9 @@ def build(archive, version):
                 'MTL_TREAT_WARNINGS_AS_ERRORS=YES',
                 'SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'])
 
-    if version:
+    if version[0] in string.digits:
+        # Use version number only if it starts with a digit.  This
+        # will exclude fake versions like "NIGHTLY" and "CUSTOM".
         cmd.append('MW_VERSION=' + version)
 
     check_call(cmd)
@@ -76,9 +79,9 @@ def main():
                        help = ('create a compressed CPIO archive containing '
                                'the built app bundle at the specified path'))
 
-    parser.add_argument('version',
-                        nargs = '?',
-                        help = 'version number')
+    parser.add_argument('--version',
+                        default = 'CUSTOM',
+                        help = 'version number [default: %(default)s]')
     args = parser.parse_args()
 
     build(args.archive, args.version)
