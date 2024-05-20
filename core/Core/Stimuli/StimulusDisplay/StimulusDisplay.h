@@ -22,7 +22,6 @@
 #include "Clock.h"
 #include "FairMutex.hpp"
 #include "LinkedList.h"
-#include "OpenGLContextLock.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -35,13 +34,6 @@ class Stimulus;
 class StimulusNode;
 class Variable;
 class VariableCallbackNotification;
-
-
-enum class RenderingMode {
-    OpenGL,
-    Metal,
-    None
-};
 
 
 class StimulusDisplay : public boost::enable_shared_from_this<StimulusDisplay>, boost::noncopyable {
@@ -108,19 +100,11 @@ public:
                                   int heightPixels,
                                   const boost::shared_ptr<Variable> &enabled) = 0;
     
-    virtual void setRenderingMode(RenderingMode mode) = 0;
-    
     virtual int createFramebuffer() = 0;
     virtual void pushFramebuffer(int framebuffer_id) = 0;
     virtual void bindCurrentFramebuffer() = 0;
     virtual void popFramebuffer() = 0;
     virtual void releaseFramebuffer(int framebuffer_id) = 0;
-    
-    // These methods are used by legacy stimulus classes to manage per-context OpenGL resources.
-    // They should *not* be used internally by StimulusDisplay.
-    int getNContexts() const { return 1; }
-    OpenGLContextLock setCurrent(int i = 0 /*ignored*/) const { return setCurrentOpenGLContext(); }
-    int getCurrentContextIndex() const { return 0; }
     
 protected:
     const boost::shared_ptr<OpenGLContextManager> & getContextManager() const { return contextManager; }
@@ -137,7 +121,6 @@ protected:
     
     void setMainDisplayRefreshRate(double value) { mainDisplayRefreshRate = value; }
     void setCurrentOutputTimeUS(MWTime value) { currentOutputTimeUS = value; }
-    OpenGLContextLock setCurrentOpenGLContext() const;
     
     void refreshDisplay();
     void reportSkippedFrames(double numSkippedFrames) const;

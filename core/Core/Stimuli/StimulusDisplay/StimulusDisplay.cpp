@@ -264,11 +264,6 @@ void StimulusDisplay::addStimulusNode(const boost::shared_ptr<StimulusNode> &sti
 }
 
 
-OpenGLContextLock StimulusDisplay::setCurrentOpenGLContext() const {
-    return contextManager->setCurrent(main_context_id);
-}
-
-
 void StimulusDisplay::refreshDisplay() {
     bool needDraw = false;
     

@@ -26,9 +26,6 @@ public:
     
     int getNumDisplays() const override;
     
-    OpenGLContextLock setCurrent(int context_id) override;
-    void clearCurrent() override;
-    
 private:
     int newFullscreenContext(int screen_number, bool opaque) override;
     int newMirrorContext(double width, double height, int main_context_id) override;

@@ -22,8 +22,6 @@ public:
     
     explicit RenderActions(const ParameterValueMap &parameters);
     
-    RenderingMode getRenderingMode() const override { return RenderingMode::None; }
-    
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistryPtr reg,
                   boost::shared_ptr<Component> child) override;

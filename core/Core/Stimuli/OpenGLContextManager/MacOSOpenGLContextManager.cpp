@@ -7,8 +7,6 @@
 
 #include "MacOSOpenGLContextManager.hpp"
 
-#include "OpenGLUtilities.hpp"
-
 
 BEGIN_NAMESPACE_MW
 
@@ -25,29 +23,6 @@ MacOSOpenGLContextManager::~MacOSOpenGLContextManager() {
 }
 
 
-static MWKOpenGLContext * createOpenGLContext() {
-    MWKOpenGLContext *context = nil;
-    
-    NSOpenGLPixelFormatAttribute pixelFormatAttributes[] =
-    {
-        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
-        NSOpenGLPFAAccelerated,
-        0
-    };
-    
-    NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelFormatAttributes];
-    if (pixelFormat) {
-        context = [[MWKOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
-        if (context) {
-            // Crash on calls to functions removed from the core profile
-            CGLEnable(context.CGLContextObj, kCGLCECrashOnRemovedFunctions);
-        }
-    }
-    
-    return context;
-}
-
-
 static id<MTLDevice> getMetalDeviceForScreen(NSScreen *screen) {
     NSNumber *screenNumber = screen.deviceDescription[@"NSScreenNumber"];
     CGDirectDisplayID displayID = screenNumber.unsignedIntValue;
@@ -61,11 +36,6 @@ static id<MTLDevice> getMetalDeviceForScreen(NSScreen *screen) {
 
 int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque) {
     @autoreleasepool {
-        MWKOpenGLContext *context = createOpenGLContext();
-        if (!context) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for fullscreen window");
-        }
-        
         NSScreen *screen = NSScreen.screens[screen_number];
         NSRect frame = NSMakeRect(0.0, 0.0, screen.frame.size.width, screen.frame.size.height);
         __block bool success = false;
@@ -92,7 +62,6 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
                     
                     [window orderFront:nil];
                     
-                    [contexts addObject:context];
                     [views addObject:view];
                     [windows addObject:window];
                     
@@ -114,18 +83,13 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaq
             }
         }
         
-        return (contexts.count - 1);
+        return (views.count - 1);
     }
 }
 
 
 int MacOSOpenGLContextManager::newMirrorContext(double width, double height, int main_context_id) {
     @autoreleasepool {
-        MWKOpenGLContext *context = createOpenGLContext();
-        if (!context) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for mirror window");
-        }
-        
         __block bool success = false;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -151,7 +115,6 @@ int MacOSOpenGLContextManager::newMirrorContext(double width, double height, int
                     
                     [window orderFront:nil];
                     
-                    [contexts addObject:context];
                     [views addObject:view];
                     [windows addObject:window];
                     
@@ -164,7 +127,7 @@ int MacOSOpenGLContextManager::newMirrorContext(double width, double height, int
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create mirror window");
         }
         
-        return (contexts.count - 1);
+        return (views.count - 1);
     }
 }
 
@@ -183,8 +146,6 @@ void MacOSOpenGLContextManager::releaseContexts() {
             [windows removeAllObjects];
             [views removeAllObjects];
         });
-        
-        [contexts removeAllObjects];
     }
     
     AppleOpenGLContextManager::releaseContexts();
@@ -194,24 +155,6 @@ void MacOSOpenGLContextManager::releaseContexts() {
 int MacOSOpenGLContextManager::getNumDisplays() const {
     @autoreleasepool {
         return NSScreen.screens.count;
-    }
-}
-
-
-OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
-    @autoreleasepool {
-        if (auto context = getContext(context_id)) {
-            [context makeCurrentContext];
-            return [context lockContext];
-        }
-        return OpenGLContextLock();
-    }
-}
-
-
-void MacOSOpenGLContextManager::clearCurrent() {
-    @autoreleasepool {
-        [NSOpenGLContext clearCurrentContext];
     }
 }
 

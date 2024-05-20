@@ -4,7 +4,6 @@
  * Copyright 2005 MIT.  All rights reserved.
  */
 
-#define MWORKS_EXCLUDE_LEGACY_STIMULI
 #include "StandardStimuli.h"
 
 #include "BlankScreenStimulus.hpp"

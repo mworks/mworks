@@ -21,8 +21,6 @@ class MetalStimulus : public Stimulus {
 public:
     explicit MetalStimulus(const ParameterValueMap &parameters);
     
-    RenderingMode getRenderingMode() const override { return RenderingMode::Metal; }
-    
     void load(boost::shared_ptr<StimulusDisplay> display) override;
     void unload(boost::shared_ptr<StimulusDisplay> display) override;
     void draw(boost::shared_ptr<StimulusDisplay> display) override;

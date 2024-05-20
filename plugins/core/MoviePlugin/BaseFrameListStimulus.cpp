@@ -106,7 +106,6 @@ void BaseFrameListStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
     if (frameNumber < numFrames) {
         auto stim = getStimulusForFrame(frameNumber);
         if (stim->isLoaded()) {
-            display->setRenderingMode(stim->getRenderingMode());
             stim->draw(display);
         } else {
             merror(M_DISPLAY_MESSAGE_DOMAIN,

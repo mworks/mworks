@@ -9,10 +9,6 @@
 
 #include "ComponentRegistry.h"
 
-#ifndef MWORKS_EXCLUDE_LEGACY_STIMULI
-#include "LegacyStandardStimuli.hpp"
-#endif
-
 
 BEGIN_NAMESPACE_MW
 

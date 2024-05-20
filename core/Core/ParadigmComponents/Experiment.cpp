@@ -4,7 +4,6 @@
 #include "Event.h"
 #include "EventBuffer.h"
 #include "ExpressionVariable.h"
-#include "OpenGLContextManager.h"
 #include "StimulusDisplay.h"
 #include "SystemEventFactory.h"
 

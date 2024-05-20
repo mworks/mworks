@@ -128,21 +128,16 @@ void LayerStimulus::loadMetal(MetalDisplay &display) {
     
     renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
     
-    {
-        auto ctxLock = display.setCurrent();
-        framebufferID = display.createFramebuffer();
-    }
+    framebufferID = display.createFramebuffer();
     framebufferTexture = display.getMetalFramebufferTexture(framebufferID);
 }
 
 
 void LayerStimulus::unloadMetal(MetalDisplay &display) {
     framebufferTexture = nil;
-    {
-        auto ctxLock = display.setCurrent();
-        display.releaseFramebuffer(framebufferID);
-        framebufferID = -1;
-    }
+    display.releaseFramebuffer(framebufferID);
+    framebufferID = -1;
+    
     renderPipelineState = nil;
 }
 
@@ -166,7 +161,6 @@ void LayerStimulus::drawMetal(MetalDisplay &display) {
         auto sharedDisplay = display.shared_from_this();
         for (auto &child : children) {
             if (child->isLoaded()) {
-                display.setRenderingMode(child->getRenderingMode());
                 child->draw(sharedDisplay);
             } else {
                 merror(M_DISPLAY_MESSAGE_DOMAIN,
@@ -182,8 +176,6 @@ void LayerStimulus::drawMetal(MetalDisplay &display) {
     //
     // Render framebuffer texture to display
     //
-    
-    display.setRenderingMode(RenderingMode::Metal);
     
     {
         auto renderCommandEncoder = createRenderCommandEncoder(display);

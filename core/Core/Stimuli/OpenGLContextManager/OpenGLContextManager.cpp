@@ -11,13 +11,6 @@
 BEGIN_NAMESPACE_MW
 
 
-OpenGLContextLock::~OpenGLContextLock() {
-    if (lock) {
-        OpenGLContextManager::instance()->clearCurrent();
-    }
-}
-
-
 int OpenGLContextManager::createFullscreenContext(int screen_number, bool opaque) {
     if (screen_number < 0 || screen_number >= getNumDisplays()) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,

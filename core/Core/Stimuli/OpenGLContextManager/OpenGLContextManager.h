@@ -10,7 +10,6 @@
 
 #include <set>
 
-#include "OpenGLContextLock.h"
 #include "RegisteredSingleton.h"
 
 
@@ -33,9 +32,6 @@ public:
     virtual void releaseContexts();
     
     virtual int getNumDisplays() const = 0;
-    
-    virtual OpenGLContextLock setCurrent(int context_id) = 0;
-    virtual void clearCurrent() = 0;
     
     static boost::shared_ptr<OpenGLContextManager> createPlatformOpenGLContextManager();
     

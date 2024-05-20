@@ -1,31 +1,6 @@
 /**
  * Stimulus.h
  *
- * Description: An Stimulus object is an encapsulation of a piece of OpenGL 
- * code, to be executed within the context of a display chain which controls
- * the order of execution and which allows rapid switching on and off 
- * of objects.
- *
- * All Stimulus objects have the following methods:
- *
- * draw: executes the opengl calls to draw the stimulus, assuming units 
- * are in degrees (must call load first!)
- *
- * setVisible: sets the visible flag
- *
- * isVisible: returns the visible flag value
- *
- * load: prepare for a draw call
- *
- * getBounds: returns an array defining the bounds of the stimulus
- *
- * History:
- * Dave Cox on ??/??/?? - Created.
- * Paul Jankunas on 05/23/05 - Added Copy constructor and destructor to 
- *                              Stimulus.  Fixed spacing.  Hiding copy
- *                          constructors and = operators for classes that
- *                          should not be copied.
- *
  * Copyright 2005 MIT.  All rights reserved.
  */
  
@@ -35,7 +10,6 @@
 #include "ExpandableList.h"
 #include "Announcers.h"
 #include "FreezableVariableContainer.h"
-#include "OpenGLUtilities.hpp"
 #include "StimulusDisplay.h"
 
 
@@ -71,8 +45,6 @@ public:
      * StandardComponentFactory-compatible Constructor.
      */
     explicit Stimulus(const Map<ParameterValue> &parameters);
-    
-    virtual RenderingMode getRenderingMode() const = 0;
     
     /**
      * Overload this function.  This is a shell that does nothing.  Used

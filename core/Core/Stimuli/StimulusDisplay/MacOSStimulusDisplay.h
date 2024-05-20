@@ -10,8 +10,6 @@
 #ifndef MACOS_STIMULUS_DISPLAY_H_
 #define MACOS_STIMULUS_DISPLAY_H_
 
-#define GL_SILENCE_DEPRECATION
-
 #include <CoreVideo/CVDisplayLink.h>
 
 #include "AppleStimulusDisplay.hpp"

@@ -8,8 +8,6 @@
 
 #include "IOSOpenGLContextManager.hpp"
 
-#include "OpenGLUtilities.hpp"
-
 
 @interface MWKStimulusDisplayViewController : UIViewController
 
@@ -140,15 +138,6 @@ void IOSOpenGLContextManager::releaseContexts() {
 int IOSOpenGLContextManager::getNumDisplays() const {
     // At present, we support only the main display
     return 1;
-}
-
-
-OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
-    return OpenGLContextLock();
-}
-
-
-void IOSOpenGLContextManager::clearCurrent() {
 }
 
 
