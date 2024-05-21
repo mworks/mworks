@@ -38,6 +38,7 @@ public:
     void configureCapture(const std::string &format, int heightPixels, const VariablePtr &enabled) override;
     
     int createFramebuffer() override;
+    int createFramebuffer(std::size_t width, std::size_t height) override;
     void pushFramebuffer(int framebuffer_id) override;
     void popFramebuffer() override;
     void releaseFramebuffer(int framebuffer_id) override;

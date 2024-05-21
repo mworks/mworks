@@ -101,6 +101,7 @@ public:
                                   const boost::shared_ptr<Variable> &enabled) = 0;
     
     virtual int createFramebuffer() = 0;
+    virtual int createFramebuffer(std::size_t width, std::size_t height) = 0;
     virtual void pushFramebuffer(int framebuffer_id) = 0;
     virtual void popFramebuffer() = 0;
     virtual void releaseFramebuffer(int framebuffer_id) = 0;

@@ -291,10 +291,15 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
 
 
 int AppleStimulusDisplay::createFramebuffer() {
+    return createFramebuffer(framebufferWidth, framebufferHeight);
+}
+
+
+int AppleStimulusDisplay::createFramebuffer(std::size_t width, std::size_t height) {
     @autoreleasepool {
         auto textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:getMetalFramebufferTexturePixelFormat()
-                                                                                    width:framebufferWidth
-                                                                                   height:framebufferHeight
+                                                                                    width:width
+                                                                                   height:height
                                                                                 mipmapped:NO];
         textureDescriptor.storageMode = MTLStorageModePrivate;
         textureDescriptor.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
