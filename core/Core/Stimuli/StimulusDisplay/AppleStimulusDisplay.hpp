@@ -30,8 +30,6 @@ public:
     explicit AppleStimulusDisplay(const Configuration &config);
     ~AppleStimulusDisplay();
     
-    simd::float4x4 getMetalProjectionMatrix() const { return metalProjectionMatrix; }
-    
     MTKView * getMainView() const { return mainView; }
     MTKView * getMirrorView() const { return (mirrorView ? mirrorView : mainView); }
     
@@ -53,6 +51,10 @@ public:
     MTLRenderPassDescriptor * createMetalRenderPassDescriptor(MTLLoadAction loadAction = MTLLoadActionLoad,
                                                               MTLStoreAction storeAction = MTLStoreActionStore) const;
     
+    void pushMetalProjectionMatrix(double left, double right, double bottom, double top);
+    simd::float4x4 getCurrentMetalProjectionMatrix() const { return projectionMatrixStack.back(); }
+    void popMetalProjectionMatrix();
+    
 protected:
     void prepareContext(int context_id, bool isMainContext) override;
     void renderDisplay(bool needDraw, const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) override;
@@ -68,8 +70,6 @@ private:
     };
     
     void captureCurrentFrame();
-    
-    simd::float4x4 metalProjectionMatrix;
     
     id<MTLDevice> device;
     id<MTLCommandQueue> commandQueue;
@@ -87,6 +87,8 @@ private:
     
     id<MTLTexture> currentFramebufferTexture;
     id<MTLCommandBuffer> currentCommandBuffer;
+    
+    std::vector<simd::float4x4> projectionMatrixStack;
     
     class FrameCaptureManager;
     std::unique_ptr<FrameCaptureManager> captureManager;

@@ -255,7 +255,7 @@ void MovingDots::drawMetal(MetalDisplay &display) {
     
     [renderCommandEncoder setVertexBuffer:currentBuffer offset:0 atIndex:0];
     {
-        auto currentMVPMatrix = display.getMetalProjectionMatrix();
+        auto currentMVPMatrix = display.getCurrentMetalProjectionMatrix();
         currentMVPMatrix = currentMVPMatrix * matrix4x4_translation(currentFieldCenterX, currentFieldCenterY, 0.0);
         currentMVPMatrix = currentMVPMatrix * matrix4x4_scale(currentFieldRadius, currentFieldRadius, 1.0);
         currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(currentDirection), 0.0, 0.0, 1.0);

@@ -65,7 +65,7 @@ inline void TransformStimulus::setCurrentMVPMatrix(MetalDisplay &display,
                                                    id<MTLRenderCommandEncoder> renderCommandEncoder,
                                                    NSUInteger bufferIndex) const
 {
-    auto currentMVPMatrix = getCurrentMVPMatrix(display.getMetalProjectionMatrix());
+    auto currentMVPMatrix = getCurrentMVPMatrix(display.getCurrentMetalProjectionMatrix());
     setVertexBytes(renderCommandEncoder, currentMVPMatrix, bufferIndex);
 }
 
