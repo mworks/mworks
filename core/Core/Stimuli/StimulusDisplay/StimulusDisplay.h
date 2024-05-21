@@ -102,7 +102,6 @@ public:
     
     virtual int createFramebuffer() = 0;
     virtual void pushFramebuffer(int framebuffer_id) = 0;
-    virtual void bindCurrentFramebuffer() = 0;
     virtual void popFramebuffer() = 0;
     virtual void releaseFramebuffer(int framebuffer_id) = 0;
     

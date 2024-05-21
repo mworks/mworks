@@ -39,7 +39,6 @@ public:
     
     int createFramebuffer() override;
     void pushFramebuffer(int framebuffer_id) override;
-    void bindCurrentFramebuffer() override;
     void popFramebuffer() override;
     void releaseFramebuffer(int framebuffer_id) override;
     
@@ -58,19 +57,14 @@ protected:
     void renderDisplay(bool needDraw, const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) override;
     
 private:
-    using CVPixelBufferPoolPtr = cf::ObjectPtr<CVPixelBufferPoolRef>;
     using CVPixelBufferPtr = cf::ObjectPtr<CVPixelBufferRef>;
-    using CVMetalTextureCachePtr = cf::ObjectPtr<CVMetalTextureCacheRef>;
     using CVMetalTexturePtr = cf::ObjectPtr<CVMetalTextureRef>;
     using CGColorSpacePtr = cf::ObjectPtr<CGColorSpaceRef>;
     
     struct Framebuffer {
-        CVPixelBufferPtr cvPixelBuffer;
-        CVMetalTexturePtr cvMetalTexture;
+        Framebuffer() : texture(nil) { }
+        id<MTLTexture> texture;
     };
-    
-    void prepareFramebufferStack(MTKView *view);
-    void bindFramebuffer(Framebuffer &framebuffer);
     
     void captureCurrentFrame();
     
@@ -85,8 +79,6 @@ private:
     
     std::size_t framebufferWidth;
     std::size_t framebufferHeight;
-    CVPixelBufferPoolPtr cvPixelBufferPool;
-    CVMetalTextureCachePtr cvMetalTextureCache;
     std::map<int, Framebuffer> framebuffers;
     std::vector<int> framebufferStack;
     
@@ -132,6 +124,8 @@ public:
     bool convertCaptureBufferToImageFile(const CVPixelBufferPtr &pixelBuffer, std::string &imageFile) const;
     
 private:
+    using CVPixelBufferPoolPtr = cf::ObjectPtr<CVPixelBufferPoolRef>;
+    using CVMetalTextureCachePtr = cf::ObjectPtr<CVMetalTextureCacheRef>;
     using CGImagePtr = cf::ObjectPtr<CGImageRef>;
     
     const std::size_t bufferWidth;

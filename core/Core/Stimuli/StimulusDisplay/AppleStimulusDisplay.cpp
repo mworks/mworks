@@ -175,6 +175,7 @@ AppleStimulusDisplay::~AppleStimulusDisplay() {
     @autoreleasepool {
         currentCommandBuffer = nil;
         currentFramebufferTexture = nil;
+        framebuffers.clear();  // Release framebuffers in scope of autorelease pool
         mirrorViewDelegate = nil;
         mainViewDelegate = nil;
         mirrorView = nil;
@@ -212,7 +213,8 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             commandQueue = delegate.commandQueue;
             mainView = view;
             mainViewDelegate = delegate;
-            prepareFramebufferStack(view);
+            framebufferWidth = view.drawableSize.width;
+            framebufferHeight = view.drawableSize.height;
             framebuffer_id = createFramebuffer();
         }
         
@@ -288,136 +290,73 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
 }
 
 
-void AppleStimulusDisplay::prepareFramebufferStack(MTKView *view) {
-    framebufferWidth = view.drawableSize.width;
-    framebufferHeight = view.drawableSize.height;
-    
-    {
-        NSDictionary *pixelBufferAttributes = @{
-            (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_64RGBAHalf),
-            (NSString *)kCVPixelBufferWidthKey: @(framebufferWidth),
-            (NSString *)kCVPixelBufferHeightKey: @(framebufferHeight),
-            (NSString *)kCVPixelBufferMetalCompatibilityKey: @(YES),
-        };
-        CVPixelBufferPoolRef _cvPixelBufferPool = nullptr;
-        auto status = CVPixelBufferPoolCreate(kCFAllocatorDefault,
-                                              nullptr,
-                                              (__bridge CFDictionaryRef)pixelBufferAttributes,
-                                              &_cvPixelBufferPool);
-        if (status != kCVReturnSuccess) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  boost::format("Cannot create pixel buffer pool (error = %d)") % status);
-        }
-        cvPixelBufferPool = CVPixelBufferPoolPtr::owned(_cvPixelBufferPool);
-    }
-    
-    {
-        CVMetalTextureCacheRef _cvMetalTextureCache = nullptr;
-        auto status = CVMetalTextureCacheCreate(kCFAllocatorDefault,
-                                                nullptr,
-                                                view.device,
-                                                nullptr,
-                                                &_cvMetalTextureCache);
-        if (status != kCVReturnSuccess) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  boost::format("Cannot create Metal texture cache (error = %d)") % status);
-        }
-        cvMetalTextureCache = CVMetalTextureCachePtr::created(_cvMetalTextureCache);
-    }
-}
-
-
 int AppleStimulusDisplay::createFramebuffer() {
-    Framebuffer framebuffer;
-    
-    {
-        CVPixelBufferRef _cvPixelBuffer = nullptr;
-        auto status = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault,
-                                                         cvPixelBufferPool.get(),
-                                                         &_cvPixelBuffer);
-        if (status != kCVReturnSuccess) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  boost::format("Cannot create pixel buffer (error = %d)") % status);
+    @autoreleasepool {
+        auto textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:getMetalFramebufferTexturePixelFormat()
+                                                                                    width:framebufferWidth
+                                                                                   height:framebufferHeight
+                                                                                mipmapped:NO];
+        textureDescriptor.storageMode = MTLStorageModePrivate;
+        textureDescriptor.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
+        
+        Framebuffer framebuffer;
+        framebuffer.texture = [device newTextureWithDescriptor:textureDescriptor];
+        
+        int framebuffer_id = 0;
+        auto lastIter = framebuffers.rbegin();
+        if (lastIter != framebuffers.rend()) {
+            framebuffer_id = lastIter->first + 1;
         }
-        framebuffer.cvPixelBuffer = CVPixelBufferPtr::owned(_cvPixelBuffer);
+        framebuffers.emplace(framebuffer_id, std::move(framebuffer));
+        return framebuffer_id;
     }
-    
-    {
-        CVMetalTextureRef _cvMetalTexture = nullptr;
-        auto status = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-                                                                cvMetalTextureCache.get(),
-                                                                framebuffer.cvPixelBuffer.get(),
-                                                                nullptr,
-                                                                getMetalFramebufferTexturePixelFormat(),
-                                                                framebufferWidth,
-                                                                framebufferHeight,
-                                                                0,
-                                                                &_cvMetalTexture);
-        if (status != kCVReturnSuccess) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  boost::format("Cannot create Metal texture (error = %d)") % status);
-        }
-        framebuffer.cvMetalTexture = CVMetalTexturePtr::created(_cvMetalTexture);
-    }
-    
-    int framebuffer_id = 0;
-    auto lastIter = framebuffers.rbegin();
-    if (lastIter != framebuffers.rend()) {
-        framebuffer_id = lastIter->first + 1;
-    }
-    framebuffers.emplace(framebuffer_id, std::move(framebuffer));
-    return framebuffer_id;
 }
 
 
 void AppleStimulusDisplay::pushFramebuffer(int framebuffer_id) {
-    auto iter = framebuffers.find(framebuffer_id);
-    if (iter == framebuffers.end()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
-        return;
+    @autoreleasepool {
+        auto iter = framebuffers.find(framebuffer_id);
+        if (iter == framebuffers.end()) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
+            return;
+        }
+        framebufferStack.push_back(iter->first);
+        currentFramebufferTexture = iter->second.texture;
     }
-    framebufferStack.push_back(iter->first);
-    bindFramebuffer(iter->second);
-}
-
-
-void AppleStimulusDisplay::bindCurrentFramebuffer() {
-    if (framebufferStack.empty()) {
-        currentFramebufferTexture = nil;
-        return;
-    }
-    bindFramebuffer(framebuffers.find(framebufferStack.back())->second);
-}
-
-
-void AppleStimulusDisplay::bindFramebuffer(Framebuffer &framebuffer) {
-    currentFramebufferTexture = CVMetalTextureGetTexture(framebuffer.cvMetalTexture.get());
 }
 
 
 void AppleStimulusDisplay::popFramebuffer() {
-    if (framebufferStack.empty()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: no framebuffer to pop");
-        return;
+    @autoreleasepool {
+        if (framebufferStack.empty()) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: no framebuffer to pop");
+            return;
+        }
+        framebufferStack.pop_back();
+        if (framebufferStack.empty()) {
+            currentFramebufferTexture = nil;
+        } else {
+            currentFramebufferTexture = framebuffers.find(framebufferStack.back())->second.texture;
+        }
     }
-    framebufferStack.pop_back();
-    bindCurrentFramebuffer();
 }
 
 
 void AppleStimulusDisplay::releaseFramebuffer(int framebuffer_id) {
-    auto iter = framebuffers.find(framebuffer_id);
-    if (iter == framebuffers.end()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
-        return;
+    @autoreleasepool {
+        auto iter = framebuffers.find(framebuffer_id);
+        if (iter == framebuffers.end()) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
+            return;
+        }
+        if (std::find(framebufferStack.begin(), framebufferStack.end(), iter->first) != framebufferStack.end()) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN,
+                   "Internal error: framebuffer %d is in use and cannot be released",
+                   iter->first);
+            return;
+        }
+        framebuffers.erase(iter);
     }
-    if (std::find(framebufferStack.begin(), framebufferStack.end(), iter->first) != framebufferStack.end()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN,
-               "Internal error: framebuffer %d is in use and cannot be released",
-               iter->first);
-        return;
-    }
-    framebuffers.erase(iter);
 }
 
 
@@ -427,7 +366,7 @@ id<MTLTexture> AppleStimulusDisplay::getMetalFramebufferTexture(int framebuffer_
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
         return nil;
     }
-    return CVMetalTextureGetTexture(iter->second.cvMetalTexture.get());
+    return iter->second.texture;
 }
 
 
