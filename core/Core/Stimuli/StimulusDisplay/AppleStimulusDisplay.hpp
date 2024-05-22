@@ -46,13 +46,23 @@ public:
     MTLPixelFormat getMetalFramebufferTexturePixelFormat() const { return MTLPixelFormatRGBA16Float; }
     id<MTLTexture> getMetalFramebufferTexture(int framebuffer_id) const;
     
-    id<MTLTexture> getCurrentMetalFramebufferTexture() const { return currentFramebufferTexture; }
     id<MTLCommandBuffer> getCurrentMetalCommandBuffer() const { return currentCommandBuffer; }
     MTLRenderPassDescriptor * createMetalRenderPassDescriptor(MTLLoadAction loadAction = MTLLoadActionLoad,
                                                               MTLStoreAction storeAction = MTLStoreActionStore) const;
+    id<MTLRenderCommandEncoder> createMetalRenderCommandEncoder(MTLRenderPassDescriptor *renderPassDescriptor) const;
     
+    const MTLViewport & getDefaultMetalViewport() const { return defaultViewport; }
+    void pushMetalViewport(double originX, double originY, double width, double height);
+    const MTLViewport & getCurrentMetalViewport() const {
+        return (viewportStack.empty() ? defaultViewport : viewportStack.back());
+    }
+    void popMetalViewport();
+    
+    const simd::float4x4 & getDefaultMetalProjectionMatrix() const { return defaultProjectionMatrix; }
     void pushMetalProjectionMatrix(double left, double right, double bottom, double top);
-    simd::float4x4 getCurrentMetalProjectionMatrix() const { return projectionMatrixStack.back(); }
+    const simd::float4x4 & getCurrentMetalProjectionMatrix() const {
+        return (projectionMatrixStack.empty() ? defaultProjectionMatrix : projectionMatrixStack.back());
+    }
     void popMetalProjectionMatrix();
     
 protected:
@@ -68,6 +78,9 @@ private:
         Framebuffer() : texture(nil) { }
         id<MTLTexture> texture;
     };
+    
+    static MTLViewport createViewport(double originX, double originY, double width, double height);
+    static simd::float4x4 createProjectionMatrix(double left, double right, double bottom, double top);
     
     void captureCurrentFrame();
     
@@ -88,6 +101,10 @@ private:
     id<MTLTexture> currentFramebufferTexture;
     id<MTLCommandBuffer> currentCommandBuffer;
     
+    MTLViewport defaultViewport;
+    std::vector<MTLViewport> viewportStack;
+    
+    simd::float4x4 defaultProjectionMatrix;
     std::vector<simd::float4x4> projectionMatrixStack;
     
     class FrameCaptureManager;
@@ -101,11 +118,21 @@ AppleStimulusDisplay::createMetalRenderPassDescriptor(MTLLoadAction loadAction, 
     if (!currentFramebufferTexture) {
         return nil;
     }
-    MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
+    auto renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
     renderPassDescriptor.colorAttachments[0].texture = currentFramebufferTexture;
     renderPassDescriptor.colorAttachments[0].loadAction = loadAction;
     renderPassDescriptor.colorAttachments[0].storeAction = storeAction;
     return renderPassDescriptor;
+}
+
+
+inline id<MTLRenderCommandEncoder>
+AppleStimulusDisplay::createMetalRenderCommandEncoder(MTLRenderPassDescriptor *renderPassDescriptor) const {
+    auto renderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+    if (!viewportStack.empty()) {
+        [renderCommandEncoder setViewport:viewportStack.back()];
+    }
+    return renderCommandEncoder;
 }
 
 

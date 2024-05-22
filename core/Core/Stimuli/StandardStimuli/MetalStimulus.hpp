@@ -72,7 +72,7 @@ inline id<MTLRenderCommandEncoder> MetalStimulus::createRenderCommandEncoder(Met
 
 inline id<MTLRenderCommandEncoder>
 MetalStimulus::createRenderCommandEncoder(MetalDisplay &display, MTLRenderPassDescriptor *renderPassDescriptor) {
-    return [display.getCurrentMetalCommandBuffer() renderCommandEncoderWithDescriptor:renderPassDescriptor];
+    return display.createMetalRenderCommandEncoder(renderPassDescriptor);
 }
 
 

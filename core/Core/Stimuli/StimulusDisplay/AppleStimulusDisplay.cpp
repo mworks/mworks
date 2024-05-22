@@ -152,7 +152,8 @@ AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
     framebufferHeight(0),
     framebuffer_id(-1),
     currentFramebufferTexture(nil),
-    currentCommandBuffer(nil)
+    currentCommandBuffer(nil),
+    defaultViewport(createViewport(0.0, 0.0, 0.0, 0.0))
 {
     //
     // Create the default projection matrix
@@ -163,7 +164,7 @@ AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
     //
     double left, right, bottom, top;
     getDisplayBounds(left, right, bottom, top);
-    pushMetalProjectionMatrix(left, right, bottom, top);
+    defaultProjectionMatrix = createProjectionMatrix(left, right, bottom, top);
 }
 
 
@@ -212,6 +213,7 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             framebufferWidth = view.drawableSize.width;
             framebufferHeight = view.drawableSize.height;
             framebuffer_id = createFramebuffer();
+            defaultViewport = createViewport(0, 0, framebufferWidth, framebufferHeight);
         }
         
         delegate.texture = getMetalFramebufferTexture(framebuffer_id);
@@ -371,13 +373,37 @@ id<MTLTexture> AppleStimulusDisplay::getMetalFramebufferTexture(int framebuffer_
 }
 
 
+MTLViewport AppleStimulusDisplay::createViewport(double originX, double originY, double width, double height) {
+    return MTLViewport{ originX, originY, width, height, 0.0, 1.0 };
+}
+
+
+void AppleStimulusDisplay::pushMetalViewport(double originX, double originY, double width, double height) {
+    viewportStack.emplace_back(createViewport(originX, originY, width, height));
+}
+
+
+void AppleStimulusDisplay::popMetalViewport() {
+    if (viewportStack.empty()) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: no Metal viewport to pop");
+        return;
+    }
+    viewportStack.pop_back();
+}
+
+
+simd::float4x4 AppleStimulusDisplay::createProjectionMatrix(double left, double right, double bottom, double top) {
+    return matrix_ortho_right_hand(left, right, bottom, top, -1.0, 1.0);
+}
+
+
 void AppleStimulusDisplay::pushMetalProjectionMatrix(double left, double right, double bottom, double top) {
-    projectionMatrixStack.emplace_back(matrix_ortho_right_hand(left, right, bottom, top, -1.0, 1.0));
+    projectionMatrixStack.emplace_back(createProjectionMatrix(left, right, bottom, top));
 }
 
 
 void AppleStimulusDisplay::popMetalProjectionMatrix() {
-    if (projectionMatrixStack.size() < 2) {  // The default projection matrix can't be popped
+    if (projectionMatrixStack.empty()) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: no Metal projection matrix to pop");
         return;
     }
