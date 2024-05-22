@@ -154,7 +154,13 @@ AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
     currentFramebufferTexture(nil),
     currentCommandBuffer(nil)
 {
+    //
     // Create the default projection matrix
+    //
+    // Metal uses different normalized device coordinates than OpenGL, so Metal-based stimuli need to use a
+    // different projection matrix than OpenGL-based ones, as explained at
+    // https://metashapes.com/blog/opengl-metal-projection-matrix-problem/
+    //
     double left, right, bottom, top;
     getDisplayBounds(left, right, bottom, top);
     pushMetalProjectionMatrix(left, right, bottom, top);
@@ -366,18 +372,7 @@ id<MTLTexture> AppleStimulusDisplay::getMetalFramebufferTexture(int framebuffer_
 
 
 void AppleStimulusDisplay::pushMetalProjectionMatrix(double left, double right, double bottom, double top) {
-    //
-    // Metal uses different normalized device coordinates than OpenGL, so Metal-based stimuli need to use a
-    // different projection matrix than OpenGL-based ones, as explained at
-    // https://metashapes.com/blog/opengl-metal-projection-matrix-problem/ .
-    //
-    // Also, because the y coordinate of Metal textures is flipped with respect to OpenGL textures ((0,0) is
-    // at the upper-left corner, instead of lower left), we swap top and bottom when creating the projection
-    // matrix.  This results in Metal-based stimuli rendering themselves in the same orientation as OpenGL-based
-    // ones.  MWKStimulusDisplayViewDelegate flips y again when drawing the framebuffer texture, so everything
-    // is oriented correctly on the display.
-    //
-    projectionMatrixStack.emplace_back(matrix_ortho_right_hand(left, right, top,/*<--swapped-->*/bottom, -1.0, 1.0));
+    projectionMatrixStack.emplace_back(matrix_ortho_right_hand(left, right, bottom, top, -1.0, 1.0));
 }
 
 

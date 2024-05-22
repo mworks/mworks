@@ -26,17 +26,11 @@ MWKStimulusDisplayViewDelegate_vertexShader(uint vertexID [[vertex_id]])
         {  1.0f,  1.0f }
     };
     
-    //
-    // All stimuli effectively render using OpenGL texture coordinates ((0,0) at the lower-left corner),
-    // which flip y with respect to Metal texture coordinates ((0,0) at the upper-left corner).  Therefore,
-    // we similarly y-flip the coordinates we use to draw the framebuffer texture, so that everything
-    // ends up oriented correctly on screen.
-    //
     constexpr float2 texCoords[] = {
-        { 0.0f, 0.0f },
-        { 1.0f, 0.0f },
         { 0.0f, 1.0f },
-        { 1.0f, 1.0f }
+        { 1.0f, 1.0f },
+        { 0.0f, 0.0f },
+        { 1.0f, 0.0f }
     };
     
     RasterizerData out;
