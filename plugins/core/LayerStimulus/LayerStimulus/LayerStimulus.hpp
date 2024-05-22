@@ -13,9 +13,12 @@
 BEGIN_NAMESPACE_MW
 
 
-class LayerStimulus : public MetalStimulus {
+class LayerStimulus : public AlphaBlendedTransformStimulus {
     
 public:
+    static const std::string MAX_SIZE_X;
+    static const std::string MAX_SIZE_Y;
+    
     static void describeComponent(ComponentInfo &info);
     
     explicit LayerStimulus(const ParameterValueMap &parameters);
@@ -38,9 +41,22 @@ private:
     void unloadMetal(MetalDisplay &display) override;
     void drawMetal(MetalDisplay &display) override;
     
+    void computeFramebufferDimensions(const MetalDisplay &display,
+                                      double widthDegrees,
+                                      double heightDegrees,
+                                      std::size_t &widthPixels,
+                                      std::size_t &heightPixels) const;
+    
+    const VariablePtr maxSizeX;
+    const VariablePtr maxSizeY;
+    
     std::vector<boost::shared_ptr<Stimulus>> children;
     
-    id<MTLRenderPipelineState> renderPipelineState;
+    float currentMaxSizeX, currentMaxSizeY;
+    
+    std::size_t displayWidthPixels, displayHeightPixels;
+    double pixelsPerDegree;
+    
     int framebufferID;
     id<MTLTexture> framebufferTexture;
     

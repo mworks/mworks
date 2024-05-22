@@ -1,0 +1,64 @@
+var x_size = 8
+var y_size = 8
+var x_position = -5
+var y_position = -5
+var rotation = 0
+var alpha = 1
+
+
+layer layer (
+    x_size = x_size
+    y_size = y_size
+    x_position = x_position
+    y_position = y_position
+    rotation = rotation
+    alpha_multiplier = alpha
+    fullscreen = false
+    max_size_x = 12
+    max_size_y = 10
+    ) {
+    blank_screen (
+        color = 0,0,0
+        )
+    rectangle (
+        color = 1,0,0
+        x_size = x_size - 1
+        y_size = y_size - 1
+        )
+    mask (
+        mask = ellipse
+        inverted = true
+        x_size = x_size - 2
+        y_size = y_size - 2
+        )
+}
+
+
+%define update_and_wait ()
+    update_display ()
+    wait (2s)
+%end
+
+
+protocol {
+    live_queue_stimulus (layer)
+    update_and_wait ()
+
+    x_size *= 1.5
+    update_and_wait ()
+
+    y_size *= 1.25
+    update_and_wait ()
+
+    x_position = 5
+    update_and_wait ()
+
+    y_position = 5
+    update_and_wait ()
+
+    rotation = 45
+    update_and_wait ()
+
+    alpha = 0.2
+    update_and_wait ()
+}

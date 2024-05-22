@@ -12,15 +12,25 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string LayerStimulus::MAX_SIZE_X("max_size_x");
+const std::string LayerStimulus::MAX_SIZE_Y("max_size_y");
+
+
 void LayerStimulus::describeComponent(ComponentInfo &info) {
-    MetalStimulus::describeComponent(info);
+    AlphaBlendedTransformStimulus::describeComponent(info);
+    
     info.setSignature("stimulus/layer");
+    
+    info.addParameter(FULLSCREEN, "YES");  // Change fullscreen's default to YES
+    info.addParameter(MAX_SIZE_X, false);
+    info.addParameter(MAX_SIZE_Y, false);
 }
 
 
 LayerStimulus::LayerStimulus(const ParameterValueMap &parameters) :
-    MetalStimulus(parameters),
-    renderPipelineState(nil),
+    AlphaBlendedTransformStimulus(parameters),
+    maxSizeX(optionalVariable(parameters[MAX_SIZE_X])),
+    maxSizeY(optionalVariable(parameters[MAX_SIZE_Y])),
     framebufferID(-1),
     framebufferTexture(nil)
 { }
@@ -29,7 +39,6 @@ LayerStimulus::LayerStimulus(const ParameterValueMap &parameters) :
 LayerStimulus::~LayerStimulus() {
     @autoreleasepool {
         framebufferTexture = nil;
-        renderPipelineState = nil;
     }
 }
 
@@ -50,7 +59,7 @@ void LayerStimulus::freeze(bool shouldFreeze) {
     for (auto &child : children) {
         child->freeze(shouldFreeze);
     }
-    MetalStimulus::freeze(shouldFreeze);
+    AlphaBlendedTransformStimulus::freeze(shouldFreeze);
 }
 
 
@@ -61,7 +70,7 @@ void LayerStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
         child->load(display);
     }
     
-    MetalStimulus::load(display);
+    AlphaBlendedTransformStimulus::load(display);
 }
 
 
@@ -72,7 +81,7 @@ void LayerStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
         child->unload(display);
     }
     
-    MetalStimulus::unload(display);
+    AlphaBlendedTransformStimulus::unload(display);
 }
 
 
@@ -80,7 +89,7 @@ void LayerStimulus::setVisible(bool newVisible) {
     for (auto &child : children) {
         child->setVisible(newVisible);
     }
-    MetalStimulus::setVisible(newVisible);
+    AlphaBlendedTransformStimulus::setVisible(newVisible);
 }
 
 
@@ -95,7 +104,7 @@ bool LayerStimulus::needDraw(boost::shared_ptr<StimulusDisplay> display) {
 
 
 Datum LayerStimulus::getCurrentAnnounceDrawData() {
-    auto announceData = MetalStimulus::getCurrentAnnounceDrawData();
+    auto announceData = AlphaBlendedTransformStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "layer");
     
@@ -112,24 +121,79 @@ Datum LayerStimulus::getCurrentAnnounceDrawData() {
 
 
 void LayerStimulus::loadMetal(MetalDisplay &display) {
-    auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+    AlphaBlendedTransformStimulus::loadMetal(display);
     
-    auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
-    renderPipelineDescriptor.vertexFunction = loadShaderFunction(library, "LayerStimulus_vertexShader");
-    renderPipelineDescriptor.fragmentFunction = loadShaderFunction(library, "LayerStimulus_fragmentShader");
+    //
+    // Determine maximum size
+    //
     
-    auto colorAttachment = renderPipelineDescriptor.colorAttachments[0];
-    colorAttachment.pixelFormat = display.getMetalFramebufferTexturePixelFormat();
-    colorAttachment.blendingEnabled = YES;
-    colorAttachment.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
-    colorAttachment.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-    colorAttachment.sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
-    colorAttachment.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+    if (!fullscreen) {
+        float defaultMaxSizeX = 0.0;
+        float defaultMaxSizeY = 0.0;
+        
+        // Don't evaluate x_size and y_size unless we need them
+        if (!(maxSizeX && maxSizeY)) {
+            getCurrentSize(defaultMaxSizeX, defaultMaxSizeY);
+        }
+        
+        if (maxSizeX) {
+            currentMaxSizeX = maxSizeX->getValue().getFloat();
+        } else {
+            currentMaxSizeX = defaultMaxSizeX;
+        }
+        if (currentMaxSizeX <= 0.0) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Maximum horizontal size must be greater than zero");
+        }
+        
+        if (maxSizeY) {
+            currentMaxSizeY = maxSizeY->getValue().getFloat();
+        } else {
+            currentMaxSizeY = defaultMaxSizeY;
+        }
+        if (currentMaxSizeY <= 0.0) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Maximum vertical size must be greater than zero");
+        }
+    }
     
-    renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
+    //
+    // Determine display size and compute conversion from degrees to pixels
+    //
+    {
+        __block CGSize displaySizeInPixels;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            // If there's only a mirror window, getMainView will return its view,
+            // so there's no need to call getMirrorView
+            displaySizeInPixels = display.getMainView().drawableSize;
+        });
+        
+        displayWidthPixels = displaySizeInPixels.width;
+        displayHeightPixels = displaySizeInPixels.height;
+        
+        double xMin, xMax, yMin, yMax;
+        display.getDisplayBounds(xMin, xMax, yMin, yMax);
+        pixelsPerDegree = double(displayWidthPixels) / (xMax - xMin);
+    }
     
-    framebufferID = display.createFramebuffer();
-    framebufferTexture = display.getMetalFramebufferTexture(framebufferID);
+    //
+    // Create framebuffer texture
+    //
+    {
+        std::size_t framebufferWidth, framebufferHeight;
+        computeFramebufferDimensions(display, currentMaxSizeX, currentMaxSizeY, framebufferWidth, framebufferHeight);
+        framebufferID = display.createFramebuffer(framebufferWidth, framebufferHeight);
+        framebufferTexture = display.getMetalFramebufferTexture(framebufferID);
+    }
+    
+    //
+    // Create render pipeline state
+    //
+    {
+        auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
+        auto vertexFunction = loadShaderFunction(library, "LayerStimulus_vertexShader");
+        auto fragmentFunction = loadShaderFunction(library, "LayerStimulus_fragmentShader");
+        auto renderPipelineDescriptor = createRenderPipelineDescriptor(display, vertexFunction, fragmentFunction);
+        renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
+    }
 }
 
 
@@ -138,16 +202,55 @@ void LayerStimulus::unloadMetal(MetalDisplay &display) {
     display.releaseFramebuffer(framebufferID);
     framebufferID = -1;
     
-    renderPipelineState = nil;
+    AlphaBlendedTransformStimulus::unloadMetal(display);
 }
 
 
 void LayerStimulus::drawMetal(MetalDisplay &display) {
+    AlphaBlendedTransformStimulus::drawMetal(display);
+    
+    //
+    // Determine current size in pixels
+    //
+    
+    if (!fullscreen) {
+        if (current_sizex > currentMaxSizeX) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN,
+                   "Current horizontal size of stimulus \"%s\" (%g) exceeds maximum (%g).  To resolve this issue, "
+                   "set %s to an appropriate value.",
+                   getTag().c_str(),
+                   current_sizex,
+                   currentMaxSizeX,
+                   MAX_SIZE_X.c_str());
+            return;
+        }
+        if (current_sizey > currentMaxSizeY) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN,
+                   "Current vertical size of stimulus \"%s\" (%g) exceeds maximum (%g).  To resolve this issue, "
+                   "set %s to an appropriate value.",
+                   getTag().c_str(),
+                   current_sizey,
+                   currentMaxSizeY,
+                   MAX_SIZE_Y.c_str());
+            return;
+        }
+    }
+    
+    std::size_t currentWidthPixels, currentHeightPixels;
+    computeFramebufferDimensions(display, current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
+    
     //
     // Render children to framebuffer texture
     //
     
     display.pushFramebuffer(framebufferID);
+    display.pushMetalViewport(0, 0, currentWidthPixels, currentHeightPixels);
+    
+    if (!fullscreen) {
+        const auto halfWidthDegrees = current_sizex / 2.0;
+        const auto halfHeightDegrees = current_sizey / 2.0;
+        display.pushMetalProjectionMatrix(-halfWidthDegrees, halfWidthDegrees, -halfHeightDegrees, halfHeightDegrees);
+    }
     
     // Make background transparent
     {
@@ -171,21 +274,57 @@ void LayerStimulus::drawMetal(MetalDisplay &display) {
         }
     }
     
+    if (!fullscreen) {
+        display.popMetalProjectionMatrix();
+    }
+    
+    display.popMetalViewport();
     display.popFramebuffer();
     
     //
     // Render framebuffer texture to display
     //
-    
     {
         auto renderCommandEncoder = createRenderCommandEncoder(display);
-        
         [renderCommandEncoder setRenderPipelineState:renderPipelineState];
+        
+        setCurrentMVPMatrix(display, renderCommandEncoder, 0);
+        {
+            auto texCoordScale = simd::make_float2(currentWidthPixels, currentHeightPixels);
+            setVertexBytes(renderCommandEncoder, texCoordScale, 1);
+        }
+        
         [renderCommandEncoder setFragmentTexture:framebufferTexture atIndex:0];
+        {
+            auto currentAlpha = float(current_alpha);
+            setFragmentBytes(renderCommandEncoder, currentAlpha, 0);
+        }
         
         [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
         [renderCommandEncoder endEncoding];
     }
+}
+
+
+void LayerStimulus::computeFramebufferDimensions(const MetalDisplay &display,
+                                                 double widthDegrees,
+                                                 double heightDegrees,
+                                                 std::size_t &widthPixels,
+                                                 std::size_t &heightPixels) const
+{
+    if (fullscreen) {
+        widthPixels = displayWidthPixels;
+        heightPixels = displayHeightPixels;
+    } else {
+        // Replace negative width or height with 0, and ensure that the framebuffer
+        // contains at least one pixel
+        widthPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, widthDegrees));
+        heightPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, heightDegrees));
+    }
+    // Limit the framebuffer size to the size of the current viewport
+    auto &currentViewport = display.getCurrentMetalViewport();
+    widthPixels = std::min(widthPixels, std::size_t(currentViewport.width));
+    heightPixels = std::min(heightPixels, std::size_t(currentViewport.height));
 }
 
 

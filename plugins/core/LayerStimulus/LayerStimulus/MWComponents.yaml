@@ -3,20 +3,23 @@
 
 name: Layer Stimulus
 signature: stimulus/layer
-isa: Stimulus
+isa: Basic Transform Stimulus
 allowed_child: Stimulus
 description: |
-    Layers are useful only in conjuction with `masks <Mask Stimulus>`.
-
     A layer is a container for other stimuli.  When displayed, it first renders
-    its child stimuli into a single scene, against a transparent background.  It
-    then draws this composite scene on the stimulus display.  If one of its
-    children is a mask, the "masked out" regions become transparent or semi-
-    transparent "windows", through which any stimuli below the layer are
-    visible.
+    its child stimuli into a single scene, against a transparent background. It
+    then draws this composite scene on the stimulus display.
 
-    For example, when displayed together, the following stimuli produce a red
-    circle inside a green square::
+    The position and rotation specified by stimuli within a layer are
+    interpreted as relative to the position and rotation of the layer itself.
+    Hence, by changing a layer's `x_position`_, `y_position`_, and/or
+    `rotation`_ parameters, you can move a layer and its contents without
+    needing to change the parameters of any child stimuli.
+
+    If one of a layer's children is a `mask <Mask Stimulus>`, the "masked out"
+    regions become transparent or semi-transparent "windows", through which any
+    stimuli below the layer are visible.  For example, when displayed together,
+    the following stimuli produce a red circle inside a green square::
 
         rectangle the_background (
             color = 0,1,0
@@ -33,6 +36,31 @@ description: |
                 x_size = 10
                 )
         }
+parameters: 
+  - 
+    name: fullscreen
+    default: 'YES'
+    description: |
+        If ``YES``, the stimulus is sized to fill the display.  In this mode,
+        `x_size`_, `y_size`_, `x_position`_, `y_position`_, and `rotation`_ are
+        ignored.
+
+        *Note*: Fullscreen layers consume a large amount of texture memory on
+        the graphics hardware.  Use them only when necessary.
+  - 
+    name: max_size_x
+    description: |
+        Maximum horizontal size (degrees).
+
+        If omitted, the maximum horizontal size is set to the value of `x_size`_
+        when the stimulus is loaded.
+  - 
+    name: max_size_y
+    description: |
+        Maximum vertical size (degrees).
+
+        If omitted, the maximum vertical size is set to the value of `y_size`_
+        when the stimulus is loaded.
 
 
 ---

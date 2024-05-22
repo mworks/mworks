@@ -1,0 +1,69 @@
+%define x_size = 15
+%define y_size = 5
+
+var x_position = 0
+var y_position = 0
+var rotation = 0
+
+
+layer layer (
+    x_size = x_size
+    y_size = y_size
+    x_position = -5
+    y_position = -5
+    rotation = 45
+    fullscreen = false
+    ) {
+    blank_screen (
+        color = 1,0,0
+        )
+    rectangle (
+        color = 1,1,1
+        x_size = x_size
+        y_size = y_size
+        x_position = x_position
+        y_position = y_position
+        rotation = rotation
+        )
+}
+
+
+%define update_and_wait ()
+    update_display ()
+    wait (2s)
+%end
+
+
+protocol {
+    live_queue_stimulus (layer)
+    update_and_wait ()
+
+    x_position = x_size / 2
+    update_and_wait ()
+
+    x_position *= -1
+    update_and_wait ()
+
+    y_position = y_size / 2
+    update_and_wait ()
+
+    y_position *= -1
+    update_and_wait ()
+
+    x_position = 0
+    y_position = 0
+
+    rotation = 45
+    update_and_wait ()
+
+    rotation = 90
+    update_and_wait ()
+
+    rotation = 135
+    update_and_wait ()
+
+    rotation = 180
+    update_and_wait ()
+
+    rotation = 0
+}

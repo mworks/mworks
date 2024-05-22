@@ -18,13 +18,15 @@ struct RasterizerData {
 
 
 vertex RasterizerData
-LayerStimulus_vertexShader(uint vertexID [[vertex_id]])
+LayerStimulus_vertexShader(uint vertexID [[vertex_id]],
+                           constant float4x4 &mvpMatrix [[buffer(0)]],
+                           constant float2 &texCoordScale [[buffer(1)]])
 {
     constexpr float2 vertexPositions[] = {
-        { -1.0f, -1.0f },
-        {  1.0f, -1.0f },
-        { -1.0f,  1.0f },
-        {  1.0f,  1.0f }
+        { 0.0f, 0.0f },
+        { 1.0f, 0.0f },
+        { 0.0f, 1.0f },
+        { 1.0f, 1.0f }
     };
     
     constexpr float2 texCoords[] = {
@@ -35,19 +37,23 @@ LayerStimulus_vertexShader(uint vertexID [[vertex_id]])
     };
     
     RasterizerData out;
-    out.position = float4(vertexPositions[vertexID], 0.0, 1.0);
-    out.textureCoordinate = texCoords[vertexID];
+    out.position = mvpMatrix * float4(vertexPositions[vertexID], 0.0, 1.0);
+    out.textureCoordinate = texCoords[vertexID] * texCoordScale;
     return out;
 }
 
 
 fragment float4
 LayerStimulus_fragmentShader(RasterizerData in [[stage_in]],
-                             texture2d<float> colorTexture [[texture(0)]])
+                             texture2d<float> colorTexture [[texture(0)]],
+                             constant float &alpha [[buffer(0)]])
 {
-    // Nearest filtering is fine, since the layer's texture has the same
-    // dimensions as and is aligned pixel-for-pixel with the display's
-    // framebuffer texture
-    constexpr sampler textureSampler (filter::nearest);
-    return colorTexture.sample(textureSampler, in.textureCoordinate);
+    // Linear filtering is the right choice here, since there's no guarantee that
+    // texels will line up exactly with display pixels (e.g. the stimulus could be
+    // rotated 45 degrees)
+    constexpr sampler textureSampler (coord::pixel, filter::linear);
+    
+    float4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
+    colorSample.a *= alpha;
+    return colorSample;
 }

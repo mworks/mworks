@@ -14,7 +14,7 @@
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardStimulusFactory.h>
 #ifdef __OBJC__
-#  include <MWorksCore/TransformStimulus.hpp>
+#  include <MWorksCore/AlphaBlendedTransformStimulus.hpp>
 #endif
 
 #endif /* defined(__cplusplus) */
