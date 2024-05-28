@@ -427,7 +427,7 @@ void ParametricShape::drawMetal(MetalDisplay &display) {
     
     setCurrentMVPMatrix(display, renderCommandEncoder, 0);
     {
-        auto texCoordScale = simd::make_float2(currentWidthPixels - 1, currentHeightPixels - 1);
+        auto texCoordScale = simd::make_float2(currentWidthPixels, currentHeightPixels);
         setVertexBytes(renderCommandEncoder, texCoordScale, 1);
     }
     
