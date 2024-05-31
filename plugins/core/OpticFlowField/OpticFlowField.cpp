@@ -139,7 +139,6 @@ void OpticFlowField::loadMetal(MetalDisplay &display) {
         display.getDisplayBounds(xMin, xMax, yMin, yMax);
         displayWidth = xMax - xMin;
         displayHeight = yMax - yMin;
-        dotSizeToPixels = double(display.getMainView().drawableSize.width) / (xMax - xMin);
     }
     
     //
@@ -276,7 +275,7 @@ void OpticFlowField::drawMetal(MetalDisplay &display) {
     }
     setCurrentMVPMatrix(display, renderCommandEncoder, 2);
     {
-        float pointSize = currentDotSize * dotSizeToPixels;
+        auto pointSize = float(display.convertDisplayUnitsToPixels(currentDotSize));
         setVertexBytes(renderCommandEncoder, pointSize, 3);
     }
     

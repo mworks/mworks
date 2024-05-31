@@ -41,21 +41,12 @@ private:
     void unloadMetal(MetalDisplay &display) override;
     void drawMetal(MetalDisplay &display) override;
     
-    void computeFramebufferDimensions(const MetalDisplay &display,
-                                      double widthDegrees,
-                                      double heightDegrees,
-                                      std::size_t &widthPixels,
-                                      std::size_t &heightPixels) const;
-    
     const VariablePtr maxSizeX;
     const VariablePtr maxSizeY;
     
     std::vector<boost::shared_ptr<Stimulus>> children;
     
     float currentMaxSizeX, currentMaxSizeY;
-    
-    std::size_t displayWidthPixels, displayHeightPixels;
-    double pixelsPerDegree;
     
     int framebufferID;
     id<MTLTexture> framebufferTexture;

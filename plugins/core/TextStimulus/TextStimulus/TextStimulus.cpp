@@ -132,8 +132,7 @@ void TextStimulus::loadMetal(MetalDisplay &display) {
     }
     
     //
-    // Determine viewport size and compute conversions from degrees to pixels
-    // and points to pixels
+    // Compute conversion from points to pixels
     //
     {
         __block CGSize displaySizeInPoints;
@@ -145,21 +144,14 @@ void TextStimulus::loadMetal(MetalDisplay &display) {
             displaySizeInPoints = displayView.frame.size;
             displaySizeInPixels = displayView.drawableSize;
         });
-        
-        viewportWidth = displaySizeInPixels.width;
-        viewportHeight = displaySizeInPixels.height;
-        
-        double xMin, xMax, yMin, yMax;
-        display.getDisplayBounds(xMin, xMax, yMin, yMax);
-        pixelsPerDegree = double(viewportWidth) / (xMax - xMin);
-        pixelsPerPoint = double(viewportWidth) / displaySizeInPoints.width;
+        pixelsPerPoint = displaySizeInPixels.width / displaySizeInPoints.width;
     }
     
     //
     // Determine texture dimensions and allocate CPU-side texture data
     //
     
-    computeTextureDimensions(currentMaxSizeX, currentMaxSizeY, textureWidth, textureHeight);
+    display.getCurrentTextureSizeForDisplayArea(fullscreen, currentMaxSizeX, currentMaxSizeY, textureWidth, textureHeight);
     textureBytesPerRow = textureWidth;  // Texture contains only alpha values
     textureData.reset(new std::uint8_t[textureBytesPerRow * textureHeight]);
     
@@ -245,7 +237,7 @@ void TextStimulus::drawMetal(MetalDisplay &display) {
         }
     }
     
-    computeTextureDimensions(current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
+    display.getCurrentTextureSizeForDisplayArea(fullscreen, current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
     currentText = text->getValue().getString();
     currentFontName = fontName->getValue().getString();
     currentFontSize = fontSize->getValue().getFloat();
@@ -274,23 +266,6 @@ void TextStimulus::drawMetal(MetalDisplay &display) {
     lastFontName = currentFontName;
     lastFontSize = currentFontSize;
     lastTextAlignment = currentTextAlignment;
-}
-
-
-void TextStimulus::computeTextureDimensions(double widthDegrees,
-                                            double heightDegrees,
-                                            std::size_t &widthPixels,
-                                            std::size_t &heightPixels) const
-{
-    if (fullscreen) {
-        widthPixels = viewportWidth;
-        heightPixels = viewportHeight;
-    } else {
-        // Replace negative width or height with 0, and ensure that the texture
-        // contains at least one pixel
-        widthPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, widthDegrees));
-        heightPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, heightDegrees));
-    }
 }
 
 

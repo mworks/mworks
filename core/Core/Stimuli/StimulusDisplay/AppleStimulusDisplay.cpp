@@ -153,19 +153,10 @@ AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
     defaultFramebufferID(-1),
     currentFramebufferTexture(nil),
     currentCommandBuffer(nil),
-    defaultViewport(createViewport(0.0, 0.0, 0.0, 0.0))
-{
-    //
-    // Create the default projection matrix
-    //
-    // Metal uses different normalized device coordinates than OpenGL, so Metal-based stimuli need to use a
-    // different projection matrix than OpenGL-based ones, as explained at
-    // https://metashapes.com/blog/opengl-metal-projection-matrix-problem/
-    //
-    double left, right, bottom, top;
-    getDisplayBounds(left, right, bottom, top);
-    defaultProjectionMatrix = createProjectionMatrix(left, right, bottom, top);
-}
+    defaultViewport(createViewport(0.0, 0.0, 0.0, 0.0)),
+    defaultProjectionMatrix(createProjectionMatrix(-1.0, 1.0, -1.0, 1.0)),
+    pixelsPerDisplayUnit(0.0)
+{ }
 
 
 AppleStimulusDisplay::~AppleStimulusDisplay() {
@@ -210,10 +201,25 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             commandQueue = delegate.commandQueue;
             mainView = view;
             mainViewDelegate = delegate;
+            
             defaultFramebufferWidth = view.drawableSize.width;
             defaultFramebufferHeight = view.drawableSize.height;
             defaultFramebufferID = createFramebuffer();
             defaultViewport = createViewport(0, 0, defaultFramebufferWidth, defaultFramebufferHeight);
+            
+            double left, right, bottom, top;
+            getDisplayBounds(left, right, bottom, top);
+            defaultProjectionMatrix = createProjectionMatrix(left, right, bottom, top);
+            
+            //
+            // Evaluate pixels per display unit in both the horizontal and vertical directions,
+            // and store the larger of the two.  In the case where the configured aspect ratio
+            // of the display is different from the drawable's aspect ratio, this will ensure
+            // that textures sized using pixelsPerDisplayUnit will have at least one texel per
+            // pixel even under arbitrary rotation.
+            //
+            pixelsPerDisplayUnit = std::max(double(defaultFramebufferWidth) / (right - left),
+                                            double(defaultFramebufferHeight) / (top - bottom));
         }
         
         delegate.texture = getMetalFramebufferTexture(defaultFramebufferID);
@@ -388,6 +394,11 @@ void AppleStimulusDisplay::popMetalViewport() {
 
 
 simd::float4x4 AppleStimulusDisplay::createProjectionMatrix(double left, double right, double bottom, double top) {
+    //
+    // Metal uses different normalized device coordinates than OpenGL, so Metal-based stimuli need to use a
+    // different projection matrix than OpenGL-based ones, as explained at
+    // https://metashapes.com/blog/opengl-metal-projection-matrix-problem/
+    //
     return matrix_ortho_right_hand(left, right, bottom, top, -1.0, 1.0);
 }
 

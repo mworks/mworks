@@ -120,20 +120,16 @@ void WhiteNoiseBackground::loadMetal(MetalDisplay &display) {
     // Determine texture dimensions
     //
     {
-        const auto drawableSize = display.getMainView().drawableSize;
-        const auto displayWidthPixels = double(drawableSize.width);
-        const auto displayHeightPixels = double(drawableSize.height);
+        std::size_t displayWidthPixels, displayHeightPixels;
+        display.getCurrentTextureSizeForDisplayArea(displayWidthPixels, displayHeightPixels);
         
         if (currentGrainSize <= 0.0) {
             textureWidth = displayWidthPixels;
             textureHeight = displayHeightPixels;
         } else {
-            double left, right, bottom, top;
-            display.getDisplayBounds(left, right, bottom, top);
-            const auto pixelsPerDegree = displayWidthPixels / (right - left);
-            const auto grainSizePixels = std::max(1.0, currentGrainSize * pixelsPerDegree);
-            textureWidth = std::max(1.0, std::round(displayWidthPixels / grainSizePixels));
-            textureHeight = std::max(1.0, std::round(displayHeightPixels / grainSizePixels));
+            const auto grainSizePixels = std::max(1.0, display.convertDisplayUnitsToPixels(currentGrainSize));
+            textureWidth = std::max(1.0, std::round(double(displayWidthPixels) / grainSizePixels));
+            textureHeight = std::max(1.0, std::round(double(displayHeightPixels) / grainSizePixels));
         }
     }
     

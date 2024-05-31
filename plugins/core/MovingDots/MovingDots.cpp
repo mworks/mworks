@@ -153,15 +153,6 @@ void MovingDots::loadMetal(MetalDisplay &display) {
     randGen.seed(currentRandSeed);
     
     //
-    // Compute conversion from dot size to pixels
-    //
-    {
-        double xMin, xMax, yMin, yMax;
-        display.getDisplayBounds(xMin, xMax, yMin, yMax);
-        dotSizeToPixels = double(display.getMainView().drawableSize.width) / (xMax - xMin);
-    }
-    
-    //
     // Create render pipeline state
     //
     {
@@ -262,7 +253,7 @@ void MovingDots::drawMetal(MetalDisplay &display) {
         setVertexBytes(renderCommandEncoder, currentMVPMatrix, 1);
     }
     {
-        float pointSize = currentDotSize * dotSizeToPixels;
+        auto pointSize = float(display.convertDisplayUnitsToPixels(currentDotSize));
         setVertexBytes(renderCommandEncoder, pointSize, 2);
     }
     

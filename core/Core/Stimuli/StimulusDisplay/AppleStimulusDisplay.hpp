@@ -64,6 +64,23 @@ public:
     }
     void popMetalProjectionMatrix();
     
+    double convertDisplayUnitsToPixels(double size) const { return (pixelsPerDisplayUnit * std::max(0.0, size)); }
+    void getCurrentTextureSizeForDisplayArea(std::size_t &textureWidth, std::size_t &textureHeight) const {
+        return getCurrentTextureSizeForDisplayArea(true, 0.0, 0.0, textureWidth, textureHeight);
+    }
+    void getCurrentTextureSizeForDisplayArea(double displayWidth,
+                                             double displayHeight,
+                                             std::size_t &textureWidth,
+                                             std::size_t &textureHeight) const
+    {
+        return getCurrentTextureSizeForDisplayArea(false, displayWidth, displayHeight, textureWidth, textureHeight);
+    }
+    void getCurrentTextureSizeForDisplayArea(bool fullDisplay,
+                                             double displayWidth,
+                                             double displayHeight,
+                                             std::size_t &textureWidth,
+                                             std::size_t &textureHeight) const;
+    
     void configureCapture(const std::string &format, int heightPixels, const VariablePtr &enabled) override;
     
 protected:
@@ -108,6 +125,8 @@ private:
     simd::float4x4 defaultProjectionMatrix;
     std::vector<simd::float4x4> projectionMatrixStack;
     
+    double pixelsPerDisplayUnit;
+    
     class FrameCaptureManager;
     std::unique_ptr<FrameCaptureManager> captureManager;
     
@@ -134,6 +153,28 @@ AppleStimulusDisplay::createMetalRenderCommandEncoder(MTLRenderPassDescriptor *r
         [renderCommandEncoder setViewport:viewportStack.back()];
     }
     return renderCommandEncoder;
+}
+
+
+inline void
+AppleStimulusDisplay::getCurrentTextureSizeForDisplayArea(bool fullDisplay,
+                                                          double displayWidth,
+                                                          double displayHeight,
+                                                          std::size_t &textureWidth,
+                                                          std::size_t &textureHeight) const
+{
+    if (fullDisplay) {
+        textureWidth = defaultFramebufferWidth;
+        textureHeight = defaultFramebufferHeight;
+    } else {
+        // Ensure that texture contains at least one texel
+        textureWidth = std::max(1.0, convertDisplayUnitsToPixels(displayWidth));
+        textureHeight = std::max(1.0, convertDisplayUnitsToPixels(displayHeight));
+    }
+    // Limit the texture size to the size of the current viewport
+    auto &currentViewport = getCurrentMetalViewport();
+    textureWidth = std::min(textureWidth, std::size_t(currentViewport.width));
+    textureHeight = std::min(textureHeight, std::size_t(currentViewport.height));
 }
 
 

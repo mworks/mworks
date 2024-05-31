@@ -306,29 +306,10 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
     }
     
     //
-    // Determine viewport size and compute conversion from degrees to pixels
-    //
-    {
-        __block CGSize displaySizeInPixels;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            // If there's only a mirror window, getMainView will return its view,
-            // so there's no need to call getMirrorView
-            displaySizeInPixels = display.getMainView().drawableSize;
-        });
-        
-        viewportWidth = displaySizeInPixels.width;
-        viewportHeight = displaySizeInPixels.height;
-        
-        double xMin, xMax, yMin, yMax;
-        display.getDisplayBounds(xMin, xMax, yMin, yMax);
-        pixelsPerDegree = double(viewportWidth) / (xMax - xMin);
-    }
-    
-    //
     // Determine texture dimensions and allocate CPU-side texture data
     //
     
-    computeTextureDimensions(currentMaxSizeX, currentMaxSizeY, textureWidth, textureHeight);
+    display.getCurrentTextureSizeForDisplayArea(fullscreen, currentMaxSizeX, currentMaxSizeY, textureWidth, textureHeight);
     textureBytesPerRow = textureWidth;  // Texture contains only alpha values
     textureData.reset(new std::uint8_t[textureBytesPerRow * textureHeight]);
     
@@ -417,7 +398,7 @@ void ParametricShape::drawMetal(MetalDisplay &display) {
         }
     }
     
-    computeTextureDimensions(current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
+    display.getCurrentTextureSizeForDisplayArea(fullscreen, current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
     currentMarginPixels = std::max(0.0, marginPixels->getValue().getFloat());  // Ignore negative values
     currentUseAntialiasing = useAntialiasing->getValue().getBool();
     updateTexture(display);
@@ -441,23 +422,6 @@ void ParametricShape::drawMetal(MetalDisplay &display) {
     lastHeightPixels = currentHeightPixels;
     lastMarginPixels = currentMarginPixels;
     lastUseAntialiasing = currentUseAntialiasing;
-}
-
-
-void ParametricShape::computeTextureDimensions(double widthDegrees,
-                                               double heightDegrees,
-                                               std::size_t &widthPixels,
-                                               std::size_t &heightPixels) const
-{
-    if (fullscreen) {
-        widthPixels = viewportWidth;
-        heightPixels = viewportHeight;
-    } else {
-        // Replace negative width or height with 0, and ensure that the texture
-        // contains at least one pixel
-        widthPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, widthDegrees));
-        heightPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, heightDegrees));
-    }
 }
 
 

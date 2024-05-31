@@ -103,8 +103,6 @@ private:
     std::mt19937 randGen;
     std::uniform_real_distribution<float> randDist;
     
-    float dotSizeToPixels;
-    
     id<MTLRenderPipelineState> renderPipelineState;
     MWKTripleBufferedMTLResource<id<MTLBuffer>> *bufferPool;
     

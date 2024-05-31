@@ -61,11 +61,8 @@ bool TouchInputDevice::initialize() {
         
         // Get the parameters needed by GLKMathUnproject
         projectionMatrix = stimulusDisplay->getProjectionMatrix();
-        __block CGSize drawableSize;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            drawableSize = targetView.drawableSize;
-        });
-        viewport = { 0, 0, int(drawableSize.width), int(drawableSize.height) };
+        auto &defaultMetalViewport = stimulusDisplay->getDefaultMetalViewport();
+        viewport = { 0, 0, int(defaultMetalViewport.width), int(defaultMetalViewport.height) };
         
         return true;
     }

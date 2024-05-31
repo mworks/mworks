@@ -84,15 +84,15 @@ bool MouseInputDevice::initialize() {
             }
             
             projectionMatrix = stimulusDisplay->getProjectionMatrix();
+            
+            auto &defaultMetalViewport = stimulusDisplay->getDefaultMetalViewport();
+            viewport = { 0, 0, int(defaultMetalViewport.width), int(defaultMetalViewport.height) };
         }
         
         tracker = [[MWKMouseTracker alloc] initWithMouseInputDevice:component_shared_from_this<MouseInputDevice>()];
         tracker.shouldHideCursor = hideCursor;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            NSRect backingBounds = [targetView convertRectToBacking:targetView.bounds];
-            viewport = { 0, 0, int(NSWidth(backingBounds)), int(NSHeight(backingBounds)) };
-            
             trackingArea = [[NSTrackingArea alloc] initWithRect:[targetView bounds]
                                                         options:(NSTrackingMouseEnteredAndExited |
                                                                  NSTrackingMouseMoved |

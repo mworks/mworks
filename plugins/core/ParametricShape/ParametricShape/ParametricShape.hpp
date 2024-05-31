@@ -40,10 +40,6 @@ private:
     void unloadMetal(MetalDisplay &display) override;
     void drawMetal(MetalDisplay &display) override;
     
-    void computeTextureDimensions(double widthDegrees,
-                                  double heightDegrees,
-                                  std::size_t &widthPixels,
-                                  std::size_t &heightPixels) const;
     void updateTexture(MetalDisplay &display);
     
     const VariablePtr vertices;
@@ -64,9 +60,6 @@ private:
     double currentVertexCoordRange;
     
     float currentMaxSizeX, currentMaxSizeY;
-    
-    std::size_t viewportWidth, viewportHeight;
-    double pixelsPerDegree;
     
     std::size_t textureWidth, textureHeight;
     std::size_t textureBytesPerRow;

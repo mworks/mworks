@@ -105,7 +105,6 @@ private:
     const VariablePtr randSeed;
     
     float displayWidth, displayHeight;
-    float dotSizeToPixels;
     
     std::size_t currentMaxNumDots;
     std::unique_ptr<simd::float4[]> dotPositions;

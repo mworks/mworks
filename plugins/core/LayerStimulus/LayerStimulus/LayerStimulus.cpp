@@ -156,30 +156,11 @@ void LayerStimulus::loadMetal(MetalDisplay &display) {
     }
     
     //
-    // Determine display size and compute conversion from degrees to pixels
-    //
-    {
-        __block CGSize displaySizeInPixels;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            // If there's only a mirror window, getMainView will return its view,
-            // so there's no need to call getMirrorView
-            displaySizeInPixels = display.getMainView().drawableSize;
-        });
-        
-        displayWidthPixels = displaySizeInPixels.width;
-        displayHeightPixels = displaySizeInPixels.height;
-        
-        double xMin, xMax, yMin, yMax;
-        display.getDisplayBounds(xMin, xMax, yMin, yMax);
-        pixelsPerDegree = double(displayWidthPixels) / (xMax - xMin);
-    }
-    
-    //
     // Create framebuffer texture
     //
     {
         std::size_t framebufferWidth, framebufferHeight;
-        computeFramebufferDimensions(display, currentMaxSizeX, currentMaxSizeY, framebufferWidth, framebufferHeight);
+        display.getCurrentTextureSizeForDisplayArea(fullscreen, currentMaxSizeX, currentMaxSizeY, framebufferWidth, framebufferHeight);
         framebufferID = display.createFramebuffer(framebufferWidth, framebufferHeight);
         framebufferTexture = display.getMetalFramebufferTexture(framebufferID);
     }
@@ -237,7 +218,7 @@ void LayerStimulus::drawMetal(MetalDisplay &display) {
     }
     
     std::size_t currentWidthPixels, currentHeightPixels;
-    computeFramebufferDimensions(display, current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
+    display.getCurrentTextureSizeForDisplayArea(fullscreen, current_sizex, current_sizey, currentWidthPixels, currentHeightPixels);
     
     //
     // Render children to framebuffer texture
@@ -303,28 +284,6 @@ void LayerStimulus::drawMetal(MetalDisplay &display) {
         [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
         [renderCommandEncoder endEncoding];
     }
-}
-
-
-void LayerStimulus::computeFramebufferDimensions(const MetalDisplay &display,
-                                                 double widthDegrees,
-                                                 double heightDegrees,
-                                                 std::size_t &widthPixels,
-                                                 std::size_t &heightPixels) const
-{
-    if (fullscreen) {
-        widthPixels = displayWidthPixels;
-        heightPixels = displayHeightPixels;
-    } else {
-        // Replace negative width or height with 0, and ensure that the framebuffer
-        // contains at least one pixel
-        widthPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, widthDegrees));
-        heightPixels = std::max(1.0, pixelsPerDegree * std::max(0.0, heightDegrees));
-    }
-    // Limit the framebuffer size to the size of the current viewport
-    auto &currentViewport = display.getCurrentMetalViewport();
-    widthPixels = std::min(widthPixels, std::size_t(currentViewport.width));
-    heightPixels = std::min(heightPixels, std::size_t(currentViewport.height));
 }
 
 
