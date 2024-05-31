@@ -30,21 +30,20 @@ public:
     explicit AppleStimulusDisplay(const Configuration &config);
     ~AppleStimulusDisplay();
     
+    id<MTLDevice> getMetalDevice() const { return device; }
+    id<MTLCommandQueue> getMetalCommandQueue() const { return commandQueue; }
+    
     MTKView * getMainView() const { return mainView; }
     MTKView * getMirrorView() const { return (mirrorView ? mirrorView : mainView); }
     
-    void configureCapture(const std::string &format, int heightPixels, const VariablePtr &enabled) override;
+    int createFramebuffer() { return createFramebuffer(defaultFramebufferWidth, defaultFramebufferHeight); }
+    int createFramebuffer(std::size_t width, std::size_t height);
+    void pushFramebuffer(int framebufferID);
+    void popFramebuffer();
+    void releaseFramebuffer(int framebufferID);
     
-    int createFramebuffer() override;
-    int createFramebuffer(std::size_t width, std::size_t height) override;
-    void pushFramebuffer(int framebuffer_id) override;
-    void popFramebuffer() override;
-    void releaseFramebuffer(int framebuffer_id) override;
-    
-    id<MTLDevice> getMetalDevice() const { return device; }
-    id<MTLCommandQueue> getMetalCommandQueue() const { return commandQueue; }
     MTLPixelFormat getMetalFramebufferTexturePixelFormat() const { return MTLPixelFormatRGBA16Float; }
-    id<MTLTexture> getMetalFramebufferTexture(int framebuffer_id) const;
+    id<MTLTexture> getMetalFramebufferTexture(int framebufferID) const;
     
     id<MTLCommandBuffer> getCurrentMetalCommandBuffer() const { return currentCommandBuffer; }
     MTLRenderPassDescriptor * createMetalRenderPassDescriptor(MTLLoadAction loadAction = MTLLoadActionLoad,
@@ -64,6 +63,8 @@ public:
         return (projectionMatrixStack.empty() ? defaultProjectionMatrix : projectionMatrixStack.back());
     }
     void popMetalProjectionMatrix();
+    
+    void configureCapture(const std::string &format, int heightPixels, const VariablePtr &enabled) override;
     
 protected:
     void prepareContext(int context_id, bool isMainContext) override;
@@ -86,17 +87,17 @@ private:
     
     id<MTLDevice> device;
     id<MTLCommandQueue> commandQueue;
+    
     MTKView *mainView;
     MTKView *mirrorView;
     MWKStimulusDisplayViewDelegate *mainViewDelegate;
     MWKStimulusDisplayViewDelegate *mirrorViewDelegate;
     
-    std::size_t framebufferWidth;
-    std::size_t framebufferHeight;
+    std::size_t defaultFramebufferWidth;
+    std::size_t defaultFramebufferHeight;
     std::map<int, Framebuffer> framebuffers;
     std::vector<int> framebufferStack;
-    
-    int framebuffer_id;
+    int defaultFramebufferID;
     
     id<MTLTexture> currentFramebufferTexture;
     id<MTLCommandBuffer> currentCommandBuffer;

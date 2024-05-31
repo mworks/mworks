@@ -148,9 +148,9 @@ AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
     mirrorView(nil),
     mainViewDelegate(nil),
     mirrorViewDelegate(nil),
-    framebufferWidth(0),
-    framebufferHeight(0),
-    framebuffer_id(-1),
+    defaultFramebufferWidth(0),
+    defaultFramebufferHeight(0),
+    defaultFramebufferID(-1),
     currentFramebufferTexture(nil),
     currentCommandBuffer(nil),
     defaultViewport(createViewport(0.0, 0.0, 0.0, 0.0))
@@ -210,13 +210,13 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             commandQueue = delegate.commandQueue;
             mainView = view;
             mainViewDelegate = delegate;
-            framebufferWidth = view.drawableSize.width;
-            framebufferHeight = view.drawableSize.height;
-            framebuffer_id = createFramebuffer();
-            defaultViewport = createViewport(0, 0, framebufferWidth, framebufferHeight);
+            defaultFramebufferWidth = view.drawableSize.width;
+            defaultFramebufferHeight = view.drawableSize.height;
+            defaultFramebufferID = createFramebuffer();
+            defaultViewport = createViewport(0, 0, defaultFramebufferWidth, defaultFramebufferHeight);
         }
         
-        delegate.texture = getMetalFramebufferTexture(framebuffer_id);
+        delegate.texture = getMetalFramebufferTexture(defaultFramebufferID);
         view.delegate = delegate;
     }
 }
@@ -225,7 +225,7 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
 void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) {
     @autoreleasepool {
         if (needDraw) {
-            pushFramebuffer(framebuffer_id);
+            pushFramebuffer(defaultFramebufferID);
             
             currentCommandBuffer = [commandQueue commandBuffer];
             [currentCommandBuffer enqueue];
@@ -288,11 +288,6 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
 }
 
 
-int AppleStimulusDisplay::createFramebuffer() {
-    return createFramebuffer(framebufferWidth, framebufferHeight);
-}
-
-
 int AppleStimulusDisplay::createFramebuffer(std::size_t width, std::size_t height) {
     @autoreleasepool {
         auto textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:getMetalFramebufferTexturePixelFormat()
@@ -305,22 +300,22 @@ int AppleStimulusDisplay::createFramebuffer(std::size_t width, std::size_t heigh
         Framebuffer framebuffer;
         framebuffer.texture = [device newTextureWithDescriptor:textureDescriptor];
         
-        int framebuffer_id = 0;
+        int framebufferID = 0;
         auto lastIter = framebuffers.rbegin();
         if (lastIter != framebuffers.rend()) {
-            framebuffer_id = lastIter->first + 1;
+            framebufferID = lastIter->first + 1;
         }
-        framebuffers.emplace(framebuffer_id, std::move(framebuffer));
-        return framebuffer_id;
+        framebuffers.emplace(framebufferID, std::move(framebuffer));
+        return framebufferID;
     }
 }
 
 
-void AppleStimulusDisplay::pushFramebuffer(int framebuffer_id) {
+void AppleStimulusDisplay::pushFramebuffer(int framebufferID) {
     @autoreleasepool {
-        auto iter = framebuffers.find(framebuffer_id);
+        auto iter = framebuffers.find(framebufferID);
         if (iter == framebuffers.end()) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebufferID);
             return;
         }
         framebufferStack.push_back(iter->first);
@@ -345,11 +340,11 @@ void AppleStimulusDisplay::popFramebuffer() {
 }
 
 
-void AppleStimulusDisplay::releaseFramebuffer(int framebuffer_id) {
+void AppleStimulusDisplay::releaseFramebuffer(int framebufferID) {
     @autoreleasepool {
-        auto iter = framebuffers.find(framebuffer_id);
+        auto iter = framebuffers.find(framebufferID);
         if (iter == framebuffers.end()) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebufferID);
             return;
         }
         if (std::find(framebufferStack.begin(), framebufferStack.end(), iter->first) != framebufferStack.end()) {
@@ -363,10 +358,10 @@ void AppleStimulusDisplay::releaseFramebuffer(int framebuffer_id) {
 }
 
 
-id<MTLTexture> AppleStimulusDisplay::getMetalFramebufferTexture(int framebuffer_id) const {
-    auto iter = framebuffers.find(framebuffer_id);
+id<MTLTexture> AppleStimulusDisplay::getMetalFramebufferTexture(int framebufferID) const {
+    auto iter = framebuffers.find(framebufferID);
     if (iter == framebuffers.end()) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebuffer_id);
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Internal error: invalid framebuffer ID: %d", framebufferID);
         return nil;
     }
     return iter->second.texture;
@@ -423,17 +418,17 @@ void AppleStimulusDisplay::configureCapture(const std::string &format, int heigh
                               % mainView.colorPixelFormat);
     }
     
-    std::size_t bufferHeight = framebufferHeight;
-    std::size_t bufferWidth = framebufferWidth;
-    if (heightPixels > framebufferHeight) {
+    std::size_t bufferHeight = defaultFramebufferHeight;
+    std::size_t bufferWidth = defaultFramebufferWidth;
+    if (heightPixels > defaultFramebufferHeight) {
         mwarning(M_DISPLAY_MESSAGE_DOMAIN,
                  "Requested stimulus display capture buffer height (%d pixels) is larger than stimulus display height "
                  "(%lu pixels); stimulus display height will be used",
                  heightPixels,
-                 framebufferHeight);
+                 defaultFramebufferHeight);
     } else if (heightPixels > 0) {
         bufferHeight = heightPixels;
-        bufferWidth = bufferHeight * double(framebufferWidth) / double(framebufferHeight);
+        bufferWidth = bufferHeight * double(defaultFramebufferWidth) / double(defaultFramebufferHeight);
     }
     
     cf::StringPtr imageFileType;
