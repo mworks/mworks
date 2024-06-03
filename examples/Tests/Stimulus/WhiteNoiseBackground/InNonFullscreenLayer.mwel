@@ -1,0 +1,40 @@
+%define bg (grain_size)
+    layer (
+        x_size = 12
+        y_size = 6
+        x_position = 5
+        y_position = 4
+        fullscreen = false
+        ) {
+        white_noise_background (
+            grayscale = false
+            grain_size = grain_size
+            )
+    }
+%end
+
+stimulus_group backgrounds {
+    bg (0)
+    bg (0.5)  // 24x12
+    bg (1)    // 12x6
+    bg (3)    // 4x2
+    bg (6)    // 2x1
+    bg (12)   // 1x1
+}
+
+%define show_bg(index)
+    queue_stimulus (backgrounds[index])
+    update_display ()
+    wait (2s)
+    dequeue_stimulus (backgrounds[index])
+%end
+
+
+protocol {
+    show_bg (0)
+    show_bg (1)
+    show_bg (2)
+    show_bg (3)
+    show_bg (4)
+    show_bg (5)
+}

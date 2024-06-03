@@ -36,6 +36,8 @@ private:
     void unloadMetal(MetalDisplay &display) override;
     void drawMetal(MetalDisplay &display) override;
     
+    void getCurrentTextureSize(MetalDisplay &display, std::size_t &width, std::size_t &height) const;
+    
     const VariablePtr grayscale;
     const VariablePtr grainSize;
     const VariablePtr randSeed;
@@ -45,9 +47,6 @@ private:
     double currentGrainSize;
     MWTime currentRandSeed;
     bool curentRandomizeOnDraw;
-    
-    std::size_t textureWidth;
-    std::size_t textureHeight;
     
     id<MTLComputePipelineState> computePipelineState;
     MTLSize threadgroupsPerGrid;

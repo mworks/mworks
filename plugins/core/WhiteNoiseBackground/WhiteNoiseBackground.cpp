@@ -119,19 +119,9 @@ void WhiteNoiseBackground::loadMetal(MetalDisplay &display) {
     //
     // Determine texture dimensions
     //
-    {
-        std::size_t displayWidthPixels, displayHeightPixels;
-        display.getCurrentTextureSizeForDisplayArea(displayWidthPixels, displayHeightPixels);
-        
-        if (currentGrainSize <= 0.0) {
-            textureWidth = displayWidthPixels;
-            textureHeight = displayHeightPixels;
-        } else {
-            const auto grainSizePixels = std::max(1.0, display.convertDisplayUnitsToPixels(currentGrainSize));
-            textureWidth = std::max(1.0, std::round(double(displayWidthPixels) / grainSizePixels));
-            textureHeight = std::max(1.0, std::round(double(displayHeightPixels) / grainSizePixels));
-        }
-    }
+    
+    std::size_t textureWidth, textureHeight;
+    getCurrentTextureSize(display, textureWidth, textureHeight);
     
     //
     // Create compute and render pipeline states
@@ -282,14 +272,34 @@ void WhiteNoiseBackground::drawMetal(MetalDisplay &display) {
     auto renderCommandEncoder = createRenderCommandEncoder(display);
     [renderCommandEncoder setRenderPipelineState:renderPipelineState];
     
-    NSUInteger textureIndex = redNoiseTextureIndex;
-    for (id<MTLTexture> texture in noiseTextures) {
-        [renderCommandEncoder setFragmentTexture:texture atIndex:textureIndex];
-        textureIndex++;
+    {
+        std::size_t currentWidthPixels, currentHeightPixels;
+        getCurrentTextureSize(display, currentWidthPixels, currentHeightPixels);
+        auto texCoordScale = simd::make_float2(currentWidthPixels, currentHeightPixels);
+        setVertexBytes(renderCommandEncoder, texCoordScale, 0);
+    }
+    
+    {
+        NSUInteger textureIndex = redNoiseTextureIndex;
+        for (id<MTLTexture> texture in noiseTextures) {
+            [renderCommandEncoder setFragmentTexture:texture atIndex:textureIndex];
+            textureIndex++;
+        }
     }
     
     [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
     [renderCommandEncoder endEncoding];
+}
+
+
+void WhiteNoiseBackground::getCurrentTextureSize(MetalDisplay &display, std::size_t &width, std::size_t &height) const
+{
+    display.getCurrentTextureSizeForDisplayArea(width, height);
+    if (currentGrainSize > 0.0) {
+        const auto grainSizePixels = std::max(1.0, display.convertDisplayUnitsToPixels(currentGrainSize));
+        width = std::max(1.0, std::round(double(width) / grainSizePixels));
+        height = std::max(1.0, std::round(double(height) / grainSizePixels));
+    }
 }
 
 

@@ -41,7 +41,8 @@ struct RasterizerData {
 
 
 vertex RasterizerData
-vertexShader(uint vertexID [[vertex_id]])
+vertexShader(uint vertexID [[vertex_id]],
+             constant float2 &texCoordScale [[buffer(0)]])
 {
     constexpr float2 vertexPositions[] = {
         { -1.0f, -1.0f },
@@ -59,7 +60,7 @@ vertexShader(uint vertexID [[vertex_id]])
     
     RasterizerData out;
     out.position = float4(vertexPositions[vertexID], 0.0, 1.0);
-    out.textureCoordinate = texCoords[vertexID];
+    out.textureCoordinate = texCoords[vertexID] * texCoordScale;
     return out;
 }
 
@@ -71,7 +72,7 @@ float
 getNoise(texture2d<uint> noiseTexture,
          float2 textureCoordinate)
 {
-    constexpr sampler textureSampler (filter::nearest);
+    constexpr sampler textureSampler (coord::pixel, filter::nearest);
     return MinStdRand::normalize(noiseTexture.sample(textureSampler, textureCoordinate).r);
 }
 
