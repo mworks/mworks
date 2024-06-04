@@ -8,7 +8,6 @@
 #import <MWorksCocoa/CocoaBindingsSetter.h>
 #import <MWorksCocoa/MWClientBase.h>
 #import <MWorksCocoa/MWClientPlugin.h>
-#import <MWorksCocoa/MWClientPluginViewController.h>
 #import <MWorksCocoa/MWClientServerBase.h>
 #import <MWorksCocoa/MWConsoleController.h>
 #import <MWorksCocoa/MWConsoleToolbar.h>
