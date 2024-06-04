@@ -17,7 +17,11 @@ struct RewardWindowView: View {
         Form {
             TextField("Reward duration (ms):",
                       value: $coordinator.duration,
-                      formatter: NumberFormatter())
+                      formatter: {
+                let formatter = NumberFormatter()
+                formatter.maximumFractionDigits = 3
+                return formatter
+            }())
             VariableNameField("Variable name:",
                               property: coordinator.$rewardVarName)
             Button("Send Reward") { coordinator.sendReward() }
