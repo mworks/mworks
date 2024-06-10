@@ -18,6 +18,7 @@ const std::string MaskStimulus::STD_DEV("std_dev");
 const std::string MaskStimulus::MEAN("mean");
 const std::string MaskStimulus::NORMALIZED("normalized");
 const std::string MaskStimulus::EDGE_WIDTH("edge_width");
+const std::string MaskStimulus::COLOR("color");
 
 
 void MaskStimulus::describeComponent(ComponentInfo &info) {
@@ -31,6 +32,7 @@ void MaskStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(MEAN, "0.0");
     info.addParameter(NORMALIZED, "NO");
     info.addParameter(EDGE_WIDTH, "0.125");
+    info.addParameter(COLOR, false);
 }
 
 
@@ -41,14 +43,23 @@ MaskStimulus::MaskStimulus(const ParameterValueMap &parameters) :
     std_dev(registerVariable(parameters[STD_DEV])),
     mean(registerVariable(parameters[MEAN])),
     normalized(registerVariable(parameters[NORMALIZED])),
-    edgeWidth(registerVariable(parameters[EDGE_WIDTH]))
-{ }
+    edgeWidth(registerVariable(parameters[EDGE_WIDTH])),
+    haveColor(!parameters[COLOR].empty())
+{
+    if (haveColor) {
+        ParsedColorTrio pct(parameters[COLOR]);
+        colorRed = registerVariable(pct.getR());
+        colorGreen = registerVariable(pct.getG());
+        colorBlue = registerVariable(pct.getB());
+    }
+}
 
 
 Datum MaskStimulus::getCurrentAnnounceDrawData() {
     auto announceData = TransformStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "mask");
+    
     announceData.addElement(MASK, current_mask_type_name);
     announceData.addElement(INVERTED, current_inverted);
     
@@ -65,6 +76,12 @@ Datum MaskStimulus::getCurrentAnnounceDrawData() {
             
         default:
             break;
+    }
+    
+    if (haveColor) {
+        announceData.addElement(STIM_COLOR_R, current_color_red);
+        announceData.addElement(STIM_COLOR_G, current_color_green);
+        announceData.addElement(STIM_COLOR_B, current_color_blue);
     }
     
     return announceData;
@@ -89,9 +106,12 @@ auto MaskStimulus::maskTypeFromName(const std::string &name) -> MaskType {
 void MaskStimulus::loadMetal(MetalDisplay &display) {
     TransformStimulus::loadMetal(display);
     
+    MTLFunctionConstantValues *constantValues = [[MTLFunctionConstantValues alloc] init];
+    [constantValues setConstantValue:&haveColor type:MTLDataTypeBool atIndex:0];
+    
     auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
     auto vertexFunction = loadShaderFunction(library, "MaskStimulus_vertexShader");
-    auto fragmentFunction = loadShaderFunction(library, "MaskStimulus_fragmentShader");
+    auto fragmentFunction = loadShaderFunction(library, "MaskStimulus_fragmentShader", constantValues);
     auto renderPipelineDescriptor = createRenderPipelineDescriptor(display, vertexFunction, fragmentFunction);
     renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
 }
@@ -108,6 +128,12 @@ void MaskStimulus::drawMetal(MetalDisplay &display) {
     current_normalized = normalized->getValue().getBool();
     current_edge_width = edgeWidth->getValue().getFloat();
     
+    if (haveColor) {
+        current_color_red = colorRed->getValue().getFloat();
+        current_color_green = colorGreen->getValue().getFloat();
+        current_color_blue = colorBlue->getValue().getFloat();
+    }
+    
     auto renderCommandEncoder = createRenderCommandEncoder(display);
     [renderCommandEncoder setRenderPipelineState:renderPipelineState];
     
@@ -122,18 +148,36 @@ void MaskStimulus::drawMetal(MetalDisplay &display) {
     maskParams.edgeWidth = current_edge_width;
     setFragmentBytes(renderCommandEncoder, maskParams, 0);
     
+    if (haveColor) {
+        auto currentColor = simd::make_float3(current_color_red, current_color_green, current_color_blue);
+        setFragmentBytes(renderCommandEncoder, currentColor, 1);
+    }
+    
     [renderCommandEncoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
     [renderCommandEncoder endEncoding];
 }
 
 
 void MaskStimulus::configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const {
-    // Blend by multiplying the destination alpha by the mask alpha
     colorAttachment.blendingEnabled = YES;
-    colorAttachment.sourceRGBBlendFactor = MTLBlendFactorZero;
-    colorAttachment.destinationRGBBlendFactor = MTLBlendFactorOne;
-    colorAttachment.sourceAlphaBlendFactor = MTLBlendFactorZero;
-    colorAttachment.destinationAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+    
+    if (haveColor) {
+        // One-minus-alpha blend the mask RGB with the destination RGB
+        colorAttachment.sourceRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+        colorAttachment.destinationRGBBlendFactor = MTLBlendFactorSourceAlpha;
+        
+        // Leave the destination alpha unchanged
+        colorAttachment.sourceAlphaBlendFactor = MTLBlendFactorZero;
+        colorAttachment.destinationAlphaBlendFactor = MTLBlendFactorOne;
+    } else {
+        // Leave the destination RGB unchanged
+        colorAttachment.sourceRGBBlendFactor = MTLBlendFactorZero;
+        colorAttachment.destinationRGBBlendFactor = MTLBlendFactorOne;
+        
+        // Multiply the destination alpha by the mask alpha
+        colorAttachment.sourceAlphaBlendFactor = MTLBlendFactorZero;
+        colorAttachment.destinationAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+    }
 }
 
 

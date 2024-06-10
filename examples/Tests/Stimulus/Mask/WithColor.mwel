@@ -1,0 +1,135 @@
+var mask = 'rectangle'
+var inverted = false
+var std_dev = 1
+var mean = 0
+var normalized = false
+var edge_width = 0.125
+var red = 0.5
+var green = 0.5
+var blue = 0.5
+var x_size = 10
+var y_size = 7
+var x_position = -5
+var y_position = -5
+var rotation = 0
+
+
+rectangle rect (
+    color = 1,0,0
+    x_size = x_size + 2
+    y_size = y_size + 2
+    x_position = x_position
+    y_position = y_position
+    rotation = rotation
+    )
+
+
+mask mask (
+    mask = mask
+    inverted = inverted
+    std_dev = std_dev
+    mean = mean
+    normalized = normalized
+    edge_width = edge_width
+    color = red, green, blue
+    x_size = x_size
+    y_size = y_size
+    x_position = x_position
+    y_position = y_position
+    rotation = rotation
+    )
+
+
+%define update_and_wait ()
+    update_display ()
+    wait (2s)
+%end
+
+
+protocol {
+    live_queue_stimulus (rect)
+    live_queue_stimulus (mask)
+
+    // Normal rectangle
+    update_and_wait ()
+
+    // Inverted rectangle
+    inverted = true
+    update_and_wait ()
+
+    // Normal ellipse
+    mask = 'ellipse'
+    inverted = false
+    update_and_wait ()
+
+    // Inverted ellipse
+    inverted = true
+    update_and_wait ()
+
+    // Normal Gaussian
+    mask = 'gaussian'
+    inverted = false
+    update_and_wait ()
+
+    // Inverted Gaussian
+    inverted = true
+    update_and_wait ()
+
+    // std_dev
+    inverted = false
+    std_dev = 0.2
+    update_and_wait ()
+
+    // mean
+    mean = 0.5
+    update_and_wait ()
+
+    // normalized
+    normalized = true
+    update_and_wait ()
+
+    // Normal raised cosine
+    mask = 'raised_cosine'
+    inverted = false
+    update_and_wait ()
+
+    // Inverted raised cosine
+    inverted = true
+    update_and_wait ()
+
+    // edge_width
+    edge_width = 0.25
+    update_and_wait ()
+
+    // red
+    red = 0
+    update_and_wait ()
+
+    // green
+    green = 0
+    update_and_wait ()
+
+    // blue
+    blue = 0
+    update_and_wait ()
+
+    // x_size
+    x_size = 7
+    update_and_wait ()
+
+    // y_size
+    y_size = 10
+    update_and_wait ()
+
+    // x_position
+    x_position = 5
+    update_and_wait ()
+
+    // y_position
+    y_position = 5
+    update_and_wait ()
+
+    // rotation
+    rotation = 45
+    update_and_wait ()
+}

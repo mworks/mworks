@@ -70,16 +70,16 @@ name: Mask Stimulus
 signature: stimulus/mask
 isa: Transform Stimulus
 description: |
-    Masks are useful only in conjuction with `layers <Layer Stimulus>`.
+    A mask can truncate, obscure, or erase stimuli that lie below it.
 
-    A mask can truncate, obscure, or erase stimuli in its layer that lie below
-    it.  The "masked out" regions become transparent or semi-transparent
-    "windows", through which any stimuli below the layer are visible.  If the
-    mask is `inverted`_, it will make a "hole" through the stimuli under it,
-    allowing the stimuli beneath the layer to show through.
-
-    For example, the following layer will produce a red ring with inner radius
-    5 and outer radius 10::
+    Masks operate in two different modes.  The first mode requires that the mask
+    be contained in a `layer <Layer Stimulus>` and applies when the mask's
+    `color`_ parameter is omitted.  In this mode, the "masked out" regions
+    become transparent or semi-transparent "windows", through which any stimuli
+    below the layer are visible.  If the mask is `inverted`_, it will make
+    a "hole" through the stimuli under it, allowing the stimuli beneath the
+    layer to show through.  For example, the following layer will produce a red
+    ring with inner radius 5 and outer radius 10::
 
         layer the_layer {
             circle (
@@ -92,6 +92,26 @@ description: |
                 x_size = 10
                 )
         }
+
+    The second mode applies when a `color`_ is specified.  In this mode, the
+    "masked out" regions are blended with or replaced by the mask's color; no
+    `layer <Layer Stimulus>` is required.  If the mask's color matches the color
+    of the background, the mask can effectively "fade" the stimuli below it in
+    to the background.  For example, when displayed together, the following
+    stimuli produce a blue circle whose edge fades in to the default, 50% gray
+    background::
+
+        rectangle the_rectangle (
+            color = 0,0,1
+            x_size = 10
+            )
+
+        mask the_mask (
+            mask = raised_cosine
+            color = 0.5, 0.5, 0.5
+            x_size = 10
+            )
+
 parameters: 
   - 
     name: mask
@@ -145,5 +165,13 @@ parameters:
         This value specifies the width of the sinusoidal edge as a fraction of
         the total width (i.e. diameter) of the mask.  It should be greater than
         zero and less than or equal to 0.5.
+  - 
+    name: color
+    example: 0.5,0.5,0.5
+    description: >
+        The color of the mask, expressed as a comma-separated list of red,
+        green, and blue components.  Each component may be described by any
+        valid expression, but the expression must result in a value between 0
+        and 1 (inclusive).
 
 

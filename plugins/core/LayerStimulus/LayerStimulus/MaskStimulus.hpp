@@ -26,6 +26,7 @@ public:
     static const std::string MEAN;
     static const std::string NORMALIZED;
     static const std::string EDGE_WIDTH;
+    static const std::string COLOR;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -41,12 +42,15 @@ private:
     
     void configureBlending(MTLRenderPipelineColorAttachmentDescriptor *colorAttachment) const override;
     
-    const boost::shared_ptr<Variable> maskTypeName;
-    const boost::shared_ptr<Variable> inverted;
-    const boost::shared_ptr<Variable> std_dev;
-    const boost::shared_ptr<Variable> mean;
-    const boost::shared_ptr<Variable> normalized;
-    const boost::shared_ptr<Variable> edgeWidth;
+    const VariablePtr maskTypeName;
+    const VariablePtr inverted;
+    const VariablePtr std_dev;
+    const VariablePtr mean;
+    const VariablePtr normalized;
+    const VariablePtr edgeWidth;
+    const bool haveColor;
+    
+    VariablePtr colorRed, colorGreen, colorBlue;
     
     std::string current_mask_type_name;
     MaskType current_mask_type;
@@ -54,6 +58,7 @@ private:
     double current_std_dev, current_mean;
     bool current_normalized;
     double current_edge_width;
+    double current_color_red, current_color_green, current_color_blue;
     
 };
 

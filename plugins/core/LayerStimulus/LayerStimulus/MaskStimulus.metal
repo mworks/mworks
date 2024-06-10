@@ -37,9 +37,13 @@ MaskStimulus_vertexShader(uint vertexID [[vertex_id]],
 }
 
 
+constant bool haveColor [[function_constant(0)]];
+
+
 fragment float4
 MaskStimulus_fragmentShader(RasterizerData in [[stage_in]],
-                            constant MaskParameters &maskParams [[buffer(0)]])
+                            constant MaskParameters &maskParams [[buffer(0)]],
+                            constant float3 &color [[buffer(1), function_constant(haveColor)]])
 {
     constexpr float2 maskCenter = { 0.5f, 0.5f };
     constexpr float maskRadius = 0.5f;
@@ -95,5 +99,10 @@ MaskStimulus_fragmentShader(RasterizerData in [[stage_in]],
         maskValue = 1.0 - maskValue;
     }
     
-    return float4(1.0, 1.0, 1.0, maskValue);
+    float4 colorSample = float4(1.0, 1.0, 1.0, maskValue);
+    if (haveColor) {
+        colorSample.rgb = color;
+    }
+    
+    return colorSample;
 }
