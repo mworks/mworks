@@ -414,6 +414,53 @@ description: An indexable group of stimuli
 ---
 
 
+name: Compound Stimulus
+signature: stimulus/compound
+isa: Stimulus
+allowed_child: Stimulus
+description: |
+    A compound stimulus is a container for other stimuli.  When displayed, it
+    simply renders its child stimuli.  For example, the following compound
+    stimulus reproduces the `flag of Ireland
+    <https://en.wikipedia.org/wiki/Flag_of_Ireland>`_::
+
+        compound irish_flag {
+            rectangle green_rect (
+                color = 0.0075, 0.3278, 0.1221
+                x_size = 4
+                y_size = 6
+                x_position = -4
+                )
+        
+            rectangle white_rect (
+                color = 1.0, 1.0, 1.0
+                x_size = 4
+                y_size = 6
+                x_position = 0
+                )
+        
+            rectangle orange_rect (
+                color = 1.0, 0.2462, 0.0482
+                x_size = 4
+                y_size = 6
+                x_position = +4
+                )
+        }
+
+    Compound stimuli simplify management of groups of stimuli that should always
+    be displayed together.  Instead of `loading <Load Stimulus>`, `unloading
+    <Unload Stimulus>`, `queuing <Queue Stimulus>`, or `dequeuing <Dequeue
+    Stimulus>` each member of a group individually, you can load, unload, queue,
+    or dequeue just the compound stimulus that contains them.  For example, you
+    can display the above stimulus as follows::
+
+        queue_stimulus (irish_flag)
+        update_display ()
+
+
+---
+
+
 name: Transform Stimulus
 abstract: yes
 isa: Stimulus

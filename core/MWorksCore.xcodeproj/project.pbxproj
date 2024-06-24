@@ -742,6 +742,10 @@
 		E1CBF66B16BAFC260057CE48 /* MarionetteTest.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */; };
 		E1CBF66D16BAFC410057CE48 /* mw_test in CopyFiles */ = {isa = PBXBuildFile; fileRef = E11542181193471F00DDE09D /* mw_test */; };
 		E1CBF66E16BAFD5F0057CE48 /* MWorksCoreTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */; };
+		E1D5FB662C1B1BCB006D7C8D /* CompoundStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1D5FB652C1B1BCB006D7C8D /* CompoundStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D5FB672C1B1BCB006D7C8D /* CompoundStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D5FB642C1B1BCB006D7C8D /* CompoundStimulus.cpp */; };
+		E1D5FB682C1B1BCB006D7C8D /* CompoundStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D5FB642C1B1BCB006D7C8D /* CompoundStimulus.cpp */; };
+		E1D5FB692C1B1BCB006D7C8D /* CompoundStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1D5FB652C1B1BCB006D7C8D /* CompoundStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D97A9816CD3C4700E517DF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974E16C16C3F001481E9 /* IOKit.framework */; };
 		E1D9BAD62200C81400D63D59 /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9BAD42200C80100D63D59 /* libcompression.tbd */; };
 		E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974816C16BEE001481E9 /* CoreAudio.framework */; };
@@ -1419,6 +1423,8 @@
 		E1CA751325B0EAC5003B22C5 /* EllipseStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EllipseStimulus.hpp; sourceTree = "<group>"; };
 		E1CA755825B0EB26003B22C5 /* EllipseStimulus.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = EllipseStimulus.metal; sourceTree = "<group>"; };
 		E1CA92A51B5554EF00DF78B9 /* Marionette.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Marionette.xib; sourceTree = "<group>"; };
+		E1D5FB642C1B1BCB006D7C8D /* CompoundStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CompoundStimulus.cpp; sourceTree = "<group>"; };
+		E1D5FB652C1B1BCB006D7C8D /* CompoundStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CompoundStimulus.hpp; sourceTree = "<group>"; };
 		E1D9BAD42200C80100D63D59 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
 		E1DB974816C16BEE001481E9 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E1DB974A16C16C1F001481E9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -2529,6 +2535,8 @@
 		E1815FAB25810DEB004D8156 /* StandardStimuli */ = {
 			isa = PBXGroup;
 			children = (
+				E1D5FB652C1B1BCB006D7C8D /* CompoundStimulus.hpp */,
+				E1D5FB642C1B1BCB006D7C8D /* CompoundStimulus.cpp */,
 				E181609D25817757004D8156 /* MetalStimulus.hpp */,
 				E181609C25817757004D8156 /* MetalStimulus.cpp */,
 				E1815FAD25810ED5004D8156 /* BlankScreenStimulus.hpp */,
@@ -2734,6 +2742,7 @@
 				DA96B90809819B4E0007610D /* CoreBuilderForeman.h in Headers */,
 				E13464EC1D4BD8B200E4CF08 /* ZeroMQConnection.hpp in Headers */,
 				DA96C0E60988546D0007610D /* ExperimentPackager.h in Headers */,
+				E1D5FB662C1B1BCB006D7C8D /* CompoundStimulus.hpp in Headers */,
 				E1F7CBBB21F22B8A003F48A1 /* EventBlock.h in Headers */,
 				DA2B6A890989855C00DDE06D /* Client.h in Headers */,
 				E19B79271D525CCC00110665 /* ZeroMQUtilities.hpp in Headers */,
@@ -2902,6 +2911,7 @@
 				E17917571E4E556800528B91 /* EyeCalibrators.h in Headers */,
 				E17916D71E4E517100528B91 /* StandardVariables.h in Headers */,
 				E17917061E4E531600528B91 /* ParameterInfo.h in Headers */,
+				E1D5FB692C1B1BCB006D7C8D /* CompoundStimulus.hpp in Headers */,
 				E179176E1E4E563200528B91 /* DynamicStimulusDriver.h in Headers */,
 				E179172F1E4E541700528B91 /* RandomWORSelection.h in Headers */,
 				E17917291E4E53FB00528B91 /* Selectable.h in Headers */,
@@ -3689,6 +3699,7 @@
 				0EFC71410EDBAF6800FFABA8 /* ScheduledActions.cpp in Sources */,
 				E13464EB1D4BD8B200E4CF08 /* ZeroMQConnection.cpp in Sources */,
 				0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */,
+				E1D5FB672C1B1BCB006D7C8D /* CompoundStimulus.cpp in Sources */,
 				0E2FE5A20EF00CC900CEB818 /* ParsedColorTrio.cpp in Sources */,
 				E1AF742228EC832900F26CEC /* SoundGroup.cpp in Sources */,
 				5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */,
@@ -3737,6 +3748,7 @@
 				E102D9D025B1D47A00F2EF03 /* BaseImageStimulus.metal in Sources */,
 				E17916E01E4E51C900528B91 /* Buffers.cpp in Sources */,
 				E1FE64122142BEB700209279 /* MWK2File.cpp in Sources */,
+				E1D5FB682C1B1BCB006D7C8D /* CompoundStimulus.cpp in Sources */,
 				E17916C61E4E512C00528B91 /* GenericVariable.cpp in Sources */,
 				E17917651E4E55DD00528B91 /* IODevice.cpp in Sources */,
 				E17916B81E4E50D800528B91 /* ZeroMQServer.cpp in Sources */,

@@ -6,6 +6,7 @@
 
 #include "StandardStimuli.h"
 
+#include "CompoundStimulus.hpp"
 #include "BlankScreenStimulus.hpp"
 #include "RectangleStimulus.hpp"
 #include "EllipseStimulus.hpp"
@@ -18,6 +19,7 @@ BEGIN_NAMESPACE_MW
 
 
 void registerStandardStimuli(ComponentRegistry &registry) {
+    registry.registerFactory<StandardStimulusFactory, CompoundStimulus>();
     registry.registerFactory<StandardStimulusFactory, BlankScreenStimulus>();
     registry.registerFactory<StandardStimulusFactory, RectangleStimulus>();
     registry.registerFactory<StandardStimulusFactory, EllipseStimulus>();
