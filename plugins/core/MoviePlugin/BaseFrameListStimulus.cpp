@@ -60,6 +60,9 @@ void BaseFrameListStimulus::addChild(std::map<std::string, std::string> paramete
     if (!stim) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Child component must be a stimulus");
     }
+    if (getDisplay() != stim->getDisplay()) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Child stimulus must use the same display as its parent");
+    }
     if (stimulusGroup) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                               "Child stimuli are not allowed when a stimulus group is specified");

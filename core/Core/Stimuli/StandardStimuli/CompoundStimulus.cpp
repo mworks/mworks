@@ -30,6 +30,9 @@ void CompoundStimulus::addChild(std::map<std::string, std::string> parameters,
     if (!stim) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Child component must be a stimulus");
     }
+    if (getDisplay() != stim->getDisplay()) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Child stimulus must use the same display as its parent");
+    }
     children.push_back(stim);
 }
 
