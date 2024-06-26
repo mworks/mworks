@@ -330,16 +330,16 @@ class TypeConversionTestMixin(object):
         self._test_numpy_floating(numpy.single)
 
     def test_numpy_float_(self):
-        self._test_numpy_floating(numpy.float_)
+        self._test_numpy_floating(numpy.float64)
 
     def test_numpy_longfloat(self):
-        self._test_numpy_floating(numpy.longfloat)
+        self._test_numpy_floating(numpy.longdouble)
 
     def test_numpy_bytes_(self):
         self.assertReceivedEqualsSent(numpy.bytes_(b'foo'), 'foo')
 
     def test_numpy_unicode_(self):
-        self.assertReceivedEqualsSent(numpy.unicode_(u'foo'), str)
+        self.assertReceivedEqualsSent(numpy.str_(u'foo'), str)
 
     def test_numpy_array(self):
         self.assertReceivedEqualsSent(numpy.array([]), [])
