@@ -140,6 +140,11 @@ void message(const ObjectPtr &arg) {
 }
 
 
+auto get_current_time_us() {
+    return Clock::instance()->getCurrentTimeUS();
+}
+
+
 PyMethodDef _mworkscoreMethods[] = {
     MethodDef<getcodec>("getcodec"),
     MethodDef<get_reverse_codec>("get_reverse_codec"),
@@ -152,6 +157,7 @@ PyMethodDef _mworkscoreMethods[] = {
     MethodDef<message<mprintf>>("message"),
     MethodDef<message<mwarning>>("warning"),
     MethodDef<message<merror>>("error"),
+    MethodDef<get_current_time_us>("get_current_time_us"),
     { }  // Sentinel
 };
 

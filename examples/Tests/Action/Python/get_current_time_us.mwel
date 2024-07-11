@@ -1,0 +1,13 @@
+var t1 = 0
+var t2 = 0
+var t3 = 0
+
+
+protocol {
+    t1 = now()
+    run_python_string ('setvar("t2", get_current_time_us())')
+    t3 = now()
+    assert (type(t2) == 'integer')
+    assert (t1 < t2)
+    assert (t2 < t3)
+}

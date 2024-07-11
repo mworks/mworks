@@ -226,6 +226,9 @@ description: |
         Generates an MWorks error message.  ``msg`` can be any value, which,
         after conversion to a string, is used as the text of the message.
 
+    ``get_current_time_us()``
+        Returns the current MWorks time in microseconds (like ``now()``).
+
     Event callback functions are invoked whenever a value is assigned to the
     variable of interest.  They receive a single argument of type ``Event``,
     which has attributes ``code``, ``time``, and ``data``.  The values of
