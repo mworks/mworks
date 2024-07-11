@@ -96,6 +96,7 @@ ComponentRegistry::ComponentRegistry() {
 	registerFactory("action/stop_device_io", new StopDeviceIOFactory());
     registerFactoryAlias("action/stop_device_io", "action/stop_io_device");
 	registerFactory("action/reset_selection", new ResetSelectionFactory());
+    registerFactoryAlias("action/reset_selection", "action/reset_selections");
 	registerFactory("action/accept_selections", new AcceptSelectionsFactory());
 	registerFactory("action/reject_selections", new RejectSelectionsFactory());
     registerFactory<StandardComponentFactory, StopExperiment>();

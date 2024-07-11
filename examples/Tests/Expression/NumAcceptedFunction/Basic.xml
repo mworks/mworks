@@ -32,7 +32,7 @@
             <action type="assert" tag="Assert" condition="num_accepted(&quot;sel&quot;) == 3" message="" stop_on_failure="NO"></action>
             <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
             <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 5" message="" stop_on_failure="NO"></action>
-            <action tag="Reset Selections" type="reset_selection" selection="sel"></action>
+            <action tag="Reset Selections" type="reset_selections" selection="sel"></action>
             <action type="assert" tag="Assert" condition="num_accepted(&quot;sel&quot;) == 0" message="" stop_on_failure="NO"></action>
         </protocol>
     </experiment>

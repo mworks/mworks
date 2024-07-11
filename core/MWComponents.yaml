@@ -1775,11 +1775,12 @@ parameters:
 
 name: Reset Selections
 signature: action/reset_selection
+alias: action/reset_selections
 isa: Action
 description: >
     Reset all selections on a selectable object, including any that were
     previously accepted.  From the point of view of the selectable object, it
-    will be as if no selections were never made.
+    will be as if no selections were ever made.
 parameters: 
   - 
     name: selection
