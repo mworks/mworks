@@ -1,0 +1,320 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E170C7392C457E4E00671197 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E170C73A2C457E4E00671197 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E170C74A2C45818D00671197 /* CopyFiles */,
+			);
+			dependencies = (
+				E170C7492C45818200671197 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E170C73C2C457E5E00671197 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E170C73D2C457E5E00671197 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E170C74D2C4581C100671197 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E170C7382C45682200671197 /* Model3DStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E170C7372C45682200671197 /* Model3DStimulusPlugin.cpp */; };
+		E170C7432C4580B000671197 /* ModelIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E170C7422C4580B000671197 /* ModelIO.framework */; };
+		E170C7452C4580B700671197 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E170C7442C4580B700671197 /* Metal.framework */; };
+		E170C7472C4580CC00671197 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E170C7462C4580CC00671197 /* MWorksCore.framework */; };
+		E170C74B2C45819A00671197 /* Model3DStimulus.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E170C72B2C45645A00671197 /* Model3DStimulus.bundle */; };
+		E170C7502C45846A00671197 /* Model3DStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E170C74E2C45846A00671197 /* Model3DStimulus.cpp */; };
+		E170C7522C497C0000671197 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E170C7512C497C0000671197 /* MetalKit.framework */; };
+		E170C7542C49DA8900671197 /* Model3DStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E170C7532C49DA8900671197 /* Model3DStimulus.metal */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E170C7482C45818200671197 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E170C7232C45645A00671197 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E170C72A2C45645A00671197;
+			remoteInfo = Model3DStimulus;
+		};
+		E170C74C2C4581C100671197 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E170C7232C45645A00671197 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E170C7392C457E4E00671197;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E170C74A2C45818D00671197 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E170C74B2C45819A00671197 /* Model3DStimulus.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E170C72B2C45645A00671197 /* Model3DStimulus.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Model3DStimulus.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E170C7332C4564EF00671197 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E170C7342C4564EF00671197 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E170C7352C4564EF00671197 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E170C7362C4566F900671197 /* Model3DStimulus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Model3DStimulus-Prefix.pch"; sourceTree = "<group>"; };
+		E170C7372C45682200671197 /* Model3DStimulusPlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = Model3DStimulusPlugin.cpp; sourceTree = "<group>"; };
+		E170C7422C4580B000671197 /* ModelIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ModelIO.framework; path = System/Library/Frameworks/ModelIO.framework; sourceTree = SDKROOT; };
+		E170C7442C4580B700671197 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		E170C7462C4580CC00671197 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = "/Library/Application Support/MWorks/Frameworks/MWorksCore.framework"; sourceTree = "<absolute>"; };
+		E170C74E2C45846A00671197 /* Model3DStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = Model3DStimulus.cpp; sourceTree = "<group>"; };
+		E170C74F2C45846A00671197 /* Model3DStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Model3DStimulus.hpp; sourceTree = "<group>"; };
+		E170C7512C497C0000671197 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		E170C7532C49DA8900671197 /* Model3DStimulus.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Model3DStimulus.metal; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E170C7282C45645A00671197 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E170C7472C4580CC00671197 /* MWorksCore.framework in Frameworks */,
+				E170C7452C4580B700671197 /* Metal.framework in Frameworks */,
+				E170C7522C497C0000671197 /* MetalKit.framework in Frameworks */,
+				E170C7432C4580B000671197 /* ModelIO.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E170C7222C45645A00671197 = {
+			isa = PBXGroup;
+			children = (
+				E170C7322C4564B100671197 /* External Config */,
+				E170C74F2C45846A00671197 /* Model3DStimulus.hpp */,
+				E170C74E2C45846A00671197 /* Model3DStimulus.cpp */,
+				E170C7532C49DA8900671197 /* Model3DStimulus.metal */,
+				E170C7372C45682200671197 /* Model3DStimulusPlugin.cpp */,
+				E170C7362C4566F900671197 /* Model3DStimulus-Prefix.pch */,
+				E170C72C2C45645A00671197 /* Products */,
+				E170C73F2C4580A100671197 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E170C72C2C45645A00671197 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E170C72B2C45645A00671197 /* Model3DStimulus.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E170C7322C4564B100671197 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E170C7342C4564EF00671197 /* macOS.xcconfig */,
+				E170C7332C4564EF00671197 /* macOS_Plugin.xcconfig */,
+				E170C7352C4564EF00671197 /* iOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E170C73F2C4580A100671197 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E170C7462C4580CC00671197 /* MWorksCore.framework */,
+				E170C7442C4580B700671197 /* Metal.framework */,
+				E170C7512C497C0000671197 /* MetalKit.framework */,
+				E170C7422C4580B000671197 /* ModelIO.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E170C72A2C45645A00671197 /* Model3DStimulus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E170C72F2C45645A00671197 /* Build configuration list for PBXNativeTarget "Model3DStimulus" */;
+			buildPhases = (
+				E170C7272C45645A00671197 /* Sources */,
+				E170C7282C45645A00671197 /* Frameworks */,
+				E170C7292C45645A00671197 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Model3DStimulus;
+			productName = Model3DStimulus;
+			productReference = E170C72B2C45645A00671197 /* Model3DStimulus.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E170C7232C45645A00671197 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					E170C72A2C45645A00671197 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					E170C7392C457E4E00671197 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					E170C73C2C457E5E00671197 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = E170C7262C45645A00671197 /* Build configuration list for PBXProject "Model3DStimulus" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E170C7222C45645A00671197;
+			productRefGroup = E170C72C2C45645A00671197 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E170C72A2C45645A00671197 /* Model3DStimulus */,
+				E170C7392C457E4E00671197 /* Install */,
+				E170C73C2C457E5E00671197 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E170C7292C45645A00671197 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E170C7272C45645A00671197 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E170C7502C45846A00671197 /* Model3DStimulus.cpp in Sources */,
+				E170C7542C49DA8900671197 /* Model3DStimulus.metal in Sources */,
+				E170C7382C45682200671197 /* Model3DStimulusPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E170C7492C45818200671197 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E170C72A2C45645A00671197 /* Model3DStimulus */;
+			targetProxy = E170C7482C45818200671197 /* PBXContainerItemProxy */;
+		};
+		E170C74D2C4581C100671197 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E170C7392C457E4E00671197 /* Install */;
+			targetProxy = E170C74C2C4581C100671197 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E170C72D2C45645A00671197 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E170C7302C45645A00671197 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E170C7332C4564EF00671197 /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Model3DStimulus-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.Model3DStimulus";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E170C73B2C457E4E00671197 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E170C7342C4564EF00671197 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E170C73E2C457E5E00671197 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E170C7342C4564EF00671197 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E170C7262C45645A00671197 /* Build configuration list for PBXProject "Model3DStimulus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E170C72D2C45645A00671197 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E170C72F2C45645A00671197 /* Build configuration list for PBXNativeTarget "Model3DStimulus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E170C7302C45645A00671197 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E170C73A2C457E4E00671197 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E170C73B2C457E4E00671197 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E170C73D2C457E5E00671197 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E170C73E2C457E5E00671197 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E170C7232C45645A00671197 /* Project object */;
+}

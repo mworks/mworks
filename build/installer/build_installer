@@ -49,6 +49,7 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/Firmata.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ISCAN.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/LayerStimulus.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/Model3DStimulus.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MouseInput.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MovieStimulusPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MovingDots.bundle',

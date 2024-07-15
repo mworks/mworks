@@ -1,0 +1,29 @@
+//
+//  Model3DStimulus-Prefix.pch
+//  Model3DStimulus
+//
+//  Created by Christopher Stawarz on 7/15/24.
+//
+
+#ifndef Model3DStimulus_Prefix_pch
+#define Model3DStimulus_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <numbers>
+
+#include <MWorksCore/AAPLMathUtilities.h>
+#ifdef __OBJC__
+#  include <MWorksCore/ColoredTransformStimulus.hpp>
+#endif
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#ifdef __OBJC__
+#  include <MetalKit/MetalKit.h>
+#  include <ModelIO/ModelIO.h>
+#endif
+
+#endif /* Model3DStimulus_Prefix_pch */
