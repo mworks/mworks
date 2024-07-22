@@ -151,6 +151,7 @@ AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
     defaultFramebufferWidth(0),
     defaultFramebufferHeight(0),
     defaultFramebufferID(-1),
+    depthTexture(nil),
     currentFramebufferTexture(nil),
     currentCommandBuffer(nil),
     defaultViewport(createViewport(0.0, 0.0, 0.0, 0.0)),
@@ -163,6 +164,7 @@ AppleStimulusDisplay::~AppleStimulusDisplay() {
     @autoreleasepool {
         currentCommandBuffer = nil;
         currentFramebufferTexture = nil;
+        depthTexture = nil;
         framebuffers.clear();  // Release framebuffers in scope of autorelease pool
         mirrorViewDelegate = nil;
         mainViewDelegate = nil;
@@ -205,6 +207,15 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             defaultFramebufferWidth = view.drawableSize.width;
             defaultFramebufferHeight = view.drawableSize.height;
             defaultFramebufferID = createFramebuffer();
+            
+            auto depthTextureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:getMetalDepthTexturePixelFormat()
+                                                                                             width:defaultFramebufferWidth
+                                                                                            height:defaultFramebufferHeight
+                                                                                         mipmapped:NO];
+            depthTextureDescriptor.storageMode = MTLStorageModePrivate;
+            depthTextureDescriptor.usage = MTLTextureUsageRenderTarget;
+            depthTexture = [device newTextureWithDescriptor:depthTextureDescriptor];
+            
             defaultViewport = createViewport(0, 0, defaultFramebufferWidth, defaultFramebufferHeight);
             
             double left, right, bottom, top;

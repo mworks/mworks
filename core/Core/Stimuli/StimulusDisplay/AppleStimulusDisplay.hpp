@@ -45,6 +45,9 @@ public:
     MTLPixelFormat getMetalFramebufferTexturePixelFormat() const { return MTLPixelFormatRGBA16Float; }
     id<MTLTexture> getMetalFramebufferTexture(int framebufferID) const;
     
+    MTLPixelFormat getMetalDepthTexturePixelFormat() const { return MTLPixelFormatDepth32Float; }
+    id<MTLTexture> getMetalDepthTexture() const { return depthTexture; }
+    
     id<MTLCommandBuffer> getCurrentMetalCommandBuffer() const { return currentCommandBuffer; }
     MTLRenderPassDescriptor * createMetalRenderPassDescriptor(MTLLoadAction loadAction = MTLLoadActionLoad,
                                                               MTLStoreAction storeAction = MTLStoreActionStore) const;
@@ -115,6 +118,8 @@ private:
     std::map<int, Framebuffer> framebuffers;
     std::vector<int> framebufferStack;
     int defaultFramebufferID;
+    
+    id<MTLTexture> depthTexture;
     
     id<MTLTexture> currentFramebufferTexture;
     id<MTLCommandBuffer> currentCommandBuffer;
