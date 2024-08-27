@@ -327,7 +327,28 @@ static void removeExpiredSamples(NSMutableArray *samples, NSTimeInterval cutoffT
     }
 }
 
+static BOOL isValidAnalogSample(MWCocoaEvent *event) {
+    const auto data = *[event data];
+    if (!data.isNumber()) {
+        merror(M_CLIENT_MESSAGE_DOMAIN,
+               "Eye window: analog sample value must be a number (received %s)",
+               data.getDataTypeName());
+        return NO;
+    }
+    if (!std::isfinite(data.getFloat())) {
+        merror(M_CLIENT_MESSAGE_DOMAIN,
+               "Eye window: analog sample value is not finite (received %g)",
+               data.getFloat());
+        return NO;
+    }
+    return YES;
+}
+
 - (void)addEyeHEvent:(MWCocoaEvent *)event {
+    if (!isValidAnalogSample(event)) {
+        mwarning(M_CLIENT_MESSAGE_DOMAIN, "Eye window: ignoring invalid eye position sample");
+        return;
+    }
 	dispatch_async(serialQueue, ^{
         if (!self.currentEyeH || ([event time] > [self.currentEyeH time])) {
             [self syncHEvent:event withVEvent:self.currentEyeV];
@@ -336,6 +357,10 @@ static void removeExpiredSamples(NSMutableArray *samples, NSTimeInterval cutoffT
 }
 
 - (void)addEyeVEvent:(MWCocoaEvent *)event {
+    if (!isValidAnalogSample(event)) {
+        mwarning(M_CLIENT_MESSAGE_DOMAIN, "Eye window: ignoring invalid eye position sample");
+        return;
+    }
 	dispatch_async(serialQueue, ^{
         if (!self.currentEyeV || ([event time] > [self.currentEyeV time])) {
             [self syncHEvent:self.currentEyeH withVEvent:event];
@@ -402,6 +427,10 @@ static void removeExpiredSamples(NSMutableArray *samples, NSTimeInterval cutoffT
 
 
 - (void)addAuxHEvent:(MWCocoaEvent *)event {
+    if (!isValidAnalogSample(event)) {
+        mwarning(M_CLIENT_MESSAGE_DOMAIN, "Eye window: ignoring invalid auxiliary analog signal sample");
+        return;
+    }
 	dispatch_async(serialQueue, ^{
         if (!self.currentAuxH || ([event time] > [self.currentAuxH time])) {
             [self syncAuxHEvent:event withAuxVEvent:self.currentAuxV];
@@ -411,6 +440,10 @@ static void removeExpiredSamples(NSMutableArray *samples, NSTimeInterval cutoffT
 
 
 - (void)addAuxVEvent:(MWCocoaEvent *)event {
+    if (!isValidAnalogSample(event)) {
+        mwarning(M_CLIENT_MESSAGE_DOMAIN, "Eye window: ignoring invalid auxiliary analog signal sample");
+        return;
+    }
 	dispatch_async(serialQueue, ^{
         if (!self.currentAuxV || ([event time] > [self.currentAuxV time])) {
             [self syncAuxHEvent:self.currentAuxH withAuxVEvent:event];
