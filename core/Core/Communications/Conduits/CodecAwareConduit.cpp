@@ -177,7 +177,7 @@ void CodecAwareConduit::registerCallbackByName(string event_name, EventCallback 
     // We can't register a callback by name until we have the remote codec
     waitForRemoteCodec(lock);
     
-    callbacks_by_name[event_name] = cb;
+    callbacks_by_name.emplace(event_name, cb);
     addEventCallback(event_name, cb);
 }
 

@@ -41,7 +41,9 @@ protected:
     map<string, int> remote_reverse_codec;
     boost::condition_variable_any remote_codec_cond;
     
-    map<string, EventCallback> callbacks_by_name;
+    // Store by-name callbacks in a multimap, so that we can restore *all* callbacks
+    // registered for a given name when a new codec is received
+    std::multimap<std::string, EventCallback> callbacks_by_name;
     
     void transmitCodecEvent();
     void addEventCallback(const std::string &name, EventCallback cb);
