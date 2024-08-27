@@ -64,6 +64,8 @@ mFakeMonkey::mFakeMonkey(const boost::shared_ptr<Scheduler> &a_scheduler,
 	saccade_start_v = shared_ptr<float>(new float(0));
 	saccade_target_h = shared_ptr<float>(new float(0));
 	saccade_target_v = shared_ptr<float>(new float(0));
+    
+    command_pending = false;
 }
 
 //mFakeMonkey::mFakeMonkey(const mFakeMonkey& copy);
