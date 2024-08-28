@@ -151,16 +151,17 @@ void WhiteNoiseBackground::loadMetal(MetalDisplay &display) {
         }
         
         {
+            auto vertexFunction = loadShaderFunction(library, "vertexShader");
+            
             MTLFunctionConstantValues *constantValues = [[MTLFunctionConstantValues alloc] init];
             const bool rgbNoise = !currentGrayscale;
             [constantValues setConstantValue:&rgbNoise
                                         type:MTLDataTypeBool
                                      atIndex:rgbNoiseFunctionConstantIndex];
+            auto fragmentFunction = loadShaderFunction(library, "fragmentShader", constantValues);
             
-            auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-            renderPipelineDescriptor.vertexFunction = loadShaderFunction(library, "vertexShader");
-            renderPipelineDescriptor.fragmentFunction = loadShaderFunction(library, "fragmentShader", constantValues);
-            renderPipelineDescriptor.colorAttachments[0].pixelFormat = display.getMetalFramebufferTexturePixelFormat();
+            auto renderPipelineDescriptor = display.createMetalRenderPipelineDescriptor(vertexFunction,
+                                                                                        fragmentFunction);
             renderPipelineState = createRenderPipelineState(display, renderPipelineDescriptor);
         }
     }

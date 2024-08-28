@@ -1,0 +1,51 @@
+//
+// If multisample anti-aliasing (MSAA) is disabled, the rectangle should show
+// obvious aliasing artifacts (i.e. jagged edges) that vary as it rotates.
+// Enabling MSAA should greatly reduce these artifacts.
+//
+// On the other hand, the appearance of the circle should not be affected by
+// MSAA, because it performs its own edge smoothing in the fragment shader.
+// Also, MSAA applies only to the *edges* of the geometry (i.e. the circle's
+// bounding square), not its interior.
+//
+
+
+%define x_size = 10
+%define y_size = 0.25
+%define x_offset = (x_size / 2) + 1
+%define rotational_speed = 15
+
+var rotation = 0
+var elapsed_time = 0
+
+
+stimulus_display (background_color = 0,0,0)
+
+
+render_actions update_rotation (elapsed_time = elapsed_time) {
+    rotation = fmod(rotational_speed * elapsed_time / 1e6, 360.0)
+}
+
+
+rectangle rectangle (
+    x_size = x_size
+    y_size = y_size
+    x_position = -x_offset
+    rotation = rotation
+    )
+
+
+ellipse circle (
+    x_size = x_size
+    x_position = +x_offset
+    rotation = rotation
+    )
+
+
+protocol {
+    queue_stimulus (update_rotation)
+    live_queue_stimulus (rectangle)
+    live_queue_stimulus (circle)
+    update_display ()
+    wait (30s)
+}

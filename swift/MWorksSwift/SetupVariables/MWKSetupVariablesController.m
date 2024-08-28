@@ -41,6 +41,7 @@
             _redGamma = @(config.redGamma);
             _greenGamma = @(config.greenGamma);
             _blueGamma = @(config.blueGamma);
+            _useAntialiasing = (BOOL)(config.useAntialiasing);
             _makeWindowOpaque = (BOOL)(config.makeWindowOpaque);
         }
         
@@ -167,6 +168,14 @@
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_GAMMA_BLUE_KEY
                    value:blueGamma.doubleValue];
+}
+
+
+- (void)setUseAntialiasing:(BOOL)useAntialiasing {
+    _useAntialiasing = useAntialiasing;
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_USE_ANTIALIASING_KEY
+                   value:bool(useAntialiasing)];
 }
 
 

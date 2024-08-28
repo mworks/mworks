@@ -48,6 +48,7 @@ public:
         bool useColorManagement = true;
         bool setDisplayGamma = false;
         double redGamma = 0.0, greenGamma = 0.0, blueGamma = 0.0;
+        bool useAntialiasing = true;
         bool makeWindowOpaque = true;
     };
     
@@ -76,6 +77,7 @@ public:
     virtual ~StimulusDisplay();
     
     bool getUseColorManagement() const { return config.useColorManagement; }
+    bool getUseAntialiasing() const { return config.useAntialiasing; }
     void getDisplayBounds(double &left, double &right, double &bottom, double &top) const {
         std::tie(left, right, bottom, top) = std::tie(boundsLeft, boundsRight, boundsBottom, boundsTop);
     }

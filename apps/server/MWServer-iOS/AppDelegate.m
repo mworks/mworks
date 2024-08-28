@@ -20,6 +20,7 @@
 #define DISPLAY_HEIGHT_PREFERENCE @"display_height_preference"
 #define DISPLAY_DISTANCE_PREFERENCE @"display_distance_preference"
 #define USE_COLOR_MANAGEMENT_PREFERENCE @"use_color_management_preference"
+#define USE_ANTI_ALIASING_PREFERENCE @"use_anti_aliasing_preference"
 #define DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE @"did_install_example_experiments_preference"
 
 #define EVENT_CALLBACK_KEY @"<MWServer-iOS/AppDelegate>"
@@ -121,6 +122,7 @@ static void registerDefaultSettings(NSUserDefaults *userDefaults) {
       DISPLAY_HEIGHT_PREFERENCE: @(280),
       DISPLAY_DISTANCE_PREFERENCE: @(450),
       USE_COLOR_MANAGEMENT_PREFERENCE: @(YES),
+      USE_ANTI_ALIASING_PREFERENCE: @(YES),
       DID_INSTALL_EXAMPLE_EXPERIMENTS_PREFERENCE: @(NO)
       };
     [userDefaults registerDefaults:defaultSettings];
@@ -144,6 +146,7 @@ static void initializeSetupVariables(NSUserDefaults *userDefaults,
     setupVariablesController.alwaysDisplayMirrorWindow = NO;
     setupVariablesController.mirrorWindowBaseHeight = @(0);
     setupVariablesController.useColorManagement = [userDefaults boolForKey:USE_COLOR_MANAGEMENT_PREFERENCE];
+    setupVariablesController.useAntialiasing = [userDefaults boolForKey:USE_ANTI_ALIASING_PREFERENCE];
     
     setupVariablesController.warnOnSkippedRefresh = [userDefaults boolForKey:WARN_ON_SKIPPED_REFRESH_PREFERENCE];
     setupVariablesController.stopOnError = [userDefaults boolForKey:STOP_ON_ERROR_PREFERENCE];

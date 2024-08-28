@@ -42,13 +42,23 @@ public:
     void popFramebuffer();
     void releaseFramebuffer(int framebufferID);
     
+    MTLTextureType getMetalFramebufferTextureType() const {
+        return (getUseAntialiasing() ? MTLTextureType2DMultisample : MTLTextureType2D);
+    }
     MTLPixelFormat getMetalFramebufferTexturePixelFormat() const { return MTLPixelFormatRGBA16Float; }
+    NSUInteger getMetalFramebufferTextureSampleCount() const {
+        return (getUseAntialiasing() ? 4 : 1);  // All devices support a sample count of 4 (and 1)
+    }
     id<MTLTexture> getMetalFramebufferTexture(int framebufferID) const;
+    
+    id<MTLTexture> getMetalMultisampleResolveTexture() const { return multisampleResolveTexture; }
     
     MTLPixelFormat getMetalDepthTexturePixelFormat() const { return MTLPixelFormatDepth32Float; }
     id<MTLTexture> getMetalDepthTexture() const { return depthTexture; }
     
     id<MTLCommandBuffer> getCurrentMetalCommandBuffer() const { return currentCommandBuffer; }
+    MTLRenderPipelineDescriptor * createMetalRenderPipelineDescriptor(id<MTLFunction> vertexFunction,
+                                                                      id<MTLFunction> fragmentFunction) const;
     MTLRenderPassDescriptor * createMetalRenderPassDescriptor(MTLLoadAction loadAction = MTLLoadActionLoad,
                                                               MTLStoreAction storeAction = MTLStoreActionStore) const;
     id<MTLRenderCommandEncoder> createMetalRenderCommandEncoder(MTLRenderPassDescriptor *renderPassDescriptor) const;
@@ -119,6 +129,7 @@ private:
     std::vector<int> framebufferStack;
     int defaultFramebufferID;
     
+    id<MTLTexture> multisampleResolveTexture;
     id<MTLTexture> depthTexture;
     
     id<MTLTexture> currentFramebufferTexture;
@@ -136,6 +147,23 @@ private:
     std::unique_ptr<FrameCaptureManager> captureManager;
     
 };
+
+
+inline MTLRenderPipelineDescriptor *
+AppleStimulusDisplay::createMetalRenderPipelineDescriptor(id<MTLFunction> vertexFunction,
+                                                          id<MTLFunction> fragmentFunction) const
+{
+    auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+    renderPipelineDescriptor.vertexFunction = vertexFunction;
+    renderPipelineDescriptor.fragmentFunction = fragmentFunction;
+    renderPipelineDescriptor.colorAttachments[0].pixelFormat = getMetalFramebufferTexturePixelFormat();
+#if TARGET_OS_IPHONE
+    renderPipelineDescriptor.rasterSampleCount = getMetalFramebufferTextureSampleCount();
+#else
+    renderPipelineDescriptor.sampleCount = getMetalFramebufferTextureSampleCount();
+#endif
+    return renderPipelineDescriptor;
+}
 
 
 inline MTLRenderPassDescriptor *

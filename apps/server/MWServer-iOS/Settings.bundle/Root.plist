@@ -150,9 +150,19 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Use color management</string>
+			<string>Use color management and linear color</string>
 			<key>Key</key>
 			<string>use_color_management_preference</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Use multisample anti-aliasing</string>
+			<key>Key</key>
+			<string>use_anti_aliasing_preference</string>
 			<key>DefaultValue</key>
 			<true/>
 		</dict>

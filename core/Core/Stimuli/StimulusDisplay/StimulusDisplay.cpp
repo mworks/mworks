@@ -52,6 +52,7 @@ auto StimulusDisplay::getDisplayConfiguration(const Datum &displayInfo) -> Confi
         getConfigValue(infoDict, M_DISPLAY_GAMMA_RED_KEY, config.redGamma);
         getConfigValue(infoDict, M_DISPLAY_GAMMA_GREEN_KEY, config.greenGamma);
         getConfigValue(infoDict, M_DISPLAY_GAMMA_BLUE_KEY, config.blueGamma);
+        getConfigValue(infoDict, M_USE_ANTIALIASING_KEY, config.useAntialiasing);
         getConfigValue(infoDict, M_MAKE_WINDOW_OPAQUE_KEY, config.makeWindowOpaque);
     }
     return config;

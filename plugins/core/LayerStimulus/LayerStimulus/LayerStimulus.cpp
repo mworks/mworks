@@ -258,6 +258,15 @@ void LayerStimulus::drawMetal(MetalDisplay &display) {
         }
     }
     
+    if (display.getUseAntialiasing()) {
+        // Resolve the multisample framebuffer texture to a single-sample texture for display
+        auto renderPassDescriptor = display.createMetalRenderPassDescriptor(MTLLoadActionLoad,
+                                                                            MTLStoreActionMultisampleResolve);
+        renderPassDescriptor.colorAttachments[0].resolveTexture = display.getMetalMultisampleResolveTexture();
+        auto renderCommandEncoder = createRenderCommandEncoder(display, renderPassDescriptor);
+        [renderCommandEncoder endEncoding];
+    }
+    
     if (!fullscreen) {
         display.popMetalProjectionMatrix();
     }
@@ -278,7 +287,10 @@ void LayerStimulus::drawMetal(MetalDisplay &display) {
             setVertexBytes(renderCommandEncoder, texCoordScale, 1);
         }
         
-        [renderCommandEncoder setFragmentTexture:framebufferTexture atIndex:0];
+        {
+            auto fragmentTexture = (display.getUseAntialiasing() ? display.getMetalMultisampleResolveTexture() : framebufferTexture);
+            [renderCommandEncoder setFragmentTexture:fragmentTexture atIndex:0];
+        }
         {
             auto currentAlpha = float(current_alpha);
             setFragmentBytes(renderCommandEncoder, currentAlpha, 0);

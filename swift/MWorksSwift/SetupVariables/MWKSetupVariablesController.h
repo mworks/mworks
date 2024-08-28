@@ -32,6 +32,7 @@ NS_SWIFT_NAME(SetupVariablesController)
 @property(nonatomic, strong) NSNumber *redGamma;
 @property(nonatomic, strong) NSNumber *greenGamma;
 @property(nonatomic, strong) NSNumber *blueGamma;
+@property(nonatomic) BOOL useAntialiasing;
 @property(nonatomic) BOOL makeWindowOpaque;
 @property(nonatomic) BOOL warnOnSkippedRefresh;
 @property(nonatomic) BOOL stopOnError;

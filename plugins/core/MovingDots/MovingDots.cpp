@@ -159,17 +159,13 @@ void MovingDots::loadMetal(MetalDisplay &display) {
         auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
         auto vertexFunction = loadShaderFunction(library, "vertexShader");
         auto fragmentFunction = loadShaderFunction(library, "fragmentShader");
-        
-        auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-        renderPipelineDescriptor.vertexFunction = vertexFunction;
-        renderPipelineDescriptor.fragmentFunction = fragmentFunction;
+        auto renderPipelineDescriptor = display.createMetalRenderPipelineDescriptor(vertexFunction, fragmentFunction);
         
         // Mark vertex buffers as immutable, as recommended at
         // https://developer.apple.com/documentation/metal/synchronization/synchronizing_cpu_and_gpu_work
         renderPipelineDescriptor.vertexBuffers[0].mutability = MTLMutabilityImmutable;
         
         auto colorAttachment = renderPipelineDescriptor.colorAttachments[0];
-        colorAttachment.pixelFormat = display.getMetalFramebufferTexturePixelFormat();
         colorAttachment.blendingEnabled = YES;
         colorAttachment.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
         colorAttachment.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;

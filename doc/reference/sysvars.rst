@@ -70,6 +70,9 @@ The following keys are recognized.  If a key is omitted, the default value is us
    * - ``blue_gamma``
      - Inverse of blue channel gamma (must be greater than zero)
      - 
+   * - ``use_antialiasing``
+     - True or false, indicating whether the stimulus display should use `multisample anti-aliasing <https://en.wikipedia.org/wiki/Multisample_anti-aliasing>`_ (MSAA).  When enabled, MSAA reduces the "jagged" appearance of the edges of some stimuli, at the cost of using more graphics memory and processing time.
+     - ``true``
    * - ``make_window_opaque``
      - True or false, indicating whether the stimulus display window should be opaque.  If the window is not opaque, and the experiment includes a :ref:`Stimulus Display` device whose ``background_alpha_multiplier`` parameter is less than 1, then the display background and/or application windows beneath the stimulus window will show through it.  Does not affect the mirror window, which is always opaque.
      - ``true``

@@ -109,15 +109,8 @@ MTLRenderPipelineDescriptor * TransformStimulus::createRenderPipelineDescriptor(
                                                                                 id<MTLFunction> vertexFunction,
                                                                                 id<MTLFunction> fragmentFunction) const
 {
-    auto renderPipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-    
-    renderPipelineDescriptor.vertexFunction = vertexFunction;
-    renderPipelineDescriptor.fragmentFunction = fragmentFunction;
-    
-    auto colorAttachment = renderPipelineDescriptor.colorAttachments[0];
-    colorAttachment.pixelFormat = display.getMetalFramebufferTexturePixelFormat();
-    configureBlending(colorAttachment);
-    
+    auto renderPipelineDescriptor = display.createMetalRenderPipelineDescriptor(vertexFunction, fragmentFunction);
+    configureBlending(renderPipelineDescriptor.colorAttachments[0]);
     return renderPipelineDescriptor;
 }
 
@@ -126,7 +119,8 @@ simd::float4x4 TransformStimulus::getCurrentMVPMatrix(const simd::float4x4 &proj
     simd::float4x4 currentMVPMatrix;
     
     if (fullscreen) {
-        currentMVPMatrix = matrix4x4_scale(2.0, 2.0, 1.0);
+        currentMVPMatrix = matrix4x4_translation(0.0, 0.0, 0.5);
+        currentMVPMatrix = currentMVPMatrix * matrix4x4_scale(2.0, 2.0, -0.5);
     } else {
         currentMVPMatrix = projectionMatrix * matrix4x4_translation(current_posx, current_posy, 0.0);
         currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(current_rot), 0.0, 0.0, 1.0);

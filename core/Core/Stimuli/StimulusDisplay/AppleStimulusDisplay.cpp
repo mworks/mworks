@@ -151,6 +151,7 @@ AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
     defaultFramebufferWidth(0),
     defaultFramebufferHeight(0),
     defaultFramebufferID(-1),
+    multisampleResolveTexture(nil),
     depthTexture(nil),
     currentFramebufferTexture(nil),
     currentCommandBuffer(nil),
@@ -165,6 +166,7 @@ AppleStimulusDisplay::~AppleStimulusDisplay() {
         currentCommandBuffer = nil;
         currentFramebufferTexture = nil;
         depthTexture = nil;
+        multisampleResolveTexture = nil;
         framebuffers.clear();  // Release framebuffers in scope of autorelease pool
         mirrorViewDelegate = nil;
         mainViewDelegate = nil;
@@ -208,10 +210,23 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             defaultFramebufferHeight = view.drawableSize.height;
             defaultFramebufferID = createFramebuffer();
             
-            auto depthTextureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:getMetalDepthTexturePixelFormat()
-                                                                                             width:defaultFramebufferWidth
-                                                                                            height:defaultFramebufferHeight
-                                                                                         mipmapped:NO];
+            if (getUseAntialiasing()) {
+                auto multisampleResolveTextureDescriptor =
+                [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:getMetalFramebufferTexturePixelFormat()
+                                                                   width:defaultFramebufferWidth
+                                                                  height:defaultFramebufferHeight
+                                                               mipmapped:NO];
+                multisampleResolveTextureDescriptor.storageMode = MTLStorageModePrivate;
+                multisampleResolveTextureDescriptor.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
+                multisampleResolveTexture = [device newTextureWithDescriptor:multisampleResolveTextureDescriptor];
+            }
+            
+            auto depthTextureDescriptor = [[MTLTextureDescriptor alloc] init];
+            depthTextureDescriptor.textureType = getMetalFramebufferTextureType();
+            depthTextureDescriptor.pixelFormat = getMetalDepthTexturePixelFormat();
+            depthTextureDescriptor.width = defaultFramebufferWidth;
+            depthTextureDescriptor.height = defaultFramebufferHeight;
+            depthTextureDescriptor.sampleCount = getMetalFramebufferTextureSampleCount();
             depthTextureDescriptor.storageMode = MTLStorageModePrivate;
             depthTextureDescriptor.usage = MTLTextureUsageRenderTarget;
             depthTexture = [device newTextureWithDescriptor:depthTextureDescriptor];
@@ -233,7 +248,7 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
                                             double(defaultFramebufferHeight) / (top - bottom));
         }
         
-        delegate.texture = getMetalFramebufferTexture(defaultFramebufferID);
+        delegate.texture = (getUseAntialiasing() ? multisampleResolveTexture : getMetalFramebufferTexture(defaultFramebufferID));
         view.delegate = delegate;
     }
 }
@@ -259,6 +274,15 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
             auto sharedThis = shared_from_this();
             for (auto &stim : stimsToDraw) {
                 stim->draw(sharedThis);
+            }
+            
+            if (getUseAntialiasing()) {
+                // Resolve the multisample framebuffer texture to a single-sample texture for display
+                auto renderPassDescriptor = createMetalRenderPassDescriptor(MTLLoadActionLoad,
+                                                                            MTLStoreActionMultisampleResolve);
+                renderPassDescriptor.colorAttachments[0].resolveTexture = multisampleResolveTexture;
+                auto renderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+                [renderCommandEncoder endEncoding];
             }
             
             // Pass the current command buffer on to the main view delegate, which will commit and
@@ -307,12 +331,18 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
 
 int AppleStimulusDisplay::createFramebuffer(std::size_t width, std::size_t height) {
     @autoreleasepool {
-        auto textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:getMetalFramebufferTexturePixelFormat()
-                                                                                    width:width
-                                                                                   height:height
-                                                                                mipmapped:NO];
+        auto textureDescriptor = [[MTLTextureDescriptor alloc] init];
+        textureDescriptor.textureType = getMetalFramebufferTextureType();
+        textureDescriptor.pixelFormat = getMetalFramebufferTexturePixelFormat();
+        textureDescriptor.width = width;
+        textureDescriptor.height = height;
+        textureDescriptor.sampleCount = getMetalFramebufferTextureSampleCount();
         textureDescriptor.storageMode = MTLStorageModePrivate;
-        textureDescriptor.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
+        if (getUseAntialiasing()) {
+            textureDescriptor.usage = MTLTextureUsageRenderTarget;
+        } else {
+            textureDescriptor.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
+        }
         
         Framebuffer framebuffer;
         framebuffer.texture = [device newTextureWithDescriptor:textureDescriptor];
