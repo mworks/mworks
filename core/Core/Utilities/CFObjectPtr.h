@@ -10,6 +10,7 @@
 #define MWorksCore_CFObjectPtr_h
 
 #include <new>
+#include <utility>
 
 #include <CoreFoundation/CoreFoundation.h>
 

@@ -27,7 +27,10 @@
 #include "ExpressionParser.h"
 #include "Clock.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #include <boost/spirit/include/classic_core.hpp>
+#pragma clang diagnostic pop
 
 #include <boost/spirit/include/classic_ast.hpp>
 #include <boost/spirit/include/classic_tree_to_xml.hpp>
