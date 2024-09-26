@@ -5,19 +5,17 @@
 //  Created by Christopher Stawarz on 7/31/23.
 //
 
-//
-// We need to use @preconcurrency to suppress a warning that ObservableObjectPublisher isn't Sendable.
-//
-// Based on the discussion at https://forums.swift.org/t/61802, it seems like declaring objectWillChange
-// nonisolated should resolve this, but as of Xcode 15.2, it does not.  Is that a compiler bug?
-//
-@preconcurrency import Combine
+import Combine
 
 import MWorksSwift
 
 
+//
+// We need to use @preconcurrency to suppress a warning that objectWillChange is a
+// nonisolated protocol requirement
+//
 @MainActor
-open class ClientPluginCoordinator: ObservableObject {
+open class ClientPluginCoordinator: @preconcurrency ObservableObject {
     public private(set) weak var client: ClientProtocol?
     open var title: String { "" }
     
