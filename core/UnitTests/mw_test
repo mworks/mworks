@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import atexit
 from enum import IntEnum
 import json
 import os
@@ -15,7 +16,7 @@ import xml.etree.ElementTree as etree
 
 
 available_features = set()
-device_id = None
+device_name = None
 server_address = None
 skip_unit_tests = False
 show_marionette_output = False
@@ -95,16 +96,17 @@ def is_unit_test(name):
     return (b'::' in check_output(['/usr/bin/c++filt', name]))
 
 
+def open_devicectl(args):
+    args = ['/usr/bin/xcrun', 'devicectl', '--quiet'] + list(args)
+    return Popen(args)
+
+
 def run_devicectl(args):
     with NamedTemporaryFile() as output:
-        cmd = ['/usr/bin/xcrun',
-               'devicectl',
-               '--quiet',
-               '--timeout', '60',
-               '--json-output', output.name,
-               ]
-        cmd.extend(args)
-        if call(cmd) != 0:
+        args = ['--timeout', '60',
+                '--json-output', output.name,
+                ] + list(args)
+        if open_devicectl(args).wait() != 0:
             error(ExitStatus.ERROR, 'devicectl command failed')
         return json.load(output)
 
@@ -117,12 +119,21 @@ def run_applescript(script):
             error(ExitStatus.ERROR, 'osascript command failed')
 
 
-def launch_mworks_app(terminate_existing=False):
-    args = ['device', 'process', 'launch', '--device', device_id]
-    if terminate_existing:
-        args.append('--terminate-existing')
-    args.append('org.mworks-project.MWServer-iOS')
-    return run_devicectl(args)['result']['process']['processIdentifier']
+def launch_mworks_app():
+    args = ['device',
+            'process',
+            'launch',
+            '--device', device_name,
+            '--terminate-existing',
+            '--console',
+            'org.mworks-project.MWServer-iOS',
+            ]
+    process = open_devicectl(args)
+
+    # Terminate the app on exit
+    atexit.register(process.terminate)
+
+    return process
 
 
 class MWServerMemoryUsageMonitor(threading.Thread):
@@ -189,6 +200,27 @@ def iter_marionette_tests(top_dir=test_file_dir):
 
 
 def run_marionette_tests(test_names=None):
+    global server_address
+
+    if device_name:
+        # Launch the app.  We need to do this first, so that the connection is
+        # already established when we try to get the hostname.
+        mworks_app_process = launch_mworks_app()
+
+        # Give devicectl a moment to establish the connection
+        time.sleep(2)
+
+        # Get the device's hostname
+        for device in run_devicectl(['list', 'devices'])['result']['devices']:
+            connection_props = device['connectionProperties']
+            if (device['deviceProperties']['name'] == device_name and
+                connection_props['tunnelState'] == 'connected'):
+                server_address = connection_props['localHostnames'][0]
+                break
+        else:
+            error(ExitStatus.ERROR,
+                  'cannot determine hostname of requested device')
+
     if not test_names:
         test_file_iter = iter_marionette_tests
         if not server_address:
@@ -210,11 +242,12 @@ def run_marionette_tests(test_names=None):
     all_test_names = list(test_file_iter())
     random.shuffle(all_test_names)
 
-    if device_id:
-        mworks_app_pid = launch_mworks_app(terminate_existing=True)
-    elif not server_address:
+    if not server_address:
         # Ensure that server starts fresh
         run_applescript(quit_server_applescript)
+
+        # Quit server on exit
+        atexit.register(run_applescript, quit_server_applescript)
 
         # Install a monitor to prevent runaway memory usage in MWServer, which
         # started happening internal to NSTextView (used by the server console
@@ -269,8 +302,11 @@ def run_marionette_tests(test_names=None):
         if os.path.isdir(saved_state_dir):
             check_call(['/bin/rm', '-Rf', saved_state_dir])
 
-        if device_id:
-            mworks_app_pid = launch_mworks_app()
+        if device_name:
+            if mworks_app_process.poll() is not None:
+                warning('MWorks app terminated with status %d; re-launching',
+                        mworks_app_process.returncode)
+                mworks_app_process = launch_mworks_app()
         elif not server_address:
             run_applescript(marionette_prep_applescript)
 
@@ -293,18 +329,6 @@ def run_marionette_tests(test_names=None):
                 error_tests.append(test_name)
             for line in (output or b'').strip().split(b'\n'):
                 print('    >', line.decode('utf-8'))
-
-    if device_id:
-        # Tell MWorks app to terminate
-        run_devicectl(['device',
-                       'process',
-                       'signal',
-                       '--device', device_id,
-                       '--pid', str(mworks_app_pid),
-                       '--signal', 'SIGTERM'])
-    elif not server_address:
-        # Quit server
-        run_applescript(quit_server_applescript)
 
 
 def run_tests(unit_test_names, marionette_test_names):
@@ -345,7 +369,7 @@ def run_tests(unit_test_names, marionette_test_names):
 
 
 def main():
-    global device_id, server_address, skip_unit_tests, show_marionette_output
+    global device_name, server_address, skip_unit_tests, show_marionette_output
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--features',
@@ -391,27 +415,15 @@ def main():
         else:
             marionette_test_names.append(name)
 
-    if device_name:
-        for device in run_devicectl(['list', 'devices'])['result']['devices']:
-            connection_props = device['connectionProperties']
-            if (device['deviceProperties']['name'] == device_name and
-                connection_props['tunnelState'] == 'connected'):
-                device_id = device['identifier']
-                server_address = connection_props['localHostnames'][0]
-                break
-        else:
-            error(ExitStatus.ERROR,
-                  'requested device not found or not connected')
-
     if app_bundle_path:
-        if not device_id:
+        if not device_name:
             error(ExitStatus.USAGE_ERROR,
                   'cannot install app bundle: no device specified')
         else:
             run_devicectl(['device',
                            'install',
                            'app',
-                           '--device', device_id,
+                           '--device', device_name,
                            app_bundle_path])
 
     run_tests(unit_test_names, marionette_test_names)
