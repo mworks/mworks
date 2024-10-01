@@ -23,7 +23,7 @@ import time
 xcrun = '/usr/bin/xcrun'
 
 mw_version = 'CUSTOM'
-skip_tool_tests = False
+run_tool_tests = False
 
 srcroot = os.path.abspath((os.path.dirname(__file__) or '.') + '/..')
 
@@ -206,7 +206,7 @@ def core_plugins():
 @builder('tools/python')
 def python_tools():
     xcodebuild('Install')
-    if not skip_tool_tests:
+    if run_tool_tests:
         xcodebuild(scheme='Test', actions=['build'])
 
 
@@ -243,7 +243,7 @@ def matlab_tools():
 
     xcodebuild('Install')
 
-    if not skip_tool_tests:
+    if run_tool_tests:
         # As of Xcode 15 and MATLAB R2023b, xcodebuild sometimes fails to exit
         # when running the MATLAB tools tests.  In order to prevent this from
         # breaking the build process, time out the tests after 5 minutes.
@@ -281,7 +281,7 @@ def mwel():
 
 
 def main():
-    global mw_version, skip_tool_tests
+    global mw_version, run_tool_tests
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--show-builders',
@@ -297,9 +297,9 @@ def main():
     group.add_argument('--start-after',
                        metavar = 'BUILDER_NAME',
                        help = 'start build after given builder')
-    parser.add_argument('--skip-tool-tests',
+    parser.add_argument('--run-tool-tests',
                         action = 'store_true',
-                        help = 'skip Python and MATLAB tool tests')
+                        help = 'run Python and MATLAB tool tests')
     parser.add_argument('requested_builders',
                         metavar = 'builder_name',
                         nargs = '*',
@@ -314,7 +314,7 @@ def main():
     mw_version = args.mw_version
     start_with = args.start_with
     start_after = args.start_after
-    skip_tool_tests = args.skip_tool_tests
+    run_tool_tests = args.run_tool_tests
     requested_builders = args.requested_builders
 
     if start_with or start_after:
