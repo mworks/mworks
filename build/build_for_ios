@@ -8,6 +8,7 @@ from subprocess import check_call, check_output
 
 xcrun = '/usr/bin/xcrun'
 workspace = 'MWorks-iOS.xcworkspace'
+destination = 'generic/platform=iOS'
 
 
 def build(archive, version):
@@ -16,7 +17,7 @@ def build(archive, version):
         'xcodebuild',
         '-workspace', workspace,
         '-scheme', 'MWorks',
-        '-destination', 'generic/platform=iOS',
+        '-destination', destination,
         ]
 
     if archive:
@@ -43,6 +44,7 @@ def iter_build_settings():
         '-showBuildSettings',
         '-workspace', workspace,
         '-scheme', 'MWServer-iOS',
+        '-destination', destination,
         ]
 
     for line in check_output(cmd, encoding='utf-8').split('\n'):
