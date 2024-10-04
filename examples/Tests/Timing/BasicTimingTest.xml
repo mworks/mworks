@@ -7,9 +7,7 @@
         <variable tag="currentTime" full_name="currentTime" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"/>
     </variables>
     <sounds/>
-    <stimuli>
-        <stimulus tag="background" full_name="background" type="blank_screen" color="0, 0, 0"/>
-    </stimuli>
+    <stimuli/>
     <experiment tag="TimingTest" full_name="Super Awesome Happy" description="">
         <protocol tag="TimingProtocol" full_name="sup" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
             <block tag="block" full_name="supsup" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
