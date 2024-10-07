@@ -232,8 +232,6 @@ class TypeConversionTestMixin(object):
         self.send({(1, 2): 3})
         self.assertRaises(TypeError, self.receive)
 
-    @unittest.skipIf(mworks._mworks._Py_LIMITED_API < 0x03090000,
-                     'stable ABI does not include Py_EnterRecursiveCall')
     def test_infinite_recursion(self):
         l = []
         l.append(l)
