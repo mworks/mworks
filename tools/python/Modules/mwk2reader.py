@@ -30,7 +30,10 @@ class MWK2Reader:
     _compressed_msgpack_stream_type_code = 2
 
     def __init__(self, filename):
-        self._conn = sqlite3.connect(filename)
+        # Open the database in read/write (instead of read-only or
+        # read/write/create) mode, so that interrupted transactions can be
+        # rolled back automatically, but non-existent files won't be created
+        self._conn = sqlite3.connect(f'file:{filename}?mode=rw', uri=True)
         self._conn.execute('PRAGMA locking_mode = EXCLUSIVE')
 
         self.codec = {}
