@@ -184,7 +184,8 @@ protocol {
         'action': 'play',
         'volume': default_amplitude,
         'type': 'audio_file',
-        'filename': default_path
+        'filename': default_path,
+        'file_hash': py_call('compute_file_hash', default_path)
         })
     wait_until_ended ()
 
@@ -205,7 +206,8 @@ protocol {
         'start_time': start_time,
         'repeats': 2,
         'type': 'audio_file',
-        'filename': 'reward.wav'
+        'filename': 'reward.wav',
+        'file_hash': py_call('compute_file_hash', 'reward.wav')
         })
     wait_until_ended ()
 
@@ -220,7 +222,8 @@ protocol {
         'volume': default_amplitude,
         'loop': true,
         'type': 'audio_file',
-        'filename': default_path
+        'filename': default_path,
+        'file_hash': py_call('compute_file_hash', default_path)
         })
     wait (2s)
     pause_sound (test_audio_file)

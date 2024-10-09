@@ -97,7 +97,8 @@ Datum VideoStimulus::getCurrentAnnounceDrawData() {
     auto announceData = VideoStimlusBase::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "video");
-    announceData.addElement(STIM_FILENAME, filePath.string());
+    announceData.addElement(STIM_FILENAME, filePath);
+    announceData.addElement(STIM_FILE_HASH, fileHash);
     announceData.addElement(VOLUME, lastVolume);
     
     double currentVideoTimeSeconds = -1.0;
@@ -115,8 +116,8 @@ void VideoStimulus::loadMetal(MetalDisplay &display) {
     
     BaseImageStimulus::loadMetal(display);
     
-    filePath = pathFromParameterValue(path);
-    NSURL *fileURL = [NSURL fileURLWithPath:@(filePath.string().c_str())];
+    filePath = pathFromParameterValue(path).string();
+    NSURL *fileURL = [NSURL fileURLWithPath:@(filePath.c_str())];
     player = [AVPlayer playerWithURL:fileURL];
     player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     
@@ -162,6 +163,8 @@ void VideoStimulus::loadMetal(MetalDisplay &display) {
                               % presentationSize.width
                               % presentationSize.height);
     }
+    
+    fileHash = computeFileHash(filePath);
     
     {
         CVMetalTextureCacheRef _metalTextureCache = nullptr;

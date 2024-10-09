@@ -9,6 +9,8 @@
 
 #include <AVFAudio/AVAudioFile.h>
 
+#include "FileHash.hpp"
+
 
 BEGIN_NAMESPACE_MW
 
@@ -52,6 +54,8 @@ AVAudioPCMBuffer * AudioFileSound::loadBuffer(AVAudioEngine *engine) {
                               error.localizedDescription.UTF8String);
     }
     
+    currentFileHash = computeFileHash(currentPath);
+    
     return buffer;
 }
 
@@ -60,6 +64,7 @@ void AudioFileSound::setCurrentAnnounceData(Datum::dict_value_type &announceData
     AudioPCMBufferSound::setCurrentAnnounceData(announceData);
     announceData[SOUND_TYPE] = "audio_file";
     announceData[SOUND_FILENAME] = currentPath;
+    announceData[SOUND_FILE_HASH] = currentFileHash;
 }
 
 

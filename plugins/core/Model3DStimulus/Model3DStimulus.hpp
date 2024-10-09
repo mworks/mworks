@@ -56,7 +56,8 @@ private:
     const VariablePtr lightAzimuth;
     const VariablePtr ambientLightIntensity;
     
-    boost::filesystem::path filePath;
+    std::string filePath;
+    std::string fileHash;
     
     double currentVertexCoordCenterX, currentVertexCoordCenterY, currentVertexCoordCenterZ;
     double currentVertexCoordRange;

@@ -16,6 +16,7 @@
 #ifdef __OBJC__
 #  include <MWorksCore/ColoredTransformStimulus.hpp>
 #endif
+#include <MWorksCore/FileHash.hpp>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardStimulusFactory.h>
 

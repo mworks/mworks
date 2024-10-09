@@ -58,9 +58,10 @@ private:
     
     id<NSObject> playedToEndObserver;
     
-    boost::filesystem::path filePath;
+    std::string filePath;
     AVPlayer *player;
     AVPlayerItemVideoOutput *videoOutput;
+    std::string fileHash;
     
     using CVMetalTextureCachePtr = cf::ObjectPtr<CVMetalTextureCacheRef>;
     CVMetalTextureCachePtr metalTextureCache;

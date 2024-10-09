@@ -76,7 +76,8 @@ Datum Model3DStimulus::getCurrentAnnounceDrawData() {
     
     announceData.addElement(STIM_TYPE, "model_3d");
     
-    announceData.addElement(STIM_FILENAME, filePath.string());
+    announceData.addElement(STIM_FILENAME, filePath);
+    announceData.addElement(STIM_FILE_HASH, fileHash);
     
     if (vertexCoordCenterX) {
         announceData.addElement(VERTEX_COORD_CENTER_X, currentVertexCoordCenterX);
@@ -109,14 +110,13 @@ void Model3DStimulus::loadMetal(MetalDisplay &display) {
     // Get file path
     //
     
-    filePath = pathFromParameterValue(path);
-    auto filePathString = @(filePath.string().c_str());
+    filePath = pathFromParameterValue(path).string();
     
     //
     // Validate file extension
     //
     {
-        auto fileExtension = filePathString.pathExtension;
+        auto fileExtension = @(filePath.c_str()).pathExtension;
         if (![MDLAsset canImportFileExtension:fileExtension]) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                                   boost::format("Unsupported model file extension: \"%1%\"")
@@ -144,7 +144,7 @@ void Model3DStimulus::loadMetal(MetalDisplay &display) {
         auto mdlBufferAllocator = [[MTKMeshBufferAllocator alloc] initWithDevice:display.getMetalDevice()];
         
         NSError *error = nil;
-        mdlAsset = [[MDLAsset alloc] initWithURL:[NSURL fileURLWithPath:filePathString]
+        mdlAsset = [[MDLAsset alloc] initWithURL:[NSURL fileURLWithPath:@(filePath.c_str())]
                                 vertexDescriptor:mdlVertexDescriptor
                                  bufferAllocator:mdlBufferAllocator
                                 preserveTopology:NO
@@ -160,6 +160,8 @@ void Model3DStimulus::loadMetal(MetalDisplay &display) {
             throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Model file contains no objects");
         }
     }
+    
+    fileHash = computeFileHash(filePath);
     
     //
     // Compute viewing frustum parameters

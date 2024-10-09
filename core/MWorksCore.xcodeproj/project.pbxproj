@@ -710,6 +710,10 @@
 		E1B6373F1D4A4B0700116BB3 /* MessageTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B6373D1D4A4B0700116BB3 /* MessageTestFixture.cpp */; };
 		E1B637401D4A4B0700116BB3 /* MessageTestFixture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B6373E1D4A4B0700116BB3 /* MessageTestFixture.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1B637441D4A96C900116BB3 /* MessagePackAdaptors.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B637421D4A96C900116BB3 /* MessagePackAdaptors.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1B7A61E2CB6D14C002EAD62 /* FileHash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B7A61D2CB6D14C002EAD62 /* FileHash.cpp */; };
+		E1B7A61F2CB6D14C002EAD62 /* FileHash.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B7A61C2CB6D14C002EAD62 /* FileHash.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1B7A6202CB6D14C002EAD62 /* FileHash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B7A61D2CB6D14C002EAD62 /* FileHash.cpp */; };
+		E1B7A6212CB6D14C002EAD62 /* FileHash.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B7A61C2CB6D14C002EAD62 /* FileHash.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1BC637D1D51001900745034 /* ZeroMQSocketTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1BC637B1D51001900745034 /* ZeroMQSocketTests.cpp */; };
 		E1BC637E1D51001900745034 /* ZeroMQSocketTests.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BC637C1D51001900745034 /* ZeroMQSocketTests.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1BD1C422620AEAF0094FACB /* FairMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1BD1C402620AEAF0094FACB /* FairMutex.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1410,6 +1414,8 @@
 		E1B6373D1D4A4B0700116BB3 /* MessageTestFixture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageTestFixture.cpp; sourceTree = "<group>"; };
 		E1B6373E1D4A4B0700116BB3 /* MessageTestFixture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessageTestFixture.hpp; sourceTree = "<group>"; };
 		E1B637421D4A96C900116BB3 /* MessagePackAdaptors.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessagePackAdaptors.hpp; sourceTree = "<group>"; };
+		E1B7A61C2CB6D14C002EAD62 /* FileHash.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileHash.hpp; sourceTree = "<group>"; };
+		E1B7A61D2CB6D14C002EAD62 /* FileHash.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileHash.cpp; sourceTree = "<group>"; };
 		E1BC637B1D51001900745034 /* ZeroMQSocketTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQSocketTests.cpp; sourceTree = "<group>"; };
 		E1BC637C1D51001900745034 /* ZeroMQSocketTests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQSocketTests.hpp; sourceTree = "<group>"; };
 		E1BD1C402620AEAF0094FACB /* FairMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FairMutex.hpp; sourceTree = "<group>"; };
@@ -2096,6 +2102,8 @@
 				E11E9E2125AFA0780062D144 /* AAPLMathUtilities.cpp */,
 				E1A5A07925E93B4F007B345D /* MWKTripleBufferedMTLResource.h */,
 				E1A5A07A25E93B4F007B345D /* MWKTripleBufferedMTLResource.m */,
+				E1B7A61C2CB6D14C002EAD62 /* FileHash.hpp */,
+				E1B7A61D2CB6D14C002EAD62 /* FileHash.cpp */,
 			);
 			name = Utilities;
 			path = Core/Utilities;
@@ -2796,6 +2804,7 @@
 				E1CA751625B0EAC5003B22C5 /* EllipseStimulus.hpp in Headers */,
 				5CDCC8830D2B0E10008E2F19 /* ExpressionParser.h in Headers */,
 				E18160A025817757004D8156 /* MetalStimulus.hpp in Headers */,
+				E1B7A6212CB6D14C002EAD62 /* FileHash.hpp in Headers */,
 				5CEFD82C0D4D1D6200EA9950 /* Exceptions.h in Headers */,
 				5C8D03C40D56B1AE00454461 /* DummyIODevice.h in Headers */,
 				5C38FBC40DF045F600FA6A18 /* XMLVariableWriter.h in Headers */,
@@ -2978,6 +2987,7 @@
 				E17916E71E4E51E600528B91 /* EventListener.h in Headers */,
 				E17916EA1E4E51F300528B91 /* EventCallbackHandler.h in Headers */,
 				E17916DD1E4E51BC00528B91 /* SystemEventFactory.h in Headers */,
+				E1B7A61F2CB6D14C002EAD62 /* FileHash.hpp in Headers */,
 				E17917071E4E531D00528B91 /* ComponentInfo.h in Headers */,
 				E17917641E4E55D800528B91 /* IODevice.h in Headers */,
 				E17917041E4E52F400528B91 /* XMLVariableWriter.h in Headers */,
@@ -3584,6 +3594,7 @@
 				DA2CE11607E9F85800C68AEF /* VariableRegistry.cpp in Sources */,
 				E15E5DDD28E49E410087DA1F /* AudioSourceNodeSound.cpp in Sources */,
 				E181615E2582A62D004D8156 /* AlphaBlendedTransformStimulus.cpp in Sources */,
+				E1B7A6202CB6D14C002EAD62 /* FileHash.cpp in Sources */,
 				DA2CE11E07E9F86300C68AEF /* DataFileManager.cpp in Sources */,
 				E18161942582ABD4004D8156 /* ColoredTransformStimulus.cpp in Sources */,
 				DA2CE12407E9F88900C68AEF /* Buffers.cpp in Sources */,
@@ -3810,6 +3821,7 @@
 				E17088DD28A43C9A00262E77 /* ToneSound.cpp in Sources */,
 				E179175C1E4E558000528B91 /* Averagers.cpp in Sources */,
 				E11E9E2525AFA0790062D144 /* AAPLMathUtilities.cpp in Sources */,
+				E1B7A61E2CB6D14C002EAD62 /* FileHash.cpp in Sources */,
 				E179177A1E4E56BB00528B91 /* StandardStimuli.cpp in Sources */,
 				E17917881E4E573900528B91 /* StandardSounds.cpp in Sources */,
 				E148A4421E4B76A5002DFB1C /* PlatformDependentServices.cpp in Sources */,

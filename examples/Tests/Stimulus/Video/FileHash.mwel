@@ -1,0 +1,43 @@
+resource ('slide.mp4')
+resource ('boots.mp4')
+
+python_file ('check_file_hash.py')
+
+
+var path = ''
+var ended = false
+
+video video (
+    path = path
+    ended = ended
+    x_size = 20
+    deferred = explicit
+    autoplay = true
+    )
+
+
+%define test_file (filename)
+    path = filename
+    ended = false
+
+    load_stimulus (video)
+    queue_stimulus (video)
+    update_display ()
+
+    wait (1s)
+    run_python_string ('check_file_hash()')
+    wait_for_condition (
+        condition = ended
+        timeout = 60s
+        )
+
+    dequeue_stimulus (video)
+    update_display ()
+    unload_stimulus (video)
+%end
+
+
+protocol {
+    test_file ('slide.mp4')
+    test_file ('boots.mp4')
+}

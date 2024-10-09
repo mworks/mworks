@@ -9,7 +9,7 @@
 
 #include <Accelerate/Accelerate.h>
 
-#include <boost/uuid/detail/sha1.hpp>
+#include "FileHash.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -28,48 +28,20 @@ cf::ObjectPtr<CGImageSourceRef> ImageFileStimulus::loadImageFile(const std::stri
             mprintf("Loading image %s", filename.c_str());
         }
         
-        NSData *imageData = nil;
-        
-        //
-        // Load image data
-        //
-        {
-            NSError *error = nil;
-            imageData = [NSData dataWithContentsOfFile:@(filename.c_str()) options:0 error:&error];
-            if (!imageData) {
-                throw SimpleException("Cannot read image file",  error.localizedDescription.UTF8String);
-            }
-        }
-        
         //
         // Create image source
         //
-        auto imageSource = cf::ObjectPtr<CGImageSourceRef>::created(CGImageSourceCreateWithData(static_cast<CFDataRef>(imageData), nullptr));
+        auto imageURL = [NSURL fileURLWithPath:@(filename.c_str()) isDirectory:NO];
+        auto imageSource = cf::ObjectPtr<CGImageSourceRef>::created(CGImageSourceCreateWithURL(static_cast<CFURLRef>(imageURL), nullptr));
         if (CGImageSourceGetCount(imageSource.get()) < 1) {
             throw SimpleException(boost::format("Cannot load image from file (status = %d)") %
                                   CGImageSourceGetStatus(imageSource.get()));
         }
         
         //
-        // Compute the SHA-1 message digest of the raw file data, convert it to a hex string, and copy it to fileHash
+        // Compute file hash
         //
-        {
-            boost::uuids::detail::sha1 sha;
-            sha.process_bytes(imageData.bytes, imageData.length);
-            
-            constexpr std::size_t digestSize = 5;
-            unsigned int digest[digestSize];
-            sha.get_digest(digest);
-            
-            std::ostringstream os;
-            os.fill('0');
-            os << std::hex;
-            for (int i = 0; i < digestSize; i++) {
-                os << std::setw(2 * sizeof(unsigned int)) << digest[i];
-            }
-            
-            fileHash = os.str();
-        }
+        fileHash = computeFileHash(filename);
         
         return imageSource;
     }

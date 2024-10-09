@@ -29,6 +29,7 @@ private:
     
     const VariablePtr path;
     std::string currentPath;
+    std::string currentFileHash;
     
 };
 

@@ -12,6 +12,7 @@
 #ifdef __cplusplus
 
 #include <MWorksCore/CFObjectPtr.h>
+#include <MWorksCore/FileHash.hpp>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardDynamicStimulus.h>
 #include <MWorksCore/StandardStimulusFactory.h>
