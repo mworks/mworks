@@ -284,7 +284,8 @@ void TextStimulus::updateTexture(MetalDisplay &display) {
     }
     
     //
-    // Clear the relevant portion of the context
+    // Clear the relevant portion of the context.  Clear one pixel past the current width and height
+    // to ensure that old data doesn't bleed in to the current region during texture sampling.
     //
     // NOTE: By default, Core Graphics contexts place the origin in the lower left corner, whereas
     // the origin for Metal textures is in the upper left.  To simplify the texture coordinates used
@@ -295,10 +296,12 @@ void TextStimulus::updateTexture(MetalDisplay &display) {
     // the slight annoyance of defining our drawing rectangle relative to Core Graphics' default,
     // origin-at-lower-left coordinate system.
     //
+    const auto clearWidth = std::min(currentWidthPixels + 1, textureWidth);
+    const auto clearHeight = std::min(currentHeightPixels + 1, textureHeight);
     const auto rect = CGRectMake(0,
-                                 textureHeight - currentHeightPixels,
-                                 currentWidthPixels,
-                                 currentHeightPixels);
+                                 textureHeight - clearHeight,
+                                 clearWidth,
+                                 clearHeight);
     CGContextClearRect(context.get(), rect);
     
     // Create the text string
@@ -337,9 +340,10 @@ void TextStimulus::updateTexture(MetalDisplay &display) {
                  getTag().c_str());
     }
     
-    // Copy the texture data to the next-available texture from the pool
+    // Copy the texture data (including any extra cleared pixels) to the next-available texture
+    // from the pool
     currentTexture = [texturePool acquireWithCommandBuffer:display.getCurrentMetalCommandBuffer()];
-    [currentTexture replaceRegion:MTLRegionMake2D(0, 0, currentWidthPixels, currentHeightPixels)
+    [currentTexture replaceRegion:MTLRegionMake2D(0, 0, clearWidth, clearHeight)
                       mipmapLevel:0
                         withBytes:textureData.get()
                       bytesPerRow:textureBytesPerRow];

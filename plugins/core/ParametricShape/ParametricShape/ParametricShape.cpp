@@ -437,26 +437,19 @@ void ParametricShape::updateTexture(MetalDisplay &display) {
         return;
     }
     
-    //
-    // NOTE: Although it doesn't seem to be documented anywhere, the base, pixel-aligned coordinate
-    // system for a CGBitmapContext appears to range from 0 to num_pixels-1 in each dimension, with
-    // each whole-numbered coordinate presumably marking the center of a pixel.  Therefore, we need
-    // to subtract one from the width and height in pixels when we scale the shape's vertex
-    // coordinates.
-    //
-    
     // Clear the relevant portion of the context.  Clear one pixel past the current width and height
-    // (i.e. don't subtract one from currentWidthPixels and currentHeightPixels) to ensure that old
-    // data doesn't bleed in to the current region.
-    CGContextClearRect(context.get(), CGRectMake(0, 0, currentWidthPixels, currentHeightPixels));
+    // to ensure that old data doesn't bleed in to the current region during texture sampling.
+    const auto clearWidth = std::min(currentWidthPixels + 1, textureWidth);
+    const auto clearHeight = std::min(currentHeightPixels + 1, textureHeight);
+    CGContextClearRect(context.get(), CGRectMake(0, 0, clearWidth, clearHeight));
     
     // Draw the shape in the context
     CGContextSaveGState(context.get());
     CGContextSetShouldAntialias(context.get(), currentUseAntialiasing);
     CGContextTranslateCTM(context.get(), currentMarginPixels, currentMarginPixels);
     CGContextScaleCTM(context.get(),
-                      ((currentWidthPixels - 1) - 2.0 * currentMarginPixels) / currentVertexCoordRange,
-                      ((currentHeightPixels - 1) - 2.0 * currentMarginPixels) / currentVertexCoordRange);
+                      (currentWidthPixels - 2.0 * currentMarginPixels) / currentVertexCoordRange,
+                      (currentHeightPixels - 2.0 * currentMarginPixels) / currentVertexCoordRange);
     CGContextTranslateCTM(context.get(), currentVertexCoordRange / 2.0, currentVertexCoordRange / 2.0);
     CGContextScaleCTM(context.get(), 1.0, -1.0);
     CGContextTranslateCTM(context.get(), -currentVertexCoordCenterX, -currentVertexCoordCenterY);
@@ -464,9 +457,10 @@ void ParametricShape::updateTexture(MetalDisplay &display) {
     CGContextFillPath(context.get());
     CGContextRestoreGState(context.get());
     
-    // Copy the texture data to the next-available texture from the pool
+    // Copy the texture data (including any extra cleared pixels) to the next-available texture
+    // from the pool
     currentTexture = [texturePool acquireWithCommandBuffer:display.getCurrentMetalCommandBuffer()];
-    [currentTexture replaceRegion:MTLRegionMake2D(0, 0, currentWidthPixels, currentHeightPixels)
+    [currentTexture replaceRegion:MTLRegionMake2D(0, 0, clearWidth, clearHeight)
                       mipmapLevel:0
                         withBytes:textureData.get()
                       bytesPerRow:textureBytesPerRow];
