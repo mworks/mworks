@@ -33,9 +33,17 @@ def require_version(min_version=(0, 0), min_build_date=(0, 0, 0)):
                                           (min_build_date,))
 
 
+if hasattr(hashlib, 'file_digest'):
+    def _file_hash(fp):
+        return hashlib.file_digest(fp, hashlib.sha1)
+else:
+    def _file_hash(fp):
+        return hashlib.sha1(fp.read())
+
+
 def file_hash(filename):
     with open(filename, 'rb') as fp:
-        return hashlib.sha1(fp.read()).hexdigest()
+        return _file_hash(fp).hexdigest()
 
 
 __version__ = _get_version()[0]
