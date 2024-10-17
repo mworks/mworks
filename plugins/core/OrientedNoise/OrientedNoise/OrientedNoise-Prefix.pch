@@ -1,0 +1,32 @@
+//
+//  OrientedNoise-Prefix.pch
+//  OrientedNoise
+//
+//  Created by Christopher Stawarz on 10/30/18.
+//  Copyright © 2018 The MWorks Project. All rights reserved.
+//
+
+#ifndef OrientedNoise_Prefix_pch
+#define OrientedNoise_Prefix_pch
+
+#include <Accelerate/Accelerate.h>
+
+#ifdef __cplusplus
+
+#include <random>
+
+#ifdef __OBJC__
+#  include <MWorksCore/ColoredTransformStimulus.hpp>
+#  include <MWorksCore/ImageFileStimulus.hpp>
+#endif
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardDynamicStimulus.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#ifdef __OBJC__
+#  include <MWorksCore/MWKTripleBufferedMTLResource.h>
+#endif
+
+#endif /* OrientedNoise_Prefix_pch */

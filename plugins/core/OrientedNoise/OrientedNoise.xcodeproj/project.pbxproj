@@ -1,0 +1,336 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1B631552188A36A00CF5614 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1B631562188A36A00CF5614 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1B6315B2188A38100CF5614 /* CopyFiles */,
+			);
+			dependencies = (
+				E1B6315A2188A37800CF5614 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E1B6315D2188A3D200CF5614 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1B6315E2188A3D200CF5614 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1B631622188A3DA00CF5614 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E1355CCD2C10ABC0003CCF23 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1355CCC2C10ABC0003CCF23 /* Metal.framework */; };
+		E1355CCF2C10AD0A003CCF23 /* OrientedNoise.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1355CCE2C10AD0A003CCF23 /* OrientedNoise.metal */; };
+		E155AFC621A3486C00A0576A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E155AFC521A3486C00A0576A /* CoreFoundation.framework */; };
+		E155AFC821A3494900A0576A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E155AFC721A3494900A0576A /* ImageIO.framework */; };
+		E155AFCA21A349A500A0576A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E155AFC921A349A400A0576A /* CoreGraphics.framework */; };
+		E1B6315C2188A38A00CF5614 /* OrientedNoise.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1B631482188A28500CF5614 /* OrientedNoise.bundle */; };
+		E1B631662188A9EF00CF5614 /* OrientedNoisePlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B631652188A9EF00CF5614 /* OrientedNoisePlugin.cpp */; };
+		E1B6316D2188AB6600CF5614 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B6316C2188AB6600CF5614 /* MWorksCore.framework */; };
+		E1B631702188AD2B00CF5614 /* OrientedNoise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B6316E2188AD2B00CF5614 /* OrientedNoise.cpp */; };
+		E1C13B09218A22FC001EB8A5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C13B08218A22FC001EB8A5 /* Accelerate.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1B631592188A37800CF5614 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1B631402188A28500CF5614 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1B631472188A28500CF5614;
+			remoteInfo = OrientedNoise;
+		};
+		E1B631612188A3DA00CF5614 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1B631402188A28500CF5614 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1B631552188A36A00CF5614;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1B6315B2188A38100CF5614 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1B6315C2188A38A00CF5614 /* OrientedNoise.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E128FA352CC1B3F40070A036 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1355CCC2C10ABC0003CCF23 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		E1355CCE2C10AD0A003CCF23 /* OrientedNoise.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OrientedNoise.metal; sourceTree = "<group>"; };
+		E155AFC521A3486C00A0576A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		E155AFC721A3494900A0576A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		E155AFC921A349A400A0576A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E1B631482188A28500CF5614 /* OrientedNoise.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrientedNoise.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1B631532188A33000CF5614 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1B631542188A33000CF5614 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1B631642188A96100CF5614 /* OrientedNoise-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OrientedNoise-Prefix.pch"; sourceTree = "<group>"; };
+		E1B631652188A9EF00CF5614 /* OrientedNoisePlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = OrientedNoisePlugin.cpp; sourceTree = "<group>"; };
+		E1B6316C2188AB6600CF5614 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E1B6316E2188AD2B00CF5614 /* OrientedNoise.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = OrientedNoise.cpp; sourceTree = "<group>"; };
+		E1B6316F2188AD2B00CF5614 /* OrientedNoise.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OrientedNoise.hpp; sourceTree = "<group>"; };
+		E1C13B08218A22FC001EB8A5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1B631452188A28500CF5614 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1B6316D2188AB6600CF5614 /* MWorksCore.framework in Frameworks */,
+				E1C13B09218A22FC001EB8A5 /* Accelerate.framework in Frameworks */,
+				E155AFC621A3486C00A0576A /* CoreFoundation.framework in Frameworks */,
+				E155AFCA21A349A500A0576A /* CoreGraphics.framework in Frameworks */,
+				E1355CCD2C10ABC0003CCF23 /* Metal.framework in Frameworks */,
+				E155AFC821A3494900A0576A /* ImageIO.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1B6313F2188A28500CF5614 = {
+			isa = PBXGroup;
+			children = (
+				E1B631522188A30300CF5614 /* External Config */,
+				E1B6314A2188A28500CF5614 /* OrientedNoise */,
+				E1B631672188AAFD00CF5614 /* Frameworks */,
+				E1B631492188A28500CF5614 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1B631492188A28500CF5614 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1B631482188A28500CF5614 /* OrientedNoise.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1B6314A2188A28500CF5614 /* OrientedNoise */ = {
+			isa = PBXGroup;
+			children = (
+				E1B6316F2188AD2B00CF5614 /* OrientedNoise.hpp */,
+				E1B6316E2188AD2B00CF5614 /* OrientedNoise.cpp */,
+				E1355CCE2C10AD0A003CCF23 /* OrientedNoise.metal */,
+				E1B631652188A9EF00CF5614 /* OrientedNoisePlugin.cpp */,
+				E1B631642188A96100CF5614 /* OrientedNoise-Prefix.pch */,
+			);
+			path = OrientedNoise;
+			sourceTree = "<group>";
+		};
+		E1B631522188A30300CF5614 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1B631542188A33000CF5614 /* macOS.xcconfig */,
+				E1B631532188A33000CF5614 /* macOS_Plugin.xcconfig */,
+				E128FA352CC1B3F40070A036 /* iOS_Plugin.xcconfig */,
+			);
+			name = "External Config";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E1B631672188AAFD00CF5614 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1B6316C2188AB6600CF5614 /* MWorksCore.framework */,
+				E1C13B08218A22FC001EB8A5 /* Accelerate.framework */,
+				E155AFC521A3486C00A0576A /* CoreFoundation.framework */,
+				E155AFC921A349A400A0576A /* CoreGraphics.framework */,
+				E155AFC721A3494900A0576A /* ImageIO.framework */,
+				E1355CCC2C10ABC0003CCF23 /* Metal.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E1B631472188A28500CF5614 /* OrientedNoise */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1B6314E2188A28500CF5614 /* Build configuration list for PBXNativeTarget "OrientedNoise" */;
+			buildPhases = (
+				E1B631442188A28500CF5614 /* Sources */,
+				E1B631452188A28500CF5614 /* Frameworks */,
+				E1B631462188A28500CF5614 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OrientedNoise;
+			productName = OrientedNoise;
+			productReference = E1B631482188A28500CF5614 /* OrientedNoise.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1B631402188A28500CF5614 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1540;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E1B631472188A28500CF5614 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					E1B631552188A36A00CF5614 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					E1B6315D2188A3D200CF5614 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+				};
+			};
+			buildConfigurationList = E1B631432188A28500CF5614 /* Build configuration list for PBXProject "OrientedNoise" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E1B6313F2188A28500CF5614;
+			productRefGroup = E1B631492188A28500CF5614 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1B631472188A28500CF5614 /* OrientedNoise */,
+				E1B631552188A36A00CF5614 /* Install */,
+				E1B6315D2188A3D200CF5614 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1B631462188A28500CF5614 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1B631442188A28500CF5614 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1B631702188AD2B00CF5614 /* OrientedNoise.cpp in Sources */,
+				E1B631662188A9EF00CF5614 /* OrientedNoisePlugin.cpp in Sources */,
+				E1355CCF2C10AD0A003CCF23 /* OrientedNoise.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1B6315A2188A37800CF5614 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1B631472188A28500CF5614 /* OrientedNoise */;
+			targetProxy = E1B631592188A37800CF5614 /* PBXContainerItemProxy */;
+		};
+		E1B631622188A3DA00CF5614 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1B631552188A36A00CF5614 /* Install */;
+			targetProxy = E1B631612188A3DA00CF5614 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E1B6314C2188A28500CF5614 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1B6314F2188A28500CF5614 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1B631532188A33000CF5614 /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OrientedNoise/OrientedNoise-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.OrientedNoise";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1B631572188A36A00CF5614 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1B631542188A33000CF5614 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1B6315F2188A3D200CF5614 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1B631542188A33000CF5614 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1B631432188A28500CF5614 /* Build configuration list for PBXProject "OrientedNoise" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B6314C2188A28500CF5614 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1B6314E2188A28500CF5614 /* Build configuration list for PBXNativeTarget "OrientedNoise" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B6314F2188A28500CF5614 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1B631562188A36A00CF5614 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B631572188A36A00CF5614 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1B6315E2188A3D200CF5614 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B6315F2188A3D200CF5614 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1B631402188A28500CF5614 /* Project object */;
+}

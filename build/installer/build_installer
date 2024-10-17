@@ -56,6 +56,7 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/NE500Plugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/OpenEphys.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/OpticFlowField.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/OrientedNoise.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ParametricShape.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/QCUALOR.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/RCBLVDS.bundle',
