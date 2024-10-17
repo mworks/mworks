@@ -41,6 +41,9 @@
 		E170C7502C45846A00671197 /* Model3DStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E170C74E2C45846A00671197 /* Model3DStimulus.cpp */; };
 		E170C7522C497C0000671197 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E170C7512C497C0000671197 /* MetalKit.framework */; };
 		E170C7542C49DA8900671197 /* Model3DStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E170C7532C49DA8900671197 /* Model3DStimulus.metal */; };
+		E1C5BA812CC03F750053E28B /* Model3DStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E170C74E2C45846A00671197 /* Model3DStimulus.cpp */; };
+		E1C5BA822CC03F7D0053E28B /* Model3DStimulus.metal in Sources */ = {isa = PBXBuildFile; fileRef = E170C7532C49DA8900671197 /* Model3DStimulus.metal */; };
+		E1C5BA832CC03F850053E28B /* Model3DStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E170C7372C45682200671197 /* Model3DStimulusPlugin.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +90,7 @@
 		E170C74F2C45846A00671197 /* Model3DStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Model3DStimulus.hpp; sourceTree = "<group>"; };
 		E170C7512C497C0000671197 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		E170C7532C49DA8900671197 /* Model3DStimulus.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Model3DStimulus.metal; sourceTree = "<group>"; };
+		E1C5BA7A2CC03C430053E28B /* Model3DStimulus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Model3DStimulus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +102,13 @@
 				E170C7452C4580B700671197 /* Metal.framework in Frameworks */,
 				E170C7522C497C0000671197 /* MetalKit.framework in Frameworks */,
 				E170C7432C4580B000671197 /* ModelIO.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1C5BA772CC03C430053E28B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				E170C72B2C45645A00671197 /* Model3DStimulus.bundle */,
+				E1C5BA7A2CC03C430053E28B /* Model3DStimulus.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,6 +162,16 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		E1C5BA752CC03C430053E28B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		E170C72A2C45645A00671197 /* Model3DStimulus */ = {
 			isa = PBXNativeTarget;
@@ -167,6 +189,26 @@
 			productName = Model3DStimulus;
 			productReference = E170C72B2C45645A00671197 /* Model3DStimulus.bundle */;
 			productType = "com.apple.product-type.bundle";
+		};
+		E1C5BA792CC03C430053E28B /* Model3DStimulus-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1C5BA802CC03C430053E28B /* Build configuration list for PBXNativeTarget "Model3DStimulus-iOS" */;
+			buildPhases = (
+				E1C5BA752CC03C430053E28B /* Headers */,
+				E1C5BA762CC03C430053E28B /* Sources */,
+				E1C5BA772CC03C430053E28B /* Frameworks */,
+				E1C5BA782CC03C430053E28B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Model3DStimulus-iOS";
+			packageProductDependencies = (
+			);
+			productName = "Model3DStimulus-iOS";
+			productReference = E1C5BA7A2CC03C430053E28B /* Model3DStimulus.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -186,6 +228,9 @@
 					E170C73C2C457E5E00671197 = {
 						CreatedOnToolsVersion = 15.4;
 					};
+					E1C5BA792CC03C430053E28B = {
+						CreatedOnToolsVersion = 16.0;
+					};
 				};
 			};
 			buildConfigurationList = E170C7262C45645A00671197 /* Build configuration list for PBXProject "Model3DStimulus" */;
@@ -204,12 +249,20 @@
 				E170C72A2C45645A00671197 /* Model3DStimulus */,
 				E170C7392C457E4E00671197 /* Install */,
 				E170C73C2C457E5E00671197 /* Everything */,
+				E1C5BA792CC03C430053E28B /* Model3DStimulus-iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E170C7292C45645A00671197 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1C5BA782CC03C430053E28B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -226,6 +279,16 @@
 				E170C7502C45846A00671197 /* Model3DStimulus.cpp in Sources */,
 				E170C7542C49DA8900671197 /* Model3DStimulus.metal in Sources */,
 				E170C7382C45682200671197 /* Model3DStimulusPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1C5BA762CC03C430053E28B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1C5BA832CC03F850053E28B /* Model3DStimulusPlugin.cpp in Sources */,
+				E1C5BA822CC03F7D0053E28B /* Model3DStimulus.metal in Sources */,
+				E1C5BA812CC03F750053E28B /* Model3DStimulus.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +342,27 @@
 			};
 			name = Development;
 		};
+		E1C5BA7E2CC03C430053E28B /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E170C7352C4564EF00671197 /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Model3DStimulus-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Metal,
+					"-framework",
+					MetalKit,
+					"-framework",
+					ModelIO,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.Model3DStimulus-iOS";
+				PRODUCT_NAME = Model3DStimulus;
+			};
+			name = Development;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -310,6 +394,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E170C73E2C457E5E00671197 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1C5BA802CC03C430053E28B /* Build configuration list for PBXNativeTarget "Model3DStimulus-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1C5BA7E2CC03C430053E28B /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

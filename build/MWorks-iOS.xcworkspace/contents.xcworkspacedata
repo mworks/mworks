@@ -26,6 +26,9 @@
          location = "group:../plugins/core/LayerStimulus/LayerStimulus.xcodeproj">
       </FileRef>
       <FileRef
+         location = "container:../plugins/core/Model3DStimulus/Model3DStimulus.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:../plugins/core/MoviePlugin/MovieStimulusPlugin.xcodeproj">
       </FileRef>
       <FileRef

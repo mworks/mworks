@@ -168,6 +168,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E1C5BA792CC03C430053E28B"
+               BuildableName = "Model3DStimulus.framework"
+               BlueprintName = "Model3DStimulus-iOS"
+               ReferencedContainer = "container:../plugins/core/Model3DStimulus/Model3DStimulus.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72A71E6DDB0E001CE0C0"
                BuildableName = "MovieStimulus.framework"
                BlueprintName = "MovieStimulus-iOS"
