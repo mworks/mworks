@@ -3136,9 +3136,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5C0E84DA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MWorksCore" */;
 			buildPhases = (
+				DA2CE0CF07E9F68100C68AEF /* Headers */,
 				DA2CE0D107E9F68100C68AEF /* Sources */,
 				DA2CE0D207E9F68100C68AEF /* Frameworks */,
-				DA2CE0CF07E9F68100C68AEF /* Headers */,
 				DA2CE0D007E9F68100C68AEF /* Resources */,
 				E10FA6132220729400547C9B /* ShellScript */,
 			);
@@ -3173,10 +3173,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E148A43D1E4B7106002DFB1C /* Build configuration list for PBXNativeTarget "MWorksCore-iOS" */;
 			buildPhases = (
+				E148A4341E4B7106002DFB1C /* Headers */,
 				E1F7CBBF21F2516B003F48A1 /* ShellScript */,
 				E148A4321E4B7106002DFB1C /* Sources */,
 				E148A4331E4B7106002DFB1C /* Frameworks */,
-				E148A4341E4B7106002DFB1C /* Headers */,
 				E148A4351E4B7106002DFB1C /* Resources */,
 				E10FA61422207E3100547C9B /* ShellScript */,
 			);

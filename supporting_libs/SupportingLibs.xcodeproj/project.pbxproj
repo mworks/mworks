@@ -299,8 +299,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E15B7BB0236B2A5700FA7CD6 /* Build configuration list for PBXNativeTarget "MWorksPython" */;
 			buildPhases = (
-				E191DFC62ACDC3DB000BC6AF /* ShellScript */,
 				E15B7BA5236B2A5700FA7CD6 /* Headers */,
+				E191DFC62ACDC3DB000BC6AF /* ShellScript */,
 				E15B7BA6236B2A5700FA7CD6 /* Sources */,
 				E15B7BA7236B2A5700FA7CD6 /* Frameworks */,
 				E15B7BA8236B2A5700FA7CD6 /* Resources */,
@@ -320,8 +320,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1DBCC53236C7D670033B55E /* Build configuration list for PBXNativeTarget "MWorksPython-iOS" */;
 			buildPhases = (
-				E1D723A92ACDA6CD008D9176 /* ShellScript */,
 				E1DBCC48236C7D670033B55E /* Headers */,
+				E1D723A92ACDA6CD008D9176 /* ShellScript */,
 				E1DBCC49236C7D670033B55E /* Sources */,
 				E1DBCC4A236C7D670033B55E /* Frameworks */,
 				E1DBCC4B236C7D670033B55E /* Resources */,
