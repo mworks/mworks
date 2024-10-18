@@ -33,6 +33,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E128FA452CC2AA340070A036 /* OrientedNoise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B6316E2188AD2B00CF5614 /* OrientedNoise.cpp */; };
+		E128FA462CC2AA3B0070A036 /* OrientedNoise.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1355CCE2C10AD0A003CCF23 /* OrientedNoise.metal */; };
+		E128FA472CC2AA420070A036 /* OrientedNoisePlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B631652188A9EF00CF5614 /* OrientedNoisePlugin.cpp */; };
 		E1355CCD2C10ABC0003CCF23 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1355CCC2C10ABC0003CCF23 /* Metal.framework */; };
 		E1355CCF2C10AD0A003CCF23 /* OrientedNoise.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1355CCE2C10AD0A003CCF23 /* OrientedNoise.metal */; };
 		E155AFC621A3486C00A0576A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E155AFC521A3486C00A0576A /* CoreFoundation.framework */; };
@@ -77,6 +80,7 @@
 
 /* Begin PBXFileReference section */
 		E128FA352CC1B3F40070A036 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E128FA3E2CC2A7CE0070A036 /* OrientedNoise.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OrientedNoise.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1355CCC2C10ABC0003CCF23 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		E1355CCE2C10AD0A003CCF23 /* OrientedNoise.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OrientedNoise.metal; sourceTree = "<group>"; };
 		E155AFC521A3486C00A0576A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -94,6 +98,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E128FA3B2CC2A7CE0070A036 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1B631452188A28500CF5614 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,8 +126,8 @@
 			children = (
 				E1B631522188A30300CF5614 /* External Config */,
 				E1B6314A2188A28500CF5614 /* OrientedNoise */,
-				E1B631672188AAFD00CF5614 /* Frameworks */,
 				E1B631492188A28500CF5614 /* Products */,
+				E1B631672188AAFD00CF5614 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				E1B631482188A28500CF5614 /* OrientedNoise.bundle */,
+				E128FA3E2CC2A7CE0070A036 /* OrientedNoise.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,7 +178,37 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		E128FA392CC2A7CE0070A036 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		E128FA3D2CC2A7CE0070A036 /* OrientedNoise-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E128FA442CC2A7CE0070A036 /* Build configuration list for PBXNativeTarget "OrientedNoise-iOS" */;
+			buildPhases = (
+				E128FA392CC2A7CE0070A036 /* Headers */,
+				E128FA3A2CC2A7CE0070A036 /* Sources */,
+				E128FA3B2CC2A7CE0070A036 /* Frameworks */,
+				E128FA3C2CC2A7CE0070A036 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "OrientedNoise-iOS";
+			packageProductDependencies = (
+			);
+			productName = "OrientedNoise-iOS";
+			productReference = E128FA3E2CC2A7CE0070A036 /* OrientedNoise.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		E1B631472188A28500CF5614 /* OrientedNoise */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1B6314E2188A28500CF5614 /* Build configuration list for PBXNativeTarget "OrientedNoise" */;
@@ -193,6 +235,9 @@
 				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = "The MWorks Project";
 				TargetAttributes = {
+					E128FA3D2CC2A7CE0070A036 = {
+						CreatedOnToolsVersion = 16.0;
+					};
 					E1B631472188A28500CF5614 = {
 						CreatedOnToolsVersion = 10.0;
 					};
@@ -220,11 +265,19 @@
 				E1B631472188A28500CF5614 /* OrientedNoise */,
 				E1B631552188A36A00CF5614 /* Install */,
 				E1B6315D2188A3D200CF5614 /* Everything */,
+				E128FA3D2CC2A7CE0070A036 /* OrientedNoise-iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E128FA3C2CC2A7CE0070A036 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1B631462188A28500CF5614 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -235,6 +288,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E128FA3A2CC2A7CE0070A036 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E128FA462CC2AA3B0070A036 /* OrientedNoise.metal in Sources */,
+				E128FA472CC2AA420070A036 /* OrientedNoisePlugin.cpp in Sources */,
+				E128FA452CC2AA340070A036 /* OrientedNoise.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1B631442188A28500CF5614 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -261,6 +324,31 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		E128FA422CC2A7CE0070A036 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E128FA352CC1B3F40070A036 /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OrientedNoise/OrientedNoise-Prefix.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Accelerate,
+					"-framework",
+					CoreFoundation,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					ImageIO,
+					"-framework",
+					Metal,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.OrientedNoise-iOS";
+				PRODUCT_NAME = OrientedNoise;
+			};
+			name = Development;
+		};
 		E1B6314C2188A28500CF5614 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -298,6 +386,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E128FA442CC2A7CE0070A036 /* Build configuration list for PBXNativeTarget "OrientedNoise-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E128FA422CC2A7CE0070A036 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
 		E1B631432188A28500CF5614 /* Build configuration list for PBXProject "OrientedNoise" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

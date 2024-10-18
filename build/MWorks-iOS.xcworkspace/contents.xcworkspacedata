@@ -38,6 +38,9 @@
          location = "group:../plugins/core/OpticFlowField/OpticFlowField.xcodeproj">
       </FileRef>
       <FileRef
+         location = "container:../plugins/core/OrientedNoise/OrientedNoise.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:../plugins/core/ParametricShape/ParametricShape.xcodeproj">
       </FileRef>
       <FileRef
