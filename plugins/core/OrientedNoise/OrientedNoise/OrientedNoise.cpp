@@ -399,16 +399,16 @@ void OrientedNoise::loadImageFile(const std::string &filePath) {
 }
 
 
-static inline float degreesToRadians(float degrees) {
-    return degrees / 180.0f * float(M_PI);
+static float degreesToRadians(float degrees) {
+    return degrees / 180.0f * std::numbers::pi_v<float>;
 }
 
 
-static inline void wrapTheta(std::vector<float> &theta) {
+static void wrapTheta(std::vector<float> &theta) {
     auto data = theta.data();
     const auto size = theta.size();
-    const float two_pi = 2.0f * M_PI;
-    const float neg_pi = -M_PI;
+    const float two_pi = 2.0f * std::numbers::pi_v<float>;
+    const float neg_pi = -std::numbers::pi_v<float>;
     
     // Divide by two pi, take the fractional part, multiply by two pi,
     // then add two pi to make negative values positive
@@ -578,7 +578,7 @@ void OrientedNoise::computeFFTMask() {
         
         // theta - (current_theta_0 + M_PI) -> G_theta_2 (overwrites theta)
         {
-            const float arg = -(degreesToRadians(current_theta_0) + M_PI);
+            const float arg = -(degreesToRadians(current_theta_0) + std::numbers::pi_v<float>);
             vDSP_vsadd(temp.data() + 1, 2, &arg, G_theta_2, G_theta_stride, G_theta_size);
         }
         

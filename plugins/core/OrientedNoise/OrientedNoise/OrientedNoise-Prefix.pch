@@ -13,6 +13,7 @@
 
 #ifdef __cplusplus
 
+#include <numbers>
 #include <random>
 
 #ifdef __OBJC__

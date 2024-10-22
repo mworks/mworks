@@ -145,7 +145,7 @@ private:
             vDSP_destroy_fftsetup(fftSetup);
         }
     };
-    std::unique_ptr<std::remove_pointer<FFTSetup>::type, FFTSetupDeleter> fftSetup;
+    std::unique_ptr<std::remove_pointer_t<FFTSetup>, FFTSetupDeleter> fftSetup;
     
     std::size_t currentRows, currentCols;
     std::vector<float> noiseTexture, imaginaryComponents, fftMask, temp;
