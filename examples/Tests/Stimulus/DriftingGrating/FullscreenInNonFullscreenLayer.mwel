@@ -1,0 +1,46 @@
+%define x_size = 5
+%define y_size = 10
+%define x_offset = 5
+
+%define spatial_frequency = 1 / x_size
+%define speed = 0
+%define grating_type = square
+%define starting_phase = 90
+
+
+drifting_grating grating (
+    spatial_frequency = spatial_frequency
+    speed = speed
+    grating_type = grating_type
+    starting_phase = starting_phase
+    x_size = x_size
+    y_size = y_size
+    x_position = -x_offset
+    autoplay = true
+    )
+
+
+layer layer (
+    x_size = x_size
+    y_size = y_size
+    x_position = +x_offset
+    fullscreen = false
+    ) {
+    drifting_grating (
+        spatial_frequency = spatial_frequency
+        speed = speed
+        grating_type = grating_type
+        starting_phase = starting_phase
+        fullscreen = true
+        autoplay = true
+        )
+}
+
+
+protocol {
+    queue_stimulus (grating)
+    queue_stimulus (layer)
+    update_display ()
+    report ('The two gratings should be identical')
+    wait (20s)
+}

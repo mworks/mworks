@@ -1,0 +1,64 @@
+%define x_size = 5
+%define y_size = 10
+%define x_offset = 5
+
+%define z_near = 10
+%define z_far = 30
+%define dot_density = 2
+%define dot_size = 0.1
+%define speed = 0
+
+var rand_seed = now()
+
+
+compound off {
+    rectangle (
+        color = 0,0,0
+        x_size = x_size
+        y_size = y_size
+        x_position = -x_offset
+        )
+
+    optic_flow_field (
+        z_near = z_near
+        z_far = z_far
+        dot_density = dot_density
+        dot_size = dot_size
+        speed = speed
+        rand_seed = rand_seed
+        x_size = x_size
+        y_size = y_size
+        x_position = -x_offset
+        autoplay = true
+        )
+}
+
+
+layer layer (
+    x_size = x_size
+    y_size = y_size
+    x_position = +x_offset
+    fullscreen = false
+    ) {
+    blank_screen (color = 0,0,0)
+
+    optic_flow_field (
+        z_near = z_near
+        z_far = z_far
+        dot_density = dot_density
+        dot_size = dot_size
+        speed = speed
+        rand_seed = rand_seed
+        fullscreen = true
+        autoplay = true
+        )
+}
+
+
+protocol {
+    queue_stimulus (off)
+    queue_stimulus (layer)
+    update_display ()
+    report ('The two fields should be identical')
+    wait (20s)
+}

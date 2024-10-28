@@ -179,11 +179,14 @@ void OrientedNoise::loadMetal(MetalDisplay &display) {
         // Determine noise texture size
         //
         
-        float sizeX, sizeY;
-        getCurrentSize(sizeX, sizeY);
+        float sizeX = 0.0f;
+        float sizeY = 0.0f;
+        if (!fullscreen) {
+            getCurrentSize(sizeX, sizeY);
+        }
         
         std::size_t textureWidth, textureHeight;
-        display.getCurrentTextureSizeForDisplayArea(sizeX, sizeY, textureWidth, textureHeight);
+        display.getCurrentTextureSizeForDisplayArea(fullscreen, sizeX, sizeY, textureWidth, textureHeight);
         
         currentLog2Cols = pixelsToLog2Pixels(textureWidth);
         currentLog2Rows = pixelsToLog2Pixels(textureHeight);
@@ -275,6 +278,13 @@ void OrientedNoise::drawMetal(MetalDisplay &display) {
     current_sigma_f = sigmaF->getValue().getFloat();
     current_theta_0 = theta0->getValue().getFloat();
     current_sigma_theta = sigmaTheta->getValue().getFloat();
+    
+    if (fullscreen) {
+        double width, height;
+        display.getCurrentFullscreenStimulusSize(width, height);
+        current_sizex = width;
+        current_sizey = height;
+    }
     
     if (!currentTexture ||
         current_f_0 != last_f_0 ||

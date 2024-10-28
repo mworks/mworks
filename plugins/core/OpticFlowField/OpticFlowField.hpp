@@ -69,7 +69,7 @@ private:
                         simd::float4x4 &newPerspectiveMatrix,
                         double &newDotDensity,
                         std::size_t &newNumDots) const;
-    bool updateParameters();
+    bool updateParameters(MetalDisplay &display);
     void updateDots();
     void updateDot(std::size_t i, float dt, float dr);
     void replaceDot(std::size_t i, float age);
@@ -103,8 +103,6 @@ private:
     const VariablePtr lifetime;
     const VariablePtr maxNumDots;
     const VariablePtr randSeed;
-    
-    float displayWidth, displayHeight;
     
     std::size_t currentMaxNumDots;
     std::unique_ptr<simd::float4[]> dotPositions;

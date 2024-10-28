@@ -77,6 +77,15 @@ public:
     }
     void popMetalProjectionMatrix();
     
+    void getDefaultFullscreenStimulusSize(double &width, double &height) const {
+        std::tie(width, height) = defaultFullscreenStimulusSize;
+    }
+    void getCurrentFullscreenStimulusSize(double &width, double &height) const {
+        std::tie(width, height) = (fullscreenStimulusSizeStack.empty() ?
+                                   defaultFullscreenStimulusSize :
+                                   fullscreenStimulusSizeStack.back());
+    }
+    
     double convertDisplayUnitsToPixels(double size) const { return (pixelsPerDisplayUnit * std::max(0.0, size)); }
     void getCurrentTextureSizeForDisplayArea(std::size_t &textureWidth, std::size_t &textureHeight) const {
         return getCurrentTextureSizeForDisplayArea(true, 0.0, 0.0, textureWidth, textureHeight);
@@ -140,6 +149,9 @@ private:
     
     simd::float4x4 defaultProjectionMatrix;
     std::vector<simd::float4x4> projectionMatrixStack;
+    
+    std::tuple<double, double> defaultFullscreenStimulusSize;
+    std::vector<std::tuple<double, double>> fullscreenStimulusSizeStack;
     
     double pixelsPerDisplayUnit;
     

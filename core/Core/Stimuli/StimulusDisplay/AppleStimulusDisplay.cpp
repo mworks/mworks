@@ -157,6 +157,7 @@ AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
     currentCommandBuffer(nil),
     defaultViewport(createViewport(0.0, 0.0, 0.0, 0.0)),
     defaultProjectionMatrix(createProjectionMatrix(-1.0, 1.0, -1.0, 1.0)),
+    defaultFullscreenStimulusSize(0.0, 0.0),
     pixelsPerDisplayUnit(0.0)
 { }
 
@@ -236,6 +237,7 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             double left, right, bottom, top;
             getDisplayBounds(left, right, bottom, top);
             defaultProjectionMatrix = createProjectionMatrix(left, right, bottom, top);
+            defaultFullscreenStimulusSize = std::make_tuple(right - left, top - bottom);
             
             //
             // Evaluate pixels per display unit in both the horizontal and vertical directions,
@@ -446,6 +448,7 @@ simd::float4x4 AppleStimulusDisplay::createProjectionMatrix(double left, double 
 
 void AppleStimulusDisplay::pushMetalProjectionMatrix(double left, double right, double bottom, double top) {
     projectionMatrixStack.emplace_back(createProjectionMatrix(left, right, bottom, top));
+    fullscreenStimulusSizeStack.emplace_back(right - left, top - bottom);
 }
 
 
@@ -455,6 +458,7 @@ void AppleStimulusDisplay::popMetalProjectionMatrix() {
         return;
     }
     projectionMatrixStack.pop_back();
+    fullscreenStimulusSizeStack.pop_back();
 }
 
 

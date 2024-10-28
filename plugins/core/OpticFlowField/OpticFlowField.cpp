@@ -132,16 +132,6 @@ void OpticFlowField::loadMetal(MetalDisplay &display) {
     ColoredTransformStimulus::loadMetal(display);
     
     //
-    // Get display dimensions and compute conversion from dot size to pixels
-    //
-    {
-        double xMin, xMax, yMin, yMax;
-        display.getDisplayBounds(xMin, xMax, yMin, yMax);
-        displayWidth = xMax - xMin;
-        displayHeight = yMax - yMin;
-    }
-    
-    //
     // Determine maximum number of dots
     //
     if (maxNumDots) {
@@ -154,6 +144,8 @@ void OpticFlowField::loadMetal(MetalDisplay &display) {
         if (!fullscreen) {
             getCurrentSize(width, height);
         } else {
+            double displayWidth, displayHeight;
+            display.getDefaultFullscreenStimulusSize(displayWidth, displayHeight);
             width = displayWidth;
             height = displayHeight;
         }
@@ -236,7 +228,7 @@ void OpticFlowField::drawMetal(MetalDisplay &display) {
     
     currentTime = getElapsedTime();
     if (previousTime != currentTime) {
-        if (!updateParameters()) {
+        if (!updateParameters(display)) {
             // Invalidate all dots
             currentNumDots = 0;
             return;
@@ -395,14 +387,16 @@ bool OpticFlowField::computeNumDots(double newWidth,
 }
 
 
-bool OpticFlowField::updateParameters() {
+bool OpticFlowField::updateParameters(MetalDisplay &display) {
     //
     // Z-near, Z-far, field radius, perspective matrix, dot density, and number of dots
     //
     
     if (fullscreen) {
-        current_sizex = displayWidth;
-        current_sizey = displayHeight;
+        double width, height;
+        display.getCurrentFullscreenStimulusSize(width, height);
+        current_sizex = width;
+        current_sizey = height;
     }
     
     double newZNear, newZFar, newFieldRadius;

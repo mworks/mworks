@@ -66,9 +66,7 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
     std_dev(registerVariable(parameters[STD_DEV])),
     mean(registerVariable(parameters[MEAN])),
     normalized(registerVariable(parameters[NORMALIZED])),
-    lastElapsedSeconds(-1.0),
-    displayWidth(0.0),
-    displayHeight(0.0)
+    lastElapsedSeconds(-1.0)
 {
     if (central_starting_phase && starting_phase) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, (boost::format("Only one of %1% and %2% may be specified")
@@ -156,13 +154,6 @@ void DriftingGratingStimulus::loadMetal(MetalDisplay &display) {
         }
     }
     
-    if (fullscreen) {
-        double xMin, xMax, yMin, yMax;
-        display.getDisplayBounds(xMin, xMax, yMin, yMax);
-        displayWidth = xMax - xMin;
-        displayHeight = yMax - yMin;
-    }
-    
     auto library = loadDefaultLibrary(display, MWORKS_GET_CURRENT_BUNDLE());
     
     MTLFunctionConstantValues *constantValues = [[MTLFunctionConstantValues alloc] init];
@@ -216,8 +207,10 @@ void DriftingGratingStimulus::drawMetal(MetalDisplay &display) {
     current_normalized = normalized->getValue().getBool();
     
     if (fullscreen) {
-        current_sizex = displayWidth;
-        current_sizey = displayHeight;
+        double width, height;
+        display.getCurrentFullscreenStimulusSize(width, height);
+        current_sizex = width;
+        current_sizey = height;
     }
     
     //

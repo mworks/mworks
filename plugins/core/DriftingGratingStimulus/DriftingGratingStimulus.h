@@ -80,8 +80,6 @@ private:
     double lastElapsedSeconds;
     double last_phase;
     
-    double displayWidth, displayHeight;
-    
 };
 
 
