@@ -87,16 +87,11 @@ public:
     }
     
     double convertDisplayUnitsToPixels(double size) const { return (pixelsPerDisplayUnit * std::max(0.0, size)); }
-    void getCurrentTextureSizeForDisplayArea(std::size_t &textureWidth, std::size_t &textureHeight) const {
-        return getCurrentTextureSizeForDisplayArea(true, 0.0, 0.0, textureWidth, textureHeight);
-    }
-    void getCurrentTextureSizeForDisplayArea(double displayWidth,
+    void getDefaultTextureSizeForDisplayArea(bool fullDisplay,
+                                             double displayWidth,
                                              double displayHeight,
                                              std::size_t &textureWidth,
-                                             std::size_t &textureHeight) const
-    {
-        return getCurrentTextureSizeForDisplayArea(false, displayWidth, displayHeight, textureWidth, textureHeight);
-    }
+                                             std::size_t &textureHeight) const;
     void getCurrentTextureSizeForDisplayArea(bool fullDisplay,
                                              double displayWidth,
                                              double displayHeight,
@@ -202,7 +197,7 @@ AppleStimulusDisplay::createMetalRenderCommandEncoder(MTLRenderPassDescriptor *r
 
 
 inline void
-AppleStimulusDisplay::getCurrentTextureSizeForDisplayArea(bool fullDisplay,
+AppleStimulusDisplay::getDefaultTextureSizeForDisplayArea(bool fullDisplay,
                                                           double displayWidth,
                                                           double displayHeight,
                                                           std::size_t &textureWidth,
@@ -216,6 +211,17 @@ AppleStimulusDisplay::getCurrentTextureSizeForDisplayArea(bool fullDisplay,
         textureWidth = std::max(1.0, convertDisplayUnitsToPixels(displayWidth));
         textureHeight = std::max(1.0, convertDisplayUnitsToPixels(displayHeight));
     }
+}
+
+
+inline void
+AppleStimulusDisplay::getCurrentTextureSizeForDisplayArea(bool fullDisplay,
+                                                          double displayWidth,
+                                                          double displayHeight,
+                                                          std::size_t &textureWidth,
+                                                          std::size_t &textureHeight) const
+{
+    getDefaultTextureSizeForDisplayArea(fullDisplay, displayWidth, displayHeight, textureWidth, textureHeight);
     // Limit the texture size to the size of the current viewport
     auto &currentViewport = getCurrentMetalViewport();
     textureWidth = std::min(textureWidth, std::size_t(currentViewport.width));

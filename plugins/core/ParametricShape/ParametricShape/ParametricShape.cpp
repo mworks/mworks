@@ -309,7 +309,7 @@ void ParametricShape::loadMetal(MetalDisplay &display) {
     // Determine texture dimensions and allocate CPU-side texture data
     //
     
-    display.getCurrentTextureSizeForDisplayArea(fullscreen, currentMaxSizeX, currentMaxSizeY, textureWidth, textureHeight);
+    display.getDefaultTextureSizeForDisplayArea(fullscreen, currentMaxSizeX, currentMaxSizeY, textureWidth, textureHeight);
     textureBytesPerRow = textureWidth;  // Texture contains only alpha values
     textureData.reset(new std::uint8_t[textureBytesPerRow * textureHeight]);
     

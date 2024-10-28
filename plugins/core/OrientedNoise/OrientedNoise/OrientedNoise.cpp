@@ -186,7 +186,7 @@ void OrientedNoise::loadMetal(MetalDisplay &display) {
         }
         
         std::size_t textureWidth, textureHeight;
-        display.getCurrentTextureSizeForDisplayArea(fullscreen, sizeX, sizeY, textureWidth, textureHeight);
+        display.getDefaultTextureSizeForDisplayArea(fullscreen, sizeX, sizeY, textureWidth, textureHeight);
         
         currentLog2Cols = pixelsToLog2Pixels(textureWidth);
         currentLog2Rows = pixelsToLog2Pixels(textureHeight);

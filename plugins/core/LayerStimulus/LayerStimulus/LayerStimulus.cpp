@@ -163,7 +163,7 @@ void LayerStimulus::loadMetal(MetalDisplay &display) {
     //
     {
         std::size_t framebufferWidth, framebufferHeight;
-        display.getCurrentTextureSizeForDisplayArea(fullscreen, currentMaxSizeX, currentMaxSizeY, framebufferWidth, framebufferHeight);
+        display.getDefaultTextureSizeForDisplayArea(fullscreen, currentMaxSizeX, currentMaxSizeY, framebufferWidth, framebufferHeight);
         framebufferID = display.createFramebuffer(framebufferWidth, framebufferHeight);
         framebufferTexture = display.getMetalFramebufferTexture(framebufferID);
     }

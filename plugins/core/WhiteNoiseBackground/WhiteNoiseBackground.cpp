@@ -121,7 +121,7 @@ void WhiteNoiseBackground::loadMetal(MetalDisplay &display) {
     //
     
     std::size_t textureWidth, textureHeight;
-    getCurrentTextureSize(display, textureWidth, textureHeight);
+    getCurrentTextureSize(display, display.getDefaultMetalViewport(), textureWidth, textureHeight);
     
     //
     // Create compute and render pipeline states
@@ -275,7 +275,7 @@ void WhiteNoiseBackground::drawMetal(MetalDisplay &display) {
     
     {
         std::size_t currentWidthPixels, currentHeightPixels;
-        getCurrentTextureSize(display, currentWidthPixels, currentHeightPixels);
+        getCurrentTextureSize(display, display.getCurrentMetalViewport(), currentWidthPixels, currentHeightPixels);
         auto texCoordScale = simd::make_float2(currentWidthPixels, currentHeightPixels);
         setVertexBytes(renderCommandEncoder, texCoordScale, 0);
     }
@@ -293,9 +293,13 @@ void WhiteNoiseBackground::drawMetal(MetalDisplay &display) {
 }
 
 
-void WhiteNoiseBackground::getCurrentTextureSize(MetalDisplay &display, std::size_t &width, std::size_t &height) const
+void WhiteNoiseBackground::getCurrentTextureSize(MetalDisplay &display,
+                                                 const MTLViewport &viewport,
+                                                 std::size_t &width,
+                                                 std::size_t &height) const
 {
-    display.getCurrentTextureSizeForDisplayArea(width, height);
+    width = viewport.width;
+    height = viewport.height;
     if (currentGrainSize > 0.0) {
         const auto grainSizePixels = std::max(1.0, display.convertDisplayUnitsToPixels(currentGrainSize));
         width = std::max(1.0, std::round(double(width) / grainSizePixels));

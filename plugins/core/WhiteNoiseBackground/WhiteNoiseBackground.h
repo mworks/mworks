@@ -36,7 +36,10 @@ private:
     void unloadMetal(MetalDisplay &display) override;
     void drawMetal(MetalDisplay &display) override;
     
-    void getCurrentTextureSize(MetalDisplay &display, std::size_t &width, std::size_t &height) const;
+    void getCurrentTextureSize(MetalDisplay &display,
+                               const MTLViewport &viewport,
+                               std::size_t &width,
+                               std::size_t &height) const;
     
     const VariablePtr grayscale;
     const VariablePtr grainSize;
