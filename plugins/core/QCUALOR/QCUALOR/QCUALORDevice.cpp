@@ -74,16 +74,7 @@ bool QCUALORDevice::initialize() {
     if (serialPortPath) {
         path = serialPortPath->getValue().getString();
     }
-    if (!serialPort.connect(path, B115200)) {
-        return false;
-    }
-    
-    // Configure all channels to "OFF"
-    if (!deactivateAllChannels()) {
-        return false;
-    }
-    
-    return true;
+    return serialPort.connect(path, B115200);
 }
 
 
