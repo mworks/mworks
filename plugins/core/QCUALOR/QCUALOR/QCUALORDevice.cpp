@@ -184,14 +184,7 @@ bool QCUALORDevice::Message::receive(SerialPort &serialPort) {
             return false;
         }
         if (0 == result) {
-            if (0 == bytesReceived) {
-                merror(M_IODEVICE_MESSAGE_DOMAIN, "QCUALOR device did not respond to configuration command");
-            } else {
-                merror(M_IODEVICE_MESSAGE_DOMAIN,
-                       "Received incomplete configuration response (%ld of %ld bytes) from QCUALOR device",
-                       bytesReceived,
-                       bytes.size());
-            }
+            merror(M_IODEVICE_MESSAGE_DOMAIN, "QCUALOR device did not respond to configuration command");
             return false;
         }
         bytesReceived += result;
