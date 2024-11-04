@@ -246,11 +246,13 @@ bool QCUALORDevice::sendCommand(const Message &command) {
     auto &isActive = active.emplace(command.getChannel(), true).first->second;
     const auto shouldActivate = (command.getMode() != MODE_OFF);
     
+    /*
     if (!(isActive || shouldActivate)) {
         // Channel is being set to "OFF", but it's already inactive, so there's
         // nothing to do
         return true;
     }
+     */
     
     // Send command
     if (!command.send(serialPort)) {
