@@ -51,9 +51,12 @@ compile_flags = ('-g -O%(GCC_OPTIMIZATION_LEVEL)s -fexceptions ' +
                  common_flags) % os.environ
 
 cflags = '-std=%(GCC_C_LANGUAGE_STANDARD)s' % os.environ
+
 cxxflags = ('-std=%(CLANG_CXX_LANGUAGE_STANDARD)s '
             '-stdlib=%(CLANG_CXX_LIBRARY)s'
             % os.environ)
+cxxflags += (' -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_' +
+             os.environ['CLANG_CXX_STANDARD_LIBRARY_HARDENING'].upper())
 
 link_flags = common_flags
 
@@ -344,7 +347,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '3.3.0'
+    version = '3.4.0'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -378,7 +381,7 @@ def openssl():
 
 @builder
 def python():
-    version = '3.12.3'
+    version = '3.12.7'
     srcdir = 'Python-' + version
     tarfile = srcdir + '.tgz'
 
@@ -457,7 +460,7 @@ _curses _curses_panel _scproxy nis readline
 
 @builder
 def numpy():
-    version = '1.26.4'
+    version = '2.1.3'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -582,13 +585,13 @@ def libpython_all():
 
 @builder
 def boost():
-    version = '1.85.0'
+    version = '1.86.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
-            download_archive('https://boostorg.jfrog.io/artifactory/main/release/%s/source/' % version, tarfile)
+            download_archive('https://archives.boost.io/release/%s/source/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 os.symlink('boost', 'mworks_boost')
@@ -647,7 +650,7 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '6.1.1'
+    version = '7.0.0'
     srcdir = 'msgpack-cxx-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -655,8 +658,6 @@ def msgpack():
         if not os.path.isdir(srcdir):
             download_archive('https://github.com/msgpack/msgpack-c/releases/download/cpp-%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
-            with workdir(srcdir):
-                apply_patch('msgpack_no_float_as_int.patch')
 
         with workdir(srcdir):
             check_call([rsync, '-a', 'include/', includedir])
@@ -689,7 +690,7 @@ def libxslt(macos=False):
 @builder
 def sqlite():
     release_year = 2024
-    version = '3450300'  # 3.45.3
+    version = '3470000'  # 3.47.0
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 

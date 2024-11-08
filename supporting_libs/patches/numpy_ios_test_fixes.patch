@@ -1,7 +1,7 @@
-diff -ur numpy-1.26.2/numpy/core/tests/test_regression.py numpy/numpy/core/tests/test_regression.py
---- numpy-1.26.2/numpy/core/tests/test_regression.py	1969-12-31 19:00:00
-+++ numpy/numpy/core/tests/test_regression.py	2023-11-21 11:49:57
-@@ -2479,6 +2479,7 @@
+diff -ur numpy-2.1.3/numpy/_core/tests/test_regression.py numpy/numpy/_core/tests/test_regression.py
+--- numpy-2.1.3/numpy/_core/tests/test_regression.py	2024-11-02 11:21:28
++++ numpy/numpy/_core/tests/test_regression.py	2024-11-06 15:03:49
+@@ -2453,6 +2453,7 @@
          arr = np.array([t])
          assert arr.shape == (1, 0, 0)
  
@@ -9,9 +9,9 @@ diff -ur numpy-1.26.2/numpy/core/tests/test_regression.py numpy/numpy/core/tests
      @pytest.mark.skipif(sys.maxsize < 2 ** 31 + 1, reason='overflows 32-bit python')
      def test_to_ctypes(self):
          #gh-14214
-diff -ur numpy-1.26.2/numpy/distutils/system_info.py numpy/numpy/distutils/system_info.py
---- numpy-1.26.2/numpy/distutils/system_info.py	1969-12-31 19:00:00
-+++ numpy/numpy/distutils/system_info.py	2023-11-21 11:51:51
+diff -ur numpy-2.1.3/numpy/distutils/system_info.py numpy/numpy/distutils/system_info.py
+--- numpy-2.1.3/numpy/distutils/system_info.py	2024-11-02 11:21:28
++++ numpy/numpy/distutils/system_info.py	2024-11-06 15:03:49
 @@ -352,6 +352,7 @@
  
      with open(os.devnull, 'w') as tmp:
@@ -20,9 +20,9 @@ diff -ur numpy-1.26.2/numpy/distutils/system_info.py numpy/numpy/distutils/syste
              p = subprocess.Popen(["gcc", "-print-multiarch"], stdout=subprocess.PIPE,
                           stderr=tmp)
          except (OSError, DistutilsError):
-diff -ur numpy-1.26.2/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/distutils/tests/test_fcompiler_gnu.py
---- numpy-1.26.2/numpy/distutils/tests/test_fcompiler_gnu.py	1969-12-31 19:00:00
-+++ numpy/numpy/distutils/tests/test_fcompiler_gnu.py	2023-11-21 11:49:57
+diff -ur numpy-2.1.3/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/distutils/tests/test_fcompiler_gnu.py
+--- numpy-2.1.3/numpy/distutils/tests/test_fcompiler_gnu.py	2024-11-02 11:21:28
++++ numpy/numpy/distutils/tests/test_fcompiler_gnu.py	2024-11-06 15:03:49
 @@ -1,3 +1,5 @@
 +import pytest
 +
@@ -45,9 +45,9 @@ diff -ur numpy-1.26.2/numpy/distutils/tests/test_fcompiler_gnu.py numpy/numpy/di
  class TestGFortranVersions:
      def test_gfortran_version(self):
          fc = numpy.distutils.fcompiler.new_fcompiler(compiler='gnu95')
-diff -ur numpy-1.26.2/numpy/distutils/tests/test_fcompiler_intel.py numpy/numpy/distutils/tests/test_fcompiler_intel.py
---- numpy-1.26.2/numpy/distutils/tests/test_fcompiler_intel.py	1969-12-31 19:00:00
-+++ numpy/numpy/distutils/tests/test_fcompiler_intel.py	2023-11-21 11:49:57
+diff -ur numpy-2.1.3/numpy/distutils/tests/test_fcompiler_intel.py numpy/numpy/distutils/tests/test_fcompiler_intel.py
+--- numpy-2.1.3/numpy/distutils/tests/test_fcompiler_intel.py	2024-11-02 11:21:28
++++ numpy/numpy/distutils/tests/test_fcompiler_intel.py	2024-11-06 15:03:49
 @@ -1,3 +1,5 @@
 +import pytest
 +
@@ -70,9 +70,9 @@ diff -ur numpy-1.26.2/numpy/distutils/tests/test_fcompiler_intel.py numpy/numpy/
  class TestIntelEM64TFCompilerVersions:
      def test_64bit_version(self):
          fc = numpy.distutils.fcompiler.new_fcompiler(compiler='intelem')
-diff -ur numpy-1.26.2/numpy/distutils/tests/test_fcompiler_nagfor.py numpy/numpy/distutils/tests/test_fcompiler_nagfor.py
---- numpy-1.26.2/numpy/distutils/tests/test_fcompiler_nagfor.py	1969-12-31 19:00:00
-+++ numpy/numpy/distutils/tests/test_fcompiler_nagfor.py	2023-11-21 11:49:57
+diff -ur numpy-2.1.3/numpy/distutils/tests/test_fcompiler_nagfor.py numpy/numpy/distutils/tests/test_fcompiler_nagfor.py
+--- numpy-2.1.3/numpy/distutils/tests/test_fcompiler_nagfor.py	2024-11-02 11:21:28
++++ numpy/numpy/distutils/tests/test_fcompiler_nagfor.py	2024-11-06 15:03:49
 @@ -1,3 +1,5 @@
 +import pytest
 +
@@ -87,10 +87,10 @@ diff -ur numpy-1.26.2/numpy/distutils/tests/test_fcompiler_nagfor.py numpy/numpy
  class TestNagFCompilerVersions:
      def test_version_match(self):
          for comp, vs, version in nag_version_strings:
-diff -ur numpy-1.26.2/numpy/f2py/tests/test_array_from_pyobj.py numpy/numpy/f2py/tests/test_array_from_pyobj.py
---- numpy-1.26.2/numpy/f2py/tests/test_array_from_pyobj.py	1969-12-31 19:00:00
-+++ numpy/numpy/f2py/tests/test_array_from_pyobj.py	2023-11-21 12:01:31
-@@ -162,7 +162,10 @@
+diff -ur numpy-2.1.3/numpy/f2py/tests/test_array_from_pyobj.py numpy/numpy/f2py/tests/test_array_from_pyobj.py
+--- numpy-2.1.3/numpy/f2py/tests/test_array_from_pyobj.py	2024-11-02 11:21:28
++++ numpy/numpy/f2py/tests/test_array_from_pyobj.py	2024-11-06 15:03:49
+@@ -151,7 +151,10 @@
  # Furthermore, on macOS ARM64, LONGDOUBLE is an alias for DOUBLE.
  if ((np.intp().dtype.itemsize != 4 or np.clongdouble().dtype.alignment <= 8)
          and sys.platform != "win32"
@@ -102,10 +102,10 @@ diff -ur numpy-1.26.2/numpy/f2py/tests/test_array_from_pyobj.py numpy/numpy/f2py
      _type_names.extend(["LONGDOUBLE", "CDOUBLE", "CLONGDOUBLE"])
      _cast_dict["LONGDOUBLE"] = _cast_dict["LONG"] + [
          "ULONG",
-diff -ur numpy-1.26.2/numpy/lib/tests/test_io.py numpy/numpy/lib/tests/test_io.py
---- numpy-1.26.2/numpy/lib/tests/test_io.py	1969-12-31 19:00:00
-+++ numpy/numpy/lib/tests/test_io.py	2023-11-21 11:49:57
-@@ -203,6 +203,7 @@
+diff -ur numpy-2.1.3/numpy/lib/tests/test_io.py numpy/numpy/lib/tests/test_io.py
+--- numpy-2.1.3/numpy/lib/tests/test_io.py	2024-11-02 11:21:28
++++ numpy/numpy/lib/tests/test_io.py	2024-11-06 15:03:49
+@@ -205,6 +205,7 @@
                  self.arr_reloaded.fid.close()
                  os.remove(self.arr_reloaded.fid.name)
  
@@ -113,12 +113,12 @@ diff -ur numpy-1.26.2/numpy/lib/tests/test_io.py numpy/numpy/lib/tests/test_io.p
      @pytest.mark.skipif(IS_PYPY, reason="Hangs on PyPy")
      @pytest.mark.skipif(not IS_64BIT, reason="Needs 64bit platform")
      @pytest.mark.slow
-diff -ur numpy-1.26.2/numpy/testing/_private/utils.py numpy/numpy/testing/_private/utils.py
---- numpy-1.26.2/numpy/testing/_private/utils.py	1969-12-31 19:00:00
-+++ numpy/numpy/testing/_private/utils.py	2023-11-21 11:49:57
-@@ -1241,6 +1241,8 @@
-     gh-22982
-     """
+diff -ur numpy-2.1.3/numpy/testing/_private/utils.py numpy/numpy/testing/_private/utils.py
+--- numpy-2.1.3/numpy/testing/_private/utils.py	2024-11-02 11:21:28
++++ numpy/numpy/testing/_private/utils.py	2024-11-06 15:03:49
+@@ -1388,6 +1388,8 @@
+     if __cache:
+         return __cache[0]
      
 +    # Can't open a subprocess on iOS
 +    return False
