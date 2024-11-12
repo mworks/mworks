@@ -141,14 +141,6 @@ bool ScheduledActions::execute() {
 
 
 void ScheduledActions::executeOnce() {
-    MWTime delta = clock->getCurrentTimeUS() - ((timeScheduled + scheduledDelay) + nRepeated * scheduledInterval);
-    
-    if (delta > 2000) {
-        merror(M_SCHEDULER_MESSAGE_DOMAIN, "Scheduled action is starting %lldus behind intended schedule", delta);
-    } else if (delta > 500) {
-        mwarning(M_SCHEDULER_MESSAGE_DOMAIN, "Scheduled action is starting %lldus behind intended schedule", delta);
-    }
-    
     auto stateSystem = StateSystem::instance();
     for (auto &action : action_list) {
         stateSystem->executeAction(action);
@@ -159,30 +151,3 @@ void ScheduledActions::executeOnce() {
 
 
 END_NAMESPACE_MW
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
