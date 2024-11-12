@@ -38,6 +38,7 @@
 		E128FA472CC2AA420070A036 /* OrientedNoisePlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B631652188A9EF00CF5614 /* OrientedNoisePlugin.cpp */; };
 		E1355CCD2C10ABC0003CCF23 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1355CCC2C10ABC0003CCF23 /* Metal.framework */; };
 		E1355CCF2C10AD0A003CCF23 /* OrientedNoise.metal in Sources */ = {isa = PBXBuildFile; fileRef = E1355CCE2C10AD0A003CCF23 /* OrientedNoise.metal */; };
+		E14C3DB82CE3E3E5005E46FD /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E14C3DB72CE3E3E5005E46FD /* MWComponents.yaml */; };
 		E155AFC621A3486C00A0576A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E155AFC521A3486C00A0576A /* CoreFoundation.framework */; };
 		E155AFC821A3494900A0576A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E155AFC721A3494900A0576A /* ImageIO.framework */; };
 		E155AFCA21A349A500A0576A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E155AFC921A349A400A0576A /* CoreGraphics.framework */; };
@@ -83,6 +84,7 @@
 		E128FA3E2CC2A7CE0070A036 /* OrientedNoise.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OrientedNoise.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1355CCC2C10ABC0003CCF23 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		E1355CCE2C10AD0A003CCF23 /* OrientedNoise.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OrientedNoise.metal; sourceTree = "<group>"; };
+		E14C3DB72CE3E3E5005E46FD /* MWComponents.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E155AFC521A3486C00A0576A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E155AFC721A3494900A0576A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		E155AFC921A349A400A0576A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -148,6 +150,7 @@
 				E1355CCE2C10AD0A003CCF23 /* OrientedNoise.metal */,
 				E1B631652188A9EF00CF5614 /* OrientedNoisePlugin.cpp */,
 				E1B631642188A96100CF5614 /* OrientedNoise-Prefix.pch */,
+				E14C3DB72CE3E3E5005E46FD /* MWComponents.yaml */,
 			);
 			path = OrientedNoise;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E14C3DB82CE3E3E5005E46FD /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

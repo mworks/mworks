@@ -1,0 +1,61 @@
+---
+
+
+name: Oriented Noise Stimulus
+signature: stimulus/oriented_noise
+isa: [Colored Transform Stimulus, Dynamic Stimulus Base]
+description: >
+    An oriented noise stimulus, as described in `Orientation discrimination in
+    human vision: Psychophysics and modeling
+    <https://doi.org/10.1016/j.visres.2005.10.016>`_ (Beaudot and Mullen,
+    2005).
+parameters: 
+  - 
+    name: f_0
+    required: yes
+    description: >
+        Peak spatial frequency.  Must be greater than or equal to zero.
+  - 
+    name: sigma_f
+    required: yes
+    description: >
+        Standard deviation of spatial frequency around `f_0`_.  Must be greater
+        than zero.
+  - 
+    name: theta_0
+    required: yes
+    description: >
+        Peak orientation (degrees).  Must be between 0 and 180 (inclusive).
+  - 
+    name: sigma_theta
+    required: yes
+    description: >
+        Standard deviation of orientation around `theta_0`_ (degrees).  Must be
+        greater than zero and less than or equal to 90.
+  - 
+    name: directory_path
+    description: |
+        Path to directory containing base noise images.  The images must be of
+        uniform width and height. Additionally, the width and height (in pixels)
+        of each image must be a power of two.
+
+        If omitted, random base noise will be generated every time the stimulus
+        is drawn.
+  - 
+    name: noise_image_selection
+    options:
+      - sequential
+      - random_with_replacement
+      - random_without_replacement
+    default: random_with_replacement
+    description: >
+        Method used to select base noise images from `directory_path`_.  If
+        ``sequential`` is specified, images will be selected in lexicographic
+        order by filename.
+  - 
+    name: rand_seed
+    description: >
+        Seed value for the random number generator.  If omitted, the current
+        system time in nanoseconds is used.
+
+

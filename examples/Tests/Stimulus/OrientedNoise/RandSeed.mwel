@@ -1,0 +1,68 @@
+var rand_seed = now()
+
+%define noise (directory_path, y_sign)
+    oriented_noise (
+        f_0 = 1
+        sigma_f = 0.5
+        theta_0 = 0
+        sigma_theta = 30
+        directory_path = directory_path
+        rand_seed = rand_seed
+        x_size = 20
+        y_size = 10
+        y_position = 6 * y_sign
+        autoplay = true
+        )
+%end
+
+
+%define noise_movie (directory_path, y_sign, ended)
+    movie (
+        frames_per_second = 1
+        ended = ended
+        repeats = 10
+        autoplay = true
+        ) {
+        noise (
+            directory_path = directory_path
+            y_sign = y_sign
+            )
+        noise (
+            directory_path = directory_path
+            y_sign = y_sign
+            )
+    }
+%end
+
+
+var ended_1 = false
+var ended_2 = false
+
+noise_movie generated_noise (
+    directory_path = ''
+    y_sign = +1
+    ended = ended_1
+    )
+
+noise_movie image_noise (
+    directory_path = noise_frames
+    y_sign = -1
+    ended = ended_2
+    )
+
+
+protocol {
+    ended_1 = false
+    ended_2 = false
+
+    queue_stimulus (generated_noise)
+    queue_stimulus (image_noise)
+    update_display ()
+
+    report ('Each noise frame should be displayed for 2 seconds')
+
+    wait_for_condition (
+        condition = ended_1 and ended_2
+        timeout = 30s
+        )
+}

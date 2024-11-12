@@ -1,0 +1,55 @@
+var noise_image_selection = ''
+var ended = false
+
+movie noise_movie (
+    frames_per_second = 1
+    ended = ended
+    repeats = 8
+    deferred = explicit
+    autoplay = true
+    ) {
+    oriented_noise (
+        f_0 = 1
+        sigma_f = 0.5
+        theta_0 = 0
+        sigma_theta = 30
+        directory_path = simple_frames
+        noise_image_selection = noise_image_selection
+        x_size = 20
+        y_size = 10
+        deferred = explicit
+        autoplay = true
+        )
+
+    rectangle (
+        alpha_multiplier = 0
+        fullscreen = true
+        )
+}
+
+
+%define play_noise_movie (selection)
+    noise_image_selection = selection
+    ended = false
+
+    load_stimulus (noise_movie)
+    queue_stimulus (noise_movie)
+    update_display ()
+
+    wait_for_condition (
+        condition = ended
+        timeout = 20s
+        )
+
+    clear_display ()
+    unload_stimulus (noise_movie)
+
+    wait (2s)
+%end
+
+
+protocol {
+    play_noise_movie ('sequential')
+    play_noise_movie ('random_without_replacement')
+    play_noise_movie ('random_with_replacement')
+}

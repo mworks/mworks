@@ -1,0 +1,78 @@
+var f_0 = 1
+var sigma_f = 0.5
+var theta_0 = 0
+var sigma_theta = 30
+var color = [1, 1, 1]
+var alpha_multiplier = 1
+var x_size = 15
+var y_size = 12
+var x_position = -5
+var y_position = -5
+var rotation = 0
+
+oriented_noise noise (
+    f_0 = f_0
+    sigma_f = sigma_f
+    theta_0 = theta_0
+    sigma_theta = sigma_theta
+    color = color[0], color[1], color[2]
+    alpha_multiplier = alpha_multiplier
+    x_size = x_size
+    y_size = y_size
+    x_position = x_position
+    y_position = y_position
+    rotation = rotation
+    autoplay = true
+    )
+
+
+%define do_wait ()
+    wait (2s)
+%end
+
+
+protocol {
+    live_queue_stimulus (noise)
+    update_display ()
+    do_wait ()
+
+    f_0 = 0.5
+    do_wait ()
+
+    sigma_f = 0.1
+    do_wait ()
+
+    theta_0 = 90
+    do_wait ()
+
+    sigma_theta = 90
+    do_wait ()
+
+    color = [1, 0, 0]
+    do_wait ()
+
+    color = [0, 1, 0]
+    do_wait ()
+
+    color = [0, 0, 1]
+    do_wait ()
+
+    color = [1, 1, 1]
+    x_size *= 0.8
+    do_wait ()
+
+    y_size *= 1.2
+    do_wait ()
+
+    x_position = 5
+    do_wait ()
+
+    y_position = 5
+    do_wait ()
+
+    rotation = 45
+    do_wait ()
+
+    alpha_multiplier = 0.25
+    do_wait ()
+}

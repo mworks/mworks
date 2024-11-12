@@ -1,0 +1,38 @@
+var f_0 = 1
+var sigma_f = 0.5
+var theta_0 = 0
+var sigma_theta = 30
+
+oriented_noise noise (
+    f_0 = f_0
+    sigma_f = sigma_f
+    theta_0 = theta_0
+    sigma_theta = sigma_theta
+    directory_path = noise_frames
+    fullscreen = true
+    autoplay = true
+    )
+
+
+%define do_wait ()
+    wait (3s)
+%end
+
+
+protocol {
+    live_queue_stimulus (noise)
+    update_display ()
+    do_wait ()
+
+    f_0 = 3
+    do_wait ()
+
+    sigma_f = 5
+    do_wait ()
+
+    theta_0 = 45
+    do_wait ()
+
+    sigma_theta = 5
+    do_wait ()
+}
