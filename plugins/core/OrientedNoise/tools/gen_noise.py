@@ -3,7 +3,6 @@ import sys
 
 import numpy as np
 import tifffile
-from tifffile.tifffile import TIFF
 
 
 def main():
@@ -20,15 +19,9 @@ def main():
         print('Creating', filename)
 
         data = np.random.uniform(0, 1, size=width*height).astype(np.float32)
-        data = data.reshape((width, height))
+        data = data.reshape((height, width))
 
-        tifffile.imsave(filename, data, extratags=[
-            (TIFF.TAG_NAMES['InterColorProfile'],
-             'B',
-             len(icc_profile_data),
-             icc_profile_data,
-             True)
-            ])
+        tifffile.imwrite(filename, data, iccprofile=icc_profile_data)
 
 
 if __name__ == '__main__':
