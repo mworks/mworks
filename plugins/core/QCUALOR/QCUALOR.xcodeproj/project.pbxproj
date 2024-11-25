@@ -257,6 +257,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EB3B6027EA147D008EDABF /* macOS_Plugin.xcconfig */;
 			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QCUALOR/QCUALOR-Prefix.pch";
 				GENERATE_INFOPLIST_FILE = YES;
