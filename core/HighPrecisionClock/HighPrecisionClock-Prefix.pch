@@ -16,5 +16,6 @@
 #include <MWorksCore/MachUtilities.h>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardComponentFactory.h>
+#include <MWorksCore/UnfairMutex.hpp>
 
 #endif

@@ -683,6 +683,8 @@
 		E18FF25F1C80EE7B007820D4 /* CFObjectPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E194BF6E1590DB5300D4A62D /* StimulusDisplayDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */; };
 		E194BF6F1590DB6900D4A62D /* StimulusDisplayDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E199CB882CF61C18005EB558 /* UnfairMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E199CB872CF61C18005EB558 /* UnfairMutex.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E199CB892CF61C18005EB558 /* UnfairMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E199CB872CF61C18005EB558 /* UnfairMutex.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E19B79261D525CCC00110665 /* ZeroMQUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19B79241D525CCC00110665 /* ZeroMQUtilities.cpp */; };
 		E19B79271D525CCC00110665 /* ZeroMQUtilities.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E19B79251D525CCC00110665 /* ZeroMQUtilities.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E19B792A1D525E2200110665 /* ZeroMQUtilityTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19B79281D525E2200110665 /* ZeroMQUtilityTests.cpp */; };
@@ -1394,6 +1396,7 @@
 		E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFObjectPtr.h; sourceTree = "<group>"; };
 		E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StimulusDisplayDevice.h; sourceTree = "<group>"; };
 		E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StimulusDisplayDevice.cpp; sourceTree = "<group>"; };
+		E199CB872CF61C18005EB558 /* UnfairMutex.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UnfairMutex.hpp; sourceTree = "<group>"; };
 		E19B79241D525CCC00110665 /* ZeroMQUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQUtilities.cpp; sourceTree = "<group>"; };
 		E19B79251D525CCC00110665 /* ZeroMQUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQUtilities.hpp; sourceTree = "<group>"; };
 		E19B79281D525E2200110665 /* ZeroMQUtilityTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQUtilityTests.cpp; sourceTree = "<group>"; };
@@ -2095,6 +2098,7 @@
 				E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */,
 				E1BD1C402620AEAF0094FACB /* FairMutex.hpp */,
 				E1BD1C412620AEAF0094FACB /* FairMutex.cpp */,
+				E199CB872CF61C18005EB558 /* UnfairMutex.hpp */,
 				E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */,
 				E1DC75071D259C1700D9BC19 /* SerialPort.hpp */,
 				E1DC75061D259C1700D9BC19 /* SerialPort.cpp */,
@@ -2738,6 +2742,7 @@
 				E142A4882BC838820021CD18 /* MacOSAudioEngineManager.hpp in Headers */,
 				E1E585BB266FB4A40058186F /* ZeroMQIPCEventTransport.hpp in Headers */,
 				E16AAF522ABB31B20031B8C3 /* Actions.hpp in Headers */,
+				E199CB892CF61C18005EB558 /* UnfairMutex.hpp in Headers */,
 				8ED451E808BF5BA1003880D5 /* FilterTransforms.h in Headers */,
 				8ED452C908BF9870003880D5 /* Transforms.h in Headers */,
 				E18FF25F1C80EE7B007820D4 /* CFObjectPtr.h in Headers */,
@@ -2920,6 +2925,7 @@
 				E17917571E4E556800528B91 /* EyeCalibrators.h in Headers */,
 				E17916D71E4E517100528B91 /* StandardVariables.h in Headers */,
 				E17917061E4E531600528B91 /* ParameterInfo.h in Headers */,
+				E199CB882CF61C18005EB558 /* UnfairMutex.hpp in Headers */,
 				E1D5FB692C1B1BCB006D7C8D /* CompoundStimulus.hpp in Headers */,
 				E179176E1E4E563200528B91 /* DynamicStimulusDriver.h in Headers */,
 				E179172F1E4E541700528B91 /* RandomWORSelection.h in Headers */,

@@ -44,7 +44,7 @@ private:
     
     struct WaitInfo;
     std::priority_queue<WaitInfo> waits;
-    using lock_guard = std::lock_guard<std::mutex>;
+    using lock_guard = std::lock_guard<UnfairMutex>;
     lock_guard::mutex_type waitsMutex;
     
     struct Semaphore : boost::noncopyable {
