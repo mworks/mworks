@@ -30,7 +30,7 @@ template<typename R, typename... Args>
 struct types<R (*)(Args...)> {
     using result = R;
     using instance = void;
-    using args = std::tuple<remove_cvref_t<Args>...>;
+    using args = std::tuple<std::remove_cvref_t<Args>...>;
 };
 
 
@@ -39,7 +39,7 @@ template<typename R, typename T, typename... Args>
 struct types<R (T::*)(Args...)> {
     using result = R;
     using instance = T;
-    using args = std::tuple<remove_cvref_t<Args>...>;
+    using args = std::tuple<std::remove_cvref_t<Args>...>;
 };
 
 
@@ -48,7 +48,7 @@ template<typename R, typename T, typename... Args>
 struct types<R (T::*)(Args...) const> {
     using result = R;
     using instance = T;
-    using args = std::tuple<remove_cvref_t<Args>...>;
+    using args = std::tuple<std::remove_cvref_t<Args>...>;
 };
 
 
@@ -132,7 +132,7 @@ PyObject * callMethod(PyObject *self, PyObject *args) {
 
 
 template<auto f, std::enable_if_t<std::is_base_of_v<ExtensionType<instance_type<f>>, instance_type<f>>, int> = 0>
-auto & getInstance(PyObject *self) {
+auto & getInstance(PyObject *self) noexcept {
     return ExtensionType<instance_type<f>>::getInstance(self);
 }
 
@@ -175,7 +175,7 @@ END_NAMESPACE(method_traits)
 template<typename T>
 struct ExtensionType {
     
-    static bool createType(const char *name, const ObjectPtr &module) noexcept {
+    static bool createType(const char *name, const ObjectPtr &mod) noexcept {
         PyType_Spec spec = {
             .name = name,
             .basicsize = sizeof(Object),
@@ -187,7 +187,7 @@ struct ExtensionType {
             return false;
         }
         
-        const char *shortName = std::strchr(name, '.');
+        const char *shortName = std::strrchr(name, '.');
         if (shortName) {
             shortName++;
         } else {
@@ -195,7 +195,7 @@ struct ExtensionType {
         }
         
         Py_INCREF(type.get());
-        if (PyModule_AddObject(module.get(), shortName, type.get())) {
+        if (PyModule_AddObject(mod.get(), shortName, type.get())) {
             Py_DECREF(type.get());
             return false;
         }

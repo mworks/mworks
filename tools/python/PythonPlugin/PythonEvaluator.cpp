@@ -23,7 +23,7 @@ void PythonEvent::Callback::handleCallbackError() {
 BEGIN_NAMESPACE()
 
 
-inline boost::shared_ptr<RegistryAwareEventStreamInterface> getCore() {
+boost::shared_ptr<RegistryAwareEventStreamInterface> getCore() {
     return Server::instance();
 }
 
@@ -171,13 +171,13 @@ PyModuleDef _mworkscoreModule = {
 
 
 PyObject * init__mworkscore() {
-    auto module = ObjectPtr::owned(PyModule_Create(&_mworkscoreModule));
-    if (!module ||
-        !PythonEvent::createType("_mworkscore.Event", module))
+    auto mod = ObjectPtr::owned(PyModule_Create(&_mworkscoreModule));
+    if (!mod ||
+        !PythonEvent::createType("_mworkscore.Event", mod))
     {
         return nullptr;
     }
-    return module.release();
+    return mod.release();
 }
 
 

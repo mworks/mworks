@@ -24,13 +24,13 @@ Datum convertObjectToDatum(const ObjectPtr &obj);
 ObjectPtr convertDatumToObject(const Datum &datum);
 
 
-template<typename T, std::enable_if_t<std::is_same_v<ObjectPtr, remove_cvref_t<T>>, int> = 0>
-inline auto asObject(T &&val) {
+template<typename T, std::enable_if_t<std::is_same_v<ObjectPtr, std::remove_cvref_t<T>>, int> = 0>
+auto asObject(T &&val) noexcept {
     return std::forward<ObjectPtr>(val);
 }
 
 template<typename T>
-inline ObjectPtr asObject(T *) {
+ObjectPtr asObject(T *) {
     static_assert(!std::is_same_v<T, T>, "asObject cannot be used with pointer types");
 }
 
@@ -59,7 +59,7 @@ inline ObjectPtr asObject(const std::string &val) {
 }
 
 template<typename Key, typename T>
-inline ObjectPtr asObject(const std::map<Key, T> &val) {
+ObjectPtr asObject(const std::map<Key, T> &val) {
     auto obj = ObjectPtr::created(PyDict_New());
     for (auto &item : val) {
         if (PyDict_SetItem(obj.get(), asObject(item.first).get(), asObject(item.second).get())) {

@@ -18,7 +18,7 @@ BEGIN_NAMESPACE_MW_PYTHON
 class ArgTuple : boost::noncopyable {
     
 public:
-    explicit ArgTuple(PyObject *args) :
+    explicit ArgTuple(PyObject *args) noexcept :
         args(args)
     { }
     

@@ -34,33 +34,33 @@ PyInit__mworks() {
         return nullptr;
     }
     
-    auto module = ObjectPtr::owned(PyModule_Create(&_mworksModule));
-    if (!module) {
+    auto mod = ObjectPtr::owned(PyModule_Create(&_mworksModule));
+    if (!mod) {
         return nullptr;
     }
     
     importNumpyTypes();
     
-    if (PyModule_AddIntMacro(module.get(), RESERVED_CODEC_CODE) ||
-        PyModule_AddIntMacro(module.get(), RESERVED_SYSTEM_EVENT_CODE) ||
-        PyModule_AddIntMacro(module.get(), RESERVED_COMPONENT_CODEC_CODE) ||
-        PyModule_AddIntMacro(module.get(), RESERVED_TERMINATION_CODE) ||
-        PyModule_AddIntConstant(module.get(), "server_event_transport", EventTransport::server_event_transport) ||
-        PyModule_AddIntConstant(module.get(), "client_event_transport", EventTransport::client_event_transport))
+    if (PyModule_AddIntMacro(mod.get(), RESERVED_CODEC_CODE) ||
+        PyModule_AddIntMacro(mod.get(), RESERVED_SYSTEM_EVENT_CODE) ||
+        PyModule_AddIntMacro(mod.get(), RESERVED_COMPONENT_CODEC_CODE) ||
+        PyModule_AddIntMacro(mod.get(), RESERVED_TERMINATION_CODE) ||
+        PyModule_AddIntConstant(mod.get(), "server_event_transport", EventTransport::server_event_transport) ||
+        PyModule_AddIntConstant(mod.get(), "client_event_transport", EventTransport::client_event_transport))
     {
         return nullptr;
     }
     
-    if (!PythonEvent::createType("_mworks.Event", module) ||
-        !PythonIPCConduit::createType("_mworks._IPCConduit", module) ||
-        !PythonDataFile::createType("_mworks._MWKFile", module) ||
-        !PythonMWKWriter::createType("_mworks._MWKWriter", module) ||
-        !PythonMWK2Writer::createType("_mworks._MWK2Writer", module))
+    if (!PythonEvent::createType("_mworks.Event", mod) ||
+        !PythonIPCConduit::createType("_mworks._IPCConduit", mod) ||
+        !PythonDataFile::createType("_mworks._MWKFile", mod) ||
+        !PythonMWKWriter::createType("_mworks._MWKWriter", mod) ||
+        !PythonMWK2Writer::createType("_mworks._MWK2Writer", mod))
     {
         return nullptr;
     }
     
-    return module.release();
+    return mod.release();
 }
 
 

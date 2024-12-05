@@ -22,7 +22,7 @@ private:
     PyGILState_STATE state;
     
 public:
-    ScopedGILAcquire() :
+    ScopedGILAcquire() noexcept :
         state(PyGILState_Ensure())
     { }
     
@@ -39,7 +39,7 @@ private:
     PyThreadState *state;
     
 public:
-    ScopedGILRelease() :
+    ScopedGILRelease() noexcept :
         state(PyEval_SaveThread())
     { }
     
@@ -68,25 +68,25 @@ public:
 
 template<typename T>
 struct SafeCallFailure {
-    static constexpr PyObject * result() { return nullptr; }
+    static constexpr PyObject * result() noexcept { return nullptr; }
 };
 
 
 template<>
 struct SafeCallFailure<int (*/*initproc*/)(PyObject *, PyObject *, PyObject *)> {
-    static constexpr int result() { return -1; }
+    static constexpr int result() noexcept { return -1; }
 };
 
 
 template<>
 struct SafeCallFailure<int (*/*converter*/)(PyObject *, void *) > {
-    static constexpr int result() { return 0; }
+    static constexpr int result() noexcept { return 0; }
 };
 
 
 template<typename T>
 struct SafeCallFailure<void (*)(T *)> {
-    static constexpr void result() { }
+    static constexpr void result() noexcept { }
 };
 
 
@@ -103,10 +103,6 @@ auto safeCall(Args... args) noexcept {
     }
     return SafeCallFailure<decltype(f)>::result();
 }
-
-
-template<typename T>
-using remove_cvref_t = std::remove_cv_t<std::remove_reference_t<T>>;
 
 
 END_NAMESPACE_MW_PYTHON
