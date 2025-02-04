@@ -402,7 +402,6 @@ def python():
                     apply_patch('python_ios_fixes.patch')
                     apply_patch('python_ios_test_fixes.patch')
                 else:
-                    apply_patch('python_macos_13_0_required.patch')
                     apply_patch('python_macos_test_fixes.patch')
                 with open('Modules/Setup.local', 'w') as fp:
                     fp.write('''\

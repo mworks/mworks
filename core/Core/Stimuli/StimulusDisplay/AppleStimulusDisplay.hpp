@@ -164,11 +164,7 @@ AppleStimulusDisplay::createMetalRenderPipelineDescriptor(id<MTLFunction> vertex
     renderPipelineDescriptor.vertexFunction = vertexFunction;
     renderPipelineDescriptor.fragmentFunction = fragmentFunction;
     renderPipelineDescriptor.colorAttachments[0].pixelFormat = getMetalFramebufferTexturePixelFormat();
-#if TARGET_OS_IPHONE
     renderPipelineDescriptor.rasterSampleCount = getMetalFramebufferTextureSampleCount();
-#else
-    renderPipelineDescriptor.sampleCount = getMetalFramebufferTextureSampleCount();
-#endif
     return renderPipelineDescriptor;
 }
 

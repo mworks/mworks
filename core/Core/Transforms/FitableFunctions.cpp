@@ -17,6 +17,7 @@
 
 #include "FitableFunctions.h"
 
+#define ACCELERATE_NEW_LAPACK
 #include <Accelerate/Accelerate.h>
 
 
@@ -349,31 +350,26 @@ bool LinearFitableFunction::fitTheFunction() {
     // B = inv(XtX) XtY
     // using SGELSD from LAPACK
     {
-        __CLPK_integer m = numData;
-        __CLPK_integer n = numParams;
-        __CLPK_integer nrhs = 1;
-        __CLPK_real *a = X.data();
-        __CLPK_integer lda = m;
-        __CLPK_real *b = Y.data();
-        __CLPK_integer ldb = m;
-        std::vector<__CLPK_real> s(n);
+        const __LAPACK_int m = numData;
+        const __LAPACK_int n = numParams;
+        const __LAPACK_int nrhs = 1;
+        float *a = X.data();
+        const __LAPACK_int lda = m;
+        float *b = Y.data();
+        const __LAPACK_int ldb = m;
+        std::vector<float> s(n);
         // The choice of N*epsilon for rcond comes from _Numerical Recipes in C_, Section 15.4,
         // "Solution by Use of Singular Value Decomposition"
-        __CLPK_real rcond = n * std::numeric_limits<__CLPK_real>::epsilon();
-        __CLPK_integer rank;
-        std::vector<__CLPK_real> work(1);
-        __CLPK_integer lwork = -1;
-        std::vector<__CLPK_integer> iwork(1);
-        __CLPK_integer info;
+        const float rcond = n * std::numeric_limits<float>::epsilon();
+        __LAPACK_int rank;
+        std::vector<float> work(1);
+        __LAPACK_int lwork = -1;
+        std::vector<__LAPACK_int> iwork(1);
+        __LAPACK_int info;
         
         // We call SGELSD two times: once to determine appropriate sizes for work and iwork, and once to
         // perform the actual fit
         for (int numReps = 0; numReps < 2; numReps++) {
-#if TARGET_OS_IPHONE
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#endif
-            // TODO: Define ACCELERATE_NEW_LAPACK and switch to the new sgelsd_ when we can do so on macOS, too
             sgelsd_(&m,
                     &n,
                     &nrhs,
@@ -388,9 +384,6 @@ bool LinearFitableFunction::fitTheFunction() {
                     &lwork,
                     iwork.data(),
                     &info);
-#if TARGET_OS_IPHONE
-#  pragma clang diagnostic pop
-#endif
             
             if (info != 0) {
                 merror(M_GENERIC_MESSAGE_DOMAIN, "Fitable function: SGELSD returned %d", int(info));
