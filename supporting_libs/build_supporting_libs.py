@@ -329,7 +329,7 @@ def run_configure_and_make(
 
 @builder
 def libffi():
-    version = '3.4.6'
+    version = '3.4.8'
     srcdir = 'libffi-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -347,7 +347,7 @@ def libffi():
 
 @builder
 def openssl():
-    version = '3.4.0'
+    version = '3.5.0'
     srcdir = 'openssl-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -584,7 +584,7 @@ def libpython_all():
 
 @builder
 def boost():
-    version = '1.86.0'
+    version = '1.88.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -664,13 +664,14 @@ def msgpack():
 
 @builder
 def libxslt(macos=False):
-    version = '1.1.34'
+    version = '1.1.43'
     srcdir = 'libxslt-' + version
-    tarfile = srcdir + '.tar.gz'
+    tarfile = srcdir + '.tar.xz'
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
-            download_archive('ftp://xmlsoft.org/libxslt/', tarfile)
+            download_archive('https://download.gnome.org/sources/libxslt/%s/' % '.'.join(version.split('.')[:2]),
+                             tarfile)
             unpack_tarfile(tarfile, srcdir)
 
         with workdir(srcdir):
@@ -688,8 +689,8 @@ def libxslt(macos=False):
 
 @builder
 def sqlite():
-    release_year = 2024
-    version = '3470000'  # 3.47.0
+    release_year = 2025
+    version = '3490100'  # 3.49.1
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -712,7 +713,7 @@ def sqlite():
 
 @builder
 def libusb(ios=False):
-    version = '1.0.27'
+    version = '1.0.28'
     srcdir = 'libusb-' + version
     tarfile = srcdir + '.tar.bz2'
 

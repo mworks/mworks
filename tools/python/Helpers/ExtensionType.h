@@ -210,13 +210,13 @@ struct ExtensionType {
     }
     
     static T & getInstance(PyObject *o) noexcept {
-        return reinterpret_cast<T &>(reinterpret_cast<Object *>(o)->instance);
+        return reinterpret_cast<T &>(reinterpret_cast<Object *>(o)->instance[0]);
     }
     
 private:
     struct Object {
         PyObject_HEAD
-        std::aligned_storage_t<sizeof(T), alignof(T)> instance;
+        alignas(T) std::byte instance[sizeof(T)];
     };
     
     static PyObject * tp_new(PyTypeObject *subtype, PyObject *args, PyObject *kwds) {
