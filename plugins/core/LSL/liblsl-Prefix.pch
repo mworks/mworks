@@ -1,0 +1,20 @@
+//
+//  liblsl-Prefix.pch
+//  LSL
+//
+//  Created by Christopher Stawarz on 7/29/25.
+//
+
+#ifndef liblsl_Prefix_pch
+#define liblsl_Prefix_pch
+
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wformat-truncation"
+
+#ifdef __cplusplus
+
+#include <exception>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* liblsl_Prefix_pch */

@@ -10,6 +10,9 @@
 [submodule "plugins/core/LabJackLJM"]
 	path = plugins/core/LabJackLJM
 	url = https://github.com/mworks/mworks-labjack-ljm.git
+[submodule "plugins/core/LSL/liblsl"]
+	path = plugins/core/LSL/liblsl
+	url = https://github.com/sccn/liblsl.git
 [submodule "plugins/core/XIMEACamera"]
 	path = plugins/core/XIMEACamera
 	url = https://github.com/mworks/mworks-ximea-camera.git

@@ -1,0 +1,21 @@
+//
+//  LSL-Prefix.pch
+//  LSL
+//
+//  Created by Christopher Stawarz on 7/28/25.
+//
+
+#ifndef LSL_Prefix_pch
+#define LSL_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <thread>
+
+#include <MWorksCore/IODevice.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardComponentFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* LSL_Prefix_pch */
