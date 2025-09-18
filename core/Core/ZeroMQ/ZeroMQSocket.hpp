@@ -10,6 +10,7 @@
 #define ZeroMQSocket_hpp
 
 #include <string>
+#include <type_traits>
 
 #include <boost/noncopyable.hpp>
 #define MSGPACK_DISABLE_LEGACY_NIL
