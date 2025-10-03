@@ -84,11 +84,15 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque
         __block bool success = false;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
+#pragma clang diagnostic pop
                 if (window.screen != screen) {
                     merror(M_DISPLAY_MESSAGE_DOMAIN, "Window is not on the requested screen");
                 } else if (MWKStimulusDisplayViewController *viewController =
-                           [[MWKStimulusDisplayViewController alloc] initWithInterfaceOrientation:window.windowScene.interfaceOrientation])
+                           [[MWKStimulusDisplayViewController alloc]
+                            initWithInterfaceOrientation:window.windowScene.effectiveGeometry.interfaceOrientation])
                 {
                     window.rootViewController = viewController;
                     
