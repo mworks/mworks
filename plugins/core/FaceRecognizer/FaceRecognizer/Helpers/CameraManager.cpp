@@ -200,7 +200,7 @@ AVCaptureDevice * CameraManager::discoverCamera(const std::string &cameraUniqueI
 #else
     
     auto discoverySession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera,
-                                                                                               AVCaptureDeviceTypeExternalUnknown]
+                                                                                               AVCaptureDeviceTypeExternal]
                                                                                    mediaType:AVMediaTypeVideo
                                                                                     position:AVCaptureDevicePositionUnspecified];
     auto cameras = discoverySession.devices;

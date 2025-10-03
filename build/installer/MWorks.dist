@@ -36,7 +36,7 @@
     </choices-outline>
     <volume-check script="true">
         <allowed-os-versions>
-            <os-version min="13.3"/>
+            <os-version min="14.6"/>
         </allowed-os-versions>
     </volume-check>
 </installer-gui-script>
