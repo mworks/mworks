@@ -164,9 +164,12 @@ PyMethodDef _mworkscoreMethods[] = {
 
 PyModuleDef _mworkscoreModule = {
     PyModuleDef_HEAD_INIT,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc99-designator"
     .m_name = "_mworkscore",
     .m_size = -1,
     .m_methods = _mworkscoreMethods
+#pragma clang diagnostic pop
 };
 
 

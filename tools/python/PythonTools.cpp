@@ -21,9 +21,12 @@ void PythonEvent::Callback::handleCallbackError() {
 
 static PyModuleDef _mworksModule = {
     PyModuleDef_HEAD_INIT,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc99-designator"
     .m_name = "_mworks",
     .m_size = -1,
     .m_methods = nullptr
+#pragma clang diagnostic pop
 };
 
 
