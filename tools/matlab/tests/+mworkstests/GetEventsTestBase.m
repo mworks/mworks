@@ -82,17 +82,32 @@ classdef GetEventsTestBase < mworkstests.TestBase
                 e = t.getEvents(0, 0, [1,2]);
             end
 
-            t.verifyError(@codesNotNumeric, ...
-                          'MATLAB:validators:mustBeNumericOrLogical');
+            if isMATLABReleaseOlderThan("R2026a")
+                t.verifyError(@codesNotNumeric, ...
+                              'MATLAB:validators:mustBeNumericOrLogical');
+            else
+                t.verifyError(@codesNotNumeric, ...
+                              'MATLAB:math:mustBeNumericCharOrLogical');
+            end
             t.verifyError(@codesNotIntegral, 'MATLAB:validators:mustBeInteger');
             t.verifyError(@codesNotNonNegative, ...
                           'MATLAB:validators:mustBeNonnegative');
-            t.verifyError(@minTimeNotNumeric, ...
-                          'MATLAB:validators:mustBeNumericOrLogical');
+            if isMATLABReleaseOlderThan("R2026a")
+                t.verifyError(@minTimeNotNumeric, ...
+                              'MATLAB:validators:mustBeNumericOrLogical');
+            else
+                t.verifyError(@minTimeNotNumeric, ...
+                              'MATLAB:math:mustBeNumericCharOrLogical');
+            end
             t.verifyError(@minTimeNotIntegral, 'MATLAB:validators:mustBeInteger');
             t.verifyError(@minTimeNotScalar, 'MATLAB:validation:IncompatibleSize');
-            t.verifyError(@maxTimeNotNumeric, ...
-                          'MATLAB:validators:mustBeNumericOrLogical');
+            if isMATLABReleaseOlderThan("R2026a")
+                t.verifyError(@maxTimeNotNumeric, ...
+                              'MATLAB:validators:mustBeNumericOrLogical');
+            else
+                t.verifyError(@maxTimeNotNumeric, ...
+                              'MATLAB:math:mustBeNumericCharOrLogical');
+            end
             t.verifyError(@maxTimeNotIntegral, 'MATLAB:validators:mustBeInteger');
             t.verifyError(@maxTimeNotScalar, 'MATLAB:validation:IncompatibleSize');
         end
