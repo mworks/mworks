@@ -2,8 +2,8 @@ import hashlib
 import plistlib
 import sys
 
-if sys.version_info[:2] < (3, 9):
-    raise ImportError('mworks requires Python 3.9 or later')
+if sys.version_info[:2] < (3, 10):
+    raise ImportError('mworks requires Python 3.10 or later')
 
 
 def _get_version():
