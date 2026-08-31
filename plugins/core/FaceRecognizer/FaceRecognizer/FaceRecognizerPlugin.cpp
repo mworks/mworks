@@ -7,6 +7,7 @@
 //
 
 #include "FaceRecognizer.hpp"
+#include "ObjectDetector.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -15,6 +16,7 @@ BEGIN_NAMESPACE_MW
 class FaceRecognizerPlugin : public Plugin {
     void registerComponents(boost::shared_ptr<ComponentRegistry> registry) override {
         registry->registerFactory<StandardComponentFactory, FaceRecognizer>();
+        registry->registerFactory<StandardComponentFactory, ObjectDetector>();
     }
 };
 

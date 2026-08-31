@@ -33,7 +33,8 @@ bool ModelManager::loadModel(const boost::filesystem::path &modelPath) {
         removeCompiledModel(compiledModelURL);
         compiledModelURL = nil;
         
-        std::tie(model, compiledModelURL) = _loadModel(modelPath);
+        auto modelURL = [NSURL fileURLWithPath:@(modelPath.string().c_str()) isDirectory:NO];
+        std::tie(model, compiledModelURL) = loadModel(modelURL);
         if (!model) {
             return false;
         }
@@ -47,7 +48,7 @@ bool ModelManager::classifyImage(const cf::DataPtr &image,
                                  const CGRect &regionOfInterest,
                                  VNConfidence minimumConfidence,
                                  std::string &identifier,
-                                 VNConfidence &confidence)
+                                 VNConfidence &confidence) const
 {
     @autoreleasepool {
         bool success = false;
@@ -59,11 +60,25 @@ bool ModelManager::classifyImage(const cf::DataPtr &image,
 }
 
 
-std::tuple<VNCoreMLModel *, NSURL *> ModelManager::_loadModel(const boost::filesystem::path &modelPath) {
+bool ModelManager::detectObjects(const cf::DataPtr &image,
+                                 const CGRect &regionOfInterest,
+                                 VNConfidence minimumConfidence,
+                                 DetectedObjects &objects) const
+{
+    @autoreleasepool {
+        bool success = false;
+        if (model) {
+            success = detectObjects(model, image, regionOfInterest, minimumConfidence, objects);
+        }
+        return success;
+    }
+}
+
+
+std::tuple<VNCoreMLModel *, NSURL *> ModelManager::loadModel(NSURL *modelURL) {
     VNCoreMLModel *model = nil;
     NSError *error = nil;
     
-    auto modelURL = [NSURL fileURLWithPath:@(modelPath.string().c_str()) isDirectory:NO];
     auto compiledModelURL = [MLModel compileModelAtURL:modelURL error:&error];
     if (!compiledModelURL) {
         merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot compile model file: %s", error.localizedDescription.UTF8String);
@@ -83,19 +98,16 @@ std::tuple<VNCoreMLModel *, NSURL *> ModelManager::_loadModel(const boost::files
 }
 
 
-bool ModelManager::classifyImage(VNCoreMLModel *model,
-                                 const cf::DataPtr &image,
-                                 const CGRect &regionOfInterest,
-                                 VNConfidence minimumConfidence,
-                                 std::string &identifier,
-                                 VNConfidence &confidence)
+VNCoreMLRequest * ModelManager::analyzeImage(VNCoreMLModel *model,
+                                             const cf::DataPtr &image,
+                                             const CGRect &regionOfInterest)
 {
     auto requestHandler = [[VNImageRequestHandler alloc] initWithData:static_cast<NSData *>(image.get()) options:@{}];
     
     auto requestCompletionHandler = [](VNRequest *request, NSError *error) {
         if (error) {
             merror(M_IODEVICE_MESSAGE_DOMAIN,
-                   "Image classification request failed: %s",
+                   "Image analysis request failed: %s",
                    error.localizedDescription.UTF8String);
         }
     };
@@ -105,7 +117,23 @@ bool ModelManager::classifyImage(VNCoreMLModel *model,
     
     NSError *error = nil;
     if (![requestHandler performRequests:@[ request ] error:&error]) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot classify image: %s", error.localizedDescription.UTF8String);
+        merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot analyze image: %s", error.localizedDescription.UTF8String);
+        return nil;
+    }
+    
+    return request;
+}
+
+
+bool ModelManager::classifyImage(VNCoreMLModel *model,
+                                 const cf::DataPtr &image,
+                                 const CGRect &regionOfInterest,
+                                 VNConfidence minimumConfidence,
+                                 std::string &identifier,
+                                 VNConfidence &confidence)
+{
+    auto request = analyzeImage(model, image, regionOfInterest);
+    if (!request) {
         return false;
     }
     
@@ -125,6 +153,38 @@ bool ModelManager::classifyImage(VNCoreMLModel *model,
     }
     
     return false;
+}
+
+
+bool ModelManager::detectObjects(VNCoreMLModel *model,
+                                 const cf::DataPtr &image,
+                                 const CGRect &regionOfInterest,
+                                 VNConfidence minimumConfidence,
+                                 DetectedObjects &objects)
+{
+    auto request = analyzeImage(model, image, regionOfInterest);
+    if (!request) {
+        return false;
+    }
+    
+    auto results = request.results;
+    if (!results) {
+        return false;
+    }
+    
+    for (VNRecognizedObjectObservation *result in results) {
+        if ([result isKindOfClass:[VNRecognizedObjectObservation class]]) {
+            for (VNClassificationObservation *obs in result.labels) {
+                auto confidence = result.confidence * obs.confidence;
+                if (confidence >= minimumConfidence) {
+                    objects.emplace_back(obs.identifier.UTF8String, result.boundingBox, confidence);
+                    break;
+                }
+            }
+        }
+    }
+    
+    return true;
 }
 
 
