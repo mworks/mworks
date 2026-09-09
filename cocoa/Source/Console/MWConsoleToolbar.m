@@ -48,7 +48,7 @@
 		[item setLabel:@"Save"];
 		[item setPaletteLabel:[item label]];
 		//[item setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Disk.png"]] autorelease]]
-    [item setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Disk.png"]]];
+    [item setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Disk.tif"]]];
 		[item setTarget:delegate];
 		[item setAction:@selector(saveLog:)];
 		
