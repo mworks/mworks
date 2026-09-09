@@ -374,7 +374,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <customView id="125" customClass="NRTXYChart">
+                    <customView id="125" customClass="NRTXYChart" clipsToBounds="YES">
                         <rect key="frame" x="301" y="191" width="208" height="152"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <animations/>
