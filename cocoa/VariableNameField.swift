@@ -32,15 +32,8 @@ public struct VariableNameField: View {
                     .help("Variable name is " + (isValid ? "valid" : "not valid"))
             }
         
-        if #available(macOS 13, *) {
-            LabeledContent(title) {
-                inputField
-            }
-        } else {
-            HStack {
-                Text(title)
-                inputField
-            }
+        LabeledContent(title) {
+            inputField
         }
     }
 }

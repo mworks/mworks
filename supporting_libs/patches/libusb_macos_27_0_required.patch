@@ -1,0 +1,12 @@
+diff -ur libusb-1.0.28/config.h.in libusb/config.h.in
+--- libusb-1.0.28/config.h.in	2025-03-18 18:14:42
++++ libusb/config.h.in	2026-09-16 08:39:22
+@@ -51,7 +51,7 @@
+ #undef HAVE_NFDS_T
+ 
+ /* Define to 1 if you have the 'pipe2' function. */
+-#undef HAVE_PIPE2
++/* #undef HAVE_PIPE2 */
+ 
+ /* Define to 1 if you have the 'pthread_condattr_setclock' function. */
+ #undef HAVE_PTHREAD_CONDATTR_SETCLOCK

@@ -393,6 +393,7 @@ def python():
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 apply_patch('python_cross_build.patch')
+                apply_patch('python_os_27_0_required.patch')
                 apply_patch('python_mergeable_modules.patch')
                 apply_patch('python_no_apple_ffi.patch')
                 apply_patch('python_strict_extension_build.patch')
@@ -721,6 +722,8 @@ def libusb(ios=False):
         if not os.path.isdir(srcdir):
             download_archive('https://github.com/libusb/libusb/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
+            with workdir(srcdir):
+                apply_patch('libusb_macos_27_0_required.patch')
 
         with workdir(srcdir):
             run_configure_and_make(
