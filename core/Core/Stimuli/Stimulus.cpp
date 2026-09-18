@@ -165,6 +165,7 @@ void StimulusGroup::addChild(std::map<std::string, std::string> parameters,
 
 const std::string Stimulus::DEFERRED("deferred");
 const std::string Stimulus::DISPLAY("display");
+const std::string Stimulus::SCHEMATIC("schematic");
 
 
 void Stimulus::describeComponent(ComponentInfo &info) {
@@ -172,6 +173,7 @@ void Stimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(TAG);  // Make tag required
     info.addParameter(DEFERRED, "no");
     info.addParameter(DISPLAY, false);
+    info.addParameter(SCHEMATIC, false);
 }
 
 
@@ -196,7 +198,8 @@ Stimulus::Stimulus(const ParameterValueMap &parameters) :
     loaded(false),
     visible(false),
     deferred(parameters[DEFERRED]),
-    weakDisplay(boost::shared_ptr<StimulusDisplay>(parameters[DISPLAY]))
+    weakDisplay(boost::shared_ptr<StimulusDisplay>(parameters[DISPLAY])),
+    schematic(registerOptionalVariable(optionalVariable(parameters[SCHEMATIC])))
 { }
 
 
@@ -240,6 +243,9 @@ Datum Stimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_NAME,getTag());
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_GENERIC);  
+    if (schematic) {
+        announceData.addElement(STIM_SCHEMATIC, schematic->getValue());
+    }
     
     return announceData;
 }

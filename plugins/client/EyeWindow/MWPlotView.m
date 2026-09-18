@@ -545,12 +545,17 @@ static BOOL isValidAnalogSample(MWCocoaEvent *event) {
                 width_y_data.isNumber() &&
                 rotation_data.isNumber())
             {
-                if (type_data == STIM_TYPE_POINT || type_data == STIM_TYPE_CIRCULAR_FIXATION_POINT) {
-                    // For fixation points, we want to display the trigger area, not the visible rectangle
-                    width_x_data = width_y_data = stm_announce.getElement("width");
+                NSString* stm_type = nil;
+                auto isFixationPoint = false;
+                if (type_data == STIM_TYPE_FIXATION_POINT) {
+                    stm_type = @STIM_TYPE_RECTANGLE;
+                    isFixationPoint = true;
+                } else if (type_data == STIM_TYPE_CIRCULAR_FIXATION_POINT) {
+                    stm_type = @STIM_TYPE_ELLIPSE;
+                    isFixationPoint = true;
+                } else {
+                    stm_type = @(type_data.getString().c_str());
                 }
-                
-                NSString* stm_type = @(type_data.getString().c_str());
                 NSString* stm_name = @(name_data.getString().c_str());
                 float stm_pos_x = pos_x_data.getFloat();
                 float stm_pos_y = pos_y_data.getFloat();
@@ -565,12 +570,65 @@ static BOOL isValidAnalogSample(MWCocoaEvent *event) {
                                                                                          WidthX:stm_width_x
                                                                                          WidthY:stm_width_y
                                                                                        Rotation:rotation];
+                if (isFixationPoint) {
+                    // By default, only a fixation point's trigger area is visible, not the stimulus itself
+                    [new_stm setOnOff:NO];
+                }
+                auto &schematic_data = stm_announce.getElement(STIM_SCHEMATIC);
+                applyStimulusSchematic(new_stm, schematic_data);
                 [stm_samples addObject:new_stm];
+                
+                if (isFixationPoint) {
+                    // Add another element for the fixation point's trigger area
+                    stm_type = @(type_data.getString().c_str());
+                    stm_width_x = stm_width_y = stm_announce.getElement("width").getFloat();
+                    new_stm = [[MWStimulusPlotElement alloc] initStimElement:stm_type
+                                                                        Name:stm_name
+                                                                         AtX:stm_pos_x
+                                                                         AtY:stm_pos_y
+                                                                      WidthX:stm_width_x
+                                                                      WidthY:stm_width_y
+                                                                    Rotation:rotation];
+                    [new_stm setColor:[NSColor greenColor]];
+                    if (schematic_data.isDictionary()) {
+                        auto &fixation_window_schematic_data = schematic_data.getElement("fixation_window");
+                        applyStimulusSchematic(new_stm, fixation_window_schematic_data);
+                    }
+                    [stm_samples addObject:new_stm];
+                }
             }
         }
         
         [self triggerUpdate];
 	});
+}
+
+
+static void applyStimulusSchematic(MWStimulusPlotElement *new_stm, const mw::Datum &schematic_data) {
+    if (schematic_data.isDictionary()) {
+        auto &color_data = schematic_data.getElement("color");
+        if (color_data.isList()) {
+            auto &components = color_data.getList();
+            if (components.size() == 3 &&
+                std::all_of(components.begin(), components.end(), [](auto &d) { return d.isNumber(); }))
+            {
+                [new_stm setColor:[NSColor colorWithDeviceRed:components.at(0).getFloat()
+                                                        green:components.at(1).getFloat()
+                                                         blue:components.at(2).getFloat()
+                                                        alpha:1.0]];
+            }
+        }
+        
+        auto &line_width_data = schematic_data.getElement("line_width");
+        if (line_width_data.isNumber()) {
+            [new_stm setLineWidth:std::max(0.0, line_width_data.getFloat())];
+        }
+        
+        auto &hidden_data = schematic_data.getElement("hidden");
+        if (hidden_data.isNumber()) {
+            [new_stm setOnOff:!(hidden_data.getBool())];
+        }
+    }
 }
 //=====================================================================================
 

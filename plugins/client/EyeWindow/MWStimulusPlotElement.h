@@ -15,6 +15,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define STIM_TYPE_RECTANGLE               "rectangle"
+#define STIM_TYPE_ELLIPSE                 "circle"
+#define STIM_TYPE_FIXATION_POINT          STIM_TYPE_POINT
 #define STIM_TYPE_CIRCULAR_FIXATION_POINT "circular_fixation_point"
 
 
@@ -26,7 +29,8 @@
 	NSSize size;
 	NSPoint center;
     float rotation;
-
+    NSColor *color;
+    CGFloat lineWidth;
 	
 }
 
@@ -48,6 +52,8 @@
 - (void)setPositionY: (float)pos_y;
 - (void)setSizeX: (float)size_x;
 - (void)setSizeY: (float)size_y;
+- (void)setColor:(NSColor *)color;
+- (void)setLineWidth:(CGFloat)lineWidth;
 
 - (void)stroke:(NSRect)visible degreesToPoints:(NSAffineTransform *)degreesToPoints;
 

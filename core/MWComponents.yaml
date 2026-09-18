@@ -377,6 +377,41 @@ parameters:
     description: >
         Name of the display on which the stimulus will be presented.  If
         omitted, the default display (if available) will be used.
+  - 
+    name: schematic
+    example: {'color': [0.2, 0.5, 0.8], 'line_width': 3}
+    description: |
+
+        This parameter has no influence on how the stimulus is presented on the
+        stimulus display.  Instead, it affects how the schematic for the
+        stimulus appears on MWClient's eye window.
+
+        If present, the parameter's value must be a dictionary containing one
+        or more of the following keys:
+
+        ``'color'``
+          Color of the schematic.  The value must be a list of three numbers
+          between 0 and 1 (inclusive), respresenting the red, green, and blue
+          components of the desired color.
+
+        ``'line_width'``
+          Width, in display points, of the lines used to draw the schematic.
+          The value must be a non-negative number.  A value of zero means the
+          lines should be as thin as possible.
+
+        ``'hidden'``
+          Visibility of the schematic.  The value must be a boolean, where
+          false means the schematic should be visible, and true means it
+          should be hidden.
+
+        ``'fixation_window'``
+          Parameters for the schematic of a fixation point's fixation window.
+          The value must be a dictionary containing one or more of the
+          preceding keys.  (Note: For fixation points, by default the eye
+          window draws a schematic for the fixation window but *not* the
+          visible stimulus.  To show the visible stimulus, include key
+          ``'hidden'`` with a false value at the top level of the schematic
+          dictionary.)
 
 
 ---

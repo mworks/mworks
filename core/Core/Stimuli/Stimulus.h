@@ -29,10 +29,12 @@ protected:
     bool loaded, visible;
     load_style deferred;
     const boost::weak_ptr<StimulusDisplay> weakDisplay;
+    const VariablePtr schematic;
     
 public:
     static const std::string DEFERRED;
     static const std::string DISPLAY;
+    static const std::string SCHEMATIC;
     
     static void describeComponent(ComponentInfo &info);
     

@@ -29,6 +29,8 @@
 		center = NSMakePoint(pos_x, pos_y);
 		size = NSMakeSize(size_x, size_y);
         rotation = rot;
+        color = [NSColor redColor];
+        lineWidth = 0.0;  // Draw lines as thin as possible
 	}
 	return self;
 }
@@ -71,11 +73,22 @@
 	size = NSMakeSize(size.width, size_y);
 }
 
+
+- (void)setColor:(NSColor *)newColor {
+    color = newColor;
+}
+
+
+- (void)setLineWidth:(CGFloat)newLineWidth {
+    lineWidth = newLineWidth;
+}
+
+
 - (NSBezierPath *)pathForBox {
     NSBezierPath *path = [NSBezierPath bezierPath];
     NSRect rect = NSMakeRect(-(size.width/2), -(size.height/2), size.width, size.height);
     
-    if ([stm_type isEqualToString:@"circle"]) {
+    if ([stm_type isEqualToString:@STIM_TYPE_ELLIPSE]) {
         [path appendBezierPathWithOvalInRect:rect];
     } else {
         [path appendBezierPathWithRect:rect];
@@ -106,10 +119,10 @@
 - (void)stroke:(NSRect)visible degreesToPoints:(NSAffineTransform *)degreesToPoints {
 	if (stm_isOn) {
         NSBezierPath *path = [NSBezierPath bezierPath];
+        [color set];
+        path.lineWidth = lineWidth;
         
-		if ([stm_type isEqualToString:@STIM_TYPE_POINT]) {
-            
-            [[NSColor greenColor] set];
+		if ([stm_type isEqualToString:@STIM_TYPE_FIXATION_POINT]) {
             
             // Don't use pathForBox, because, as currently implemented, the fixation window is never
             // rotated, even if the visible fixation rectangle is
@@ -122,8 +135,6 @@
             
         } else if ([stm_type isEqualToString:@STIM_TYPE_CIRCULAR_FIXATION_POINT]) {
             
-            [[NSColor greenColor] set];
-            
             [path appendBezierPath:[NSBezierPath bezierPathWithOvalInRect:NSMakeRect(center.x-(size.width/2),
                                                                                      center.y-(size.height/2),
                                                                                      size.width,
@@ -133,8 +144,6 @@
             
 		} else if ([stm_type isEqualToString:@"calibratorSample"]) {
             
-            [[NSColor redColor] set];
-			
 			const float largest_visible_dimension = MAX(visible.size.width, visible.size.height);
             [path appendBezierPath:[self pathForCrossWithSize:NSMakeSize(0.03*largest_visible_dimension,
                                                                          0.03*largest_visible_dimension)]];
@@ -147,7 +156,6 @@
             
 		} else {
             
-            [[NSColor redColor] set];
             [path appendBezierPath:[self pathForBox]];
             
         }

@@ -36,6 +36,7 @@ BEGIN_NAMESPACE_MW
     #define STIM_COLOR_B    "color_b"
     #define STIM_FILENAME   "filename"
     #define STIM_FILE_HASH  "file_hash"
+    #define STIM_SCHEMATIC  "schematic"
     #define STIM_GROUP_NAME  "group"
     #define STIM_GROUP_INDEX "groupIndex"
 

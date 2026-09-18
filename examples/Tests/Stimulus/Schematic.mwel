@@ -1,0 +1,164 @@
+var trigger_watch_x = 0
+var trigger_watch_y = 0
+var trigger_flag = false
+var schematic = {}
+
+
+rectangle rectangle_1 (
+    x_size = 7
+    y_size = 3
+    x_position = -5
+    y_position = 9
+    )
+
+ellipse ellipse_1 (
+    x_size = 7
+    y_size = 3
+    x_position = -5
+    y_position = 3
+    )
+
+fixation_point fixation_point_1 (
+    trigger_width = 4
+    trigger_watch_x = trigger_watch_x
+    trigger_watch_y = trigger_watch_y
+    trigger_flag = trigger_flag
+    x_size = 7
+    y_size = 3
+    x_position = -5
+    y_position = -3
+    )
+
+circular_fixation_point circular_fixation_point_1 (
+    trigger_width = 4
+    trigger_watch_x = trigger_watch_x
+    trigger_watch_y = trigger_watch_y
+    trigger_flag = trigger_flag
+    x_size = 7
+    y_size = 3
+    x_position = -5
+    y_position = -9
+    )
+
+
+rectangle rectangle_2 (
+    x_size = 7
+    y_size = 3
+    x_position = 5
+    y_position = 9
+    schematic = schematic
+    )
+
+ellipse ellipse_2 (
+    x_size = 7
+    y_size = 3
+    x_position = 5
+    y_position = 3
+    schematic = schematic
+    )
+
+fixation_point fixation_point_2 (
+    trigger_width = 4
+    trigger_watch_x = trigger_watch_x
+    trigger_watch_y = trigger_watch_y
+    trigger_flag = trigger_flag
+    x_size = 7
+    y_size = 3
+    x_position = 5
+    y_position = -3
+    schematic = schematic
+    )
+
+circular_fixation_point circular_fixation_point_2 (
+    trigger_width = 4
+    trigger_watch_x = trigger_watch_x
+    trigger_watch_y = trigger_watch_y
+    trigger_flag = trigger_flag
+    x_size = 7
+    y_size = 3
+    x_position = 5
+    y_position = -9
+    schematic = schematic
+    )
+
+
+%define update_and_wait ()
+    update_display ()
+    wait (2s)
+%end
+
+
+protocol {
+    schematic = {}
+
+    live_queue_stimulus (rectangle_1)
+    live_queue_stimulus (ellipse_1)
+    live_queue_stimulus (fixation_point_1)
+    live_queue_stimulus (circular_fixation_point_1)
+    live_queue_stimulus (rectangle_2)
+    live_queue_stimulus (ellipse_2)
+    live_queue_stimulus (fixation_point_2)
+    live_queue_stimulus (circular_fixation_point_2)
+    update_and_wait ()
+
+    schematic['hidden'] = false
+    update_and_wait ()
+
+    schematic['line_width'] = 3
+    update_and_wait ()
+
+    schematic['color'] = [0.2, 1, 1]
+    update_and_wait ()
+
+    // color element not a number
+    schematic['color'] = [0.2, 'one', 1]
+    update_and_wait ()
+
+    schematic['color'] = [1, 1, 0.4]
+    update_and_wait ()
+
+    schematic['color'] = [1, 0.3, 1]
+    update_and_wait ()
+
+    // Wrong number of color elements
+    schematic['color'] = [1, 0.3]
+    update_and_wait ()
+
+    schematic['fixation_window'] = {'line_width': 6}
+    update_and_wait ()
+
+    schematic['fixation_window']['color'] = [0.2, 1, 1]
+    update_and_wait ()
+
+    schematic['fixation_window']['color'] = [1, 1, 0.4]
+    update_and_wait ()
+
+    schematic['fixation_window']['color'] = [1, 0.3, 1]
+    update_and_wait ()
+
+    // color not a list
+    schematic['fixation_window']['color'] = 0.4
+    update_and_wait ()
+
+    // line_width less than zero
+    schematic['fixation_window']['line_width'] = -1
+    update_and_wait ()
+
+    schematic['hidden'] = true
+    update_and_wait ()
+
+    schematic['fixation_window']['hidden'] = true
+    update_and_wait ()
+
+    // hidden not a number
+    schematic['hidden'] = 'true'
+    update_and_wait ()
+
+    // line_width not a number
+    schematic['line_width'] = [10]
+    update_and_wait ()
+
+    // fixation_window not a dictionary
+    schematic['fixation_window'] = [1, 2, 3]
+    update_and_wait ()
+}
