@@ -23,6 +23,7 @@ public:
     static const std::string FIELD_RADIUS;
     static const std::string FIELD_CENTER_X;
     static const std::string FIELD_CENTER_Y;
+    static const std::string FIELD_ROTATION;
     static const std::string DOT_DENSITY;
     static const std::string DOT_SIZE;
     static const std::string COLOR;
@@ -63,11 +64,11 @@ private:
         return randDist(randGen, decltype(randDist)::param_type(min, max));
     }
     
-    float newDirection(float coherence) {
+    float newDirection(float coherence, float coherentDirection) {
         if ((coherence == 0.0f) || ((coherence != 1.0f) && (rand(0.0f, 1.0f) > coherence))) {
             return rand(0.0f, 2.0f * M_PI);
         }
-        return 0.0f;
+        return (fieldRotation ? (coherentDirection / 180.0 * M_PI) : 0.0f);
     }
     
     float newAge(float lifetime) {
@@ -80,6 +81,7 @@ private:
     const VariablePtr fieldRadius;
     const VariablePtr fieldCenterX;
     const VariablePtr fieldCenterY;
+    const VariablePtr fieldRotation;
     const VariablePtr dotDensity;
     const VariablePtr dotSize;
     VariablePtr red;
@@ -107,7 +109,7 @@ private:
     MWKTripleBufferedMTLResource<id<MTLBuffer>> *bufferPool;
     
     MWTime currentTime;
-    float currentFieldRadius, currentFieldCenterX, currentFieldCenterY;
+    float currentFieldRadius, currentFieldCenterX, currentFieldCenterY, currentFieldRotation;
     float currentDotDensity, currentDotSize;
     float currentRed, currentGreen, currentBlue, currentAlpha;
     float currentDirection, currentSpeed, currentCoherence, currentLifetime;
@@ -115,7 +117,7 @@ private:
     
     MWTime previousTime;
     float previousFieldRadius;
-    float previousSpeed, previousCoherence, previousLifetime;
+    float previousDirection, previousSpeed, previousCoherence, previousLifetime;
     std::size_t previousNumDots;
     
 };

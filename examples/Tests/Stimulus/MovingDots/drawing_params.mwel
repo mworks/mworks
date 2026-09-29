@@ -8,6 +8,7 @@ var lifetime = 0
 var field_radius = 5
 var field_center_x = -5
 var field_center_y = -5
+var field_rotation = 0
 var color_red = 1
 var color_green = 1
 var color_blue = 1
@@ -24,6 +25,7 @@ moving_dots dots (
     field_radius = field_radius
     field_center_x = field_center_x
     field_center_y = field_center_y
+    field_rotation = field_rotation
     color = color_red, color_green, color_blue
     alpha_multiplier = alpha_multiplier
     max_num_dots = 4000
@@ -61,6 +63,9 @@ protocol {
     wait (2s)
 
     field_center_y = 5
+    wait (2s)
+
+    field_rotation = 45
     wait (2s)
 
     color_red = 0

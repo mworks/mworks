@@ -18,6 +18,7 @@ BEGIN_NAMESPACE_MW
 const std::string MovingDots::FIELD_RADIUS("field_radius");
 const std::string MovingDots::FIELD_CENTER_X("field_center_x");
 const std::string MovingDots::FIELD_CENTER_Y("field_center_y");
+const std::string MovingDots::FIELD_ROTATION("field_rotation");
 const std::string MovingDots::DOT_DENSITY("dot_density");
 const std::string MovingDots::DOT_SIZE("dot_size");
 const std::string MovingDots::COLOR("color");
@@ -39,6 +40,7 @@ void MovingDots::describeComponent(ComponentInfo &info) {
     info.addParameter(FIELD_RADIUS);
     info.addParameter(FIELD_CENTER_X, "0.0");
     info.addParameter(FIELD_CENTER_Y, "0.0");
+    info.addParameter(FIELD_ROTATION, false);
     info.addParameter(DOT_DENSITY);
     info.addParameter(DOT_SIZE);
     info.addParameter(COLOR, "1.0,1.0,1.0");
@@ -58,6 +60,7 @@ MovingDots::MovingDots(const ParameterValueMap &parameters) :
     fieldRadius(registerVariable(parameters[FIELD_RADIUS])),
     fieldCenterX(registerVariable(parameters[FIELD_CENTER_X])),
     fieldCenterY(registerVariable(parameters[FIELD_CENTER_Y])),
+    fieldRotation(registerOptionalVariable(optionalVariable(parameters[FIELD_ROTATION]))),
     dotDensity(registerVariable(parameters[DOT_DENSITY])),
     dotSize(registerVariable(parameters[DOT_SIZE])),
     alpha(registerVariable(parameters[ALPHA_MULTIPLIER])),
@@ -95,6 +98,9 @@ Datum MovingDots::getCurrentAnnounceDrawData() {
     announceData.addElement(FIELD_RADIUS, currentFieldRadius);
     announceData.addElement(FIELD_CENTER_X, currentFieldCenterX);
     announceData.addElement(FIELD_CENTER_Y, currentFieldCenterY);
+    if (fieldRotation) {
+        announceData.addElement(FIELD_ROTATION, currentFieldRotation);
+    }
     announceData.addElement(DOT_DENSITY, currentDotDensity);
     announceData.addElement(DOT_SIZE, currentDotSize);
     announceData.addElement(STIM_COLOR_R, currentRed);
@@ -245,7 +251,10 @@ void MovingDots::drawMetal(MetalDisplay &display) {
         auto currentMVPMatrix = display.getCurrentMetalProjectionMatrix();
         currentMVPMatrix = currentMVPMatrix * matrix4x4_translation(currentFieldCenterX, currentFieldCenterY, 0.0);
         currentMVPMatrix = currentMVPMatrix * matrix4x4_scale(currentFieldRadius, currentFieldRadius, 1.0);
-        currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(currentDirection), 0.0, 0.0, 1.0);
+        {
+            auto rotation = (fieldRotation ? currentFieldRotation : currentDirection);
+            currentMVPMatrix = currentMVPMatrix * matrix4x4_rotation(radians_from_degrees(rotation), 0.0, 0.0, 1.0);
+        }
         setVertexBytes(renderCommandEncoder, currentMVPMatrix, 1);
     }
     {
@@ -268,6 +277,7 @@ void MovingDots::startPlaying() {
     // current counterparts before being used, so we need to initialize the latter
     previousTime = -1;
     currentFieldRadius = 1.0f;
+    currentDirection = 0.0f;
     currentSpeed = 0.0f;
     currentCoherence = 1.0f;
     currentLifetime = 0.0f;
@@ -352,6 +362,7 @@ bool MovingDots::updateParameters() {
     }
     
     previousFieldRadius = currentFieldRadius;
+    previousDirection = currentDirection;
     previousSpeed = currentSpeed;
     previousCoherence = currentCoherence;
     previousLifetime = currentLifetime;
@@ -360,6 +371,9 @@ bool MovingDots::updateParameters() {
     currentFieldRadius = newFieldRadius;
     currentFieldCenterX = fieldCenterX->getValue().getFloat();
     currentFieldCenterY = fieldCenterY->getValue().getFloat();
+    if (fieldRotation) {
+        currentFieldRotation = fieldRotation->getValue().getFloat();
+    }
     currentDotDensity = newDotDensity;
     currentDotSize = dotSize->getValue().getFloat();
     currentRed = red->getValue().getFloat();
@@ -392,7 +406,7 @@ void MovingDots::updateDots() {
         if ((age <= previousLifetime) || (previousLifetime == 0.0f)) {
             advanceDot(i, dr);
         } else {
-            replaceDot(i, newDirection(previousCoherence), 0.0f);
+            replaceDot(i, newDirection(previousCoherence, previousDirection), 0.0f);
         }
     }
     
@@ -400,9 +414,11 @@ void MovingDots::updateDots() {
     // Update directions
     //
     
-    if (currentCoherence != previousCoherence) {
+    if ((currentCoherence != previousCoherence) ||
+        (fieldRotation && (currentDirection != previousDirection)))
+    {
         for (std::size_t i = 0; i < numValidDots; i++) {
-            dotDirections[i] = newDirection(currentCoherence);
+            dotDirections[i] = newDirection(currentCoherence, currentDirection);
         }
     }
     
@@ -422,7 +438,7 @@ void MovingDots::updateDots() {
     
     if (currentNumDots != previousNumDots) {
         for (std::size_t i = previousNumDots; i < currentNumDots; i++) {
-            replaceDot(i, newDirection(currentCoherence), newAge(currentLifetime));
+            replaceDot(i, newDirection(currentCoherence, currentDirection), newAge(currentLifetime));
         }
     }
 }
@@ -436,7 +452,7 @@ void MovingDots::advanceDot(std::size_t i, float dr) {
     pos.y += dr * std::sin(theta);
     
     if (simd::length_squared(pos) > 1.0f) {
-        theta = newDirection(previousCoherence);
+        theta = newDirection(previousCoherence, previousDirection);
         
         float y1 = rand(-1.0f, 1.0f);
         float x1 = -std::sqrt(1.0f - y1*y1) + rand(0.0f, dr);

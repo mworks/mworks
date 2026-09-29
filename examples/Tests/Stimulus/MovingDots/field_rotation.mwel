@@ -1,0 +1,76 @@
+stimulus_display (
+    background_color = 0,0,0
+    )
+
+
+var field_radius = 5.0
+var dot_density = 12.732
+var dot_size = 0.1
+var direction = 45.0
+var speed = 1.0
+
+
+moving_dots dots_ul (
+    field_radius = field_radius
+    field_center_x = -6
+    field_center_y = 6
+    dot_density = dot_density
+    dot_size = dot_size
+    direction = direction
+    speed = speed
+    autoplay = true
+    )
+
+
+moving_dots dots_ll (
+    field_radius = field_radius
+    field_center_x = -6
+    field_center_y = -6
+    dot_density = dot_density
+    dot_size = dot_size
+    direction = direction
+    speed = speed
+    coherence = 0.5
+    autoplay = true
+    )
+
+
+moving_dots dots_ur (
+    field_radius = field_radius
+    field_center_x = 6
+    field_center_y = 6
+    field_rotation = 0
+    dot_density = dot_density
+    dot_size = dot_size
+    direction = direction
+    speed = speed
+    autoplay = true
+    )
+
+
+moving_dots dots_lr (
+    field_radius = field_radius
+    field_center_x = 6
+    field_center_y = -6
+    field_rotation = 0
+    dot_density = dot_density
+    dot_size = dot_size
+    direction = direction
+    speed = speed
+    coherence = 0.5
+    autoplay = true
+    )
+
+
+protocol {
+    live_queue_stimulus (dots_ul)
+    live_queue_stimulus (dots_ll)
+    live_queue_stimulus (dots_ur)
+    live_queue_stimulus (dots_lr)
+    update_display ()
+
+    block (nsamples = 4) {
+        wait (5s)
+        direction += 90
+    }
+}

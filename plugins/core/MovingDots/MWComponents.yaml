@@ -19,6 +19,12 @@ parameters:
     default: 0.0
     description: Field vertical center position (degrees)
   - 
+    name: field_rotation
+    description: |
+        Field rotation (degrees).
+
+        If omitted, changes to `direction`_ will rotate the dot field.
+  - 
     name: dot_density
     required: yes
     description: Number of dots per square degree
@@ -42,7 +48,13 @@ parameters:
   - 
     name: direction
     default: 0.0
-    description: Direction of movement for coherent dots (degrees)
+    description: |
+        Direction of movement for coherent dots (degrees).
+
+        If `field_rotation`_ is provided (with any value, including zero),
+        changes to direction will not affect dot positions.  Otherwise,
+        direction will be treated as a field rotation, and changes to it will
+        rotate dot positions accordingly.
   - 
     name: speed
     required: yes
