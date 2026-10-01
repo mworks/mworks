@@ -10,7 +10,9 @@
 #ifndef MACOS_STIMULUS_DISPLAY_H_
 #define MACOS_STIMULUS_DISPLAY_H_
 
-#include <CoreVideo/CVDisplayLink.h>
+#include <thread>
+
+#import <QuartzCore/QuartzCore.h>
 
 #include "AppleStimulusDisplay.hpp"
 
@@ -20,20 +22,17 @@ BEGIN_NAMESPACE_MW
 
 class MacOSStimulusDisplay : public AppleStimulusDisplay {
     
+    static void displayLinkCallback(CADisplayLink *displayLink, MacOSStimulusDisplay &display);
+    
 public:
+    using DisplayLinkCallback = decltype(&displayLinkCallback);
+    
     explicit MacOSStimulusDisplay(const Configuration &config);
     ~MacOSStimulusDisplay();
     
-    const CVTimeStamp& getCurrentOutputTimeStamp() const { return currentOutputTimeStamp; }
+    CFTimeInterval getCurrentTargetTimestamp() const { return lastTargetTimestamp; }
     
 private:
-    static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
-                                        const CVTimeStamp *now,
-                                        const CVTimeStamp *outputTime,
-                                        CVOptionFlags flagsIn,
-                                        CVOptionFlags *flagsOut,
-                                        void *_display);
-    
     void prepareContext(int context_id, bool isMainContext) override;
     void setDisplayGamma(CGDirectDisplayID displayID,
                          CGGammaValue redGamma,
@@ -42,9 +41,9 @@ private:
     void startDisplayUpdates() override;
     void stopDisplayUpdates() override;
     
-    CVDisplayLinkRef displayLink;
-    int64_t lastFrameTime;
-    CVTimeStamp currentOutputTimeStamp;
+    CADisplayLink *displayLink;
+    std::thread displayLinkThread;
+    CFTimeInterval lastTargetTimestamp;
     
     bool didSetDisplayGamma;
     

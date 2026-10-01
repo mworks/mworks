@@ -754,7 +754,6 @@
 		E1D5FB692C1B1BCB006D7C8D /* CompoundStimulus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1D5FB652C1B1BCB006D7C8D /* CompoundStimulus.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1D97A9816CD3C4700E517DF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974E16C16C3F001481E9 /* IOKit.framework */; };
 		E1D9BAD62200C81400D63D59 /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9BAD42200C80100D63D59 /* libcompression.tbd */; };
-		E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974816C16BEE001481E9 /* CoreAudio.framework */; };
 		E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974A16C16C1F001481E9 /* CoreVideo.framework */; };
 		E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
 		E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974E16C16C3F001481E9 /* IOKit.framework */; };
@@ -1435,7 +1434,6 @@
 		E1D5FB642C1B1BCB006D7C8D /* CompoundStimulus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CompoundStimulus.cpp; sourceTree = "<group>"; };
 		E1D5FB652C1B1BCB006D7C8D /* CompoundStimulus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CompoundStimulus.hpp; sourceTree = "<group>"; };
 		E1D9BAD42200C80100D63D59 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
-		E1DB974816C16BEE001481E9 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E1DB974A16C16C1F001481E9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E1DB974C16C16C30001481E9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1DB974E16C16C3F001481E9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -1533,7 +1531,6 @@
 				E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */,
 				E16DFFA72A05B686000E2E4D /* AudioToolbox.framework in Frameworks */,
 				E1884FCF28E7480C00D41388 /* AVFAudio.framework in Frameworks */,
-				E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */,
 				E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */,
 				E114A02F1E1FF2DD00A69E77 /* GLKit.framework in Frameworks */,
 				E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */,
@@ -2606,7 +2603,6 @@
 				E1DB974C16C16C30001481E9 /* AppKit.framework */,
 				E16DFFA62A05B686000E2E4D /* AudioToolbox.framework */,
 				E1884FCE28E7480C00D41388 /* AVFAudio.framework */,
-				E1DB974816C16BEE001481E9 /* CoreAudio.framework */,
 				E1DB977716C17068001481E9 /* CoreServices.framework */,
 				E1DB974A16C16C1F001481E9 /* CoreVideo.framework */,
 				E114A02E1E1FF2DD00A69E77 /* GLKit.framework */,
