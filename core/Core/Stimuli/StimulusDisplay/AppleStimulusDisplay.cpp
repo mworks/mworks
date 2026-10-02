@@ -324,9 +324,9 @@ void AppleStimulusDisplay::renderDisplay(bool needDraw, const std::vector<boost:
             currentCommandBuffer = nil;
             
             popFramebuffer();
+            
+            [mainView draw];
         }
-        
-        [mainView draw];
     }
 }
 
