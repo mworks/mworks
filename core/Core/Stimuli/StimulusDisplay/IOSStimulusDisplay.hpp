@@ -9,12 +9,7 @@
 #ifndef IOSStimulusDisplay_hpp
 #define IOSStimulusDisplay_hpp
 
-#include <thread>
-
-#import <QuartzCore/QuartzCore.h>
-
 #include "AppleStimulusDisplay.hpp"
-
 
 
 BEGIN_NAMESPACE_MW
@@ -22,24 +17,16 @@ BEGIN_NAMESPACE_MW
 
 class IOSStimulusDisplay : public AppleStimulusDisplay {
     
-    static void displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display);
-    
 public:
-    using DisplayLinkCallback = decltype(&displayLinkCallback);
-    
     explicit IOSStimulusDisplay(const Configuration &config);
     ~IOSStimulusDisplay();
     
-    CFTimeInterval getCurrentTargetTimestamp() const { return lastTargetTimestamp; }
-    
 private:
+    CADisplayLink * getDisplayLink() const override { return displayLink; }
+    
     void prepareContext(int context_id, bool isMainContext) override;
-    void startDisplayUpdates() override;
-    void stopDisplayUpdates() override;
     
     CADisplayLink *displayLink;
-    std::thread displayLinkThread;
-    CFTimeInterval lastTargetTimestamp;
     
 };
 

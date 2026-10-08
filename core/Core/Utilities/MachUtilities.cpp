@@ -105,8 +105,7 @@ bool MachThreadSelf::setPriority(TaskPriority priority) {
                     setTimesharing(false));
             
         case TaskPriority::Stimulus:
-            // Copy the configuration of CVDisplayLink threads.  This is primarily for the benefit of
-            // the CADisplayLink thread spawned by IOSStimulusDisplay.
+            // Copy the configuration of CVDisplayLink threads
             return (setImportance(MW_STIMULUS_PRIORITY - BASEPRI_DEFAULT) &&
                     setTimesharing(false));
     }

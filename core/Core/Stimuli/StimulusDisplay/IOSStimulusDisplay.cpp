@@ -10,50 +10,7 @@
 
 #include "IOSStimulusDisplay.hpp"
 
-#include "MachUtilities.h"
 #include "Utilities.h"
-
-
-@interface MWKDisplayLinkTarget : NSObject
-
-- (instancetype)initWithStimulusDisplay:(const boost::shared_ptr<mw::IOSStimulusDisplay> &)stimulusDisplay
-                               callback:(mw::IOSStimulusDisplay::DisplayLinkCallback)callback;
-
-@end
-
-
-@implementation MWKDisplayLinkTarget {
-    boost::weak_ptr<mw::IOSStimulusDisplay> weakStimulusDisplay;
-    mw::IOSStimulusDisplay::DisplayLinkCallback callback;
-}
-
-
-- (instancetype)initWithStimulusDisplay:(const boost::shared_ptr<mw::IOSStimulusDisplay> &)stimulusDisplay
-                               callback:(mw::IOSStimulusDisplay::DisplayLinkCallback)_callback
-{
-    self = [super init];
-    if (self) {
-        weakStimulusDisplay = stimulusDisplay;
-        callback = _callback;
-    }
-    return self;
-}
-
-
-- (void)updateDisplay:(CADisplayLink *)displayLink {
-    if (auto stimulusDisplay = weakStimulusDisplay.lock()) {
-        try {
-            callback(displayLink, *stimulusDisplay);
-        } catch (const std::exception &e) {
-            mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN, "Error in display link callback: %s", e.what());
-        } catch (...) {
-            mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN, "Unknown error in display link callback");
-        }
-    }
-}
-
-
-@end
 
 
 BEGIN_NAMESPACE_MW
@@ -61,8 +18,7 @@ BEGIN_NAMESPACE_MW
 
 IOSStimulusDisplay::IOSStimulusDisplay(const Configuration &config) :
     AppleStimulusDisplay(config),
-    displayLink(nil),
-    lastTargetTimestamp(0.0)
+    displayLink(nil)
 { }
 
 
@@ -113,10 +69,7 @@ void IOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
         }
         
         if (isMainContext) {
-            auto sharedThis = boost::dynamic_pointer_cast<IOSStimulusDisplay>(shared_from_this());
-            MWKDisplayLinkTarget *displayLinkTarget = [[MWKDisplayLinkTarget alloc] initWithStimulusDisplay:sharedThis
-                                                                                                   callback:&displayLinkCallback];
-            displayLink = [screen displayLinkWithTarget:displayLinkTarget selector:@selector(updateDisplay:)];
+            displayLink = [screen displayLinkWithTarget:getDisplayLinkTarget() selector:@selector(updateDisplay:)];
             
             // By default, the display link will invoke the provided selector at the native refresh rate
             // of the display, so there's no need to set its preferredFramesPerSecond property
@@ -126,94 +79,6 @@ void IOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             setMainDisplayRefreshRate(double(screen.maximumFramesPerSecond));
         }
     });
-}
-
-
-void IOSStimulusDisplay::startDisplayUpdates() {
-    @autoreleasepool {
-        displayLinkThread = std::thread([this]() {
-            @autoreleasepool {
-                if (!(MachThreadSelf("MWorks CADisplayLink").setPriority(TaskPriority::Stimulus))) {
-                    merror(M_DISPLAY_MESSAGE_DOMAIN, "Failed to set priority of display link thread");
-                }
-                
-                NSRunLoop *runLoop = NSRunLoop.currentRunLoop;
-                [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
-                
-                // The display link callback will call CFRunLoopStop when display updates stop,
-                // so we can run continuously here
-                CFRunLoopRun();
-                
-                [displayLink removeFromRunLoop:runLoop forMode:NSDefaultRunLoopMode];
-            }
-        });
-    }
-}
-
-
-void IOSStimulusDisplay::stopDisplayUpdates() {
-    displayLinkThread.join();
-    lastTargetTimestamp = 0.0;
-}
-
-
-void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display) {
-    if (!(display.getDisplayUpdatesStarted())) {
-        CFRunLoopStop(CFRunLoopGetCurrent());
-        return;
-    }
-    
-    @autoreleasepool {
-        lock_guard lock(display.mutex);
-        
-        if (display.lastTargetTimestamp) {
-            auto delta = (displayLink.targetTimestamp - display.lastTargetTimestamp) - displayLink.duration;
-            auto numSkippedFrames = std::round(delta / displayLink.duration);
-            // For some reason, iOS sometimes asks us to draw the same frame twice, which results in a negative
-            // number of skipped frames.  This is weird, but it doesn't seem like a situation that we need to
-            // report to the user.
-            if (numSkippedFrames > 0.0) {
-                display.reportSkippedFrames(numSkippedFrames);
-            }
-        }
-        
-        display.lastTargetTimestamp = displayLink.targetTimestamp;
-        
-        //
-        // NOTE: This calculation assumes that displayLink.targetTimestamp contains a value returned by
-        // CACurrentMediaTime().  According to the docs, values returned by the latter are "derived by
-        // calling mach_absolute_time() and converting the result to seconds".
-        //
-        display.setCurrentOutputTimeUS((MWTime(displayLink.targetTimestamp * 1e9) -
-                                        display.getClock()->getSystemBaseTimeNS()) / 1000LL);
-        
-#if 0
-        //
-        // Check validity of predicted output time
-        //
-        {
-            const auto currentTimeUS = display.getClock()->getCurrentTimeUS();
-            const auto predictedOutputTimeUS = display.getCurrentOutputTimeUS();
-            if (predictedOutputTimeUS < currentTimeUS) {
-                merror(M_DISPLAY_MESSAGE_DOMAIN,
-                       "Predicted display output time is %g ms in the past",
-                       (currentTimeUS - predictedOutputTimeUS) / 1000.0);
-            } else {
-                const auto deltaMS = (predictedOutputTimeUS - currentTimeUS) / 1000.0;
-                const auto periodMS = displayLink.duration * 1000.0;
-                if (deltaMS > periodMS) {
-                    mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                             "Time until predicted display output time (%g ms) "
-                             "is greater than display refresh period (%g ms)",
-                             deltaMS,
-                             periodMS);
-                }
-            }
-        }
-#endif
-        
-        display.refreshDisplay();
-    }
 }
 
 

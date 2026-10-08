@@ -10,10 +10,6 @@
 #ifndef MACOS_STIMULUS_DISPLAY_H_
 #define MACOS_STIMULUS_DISPLAY_H_
 
-#include <thread>
-
-#import <QuartzCore/QuartzCore.h>
-
 #include "AppleStimulusDisplay.hpp"
 
 
@@ -22,29 +18,20 @@ BEGIN_NAMESPACE_MW
 
 class MacOSStimulusDisplay : public AppleStimulusDisplay {
     
-    static void displayLinkCallback(CADisplayLink *displayLink, MacOSStimulusDisplay &display);
-    
 public:
-    using DisplayLinkCallback = decltype(&displayLinkCallback);
-    
     explicit MacOSStimulusDisplay(const Configuration &config);
     ~MacOSStimulusDisplay();
     
-    CFTimeInterval getCurrentTargetTimestamp() const { return lastTargetTimestamp; }
-    
 private:
+    CADisplayLink * getDisplayLink() const override { return displayLink; }
+    
     void prepareContext(int context_id, bool isMainContext) override;
     void setDisplayGamma(CGDirectDisplayID displayID,
                          CGGammaValue redGamma,
                          CGGammaValue greenGamma,
                          CGGammaValue blueGamma);
-    void startDisplayUpdates() override;
-    void stopDisplayUpdates() override;
     
     CADisplayLink *displayLink;
-    std::thread displayLinkThread;
-    CFTimeInterval lastTargetTimestamp;
-    
     bool didSetDisplayGamma;
     
 };

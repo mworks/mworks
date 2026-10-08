@@ -12,6 +12,7 @@
 #include <VideoToolbox/VideoToolbox.h>
 
 #include "AAPLMathUtilities.h"
+#include "MachUtilities.h"
 #include "StandardVariables.h"
 #include "Stimulus.h"
 
@@ -137,6 +138,40 @@ using namespace mw::aapl_math_utilities;
 @end
 
 
+@implementation MWKDisplayLinkTarget {
+    boost::weak_ptr<mw::AppleStimulusDisplay> weakStimulusDisplay;
+    mw::AppleStimulusDisplay::DisplayLinkCallback callback;
+}
+
+
+- (instancetype)initWithStimulusDisplay:(const boost::shared_ptr<mw::AppleStimulusDisplay> &)stimulusDisplay
+                               callback:(mw::AppleStimulusDisplay::DisplayLinkCallback)_callback
+{
+    self = [super init];
+    if (self) {
+        weakStimulusDisplay = stimulusDisplay;
+        callback = _callback;
+    }
+    return self;
+}
+
+
+- (void)updateDisplay:(CADisplayLink *)displayLink {
+    if (auto stimulusDisplay = weakStimulusDisplay.lock()) {
+        try {
+            std::invoke(callback, *stimulusDisplay, displayLink);
+        } catch (const std::exception &e) {
+            mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN, "Error in display link callback: %s", e.what());
+        } catch (...) {
+            mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN, "Unknown error in display link callback");
+        }
+    }
+}
+
+
+@end
+
+
 BEGIN_NAMESPACE_MW
 
 
@@ -158,12 +193,15 @@ AppleStimulusDisplay::AppleStimulusDisplay(const Configuration &config) :
     defaultViewport(createViewport(0.0, 0.0, 0.0, 0.0)),
     defaultProjectionMatrix(createProjectionMatrix(-1.0, 1.0, -1.0, 1.0)),
     defaultFullscreenStimulusSize(0.0, 0.0),
-    pixelsPerDisplayUnit(0.0)
+    pixelsPerDisplayUnit(0.0),
+    displayLinkTarget(nil),
+    lastTargetTimestamp(0.0)
 { }
 
 
 AppleStimulusDisplay::~AppleStimulusDisplay() {
     @autoreleasepool {
+        displayLinkTarget = nil;
         currentCommandBuffer = nil;
         currentFramebufferTexture = nil;
         depthTexture = nil;
@@ -248,10 +286,119 @@ void AppleStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
             //
             pixelsPerDisplayUnit = std::max(double(defaultFramebufferWidth) / (right - left),
                                             double(defaultFramebufferHeight) / (top - bottom));
+            
+            auto sharedThis = boost::dynamic_pointer_cast<AppleStimulusDisplay>(shared_from_this());
+            displayLinkTarget = [[MWKDisplayLinkTarget alloc] initWithStimulusDisplay:sharedThis
+                                                                             callback:&AppleStimulusDisplay::displayLinkCallback];
         }
         
         delegate.texture = (getUseAntialiasing() ? multisampleResolveTexture : getMetalFramebufferTexture(defaultFramebufferID));
         view.delegate = delegate;
+    }
+}
+
+
+void AppleStimulusDisplay::startDisplayUpdates() {
+    displayLinkThread = std::thread([this]() {
+        @autoreleasepool {
+            if (!(MachThreadSelf("MWorks CADisplayLink").setPriority(TaskPriority::Stimulus))) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN, "Failed to set priority of display link thread");
+            }
+            
+            auto displayLink = getDisplayLink();
+            auto runLoop = NSRunLoop.currentRunLoop;
+            [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
+            
+            // The display link callback will call CFRunLoopStop when display updates stop,
+            // so we can run continuously here
+            CFRunLoopRun();
+            
+            [displayLink removeFromRunLoop:runLoop forMode:NSDefaultRunLoopMode];
+        }
+    });
+}
+
+
+void AppleStimulusDisplay::stopDisplayUpdates() {
+    displayLinkThread.join();
+    lastTargetTimestamp = 0.0;
+}
+
+
+void AppleStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink) {
+    if (!getDisplayUpdatesStarted()) {
+        CFRunLoopStop(CFRunLoopGetCurrent());
+        return;
+    }
+    
+    @autoreleasepool {
+        lock_guard lock(mutex);
+        
+        if (lastTargetTimestamp) {
+            auto delta = (displayLink.targetTimestamp - lastTargetTimestamp) - displayLink.duration;
+            auto numSkippedFrames = std::round(delta / displayLink.duration);
+            // For some reason, iOS sometimes asks us to draw the same frame twice, which results in a negative
+            // number of skipped frames.  This is weird, but it doesn't seem like a situation that we need to
+            // report to the user.
+            if (numSkippedFrames > 0.0) {
+                reportSkippedFrames(numSkippedFrames);
+            }
+        }
+        
+        lastTargetTimestamp = displayLink.targetTimestamp;
+        
+        //
+        // NOTE: This calculation assumes that displayLink.targetTimestamp contains a value returned by
+        // CACurrentMediaTime().  According to the docs, values returned by the latter are "derived by
+        // calling mach_absolute_time() and converting the result to seconds".
+        //
+        setCurrentOutputTimeUS((MWTime(displayLink.targetTimestamp * 1e9) -
+                                getClock()->getSystemBaseTimeNS()) / 1000LL);
+        
+#if 0
+        //
+        // Check validity of predicted output time
+        //
+        {
+            const auto currentTimeUS = getClock()->getCurrentTimeUS();
+            const auto predictedOutputTimeUS = getCurrentOutputTimeUS();
+            if (predictedOutputTimeUS < currentTimeUS) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN,
+                       "Predicted display output time is %g ms in the past",
+                       (currentTimeUS - predictedOutputTimeUS) / 1000.0);
+            } else {
+                const auto deltaMS = (predictedOutputTimeUS - currentTimeUS) / 1000.0;
+                const auto periodMS = 1000.0 / getMainDisplayRefreshRate();
+                if (deltaMS > periodMS) {
+                    mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                             "Time until predicted display output time (%g ms) "
+                             "is greater than display refresh period (%g ms)",
+                             deltaMS,
+                             periodMS);
+                }
+            }
+        }
+#endif
+        
+        refreshDisplay();
+        
+#if 0
+        //
+        // According to the session "Optimize for variable refresh rate displays" from WWDC 2021,
+        // targetTimestamp is a prediction of "when the next frame will be composited by
+        // CoreAnimation" (and not, as the docs suggest, when the next frame will be displayed).
+        // If we've passed that time, we're at risk of being too late for the compositor, which
+        // will result in the frame being delayed or dropped.
+        //
+        // https://developer.apple.com/videos/play/wwdc2021/10147/
+        //
+        auto currentTimestamp = CACurrentMediaTime();
+        if (currentTimestamp > displayLink.targetTimestamp) {
+            mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                     "Display update completed %g ms after target time; frame may be delayed or dropped",
+                     (currentTimestamp - displayLink.targetTimestamp) * 1000.0);
+        }
+#endif
     }
 }
 

@@ -19,11 +19,6 @@
 
 #ifdef __OBJC__
 #  include <MWorksCore/BaseImageStimulus.hpp>
-#  if TARGET_OS_IPHONE
-#    include <MWorksCore/IOSStimulusDisplay.hpp>
-#  else
-#    include <MWorksCore/MacOSStimulusDisplay.h>
-#  endif
 #endif /* defined(__OBJC__) */
 
 #endif /* defined(__cplusplus) */

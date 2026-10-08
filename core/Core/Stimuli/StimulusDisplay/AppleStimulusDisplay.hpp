@@ -8,6 +8,10 @@
 #ifndef AppleStimulusDisplay_hpp
 #define AppleStimulusDisplay_hpp
 
+#include <thread>
+
+#import <QuartzCore/QuartzCore.h>
+
 #include "AppleOpenGLContextManager.hpp"
 #include "CFObjectPtr.h"
 #include "GenericVariable.h"
@@ -19,6 +23,7 @@
 
 
 @class MWKStimulusDisplayViewDelegate;
+@class MWKDisplayLinkTarget;
 
 
 BEGIN_NAMESPACE_MW
@@ -26,7 +31,11 @@ BEGIN_NAMESPACE_MW
 
 class AppleStimulusDisplay : public StimulusDisplay {
     
+    void displayLinkCallback(CADisplayLink *displayLink);
+    
 public:
+    using DisplayLinkCallback = decltype(&AppleStimulusDisplay::displayLinkCallback);
+    
     explicit AppleStimulusDisplay(const Configuration &config);
     ~AppleStimulusDisplay();
     
@@ -98,10 +107,17 @@ public:
                                              std::size_t &textureWidth,
                                              std::size_t &textureHeight) const;
     
+    CFTimeInterval getCurrentTargetTimestamp() const { return lastTargetTimestamp; }
+    
     void configureCapture(const std::string &format, int heightPixels, const VariablePtr &enabled) override;
     
 protected:
+    MWKDisplayLinkTarget * getDisplayLinkTarget() const { return displayLinkTarget; }
+    virtual CADisplayLink * getDisplayLink() const = 0;
+    
     void prepareContext(int context_id, bool isMainContext) override;
+    void startDisplayUpdates() override;
+    void stopDisplayUpdates() override;
     void renderDisplay(bool needDraw, const std::vector<boost::shared_ptr<Stimulus>> &stimsToDraw) override;
     
 private:
@@ -149,6 +165,10 @@ private:
     std::vector<std::tuple<double, double>> fullscreenStimulusSizeStack;
     
     double pixelsPerDisplayUnit;
+    
+    MWKDisplayLinkTarget *displayLinkTarget;
+    std::thread displayLinkThread;
+    CFTimeInterval lastTargetTimestamp;
     
     class FrameCaptureManager;
     std::unique_ptr<FrameCaptureManager> captureManager;
@@ -261,6 +281,16 @@ private:
 
 
 END_NAMESPACE_MW
+
+
+@interface MWKDisplayLinkTarget : NSObject
+
+- (instancetype)initWithStimulusDisplay:(const boost::shared_ptr<mw::AppleStimulusDisplay> &)stimulusDisplay
+                               callback:(mw::AppleStimulusDisplay::DisplayLinkCallback)callback;
+
+- (void)updateDisplay:(CADisplayLink *)displayLink;
+
+@end
 
 
 #endif /* AppleStimulusDisplay_hpp */

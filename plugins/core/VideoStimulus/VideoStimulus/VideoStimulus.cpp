@@ -319,12 +319,7 @@ void VideoStimulus::endPause() {
 }
 
 
-bool VideoStimulus::checkForNewPixelBuffer(MetalDisplay &_display) {
-#if TARGET_OS_IPHONE
-    const auto &display = dynamic_cast<IOSStimulusDisplay &>(_display);
-#else
-    const auto &display = dynamic_cast<MacOSStimulusDisplay &>(_display);
-#endif
+bool VideoStimulus::checkForNewPixelBuffer(MetalDisplay &display) {
     auto outputItemTime = [videoOutput itemTimeForHostTime:display.getCurrentTargetTimestamp()];
     if (![videoOutput hasNewPixelBufferForItemTime:outputItemTime]) {
         return false;
