@@ -96,7 +96,9 @@ parameters:
         point values (in platform `byte order
         <https://en.wikipedia.org/wiki/Endianness>`_), with each consecutive
         pair of values representing the (x,y) coordinates of a dot.  The
-        coordinates are scaled to lie in the range [-1,1] and rotated so that
-        the direction of coherent motion is zero degrees.
+        coordinates are scaled to lie in the range [-1,1].  If
+        `field_rotation`_ is omitted, the coordinates are rotated so that the
+        direction of coherent motion is zero degrees; otherwise, no rotation
+        is applied, as if the value of ``field_rotation`` were zero.
 
 
