@@ -11,16 +11,16 @@
 @import MobileCoreServices;
 @import UniformTypeIdentifiers;
 
-#import "AppDelegate.h"
+#import "SceneDelegate.h"
 
 
 @implementation ViewController
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.listeningAddress.text = self.appDelegate.listeningAddress;
-    self.listeningPort.text = @(self.appDelegate.listeningPort).stringValue;
-    if (self.appDelegate.hideChooseExperimentButton) {
+    self.listeningAddress.text = self.sceneDelegate.listeningAddress;
+    self.listeningPort.text = @(self.sceneDelegate.listeningPort).stringValue;
+    if (self.sceneDelegate.hideChooseExperimentButton) {
         [self.chooseExperiment removeFromSuperview];
     }
     
@@ -43,7 +43,7 @@
     // If needed, swap display width and height to match the current device orientation
     //
     
-    MWKSetupVariablesController *setupVariablesController = self.appDelegate.setupVariablesController;
+    MWKSetupVariablesController *setupVariablesController = self.sceneDelegate.setupVariablesController;
     double width = setupVariablesController.displayWidth.doubleValue;
     double height = setupVariablesController.displayHeight.doubleValue;
     
@@ -81,7 +81,7 @@
     }
     
     NSURL *xmlURL = urls[xmlIndexes.firstIndex];
-    [self.appDelegate openExperimentAtPath:xmlURL.path completionHandler:^(BOOL success) {
+    [self.sceneDelegate openExperimentAtPath:xmlURL.path completionHandler:^(BOOL success) {
         if (!success) {
             [self presentExperimentChooserAlertWithTitle:@"Experiment loading failed"
                                                  message:(@"Please include a valid MWorks experiment XML file and all required"

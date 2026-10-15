@@ -9,12 +9,12 @@
 @import UIKit;
 
 
-@class AppDelegate;
+@class SceneDelegate;
 
 
 @interface ViewController : UIViewController <UIDocumentPickerDelegate>
 
-@property (weak, nonatomic) AppDelegate *appDelegate;
+@property (weak, nonatomic) SceneDelegate *sceneDelegate;
 
 @property (weak, nonatomic) IBOutlet UILabel *listeningAddress;
 @property (weak, nonatomic) IBOutlet UILabel *listeningPort;

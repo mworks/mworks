@@ -73,26 +73,27 @@ IOSOpenGLContextManager::~IOSOpenGLContextManager() {
 
 int IOSOpenGLContextManager::newFullscreenContext(int screen_number, bool opaque) {
     //
-    // NOTE: We always make iOS windows opaque, as there's nothing to show through them from behind
+    // NOTE: Since we only support the main display, we don't use the screen number.  Also, we
+    // always make iOS windows opaque, as there's nothing to show through them from behind.
     //
     
     @autoreleasepool {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        auto screen = UIScreen.screens[screen_number];
-#pragma clang diagnostic pop
         __block bool success = false;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
-#pragma clang diagnostic pop
-                if (window.screen != screen) {
-                    merror(M_DISPLAY_MESSAGE_DOMAIN, "Window is not on the requested screen");
-                } else if (MWKStimulusDisplayViewController *viewController =
-                           [[MWKStimulusDisplayViewController alloc]
-                            initWithInterfaceOrientation:window.windowScene.effectiveGeometry.interfaceOrientation])
+            UIWindowScene *windowScene = nil;
+            for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+                if ([scene isKindOfClass:[UIWindowScene class]]) {
+                    windowScene = (UIWindowScene *)scene;
+                    break;
+                }
+            }
+            if (!windowScene) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN, "Application has no connected window scenes");
+            } else if (UIWindow *window = [[UIWindow alloc] initWithWindowScene:windowScene]) {
+                if (MWKStimulusDisplayViewController *viewController =
+                    [[MWKStimulusDisplayViewController alloc]
+                     initWithInterfaceOrientation:windowScene.effectiveGeometry.interfaceOrientation])
                 {
                     window.rootViewController = viewController;
                     
@@ -129,6 +130,7 @@ void IOSOpenGLContextManager::releaseContexts() {
         dispatch_sync(dispatch_get_main_queue(), ^{
             for (UIWindow *window in windows) {
                 window.hidden = YES;
+                window.windowScene = nil;
             }
             [windows removeAllObjects];
             [views removeAllObjects];

@@ -38,6 +38,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		E1156288222EF99300D0451F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E1156287222EF99300D0451F /* Credits.rtf */; };
+		E12025C03080248100A24ED3 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E12025BF3080248100A24ED3 /* SceneDelegate.m */; };
 		E12D996116BC3B39004FEF79 /* MWServer.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* MWServer.app */; };
 		E16A21201E57A49100C48E10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E16A211F1E57A49100C48E10 /* main.m */; };
 		E16A21231E57A49100C48E10 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E16A21221E57A49100C48E10 /* AppDelegate.m */; };
@@ -89,6 +90,8 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1156287222EF99300D0451F /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		E12025BE3080248100A24ED3 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		E12025BF3080248100A24ED3 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		E13A098720AF1674003A678F /* MWServer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MWServer.entitlements; sourceTree = "<group>"; };
 		E16A21151E579D0F00C48E10 /* iOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_App.xcconfig; sourceTree = "<group>"; };
 		E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_App.xcconfig; sourceTree = "<group>"; };
@@ -196,6 +199,8 @@
 			children = (
 				E16A21211E57A49100C48E10 /* AppDelegate.h */,
 				E16A21221E57A49100C48E10 /* AppDelegate.m */,
+				E12025BE3080248100A24ED3 /* SceneDelegate.h */,
+				E12025BF3080248100A24ED3 /* SceneDelegate.m */,
 				E16A21241E57A49100C48E10 /* ViewController.h */,
 				E16A21251E57A49100C48E10 /* ViewController.m */,
 				E16A21271E57A49100C48E10 /* Main.storyboard */,
@@ -390,6 +395,7 @@
 				E16A21261E57A49100C48E10 /* ViewController.m in Sources */,
 				E16A21231E57A49100C48E10 /* AppDelegate.m in Sources */,
 				E16A21201E57A49100C48E10 /* main.m in Sources */,
+				E12025C03080248100A24ED3 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
