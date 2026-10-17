@@ -37,6 +37,7 @@
 		0EA0380A0C3D8A9A007C37CF /* MWSServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA038090C3D8A9A007C37CF /* MWSServer.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		E1075CF23083C6DB0016AF6E /* MWorksSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1075CF13083C6DB0016AF6E /* MWorksSwift.framework */; };
 		E1156288222EF99300D0451F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E1156287222EF99300D0451F /* Credits.rtf */; };
 		E12025C03080248100A24ED3 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E12025BF3080248100A24ED3 /* SceneDelegate.m */; };
 		E12D996116BC3B39004FEF79 /* MWServer.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* MWServer.app */; };
@@ -89,6 +90,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1075CF13083C6DB0016AF6E /* MWorksSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MWorksSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1156287222EF99300D0451F /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		E12025BE3080248100A24ED3 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		E12025BF3080248100A24ED3 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1075CF23083C6DB0016AF6E /* MWorksSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +170,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				E16A211D1E57A49100C48E10 /* MWServer-iOS */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				E1075CF03083C6DB0016AF6E /* Frameworks */,
 			);
 			name = MWorksServer;
 			sourceTree = "<group>";
@@ -192,6 +196,14 @@
 			);
 			name = "External Config";
 			path = ../../build/xcode;
+			sourceTree = "<group>";
+		};
+		E1075CF03083C6DB0016AF6E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1075CF13083C6DB0016AF6E /* MWorksSwift.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E16A211D1E57A49100C48E10 /* MWServer-iOS */ = {
