@@ -362,7 +362,7 @@
 		E1DF4BAD1C57E0D20081491C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2710;
 				ORGANIZATIONNAME = "The MWorks Project";
 				TargetAttributes = {
 					E14CC2BA230484DF00554FC6 = {

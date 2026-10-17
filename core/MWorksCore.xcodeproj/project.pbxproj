@@ -3258,7 +3258,7 @@
 		DA2CE0C907E9070200C68AEF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 2710;
 				TargetAttributes = {
 					0E8014110E422E2A00D6DE20 = {
 						ProvisioningStyle = Automatic;
