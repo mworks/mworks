@@ -393,7 +393,6 @@ def python():
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 apply_patch('python_cross_build.patch')
-                apply_patch('python_os_27_0_required.patch')
                 apply_patch('python_mergeable_modules.patch')
                 apply_patch('python_no_apple_ffi.patch')
                 apply_patch('python_strict_extension_build.patch')
@@ -403,6 +402,7 @@ def python():
                     apply_patch('python_ios_fixes.patch')
                     apply_patch('python_ios_test_fixes.patch')
                 else:
+                    apply_patch('python_macos_27_0_required.patch')
                     apply_patch('python_macos_test_fixes.patch')
                 with open('Modules/Setup.local', 'w') as fp:
                     fp.write('''\

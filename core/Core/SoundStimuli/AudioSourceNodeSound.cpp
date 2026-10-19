@@ -72,7 +72,16 @@ id<AVAudioMixing> AudioSourceNodeSound::load(AVAudioEngine *engine) {
     sourceNode = [[AVAudioSourceNode alloc] initWithFormat:format renderBlock:renderBlock];
     
     [engine attachNode:sourceNode];
+#if TARGET_OS_OSX
     [engine connect:sourceNode to:engine.mainMixerNode format:format];
+#else
+    NSError *error = nil;
+    if (![engine connect:sourceNode to:engine.mainMixerNode format:format error:&error]) {
+        throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN,
+                              "Cannot connect source audio node to main mixer node: %s",
+                              error.localizedDescription.UTF8String);
+    }
+#endif
     
     return sourceNode;
 }

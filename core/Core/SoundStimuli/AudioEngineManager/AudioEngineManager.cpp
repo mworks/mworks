@@ -25,7 +25,16 @@ AudioEngineSound::EngineManager::EngineManager() :
         // this.
         dummyNode = [[AVAudioPlayerNode alloc] init];
         [engine attachNode:dummyNode];
+#if TARGET_OS_OSX
         [engine connect:dummyNode to:engine.mainMixerNode format:nil];
+#else
+        NSError *error = nil;
+        if (![engine connect:dummyNode to:engine.mainMixerNode format:nil error:&error]) {
+            throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN,
+                                  "Cannot connect dummy audio node to main mixer node: %s",
+                                  error.localizedDescription.UTF8String);
+        }
+#endif
         
         // Calling prepare seems to be important.  On macOS, if we don't call prepare, but
         // we do set the audio I/O buffer duration, then switching audio output devices

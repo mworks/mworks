@@ -34,7 +34,8 @@ void IOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
     
     dispatch_sync(dispatch_get_main_queue(), ^{
         MTKView *view = (isMainContext ? getMainView() : getMirrorView());
-        UIScreen *screen = view.window.screen;
+        UIWindow *window = view.window;
+        UIScreen *screen = window.screen;
         
         if (getUseColorManagement()) {
             UIDisplayGamut displayGamut = screen.traitCollection.displayGamut;
@@ -69,7 +70,8 @@ void IOSStimulusDisplay::prepareContext(int context_id, bool isMainContext) {
         }
         
         if (isMainContext) {
-            displayLink = [screen displayLinkWithTarget:getDisplayLinkTarget() selector:@selector(updateDisplay:)];
+            displayLink = [window.windowScene displayLinkWithTarget:getDisplayLinkTarget()
+                                                           selector:@selector(updateDisplay:)];
             
             // By default, the display link will invoke the provided selector at the native refresh rate
             // of the display, so there's no need to set its preferredFramesPerSecond property
