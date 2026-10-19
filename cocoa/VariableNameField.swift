@@ -23,17 +23,15 @@ public struct VariableNameField: View {
     }
     
     public var body: some View {
-        let inputField = InputField(property: property)
-            .overlay(alignment: .trailing) {
-                let isValid = coordinator.variableNames.contains(property.wrappedValue)
-                Image(systemName: "\(isValid ? "checkmark" : "xmark").circle.fill")
-                    .foregroundStyle(isValid ? .green : .red)
-                    .padding(.trailing, 3)
-                    .help("Variable name is " + (isValid ? "valid" : "not valid"))
-            }
-        
         LabeledContent(title) {
-            inputField
+            InputField(property: property)
+                .overlay(alignment: .trailing) {
+                    let isValid = coordinator.variableNames.contains(property.wrappedValue)
+                    Image(systemName: "\(isValid ? "checkmark" : "xmark").circle.fill")
+                        .foregroundStyle(isValid ? .green : .red)
+                        .padding(.trailing, 3)
+                        .help("Variable name is " + (isValid ? "valid" : "not valid"))
+                }
         }
     }
 }

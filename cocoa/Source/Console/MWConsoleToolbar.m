@@ -25,7 +25,6 @@
 - (void)awakeFromNib {
 	toolbar = [[NSToolbar alloc] initWithIdentifier:@"MWConsoleWindowToolbar"];
 	[toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
-	[toolbar setShowsBaselineSeparator:NO];
 	[toolbar setSizeMode:NSToolbarSizeModeRegular];
 	[toolbar setAllowsUserCustomization:NO];
 	[toolbar setAutosavesConfiguration:NO];
