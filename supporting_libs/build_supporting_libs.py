@@ -585,7 +585,7 @@ def libpython_all():
 
 @builder
 def boost():
-    version = '1.88.0'
+    version = '1.92.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -594,6 +594,7 @@ def boost():
             download_archive('https://archives.boost.io/release/%s/source/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
+                apply_patch('boost_exception_type_info.patch')
                 os.symlink('boost', 'mworks_boost')
                 env = get_clean_env()
                 if cross_building:
@@ -650,7 +651,7 @@ def zeromq():
 
 @builder
 def msgpack():
-    version = '7.0.0'
+    version = '9.0.0'
     srcdir = 'msgpack-cxx-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -665,7 +666,7 @@ def msgpack():
 
 @builder
 def libxslt(macos=False):
-    version = '1.1.43'
+    version = '1.1.45'
     srcdir = 'libxslt-' + version
     tarfile = srcdir + '.tar.xz'
 
@@ -690,8 +691,8 @@ def libxslt(macos=False):
 
 @builder
 def sqlite():
-    release_year = 2025
-    version = '3490100'  # 3.49.1
+    release_year = 2026
+    version = '3540100'  # 3.54.1
     srcdir = 'sqlite-autoconf-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -714,7 +715,7 @@ def sqlite():
 
 @builder
 def libusb(ios=False):
-    version = '1.0.28'
+    version = '1.0.30'
     srcdir = 'libusb-' + version
     tarfile = srcdir + '.tar.bz2'
 

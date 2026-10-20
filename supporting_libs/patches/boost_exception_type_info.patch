@@ -1,0 +1,12 @@
+diff -ur boost_1_92_0/boost/exception/detail/type_info.hpp boost/boost/exception/detail/type_info.hpp
+--- boost_1_92_0/boost/exception/detail/type_info.hpp	2026-08-05 13:09:08
++++ boost/boost/exception/detail/type_info.hpp	2026-10-19 19:49:36
+@@ -198,7 +198,7 @@
+             {
+ #define BOOST_EXCEPTION_P(P) (sizeof(char[1 + exception_detail::check_prefix(BOOST_EXCEPTION_PRETTY_FUNCTION, P)]) - 1)
+             // clang style:
+-            std::size_t const p01 = BOOST_EXCEPTION_P("r boost::n::p() [T = ");
++            std::size_t const p01 = BOOST_EXCEPTION_P("r mworks_boost::n::p() [T = ");
+             std::size_t const p02 = BOOST_EXCEPTION_P("r __cdecl boost::n::p(void) [T = ");
+             // old clang style:
+             std::size_t const p03 = BOOST_EXCEPTION_P("boost::n::r boost::n::p() [T = ");
