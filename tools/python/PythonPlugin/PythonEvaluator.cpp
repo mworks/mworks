@@ -116,6 +116,43 @@ void _register_event_callback_for_code(int code, const ObjectPtr &callback) {
 }
 
 
+//
+// Implementing register_event_callback in C++ instead of Python looks a little
+// silly, but it lets us maintain compatibility with previous implementations
+// without needing to bundle and import the equivalent Python code
+//
+PyObject * register_event_callback(PyObject *self, PyObject *args) noexcept {
+    PyObject *nameOrCode = nullptr;
+    PyObject *callback = nullptr;
+    if (!PyArg_ParseTuple(args, "O|O", &nameOrCode, &callback)) {
+        return nullptr;
+    }
+    
+    if (!callback) {
+        return safeCall<method_traits::callMethod<_register_event_callback>>(self, args);
+    }
+    
+    if (PyUnicode_Check(nameOrCode)) {
+        return safeCall<method_traits::callMethod<_register_event_callback_for_name>>(self, args);
+    }
+    
+    auto code = PyNumber_Long(nameOrCode);
+    if (!code) {
+        return nullptr;
+    }
+    
+    auto newArgs = PyTuple_Pack(2, code, callback);
+    Py_DECREF(code);
+    if (!newArgs) {
+        return nullptr;
+    }
+    
+    auto result = safeCall<method_traits::callMethod<_register_event_callback_for_code>>(self, newArgs);
+    Py_DECREF(newArgs);
+    return result;
+}
+
+
 void unregister_event_callbacks() {
     ScopedGILRelease sgr;
     getCore()->unregisterCallbacks(callbacksKey);
@@ -145,14 +182,12 @@ auto get_current_time_us() {
 }
 
 
-PyMethodDef _mworkscoreMethods[] = {
+PyMethodDef mworkscoreMethods[] = {
     MethodDef<getcodec>("getcodec"),
     MethodDef<get_reverse_codec>("get_reverse_codec"),
     MethodDef<getvar>("getvar"),
     MethodDef<setvar>("setvar"),
-    MethodDef<_register_event_callback>("_register_event_callback"),
-    MethodDef<_register_event_callback_for_name>("_register_event_callback_for_name"),
-    MethodDef<_register_event_callback_for_code>("_register_event_callback_for_code"),
+    { "register_event_callback", register_event_callback, METH_VARARGS, nullptr },
     MethodDef<unregister_event_callbacks>("unregister_event_callbacks"),
     MethodDef<message<mprintf>>("message"),
     MethodDef<message<mwarning>>("warning"),
@@ -162,21 +197,21 @@ PyMethodDef _mworkscoreMethods[] = {
 };
 
 
-PyModuleDef _mworkscoreModule = {
+PyModuleDef mworkscoreModule = {
     PyModuleDef_HEAD_INIT,
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wc99-designator"
-    .m_name = "_mworkscore",
+    .m_name = "mworkscore",
     .m_size = -1,
-    .m_methods = _mworkscoreMethods
+    .m_methods = mworkscoreMethods
 #pragma clang diagnostic pop
 };
 
 
-PyObject * init__mworkscore() {
-    auto mod = ObjectPtr::owned(PyModule_Create(&_mworkscoreModule));
+PyObject * init_mworkscore() {
+    auto mod = ObjectPtr::owned(PyModule_Create(&mworkscoreModule));
     if (!mod ||
-        !PythonEvent::createType("_mworkscore.Event", mod))
+        !PythonEvent::createType("mworkscore.Event", mod))
     {
         return nullptr;
     }
@@ -198,7 +233,7 @@ PyObject * PythonEvaluator::getGlobalsDict() {
         //
         // Initialize Python interpreter
         //
-        if (-1 == PyImport_AppendInittab(_mworkscoreModule.m_name, &init__mworkscore) ||
+        if (-1 == PyImport_AppendInittab(mworkscoreModule.m_name, &init_mworkscore) ||
             !MWorksPythonInit(false))
         {
             // The Python interpreter isn't initialized, so we can't throw PythonException

@@ -1,3 +1,0 @@
-protocol {
-    run_python_file ('openssl_config.py')
-}

@@ -5,6 +5,6 @@
     <message type="contains">TypeError: function takes exactly 1 argument (2 given)</message>
     <message type="contains">TypeError: argument 1 must be str, not int</message>
     <message type="contains">RuntimeError: Unknown variable: z</message>
-    <message type="contains">TypeError: unhashable type: 'list'</message>
+    <message type="contains">TypeError: cannot use 'list' as a dict key (unhashable type: 'list')</message>
   </expected_messages>
 </marionette_info>

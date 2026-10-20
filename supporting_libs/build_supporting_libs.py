@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-import inspect
+import functools
 import multiprocessing
 import os
 import platform
@@ -19,15 +19,17 @@ def join_flags(*flags):
     return ' '.join(flags).strip()
 
 
-if os.environ['PLATFORM_NAME'] in ('iphoneos', 'iphonesimulator'):
+if os.environ['PLATFORM_NAME'] == 'iphoneos':
     building_for_ios = True
 else:
     assert os.environ['PLATFORM_NAME'] == 'macosx'
     building_for_ios = False
 
-assert os.environ['CURRENT_ARCH'] in os.environ['ARCHS'].split()
+all_archs = os.environ['ARCHS'].split()
+current_arch = os.environ['CURRENT_ARCH']
+assert current_arch in all_archs
 build_arch = platform.machine()
-cross_building = building_for_ios or (os.environ['CURRENT_ARCH'] != build_arch)
+cross_building = building_for_ios or (current_arch != build_arch)
 
 assert os.environ['GCC_VERSION'] == 'com.apple.compilers.llvm.clang.1_0'
 ar = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/ar'
@@ -63,15 +65,11 @@ link_flags = common_flags
 downloaddir = os.path.abspath('download')
 patchdir = os.path.abspath('patches')
 xcconfigdir = os.path.abspath('../build/xcode')
-builddir = os.path.join(os.environ['TARGET_TEMP_DIR'],
-                        os.environ['CURRENT_ARCH'])
+builddir = os.path.join(os.environ['TARGET_TEMP_DIR'], current_arch)
 
-prefix = os.path.join(os.environ['BUILT_PRODUCTS_DIR'],
-                      os.environ['CURRENT_ARCH'])
-frameworksdir = prefix + '/Frameworks'
+prefix = os.path.join(os.environ['BUILT_PRODUCTS_DIR'], current_arch)
 includedir = prefix + '/include'
 libdir = prefix + '/lib'
-python_stdlib_dir = libdir + '/python' + os.environ['MW_PYTHON_3_VERSION']
 
 
 ################################################################################
@@ -84,15 +82,25 @@ python_stdlib_dir = libdir + '/python' + os.environ['MW_PYTHON_3_VERSION']
 all_builders = []
 
 
-def builder(func):
-    argspec = inspect.getfullargspec(func)
-    defaults = dict(zip(argspec[0], argspec[3] or []))
-    if building_for_ios:
-        if defaults.get('ios', True):
-            all_builders.append(func)
-    else:
-        if defaults.get('macos', True):
-            all_builders.append(func)
+def builder(func=None, *, universal=False, ios=True, macos=True):
+    if func is None:
+        return functools.partial(
+            builder,
+            universal = universal,
+            ios = ios,
+            macos = macos,
+            )
+
+    if universal:
+        wrapped_func = func
+        @functools.wraps(wrapped_func)
+        def func():
+            with workdir(os.path.pardir, silent=True):
+                wrapped_func()
+
+    if (ios if building_for_ios else macos):
+        all_builders.append(func)
+
     return func
 
 
@@ -101,8 +109,9 @@ def announce(msg, *args):
     sys.stderr.flush()
 
 
-def check_call(args, **kwargs):
-    announce('Running command: %s', ' '.join(repr(a) for a in args))
+def check_call(args, *, silent=False, **kwargs):
+    if not silent:
+        announce('Running command: %s', ' '.join(repr(a) for a in args))
     cmd = subprocess.Popen(args,
                            stdout = subprocess.PIPE,
                            stderr = subprocess.STDOUT,
@@ -116,13 +125,20 @@ def check_call(args, **kwargs):
 
 
 @contextmanager
-def workdir(path):
+def workdir(path, /, *paths, create=False, silent=False):
     old_path = os.getcwd()
-    announce('Entering directory %r', path)
+    path = os.path.join(path, *paths)
+    if create:
+        make_directory(path)
+    if not silent:
+        announce('Entering directory %r', path)
     os.chdir(path)
-    yield
-    announce('Leaving directory %r', path)
-    os.chdir(old_path)
+    try:
+        yield
+    finally:
+        if not silent:
+            announce('Leaving directory %r', path)
+        os.chdir(old_path)
 
 
 class DoneFileExists(Exception):
@@ -161,27 +177,42 @@ def download_archive_from_sf(path, version, filename):
     return download_file(url, filename)
 
 
+def download_numpy(targetdir, arch=current_arch):
+    if building_for_ios:
+        platform = 'ios'
+        platform_variant = 'iphoneos'
+        os_version = os.environ['IPHONEOS_DEPLOYMENT_TARGET']
+    else:
+        platform = 'macosx'
+        platform_variant = None
+        os_version = os.environ['MACOSX_DEPLOYMENT_TARGET']
+
+    os_version = '_'.join(str(v) for v in os_version.split('.')[:2])
+    platform += f'_{os_version}_{arch}'
+    if platform_variant:
+        platform += f'_{platform_variant}'
+
+    check_call([
+        sys.executable,
+        '-m', 'pip',
+        'install',
+        '--target', targetdir,
+        '--platform', platform,
+        '--python-version', os.environ['MW_PYTHON_3_VERSION'],
+        '--no-compile',
+        # BeeWare provides binary wheels for iOS
+        '--extra-index-url', 'https://pypi.anaconda.org/beeware/simple',
+        '--only-binary', ':all:',
+        'numpy',
+        ])
+
+
 def make_directory(path):
     if not os.path.isdir(path):
         check_call(['/bin/mkdir', '-p', path])
 
 
-def make_directories(*args):
-    for path in args:
-        make_directory(path)
-
-
-def remove_directory(path):
-    if os.path.isdir(path):
-        check_call(['/bin/rm', '-Rf', path])
-
-
-def remove_directories(*args):
-    for path in args:
-        remove_directory(path)
-
-
-def unpack_tarfile(filename, outputdir):
+def unpack_tarfile(filename):
     check_call(['/usr/bin/tar', 'xf', downloaddir + '/' + filename])
 
 
@@ -195,11 +226,17 @@ def unpack_zipfile(filename, outputdir):
 
 
 def apply_patch(patchfile, strip=1):
+    announce('Applying patch file %r', patchfile)
     with open(patchdir + '/' + patchfile) as fp:
         check_call(
             args = ['/usr/bin/patch', '-p%d' % strip],
             stdin = fp,
+            silent = True,
             )
+
+
+def make_symlink(source, target):
+    check_call(['/bin/ln', '-fhs', source, target])
 
 
 def get_arch_name(arch):
@@ -208,8 +245,9 @@ def get_arch_name(arch):
         }.get(arch, arch)
 
 
-def get_platform(arch):
-    return '%s-apple-darwin' % get_arch_name(arch)
+def get_platform(arch, ios_ok=False):
+    os_name = ('ios' if building_for_ios and ios_ok else 'darwin')
+    return '%s-apple-%s' % (get_arch_name(arch), os_name)
 
 
 def get_clean_env():
@@ -250,11 +288,13 @@ def run_b2(libraries, clean=False):
 
 
 def get_updated_env(
+    *,
     extra_compile_flags = '',
     extra_cflags = '',
     extra_cxxflags = '',
     extra_ldflags = '',
     extra_cppflags = '',
+    extra_env = {},
     ):
 
     env = get_clean_env()
@@ -268,6 +308,7 @@ def get_updated_env(
         'LDFLAGS': join_flags(link_flags, extra_ldflags),
         'CPPFLAGS': join_flags(common_flags, extra_cppflags),
         })
+    env.update(extra_env)
     return env
 
 
@@ -276,13 +317,16 @@ def run_make(targets=[]):
 
 
 def run_configure_and_make(
-    extra_args = [],
+    *,
+    ios_ok = False,
     command = ['./configure'],
+    extra_args = [],
     extra_compile_flags = '',
     extra_cflags = '',
     extra_cxxflags = '',
     extra_ldflags = '',
     extra_cppflags = '',
+    extra_env = {},
     targets = ['install'],
     ):
 
@@ -297,26 +341,26 @@ def run_configure_and_make(
         ]
 
     if cross_building:
-        opts.append('--host=' + get_platform(os.environ['CURRENT_ARCH']))
+        opts.append('--host=' + get_platform(current_arch, ios_ok))
 
     args = command + opts + extra_args
 
-    if building_for_ios:
+    if building_for_ios and not ios_ok:
         # Even if the build and host architectures are the same, as they are
         # when we're building for iOS arm64 on a macOS arm64 (aka Apple
         # Silicon) system, we must run configure in cross-compilation mode in
         # order to build for iOS
         args.append('cross_compiling=yes')
 
-    check_call(
-        args = args,
-        env = get_updated_env(extra_compile_flags,
-                              extra_cflags,
-                              extra_cxxflags,
-                              extra_ldflags,
-                              extra_cppflags),
+    env = get_updated_env(
+        extra_compile_flags = extra_compile_flags,
+        extra_cflags = extra_cflags,
+        extra_cxxflags = extra_cxxflags,
+        extra_ldflags = extra_ldflags,
+        extra_cppflags = extra_cppflags,
+        extra_env = extra_env,
         )
-    
+    check_call(args, env=env)
     run_make(targets)
 
 
@@ -327,260 +371,89 @@ def run_configure_and_make(
 ################################################################################
 
 
-@builder
-def libffi():
-    version = '3.4.8'
-    srcdir = 'libffi-' + version
-    tarfile = srcdir + '.tar.gz'
-
-    with done_file(srcdir):
-        if not os.path.isdir(srcdir):
-            download_archive('https://github.com/libffi/libffi/releases/download/v%s/' % version, tarfile)
-            unpack_tarfile(tarfile, srcdir)
-
-        with workdir(srcdir):
-            run_configure_and_make(
-                extra_args = ['--enable-portable-binary'],
-                extra_cflags = '-std=gnu11',
-                )
-
-
-@builder
-def openssl():
-    version = '3.5.0'
-    srcdir = 'openssl-' + version
-    tarfile = srcdir + '.tar.gz'
-
-    with done_file(srcdir):
-        if not os.path.isdir(srcdir):
-            download_archive('https://github.com/openssl/openssl/releases/download/openssl-%s/' % version, tarfile)
-            unpack_tarfile(tarfile, srcdir)
-
-        with workdir(srcdir):
-            if building_for_ios:
-                assert os.environ['CURRENT_ARCH'] == 'arm64'
-                config_name = 'ios64-cross'
-            else:
-                config_name = 'darwin64-%s-cc' % os.environ['CURRENT_ARCH']
-
-            env = get_clean_env()
-            env['AR'] = ar
-            env['CC'] = cc
-
-            check_call([
-                './Configure',
-                config_name,
-                '--prefix=' + prefix,
-                'no-shared',
-                join_flags(compile_flags, cflags, '-std=gnu11'),
-                ],
-                env = env)
-
-            run_make(['install_dev'])
-
-
-@builder
+@builder(universal=True)
 def python():
-    version = '3.12.7'
-    srcdir = 'Python-' + version
-    tarfile = srcdir + '.tgz'
+    version = '3.15.2'
+    srcdir = 'python-' + version
+    archive = srcdir + ('-iOS-XCframework.tar.gz' if building_for_ios else
+                        '-macos11.pkg')
 
-    assert version[:version.rfind('.')] == os.environ['MW_PYTHON_3_VERSION']
-
-    with done_file(srcdir):
-        if not os.path.isdir(srcdir):
-            download_archive('https://www.python.org/ftp/python/%s/' % version, tarfile)
-            unpack_tarfile(tarfile, srcdir)
-            with workdir(srcdir):
-                apply_patch('python_cross_build.patch')
-                apply_patch('python_mergeable_modules.patch')
-                apply_patch('python_no_apple_ffi.patch')
-                apply_patch('python_strict_extension_build.patch')
-                apply_patch('python_test_fixes.patch')
-                if building_for_ios:
-                    apply_patch('python_ios_build.patch')
-                    apply_patch('python_ios_fixes.patch')
-                    apply_patch('python_ios_test_fixes.patch')
-                else:
-                    apply_patch('python_macos_27_0_required.patch')
-                    apply_patch('python_macos_test_fixes.patch')
-                with open('Modules/Setup.local', 'w') as fp:
-                    fp.write('''\
-*static*
-_struct _struct.c
-math mathmodule.c
-unicodedata unicodedata.c
-zlib zlibmodule.c -lz
-*disabled*
-_gdbm _lzma _tkinter
-''')
-                    if building_for_ios:
-                        fp.write('''\
-_curses _curses_panel _scproxy nis readline
-''')
-
-        with workdir(srcdir):
-            extra_args = [
-                '--without-pkg-config',
-                '--without-ensurepip',
-                '--with-openssl=' + prefix,
-                ]
-            if cross_building:
-                extra_args += [
-                    '--enable-ipv6',
-                    '--with-build-python=' + os.environ['MW_PYTHON_3'],
-                    'ac_cv_file__dev_ptmx=no',
-                    'ac_cv_file__dev_ptc=no',
-                    'COMPILEALL_OPTS=-j1',
-                    ]
-            extra_args += [
-                'LIBFFI_CFLAGS=-I' + includedir,
-                'LIBFFI_LIBS=-L%s -lffi' % libdir,
-                ]
-            if not building_for_ios:
-                # Set MACOSX_DEPLOYMENT_TARGET, so that the correct value is
-                # recorded in the installed sysconfig data
-                extra_args.append('MACOSX_DEPLOYMENT_TARGET=' +
-                                  os.environ['MACOSX_DEPLOYMENT_TARGET'])
-
-            run_configure_and_make(
-                extra_args = extra_args,
-                targets = ['all'],
-                )
-            # make install using a single job, in order to work around this
-            # issue: https://github.com/python/cpython/issues/109796
-            check_call([make, 'install'])
-
-            # Generate list of trusted root certificates (for ssl module)
-            always_download_file(
-                url = 'https://mkcert.org/generate/',
-                filepath = os.path.join(python_stdlib_dir, 'cacert.pem'),
-                )
-
-
-@builder
-def numpy():
-    version = '2.1.3'
-    srcdir = 'numpy-' + version
-    tarfile = srcdir + '.tar.gz'
-
-    # Settings for cross builds
-    cross_file = 'cross_build.txt'
-    longdouble_format = {
-        'arm64': 'IEEE_DOUBLE_LE',
-        'x86_64': 'INTEL_EXTENDED_16_BYTES_LE',
-        }.get(os.environ['CURRENT_ARCH'], 'UNKNOWN')
+    minor_version = version[:version.rfind('.')]
+    assert minor_version == os.environ['MW_PYTHON_3_VERSION']
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
-            download_archive('https://github.com/numpy/numpy/releases/download/v%s/' % version, tarfile)
-            unpack_tarfile(tarfile, srcdir)
+            download_archive('https://www.python.org/ftp/python/%s/' % version, archive)
+            if building_for_ios:
+                with workdir(srcdir, create=True):
+                    unpack_tarfile(archive)
+            else:
+                check_call([
+                    '/usr/sbin/pkgutil',
+                    '--expand',
+                    os.path.join(downloaddir, archive),
+                    srcdir,
+                    ])
+
+        if building_for_ios:
             with workdir(srcdir):
-                apply_patch('numpy_mergeable_modules.patch')
-                apply_patch('numpy_test_fixes.patch')
-                if building_for_ios:
-                    apply_patch('numpy_ios_fixes.patch')
-                    apply_patch('numpy_ios_test_fixes.patch')
-                if cross_building:
-                    with open(cross_file, 'w') as fp:
-                        fp.write(f'''\
-[build_machine]
-system = 'darwin'
-subsystem = 'macos'
-cpu_family = '{get_arch_name(build_arch)}'
-cpu = cpu_family
-endian = 'little'
+                download_numpy('numpy')
+                check_call([
+                    rsync,
+                    '-a',
+                    '--exclude', '*.a',
+                    '--exclude', '*.pxd',
+                    '--exclude', '*.pyi',
+                    '--exclude', '*tests*',
+                    'numpy/numpy',
+                    f'Python.xcframework/ios-{current_arch}/lib-{current_arch}/python{minor_version}/site-packages',
+                    ])
+                check_call([
+                    rsync,
+                    '-a',
+                    '--exclude', '*test*.so',
+                    '--exclude', '*xx*.so',
+                    '--exclude', '__pycache__',
+                    '--exclude', 'idle_test/',
+                    '--exclude', 'test/',
+                    'Python.xcframework',
+                    os.environ['BUILT_PRODUCTS_DIR'],
+                    ])
 
-[host_machine]
-system = 'darwin'
-subsystem = '{'ios' if building_for_ios else 'macos'}'
-cpu_family = '{get_arch_name(os.environ['CURRENT_ARCH'])}'
-cpu = cpu_family
-endian = 'little'
+            with workdir(os.environ['BUILT_PRODUCTS_DIR'], 'Python.xcframework'):
+                app_path = os.path.join(os.environ['BUILT_PRODUCTS_DIR'], 'MWorks.app')
 
-[properties]
-longdouble_format = '{longdouble_format}'
-''')
+                # utils.sh expects the path to Python.xcframework to be
+                # relative to the Xcode project directory
+                xcframework_path = os.path.relpath(os.getcwd(),
+                                                   os.environ['PROJECT_DIR'])
+                env = os.environ.copy()
+                env['CODESIGNING_FOLDER_PATH'] = app_path
+                # utils.sh uses EXPANDED_CODE_SIGN_IDENTITY to sign the
+                # extension module frameworks that it creates, but Xcode
+                # doesn't set it when running this script.  Use
+                # CODE_SIGN_IDENTITY instead.
+                env['EXPANDED_CODE_SIGN_IDENTITY'] = env['CODE_SIGN_IDENTITY']
+                check_call([
+                    '/bin/sh',
+                    '-c', f'''\
+set -e
+. build/utils.sh
+install_python '{xcframework_path}' 'python/lib/python{minor_version}/site-packages'
+''',
+                    ],
+                    env = env,
+                    )
 
-        with workdir(srcdir):
-            env = get_updated_env(
-                # numpy adds -ld_classic to the linker flags.  We need to
-                # override this to build mergeable libraries.
-                extra_ldflags = '-ld_new',
-                )
-            env['PYTHONPATH'] = python_stdlib_dir
-            if cross_building:
-                env.update({
-                    '_PYTHON_HOST_PLATFORM': 'darwin-%s' % os.environ['CURRENT_ARCH'],
-                    '_PYTHON_SYSCONFIGDATA_NAME': '_sysconfigdata__darwin_darwin',
-                    })
-
-            args = [
-                os.environ['MW_PYTHON_3'],
-                '-m', 'pip',
-                'install',
-                '-v',
-                '--target', os.path.join(python_stdlib_dir, 'site-packages'),
-                # Prevent Meson from removing intermediate build files
-                '-C', 'builddir=build',
-                ]
-            if cross_building:
-                args += [
-                    '-C', 'setup-args=--cross-file=' + os.path.join(os.getcwd(), cross_file),
-                    ]
-            # Don't use Accelerate, as it seems to make things worse rather than
-            # better.  (TODO: Try Accelerate again once we require macOS 13.3
-            # or later, because that release introduced an updated BLAS/LAPACK
-            # library.)
-            args += [
-                '-C', 'setup-args=-Dblas=',
-                '-C', 'setup-args=-Dlapack=',
-                ]
-            args += [
-                '-C', 'compile-args=-v',
-                '-C', 'compile-args=-j ' + num_cores,
-                '.',
-                ]
-            check_call(args, env=env)
-
-        # Install the requirements of numpy's test suite (but outside of any
-        # standard location, because we don't want to distribute them)
-        check_call([
-            os.environ['MW_PYTHON_3'],
-            '-m', 'pip',
-            'install',
-            '--target', os.path.join(prefix, 'numpy_test'),
-            'hypothesis',
-            'pytest',
-            'setuptools',
-            'typing_extensions',
-            ])
-
-
-@builder
-def libpython_all():
-    with done_file('libpython_all'):
-        with workdir(python_stdlib_dir):
-            so_files = []
-            for dirpath, dirnames, filenames in os.walk('.'):
-                for name in filenames:
-                    if (name.endswith('.so') and
-                        'test' not in name and
-                        not name.startswith(('_xx', 'xx'))):
-                        so_files.append(os.path.join(dirpath, name))
-
-            args = [cc]
-            args.extend(link_flags.split())
-            args.extend([
-                '-Wl,-dylib',
-                '-Wl,-make_mergeable',
-                '-lz',
-                '-Wl,-force_load,' + os.path.join(libdir, 'libpython%s.a' % os.environ['MW_PYTHON_3_VERSION']),
-            ])
-            for path in so_files:
-                args.append('-Wl,-merge_library,' + path)
-            args.extend(['-o', os.path.join(libdir, 'libpython_all.dylib')])
-            check_call(args)
+                check_call([
+                    sys.executable,
+                    '-m', 'compileall',
+                    '-f',
+                    # Prevent Python from trying to recompile source files
+                    # bundled with MWorks.app
+                    '--invalidation-mode', 'unchecked-hash',
+                    os.path.join(app_path, 'python'),
+                    ])
 
 
 @builder
@@ -592,10 +465,10 @@ def boost():
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
             download_archive('https://archives.boost.io/release/%s/source/' % version, tarfile)
-            unpack_tarfile(tarfile, srcdir)
+            unpack_tarfile(tarfile)
             with workdir(srcdir):
                 apply_patch('boost_exception_type_info.patch')
-                os.symlink('boost', 'mworks_boost')
+                make_symlink('boost', 'mworks_boost')
                 env = get_clean_env()
                 if cross_building:
                     # SDKROOT must be set to compile the build system
@@ -620,8 +493,7 @@ def boost():
             run_b2(libraries)
 
         with workdir(includedir):
-            if not os.path.islink('mworks_boost'):
-                os.symlink('boost', 'mworks_boost')
+            make_symlink('boost', 'mworks_boost')
 
 
 @builder
@@ -633,7 +505,7 @@ def zeromq():
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
             download_archive('https://github.com/zeromq/libzmq/releases/download/v%s/' % version, tarfile)
-            unpack_tarfile(tarfile, srcdir)
+            unpack_tarfile(tarfile)
 
         with workdir(srcdir):
             run_configure_and_make(
@@ -658,14 +530,14 @@ def msgpack():
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
             download_archive('https://github.com/msgpack/msgpack-c/releases/download/cpp-%s/' % version, tarfile)
-            unpack_tarfile(tarfile, srcdir)
+            unpack_tarfile(tarfile)
 
         with workdir(srcdir):
             check_call([rsync, '-a', 'include/', includedir])
 
 
-@builder
-def libxslt(macos=False):
+@builder(macos=False)
+def libxslt():
     version = '1.1.45'
     srcdir = 'libxslt-' + version
     tarfile = srcdir + '.tar.xz'
@@ -674,7 +546,7 @@ def libxslt(macos=False):
         if not os.path.isdir(srcdir):
             download_archive('https://download.gnome.org/sources/libxslt/%s/' % '.'.join(version.split('.')[:2]),
                              tarfile)
-            unpack_tarfile(tarfile, srcdir)
+            unpack_tarfile(tarfile)
 
         with workdir(srcdir):
             run_configure_and_make(
@@ -699,7 +571,7 @@ def sqlite():
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
             download_archive('https://sqlite.org/%d/' % release_year, tarfile)
-            unpack_tarfile(tarfile, srcdir)
+            unpack_tarfile(tarfile)
 
         with workdir(srcdir):
             extra_compile_flags = [
@@ -713,8 +585,8 @@ def sqlite():
                 )
 
 
-@builder
-def libusb(ios=False):
+@builder(ios=False)
+def libusb():
     version = '1.0.30'
     srcdir = 'libusb-' + version
     tarfile = srcdir + '.tar.bz2'
@@ -722,7 +594,7 @@ def libusb(ios=False):
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
             download_archive('https://github.com/libusb/libusb/releases/download/v%s/' % version, tarfile)
-            unpack_tarfile(tarfile, srcdir)
+            unpack_tarfile(tarfile)
             with workdir(srcdir):
                 apply_patch('libusb_macos_27_0_required.patch')
 
@@ -733,8 +605,8 @@ def libusb(ios=False):
                 )
 
 
-@builder
-def cppunit(ios=False):
+@builder(ios=False)
+def cppunit():
     version = '1.15.1'
     srcdir = 'cppunit-' + version
     tarfile = srcdir + '.tar.gz'
@@ -742,7 +614,7 @@ def cppunit(ios=False):
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
             download_archive('http://dev-www.libreoffice.org/src/', tarfile)
-            unpack_tarfile(tarfile, srcdir)
+            unpack_tarfile(tarfile)
 
         with workdir(srcdir):
             run_configure_and_make(
@@ -750,15 +622,11 @@ def cppunit(ios=False):
                 )
 
 
-@builder
-def narrative(ios=False):
+@builder(universal=True, ios=False)
+def narrative():
     version = '0.1.2'
     srcdir = 'Narrative-' + version
     zipfile = srcdir + '.zip'
-
-    # Xcode will create a universal binary, so build only once
-    if cross_building:
-        return
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
@@ -767,7 +635,7 @@ def narrative(ios=False):
                                      zipfile)
             unpack_zipfile(zipfile, srcdir)
 
-        with workdir('/'.join([srcdir, srcdir, 'Narrative'])):
+        with workdir(srcdir, srcdir, 'Narrative'):
             check_call([
                 xcodebuild,
                 '-project', 'Narrative.xcodeproj',
@@ -783,7 +651,7 @@ def narrative(ios=False):
                 rsync,
                 '-a',
                 'build/Release/Narrative.framework',
-                frameworksdir
+                os.environ['MW_DEVELOPER_DIR'] + '/Frameworks',
                 ])
 
 
@@ -803,9 +671,9 @@ def main():
             announce('ERROR: invalid builder: %r', name)
             sys.exit(1)
 
-    make_directories(downloaddir, builddir)
+    make_directory(downloaddir)
 
-    with workdir(builddir):
+    with workdir(builddir, create=True):
         for buildfunc in all_builders:
             if ((not requested_builders) or
                 (buildfunc.__name__ in requested_builders)):
@@ -816,48 +684,42 @@ def main():
 
     if not building_for_ios:
         # Install headers
-        header_installdir = os.path.join(os.environ['MW_INCLUDE_DIR'],
-                                         os.environ['CURRENT_ARCH'])
-        make_directory(header_installdir)
-        check_call([
-            rsync,
-            '-a',
-            '-m',
-            '--exclude=ffi*.h',
-            '--exclude=openssl/',
-            includedir + '/',
-            header_installdir,
-            ])
-
-        # Install libraries
-        lib_installdir = os.path.join(os.environ['MW_LIB_DIR'],
-                                      os.environ['CURRENT_ARCH'])
-        make_directory(lib_installdir)
-        check_call([
-            rsync,
-            '-a',
-            '-m',
-            '--exclude=cmake/',
-            '--exclude=lib*.la',
-            '--exclude=libcrypto.a',
-            '--exclude=libffi.a',
-            '--exclude=libpython*',
-            '--exclude=libssl.a',
-            '--exclude=pkgconfig/',
-            '--exclude=python*/',
-            libdir + '/',
-            lib_installdir,
-            ])
-
-        # Install frameworks
-        if os.path.isdir(frameworksdir):
+        current_arch_dir = os.path.join(os.environ['MW_INCLUDE_DIR'],
+                                        current_arch)
+        for arch in all_archs:
+            if arch != current_arch:
+                arch_dir = os.path.join(os.environ['MW_INCLUDE_DIR'], arch)
+                if os.path.isdir(arch_dir) and not os.path.islink(arch_dir):
+                    # Use diff to confirm that all files are identical
+                    check_call([
+                        '/usr/bin/diff',
+                        '-r',
+                        '--no-dereference',
+                        arch_dir,
+                        includedir,
+                        ])
+                    make_symlink(arch, current_arch_dir)
+                    break
+        else:
             check_call([
                 rsync,
                 '-a',
                 '-m',
-                frameworksdir,
-                os.environ['MW_DEVELOPER_DIR'],
+                includedir + '/',
+                current_arch_dir,
                 ])
+
+        # Install libraries
+        check_call([
+            rsync,
+            '-a',
+            '-m',
+            '--exclude', 'cmake/',
+            '--exclude', 'lib*.la',
+            '--exclude', 'pkgconfig/',
+            libdir + '/',
+            os.path.join(os.environ['MW_LIB_DIR'], current_arch),
+            ])
 
 
 if __name__ == '__main__':

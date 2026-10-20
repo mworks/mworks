@@ -13,5 +13,6 @@
 #include <Python.h>
 
 #include <CoreFoundation/CoreFoundation.h>
+#include <TargetConditionals.h>
 
 #endif /* MWorksPython_Prefix_pch */

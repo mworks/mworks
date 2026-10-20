@@ -642,7 +642,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "PythonPlugin/Info-iOS.plist";
-				MW_PYTHON_3_PREFIX = "$(BUILT_PRODUCTS_DIR)/$(CURRENT_ARCH)";
+				MW_PYTHON_3_PREFIX = "$(BUILT_PRODUCTS_DIR)/Python.xcframework/ios-$(CURRENT_ARCH)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -722,10 +722,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PythonPlugin/PythonPlugin-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"$(MW_INCLUDE_DIR)/$(CURRENT_ARCH)/python$(MW_PYTHON_3_VERSION)\"",
+					"\"$(MW_PYTHON_3_INCLUDEDIR)\"",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = PythonPlugin/Info.plist;
+				MW_PYTHON_3_PREFIX = "/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_3_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.$(PRODUCT_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
