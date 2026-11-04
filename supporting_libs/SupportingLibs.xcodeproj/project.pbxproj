@@ -39,12 +39,6 @@
 		E19593D9236B3522005285AF /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E19593D8236B3522005285AF /* CoreFoundation.framework */; };
 		E1DBCC55236C7E700033B55E /* MWorksPython.h in Headers */ = {isa = PBXBuildFile; fileRef = E15B7BAC236B2A5700FA7CD6 /* MWorksPython.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1DBCC56236C7E750033B55E /* MWorksPython.c in Sources */ = {isa = PBXBuildFile; fileRef = E15B7BBB236B2F7100FA7CD6 /* MWorksPython.c */; };
-		E1FBC8D922FC852700C1B87E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FBC8D822FC852700C1B87E /* AppDelegate.m */; };
-		E1FBC8DC22FC852700C1B87E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FBC8DB22FC852700C1B87E /* ViewController.m */; };
-		E1FBC8DF22FC852700C1B87E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1FBC8DD22FC852700C1B87E /* Main.storyboard */; };
-		E1FBC8E122FC852800C1B87E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1FBC8E022FC852800C1B87E /* Assets.xcassets */; };
-		E1FBC8E422FC852800C1B87E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1FBC8E222FC852800C1B87E /* LaunchScreen.storyboard */; };
-		E1FBC8E722FC852800C1B87E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FBC8E622FC852800C1B87E /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,20 +70,6 @@
 			remoteGlobalIDString = E1DF4BB11C57E0D20081491C;
 			remoteInfo = SupportingLibs;
 		};
-		E17CFF41236C95E000848915 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E1DF4BAD1C57E0D20081491C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E1DF4BB11C57E0D20081491C;
-			remoteInfo = SupportingLibs;
-		};
-		E1FBC8EA22FC86D800C1B87E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E1DF4BAD1C57E0D20081491C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E1F298D01E451D7A006842A7;
-			remoteInfo = "SupportingLibs-iOS";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -115,20 +95,8 @@
 		E19593D8236B3522005285AF /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E1DBCC4D236C7D670033B55E /* MWorksPython.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksPython.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1DBCC54236C7DC10033B55E /* iOS_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Framework.xcconfig; sourceTree = "<group>"; };
-		E1DF4BC11C57F4630081491C /* build_supporting_libs.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = build_supporting_libs.py; sourceTree = "<group>"; };
 		E1F298CE1E451A6D006842A7 /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		E1F298CF1E451A6D006842A7 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		E1FBC8D422FC852700C1B87E /* PythonTests-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PythonTests-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E1FBC8D722FC852700C1B87E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		E1FBC8D822FC852700C1B87E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E1FBC8DA22FC852700C1B87E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E1FBC8DB22FC852700C1B87E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		E1FBC8DE22FC852700C1B87E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E1FBC8E022FC852800C1B87E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E1FBC8E322FC852800C1B87E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		E1FBC8E522FC852800C1B87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1FBC8E622FC852800C1B87E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E1FBC8ED22FC969800C1B87E /* run_python_tests.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = run_python_tests.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,13 +109,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E1DBCC4A236C7D670033B55E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E1FBC8D122FC852700C1B87E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -180,10 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				E1DF4BB71C57E1570081491C /* External Config */,
-				E1DF4BC11C57F4630081491C /* build_supporting_libs.py */,
-				E1FBC8ED22FC969800C1B87E /* run_python_tests.py */,
 				E15B7BAB236B2A5700FA7CD6 /* MWorksPython */,
-				E1FBC8D622FC852700C1B87E /* PythonTests-iOS */,
 				E19593D7236B3522005285AF /* Frameworks */,
 				E1FBC8D522FC852700C1B87E /* Products */,
 			);
@@ -205,26 +163,9 @@
 			isa = PBXGroup;
 			children = (
 				E15B7BAA236B2A5700FA7CD6 /* MWorksPython.framework */,
-				E1FBC8D422FC852700C1B87E /* PythonTests-iOS.app */,
 				E1DBCC4D236C7D670033B55E /* MWorksPython.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		E1FBC8D622FC852700C1B87E /* PythonTests-iOS */ = {
-			isa = PBXGroup;
-			children = (
-				E1FBC8D722FC852700C1B87E /* AppDelegate.h */,
-				E1FBC8D822FC852700C1B87E /* AppDelegate.m */,
-				E1FBC8DA22FC852700C1B87E /* ViewController.h */,
-				E1FBC8DB22FC852700C1B87E /* ViewController.m */,
-				E1FBC8DD22FC852700C1B87E /* Main.storyboard */,
-				E1FBC8E022FC852800C1B87E /* Assets.xcassets */,
-				E1FBC8E222FC852800C1B87E /* LaunchScreen.storyboard */,
-				E1FBC8E522FC852800C1B87E /* Info.plist */,
-				E1FBC8E622FC852800C1B87E /* main.m */,
-			);
-			path = "PythonTests-iOS";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,21 +190,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXLegacyTarget section */
-		E14CC2BA230484DF00554FC6 /* RunPythonTests */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "-Ed -m run_python_tests -W -uall";
-			buildConfigurationList = E14CC2BB230484DF00554FC6 /* Build configuration list for PBXLegacyTarget "RunPythonTests" */;
-			buildPhases = (
-			);
-			buildToolPath = "$(BUILT_PRODUCTS_DIR)/$(NATIVE_ARCH)/bin/python$(MW_PYTHON_3_VERSION)";
-			buildWorkingDirectory = "";
-			dependencies = (
-				E17CFF42236C95E000848915 /* PBXTargetDependency */,
-			);
-			name = RunPythonTests;
-			passBuildSettingsInEnvironment = 0;
-			productName = RunPythonTests;
-		};
 		E1DF4BB11C57E0D20081491C /* SupportingLibs */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = build_supporting_libs.zsh;
@@ -335,25 +261,6 @@
 			productReference = E1DBCC4D236C7D670033B55E /* MWorksPython.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		E1FBC8D322FC852700C1B87E /* PythonTests-iOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E1FBC8E922FC852800C1B87E /* Build configuration list for PBXNativeTarget "PythonTests-iOS" */;
-			buildPhases = (
-				E1FBC8D022FC852700C1B87E /* Sources */,
-				E1FBC8D122FC852700C1B87E /* Frameworks */,
-				E1FBC8D222FC852700C1B87E /* Resources */,
-				E1FBC8EC22FC885800C1B87E /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E1FBC8EB22FC86D800C1B87E /* PBXTargetDependency */,
-			);
-			name = "PythonTests-iOS";
-			productName = "PythonTests-iOS";
-			productReference = E1FBC8D422FC852700C1B87E /* PythonTests-iOS.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -363,10 +270,6 @@
 				LastUpgradeCheck = 2710;
 				ORGANIZATIONNAME = "The MWorks Project";
 				TargetAttributes = {
-					E14CC2BA230484DF00554FC6 = {
-						CreatedOnToolsVersion = 10.3;
-						ProvisioningStyle = Automatic;
-					};
 					E15B7BA9236B2A5700FA7CD6 = {
 						CreatedOnToolsVersion = 11.1;
 					};
@@ -388,10 +291,6 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
-					E1FBC8D322FC852700C1B87E = {
-						CreatedOnToolsVersion = 10.3;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = E1DF4BB01C57E0D20081491C /* Build configuration list for PBXProject "SupportingLibs" */;
@@ -408,12 +307,10 @@
 			projectRoot = "";
 			targets = (
 				E1DF4BB11C57E0D20081491C /* SupportingLibs */,
-				E14CC2BA230484DF00554FC6 /* RunPythonTests */,
 				E15B7BA9236B2A5700FA7CD6 /* MWorksPython */,
 				E15B7BB1236B2AC700FA7CD6 /* Install */,
 				E1DF4BBC1C57E95E0081491C /* Everything */,
 				E1F298D01E451D7A006842A7 /* SupportingLibs-iOS */,
-				E1FBC8D322FC852700C1B87E /* PythonTests-iOS */,
 				E1DBCC4C236C7D670033B55E /* MWorksPython-iOS */,
 			);
 		};
@@ -431,16 +328,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E1FBC8D222FC852700C1B87E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E1FBC8DF22FC852700C1B87E /* Main.storyboard in Resources */,
-				E1FBC8E122FC852800C1B87E /* Assets.xcassets in Resources */,
-				E1FBC8E422FC852800C1B87E /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,25 +373,6 @@
 			shellScript = "# As of Xcode 15, this step is required to convince the build system that\n# libpythonX.XX.dylib exists\ntrue\n";
 			showEnvVarsInLog = 0;
 		};
-		E1FBC8EC22FC885800C1B87E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "cd \"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}\"\n\nif [[ ! -d bin ]]; then\n  /bin/mkdir bin\n  /bin/ln -s \"../${EXECUTABLE_NAME}\" \"bin/python${MW_PYTHON_3_VERSION}\"\nfi\n\ncurrent_arch=$(${DT_TOOLCHAIN_DIR}/usr/bin/lipo -archs ${EXECUTABLE_NAME})\n\nif [[ ! -d include ]]; then\n  /bin/mkdir include\n  /usr/bin/rsync -a \\\n    \"${BUILT_PRODUCTS_DIR}/${current_arch}/include/python${MW_PYTHON_3_VERSION}\" \\\n    include\nfi\n\nif [[ ! -d lib ]]; then\n  /bin/mkdir lib\n  /usr/bin/rsync -a \"${BUILT_PRODUCTS_DIR}/${current_arch}/lib/python${MW_PYTHON_3_VERSION}\" lib\n  /usr/bin/find lib -name '*.so' -exec /usr/bin/codesign --force --sign \"$CODE_SIGN_IDENTITY\" {} \\;\nfi\n\nif [[ ! -d numpy_test ]]; then\n  /usr/bin/rsync -a \"${BUILT_PRODUCTS_DIR}/${current_arch}/numpy_test\" .\nfi\n\n/bin/cp -p \"${SRCROOT}/run_python_tests.py\" \"lib/python${MW_PYTHON_3_VERSION}/site-packages\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -521,16 +389,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1DBCC56236C7E750033B55E /* MWorksPython.c in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E1FBC8D022FC852700C1B87E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E1FBC8D922FC852700C1B87E /* AppDelegate.m in Sources */,
-				E1FBC8DC22FC852700C1B87E /* ViewController.m in Sources */,
-				E1FBC8E722FC852800C1B87E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,46 +415,9 @@
 			target = E1DF4BB11C57E0D20081491C /* SupportingLibs */;
 			targetProxy = E17CFF3F236C95D400848915 /* PBXContainerItemProxy */;
 		};
-		E17CFF42236C95E000848915 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E1DF4BB11C57E0D20081491C /* SupportingLibs */;
-			targetProxy = E17CFF41236C95E000848915 /* PBXContainerItemProxy */;
-		};
-		E1FBC8EB22FC86D800C1B87E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E1F298D01E451D7A006842A7 /* SupportingLibs-iOS */;
-			targetProxy = E1FBC8EA22FC86D800C1B87E /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		E1FBC8DD22FC852700C1B87E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E1FBC8DE22FC852700C1B87E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		E1FBC8E222FC852800C1B87E /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E1FBC8E322FC852800C1B87E /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		E14CC2BC230484DF00554FC6 /* Development */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1F298CF1E451A6D006842A7 /* macOS.xcconfig */;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Development;
-		};
 		E15B7BAF236B2A5700FA7CD6 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E15B7BBA236B2BB100FA7CD6 /* macOS_Framework.xcconfig */;
@@ -685,44 +506,9 @@
 			};
 			name = Development;
 		};
-		E1FBC8E822FC852800C1B87E /* Development */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1F298CE1E451A6D006842A7 /* iOS.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEAD_CODE_STRIPPING = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = (
-					"$(MW_PYTHON_3_INCLUDEDIR)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "PythonTests-iOS/Info.plist";
-				MW_PYTHON_3_PREFIX = "$(BUILT_PRODUCTS_DIR)/$(CURRENT_ARCH)";
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					UIKit,
-					"-lz",
-					"-force_load",
-					"$(BUILT_PRODUCTS_DIR)/$(CURRENT_ARCH)/lib/libpython$(MW_PYTHON_3_VERSION).a",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.PythonTests-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Development;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E14CC2BB230484DF00554FC6 /* Build configuration list for PBXLegacyTarget "RunPythonTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E14CC2BC230484DF00554FC6 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		E15B7BB0236B2A5700FA7CD6 /* Build configuration list for PBXNativeTarget "MWorksPython" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -775,14 +561,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1F298D11E451D7A006842A7 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		E1FBC8E922FC852800C1B87E /* Build configuration list for PBXNativeTarget "PythonTests-iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E1FBC8E822FC852800C1B87E /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
