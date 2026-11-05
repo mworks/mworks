@@ -9,9 +9,9 @@
 #include "MWorksPython.h"
 
 
-static bool MWorksPythonInitFull(int argc, char **argv, bool initSignals) {
-    PyConfig config;
+static PyStatus MWorksPythonInitFull(int argc, char **argv, bool initSignals) {
     PyStatus status;
+    PyConfig config;
 #if !TARGET_OS_OSX
     CFBundleRef bundle = NULL;  // Not owned
     CFURLRef bundleURL = NULL;
@@ -20,8 +20,8 @@ static bool MWorksPythonInitFull(int argc, char **argv, bool initSignals) {
 #endif
     
     static bool didInitialize = false;
-    
     if (didInitialize) {
+        status = PyStatus_Ok();
         goto exit;
     }
     
@@ -43,6 +43,7 @@ static bool MWorksPythonInitFull(int argc, char **argv, bool initSignals) {
         !(pythonHomeURL = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, bundleURL, CFSTR("python"), true)) ||
         !CFURLGetFileSystemRepresentation(pythonHomeURL, true, (UInt8 *)pythonHomePath, sizeof(pythonHomePath)))
     {
+        status = PyStatus_Error("Cannot determine path to Python home directory");
         goto error;
     }
     status = PyConfig_SetBytesString(&config, &(config.home), pythonHomePath);
@@ -52,6 +53,7 @@ static bool MWorksPythonInitFull(int argc, char **argv, bool initSignals) {
     }
     
     if (argv) {
+        config.parse_argv = 1;
         status = PyConfig_SetBytesArgv(&config, argc, argv);
         if (PyStatus_Exception(status)) {
             goto error;
@@ -73,40 +75,19 @@ error:
     PyConfig_Clear(&config);
     
 exit:
-    return didInitialize;
+    return status;
 }
 
 
 bool MWorksPythonInit(bool initSignals) {
-    return MWorksPythonInitFull(0, NULL, initSignals);
+    return !PyStatus_Exception(MWorksPythonInitFull(0, NULL, initSignals));
 }
 
 
 int MWorksPythonMain(int argc, char **argv) {
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s file [args...]\n", argv[0]);
-        return 2;
+    PyStatus status = MWorksPythonInitFull(argc, argv, true);
+    if (PyStatus_Exception(status)) {
+        Py_ExitStatusException(status);  // Calls exit()
     }
-    
-    FILE *fp = fopen(argv[1], "r");
-    if (!fp) {
-        fprintf(stderr, "Can't open file: %s\n", strerror(errno));
-        return 1;
-    }
-    
-    int result = 1;
-    
-    if (!MWorksPythonInitFull(argc - 1, argv + 1, true)) {
-        fprintf(stderr, "Python initialization failed\n");
-        goto error;
-    }
-    
-    result = PyRun_SimpleFile(fp, argv[1]);
-    
-    (void)Py_FinalizeEx();
-    
-error:
-    (void)fclose(fp);
-    
-    return (result != 0);
+    return Py_RunMain();
 }
