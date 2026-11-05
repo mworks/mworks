@@ -5,18 +5,23 @@ import glob
 import itertools
 import os
 import plistlib
-from subprocess import check_call
+import string
+from subprocess import check_call, check_output
 
+
+python_version = check_output([
+    '/Library/Application Support/MWorks/MWEL/.python',
+    '-c', 'import sysconfig ; print(sysconfig.get_python_version())',
+    ],
+    text = True,
+    ).strip()
 
 installer_root = '/tmp/mw_installer'
-
-core_components_package_name = 'MWorksCoreComponents'
-optional_plugins_package_name = 'MWorksOptionalPlugins'
 
 
 package_contents = {
 
-    core_components_package_name:
+    'MWorksCoreComponents':
         (
         '/Applications/MWClient.app',
         '/Applications/MWServer.app',
@@ -71,11 +76,6 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/WhiteNoiseBackground.bundle',
         ),
 
-    optional_plugins_package_name:
-        (
-        # Optional plugins are discovered at run time
-        ),
-
     'MWorksPythonTools':
         (
         '/Library/Application Support/MWorks/Plugins/Client/PythonBridgePlugin.bundle',
@@ -115,7 +115,7 @@ def find_optional_plugins():
         if plugin not in standard_components
         ))
 
-    package_contents[optional_plugins_package_name] = optional_plugins
+    package_contents['MWorksOptionalPlugins'] = optional_plugins
 
 
 def get_tmp_path(package, path):
@@ -172,8 +172,9 @@ def build_component_package(package_name):
         package_path + '.pkg',
         ]
 
-    if package_name == core_components_package_name:
-        cmd[-1:-1] = ['--scripts', 'scripts']
+    scripts_path = os.path.join('scripts', package_name)
+    if os.path.isdir(scripts_path):
+        cmd[-1:-1] = ['--scripts', scripts_path]
 
     check_call(cmd)
 
@@ -209,13 +210,20 @@ def main():
             copy_path(package_name, path)
         build_component_package(package_name)
 
+    with open('MWorks.dist.template') as fp:
+        dist_tmpl = string.Template(fp.read())
+    dist_path = os.path.join(installer_root, 'MWorks.dist')
+    with open(dist_path, 'w') as fp:
+        fp.write(dist_tmpl.substitute(python_version=python_version))
+
     dmg_contents_dir = os.path.join(installer_root, '%s %s' % (installer_name, installer_version))
     check_call(['/bin/mkdir', dmg_contents_dir])
 
     installer_path = os.path.join(dmg_contents_dir, installer_name + '.pkg')
     cmd = [
         '/usr/bin/productbuild',
-        '--distribution', 'MWorks.dist',
+        '--distribution', dist_path,
+        '--package-path', '/Library/Application Support/MWorks/.installers',
         '--package-path', installer_root,
         '--resources', 'resources',
         installer_path,
@@ -225,7 +233,7 @@ def main():
     check_call(cmd)
 
     uninstall_script_path = os.path.join(dmg_contents_dir, 'Uninstall MWorks')
-    check_call(['/bin/cp', 'scripts/uninstall_mworks', uninstall_script_path])
+    check_call(['/bin/cp', 'uninstall_mworks', uninstall_script_path])
     if signing_name:
         codesign(signing_name, uninstall_script_path)
 

@@ -36,6 +36,7 @@ ar = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/ar'
 cc = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/clang'
 cxx = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/clang++'
 make = os.environ['DEVELOPER_DIR'] + '/usr/bin/make'
+pkgutil = '/usr/sbin/pkgutil'
 rsync = '/usr/bin/rsync'
 xcodebuild = os.environ['DEVELOPER_DIR'] + '/usr/bin/xcodebuild'
 
@@ -177,7 +178,7 @@ def download_archive_from_sf(path, version, filename):
     return download_file(url, filename)
 
 
-def download_numpy(targetdir, arch=current_arch):
+def download_numpy(destdir, *, arch=current_arch, install=False):
     if building_for_ios:
         platform = 'ios'
         platform_variant = 'iphoneos'
@@ -192,19 +193,27 @@ def download_numpy(targetdir, arch=current_arch):
     if platform_variant:
         platform += f'_{platform_variant}'
 
-    check_call([
-        sys.executable,
-        '-m', 'pip',
-        'install',
-        '--target', targetdir,
+    args = [sys.executable, '-m', 'pip']
+
+    if install:
+        args.extend(['install', '--target', destdir, '--no-compile'])
+    else:
+        args.extend(['download', '--dest', destdir])
+
+    if building_for_ios:
+        args.extend([
+            # BeeWare provides binary wheels for iOS
+            '--extra-index-url', 'https://pypi.anaconda.org/beeware/simple',
+            ])
+
+    args.extend([
         '--platform', platform,
         '--python-version', os.environ['MW_PYTHON_3_VERSION'],
-        '--no-compile',
-        # BeeWare provides binary wheels for iOS
-        '--extra-index-url', 'https://pypi.anaconda.org/beeware/simple',
         '--only-binary', ':all:',
         'numpy',
         ])
+
+    check_call(args)
 
 
 def make_directory(path):
@@ -389,15 +398,28 @@ def python():
                     unpack_tarfile(archive)
             else:
                 check_call([
-                    '/usr/sbin/pkgutil',
+                    pkgutil,
                     '--expand',
                     os.path.join(downloaddir, archive),
                     srcdir,
                     ])
 
-        if building_for_ios:
+        if not building_for_ios:
             with workdir(srcdir):
-                download_numpy('numpy')
+                installers_dir = os.path.join(os.environ['MW_APP_SUPPORT_DIR'],
+                                              '.installers')
+                make_directory(installers_dir)
+                for pkg_name in ('Python_Framework', 'Python_Install_Pip'):
+                    pkg_file = pkg_name + '.pkg'
+                    check_call([
+                        pkgutil,
+                        '--flatten',
+                        pkg_file,
+                        os.path.join(installers_dir, pkg_file),
+                        ])
+        else:
+            with workdir(srcdir):
+                download_numpy('numpy', install=True)
                 check_call([
                     rsync,
                     '-a',

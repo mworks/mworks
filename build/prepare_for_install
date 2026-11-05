@@ -19,7 +19,7 @@ mw_frameworks=(
     )
 
 
-"$(/usr/bin/dirname $0)/installer/scripts/uninstall_mworks" --delete --no-exec-sudo || exit
+"$(/usr/bin/dirname $0)/installer/uninstall_mworks" --delete --no-exec-sudo || exit
 
 echo "Creating directory '$app_support_dir'"
 /usr/bin/sudo /bin/mkdir -m 775 "$app_support_dir" || exit

@@ -2,8 +2,19 @@
 <installer-gui-script minSpecVersion="2">
     <title>MWorks</title>
     <license file="LICENSE.txt" mime-type="text/plain"/>
-    <options customize="allow" require-scripts="false"/>
+    <options customize="allow" require-scripts="true"/>
     <domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true"/>
+    <script>
+        <![CDATA[
+            function shouldInstallPython() {
+                return !system.files.fileExistsAtPath('/Library/Frameworks/Python.framework/Versions/${python_version}/Python');
+            }
+        ]]>
+    </script>
+    <choice id="org.python.Python-${python_version}" title="Python framework" description="Skipped if already installed" enabled="false" selected="shouldInstallPython()">
+        <pkg-ref id="org.python.Python.PythonFramework-${python_version}">#Python_Framework.pkg</pkg-ref>
+        <pkg-ref id="org.python.Python.PythonInstallPip-${python_version}">#Python_Install_Pip.pkg</pkg-ref>
+    </choice>
     <choice id="org.mworks-project.pkg.MWorksCoreComponents" title="Core components" enabled="false">
         <pkg-ref id="org.mworks-project.pkg.MWorksCoreComponents">#MWorksCoreComponents.pkg</pkg-ref>
     </choice>
@@ -26,6 +37,7 @@
         <pkg-ref id="org.mworks-project.pkg.MWorksDevelopmentFiles">#MWorksDevelopmentFiles.pkg</pkg-ref>
     </choice>
     <choices-outline>
+        <line choice="org.python.Python-${python_version}"/>
         <line choice="org.mworks-project.pkg.MWorksCoreComponents"/>
         <line choice="org.mworks-project.pkg.MWorksStandardPlugins"/>
         <line choice="org.mworks-project.pkg.MWorksOptionalPlugins"/>
