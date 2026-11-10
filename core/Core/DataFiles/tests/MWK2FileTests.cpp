@@ -11,6 +11,8 @@
 
 #include <compression.h>
 
+#include <boost/scope_exit.hpp>
+
 #include "MWorksCore/MWK2File.hpp"
 #include "MWorksCore/MessagePackAdaptors.hpp"
 
@@ -968,6 +970,23 @@ void MWK2FileTests::testReaderLock() {
         writer.writeEvent(4, 5, 6);
     }
     
+    sqlite3 *conn = nullptr;
+    CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_open_v2(tempFile.getFilename(),
+                                                     &conn,
+                                                     SQLITE_OPEN_READWRITE,
+                                                     nullptr) );
+    BOOST_SCOPE_EXIT(&conn) {
+        (void)sqlite3_close(conn);
+    } BOOST_SCOPE_EXIT_END
+    
+    auto tryInsert = [&conn]() {
+        return sqlite3_exec(conn,
+                            "INSERT INTO events VALUES (7, 8, 9)",
+                            nullptr,
+                            nullptr,
+                            nullptr);
+    };
+    
     {
         MWK2Reader reader1(tempFile.getFilename());
         CPPUNIT_ASSERT_EQUAL( std::size_t(2), reader1.getNumEvents() );
@@ -977,29 +996,22 @@ void MWK2FileTests::testReaderLock() {
             MWK2Reader reader2(tempFile.getFilename());
             CPPUNIT_ASSERT_EQUAL( std::size_t(2), reader2.getNumEvents() );
             
-            // Attempting to write while there are readers causes the write to
-            // be delayed until all readers are closed
-            {
-                sqlite3 *conn = nullptr;
-                CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_open_v2(tempFile.getFilename(),
-                                                                 &conn,
-                                                                 SQLITE_OPEN_READWRITE,
-                                                                 nullptr) );
-                CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_exec(conn,
-                                                              "INSERT INTO events VALUES (7, 8, 9)",
-                                                              nullptr,
-                                                              nullptr,
-                                                              nullptr) );
-                CPPUNIT_ASSERT_EQUAL( SQLITE_OK, sqlite3_close(conn) );
-            }
+            // Two readers are connected; write should fail
+            CPPUNIT_ASSERT_EQUAL( SQLITE_BUSY, tryInsert() );
             
             // Event count unchanged
             CPPUNIT_ASSERT_EQUAL( std::size_t(2), reader2.getNumEvents() );
         }
         
+        // One reader is connected; write should fail
+        CPPUNIT_ASSERT_EQUAL( SQLITE_BUSY, tryInsert() );
+        
         // Event count unchanged
         CPPUNIT_ASSERT_EQUAL( std::size_t(2), reader1.getNumEvents() );
     }
+    
+    // All readers have disconnected; write should succeed
+    CPPUNIT_ASSERT_EQUAL( SQLITE_OK, tryInsert() );
     
     MWK2Reader reader(tempFile.getFilename());
     // Event count changed

@@ -583,30 +583,6 @@ def libxslt():
                 )
 
 
-@builder
-def sqlite():
-    release_year = 2026
-    version = '3540100'  # 3.54.1
-    srcdir = 'sqlite-autoconf-' + version
-    tarfile = srcdir + '.tar.gz'
-
-    with done_file(srcdir):
-        if not os.path.isdir(srcdir):
-            download_archive('https://sqlite.org/%d/' % release_year, tarfile)
-            unpack_tarfile(tarfile)
-
-        with workdir(srcdir):
-            extra_compile_flags = [
-                '-DSQLITE_DQS=0',             # Recommended as of 3.29.0
-                '-DSQLITE_STRICT_SUBTYPE=1',  # Recommended as of 3.45.0
-                ]
-            if building_for_ios:
-                extra_compile_flags.append('-DSQLITE_NOHAVE_SYSTEM')
-            run_configure_and_make(
-                extra_compile_flags = join_flags(*extra_compile_flags),
-                )
-
-
 @builder(ios=False)
 def libusb():
     version = '1.0.30'
