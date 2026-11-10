@@ -241,9 +241,10 @@ def main():
 
     output_file = os.path.join(installer_root, '%s-%s.dmg' % (installer_name, installer_version))
     check_call([
-        '/usr/bin/hdiutil',
+        '/usr/sbin/diskutil',
+        'image',
         'create',
-        '-srcfolder', dmg_contents_dir,
+        'from',
         #
         # Create a read-only, uncompressed image.  Since the .pkg file is
         # already compressed, there isn't much to gain by compressing the .dmg
@@ -259,7 +260,8 @@ def main():
         # sometimes ends up being slightly larger than the original data, and
         # hdiutil can't handle that case?
         #
-        '-format', 'UDRO',
+        '--format', 'UDRO',
+        dmg_contents_dir,
         output_file,
         ])
     if signing_name:
