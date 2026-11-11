@@ -107,15 +107,13 @@ def find_optional_plugins():
     for components in package_contents.values():
         standard_components.update(components)
 
-    optional_plugins = tuple(sorted(
+    return tuple(sorted(
         plugin for plugin in itertools.chain(
         glob.iglob('/Library/Application Support/MWorks/Plugins/Client/*.bundle'),
         glob.iglob('/Library/Application Support/MWorks/Plugins/Core/*.bundle'),
         )
         if plugin not in standard_components
         ))
-
-    package_contents['MWorksOptionalPlugins'] = optional_plugins
 
 
 def get_tmp_path(package, path):
@@ -201,7 +199,7 @@ def main():
     installer_version = args.version
     signing_name = args.signing_name
     
-    find_optional_plugins()
+    package_contents['MWorksOptionalPlugins'] = find_optional_plugins()
 
     check_call(['/bin/rm', '-Rf', installer_root])
 
